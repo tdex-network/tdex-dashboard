@@ -1,0 +1,4 @@
+build
+node_modules
+src/api-spec/generated/js
+src/serviceWorker.ts

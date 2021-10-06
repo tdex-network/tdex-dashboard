@@ -1,5 +1,23 @@
 {
-		"extends": "@tsconfig/svelte/tsconfig.json",
-		"include": ["src/**/*", "src/node_modules/**/*"],
-		"exclude": ["node_modules/*", "__sapper__/*", "static/*"]
-	}
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noFallthroughCasesInSwitch": true,
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "checkJs": true
+  },
+  "include": ["src"]
+}

@@ -1,26 +1,74 @@
 {
-  "name": "tdex-daemon-app",
-  "version": "1.0.0",
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "css-loader": "^5.0.1",
-    "mini-css-extract-plugin": "^1.3.4",
-    "svelte": "^3.31.2",
-    "svelte-loader": "^3.0.0",
-    "webpack": "^5.16.0",
-    "webpack-cli": "^4.4.0",
-    "webpack-dev-server": "^3.11.2",
-    "ts-loader": "^8.0.4",
-    "@tsconfig/svelte": "^1.0.10",
-    "@types/node": "^14.11.1",
-    "svelte-check": "^1.0.46",
-    "svelte-preprocess": "^4.3.0",
-    "tslib": "^2.0.1",
-    "typescript": "^4.0.3"
-  },
+  "name": "tdex-daemon-ui",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack serve --content-base public",
-    "validate": "svelte-check"
+    "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
+    "build": "craco build",
+    "bundle-analyzer": "open http://localhost:8888",
+    "eslint": "eslint './src/**/*.{ts,tsx}'",
+    "fmt": "yarn run eslint --fix && yarn run prettier --write",
+    "lint": "yarn run eslint && yarn run prettier --check",
+    "prettier": "prettier './src/**/*.{ts,tsx}'",
+    "start": "craco start",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "autoprefixer": "^9",
+    "classnames": "^2.3.1",
+    "google-protobuf": "^3.18.1",
+    "grpc-web": "^1.2.1",
+    "ldk": "^0.3.12",
+    "postcss": "^7",
+    "qrcode.react": "^1.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typescript": "~4.4.3"
+  },
+  "devDependencies": {
+    "@craco/craco": "^6.3.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.10.3",
+    "@types/qrcode.react": "^1.0.2",
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-redux": "^7.1.18",
+    "@types/react-router-dom": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "grpc-tools": "^1.11.2",
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1",
+    "protoc-gen-grpc-web": "^1.2.1",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpackbar": "^5.0.0-3"
   }
 }

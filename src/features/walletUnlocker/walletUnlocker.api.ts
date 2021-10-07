@@ -55,8 +55,7 @@ const baseQueryFn: BaseQueryFn<
             new InitWalletRequest()
               .setRestore(isRestore)
               .setWalletPassword(password)
-              .setSeedMnemonicList(mnemonic),
-            metadata as any
+              .setSeedMnemonicList(mnemonic)
           ),
         };
       } catch (error) {

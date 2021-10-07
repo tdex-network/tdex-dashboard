@@ -492,7 +492,7 @@ const baseQueryFn: BaseQueryFn<
   }
 };
 
-export const walletApi = createApi({
+export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
   endpoints: (build) => ({
@@ -634,4 +634,4 @@ export const {
   useListWebhooksQuery,
   useListDepositsQuery,
   useListWithdrawalsQuery,
-} = walletApi;
+} = operatorApi;

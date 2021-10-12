@@ -1,16 +1,18 @@
-import type { ThunkAction, Action } from '@reduxjs/toolkit';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 
-import counterReducer from '../features/counter/counterSlice';
-import operatorReducer from '../features/operator/operatorSlice';
-import settingsReducer from '../features/settings/settingsSlice';
+import { operatorApi } from '../features/operator/operator.api';
+import { walletApi } from '../features/wallet/wallet.api';
+import { walletUnlockerApi } from '../features/walletUnlocker/walletUnlocker.api';
+
+import { rootReducer } from './rootReducer';
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    operator: operatorReducer,
-    settings: settingsReducer,
-  },
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleWare) =>
+    getDefaultMiddleWare({
+      serializableCheck: false, // disable this middleware to avoid conflict with redux-persist
+    }).concat(operatorApi.middleware, walletUnlockerApi.middleware, walletApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

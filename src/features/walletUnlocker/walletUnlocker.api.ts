@@ -1,14 +1,12 @@
 import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
-import type { Error } from 'grpc-web';
+import type { Error, ClientReadableStream } from 'grpc-web';
 
 import type {
-  GenSeedReply,
   InitWalletReply,
   ChangePasswordReply,
   UnlockWalletReply,
-  IsReadyReply,
 } from '../../api-spec/generated/js/walletunlocker_pb';
 import {
   ChangePasswordRequest,
@@ -37,7 +35,8 @@ const baseQueryFn: BaseQueryFn<
   switch (methodName) {
     case 'genSeed': {
       try {
-        return { data: await client.genSeed(new GenSeedRequest(), metadata) };
+        const genSeedReply = await client.genSeed(new GenSeedRequest(), metadata);
+        return { data: genSeedReply.getSeedMnemonicList() };
       } catch (error) {
         console.error(error);
         return { error: (error as Error).message };
@@ -50,13 +49,14 @@ const baseQueryFn: BaseQueryFn<
           password: string | Uint8Array;
           mnemonic: string[];
         };
+        const clientReadableStream = await client.initWallet(
+          new InitWalletRequest()
+            .setRestore(isRestore)
+            .setWalletPassword(password)
+            .setSeedMnemonicList(mnemonic)
+        );
         return {
-          data: await client.initWallet(
-            new InitWalletRequest()
-              .setRestore(isRestore)
-              .setWalletPassword(password)
-              .setSeedMnemonicList(mnemonic)
-          ),
+          data: clientReadableStream,
         };
       } catch (error) {
         console.error(error);
@@ -68,8 +68,12 @@ const baseQueryFn: BaseQueryFn<
         const { password } = body as {
           password: string | Uint8Array;
         };
+        const unlockWalletReply = await client.unlockWallet(
+          new UnlockWalletRequest().setWalletPassword(password),
+          metadata
+        );
         return {
-          data: await client.unlockWallet(new UnlockWalletRequest().setWalletPassword(password), metadata),
+          data: unlockWalletReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -95,7 +99,14 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'isReady': {
       try {
-        return { data: await client.isReady(new IsReadyRequest(), metadata) };
+        const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
+        return {
+          data: {
+            isUnlocked: isReadyReply.getUnlocked(),
+            isInitialized: isReadyReply.getInitialized(),
+            isSynced: isReadyReply.getSynced(),
+          },
+        };
       } catch (error) {
         console.error(error);
         return { error: (error as Error).message };
@@ -110,11 +121,11 @@ export const walletUnlockerApi = createApi({
   reducerPath: 'walletUnlockerService',
   baseQuery: baseQueryFn,
   endpoints: (build) => ({
-    genSeed: build.query<GenSeedReply, void>({
+    genSeed: build.query<string[], void>({
       query: () => ({ methodName: 'genSeed' }),
     }),
     initWallet: build.mutation<
-      InitWalletReply,
+      ClientReadableStream<InitWalletReply>,
       {
         isRestore: boolean;
         password: string | Uint8Array;
@@ -140,7 +151,14 @@ export const walletUnlockerApi = createApi({
     >({
       query: (body) => ({ methodName: 'changePassword', body }),
     }),
-    isReady: build.query<IsReadyReply, void>({
+    isReady: build.query<
+      {
+        isUnlocked: boolean;
+        isInitialized: boolean;
+        isSynced: boolean;
+      },
+      void
+    >({
       query: () => ({ methodName: 'isReady' }),
     }),
   }),

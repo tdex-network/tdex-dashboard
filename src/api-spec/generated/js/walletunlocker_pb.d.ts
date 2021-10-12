@@ -70,9 +70,6 @@ export class InitWalletReply extends jspb.Message {
   getAccount(): number;
   setAccount(value: number): InitWalletReply;
 
-  getIndex(): number;
-  setIndex(value: number): InitWalletReply;
-
   getStatus(): nitWalletReply.Status;
   setStatus(value: nitWalletReply.Status): InitWalletReply;
 
@@ -90,7 +87,6 @@ export class InitWalletReply extends jspb.Message {
 export namespace InitWalletReply {
   export type AsObject = {
     account: number,
-    index: number,
     status: nitWalletReply.Status,
     data: string,
   }

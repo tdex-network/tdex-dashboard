@@ -41,26 +41,12 @@ module.exports = {
         // https://web.dev/one-line-layouts/#04.-pancake-stack:-grid-template-rows:-auto-1fr-auto
         pancakeStack: 'auto 1fr auto',
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            color: '#333',
-            ul: {
-              '> li': {
-                '&::before': {
-                  width: 0,
-                },
-              },
-            },
-          },
-        },
-      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  plugins: [require('daisyui')],
   daisyui: {
     styled: true,
     rtl: false,

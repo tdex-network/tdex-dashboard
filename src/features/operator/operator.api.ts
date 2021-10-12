@@ -6,7 +6,6 @@ import type { Error } from 'grpc-web';
 import type {
   GetInfoReply,
   GetFeeAddressReply,
-  ListFeeAddressesReply,
   GetFeeBalanceReply,
   ClaimFeeDepositsReply,
   WithdrawFeeReply,
@@ -31,6 +30,7 @@ import type {
   ListWebhooksReply,
   ListDepositsReply,
   ListWithdrawalsReply,
+  NewMarketReply,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -62,7 +62,8 @@ import {
   ListDepositsRequest,
   ListWithdrawalsRequest,
 } from '../../api-spec/generated/js/operator_pb';
-import type { Market, Fixed, Price } from '../../api-spec/generated/js/types_pb';
+import { Market } from '../../api-spec/generated/js/types_pb';
+import type { Fixed, Price, AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
 import type { RootState } from '../../app/store';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 
@@ -73,11 +74,11 @@ type MethodName =
   | 'getFeeBalance'
   | 'claimFeeDeposits'
   | 'withdrawFee'
-  | 'newMarket'
   | 'getMarketAddress'
   | 'listMarketAddresses'
   | 'getMarketBalance'
   | 'claimMarketDeposits'
+  | 'newMarket'
   | 'openMarket'
   | 'closeMarket'
   | 'dropMarket'
@@ -113,7 +114,7 @@ const baseQueryFn: BaseQueryFn<
     case 'getInfo': {
       try {
         const info = await client.getInfo(new GetInfoRequest(), metadata);
-        return { data: info };
+        return { data: info.toObject(false) };
       } catch (error) {
         console.error(error);
         return { error: (error as Error).message };
@@ -194,17 +195,6 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as Error).message };
       }
     }
-    case 'newMarket': {
-      try {
-        const { market } = body as { market: Market };
-        return {
-          data: await client.newMarket(new NewMarketRequest().setMarket(market), metadata),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as Error).message };
-      }
-    }
     case 'getMarketAddress': {
       try {
         const getMarketAddressReply = await client.getMarketAddress(new GetMarketAddressRequest(), metadata);
@@ -262,12 +252,30 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as Error).message };
       }
     }
+    case 'newMarket': {
+      try {
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const market = new Market();
+        market.setBaseAsset(baseAsset);
+        market.setQuoteAsset(quoteAsset);
+        const newMarketReply = await client.newMarket(new NewMarketRequest().setMarket(market), metadata);
+        return {
+          data: newMarketReply.toObject(false),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as Error).message };
+      }
+    }
     case 'openMarket': {
       try {
-        const { market } = body as { market: Market };
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const market = new Market();
+        market.setBaseAsset(baseAsset);
+        market.setQuoteAsset(quoteAsset);
         const openMarketReply = await client.openMarket(new OpenMarketRequest().setMarket(market), metadata);
         return {
-          data: openMarketReply,
+          data: openMarketReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -276,13 +284,16 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'closeMarket': {
       try {
-        const { market } = body as { market: Market };
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const market = new Market();
+        market.setBaseAsset(baseAsset);
+        market.setQuoteAsset(quoteAsset);
         const closeMarketReply = await client.closeMarket(
           new CloseMarketRequest().setMarket(market),
           metadata
         );
         return {
-          data: closeMarketReply,
+          data: closeMarketReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -291,10 +302,13 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'dropMarket': {
       try {
-        const { market } = body as { market: Market };
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const market = new Market();
+        market.setBaseAsset(baseAsset);
+        market.setQuoteAsset(quoteAsset);
         const dropMarketReply = await client.dropMarket(new DropMarketRequest().setMarket(market), metadata);
         return {
-          data: dropMarketReply,
+          data: dropMarketReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -496,16 +510,16 @@ export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
   endpoints: (build) => ({
-    getInfo: build.query<GetInfoReply, void>({
+    getInfo: build.query<GetInfoReply.AsObject, void>({
       query: () => ({ methodName: 'getInfo' }),
     }),
-    getFeeAddress: build.query<GetFeeAddressReply, void>({
+    getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'getFeeAddress' }),
     }),
-    listFeeAddresses: build.query<ListFeeAddressesReply, void>({
+    listFeeAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'listFeeAddresses' }),
     }),
-    getFeeBalance: build.query<GetFeeBalanceReply, void>({
+    getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getFeeBalance' }),
     }),
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { body: TxOutpoint.AsObject[] }>({
@@ -524,9 +538,6 @@ export const operatorApi = createApi({
     >({
       query: (body) => ({ methodName: 'withdrawFee', body }),
     }),
-    newMarket: build.mutation<WithdrawFeeReply, { body: { market: Market } }>({
-      query: (body) => ({ methodName: 'newMarket', body }),
-    }),
     getMarketAddress: build.query<GetMarketAddressReply, void>({
       query: () => ({ methodName: 'getMarketAddress' }),
     }),
@@ -542,13 +553,16 @@ export const operatorApi = createApi({
     >({
       query: (body) => ({ methodName: 'claimMarketDeposits', body }),
     }),
-    openMarket: build.mutation<OpenMarketReply, { body: { market: Market } }>({
+    newMarket: build.mutation<NewMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'newMarket', body }),
     }),
-    closeMarket: build.mutation<CloseMarketReply, { body: { market: Market } }>({
+    openMarket: build.mutation<OpenMarketReply.AsObject, Market.AsObject>({
+      query: (body) => ({ methodName: 'openMarket', body }),
+    }),
+    closeMarket: build.mutation<CloseMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'closeMarket', body }),
     }),
-    dropMarket: build.mutation<DropMarketReply, { body: { market: Market } }>({
+    dropMarket: build.mutation<DropMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'dropMarket', body }),
     }),
     getMarketCollectedSwapFees: build.mutation<GetMarketCollectedSwapFeesReply, { body: { market: Market } }>(
@@ -621,6 +635,7 @@ export const {
   useGetMarketAddressQuery,
   useListMarketAddressesQuery,
   useGetMarketBalanceQuery,
+  useNewMarketMutation,
   useOpenMarketMutation,
   useDropMarketMutation,
   useWithdrawMarketMutation,

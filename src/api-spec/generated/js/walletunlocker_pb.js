@@ -766,9 +766,8 @@ proto.InitWalletReply.prototype.toObject = function(opt_includeInstance) {
 proto.InitWalletReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     account: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    index: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    status: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    data: jspb.Message.getFieldWithDefault(msg, 4, "")
+    status: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    data: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -806,18 +805,14 @@ proto.InitWalletReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readUint64());
+      var value = /** @type {number} */ (reader.readInt32());
       msg.setAccount(value);
       break;
     case 2:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setIndex(value);
-      break;
-    case 3:
       var value = /** @type {!proto.InitWalletReply.Status} */ (reader.readEnum());
       msg.setStatus(value);
       break;
-    case 4:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setData(value);
       break;
@@ -852,29 +847,22 @@ proto.InitWalletReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccount();
   if (f !== 0) {
-    writer.writeUint64(
+    writer.writeInt32(
       1,
-      f
-    );
-  }
-  f = message.getIndex();
-  if (f !== 0) {
-    writer.writeUint64(
-      2,
       f
     );
   }
   f = message.getStatus();
   if (f !== 0.0) {
     writer.writeEnum(
-      3,
+      2,
       f
     );
   }
   f = message.getData();
   if (f.length > 0) {
     writer.writeString(
-      4,
+      3,
       f
     );
   }
@@ -890,7 +878,7 @@ proto.InitWalletReply.Status = {
 };
 
 /**
- * optional uint64 account = 1;
+ * optional int32 account = 1;
  * @return {number}
  */
 proto.InitWalletReply.prototype.getAccount = function() {
@@ -908,29 +896,11 @@ proto.InitWalletReply.prototype.setAccount = function(value) {
 
 
 /**
- * optional uint64 index = 2;
- * @return {number}
- */
-proto.InitWalletReply.prototype.getIndex = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.InitWalletReply} returns this
- */
-proto.InitWalletReply.prototype.setIndex = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional Status status = 3;
+ * optional Status status = 2;
  * @return {!proto.InitWalletReply.Status}
  */
 proto.InitWalletReply.prototype.getStatus = function() {
-  return /** @type {!proto.InitWalletReply.Status} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+  return /** @type {!proto.InitWalletReply.Status} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -939,16 +909,16 @@ proto.InitWalletReply.prototype.getStatus = function() {
  * @return {!proto.InitWalletReply} returns this
  */
 proto.InitWalletReply.prototype.setStatus = function(value) {
-  return jspb.Message.setProto3EnumField(this, 3, value);
+  return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
 
 /**
- * optional string data = 4;
+ * optional string data = 3;
  * @return {string}
  */
 proto.InitWalletReply.prototype.getData = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
@@ -957,7 +927,7 @@ proto.InitWalletReply.prototype.getData = function() {
  * @return {!proto.InitWalletReply} returns this
  */
 proto.InitWalletReply.prototype.setData = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

@@ -2,7 +2,7 @@
 //const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  mode: 'jit',
+  //mode: 'jit',
   purge: {
     content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
     options: {
@@ -59,8 +59,8 @@ module.exports = {
           secondary: '#0fff00',
           'secondary-focus': '#10d501',
           'secondary-content': '#ffffff',
-          accent: '#c6c6c6',
-          'accent-focus': '#2aa79b',
+          accent: '#545454',
+          'accent-focus': '#656565',
           'accent-content': '#ffffff',
           neutral: '#000000',
           'neutral-focus': '#2f2f2f',

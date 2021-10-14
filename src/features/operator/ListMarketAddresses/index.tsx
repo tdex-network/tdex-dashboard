@@ -1,10 +1,10 @@
-import { useListFeeAddressesQuery } from '../operator.api';
+import { useListMarketAddressesQuery } from '../operator.api';
 
-export const ListFeeAddresses = (): JSX.Element => {
-  const { data: listFeeAddresses, error: listFeeAddressesError } = useListFeeAddressesQuery();
+export const ListMarketAddresses = (): JSX.Element => {
+  const { data: listMarketAddresses, error: listMarketAddressesError } = useListMarketAddressesQuery();
   return (
     <>
-      {listFeeAddresses?.map((addr, index) => (
+      {listMarketAddresses?.map((addr, index) => (
         <div key={index} className="mb-4">
           <p className="break-all">
             <span className="font-bold">Address: </span>
@@ -16,7 +16,7 @@ export const ListFeeAddresses = (): JSX.Element => {
           </p>
         </div>
       ))}
-      {listFeeAddressesError && <p>{listFeeAddressesError}</p>}
+      {listMarketAddressesError && <p>{listMarketAddressesError}</p>}
     </>
   );
 };

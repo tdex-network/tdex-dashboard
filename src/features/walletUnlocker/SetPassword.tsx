@@ -40,7 +40,7 @@ export const SetPassword = (): JSX.Element => {
             minLength: { value: 8, message: 'Should have minimum length of 8 chars' },
           })}
         />
-        <ErrorMessage errors={errors} name="password" as={<span className="prose-sm mt-1 text-error" />} />
+        <ErrorMessage errors={errors} name="password" as={<span className="text-sm mt-1 text-error" />} />
 
         <label className="label">
           <span className="label-text">Confirm Password</span>
@@ -59,9 +59,9 @@ export const SetPassword = (): JSX.Element => {
         <ErrorMessage
           errors={errors}
           name="passwordConfirm"
-          as={<span className="prose-sm mt-1 text-error" />}
+          as={<span className="text-sm mt-1 text-error" />}
         />
-        {hasMatchingError && <span className="prose-sm text-error">Passwords don't match</span>}
+        {hasMatchingError && <span className="text-sm text-error">Passwords don't match</span>}
       </div>
       <button className="btn btn-secondary mt-4">Set Password</button>
     </form>

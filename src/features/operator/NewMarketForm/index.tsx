@@ -20,6 +20,7 @@ export const NewMarketForm = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     newMarket({ baseAsset: data.baseAsset, quoteAsset: data.quoteAsset });
+    document.getElementById('add-market-modal')?.click();
   };
 
   return (
@@ -33,7 +34,7 @@ export const NewMarketForm = (): JSX.Element => {
           className={classNames('input input-bordered', { 'mb-7': !errors.baseAsset?.message })}
           {...register('baseAsset', { required: 'Base asset is required' })}
         />
-        <ErrorMessage errors={errors} name="baseAsset" as={<span className="prose-sm mt-1 text-error" />} />
+        <ErrorMessage errors={errors} name="baseAsset" as={<span className="text-sm mt-1 text-error" />} />
 
         <label className="label">
           <span className="label-text">Quote Asset</span>
@@ -47,8 +48,8 @@ export const NewMarketForm = (): JSX.Element => {
             required: 'Quote asset is required',
           })}
         />
-        <ErrorMessage errors={errors} name="quoteAsset" as={<span className="prose-sm mt-1 text-error" />} />
-        {newMarketError && <span className="prose-sm text-error">{newMarketError}</span>}
+        <ErrorMessage errors={errors} name="quoteAsset" as={<span className="text-sm mt-1 text-error" />} />
+        {newMarketError && <span className="text-sm text-error">{newMarketError}</span>}
       </div>
       <button className="btn btn-secondary mt-4">New Market</button>
     </form>

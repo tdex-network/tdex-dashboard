@@ -9,8 +9,6 @@ import type {
   GetFeeBalanceReply,
   ClaimFeeDepositsReply,
   WithdrawFeeReply,
-  GetMarketAddressReply,
-  ListMarketAddressesReply,
   GetMarketBalanceReply,
   OpenMarketReply,
   CloseMarketReply,
@@ -31,6 +29,7 @@ import type {
   ListDepositsReply,
   ListWithdrawalsReply,
   NewMarketReply,
+  ClaimMarketDepositsReply,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -61,9 +60,10 @@ import {
   ListWebhooksRequest,
   ListDepositsRequest,
   ListWithdrawalsRequest,
+  UpdateMarketPercentageFeeRequest,
 } from '../../api-spec/generated/js/operator_pb';
-import { Market } from '../../api-spec/generated/js/types_pb';
-import type { Fixed, Price, AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
+import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
+import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
 import type { RootState } from '../../app/store';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 
@@ -136,7 +136,9 @@ const baseQueryFn: BaseQueryFn<
       try {
         const listFeeAddressesReply = await client.listFeeAddresses(new ListFeeAddressesRequest(), metadata);
         return {
-          data: listFeeAddressesReply.getAddressWithBlinidngKeyList().map((addr) => addr.toObject(false)),
+          data: listFeeAddressesReply
+            .getAddressWithBlinidngKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -199,7 +201,9 @@ const baseQueryFn: BaseQueryFn<
       try {
         const getMarketAddressReply = await client.getMarketAddress(new GetMarketAddressRequest(), metadata);
         return {
-          data: getMarketAddressReply.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)),
+          data: getMarketAddressReply
+            .getAddressWithBlindingKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -213,7 +217,9 @@ const baseQueryFn: BaseQueryFn<
           metadata
         );
         return {
-          data: listMarketAddressesReply.getAddressWithBlinidngKeyList().map((addr) => addr.toObject(false)),
+          data: listMarketAddressesReply
+            .getAddressWithBlinidngKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -224,7 +230,7 @@ const baseQueryFn: BaseQueryFn<
       try {
         const getMarketBalanceReply = await client.getMarketBalance(new GetMarketBalanceRequest(), metadata);
         return {
-          data: getMarketBalanceReply,
+          data: getMarketBalanceReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -233,7 +239,15 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'claimMarketDeposits': {
       try {
-        const { outpointsList, market } = body as { outpointsList: TxOutpoint.AsObject[]; market: Market };
+        const { outpointsList, market } = body as {
+          outpointsList: TxOutpoint.AsObject[];
+          market: Market.AsObject;
+        };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
         const arr = outpointsList.map(({ hash, index }) => {
           const txOutpoint = new TxOutpoint();
           txOutpoint.setHash(hash);
@@ -241,7 +255,7 @@ const baseQueryFn: BaseQueryFn<
           return txOutpoint;
         });
         const claimMarketDepositsReply = await client.claimMarketDeposits(
-          new ClaimMarketDepositsRequest().setOutpointsList(arr).setMarket(market),
+          new ClaimMarketDepositsRequest().setOutpointsList(arr).setMarket(newMarket),
           metadata
         );
         return {
@@ -323,7 +337,7 @@ const baseQueryFn: BaseQueryFn<
           metadata
         );
         return {
-          data: getMarketCollectedSwapFeesReply,
+          data: getMarketCollectedSwapFeesReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -332,17 +346,52 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'withdrawMarket': {
       try {
-        const { market } = body as { market: Market };
+        const { market, balance, address, millisatPerByte } = body as {
+          market: Market.AsObject;
+          balance: Balance.AsObject;
+          address: string;
+          millisatPerByte: number;
+        };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const { baseAmount, quoteAmount } = balance;
+        const newBalance = new Balance();
+        newBalance.setBaseAmount(baseAmount);
+        newBalance.setQuoteAmount(quoteAmount);
+        //
         const withdrawMarketReply = await client.withdrawMarket(
           new WithdrawMarketRequest()
-            .setMarket(market)
-            .setBalanceToWithdraw()
-            .setAddress('')
-            .setMillisatPerByte(1),
+            .setMarket(newMarket)
+            .setBalanceToWithdraw(newBalance)
+            .setAddress(address)
+            .setMillisatPerByte(millisatPerByte),
           metadata
         );
         return {
-          data: withdrawMarketReply,
+          data: withdrawMarketReply.toObject(false),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as Error).message };
+      }
+    }
+    case 'updateMarketPercentageFee': {
+      try {
+        const { market, basisPoint } = body as { market: Market.AsObject; basisPoint: number };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        console.log('newMarket', newMarket);
+        const updateMarketFeeReply = await client.updateMarketPercentageFee(
+          new UpdateMarketPercentageFeeRequest().setMarket(newMarket).setBasisPoint(basisPoint),
+          metadata
+        );
+        return {
+          data: updateMarketFeeReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -351,13 +400,23 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'updateMarketFixedFee': {
       try {
-        const { market, fixedFee } = body as { market: Market; fixedFee: Fixed };
+        const { market, fixedFee } = body as { market: Market.AsObject; fixedFee: Fixed.AsObject };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const { baseFee, quoteFee } = fixedFee;
+        const newFixed = new Fixed();
+        newFixed.setBaseFee(baseFee);
+        newFixed.setQuoteFee(quoteFee);
+        //
         const updateMarketFeeReply = await client.updateMarketFixedFee(
-          new UpdateMarketFixedFeeRequest().setMarket(market).setFixed(fixedFee),
+          new UpdateMarketFixedFeeRequest().setMarket(newMarket).setFixed(newFixed),
           metadata
         );
         return {
-          data: updateMarketFeeReply,
+          data: updateMarketFeeReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -366,13 +425,23 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'updateMarketPrice': {
       try {
-        const { market, price } = body as { market: Market; price: Price };
+        const { market, price } = body as { market: Market.AsObject; price: Price.AsObject };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const { basePrice, quotePrice } = price;
+        const newPrice = new Price();
+        newPrice.setBasePrice(basePrice);
+        newPrice.setQuotePrice(quotePrice);
+        //
         const updateMarketPriceReply = await client.updateMarketPrice(
-          new UpdateMarketPriceRequest().setMarket(market).setPrice(price),
+          new UpdateMarketPriceRequest().setMarket(newMarket).setPrice(newPrice),
           metadata
         );
         return {
-          data: updateMarketPriceReply,
+          data: updateMarketPriceReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -381,13 +450,25 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'updateMarketStrategy': {
       try {
-        const { market, strategyType, meta } = body as { market: Market; strategyType: any; meta: string };
+        const { market, strategyType, meta } = body as {
+          market: Market.AsObject;
+          strategyType: any;
+          meta: string;
+        };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
         const updateMarketStrategyReply = await client.updateMarketStrategy(
-          new UpdateMarketStrategyRequest().setMarket(market).setStrategyType(strategyType).setMetadata(meta),
+          new UpdateMarketStrategyRequest()
+            .setMarket(newMarket)
+            .setStrategyType(strategyType)
+            .setMetadata(meta),
           metadata
         );
         return {
-          data: updateMarketStrategyReply,
+          data: updateMarketStrategyReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -396,8 +477,9 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listMarkets': {
       try {
+        const listMarketsReply = await client.listMarkets(new ListMarketsRequest(), metadata);
         return {
-          data: await client.listMarkets(new ListMarketsRequest(), metadata),
+          data: listMarketsReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -416,13 +498,13 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listUtxos': {
       try {
-        const { page, accountIndex } = body as { page: Page; accountIndex: number };
+        const { page, accountIndex } = body as { accountIndex: number; page?: Page };
         const listUtxosReply = await client.listUtxos(
-          new ListUtxosRequest().setPage(page).setAccountIndex(accountIndex),
+          new ListUtxosRequest().setAccountIndex(accountIndex).setPage(page),
           metadata
         );
         return {
-          data: listUtxosReply,
+          data: listUtxosReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -431,13 +513,13 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'addWebhook': {
       try {
-        const { action, endpoint, secret } = body as { action: any; endpoint: any; secret: any };
+        const { action, endpoint, secret } = body as { action: any; endpoint: string; secret: string };
         const addWebhookReply = await client.addWebhook(
           new AddWebhookRequest().setAction(action).setEndpoint(endpoint).setSecret(secret),
           metadata
         );
         return {
-          data: addWebhookReply,
+          data: addWebhookReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -509,6 +591,7 @@ const baseQueryFn: BaseQueryFn<
 export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
+  tagTypes: ['Market'],
   endpoints: (build) => ({
     getInfo: build.query<GetInfoReply.AsObject, void>({
       query: () => ({ methodName: 'getInfo' }),
@@ -522,79 +605,102 @@ export const operatorApi = createApi({
     getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getFeeBalance' }),
     }),
-    claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { body: TxOutpoint.AsObject[] }>({
+    claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, TxOutpoint.AsObject[]>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
     }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,
       {
-        body: {
-          amount: number;
-          millisatsPerByte: number;
-          address: string;
-          asset: string;
-        };
+        amount: number;
+        millisatsPerByte: number;
+        address: string;
+        asset: string;
       }
     >({
       query: (body) => ({ methodName: 'withdrawFee', body }),
     }),
-    getMarketAddress: build.query<GetMarketAddressReply, void>({
+    getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'getMarketAddress' }),
+      providesTags: ['Market'],
     }),
-    listMarketAddresses: build.query<ListMarketAddressesReply, void>({
+    listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'listMarketAddresses' }),
+      providesTags: ['Market'],
     }),
-    getMarketBalance: build.query<GetMarketBalanceReply, void>({
+    getMarketBalance: build.query<GetMarketBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getMarketBalance' }),
+      providesTags: ['Market'],
     }),
     claimMarketDeposits: build.mutation<
-      ClaimMarketDepositsRequest,
-      { body: { market: Market; outpointsList: TxOutpoint.AsObject[] } }
+      ClaimMarketDepositsReply.AsObject,
+      { market: Market.AsObject; outpointsList: TxOutpoint.AsObject[] }
     >({
       query: (body) => ({ methodName: 'claimMarketDeposits', body }),
+      invalidatesTags: ['Market'],
     }),
     newMarket: build.mutation<NewMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'newMarket', body }),
+      invalidatesTags: ['Market'],
     }),
     openMarket: build.mutation<OpenMarketReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'openMarket', body }),
+      invalidatesTags: ['Market'],
     }),
     closeMarket: build.mutation<CloseMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'closeMarket', body }),
+      invalidatesTags: ['Market'],
     }),
     dropMarket: build.mutation<DropMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'dropMarket', body }),
+      invalidatesTags: ['Market'],
     }),
-    getMarketCollectedSwapFees: build.mutation<GetMarketCollectedSwapFeesReply, { body: { market: Market } }>(
+    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
+      query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
+      providesTags: ['Market'],
+    }),
+    withdrawMarket: build.mutation<
+      WithdrawMarketReply.AsObject,
       {
-        query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
+        market: Market.AsObject;
+        balance: Balance.AsObject;
+        address: string;
+        millisatPerByte: number;
       }
-    ),
-    withdrawMarket: build.mutation<WithdrawMarketReply, { body: { market: Market } }>({
+    >({
       query: (body) => ({ methodName: 'withdrawMarket', body }),
+      invalidatesTags: ['Market'],
     }),
     updateMarketPercentageFee: build.mutation<
-      UpdateMarketFeeReply,
-      { body: { market: Market; basisPoint: number } }
+      UpdateMarketFeeReply.AsObject,
+      { market: Market.AsObject; basisPoint: number }
     >({
       query: (body) => ({ methodName: 'updateMarketPercentageFee', body }),
+      invalidatesTags: ['Market'],
     }),
-    updateMarketFixedFee: build.mutation<UpdateMarketFeeReply, { body: { market: Market; fixedFee: Fixed } }>(
-      {
-        query: (body) => ({ methodName: 'updateMarketFixedFee', body }),
-      }
-    ),
-    updateMarketPrice: build.mutation<UpdateMarketPriceReply, { body: { market: Market; price: Price } }>({
+    updateMarketFixedFee: build.mutation<
+      UpdateMarketFeeReply.AsObject,
+      { market: Market.AsObject; fixedFee: Fixed.AsObject }
+    >({
+      query: (body) => ({ methodName: 'updateMarketFixedFee', body }),
+      invalidatesTags: ['Market'],
+    }),
+    updateMarketPrice: build.mutation<
+      UpdateMarketPriceReply.AsObject,
+      { market: Market.AsObject; price: Price.AsObject }
+    >({
       query: (body) => ({ methodName: 'updateMarketPrice', body }),
+      invalidatesTags: ['Market'],
     }),
     updateMarketStrategy: build.mutation<
-      UpdateMarketStrategyReply,
-      { body: { market: Market; strategyType: any; meta: string } }
+      UpdateMarketStrategyReply.AsObject,
+      { market: Market.AsObject; strategyType: any; meta: string }
     >({
       query: (body) => ({ methodName: 'updateMarketStrategy', body }),
+      invalidatesTags: ['Market'],
     }),
-    listMarkets: build.query<ListMarketsReply, void>({
+    listMarkets: build.query<ListMarketsReply.AsObject, void>({
       query: () => ({ methodName: 'listMarkets' }),
+      providesTags: ['Market'],
     }),
     listTrades: build.query<ListTradesReply, void>({
       query: () => ({ methodName: 'listTrades' }),
@@ -602,13 +708,13 @@ export const operatorApi = createApi({
     reloadUtxos: build.query<ReloadUtxosReply, void>({
       query: () => ({ methodName: 'reloadUtxos' }),
     }),
-    listUtxos: build.query<ListUtxosReply, void>({
+    listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
       query: () => ({ methodName: 'listUtxos' }),
     }),
-    addWebhook: build.mutation<AddWebhookReply, { body: { action: any; endpoint: any; secret: any } }>({
+    addWebhook: build.mutation<AddWebhookReply.AsObject, { action: any; endpoint: string; secret: string }>({
       query: (body) => ({ methodName: 'addWebhook', body }),
     }),
-    removeWebhook: build.mutation<RemoveWebhookReply, { body: { id: string } }>({
+    removeWebhook: build.mutation<RemoveWebhookReply, { id: string }>({
       query: (body) => ({ methodName: 'removeWebhook', body }),
     }),
     listWebhooks: build.query<ListWebhooksReply, { action: any }>({
@@ -638,7 +744,10 @@ export const {
   useNewMarketMutation,
   useOpenMarketMutation,
   useDropMarketMutation,
+  useGetMarketCollectedSwapFeesQuery,
   useWithdrawMarketMutation,
+  useUpdateMarketPercentageFeeMutation,
+  useUpdateMarketFixedFeeMutation,
   useUpdateMarketPriceMutation,
   useUpdateMarketStrategyMutation,
   useListMarketsQuery,

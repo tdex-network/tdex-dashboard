@@ -46,7 +46,7 @@ export const Market = (): JSX.Element => {
   return (
     <>
       {marketInfo ? (
-        <div className="card bordered">
+        <div className="card bordered mb-8">
           <div className="card-body">
             <div className="mb-4">
               <p>

@@ -120,6 +120,7 @@ const baseQueryFn: BaseQueryFn<
 export const walletUnlockerApi = createApi({
   reducerPath: 'walletUnlockerService',
   baseQuery: baseQueryFn,
+  tagTypes: ['Unlocker'],
   endpoints: (build) => ({
     genSeed: build.query<string[], void>({
       query: () => ({ methodName: 'genSeed' }),
@@ -133,6 +134,7 @@ export const walletUnlockerApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'initWallet', body }),
+      invalidatesTags: ['Unlocker'],
     }),
     unlockWallet: build.mutation<
       UnlockWalletReply,
@@ -141,6 +143,7 @@ export const walletUnlockerApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'unlockWallet', body }),
+      invalidatesTags: ['Unlocker'],
     }),
     changePassword: build.mutation<
       ChangePasswordReply,
@@ -150,6 +153,7 @@ export const walletUnlockerApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'changePassword', body }),
+      invalidatesTags: ['Unlocker'],
     }),
     isReady: build.query<
       {
@@ -160,6 +164,7 @@ export const walletUnlockerApi = createApi({
       void
     >({
       query: () => ({ methodName: 'isReady' }),
+      providesTags: ['Unlocker'],
     }),
   }),
 });

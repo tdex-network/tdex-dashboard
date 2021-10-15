@@ -20,16 +20,16 @@ import type {
   UpdateMarketStrategyReply,
   ListMarketsReply,
   ListTradesReply,
-  Page,
   ReloadUtxosReply,
   ListUtxosReply,
   AddWebhookReply,
   RemoveWebhookReply,
-  ListWebhooksReply,
-  ListDepositsReply,
-  ListWithdrawalsReply,
   NewMarketReply,
   ClaimMarketDepositsReply,
+  ActionType,
+  WebhookInfo,
+  UtxoInfo,
+  Withdrawal,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -61,6 +61,7 @@ import {
   ListDepositsRequest,
   ListWithdrawalsRequest,
   UpdateMarketPercentageFeeRequest,
+  Page,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -513,7 +514,7 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'addWebhook': {
       try {
-        const { action, endpoint, secret } = body as { action: any; endpoint: string; secret: string };
+        const { action, endpoint, secret } = body as { action: ActionType; endpoint: string; secret: string };
         const addWebhookReply = await client.addWebhook(
           new AddWebhookRequest().setAction(action).setEndpoint(endpoint).setSecret(secret),
           metadata
@@ -540,13 +541,15 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listWebhooks': {
       try {
-        const { action } = body as { action: any };
+        const { action } = body as { action: ActionType };
         const listWebhooksReply = await client.listWebhooks(
           new ListWebhooksRequest().setAction(action),
           metadata
         );
         return {
-          data: listWebhooksReply,
+          data: listWebhooksReply
+            .getWebhookInfoList()
+            .map((webhookInfo: WebhookInfo) => webhookInfo.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -555,13 +558,17 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listDeposits': {
       try {
-        const { accountIndex, page } = body as { accountIndex: number; page: Page };
+        const { accountIndex, page } = body as { accountIndex: number; page: Page.AsObject };
+        const { pageNumber, pageSize } = page;
+        const newPage = new Page();
+        newPage.setPageNumber(pageNumber);
+        newPage.setPageSize(pageSize);
         const listDepositsReply = await client.listDeposits(
-          new ListDepositsRequest().setPage(page).setAccountIndex(accountIndex),
+          new ListDepositsRequest().setPage(newPage).setAccountIndex(accountIndex),
           metadata
         );
         return {
-          data: listDepositsReply,
+          data: listDepositsReply.getDepositsList().map((utxoInfo: UtxoInfo) => utxoInfo.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -570,13 +577,19 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listWithdrawals': {
       try {
-        const { accountIndex, page } = body as { accountIndex: number; page: Page };
+        const { accountIndex, page } = body as { accountIndex: number; page: Page.AsObject };
+        const { pageNumber, pageSize } = page;
+        const newPage = new Page();
+        newPage.setPageNumber(pageNumber);
+        newPage.setPageSize(pageSize);
         const listWithdrawalsReply = await client.listWithdrawals(
-          new ListWithdrawalsRequest().setPage(page).setAccountIndex(accountIndex),
+          new ListWithdrawalsRequest().setPage(newPage).setAccountIndex(accountIndex),
           metadata
         );
         return {
-          data: listWithdrawalsReply,
+          data: listWithdrawalsReply
+            .getWithdrawalsList()
+            .map((withdrawal: Withdrawal) => withdrawal.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -711,19 +724,22 @@ export const operatorApi = createApi({
     listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
       query: () => ({ methodName: 'listUtxos' }),
     }),
-    addWebhook: build.mutation<AddWebhookReply.AsObject, { action: any; endpoint: string; secret: string }>({
+    addWebhook: build.mutation<
+      AddWebhookReply.AsObject,
+      { action: ActionType; endpoint: string; secret: string }
+    >({
       query: (body) => ({ methodName: 'addWebhook', body }),
     }),
     removeWebhook: build.mutation<RemoveWebhookReply, { id: string }>({
       query: (body) => ({ methodName: 'removeWebhook', body }),
     }),
-    listWebhooks: build.query<ListWebhooksReply, { action: any }>({
+    listWebhooks: build.query<WebhookInfo.AsObject[], { action: ActionType }>({
       query: (body) => ({ methodName: 'listWebhooks', body }),
     }),
-    listDeposits: build.query<ListDepositsReply, { accountIndex: number; page: Page }>({
+    listDeposits: build.query<UtxoInfo.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
     }),
-    listWithdrawals: build.query<ListWithdrawalsReply, { accountIndex: number; page: Page }>({
+    listWithdrawals: build.query<Withdrawal.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listWithdrawals', body }),
     }),
   }),

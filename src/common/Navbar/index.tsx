@@ -3,14 +3,13 @@ import { useHistory } from 'react-router-dom';
 
 import logo from '../../assets/images/tdex-logo.png';
 import { NewMarketForm } from '../../features/operator/NewMarketForm';
-import { CONNECT_ROUTE, MARKETS_ROUTE } from '../../routes/constants';
+import { UnlockModalForm } from '../../features/walletUnlocker/UnlockModalForm';
+import { useIsReadyQuery } from '../../features/walletUnlocker/walletUnlocker.api';
+import { SET_PASSWORD_ROUTE, MARKETS_ROUTE } from '../../routes/constants';
 
 export const Navbar = (): JSX.Element => {
+  const { data: isReady } = useIsReadyQuery();
   const history = useHistory();
-
-  const handleConnect = () => {
-    console.log('connect');
-  };
 
   const handleClickMarkets = () => {
     history.push(MARKETS_ROUTE);
@@ -18,6 +17,7 @@ export const Navbar = (): JSX.Element => {
 
   return (
     <header>
+      <p className="text-sm font-light text-right mr-4 mt-2">{`Status Unlocked ${isReady?.isUnlocked} - Initialized ${isReady?.isInitialized} - Synced ${isReady?.isSynced}`}</p>
       <div className="navbar mx-2 mt-2 mb-8 text-neutral-content shadow-lg rounded-box">
         <div className="mx-2 px-2 navbar-start h-10">
           <a href="/" className="h-full mr-8">
@@ -67,14 +67,14 @@ export const Navbar = (): JSX.Element => {
             </button>
             <ul tabIndex={0} className="menu dropdown-content rounded-box top-12 p-2 w-52 bg-base-100 shadow">
               <li>
-                <a href={CONNECT_ROUTE} className="btn btn-accent mx-2">
+                <a href={SET_PASSWORD_ROUTE} className="btn btn-ghost mx-2 mb-1">
                   Connect
                 </a>
               </li>
               <li>
-                <button className="btn btn-ghost" onClick={handleConnect}>
-                  Unlock
-                </button>
+                <label htmlFor="unlock-modal" className="btn btn-ghost modal-button mb-1">
+                  Unlock Wallet
+                </label>
               </li>
               <li>
                 <button className="btn btn-ghost text-left">Disconnect</button>
@@ -83,6 +83,7 @@ export const Navbar = (): JSX.Element => {
           </div>
         </div>
       </div>
+      <UnlockModalForm />
     </header>
   );
 };

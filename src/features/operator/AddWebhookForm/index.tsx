@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
+import type { ActionType } from '../../../api-spec/generated/js/operator_pb';
 import { useAddWebhookMutation } from '../operator.api';
 
 interface IFormInputs {
-  action: any;
+  action: ActionType;
   endpoint: string;
   secret: string;
 }
@@ -26,15 +27,14 @@ export const AddWebhookForm = (): JSX.Element => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-control">
-        <label className="label">
-          <span className="label-text">Action</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', { 'mb-7': !errors.action?.message })}
-          {...register('action', { required: 'Action is required' })}
-        />
-        <ErrorMessage errors={errors} name="action" as={<span className="text-sm mt-1 text-error" />} />
+        <select className="select select-bordered select-accent w-full max-w-xs">
+          <option disabled selected>
+            Action
+          </option>
+          <option>ActionType[0]</option>
+          <option>ActionType[1]</option>
+          <option>ActionType[2]</option>
+        </select>
 
         <label className="label">
           <span className="label-text">Endpoint</span>

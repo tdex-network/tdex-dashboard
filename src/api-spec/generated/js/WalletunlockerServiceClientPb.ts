@@ -13,18 +13,27 @@
 
 import * as grpcWeb from 'grpc-web';
 
-import * as walletunlocker_pb from './walletunlocker_pb';
-
+import {
+  ChangePasswordReply,
+  ChangePasswordRequest,
+  GenSeedReply,
+  GenSeedRequest,
+  InitWalletReply,
+  InitWalletRequest,
+  IsReadyReply,
+  IsReadyRequest,
+  UnlockWalletReply,
+  UnlockWalletRequest} from './walletunlocker_pb';
 
 export class WalletUnlockerClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
-  options_: null | { [index: string]: any; };
+  options_: null | { [index: string]: string; };
 
   constructor (hostname: string,
                credentials?: null | { [index: string]: string; },
-               options?: null | { [index: string]: any; }) {
+               options?: null | { [index: string]: string; }) {
     if (!options) options = {};
     if (!credentials) credentials = {};
     options['format'] = 'text';
@@ -36,32 +45,31 @@ export class WalletUnlockerClient {
   }
 
   methodInfoGenSeed = new grpcWeb.AbstractClientBase.MethodInfo(
-    walletunlocker_pb.GenSeedReply,
-    (request: walletunlocker_pb.GenSeedRequest) => {
+    GenSeedReply,
+    (request: GenSeedRequest) => {
       return request.serializeBinary();
     },
-    walletunlocker_pb.GenSeedReply.deserializeBinary
+    GenSeedReply.deserializeBinary
   );
 
   genSeed(
-    request: walletunlocker_pb.GenSeedRequest,
-    metadata: grpcWeb.Metadata | null): Promise<walletunlocker_pb.GenSeedReply>;
+    request: GenSeedRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GenSeedReply>;
 
   genSeed(
-    request: walletunlocker_pb.GenSeedRequest,
+    request: GenSeedRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: walletunlocker_pb.GenSeedReply) => void): grpcWeb.ClientReadableStream<walletunlocker_pb.GenSeedReply>;
+               response: GenSeedReply) => void): grpcWeb.ClientReadableStream<GenSeedReply>;
 
   genSeed(
-    request: walletunlocker_pb.GenSeedRequest,
+    request: GenSeedRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: walletunlocker_pb.GenSeedReply) => void) {
+               response: GenSeedReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/WalletUnlocker/GenSeed',
+        new URL('/WalletUnlocker/GenSeed', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGenSeed,
@@ -76,51 +84,49 @@ export class WalletUnlockerClient {
   }
 
   methodInfoInitWallet = new grpcWeb.AbstractClientBase.MethodInfo(
-    walletunlocker_pb.InitWalletReply,
-    (request: walletunlocker_pb.InitWalletRequest) => {
+    InitWalletReply,
+    (request: InitWalletRequest) => {
       return request.serializeBinary();
     },
-    walletunlocker_pb.InitWalletReply.deserializeBinary
+    InitWalletReply.deserializeBinary
   );
 
   initWallet(
-    request: walletunlocker_pb.InitWalletRequest,
+    request: InitWalletRequest,
     metadata?: grpcWeb.Metadata) {
     return this.client_.serverStreaming(
-      this.hostname_ +
-        '/WalletUnlocker/InitWallet',
+      new URL('/WalletUnlocker/InitWallet', this.hostname_).toString(),
       request,
       metadata || {},
       this.methodInfoInitWallet);
   }
 
   methodInfoUnlockWallet = new grpcWeb.AbstractClientBase.MethodInfo(
-    walletunlocker_pb.UnlockWalletReply,
-    (request: walletunlocker_pb.UnlockWalletRequest) => {
+    UnlockWalletReply,
+    (request: UnlockWalletRequest) => {
       return request.serializeBinary();
     },
-    walletunlocker_pb.UnlockWalletReply.deserializeBinary
+    UnlockWalletReply.deserializeBinary
   );
 
   unlockWallet(
-    request: walletunlocker_pb.UnlockWalletRequest,
-    metadata: grpcWeb.Metadata | null): Promise<walletunlocker_pb.UnlockWalletReply>;
+    request: UnlockWalletRequest,
+    metadata: grpcWeb.Metadata | null): Promise<UnlockWalletReply>;
 
   unlockWallet(
-    request: walletunlocker_pb.UnlockWalletRequest,
+    request: UnlockWalletRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: walletunlocker_pb.UnlockWalletReply) => void): grpcWeb.ClientReadableStream<walletunlocker_pb.UnlockWalletReply>;
+               response: UnlockWalletReply) => void): grpcWeb.ClientReadableStream<UnlockWalletReply>;
 
   unlockWallet(
-    request: walletunlocker_pb.UnlockWalletRequest,
+    request: UnlockWalletRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: walletunlocker_pb.UnlockWalletReply) => void) {
+               response: UnlockWalletReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/WalletUnlocker/UnlockWallet',
+        new URL('/WalletUnlocker/UnlockWallet', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoUnlockWallet,
@@ -135,32 +141,31 @@ export class WalletUnlockerClient {
   }
 
   methodInfoChangePassword = new grpcWeb.AbstractClientBase.MethodInfo(
-    walletunlocker_pb.ChangePasswordReply,
-    (request: walletunlocker_pb.ChangePasswordRequest) => {
+    ChangePasswordReply,
+    (request: ChangePasswordRequest) => {
       return request.serializeBinary();
     },
-    walletunlocker_pb.ChangePasswordReply.deserializeBinary
+    ChangePasswordReply.deserializeBinary
   );
 
   changePassword(
-    request: walletunlocker_pb.ChangePasswordRequest,
-    metadata: grpcWeb.Metadata | null): Promise<walletunlocker_pb.ChangePasswordReply>;
+    request: ChangePasswordRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ChangePasswordReply>;
 
   changePassword(
-    request: walletunlocker_pb.ChangePasswordRequest,
+    request: ChangePasswordRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: walletunlocker_pb.ChangePasswordReply) => void): grpcWeb.ClientReadableStream<walletunlocker_pb.ChangePasswordReply>;
+               response: ChangePasswordReply) => void): grpcWeb.ClientReadableStream<ChangePasswordReply>;
 
   changePassword(
-    request: walletunlocker_pb.ChangePasswordRequest,
+    request: ChangePasswordRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: walletunlocker_pb.ChangePasswordReply) => void) {
+               response: ChangePasswordReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/WalletUnlocker/ChangePassword',
+        new URL('/WalletUnlocker/ChangePassword', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoChangePassword,
@@ -175,32 +180,31 @@ export class WalletUnlockerClient {
   }
 
   methodInfoIsReady = new grpcWeb.AbstractClientBase.MethodInfo(
-    walletunlocker_pb.IsReadyReply,
-    (request: walletunlocker_pb.IsReadyRequest) => {
+    IsReadyReply,
+    (request: IsReadyRequest) => {
       return request.serializeBinary();
     },
-    walletunlocker_pb.IsReadyReply.deserializeBinary
+    IsReadyReply.deserializeBinary
   );
 
   isReady(
-    request: walletunlocker_pb.IsReadyRequest,
-    metadata: grpcWeb.Metadata | null): Promise<walletunlocker_pb.IsReadyReply>;
+    request: IsReadyRequest,
+    metadata: grpcWeb.Metadata | null): Promise<IsReadyReply>;
 
   isReady(
-    request: walletunlocker_pb.IsReadyRequest,
+    request: IsReadyRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: walletunlocker_pb.IsReadyReply) => void): grpcWeb.ClientReadableStream<walletunlocker_pb.IsReadyReply>;
+               response: IsReadyReply) => void): grpcWeb.ClientReadableStream<IsReadyReply>;
 
   isReady(
-    request: walletunlocker_pb.IsReadyRequest,
+    request: IsReadyRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: walletunlocker_pb.IsReadyReply) => void) {
+               response: IsReadyReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/WalletUnlocker/IsReady',
+        new URL('/WalletUnlocker/IsReady', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoIsReady,

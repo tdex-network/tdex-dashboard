@@ -36,7 +36,6 @@
     "classnames": "^2.3.1",
     "daisyui": "^1.14.4",
     "google-protobuf": "^3.18.1",
-    "grpc-web": "1.2.0",
     "ldk": "^0.3.13",
     "postcss": "^7",
     "qrcode.react": "^1.0.1",
@@ -55,9 +54,9 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.3.0",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.10.9",
+    "@types/node": "^16.11.0",
     "@types/qrcode.react": "^1.0.2",
-    "@types/react": "^17.0.29",
+    "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.19",
     "@types/react-router-dom": "^5.3.1",
@@ -69,7 +68,7 @@
     "grpc-tools": "^1.11.2",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
-    "protoc-gen-grpc-web": "^1.2.1",
+    "protoc-gen-grpc-web": "1.2.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpackbar": "^5.0.0-3"
   }

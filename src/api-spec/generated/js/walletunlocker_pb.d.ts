@@ -1,6 +1,4 @@
-import * as jspb from 'google-protobuf'
-
-
+import * as jspb from "google-protobuf"
 
 export class GenSeedRequest extends jspb.Message {
   serializeBinary(): Uint8Array;
@@ -70,8 +68,8 @@ export class InitWalletReply extends jspb.Message {
   getAccount(): number;
   setAccount(value: number): InitWalletReply;
 
-  getStatus(): nitWalletReply.Status;
-  setStatus(value: nitWalletReply.Status): InitWalletReply;
+  getStatus(): InitWalletReply.Status;
+  setStatus(value: InitWalletReply.Status): InitWalletReply;
 
   getData(): string;
   setData(value: string): InitWalletReply;
@@ -87,7 +85,7 @@ export class InitWalletReply extends jspb.Message {
 export namespace InitWalletReply {
   export type AsObject = {
     account: number,
-    status: nitWalletReply.Status,
+    status: InitWalletReply.Status,
     data: string,
   }
 

@@ -1,7 +1,6 @@
-import * as jspb from 'google-protobuf'
+import * as jspb from "google-protobuf"
 
 import * as types_pb from './types_pb';
-
 
 export class GetInfoRequest extends jspb.Message {
   serializeBinary(): Uint8Array;
@@ -793,8 +792,8 @@ export class UpdateMarketStrategyRequest extends jspb.Message {
   hasMarket(): boolean;
   clearMarket(): UpdateMarketStrategyRequest;
 
-  getStrategyType(): trategyType;
-  setStrategyType(value: trategyType): UpdateMarketStrategyRequest;
+  getStrategyType(): StrategyType;
+  setStrategyType(value: StrategyType): UpdateMarketStrategyRequest;
 
   getMetadata(): string;
   setMetadata(value: string): UpdateMarketStrategyRequest;
@@ -810,7 +809,7 @@ export class UpdateMarketStrategyRequest extends jspb.Message {
 export namespace UpdateMarketStrategyRequest {
   export type AsObject = {
     market?: types_pb.Market.AsObject,
-    strategyType: trategyType,
+    strategyType: StrategyType,
     metadata: string,
   }
 }
@@ -963,8 +962,8 @@ export class AddWebhookRequest extends jspb.Message {
   getEndpoint(): string;
   setEndpoint(value: string): AddWebhookRequest;
 
-  getAction(): ctionType;
-  setAction(value: ctionType): AddWebhookRequest;
+  getAction(): ActionType;
+  setAction(value: ActionType): AddWebhookRequest;
 
   getSecret(): string;
   setSecret(value: string): AddWebhookRequest;
@@ -980,7 +979,7 @@ export class AddWebhookRequest extends jspb.Message {
 export namespace AddWebhookRequest {
   export type AsObject = {
     endpoint: string,
-    action: ctionType,
+    action: ActionType,
     secret: string,
   }
 }
@@ -1036,8 +1035,8 @@ export namespace RemoveWebhookReply {
 }
 
 export class ListWebhooksRequest extends jspb.Message {
-  getAction(): ctionType;
-  setAction(value: ctionType): ListWebhooksRequest;
+  getAction(): ActionType;
+  setAction(value: ActionType): ListWebhooksRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListWebhooksRequest.AsObject;
@@ -1049,7 +1048,7 @@ export class ListWebhooksRequest extends jspb.Message {
 
 export namespace ListWebhooksRequest {
   export type AsObject = {
-    action: ctionType,
+    action: ActionType,
   }
 }
 
@@ -1217,8 +1216,8 @@ export class MarketInfo extends jspb.Message {
   getTradable(): boolean;
   setTradable(value: boolean): MarketInfo;
 
-  getStrategyType(): trategyType;
-  setStrategyType(value: trategyType): MarketInfo;
+  getStrategyType(): StrategyType;
+  setStrategyType(value: StrategyType): MarketInfo;
 
   getAccountIndex(): number;
   setAccountIndex(value: number): MarketInfo;
@@ -1246,7 +1245,7 @@ export namespace MarketInfo {
     market?: types_pb.Market.AsObject,
     fee?: types_pb.Fee.AsObject,
     tradable: boolean,
-    strategyType: trategyType,
+    strategyType: StrategyType,
     accountIndex: number,
     price?: types_pb.Price.AsObject,
     balance?: types_pb.Balance.AsObject,
@@ -1282,8 +1281,8 @@ export namespace UtxoInfo {
 }
 
 export class TradeStatusInfo extends jspb.Message {
-  getStatus(): radeStatus;
-  setStatus(value: radeStatus): TradeStatusInfo;
+  getStatus(): TradeStatus;
+  setStatus(value: TradeStatus): TradeStatusInfo;
 
   getFailed(): boolean;
   setFailed(value: boolean): TradeStatusInfo;
@@ -1298,7 +1297,7 @@ export class TradeStatusInfo extends jspb.Message {
 
 export namespace TradeStatusInfo {
   export type AsObject = {
-    status: radeStatus,
+    status: TradeStatus,
     failed: boolean,
   }
 }

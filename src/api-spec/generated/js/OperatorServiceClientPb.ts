@@ -13,18 +13,76 @@
 
 import * as grpcWeb from 'grpc-web';
 
-import * as operator_pb from './operator_pb';
+import * as types_pb from './types_pb';
 
+import {
+  AddWebhookReply,
+  AddWebhookRequest,
+  ClaimFeeDepositsReply,
+  ClaimFeeDepositsRequest,
+  ClaimMarketDepositsReply,
+  ClaimMarketDepositsRequest,
+  CloseMarketReply,
+  CloseMarketRequest,
+  DropMarketReply,
+  DropMarketRequest,
+  GetFeeAddressReply,
+  GetFeeAddressRequest,
+  GetFeeBalanceReply,
+  GetFeeBalanceRequest,
+  GetInfoReply,
+  GetInfoRequest,
+  GetMarketAddressReply,
+  GetMarketAddressRequest,
+  GetMarketBalanceReply,
+  GetMarketBalanceRequest,
+  GetMarketCollectedSwapFeesReply,
+  GetMarketCollectedSwapFeesRequest,
+  ListDepositsReply,
+  ListDepositsRequest,
+  ListFeeAddressesReply,
+  ListFeeAddressesRequest,
+  ListMarketAddressesReply,
+  ListMarketAddressesRequest,
+  ListMarketsReply,
+  ListMarketsRequest,
+  ListTradesReply,
+  ListTradesRequest,
+  ListUtxosReply,
+  ListUtxosRequest,
+  ListWebhooksReply,
+  ListWebhooksRequest,
+  ListWithdrawalsReply,
+  ListWithdrawalsRequest,
+  NewMarketReply,
+  NewMarketRequest,
+  OpenMarketReply,
+  OpenMarketRequest,
+  ReloadUtxosReply,
+  ReloadUtxosRequest,
+  RemoveWebhookReply,
+  RemoveWebhookRequest,
+  UpdateMarketFeeReply,
+  UpdateMarketFixedFeeRequest,
+  UpdateMarketPercentageFeeRequest,
+  UpdateMarketPriceReply,
+  UpdateMarketPriceRequest,
+  UpdateMarketStrategyReply,
+  UpdateMarketStrategyRequest,
+  WithdrawFeeReply,
+  WithdrawFeeRequest,
+  WithdrawMarketReply,
+  WithdrawMarketRequest} from './operator_pb';
 
 export class OperatorClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
-  options_: null | { [index: string]: any; };
+  options_: null | { [index: string]: string; };
 
   constructor (hostname: string,
                credentials?: null | { [index: string]: string; },
-               options?: null | { [index: string]: any; }) {
+               options?: null | { [index: string]: string; }) {
     if (!options) options = {};
     if (!credentials) credentials = {};
     options['format'] = 'text';
@@ -36,32 +94,31 @@ export class OperatorClient {
   }
 
   methodInfoGetInfo = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetInfoReply,
-    (request: operator_pb.GetInfoRequest) => {
+    GetInfoReply,
+    (request: GetInfoRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetInfoReply.deserializeBinary
+    GetInfoReply.deserializeBinary
   );
 
   getInfo(
-    request: operator_pb.GetInfoRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetInfoReply>;
+    request: GetInfoRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetInfoReply>;
 
   getInfo(
-    request: operator_pb.GetInfoRequest,
+    request: GetInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetInfoReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetInfoReply>;
+               response: GetInfoReply) => void): grpcWeb.ClientReadableStream<GetInfoReply>;
 
   getInfo(
-    request: operator_pb.GetInfoRequest,
+    request: GetInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetInfoReply) => void) {
+               response: GetInfoReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetInfo',
+        new URL('/Operator/GetInfo', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetInfo,
@@ -76,32 +133,31 @@ export class OperatorClient {
   }
 
   methodInfoGetFeeAddress = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetFeeAddressReply,
-    (request: operator_pb.GetFeeAddressRequest) => {
+    GetFeeAddressReply,
+    (request: GetFeeAddressRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetFeeAddressReply.deserializeBinary
+    GetFeeAddressReply.deserializeBinary
   );
 
   getFeeAddress(
-    request: operator_pb.GetFeeAddressRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetFeeAddressReply>;
+    request: GetFeeAddressRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetFeeAddressReply>;
 
   getFeeAddress(
-    request: operator_pb.GetFeeAddressRequest,
+    request: GetFeeAddressRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetFeeAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetFeeAddressReply>;
+               response: GetFeeAddressReply) => void): grpcWeb.ClientReadableStream<GetFeeAddressReply>;
 
   getFeeAddress(
-    request: operator_pb.GetFeeAddressRequest,
+    request: GetFeeAddressRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetFeeAddressReply) => void) {
+               response: GetFeeAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetFeeAddress',
+        new URL('/Operator/GetFeeAddress', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetFeeAddress,
@@ -116,32 +172,31 @@ export class OperatorClient {
   }
 
   methodInfoListFeeAddresses = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListFeeAddressesReply,
-    (request: operator_pb.ListFeeAddressesRequest) => {
+    ListFeeAddressesReply,
+    (request: ListFeeAddressesRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListFeeAddressesReply.deserializeBinary
+    ListFeeAddressesReply.deserializeBinary
   );
 
   listFeeAddresses(
-    request: operator_pb.ListFeeAddressesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListFeeAddressesReply>;
+    request: ListFeeAddressesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListFeeAddressesReply>;
 
   listFeeAddresses(
-    request: operator_pb.ListFeeAddressesRequest,
+    request: ListFeeAddressesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListFeeAddressesReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListFeeAddressesReply>;
+               response: ListFeeAddressesReply) => void): grpcWeb.ClientReadableStream<ListFeeAddressesReply>;
 
   listFeeAddresses(
-    request: operator_pb.ListFeeAddressesRequest,
+    request: ListFeeAddressesRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListFeeAddressesReply) => void) {
+               response: ListFeeAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListFeeAddresses',
+        new URL('/Operator/ListFeeAddresses', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListFeeAddresses,
@@ -156,32 +211,31 @@ export class OperatorClient {
   }
 
   methodInfoGetFeeBalance = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetFeeBalanceReply,
-    (request: operator_pb.GetFeeBalanceRequest) => {
+    GetFeeBalanceReply,
+    (request: GetFeeBalanceRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetFeeBalanceReply.deserializeBinary
+    GetFeeBalanceReply.deserializeBinary
   );
 
   getFeeBalance(
-    request: operator_pb.GetFeeBalanceRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetFeeBalanceReply>;
+    request: GetFeeBalanceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetFeeBalanceReply>;
 
   getFeeBalance(
-    request: operator_pb.GetFeeBalanceRequest,
+    request: GetFeeBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetFeeBalanceReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetFeeBalanceReply>;
+               response: GetFeeBalanceReply) => void): grpcWeb.ClientReadableStream<GetFeeBalanceReply>;
 
   getFeeBalance(
-    request: operator_pb.GetFeeBalanceRequest,
+    request: GetFeeBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetFeeBalanceReply) => void) {
+               response: GetFeeBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetFeeBalance',
+        new URL('/Operator/GetFeeBalance', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetFeeBalance,
@@ -196,32 +250,31 @@ export class OperatorClient {
   }
 
   methodInfoClaimFeeDeposits = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ClaimFeeDepositsReply,
-    (request: operator_pb.ClaimFeeDepositsRequest) => {
+    ClaimFeeDepositsReply,
+    (request: ClaimFeeDepositsRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ClaimFeeDepositsReply.deserializeBinary
+    ClaimFeeDepositsReply.deserializeBinary
   );
 
   claimFeeDeposits(
-    request: operator_pb.ClaimFeeDepositsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ClaimFeeDepositsReply>;
+    request: ClaimFeeDepositsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ClaimFeeDepositsReply>;
 
   claimFeeDeposits(
-    request: operator_pb.ClaimFeeDepositsRequest,
+    request: ClaimFeeDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ClaimFeeDepositsReply) => void): grpcWeb.ClientReadableStream<operator_pb.ClaimFeeDepositsReply>;
+               response: ClaimFeeDepositsReply) => void): grpcWeb.ClientReadableStream<ClaimFeeDepositsReply>;
 
   claimFeeDeposits(
-    request: operator_pb.ClaimFeeDepositsRequest,
+    request: ClaimFeeDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ClaimFeeDepositsReply) => void) {
+               response: ClaimFeeDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ClaimFeeDeposits',
+        new URL('/Operator/ClaimFeeDeposits', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoClaimFeeDeposits,
@@ -236,32 +289,31 @@ export class OperatorClient {
   }
 
   methodInfoWithdrawFee = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.WithdrawFeeReply,
-    (request: operator_pb.WithdrawFeeRequest) => {
+    WithdrawFeeReply,
+    (request: WithdrawFeeRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.WithdrawFeeReply.deserializeBinary
+    WithdrawFeeReply.deserializeBinary
   );
 
   withdrawFee(
-    request: operator_pb.WithdrawFeeRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.WithdrawFeeReply>;
+    request: WithdrawFeeRequest,
+    metadata: grpcWeb.Metadata | null): Promise<WithdrawFeeReply>;
 
   withdrawFee(
-    request: operator_pb.WithdrawFeeRequest,
+    request: WithdrawFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.WithdrawFeeReply) => void): grpcWeb.ClientReadableStream<operator_pb.WithdrawFeeReply>;
+               response: WithdrawFeeReply) => void): grpcWeb.ClientReadableStream<WithdrawFeeReply>;
 
   withdrawFee(
-    request: operator_pb.WithdrawFeeRequest,
+    request: WithdrawFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.WithdrawFeeReply) => void) {
+               response: WithdrawFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/WithdrawFee',
+        new URL('/Operator/WithdrawFee', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoWithdrawFee,
@@ -276,32 +328,31 @@ export class OperatorClient {
   }
 
   methodInfoNewMarket = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.NewMarketReply,
-    (request: operator_pb.NewMarketRequest) => {
+    NewMarketReply,
+    (request: NewMarketRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.NewMarketReply.deserializeBinary
+    NewMarketReply.deserializeBinary
   );
 
   newMarket(
-    request: operator_pb.NewMarketRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.NewMarketReply>;
+    request: NewMarketRequest,
+    metadata: grpcWeb.Metadata | null): Promise<NewMarketReply>;
 
   newMarket(
-    request: operator_pb.NewMarketRequest,
+    request: NewMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.NewMarketReply) => void): grpcWeb.ClientReadableStream<operator_pb.NewMarketReply>;
+               response: NewMarketReply) => void): grpcWeb.ClientReadableStream<NewMarketReply>;
 
   newMarket(
-    request: operator_pb.NewMarketRequest,
+    request: NewMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.NewMarketReply) => void) {
+               response: NewMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/NewMarket',
+        new URL('/Operator/NewMarket', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoNewMarket,
@@ -316,32 +367,31 @@ export class OperatorClient {
   }
 
   methodInfoGetMarketAddress = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetMarketAddressReply,
-    (request: operator_pb.GetMarketAddressRequest) => {
+    GetMarketAddressReply,
+    (request: GetMarketAddressRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetMarketAddressReply.deserializeBinary
+    GetMarketAddressReply.deserializeBinary
   );
 
   getMarketAddress(
-    request: operator_pb.GetMarketAddressRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketAddressReply>;
+    request: GetMarketAddressRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetMarketAddressReply>;
 
   getMarketAddress(
-    request: operator_pb.GetMarketAddressRequest,
+    request: GetMarketAddressRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketAddressReply>;
+               response: GetMarketAddressReply) => void): grpcWeb.ClientReadableStream<GetMarketAddressReply>;
 
   getMarketAddress(
-    request: operator_pb.GetMarketAddressRequest,
+    request: GetMarketAddressRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketAddressReply) => void) {
+               response: GetMarketAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetMarketAddress',
+        new URL('/Operator/GetMarketAddress', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetMarketAddress,
@@ -356,32 +406,31 @@ export class OperatorClient {
   }
 
   methodInfoListMarketAddresses = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListMarketAddressesReply,
-    (request: operator_pb.ListMarketAddressesRequest) => {
+    ListMarketAddressesReply,
+    (request: ListMarketAddressesRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListMarketAddressesReply.deserializeBinary
+    ListMarketAddressesReply.deserializeBinary
   );
 
   listMarketAddresses(
-    request: operator_pb.ListMarketAddressesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListMarketAddressesReply>;
+    request: ListMarketAddressesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListMarketAddressesReply>;
 
   listMarketAddresses(
-    request: operator_pb.ListMarketAddressesRequest,
+    request: ListMarketAddressesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListMarketAddressesReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListMarketAddressesReply>;
+               response: ListMarketAddressesReply) => void): grpcWeb.ClientReadableStream<ListMarketAddressesReply>;
 
   listMarketAddresses(
-    request: operator_pb.ListMarketAddressesRequest,
+    request: ListMarketAddressesRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListMarketAddressesReply) => void) {
+               response: ListMarketAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListMarketAddresses',
+        new URL('/Operator/ListMarketAddresses', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListMarketAddresses,
@@ -396,32 +445,31 @@ export class OperatorClient {
   }
 
   methodInfoGetMarketBalance = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetMarketBalanceReply,
-    (request: operator_pb.GetMarketBalanceRequest) => {
+    GetMarketBalanceReply,
+    (request: GetMarketBalanceRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetMarketBalanceReply.deserializeBinary
+    GetMarketBalanceReply.deserializeBinary
   );
 
   getMarketBalance(
-    request: operator_pb.GetMarketBalanceRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketBalanceReply>;
+    request: GetMarketBalanceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetMarketBalanceReply>;
 
   getMarketBalance(
-    request: operator_pb.GetMarketBalanceRequest,
+    request: GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketBalanceReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketBalanceReply>;
+               response: GetMarketBalanceReply) => void): grpcWeb.ClientReadableStream<GetMarketBalanceReply>;
 
   getMarketBalance(
-    request: operator_pb.GetMarketBalanceRequest,
+    request: GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketBalanceReply) => void) {
+               response: GetMarketBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetMarketBalance',
+        new URL('/Operator/GetMarketBalance', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetMarketBalance,
@@ -436,32 +484,31 @@ export class OperatorClient {
   }
 
   methodInfoClaimMarketDeposits = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ClaimMarketDepositsReply,
-    (request: operator_pb.ClaimMarketDepositsRequest) => {
+    ClaimMarketDepositsReply,
+    (request: ClaimMarketDepositsRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ClaimMarketDepositsReply.deserializeBinary
+    ClaimMarketDepositsReply.deserializeBinary
   );
 
   claimMarketDeposits(
-    request: operator_pb.ClaimMarketDepositsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ClaimMarketDepositsReply>;
+    request: ClaimMarketDepositsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ClaimMarketDepositsReply>;
 
   claimMarketDeposits(
-    request: operator_pb.ClaimMarketDepositsRequest,
+    request: ClaimMarketDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ClaimMarketDepositsReply) => void): grpcWeb.ClientReadableStream<operator_pb.ClaimMarketDepositsReply>;
+               response: ClaimMarketDepositsReply) => void): grpcWeb.ClientReadableStream<ClaimMarketDepositsReply>;
 
   claimMarketDeposits(
-    request: operator_pb.ClaimMarketDepositsRequest,
+    request: ClaimMarketDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ClaimMarketDepositsReply) => void) {
+               response: ClaimMarketDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ClaimMarketDeposits',
+        new URL('/Operator/ClaimMarketDeposits', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoClaimMarketDeposits,
@@ -476,32 +523,31 @@ export class OperatorClient {
   }
 
   methodInfoOpenMarket = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.OpenMarketReply,
-    (request: operator_pb.OpenMarketRequest) => {
+    OpenMarketReply,
+    (request: OpenMarketRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.OpenMarketReply.deserializeBinary
+    OpenMarketReply.deserializeBinary
   );
 
   openMarket(
-    request: operator_pb.OpenMarketRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.OpenMarketReply>;
+    request: OpenMarketRequest,
+    metadata: grpcWeb.Metadata | null): Promise<OpenMarketReply>;
 
   openMarket(
-    request: operator_pb.OpenMarketRequest,
+    request: OpenMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.OpenMarketReply) => void): grpcWeb.ClientReadableStream<operator_pb.OpenMarketReply>;
+               response: OpenMarketReply) => void): grpcWeb.ClientReadableStream<OpenMarketReply>;
 
   openMarket(
-    request: operator_pb.OpenMarketRequest,
+    request: OpenMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.OpenMarketReply) => void) {
+               response: OpenMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/OpenMarket',
+        new URL('/Operator/OpenMarket', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoOpenMarket,
@@ -516,32 +562,31 @@ export class OperatorClient {
   }
 
   methodInfoCloseMarket = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.CloseMarketReply,
-    (request: operator_pb.CloseMarketRequest) => {
+    CloseMarketReply,
+    (request: CloseMarketRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.CloseMarketReply.deserializeBinary
+    CloseMarketReply.deserializeBinary
   );
 
   closeMarket(
-    request: operator_pb.CloseMarketRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.CloseMarketReply>;
+    request: CloseMarketRequest,
+    metadata: grpcWeb.Metadata | null): Promise<CloseMarketReply>;
 
   closeMarket(
-    request: operator_pb.CloseMarketRequest,
+    request: CloseMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.CloseMarketReply) => void): grpcWeb.ClientReadableStream<operator_pb.CloseMarketReply>;
+               response: CloseMarketReply) => void): grpcWeb.ClientReadableStream<CloseMarketReply>;
 
   closeMarket(
-    request: operator_pb.CloseMarketRequest,
+    request: CloseMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.CloseMarketReply) => void) {
+               response: CloseMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/CloseMarket',
+        new URL('/Operator/CloseMarket', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoCloseMarket,
@@ -556,32 +601,31 @@ export class OperatorClient {
   }
 
   methodInfoDropMarket = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.DropMarketReply,
-    (request: operator_pb.DropMarketRequest) => {
+    DropMarketReply,
+    (request: DropMarketRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.DropMarketReply.deserializeBinary
+    DropMarketReply.deserializeBinary
   );
 
   dropMarket(
-    request: operator_pb.DropMarketRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.DropMarketReply>;
+    request: DropMarketRequest,
+    metadata: grpcWeb.Metadata | null): Promise<DropMarketReply>;
 
   dropMarket(
-    request: operator_pb.DropMarketRequest,
+    request: DropMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.DropMarketReply) => void): grpcWeb.ClientReadableStream<operator_pb.DropMarketReply>;
+               response: DropMarketReply) => void): grpcWeb.ClientReadableStream<DropMarketReply>;
 
   dropMarket(
-    request: operator_pb.DropMarketRequest,
+    request: DropMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.DropMarketReply) => void) {
+               response: DropMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/DropMarket',
+        new URL('/Operator/DropMarket', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoDropMarket,
@@ -596,32 +640,31 @@ export class OperatorClient {
   }
 
   methodInfoGetMarketCollectedSwapFees = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.GetMarketCollectedSwapFeesReply,
-    (request: operator_pb.GetMarketCollectedSwapFeesRequest) => {
+    GetMarketCollectedSwapFeesReply,
+    (request: GetMarketCollectedSwapFeesRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.GetMarketCollectedSwapFeesReply.deserializeBinary
+    GetMarketCollectedSwapFeesReply.deserializeBinary
   );
 
   getMarketCollectedSwapFees(
-    request: operator_pb.GetMarketCollectedSwapFeesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketCollectedSwapFeesReply>;
+    request: GetMarketCollectedSwapFeesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<GetMarketCollectedSwapFeesReply>;
 
   getMarketCollectedSwapFees(
-    request: operator_pb.GetMarketCollectedSwapFeesRequest,
+    request: GetMarketCollectedSwapFeesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketCollectedSwapFeesReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketCollectedSwapFeesReply>;
+               response: GetMarketCollectedSwapFeesReply) => void): grpcWeb.ClientReadableStream<GetMarketCollectedSwapFeesReply>;
 
   getMarketCollectedSwapFees(
-    request: operator_pb.GetMarketCollectedSwapFeesRequest,
+    request: GetMarketCollectedSwapFeesRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.GetMarketCollectedSwapFeesReply) => void) {
+               response: GetMarketCollectedSwapFeesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetMarketCollectedSwapFees',
+        new URL('/Operator/GetMarketCollectedSwapFees', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoGetMarketCollectedSwapFees,
@@ -636,32 +679,31 @@ export class OperatorClient {
   }
 
   methodInfoWithdrawMarket = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.WithdrawMarketReply,
-    (request: operator_pb.WithdrawMarketRequest) => {
+    WithdrawMarketReply,
+    (request: WithdrawMarketRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.WithdrawMarketReply.deserializeBinary
+    WithdrawMarketReply.deserializeBinary
   );
 
   withdrawMarket(
-    request: operator_pb.WithdrawMarketRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.WithdrawMarketReply>;
+    request: WithdrawMarketRequest,
+    metadata: grpcWeb.Metadata | null): Promise<WithdrawMarketReply>;
 
   withdrawMarket(
-    request: operator_pb.WithdrawMarketRequest,
+    request: WithdrawMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.WithdrawMarketReply) => void): grpcWeb.ClientReadableStream<operator_pb.WithdrawMarketReply>;
+               response: WithdrawMarketReply) => void): grpcWeb.ClientReadableStream<WithdrawMarketReply>;
 
   withdrawMarket(
-    request: operator_pb.WithdrawMarketRequest,
+    request: WithdrawMarketRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.WithdrawMarketReply) => void) {
+               response: WithdrawMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/WithdrawMarket',
+        new URL('/Operator/WithdrawMarket', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoWithdrawMarket,
@@ -676,32 +718,31 @@ export class OperatorClient {
   }
 
   methodInfoUpdateMarketPercentageFee = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.UpdateMarketFeeReply,
-    (request: operator_pb.UpdateMarketPercentageFeeRequest) => {
+    UpdateMarketFeeReply,
+    (request: UpdateMarketPercentageFeeRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.UpdateMarketFeeReply.deserializeBinary
+    UpdateMarketFeeReply.deserializeBinary
   );
 
   updateMarketPercentageFee(
-    request: operator_pb.UpdateMarketPercentageFeeRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.UpdateMarketFeeReply>;
+    request: UpdateMarketPercentageFeeRequest,
+    metadata: grpcWeb.Metadata | null): Promise<UpdateMarketFeeReply>;
 
   updateMarketPercentageFee(
-    request: operator_pb.UpdateMarketPercentageFeeRequest,
+    request: UpdateMarketPercentageFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<operator_pb.UpdateMarketFeeReply>;
+               response: UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<UpdateMarketFeeReply>;
 
   updateMarketPercentageFee(
-    request: operator_pb.UpdateMarketPercentageFeeRequest,
+    request: UpdateMarketPercentageFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketFeeReply) => void) {
+               response: UpdateMarketFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/UpdateMarketPercentageFee',
+        new URL('/Operator/UpdateMarketPercentageFee', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoUpdateMarketPercentageFee,
@@ -716,32 +757,31 @@ export class OperatorClient {
   }
 
   methodInfoUpdateMarketFixedFee = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.UpdateMarketFeeReply,
-    (request: operator_pb.UpdateMarketFixedFeeRequest) => {
+    UpdateMarketFeeReply,
+    (request: UpdateMarketFixedFeeRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.UpdateMarketFeeReply.deserializeBinary
+    UpdateMarketFeeReply.deserializeBinary
   );
 
   updateMarketFixedFee(
-    request: operator_pb.UpdateMarketFixedFeeRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.UpdateMarketFeeReply>;
+    request: UpdateMarketFixedFeeRequest,
+    metadata: grpcWeb.Metadata | null): Promise<UpdateMarketFeeReply>;
 
   updateMarketFixedFee(
-    request: operator_pb.UpdateMarketFixedFeeRequest,
+    request: UpdateMarketFixedFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<operator_pb.UpdateMarketFeeReply>;
+               response: UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<UpdateMarketFeeReply>;
 
   updateMarketFixedFee(
-    request: operator_pb.UpdateMarketFixedFeeRequest,
+    request: UpdateMarketFixedFeeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketFeeReply) => void) {
+               response: UpdateMarketFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/UpdateMarketFixedFee',
+        new URL('/Operator/UpdateMarketFixedFee', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoUpdateMarketFixedFee,
@@ -756,32 +796,31 @@ export class OperatorClient {
   }
 
   methodInfoUpdateMarketPrice = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.UpdateMarketPriceReply,
-    (request: operator_pb.UpdateMarketPriceRequest) => {
+    UpdateMarketPriceReply,
+    (request: UpdateMarketPriceRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.UpdateMarketPriceReply.deserializeBinary
+    UpdateMarketPriceReply.deserializeBinary
   );
 
   updateMarketPrice(
-    request: operator_pb.UpdateMarketPriceRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.UpdateMarketPriceReply>;
+    request: UpdateMarketPriceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<UpdateMarketPriceReply>;
 
   updateMarketPrice(
-    request: operator_pb.UpdateMarketPriceRequest,
+    request: UpdateMarketPriceRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketPriceReply) => void): grpcWeb.ClientReadableStream<operator_pb.UpdateMarketPriceReply>;
+               response: UpdateMarketPriceReply) => void): grpcWeb.ClientReadableStream<UpdateMarketPriceReply>;
 
   updateMarketPrice(
-    request: operator_pb.UpdateMarketPriceRequest,
+    request: UpdateMarketPriceRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketPriceReply) => void) {
+               response: UpdateMarketPriceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/UpdateMarketPrice',
+        new URL('/Operator/UpdateMarketPrice', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoUpdateMarketPrice,
@@ -796,32 +835,31 @@ export class OperatorClient {
   }
 
   methodInfoUpdateMarketStrategy = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.UpdateMarketStrategyReply,
-    (request: operator_pb.UpdateMarketStrategyRequest) => {
+    UpdateMarketStrategyReply,
+    (request: UpdateMarketStrategyRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.UpdateMarketStrategyReply.deserializeBinary
+    UpdateMarketStrategyReply.deserializeBinary
   );
 
   updateMarketStrategy(
-    request: operator_pb.UpdateMarketStrategyRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.UpdateMarketStrategyReply>;
+    request: UpdateMarketStrategyRequest,
+    metadata: grpcWeb.Metadata | null): Promise<UpdateMarketStrategyReply>;
 
   updateMarketStrategy(
-    request: operator_pb.UpdateMarketStrategyRequest,
+    request: UpdateMarketStrategyRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketStrategyReply) => void): grpcWeb.ClientReadableStream<operator_pb.UpdateMarketStrategyReply>;
+               response: UpdateMarketStrategyReply) => void): grpcWeb.ClientReadableStream<UpdateMarketStrategyReply>;
 
   updateMarketStrategy(
-    request: operator_pb.UpdateMarketStrategyRequest,
+    request: UpdateMarketStrategyRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.UpdateMarketStrategyReply) => void) {
+               response: UpdateMarketStrategyReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/UpdateMarketStrategy',
+        new URL('/Operator/UpdateMarketStrategy', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoUpdateMarketStrategy,
@@ -836,32 +874,31 @@ export class OperatorClient {
   }
 
   methodInfoListMarkets = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListMarketsReply,
-    (request: operator_pb.ListMarketsRequest) => {
+    ListMarketsReply,
+    (request: ListMarketsRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListMarketsReply.deserializeBinary
+    ListMarketsReply.deserializeBinary
   );
 
   listMarkets(
-    request: operator_pb.ListMarketsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListMarketsReply>;
+    request: ListMarketsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListMarketsReply>;
 
   listMarkets(
-    request: operator_pb.ListMarketsRequest,
+    request: ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListMarketsReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListMarketsReply>;
+               response: ListMarketsReply) => void): grpcWeb.ClientReadableStream<ListMarketsReply>;
 
   listMarkets(
-    request: operator_pb.ListMarketsRequest,
+    request: ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListMarketsReply) => void) {
+               response: ListMarketsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListMarkets',
+        new URL('/Operator/ListMarkets', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListMarkets,
@@ -876,32 +913,31 @@ export class OperatorClient {
   }
 
   methodInfoListTrades = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListTradesReply,
-    (request: operator_pb.ListTradesRequest) => {
+    ListTradesReply,
+    (request: ListTradesRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListTradesReply.deserializeBinary
+    ListTradesReply.deserializeBinary
   );
 
   listTrades(
-    request: operator_pb.ListTradesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListTradesReply>;
+    request: ListTradesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListTradesReply>;
 
   listTrades(
-    request: operator_pb.ListTradesRequest,
+    request: ListTradesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListTradesReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListTradesReply>;
+               response: ListTradesReply) => void): grpcWeb.ClientReadableStream<ListTradesReply>;
 
   listTrades(
-    request: operator_pb.ListTradesRequest,
+    request: ListTradesRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListTradesReply) => void) {
+               response: ListTradesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListTrades',
+        new URL('/Operator/ListTrades', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListTrades,
@@ -916,32 +952,31 @@ export class OperatorClient {
   }
 
   methodInfoReloadUtxos = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ReloadUtxosReply,
-    (request: operator_pb.ReloadUtxosRequest) => {
+    ReloadUtxosReply,
+    (request: ReloadUtxosRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ReloadUtxosReply.deserializeBinary
+    ReloadUtxosReply.deserializeBinary
   );
 
   reloadUtxos(
-    request: operator_pb.ReloadUtxosRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ReloadUtxosReply>;
+    request: ReloadUtxosRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ReloadUtxosReply>;
 
   reloadUtxos(
-    request: operator_pb.ReloadUtxosRequest,
+    request: ReloadUtxosRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ReloadUtxosReply) => void): grpcWeb.ClientReadableStream<operator_pb.ReloadUtxosReply>;
+               response: ReloadUtxosReply) => void): grpcWeb.ClientReadableStream<ReloadUtxosReply>;
 
   reloadUtxos(
-    request: operator_pb.ReloadUtxosRequest,
+    request: ReloadUtxosRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ReloadUtxosReply) => void) {
+               response: ReloadUtxosReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ReloadUtxos',
+        new URL('/Operator/ReloadUtxos', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoReloadUtxos,
@@ -956,32 +991,31 @@ export class OperatorClient {
   }
 
   methodInfoListUtxos = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListUtxosReply,
-    (request: operator_pb.ListUtxosRequest) => {
+    ListUtxosReply,
+    (request: ListUtxosRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListUtxosReply.deserializeBinary
+    ListUtxosReply.deserializeBinary
   );
 
   listUtxos(
-    request: operator_pb.ListUtxosRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListUtxosReply>;
+    request: ListUtxosRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListUtxosReply>;
 
   listUtxos(
-    request: operator_pb.ListUtxosRequest,
+    request: ListUtxosRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListUtxosReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListUtxosReply>;
+               response: ListUtxosReply) => void): grpcWeb.ClientReadableStream<ListUtxosReply>;
 
   listUtxos(
-    request: operator_pb.ListUtxosRequest,
+    request: ListUtxosRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListUtxosReply) => void) {
+               response: ListUtxosReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListUtxos',
+        new URL('/Operator/ListUtxos', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListUtxos,
@@ -996,32 +1030,31 @@ export class OperatorClient {
   }
 
   methodInfoAddWebhook = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.AddWebhookReply,
-    (request: operator_pb.AddWebhookRequest) => {
+    AddWebhookReply,
+    (request: AddWebhookRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.AddWebhookReply.deserializeBinary
+    AddWebhookReply.deserializeBinary
   );
 
   addWebhook(
-    request: operator_pb.AddWebhookRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.AddWebhookReply>;
+    request: AddWebhookRequest,
+    metadata: grpcWeb.Metadata | null): Promise<AddWebhookReply>;
 
   addWebhook(
-    request: operator_pb.AddWebhookRequest,
+    request: AddWebhookRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.AddWebhookReply) => void): grpcWeb.ClientReadableStream<operator_pb.AddWebhookReply>;
+               response: AddWebhookReply) => void): grpcWeb.ClientReadableStream<AddWebhookReply>;
 
   addWebhook(
-    request: operator_pb.AddWebhookRequest,
+    request: AddWebhookRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.AddWebhookReply) => void) {
+               response: AddWebhookReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/AddWebhook',
+        new URL('/Operator/AddWebhook', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoAddWebhook,
@@ -1036,32 +1069,31 @@ export class OperatorClient {
   }
 
   methodInfoRemoveWebhook = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.RemoveWebhookReply,
-    (request: operator_pb.RemoveWebhookRequest) => {
+    RemoveWebhookReply,
+    (request: RemoveWebhookRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.RemoveWebhookReply.deserializeBinary
+    RemoveWebhookReply.deserializeBinary
   );
 
   removeWebhook(
-    request: operator_pb.RemoveWebhookRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.RemoveWebhookReply>;
+    request: RemoveWebhookRequest,
+    metadata: grpcWeb.Metadata | null): Promise<RemoveWebhookReply>;
 
   removeWebhook(
-    request: operator_pb.RemoveWebhookRequest,
+    request: RemoveWebhookRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.RemoveWebhookReply) => void): grpcWeb.ClientReadableStream<operator_pb.RemoveWebhookReply>;
+               response: RemoveWebhookReply) => void): grpcWeb.ClientReadableStream<RemoveWebhookReply>;
 
   removeWebhook(
-    request: operator_pb.RemoveWebhookRequest,
+    request: RemoveWebhookRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.RemoveWebhookReply) => void) {
+               response: RemoveWebhookReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/RemoveWebhook',
+        new URL('/Operator/RemoveWebhook', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoRemoveWebhook,
@@ -1076,32 +1108,31 @@ export class OperatorClient {
   }
 
   methodInfoListWebhooks = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListWebhooksReply,
-    (request: operator_pb.ListWebhooksRequest) => {
+    ListWebhooksReply,
+    (request: ListWebhooksRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListWebhooksReply.deserializeBinary
+    ListWebhooksReply.deserializeBinary
   );
 
   listWebhooks(
-    request: operator_pb.ListWebhooksRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListWebhooksReply>;
+    request: ListWebhooksRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListWebhooksReply>;
 
   listWebhooks(
-    request: operator_pb.ListWebhooksRequest,
+    request: ListWebhooksRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListWebhooksReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListWebhooksReply>;
+               response: ListWebhooksReply) => void): grpcWeb.ClientReadableStream<ListWebhooksReply>;
 
   listWebhooks(
-    request: operator_pb.ListWebhooksRequest,
+    request: ListWebhooksRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListWebhooksReply) => void) {
+               response: ListWebhooksReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListWebhooks',
+        new URL('/Operator/ListWebhooks', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListWebhooks,
@@ -1116,32 +1147,31 @@ export class OperatorClient {
   }
 
   methodInfoListDeposits = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListDepositsReply,
-    (request: operator_pb.ListDepositsRequest) => {
+    ListDepositsReply,
+    (request: ListDepositsRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListDepositsReply.deserializeBinary
+    ListDepositsReply.deserializeBinary
   );
 
   listDeposits(
-    request: operator_pb.ListDepositsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListDepositsReply>;
+    request: ListDepositsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListDepositsReply>;
 
   listDeposits(
-    request: operator_pb.ListDepositsRequest,
+    request: ListDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListDepositsReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListDepositsReply>;
+               response: ListDepositsReply) => void): grpcWeb.ClientReadableStream<ListDepositsReply>;
 
   listDeposits(
-    request: operator_pb.ListDepositsRequest,
+    request: ListDepositsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListDepositsReply) => void) {
+               response: ListDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListDeposits',
+        new URL('/Operator/ListDeposits', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListDeposits,
@@ -1156,32 +1186,31 @@ export class OperatorClient {
   }
 
   methodInfoListWithdrawals = new grpcWeb.AbstractClientBase.MethodInfo(
-    operator_pb.ListWithdrawalsReply,
-    (request: operator_pb.ListWithdrawalsRequest) => {
+    ListWithdrawalsReply,
+    (request: ListWithdrawalsRequest) => {
       return request.serializeBinary();
     },
-    operator_pb.ListWithdrawalsReply.deserializeBinary
+    ListWithdrawalsReply.deserializeBinary
   );
 
   listWithdrawals(
-    request: operator_pb.ListWithdrawalsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListWithdrawalsReply>;
+    request: ListWithdrawalsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<ListWithdrawalsReply>;
 
   listWithdrawals(
-    request: operator_pb.ListWithdrawalsRequest,
+    request: ListWithdrawalsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: operator_pb.ListWithdrawalsReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListWithdrawalsReply>;
+               response: ListWithdrawalsReply) => void): grpcWeb.ClientReadableStream<ListWithdrawalsReply>;
 
   listWithdrawals(
-    request: operator_pb.ListWithdrawalsRequest,
+    request: ListWithdrawalsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: operator_pb.ListWithdrawalsReply) => void) {
+               response: ListWithdrawalsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/ListWithdrawals',
+        new URL('/Operator/ListWithdrawals', this.hostname_).toString(),
         request,
         metadata || {},
         this.methodInfoListWithdrawals,

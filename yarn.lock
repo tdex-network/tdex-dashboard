@@ -6266,6 +6266,11 @@ grpc-tools@^1.11.2:
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.5"
 
+grpc-web@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-1.2.0.tgz#96402a1245ea834fedb1dd5a80f910476ddbbb1c"
+  integrity sha512-QS0RF+xiWnMEiHWyA0A0I8JYYJLOiF/DGEpRQ7vJDOzEZYfmNqI7d7d29sYBbNfTi+arVh2JpeGIX7ch24a+tA==
+
 gzip-size@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"

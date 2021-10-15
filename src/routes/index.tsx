@@ -5,9 +5,17 @@ import { Home } from '../features/home/Home';
 import { Market } from '../features/operator/Market';
 import { Markets } from '../features/operator/Markets';
 import { Settings } from '../features/settings/Settings';
-import { Connect } from '../features/walletUnlocker/Connect';
+import { SetPassword } from '../features/walletUnlocker/SetPassword';
+import { ShowSeed } from '../features/walletUnlocker/ShowSeed';
 
-import { HOME_ROUTE, MARKETS_ROUTE, CONNECT_ROUTE, SETTINGS_ROUTE, MARKET_ROUTE } from './constants';
+import {
+  HOME_ROUTE,
+  MARKETS_ROUTE,
+  SET_PASSWORD_ROUTE,
+  SETTINGS_ROUTE,
+  MARKET_ROUTE,
+  SHOW_SEED_ROUTE,
+} from './constants';
 
 export const Routes = (): JSX.Element => {
   return (
@@ -15,7 +23,8 @@ export const Routes = (): JSX.Element => {
       <Route exact path={HOME_ROUTE} component={Home} />
       <Route exact path={MARKET_ROUTE} component={Market} />
       <Route exact path={MARKETS_ROUTE} component={Markets} />
-      <Route exact path={CONNECT_ROUTE} component={Connect} />
+      <Route exact path={SET_PASSWORD_ROUTE} component={SetPassword} />
+      <Route exact path={SHOW_SEED_ROUTE} component={ShowSeed} />
       <Route exact path={SETTINGS_ROUTE} component={Settings} />
     </Switch>
   );

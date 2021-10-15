@@ -1,8 +1,11 @@
 import { ErrorMessage } from '@hookform/error-message';
 import classNames from 'classnames';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+
+import { SHOW_SEED_ROUTE } from '../../routes/constants';
 
 interface IFormInputs {
   password: string;
@@ -10,7 +13,17 @@ interface IFormInputs {
 }
 
 export const SetPassword = (): JSX.Element => {
+  return (
+    <>
+      <h2>Choose A Password</h2>
+      <PasswordForm />
+    </>
+  );
+};
+
+export const PasswordForm = (): JSX.Element => {
   const [hasMatchingError, setHasMatchingError] = useState<boolean>(false);
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -20,6 +33,7 @@ export const SetPassword = (): JSX.Element => {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     if (data.password === data.passwordConfirm) {
       setHasMatchingError(false);
+      history.push(SHOW_SEED_ROUTE, { password: data.password });
     } else {
       setHasMatchingError(true);
     }

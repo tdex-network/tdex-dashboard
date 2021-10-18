@@ -8,14 +8,18 @@ import { WalletUnlockerClient } from '../../api-spec/generated/js/Walletunlocker
 import type { RootState } from '../../app/store';
 
 export interface SettingsState {
+  chain: 'liquid' | 'regtest';
+  explorerLiquidAPI: string;
+  explorerLiquidUI: string;
   gateDaemonEndpoint: string;
   macaroonCredentials?: string; // macaroon credentials hex encoded
-  chain: 'liquid' | 'regtest';
 }
 
 export const initialState: SettingsState = {
-  gateDaemonEndpoint: 'http://localhost:9000',
   chain: 'regtest',
+  explorerLiquidAPI: 'https://blockstream.info/liquid/api',
+  explorerLiquidUI: 'https://blockstream.info/liquid',
+  gateDaemonEndpoint: 'http://localhost:9000',
 };
 
 export const settingsSlice = createSlice({

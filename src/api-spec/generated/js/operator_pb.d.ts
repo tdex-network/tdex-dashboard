@@ -1,6 +1,7 @@
-import * as jspb from "google-protobuf"
+import * as jspb from 'google-protobuf'
 
 import * as types_pb from './types_pb';
+
 
 export class GetInfoRequest extends jspb.Message {
   serializeBinary(): Uint8Array;

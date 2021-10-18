@@ -1,7 +1,7 @@
 import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
-import type { Error } from 'grpc-web';
+import type { RpcError } from 'grpc-web';
 
 import type {
   SendToManyReply,
@@ -37,7 +37,7 @@ const baseQueryFn: BaseQueryFn<
         return { data: await client.walletAddress(new WalletAddressRequest(), metadata) };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'walletBalance': {
@@ -45,7 +45,7 @@ const baseQueryFn: BaseQueryFn<
         return { data: await client.walletBalance(new WalletBalanceRequest(), metadata) };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'sendToMany': {
@@ -63,7 +63,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     default:

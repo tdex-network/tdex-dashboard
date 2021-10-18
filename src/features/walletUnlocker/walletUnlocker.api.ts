@@ -1,7 +1,7 @@
 import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
-import type { Error, ClientReadableStream } from 'grpc-web';
+import type { RpcError, ClientReadableStream } from 'grpc-web';
 
 import type {
   InitWalletReply,
@@ -39,7 +39,7 @@ const baseQueryFn: BaseQueryFn<
         return { data: genSeedReply.getSeedMnemonicList() };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'initWallet': {
@@ -60,7 +60,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'unlockWallet': {
@@ -77,7 +77,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'changePassword': {
@@ -94,7 +94,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'isReady': {
@@ -109,7 +109,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     default:

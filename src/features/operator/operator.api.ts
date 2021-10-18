@@ -1,7 +1,7 @@
 import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
-import type { Error } from 'grpc-web';
+import type { RpcError } from 'grpc-web';
 
 import type {
   GetInfoReply,
@@ -118,7 +118,7 @@ const baseQueryFn: BaseQueryFn<
         return { data: info.toObject(false) };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'getFeeAddress': {
@@ -130,7 +130,7 @@ const baseQueryFn: BaseQueryFn<
         return { data: feeAddressReply.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)) };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listFeeAddresses': {
@@ -143,7 +143,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'getFeeBalance': {
@@ -154,7 +154,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'claimFeeDeposits': {
@@ -172,7 +172,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'withdrawFee': {
@@ -195,7 +195,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'getMarketAddress': {
@@ -208,7 +208,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listMarketAddresses': {
@@ -224,7 +224,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'getMarketBalance': {
@@ -235,7 +235,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'claimMarketDeposits': {
@@ -264,7 +264,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'newMarket': {
@@ -279,7 +279,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'openMarket': {
@@ -294,7 +294,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'closeMarket': {
@@ -312,7 +312,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'dropMarket': {
@@ -327,7 +327,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'getMarketCollectedSwapFees': {
@@ -342,7 +342,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'withdrawMarket': {
@@ -376,7 +376,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'updateMarketPercentageFee': {
@@ -396,7 +396,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'updateMarketFixedFee': {
@@ -421,7 +421,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'updateMarketPrice': {
@@ -446,7 +446,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'updateMarketStrategy': {
@@ -473,7 +473,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listMarkets': {
@@ -484,7 +484,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'reloadUtxos': {
@@ -494,7 +494,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listUtxos': {
@@ -509,7 +509,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'addWebhook': {
@@ -524,7 +524,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'removeWebhook': {
@@ -536,7 +536,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listWebhooks': {
@@ -553,7 +553,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listDeposits': {
@@ -572,7 +572,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     case 'listWithdrawals': {
@@ -593,7 +593,7 @@ const baseQueryFn: BaseQueryFn<
         };
       } catch (error) {
         console.error(error);
-        return { error: (error as Error).message };
+        return { error: (error as RpcError).message };
       }
     }
     default:

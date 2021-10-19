@@ -4,6 +4,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import type { Market as MarketType } from '../../api-spec/generated/js/types_pb';
 import { MARKETS_ROUTE } from '../../routes/constants';
 
+import { ClaimMarketDepositsForm } from './ClaimMarketDepositsForm';
+import { MarketSettings } from './MarketSettings';
 import { UpdateMarketFixedFeeForm } from './UpdateMarketFixedFeeForm';
 import { UpdateMarketPercentageFeeForm } from './UpdateMarketPercentageFeeForm';
 import { UpdateMarketPriceForm } from './UpdateMarketPriceForm';
@@ -49,6 +51,56 @@ export const Market = (): JSX.Element => {
         <div className="card bordered mb-8">
           <div className="card-body">
             <div className="mb-4">
+              <div className="card-actions justify-end">
+                <>
+                  <label htmlFor="withdraw-market-modal" className="btn btn-accent modal-button">
+                    Withdraw
+                  </label>
+                  <input type="checkbox" id="withdraw-market-modal" className="modal-toggle" />
+                  <div className="modal">
+                    <div className="modal-box">
+                      <div className="modal-action">
+                        <label htmlFor="withdraw-market-modal" className="btn btn-accent">
+                          Close
+                        </label>
+                      </div>
+                      <WithdrawMarketForm market={marketInfo?.market} />
+                    </div>
+                  </div>
+                </>
+                <>
+                  <label htmlFor="deposit-market-modal" className="btn btn-accent modal-button">
+                    Deposit
+                  </label>
+                  <input type="checkbox" id="deposit-market-modal" className="modal-toggle" />
+                  <div className="modal">
+                    <div className="modal-box">
+                      <div className="modal-action">
+                        <label htmlFor="deposit-market-modal" className="btn btn-accent">
+                          Close
+                        </label>
+                      </div>
+                      <ClaimMarketDepositsForm market={marketInfo?.market} />
+                    </div>
+                  </div>
+                </>
+                <>
+                  <label htmlFor="settings-market-modal" className="btn btn-accent modal-button">
+                    Settings
+                  </label>
+                  <input type="checkbox" id="settings-market-modal" className="modal-toggle" />
+                  <div className="modal">
+                    <div className="modal-box">
+                      <div className="modal-action">
+                        <label htmlFor="settings-market-modal" className="btn btn-accent">
+                          Close
+                        </label>
+                      </div>
+                      <MarketSettings market={marketInfo?.market} />
+                    </div>
+                  </div>
+                </>
+              </div>
               <p>
                 <span className="font-bold">Market Base Asset: </span>
                 {marketInfo?.market?.baseAsset}
@@ -172,22 +224,6 @@ export const Market = (): JSX.Element => {
                   </div>
                 </div>
               </>
-              <>
-                <label htmlFor="withdraw-market-modal" className="btn btn-accent modal-button">
-                  Withdraw Market
-                </label>
-                <input type="checkbox" id="withdraw-market-modal" className="modal-toggle" />
-                <div className="modal">
-                  <div className="modal-box">
-                    <div className="modal-action">
-                      <label htmlFor="withdraw-market-modal" className="btn btn-accent">
-                        Close
-                      </label>
-                    </div>
-                    <WithdrawMarketForm market={marketInfo?.market} />
-                  </div>
-                </div>
-              </>
             </div>
           </div>
         </div>
@@ -201,5 +237,3 @@ export const Market = (): JSX.Element => {
     </>
   );
 };
-
-// | 'getMarketCollectedSwapFees'

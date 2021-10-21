@@ -1,7 +1,6 @@
-import { ErrorMessage } from '@hookform/error-message';
+import { Button, Form, Input, notification, Modal } from 'antd';
 import classNames from 'classnames';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
 import { useNewMarketMutation } from '../operator.api';
 
@@ -11,47 +10,70 @@ interface IFormInputs {
 }
 
 export const NewMarketForm = (): JSX.Element => {
-  const [newMarket, { error: newMarketError }] = useNewMarketMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+  const [form] = Form.useForm<IFormInputs>();
+  const [newMarket, { error: newMarketError, isLoading: newMarketIsLoading }] = useNewMarketMutation();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    newMarket({ baseAsset: data.baseAsset, quoteAsset: data.quoteAsset });
-    document.getElementById('add-market-modal')?.click();
+  const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
+  const showAddMarketModal = () => {
+    setIsAddMarketModalVisible(true);
+  };
+  const handleAddMarketModalOk = async () => {
+    try {
+      const values = await form.validateFields();
+      const res = await newMarket({ baseAsset: values.baseAsset, quoteAsset: values.quoteAsset });
+      form.resetFields();
+      // @ts-ignore
+      if (res?.error) {
+        // @ts-ignore
+        throw new Error(res?.error);
+      } else {
+        notification.success({ message: 'New market created successfully' });
+        setIsAddMarketModalVisible(false);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
+  };
+
+  const handleAddMarketModalCancel = () => {
+    setIsAddMarketModalVisible(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Base Asset</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', { 'mb-7': !errors.baseAsset?.message })}
-          {...register('baseAsset', { required: 'Base asset is required' })}
-        />
-        <ErrorMessage errors={errors} name="baseAsset" as={<span className="text-sm mt-1 text-error" />} />
-
-        <label className="label">
-          <span className="label-text">Quote Asset</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', {
-            'mb-7': !errors.quoteAsset?.message && !newMarketError,
-          })}
-          {...register('quoteAsset', {
-            required: 'Quote asset is required',
-          })}
-        />
-        <ErrorMessage errors={errors} name="quoteAsset" as={<span className="text-sm mt-1 text-error" />} />
-        {newMarketError && <span className="text-sm text-error">{newMarketError}</span>}
-      </div>
-      <button className="btn btn-secondary mt-4">New Market</button>
-    </form>
+    <>
+      <Button onClick={showAddMarketModal}>Add Market</Button>
+      <Modal
+        title="Add Market"
+        visible={isAddMarketModalVisible}
+        onOk={handleAddMarketModalOk}
+        onCancel={handleAddMarketModalCancel}
+        confirmLoading={newMarketIsLoading}
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          name="new_market_form"
+          wrapperCol={{ span: 24 }}
+          validateTrigger="onBlur"
+        >
+          <Form.Item
+            label="Base Asset"
+            name="baseAsset"
+            className={classNames({ 'has-error': newMarketError })}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Quote Asset"
+            name="quoteAsset"
+            className={classNames({ 'has-error': newMarketError })}
+          >
+            <Input />
+          </Form.Item>
+          {newMarketError && <p className="error">{newMarketError}</p>}
+        </Form>
+      </Modal>
+    </>
   );
 };

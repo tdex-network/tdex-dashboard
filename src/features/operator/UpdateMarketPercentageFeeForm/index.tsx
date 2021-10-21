@@ -1,7 +1,6 @@
-import { ErrorMessage } from '@hookform/error-message';
+import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
 import type { Market } from '../../../api-spec/generated/js/types_pb';
 import { useUpdateMarketPercentageFeeMutation } from '../operator.api';
@@ -17,37 +16,68 @@ interface UpdateMarketPercentageFeeFormProps {
 export const UpdateMarketPercentageFeeForm = ({
   market,
 }: UpdateMarketPercentageFeeFormProps): JSX.Element => {
-  const [updateMarketPercentageFee, { error: updateMarketPercentageFeeError }] =
-    useUpdateMarketPercentageFeeMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+  const [form] = Form.useForm<IFormInputs>();
+  const [
+    updateMarketPercentageFee,
+    { error: updateMarketPercentageFeeError, isLoading: updateMarketPercentageFeeIsLoading },
+  ] = useUpdateMarketPercentageFeeMutation();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    if (!market) return;
-    updateMarketPercentageFee({ basisPoint: data.basisPoint, market: market });
-    document.getElementById('update-market-percentage-fee-modal')?.click();
+  const [isUpdateMarketPercentageFeeModalVisible, setIsUpdateMarketPercentageFeeModalVisible] =
+    useState(false);
+  const showUpdateMarketPercentageFeeModal = () => {
+    setIsUpdateMarketPercentageFeeModalVisible(true);
+  };
+  const handleUpdateMarketPercentageFeeModalOk = async () => {
+    try {
+      if (!market) return;
+      const values = await form.validateFields();
+      const res = await updateMarketPercentageFee({ basisPoint: values.basisPoint, market: market });
+      form.resetFields();
+      // @ts-ignore
+      if (res?.error) {
+        // @ts-ignore
+        throw new Error(res?.error);
+      } else {
+        notification.success({ message: 'Market percentage fee updated successfully' });
+        setIsUpdateMarketPercentageFeeModalVisible(false);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
+  };
+
+  const handleUpdateMarketPercentageFeeModalCancel = () => {
+    setIsUpdateMarketPercentageFeeModalVisible(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Basis Point</span>
-        </label>
-        <input
-          type="number"
-          className={classNames('input input-bordered', { 'mb-7': !errors.basisPoint?.message })}
-          {...register('basisPoint', { required: 'Basis point is required' })}
-        />
-        <ErrorMessage errors={errors} name="basisPoint" as={<span className="text-sm mt-1 text-error" />} />
-        {updateMarketPercentageFeeError && (
-          <span className="text-sm text-error">{updateMarketPercentageFeeError}</span>
-        )}
-      </div>
-      <button className="btn btn-secondary mt-4">Update Market Percentage Fee</button>
-    </form>
+    <>
+      <Button onClick={showUpdateMarketPercentageFeeModal}>Update Market Percentage Fee</Button>
+      <Modal
+        title="Update Market Percentage Fee"
+        visible={isUpdateMarketPercentageFeeModalVisible}
+        onOk={handleUpdateMarketPercentageFeeModalOk}
+        onCancel={handleUpdateMarketPercentageFeeModalCancel}
+        confirmLoading={updateMarketPercentageFeeIsLoading}
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          name="update_market_percentage_fee_form"
+          wrapperCol={{ span: 24 }}
+          validateTrigger="onBlur"
+        >
+          <Form.Item
+            label="Basis Point"
+            name="basisPoint"
+            className={classNames({ 'has-error': updateMarketPercentageFeeError })}
+          >
+            <Input type="number" />
+          </Form.Item>
+          {updateMarketPercentageFeeError && <p className="error">{updateMarketPercentageFeeError}</p>}
+        </Form>
+      </Modal>
+    </>
   );
 };

@@ -1,7 +1,6 @@
-import { ErrorMessage } from '@hookform/error-message';
+import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
 import type { Balance, Market } from '../../../api-spec/generated/js/types_pb';
 import { useWithdrawMarketMutation } from '../operator.api';
@@ -18,65 +17,85 @@ interface WithdrawMarketFormProps {
 }
 
 export const WithdrawMarketForm = ({ market }: WithdrawMarketFormProps): JSX.Element => {
-  const [withdrawMarket, { error: withdrawMarketError }] = useWithdrawMarketMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+  const [form] = Form.useForm<IFormInputs>();
+  const [withdrawMarket, { error: withdrawMarketError, isLoading: withdrawMarketIsLoading }] =
+    useWithdrawMarketMutation();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    if (!market) return;
-    withdrawMarket({
-      market: market,
-      balance: { baseAmount: data.balance.baseAmount, quoteAmount: data.balance.quoteAmount },
-      address: data.address,
-      millisatPerByte: data.millisatPerByte,
-    });
-    document.getElementById('withdraw-market-modal')?.click();
+  const [isWithdrawMarketModalVisible, setIsWithdrawMarketModalVisible] = useState(false);
+  const showWithdrawMarketModal = () => {
+    setIsWithdrawMarketModalVisible(true);
+  };
+  const handleWithdrawMarketModalOk = async () => {
+    try {
+      if (!market) return;
+      const values = await form.validateFields();
+      const res = await withdrawMarket({
+        market: market,
+        balance: { baseAmount: values.balance.baseAmount, quoteAmount: values.balance.quoteAmount },
+        address: values.address,
+        millisatPerByte: values.millisatPerByte,
+      });
+      form.resetFields();
+      // @ts-ignore
+      if (res?.error) {
+        // @ts-ignore
+        throw new Error(res?.error);
+      } else {
+        notification.success({ message: 'Market withdrawal successful' });
+        setIsWithdrawMarketModalVisible(false);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
+  };
+
+  const handleWithdrawMarketModalCancel = () => {
+    setIsWithdrawMarketModalVisible(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Balance</span>
-        </label>
-        <input
-          type="number"
-          className={classNames('input input-bordered', { 'mb-7': !errors.balance?.baseAmount?.message })}
-          {...register('balance', { required: 'Balance is required' })}
-        />
-        <ErrorMessage errors={errors} name="amount" as={<span className="text-sm mt-1 text-error" />} />
+    <>
+      <Button onClick={showWithdrawMarketModal}>Withdraw</Button>
+      <Modal
+        title="Withdraw Market"
+        visible={isWithdrawMarketModalVisible}
+        onOk={handleWithdrawMarketModalOk}
+        onCancel={handleWithdrawMarketModalCancel}
+        confirmLoading={withdrawMarketIsLoading}
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          name="withdraw_market_form"
+          wrapperCol={{ span: 24 }}
+          validateTrigger="onBlur"
+        >
+          <Form.Item
+            label="Balance"
+            name="balance"
+            className={classNames({ 'has-error': withdrawMarketError })}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Address"
+            name="address"
+            className={classNames({ 'has-error': withdrawMarketError })}
+          >
+            <Input />
+          </Form.Item>
 
-        <label className="label">
-          <span className="label-text">Address</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', { 'mb-7': !errors.address?.message })}
-          {...register('address', { required: 'Address is required' })}
-        />
-        <ErrorMessage errors={errors} name="address" as={<span className="text-sm mt-1 text-error" />} />
-
-        <label className="label">
-          <span className="label-text">Millisats Per Byte</span>
-        </label>
-        <input
-          type="number"
-          className={classNames('input input-bordered', {
-            'mb-7': !errors.millisatPerByte?.message && !withdrawMarketError,
-          })}
-          {...register('millisatPerByte', { required: 'millisatPerByte is required' })}
-        />
-        <ErrorMessage
-          errors={errors}
-          name="millisatPerByte"
-          as={<span className="text-sm mt-1 text-error" />}
-        />
-        {withdrawMarketError && <span className="text-sm text-error">{withdrawMarketError}</span>}
-      </div>
-      <button className="btn btn-secondary mt-4">Withdraw Market</button>
-    </form>
+          <Form.Item
+            label="Millisats Per Byte"
+            name="millisatPerByte"
+            className={classNames({ 'has-error': withdrawMarketError })}
+          >
+            <Input type="number" />
+          </Form.Item>
+          {withdrawMarketError && <p className="error">{withdrawMarketError}</p>}
+        </Form>
+      </Modal>
+    </>
   );
 };

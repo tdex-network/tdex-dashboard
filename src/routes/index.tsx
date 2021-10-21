@@ -6,7 +6,7 @@ import { Market } from '../features/operator/Market';
 import { Markets } from '../features/operator/Markets';
 import { Settings } from '../features/settings/Settings';
 import { SetPassword } from '../features/walletUnlocker/SetPassword';
-import { ShowSeed } from '../features/walletUnlocker/ShowSeed';
+import { ShowMnemonic } from '../features/walletUnlocker/ShowMnemonic';
 
 import {
   HOME_ROUTE,
@@ -24,7 +24,7 @@ export const Routes = (): JSX.Element => {
       <Route exact path={MARKET_ROUTE} component={Market} />
       <Route exact path={MARKETS_ROUTE} component={Markets} />
       <Route exact path={SET_PASSWORD_ROUTE} component={SetPassword} />
-      <Route exact path={SHOW_SEED_ROUTE} component={ShowSeed} />
+      <Route exact path={SHOW_SEED_ROUTE} component={ShowMnemonic} />
       <Route exact path={SETTINGS_ROUTE} component={Settings} />
     </Switch>
   );

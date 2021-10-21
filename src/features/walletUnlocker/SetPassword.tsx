@@ -1,8 +1,7 @@
-import { ErrorMessage } from '@hookform/error-message';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Button, Form, Input, notification } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
 import { SHOW_SEED_ROUTE } from '../../routes/constants';
@@ -22,62 +21,73 @@ export const SetPassword = (): JSX.Element => {
 };
 
 export const PasswordForm = (): JSX.Element => {
+  const [form] = Form.useForm<IFormInputs>();
   const [hasMatchingError, setHasMatchingError] = useState<boolean>(false);
   const history = useHistory();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    if (data.password === data.passwordConfirm) {
-      setHasMatchingError(false);
-      history.push(SHOW_SEED_ROUTE, { password: data.password });
-    } else {
-      setHasMatchingError(true);
+  const onFinish = async () => {
+    try {
+      const values = await form.validateFields();
+      if (values.password === values.passwordConfirm) {
+        setHasMatchingError(false);
+        history.push(SHOW_SEED_ROUTE, { password: values.password });
+      } else {
+        notification.error({ message: "Passwords don't match" });
+        setHasMatchingError(true);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Password</span>
-        </label>
-        <input
-          type="password"
-          placeholder="password"
-          className={classNames('input input-bordered', { 'mb-7': !errors.password?.message })}
-          {...register('password', {
-            required: 'Password is required',
-            minLength: { value: 8, message: 'Should have minimum length of 8 chars' },
-          })}
-        />
-        <ErrorMessage errors={errors} name="password" as={<span className="text-sm mt-1 text-error" />} />
-
-        <label className="label">
-          <span className="label-text">Confirm Password</span>
-        </label>
-        <input
-          type="password"
-          placeholder="password"
-          className={classNames('input input-bordered', {
-            'mb-7': !errors.passwordConfirm?.message && !hasMatchingError,
-          })}
-          {...register('passwordConfirm', {
-            required: 'Password is required',
-            minLength: { value: 8, message: 'Should have minimum length of 8 chars' },
-          })}
-        />
-        <ErrorMessage
-          errors={errors}
-          name="passwordConfirm"
-          as={<span className="text-sm mt-1 text-error" />}
-        />
-        {hasMatchingError && <span className="text-sm text-error">Passwords don't match</span>}
-      </div>
-      <button className="btn btn-secondary mt-4">Set Password</button>
-    </form>
+    <Form
+      onFinish={onFinish}
+      layout="vertical"
+      form={form}
+      name="set_password_form"
+      wrapperCol={{ span: 16 }}
+      validateTrigger="onBlur"
+    >
+      <Form.Item
+        label="Password"
+        name="password"
+        className={classNames({ 'has-error': hasMatchingError })}
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password',
+          },
+          {
+            min: 8,
+            message: 'Password must be min 8 characters',
+          },
+        ]}
+      >
+        <Input.Password iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+      </Form.Item>
+      <Form.Item
+        label="Confirm Password"
+        name="passwordConfirm"
+        className={classNames({ 'has-error': hasMatchingError })}
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password',
+          },
+          {
+            min: 8,
+            message: 'Password must be min 8 characters',
+          },
+        ]}
+      >
+        <Input.Password iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+      </Form.Item>
+      {hasMatchingError && <p className="error">{hasMatchingError}</p>}
+      <Form.Item>
+        <Button htmlType="submit">Set Password</Button>
+      </Form.Item>
+    </Form>
   );
 };

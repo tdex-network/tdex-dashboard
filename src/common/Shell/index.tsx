@@ -1,20 +1,28 @@
+import { Col, Row, Layout } from 'antd';
 import React from 'react';
 
 import { Footer } from '../Footer';
-import { Navbar } from '../Navbar';
+import { Header } from '../Header';
 
 interface Props {
   children: React.ReactNode;
-  className?: string;
 }
 
-export const Shell = ({ children, className = '' }: Props): JSX.Element => {
+const { Content } = Layout;
+
+export const Shell = ({ children }: Props): JSX.Element => {
   return (
-    <div id="shell" className="grid grid-rows-pancakeStack h-screen">
-      <Navbar />
-      <main className={`container mx-auto ${className}`}>{children}</main>
+    <Layout id="shell">
+      <Header />
+      <Content>
+        <Row>
+          <Col span={22} offset={1}>
+            {children}
+          </Col>
+        </Row>
+      </Content>
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

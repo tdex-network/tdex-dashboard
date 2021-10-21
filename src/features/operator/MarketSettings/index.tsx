@@ -1,35 +1,84 @@
+import { Button, Form, Modal, Row, Col, Slider, Typography } from 'antd';
+import React, { useState } from 'react';
+
 import type { Market } from '../../../api-spec/generated/js/types_pb';
-import { UpdateMarketFixedFeeForm } from '../UpdateMarketFixedFeeForm';
-import { UpdateMarketPercentageFeeForm } from '../UpdateMarketPercentageFeeForm';
+import type { UpdateMarketStrategyFormInputs } from '../UpdateMarketStrategyForm';
+import { UpdateMarketStrategyForm } from '../UpdateMarketStrategyForm';
 
 interface MarketSettingsProps {
   market?: Market.AsObject;
 }
 
+interface StandardFeeFormInputs {
+  basisPoint: number;
+}
+
+const { Title } = Typography;
+
 export const MarketSettings = ({ market }: MarketSettingsProps): JSX.Element => {
   console.log('market', market);
+  const [standardFeeForm] = Form.useForm<StandardFeeFormInputs>();
+  const [marketStrategyForm] = Form.useForm<UpdateMarketStrategyFormInputs>();
+
+  const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
+
+  const showMarketSettingsModal = () => {
+    setIsMarketSettingsModalVisible(true);
+  };
+
+  const handleMarketSettingsModalCancel = () => {
+    setIsMarketSettingsModalVisible(false);
+  };
+
   return (
     <>
-      <h2>Fees</h2>
-      <div className="divide-y">
-        <div>
-          <div className="flex">
-            <h3 className="flex-1">Set Standard Fee</h3>
-            <div className="flex-1 flex justify-end">
-              <button className="btn btn-sm	btn-accent mr-4">FIXED</button>
-              <button className="btn btn-sm	btn-accent px-6">%</button>
-            </div>
-          </div>
-          <UpdateMarketFixedFeeForm />
-        </div>
+      <Button onClick={showMarketSettingsModal}>Settings</Button>
+      <Modal
+        title="Market Settings"
+        visible={isMarketSettingsModalVisible}
+        onCancel={handleMarketSettingsModalCancel}
+        closable={false}
+        footer={<></>}
+      >
+        <Form
+          layout="vertical"
+          form={standardFeeForm}
+          name="market_settings_form"
+          wrapperCol={{ span: 24 }}
+          validateTrigger="onBlur"
+        >
+          <Row>
+            <Col>SET STANDARD FEE</Col>
+            <Col>
+              <Button>FIXED</Button>
+              <Button>%</Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item name="slider" label="Slider">
+                <Slider
+                  marks={{
+                    0: '0',
+                    20: '0.1',
+                    40: '0.2',
+                    60: '0.3',
+                    80: '0.4',
+                    100: '0.5',
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
-        <div>
-          <h3>Set Variable Fee</h3>
-          <UpdateMarketPercentageFeeForm />
-        </div>
-        <h2>Strategy</h2>
-        <h2>Notifications</h2>
-      </div>
+          <Title level={2}>Pluggable Strategy</Title>
+          <Row>
+            <Col>
+              <UpdateMarketStrategyForm form={marketStrategyForm} />
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </>
   );
 };

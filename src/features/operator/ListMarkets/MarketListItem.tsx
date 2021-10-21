@@ -1,3 +1,4 @@
+import { Button, Col, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
@@ -8,6 +9,7 @@ import { useGetAssetsDataQuery } from '../../liquid.api';
 interface MarketListItemProps {
   marketInfo: MarketInfo.AsObject;
 }
+
 export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element => {
   const { data: assetsData, error: getAssetsDataError } = useGetAssetsDataQuery({
     baseAsset: marketInfo.market?.baseAsset || '',
@@ -21,20 +23,23 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
   };
 
   const { market, tradable } = marketInfo;
-  const baseAssetTicker = getAssetsDataError ? market?.baseAsset : assetsData?.baseAsset.ticker || 'Unknown';
+  const baseAssetTicker = getAssetsDataError
+    ? market?.baseAsset.substring(0, 10)
+    : assetsData?.baseAsset.ticker || 'Unknown';
   const quoteAssetTicker = getAssetsDataError
-    ? market?.quoteAsset
+    ? market?.quoteAsset.substring(0, 10)
     : assetsData?.quoteAsset.ticker || 'Unknown';
 
   return (
-    <button
-      className="btn btn-ghost group hover:bg-opacity-10  p-0 rounded-2xl mb-4 w-full"
-      onClick={() => handleClickMarketDetails(market)}
-    >
-      <div className="border rounded-2xl w-full h-full flex items-center">
-        <div className="justify-start	flex flex-1 ml-4">{`${baseAssetTicker} / ${quoteAssetTicker}`}</div>
-        <div className="flex-1">{tradable ? 'Open' : 'Closed'}</div>
-      </div>
-    </button>
+    <Button className="w-100 mb-8" onClick={() => handleClickMarketDetails(market)}>
+      <Row>
+        <Col span={16}>
+          <span className="">{`${baseAssetTicker} / ${quoteAssetTicker}`}</span>
+        </Col>
+        <Col span={8}>
+          <span className="">{tradable ? 'Open' : 'Closed'}</span>
+        </Col>
+      </Row>
+    </Button>
   );
 };

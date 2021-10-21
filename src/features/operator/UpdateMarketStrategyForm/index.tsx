@@ -1,65 +1,107 @@
-import { ErrorMessage } from '@hookform/error-message';
+import type { SerializedError } from '@reduxjs/toolkit';
+import type { FormInstance } from 'antd';
+import { Button, Form, Select, Modal, notification } from 'antd';
 import classNames from 'classnames';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
+import { StrategyType } from '../../../api-spec/generated/js/operator_pb';
 import type { Market } from '../../../api-spec/generated/js/types_pb';
 import { useUpdateMarketStrategyMutation } from '../operator.api';
 
-interface IFormInputs {
-  market: Market.AsObject;
+const { Option } = Select;
+
+export interface UpdateMarketStrategyFormInputs {
   strategyType: any;
-  meta: string;
 }
 
-interface UpdateMarketStrategyFormProps {
+interface UpdateMarketStrategyProps {
   market?: Market.AsObject;
 }
 
-export const UpdateMarketStrategyForm = ({ market }: UpdateMarketStrategyFormProps): JSX.Element => {
-  const [updateMarketStrategy, { error: updateMarketStrategyError }] = useUpdateMarketStrategyMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+interface UpdateMarketStrategyFormProps {
+  form: FormInstance<UpdateMarketStrategyFormInputs>;
+  updateMarketStrategyError?: string | SerializedError;
+}
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    if (!market) return;
-    updateMarketStrategy({
-      market: market,
-      strategyType: data.strategyType,
-      meta: data.meta,
-    });
-    document.getElementById('update-market-strategy-modal')?.click();
+export const UpdateMarketStrategyForm = ({
+  form,
+  updateMarketStrategyError,
+}: UpdateMarketStrategyFormProps): JSX.Element => {
+  const handleStrategyChange = (value: StrategyType) => {
+    console.log('value', value);
+    form.setFieldsValue({ strategyType: value });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Market Strategy</span>
-        </label>
-        <input
-          type="string"
-          className={classNames('input input-bordered', { 'mb-7': !errors.strategyType?.message })}
-          {...register('strategyType', { required: 'Market strategy type is required' })}
-        />
-        <ErrorMessage errors={errors} name="strategyType" as={<span className="text-sm mt-1 text-error" />} />
+    <Form
+      layout="vertical"
+      form={form}
+      name="update_market_strategy_form"
+      wrapperCol={{ span: 24 }}
+      validateTrigger="onBlur"
+    >
+      <Form.Item
+        label="Market Strategy"
+        name="strategyType"
+        className={classNames({ 'has-error': updateMarketStrategyError })}
+      >
+        <Select defaultValue={StrategyType.PLUGGABLE} style={{ width: 120 }} onChange={handleStrategyChange}>
+          <Option value={StrategyType.PLUGGABLE}>Pluggable</Option>
+          <Option value={StrategyType.BALANCED}>Balanced</Option>
+          <Option value={StrategyType.UNBALANCED}>Unbalanced</Option>
+        </Select>
+      </Form.Item>
+      {updateMarketStrategyError && <p className="error">{updateMarketStrategyError}</p>}
+    </Form>
+  );
+};
 
-        <label className="label">
-          <span className="label-text">Metadata</span>
-        </label>
-        <input
-          type="string"
-          className={classNames('input input-bordered', { 'mb-7': !errors.meta?.message })}
-          {...register('meta')}
-        />
-        <ErrorMessage errors={errors} name="meta" as={<span className="text-sm mt-1 text-error" />} />
+export const UpdateMarketStrategy = ({ market }: UpdateMarketStrategyProps): JSX.Element => {
+  const [form] = Form.useForm<UpdateMarketStrategyFormInputs>();
+  const [
+    updateMarketStrategy,
+    { error: updateMarketStrategyError, isLoading: updateMarketStrategyIsLoading },
+  ] = useUpdateMarketStrategyMutation();
+  const [isUpdateMarketStrategyModalVisible, setIsUpdateMarketStrategyModalVisible] = useState(false);
+  const showUpdateMarketStrategyModal = () => {
+    setIsUpdateMarketStrategyModalVisible(true);
+  };
+  const handleUpdateMarketStrategyModalOk = async () => {
+    try {
+      if (!market) return;
+      const values = await form.validateFields();
+      const res = await updateMarketStrategy({ market, strategyType: values.strategyType, meta: '' });
+      form.resetFields();
+      // @ts-ignore
+      if (res?.error) {
+        // @ts-ignore
+        throw new Error(res?.error);
+      } else {
+        notification.success({ message: 'Market strategy updated successfully' });
+        setIsUpdateMarketStrategyModalVisible(false);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
+  };
 
-        {updateMarketStrategyError && <span className="text-sm text-error">{updateMarketStrategyError}</span>}
-      </div>
-      <button className="btn btn-secondary mt-4">Update Market Strategy</button>
-    </form>
+  const handleUpdateMarketStrategyModalCancel = () => {
+    setIsUpdateMarketStrategyModalVisible(false);
+  };
+
+  return (
+    <>
+      <Button onClick={showUpdateMarketStrategyModal}>Update Market Strategy</Button>
+      <Modal
+        title="Update Market Strategy"
+        visible={isUpdateMarketStrategyModalVisible}
+        onOk={handleUpdateMarketStrategyModalOk}
+        onCancel={handleUpdateMarketStrategyModalCancel}
+        confirmLoading={updateMarketStrategyIsLoading}
+      >
+        <UpdateMarketStrategyForm form={form} updateMarketStrategyError={updateMarketStrategyError} />
+      </Modal>
+    </>
   );
 };

@@ -1,3 +1,4 @@
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, notification, Modal } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -21,12 +22,12 @@ export const NewMarketForm = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       const res = await newMarket({ baseAsset: values.baseAsset, quoteAsset: values.quoteAsset });
-      form.resetFields();
       // @ts-ignore
       if (res?.error) {
         // @ts-ignore
         throw new Error(res?.error);
       } else {
+        form.resetFields();
         notification.success({ message: 'New market created successfully' });
         setIsAddMarketModalVisible(false);
       }
@@ -42,7 +43,9 @@ export const NewMarketForm = (): JSX.Element => {
 
   return (
     <>
-      <Button onClick={showAddMarketModal}>Add Market</Button>
+      <Button icon={<PlusCircleOutlined />} onClick={showAddMarketModal}>
+        CREATE NEW MARKET
+      </Button>
       <Modal
         title="Add Market"
         visible={isAddMarketModalVisible}

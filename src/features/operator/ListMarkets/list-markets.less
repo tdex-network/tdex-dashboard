@@ -1,0 +1,39 @@
+#list-markets {
+  .market-list-item {
+    background: #333333;
+    height: 64px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    .ant-col {
+      display: flex;
+      align-items: center;
+    }
+    &:hover {
+      background: #666666;
+    }
+
+    .icons {
+      .base-icon {
+        width: 30px;
+      }
+      .quote-icon {
+        width: 30px;
+        transform: translateX(-12px);
+      }
+    }
+    .tickers {
+      color: #FFFFFF;
+    }
+    .status {
+      color: #0fff00;
+      img.checkmark {
+        width: 16px;
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

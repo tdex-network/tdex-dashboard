@@ -1,5 +1,5 @@
 // -------- Colors -----------
-@primary-color: #0FFF00;
+@primary-color: #0fff00;
 @info-color: #1890ff;
 @success-color: #52c41a;
 @processing-color: #1890ff;
@@ -9,7 +9,7 @@
 @white: #fff;
 @black: #000;
 
-@body-background: @black;
+@body-background: linear-gradient(to top, #000, #313131);
 @component-background: #141414;
 @popover-background: @component-background;
 @icon-color-hover: fade(@white, 75%);
@@ -20,7 +20,8 @@
 @border-color-split: @popover-background;
 @border-style-base: solid;
 @layout-body-background: @body-background;
-@layout-header-background: @component-background;
+@layout-header-background: transparent;
+@layout-footer-background: transparent;
 @layout-sider-background: @component-background;
 @layout-trigger-background: @component-background;
 @font-family: 'DMSans', 'DMMono';
@@ -35,13 +36,13 @@
 @shadow-1-up: 0 -6px 16px -8px rgba(0, 0, 0, 0.24), 0 -9px 28px 0 rgba(0, 0, 0, 0.15),
   0 -12px 48px 16px rgba(0, 0, 0, 0.09);
 @shadow-1-down: 0 6px 16px -8px rgba(0, 0, 0, 0.24), 0 9px 28px 0 rgba(0, 0, 0, 0.15),
-0 12px 48px 16px rgba(0, 0, 0, 0.09);
+  0 12px 48px 16px rgba(0, 0, 0, 0.09);
 @shadow-1-left: -6px 0 16px -8px rgba(0, 0, 0, 0.08), -9px 0 28px 0 rgba(0, 0, 0, 0.05),
--12px 0 48px 16px rgba(0, 0, 0, 0.03);
+  -12px 0 48px 16px rgba(0, 0, 0, 0.03);
 @shadow-1-right: 6px 0 16px -8px rgba(0, 0, 0, 0.24), 9px 0 28px 0 rgba(0, 0, 0, 0.15),
-12px 0 48px 16px rgba(0, 0, 0, 0.09);
+  12px 0 48px 16px rgba(0, 0, 0, 0.09);
 @shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.36), 0 6px 16px 0 rgba(0, 0, 0, 0.24),
-0 9px 28px 8px rgba(0, 0, 0, 0.15);
+  0 9px 28px 8px rgba(0, 0, 0, 0.15);
 
 // Buttons
 @btn-font-weight: 700;
@@ -70,7 +71,7 @@
 @badge-text-color: @white;
 @card-actions-background: fade(@white, 4%);
 @card-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.48), 0 3px 6px 0 rgba(0, 0, 0, 0.36),
-0 5px 12px 4px rgba(0, 0, 0, 0.27);
+  0 5px 12px 4px rgba(0, 0, 0, 0.27);
 @avatar-bg: #5a5a5a;
 @pagination-item-bg-active: transparent;
 @slider-rail-background-color: fade(@white, 20%);

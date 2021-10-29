@@ -1,3 +1,4 @@
+import './shell.less';
 import { Col, Row, Layout } from 'antd';
 import React from 'react';
 

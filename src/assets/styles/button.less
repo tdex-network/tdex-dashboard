@@ -1,0 +1,29 @@
+button.ant-btn, a.ant-btn {
+  font-family: 'DMSans', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  &.ant-btn-icon-only {
+    background: transparent;
+    &:hover {
+      color: #27cb1f;
+      background: transparent;
+    }
+  }
+  .anticon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+  &.rotate-icon > .anticon {
+    rotate: 180deg;
+  }
+  &:hover {
+    color: @primary-color;
+    background: #3a5237;
+  }
+  &:focus {
+    color: @primary-color;
+    background: @btn-default-bg;
+  }
+}

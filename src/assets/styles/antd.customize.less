@@ -1,6 +1,6 @@
 // -------- Colors -----------
-@primary-color: #1890ff;
-@info-color: @primary-color;
+@primary-color: #0FFF00;
+@info-color: #1890ff;
 @success-color: #52c41a;
 @processing-color: #1890ff;
 @error-color: #f5222d;
@@ -23,8 +23,7 @@
 @layout-header-background: @component-background;
 @layout-sider-background: @component-background;
 @layout-trigger-background: @component-background;
-@font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica,
-'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
+@font-family: 'DMSans', 'DMMono';
 @font-feature-settings-base: tnum;
 @disabled-color: fade(@white, 30%);
 @disabled-color-dark: fade(@white, 30%);
@@ -43,7 +42,18 @@
 12px 0 48px 16px rgba(0, 0, 0, 0.09);
 @shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.36), 0 6px 16px 0 rgba(0, 0, 0, 0.24),
 0 9px 28px 8px rgba(0, 0, 0, 0.15);
-@btn-default-bg: transparent;
+
+// Buttons
+@btn-font-weight: 700;
+@btn-border-radius-base: 8px;
+@btn-border-width: 0;
+@btn-default-color: @primary-color;
+@btn-default-bg: #264523;
+@btn-primary-color: @primary-color;
+@btn-primary-bg: @btn-default-bg;
+
+@iconfont-css-prefix: 14px;
+
 @input-placeholder-color: fade(@white, 30%);
 @input-bg: transparent;
 @input-number-handler-active-bg: @popover-background;

@@ -3,7 +3,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import type { Market as MarketType } from '../../api-spec/generated/js/types_pb';
-import { MARKETS_ROUTE } from '../../routes/constants';
+import { HOME_ROUTE } from '../../routes/constants';
 
 import { MarketSettings } from './MarketSettings';
 import { WithdrawMarketForm } from './WithdrawMarketForm';
@@ -40,7 +40,7 @@ export const Market = (): JSX.Element => {
   const handleClickDropMarket = (market?: MarketType.AsObject) => {
     if (!market) return;
     dropMarket({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
-    history.push(MARKETS_ROUTE);
+    history.push(HOME_ROUTE);
   };
 
   return (

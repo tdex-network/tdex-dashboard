@@ -30,6 +30,7 @@ import type {
   WebhookInfo,
   UtxoInfo,
   Withdrawal,
+  FragmentFeeDepositsReply,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -62,6 +63,8 @@ import {
   ListWithdrawalsRequest,
   UpdateMarketPercentageFeeRequest,
   Page,
+  GetFeeFragmenterAddressRequest,
+  FragmentFeeDepositsRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -74,6 +77,8 @@ type MethodName =
   | 'listFeeAddresses'
   | 'getFeeBalance'
   | 'claimFeeDeposits'
+  | 'getFeeFragmenterAddress'
+  | 'fragmentFeeDeposits'
   | 'withdrawFee'
   | 'getMarketAddress'
   | 'listMarketAddresses'
@@ -169,6 +174,31 @@ const baseQueryFn: BaseQueryFn<
 
         return {
           data: await client.claimFeeDeposits(new ClaimFeeDepositsRequest().setOutpointsList(arr), metadata),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'getFeeFragmenterAddress': {
+      try {
+        return {
+          data: (
+            await client.getFeeFragmenterAddress(new GetFeeFragmenterAddressRequest(), metadata)
+          ).getAddress(),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'fragmentFeeDeposits': {
+      try {
+        const { recoverAddress, maxFragments } = body as { recoverAddress: string; maxFragments: number };
+        return {
+          data: await client.fragmentFeeDeposits(
+            new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments)
+          ),
         };
       } catch (error) {
         console.error(error);
@@ -621,6 +651,15 @@ export const operatorApi = createApi({
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, TxOutpoint.AsObject[]>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
     }),
+    getFeeFragmenterAddress: build.query<string, void>({
+      query: () => ({ methodName: 'getFeeFragmenterAddress' }),
+    }),
+    fragmentFeeDeposits: build.mutation<
+      FragmentFeeDepositsReply,
+      { recoverAddress: string; maxFragments: number }
+    >({
+      query: (body) => ({ methodName: 'fragmentFeeDeposits', body }),
+    }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,
       {
@@ -751,6 +790,8 @@ export const {
   useListFeeAddressesQuery,
   useGetFeeBalanceQuery,
   useClaimFeeDepositsMutation,
+  useGetFeeFragmenterAddressQuery,
+  useFragmentFeeDepositsMutation,
   useClaimMarketDepositsMutation,
   useCloseMarketMutation,
   useWithdrawFeeMutation,

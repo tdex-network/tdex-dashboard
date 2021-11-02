@@ -1,6 +1,6 @@
 #list-markets {
   .market-list-item {
-    background: #333333;
+    background: @grey-dark;
     height: 64px;
     border-radius: 8px;
     display: flex;
@@ -11,7 +11,7 @@
       align-items: center;
     }
     &:hover {
-      background: #666666;
+      background: @grey-light;
     }
 
     .icons {
@@ -24,12 +24,14 @@
       }
     }
     .tickers {
-      color: #FFFFFF;
+      color: #ffffff;
     }
     .status {
-      color: #0fff00;
-      img.checkmark {
-        width: 16px;
+      &__open {
+        color: @primary-color;
+        img.checkmark {
+          width: 16px;
+        }
       }
     }
     &:hover {

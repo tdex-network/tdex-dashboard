@@ -47,15 +47,12 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
         <Col span={8}>
           <span className="">
             {tradable ? (
-              <span className="status">
-                <span>Open</span>
-                <img className="checkmark" src={checkmark} alt="checkmark" />
-              </span>
-            ) : (
-              <span className="status">
+              <span className="status__open">
                 <span className="mr-1">Open</span>
                 <img className="checkmark" src={checkmark} alt="checkmark" />
               </span>
+            ) : (
+              <span className="status__close">Close</span>
             )}
           </span>
         </Col>

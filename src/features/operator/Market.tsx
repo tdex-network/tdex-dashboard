@@ -1,4 +1,4 @@
-import { Button, Typography } from 'antd';
+import { Button, notification, Typography } from 'antd';
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -24,17 +24,19 @@ export const Market = (): JSX.Element => {
   const { state } = useLocation<MarketType.AsObject>();
   const history = useHistory();
   const marketInfo = listMarkets?.marketsList.find(
-    ({ market }) => market?.baseAsset === state.baseAsset && market?.quoteAsset === state.quoteAsset
+    ({ market }) => market?.baseAsset === state?.baseAsset && market?.quoteAsset === state?.quoteAsset
   );
 
   const handleClickOpenMarket = (market?: MarketType.AsObject) => {
     if (!market) return;
     openMarket({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
+    notification.success({ message: 'Market opened successfully' });
   };
 
   const handleClickCloseMarket = (market?: MarketType.AsObject) => {
     if (!market) return;
     closeMarket({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
+    notification.info({ message: 'Market closed successfully' });
   };
 
   const handleClickDropMarket = (market?: MarketType.AsObject) => {

@@ -2,12 +2,20 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { Home } from '../features/home/Home';
+import { FeeDeposit } from '../features/operator/FeeDeposit';
 import { Market } from '../features/operator/Market';
 import { Settings } from '../features/settings/Settings';
 import { SetPassword } from '../features/walletUnlocker/SetPassword';
 import { ShowMnemonic } from '../features/walletUnlocker/ShowMnemonic';
 
-import { HOME_ROUTE, SET_PASSWORD_ROUTE, SETTINGS_ROUTE, MARKET_ROUTE, SHOW_SEED_ROUTE } from './constants';
+import {
+  HOME_ROUTE,
+  SET_PASSWORD_ROUTE,
+  SETTINGS_ROUTE,
+  MARKET_ROUTE,
+  SHOW_SEED_ROUTE,
+  FEE_DEPOSIT_ROUTE,
+} from './constants';
 
 export const Routes = (): JSX.Element => {
   return (
@@ -17,6 +25,7 @@ export const Routes = (): JSX.Element => {
       <Route exact path={SET_PASSWORD_ROUTE} component={SetPassword} />
       <Route exact path={SHOW_SEED_ROUTE} component={ShowMnemonic} />
       <Route exact path={SETTINGS_ROUTE} component={Settings} />
+      <Route exact path={FEE_DEPOSIT_ROUTE} component={FeeDeposit} />
     </Switch>
   );
 };

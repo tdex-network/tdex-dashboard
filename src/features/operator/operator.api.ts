@@ -13,7 +13,6 @@ import type {
   OpenMarketReply,
   CloseMarketReply,
   DropMarketReply,
-  GetMarketCollectedSwapFeesReply,
   WithdrawMarketReply,
   UpdateMarketFeeReply,
   UpdateMarketPriceReply,
@@ -31,6 +30,7 @@ import type {
   UtxoInfo,
   Withdrawal,
   FragmentFeeDepositsReply,
+  GetMarketCollectedSwapFeesReply,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -89,6 +89,7 @@ type MethodName =
   | 'closeMarket'
   | 'dropMarket'
   | 'getMarketCollectedSwapFees'
+  | 'totalCollectedSwapFees'
   | 'withdrawMarket'
   | 'updateMarketPercentageFee'
   | 'updateMarketFixedFee'
@@ -362,9 +363,12 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'getMarketCollectedSwapFees': {
       try {
-        const { market } = body as { market: Market };
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
         const getMarketCollectedSwapFeesReply = await client.getMarketCollectedSwapFees(
-          new GetMarketCollectedSwapFeesRequest().setMarket(market),
+          new GetMarketCollectedSwapFeesRequest().setMarket(newMarket),
           metadata
         );
         return {
@@ -373,6 +377,40 @@ const baseQueryFn: BaseQueryFn<
       } catch (error) {
         console.error(error);
         return { error: (error as RpcError).message };
+      }
+    }
+    case 'totalCollectedSwapFees': {
+      try {
+        let totalCollectedSwapFees = 0;
+        const markets = (body as Market.AsObject[]).map(({ baseAsset, quoteAsset }) => {
+          const newMarket = new Market();
+          newMarket.setBaseAsset(baseAsset);
+          newMarket.setQuoteAsset(quoteAsset);
+          return newMarket;
+        });
+        const results = await Promise.all(
+          markets.map((market) =>
+            client
+              .getMarketCollectedSwapFees(new GetMarketCollectedSwapFeesRequest().setMarket(market), metadata)
+              .then((res) => ({
+                market: [market.getBaseAsset(), market.getQuoteAsset()],
+                getMarketCollectedSwapFeesReply: res,
+              }))
+          )
+        );
+        for (const r of results) {
+          r.market.forEach((marketId) => {
+            const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
+              .getTotalCollectedFeesPerAssetMap()
+              .get(marketId);
+            if (marketIdCollectedSwapFees) {
+              totalCollectedSwapFees += marketIdCollectedSwapFees;
+            }
+          });
+        }
+        return { data: totalCollectedSwapFees };
+      } catch (err) {
+        return { error: (err as RpcError).message };
       }
     }
     case 'withdrawMarket': {
@@ -416,7 +454,6 @@ const baseQueryFn: BaseQueryFn<
         const newMarket = new Market();
         newMarket.setBaseAsset(baseAsset);
         newMarket.setQuoteAsset(quoteAsset);
-        console.log('newMarket', newMarket);
         const updateMarketFeeReply = await client.updateMarketPercentageFee(
           new UpdateMarketPercentageFeeRequest().setMarket(newMarket).setBasisPoint(basisPoint),
           metadata
@@ -710,6 +747,10 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
       providesTags: ['Market'],
     }),
+    totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
+      query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
+      providesTags: ['Market'],
+    }),
     withdrawMarket: build.mutation<
       WithdrawMarketReply.AsObject,
       {
@@ -802,6 +843,7 @@ export const {
   useOpenMarketMutation,
   useDropMarketMutation,
   useGetMarketCollectedSwapFeesQuery,
+  useTotalCollectedSwapFeesQuery,
   useWithdrawMarketMutation,
   useUpdateMarketPercentageFeeMutation,
   useUpdateMarketFixedFeeMutation,

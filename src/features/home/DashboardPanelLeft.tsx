@@ -3,8 +3,9 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
 import React, { useState } from 'react';
 
+import type { Market } from '../../api-spec/generated/js/types_pb';
 import { NewMarketForm } from '../operator/NewMarketForm';
-import { useListMarketsQuery } from '../operator/operator.api';
+import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 
 const { Title } = Typography;
 
@@ -12,6 +13,9 @@ export const DashboardPanelLeft = (): JSX.Element => {
   const { data: listMarkets } = useListMarketsQuery();
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
+  //
+  const markets = listMarkets?.marketsList.map((m) => m.market);
+  const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets as Market.AsObject[]);
   // AddMarket Modal
   const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
   const showAddMarketModal = () => setIsAddMarketModalVisible(true);
@@ -24,7 +28,7 @@ export const DashboardPanelLeft = (): JSX.Element => {
       </Title>
       <Row>
         <Col className="white-value white-value__big" span={12}>
-          $18,000.32
+          {totalCollectedSwapFees}
         </Col>
         <Col className="total-earned-change" span={12}>
           <div>24h</div>

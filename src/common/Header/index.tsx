@@ -14,6 +14,10 @@ export const Header = (): JSX.Element => {
   const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
   const showAddMarketModal = () => setIsAddMarketModalVisible(true);
   const handleAddMarketModalCancel = () => setIsAddMarketModalVisible(false);
+  // UnlockWallet Modal
+  const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
+  const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
+  const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
 
   const menu = (
     <Menu>
@@ -21,7 +25,13 @@ export const Header = (): JSX.Element => {
         <a href={SET_PASSWORD_ROUTE}>Connect</a>
       </Menu.Item>
       <Menu.Item>
-        <UnlockModalForm />
+        <Button type="text" style={{ padding: 0 }} onClick={showUnlockWalletModal}>
+          Unlock Wallet
+        </Button>
+        <UnlockModalForm
+          handleUnlockWalletModalCancel={handleUnlockWalletModalCancel}
+          isUnlockWalletModalVisible={isUnlockWalletModalVisible}
+        />
       </Menu.Item>
       <Menu.Item>
         <a>Disconnect</a>

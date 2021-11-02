@@ -1,0 +1,38 @@
+#dashboard-panel-left-container {
+  .total-earned-change {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 7px;
+    div:nth-child(1) {
+      color: #ffffff;
+      font-family: dm-mono, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    div:nth-child(2) {
+      color: @primary-color;
+      font-family: dm-mono, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 12px;
+    }
+  }
+  .create-new-btn {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    .anticon {
+      font-size: 18px;
+      margin: 0 0 4px 0;
+    }
+  }
+  .market-stats {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    &__active {
+      border-right: 1px solid #333333;
+    }
+  }
+}

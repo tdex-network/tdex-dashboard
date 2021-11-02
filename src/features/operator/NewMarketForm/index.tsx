@@ -1,7 +1,6 @@
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, notification, Modal } from 'antd';
+import { Form, Input, notification, Modal } from 'antd';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useNewMarketMutation } from '../operator.api';
 
@@ -10,14 +9,18 @@ interface IFormInputs {
   quoteAsset: string;
 }
 
-export const NewMarketForm = (): JSX.Element => {
+interface NewMarketFormProps {
+  isAddMarketModalVisible: boolean;
+  handleAddMarketModalCancel: () => void;
+}
+
+export const NewMarketForm = ({
+  isAddMarketModalVisible,
+  handleAddMarketModalCancel,
+}: NewMarketFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [newMarket, { error: newMarketError, isLoading: newMarketIsLoading }] = useNewMarketMutation();
 
-  const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
-  const showAddMarketModal = () => {
-    setIsAddMarketModalVisible(true);
-  };
   const handleAddMarketModalOk = async () => {
     try {
       const values = await form.validateFields();
@@ -29,7 +32,7 @@ export const NewMarketForm = (): JSX.Element => {
       } else {
         form.resetFields();
         notification.success({ message: 'New market created successfully' });
-        setIsAddMarketModalVisible(false);
+        handleAddMarketModalCancel();
       }
     } catch (err) {
       // @ts-ignore
@@ -37,15 +40,8 @@ export const NewMarketForm = (): JSX.Element => {
     }
   };
 
-  const handleAddMarketModalCancel = () => {
-    setIsAddMarketModalVisible(false);
-  };
-
   return (
     <>
-      <Button icon={<PlusCircleOutlined />} onClick={showAddMarketModal}>
-        CREATE NEW MARKET
-      </Button>
       <Modal
         title="Add Market"
         visible={isAddMarketModalVisible}

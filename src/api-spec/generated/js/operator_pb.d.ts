@@ -187,6 +187,78 @@ export namespace ClaimFeeDepositsReply {
   }
 }
 
+export class GetFeeFragmenterAddressRequest extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetFeeFragmenterAddressRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetFeeFragmenterAddressRequest): GetFeeFragmenterAddressRequest.AsObject;
+  static serializeBinaryToWriter(message: GetFeeFragmenterAddressRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetFeeFragmenterAddressRequest;
+  static deserializeBinaryFromReader(message: GetFeeFragmenterAddressRequest, reader: jspb.BinaryReader): GetFeeFragmenterAddressRequest;
+}
+
+export namespace GetFeeFragmenterAddressRequest {
+  export type AsObject = {
+  }
+}
+
+export class GetFeeFragmenterAddressReply extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): GetFeeFragmenterAddressReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetFeeFragmenterAddressReply.AsObject;
+  static toObject(includeInstance: boolean, msg: GetFeeFragmenterAddressReply): GetFeeFragmenterAddressReply.AsObject;
+  static serializeBinaryToWriter(message: GetFeeFragmenterAddressReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetFeeFragmenterAddressReply;
+  static deserializeBinaryFromReader(message: GetFeeFragmenterAddressReply, reader: jspb.BinaryReader): GetFeeFragmenterAddressReply;
+}
+
+export namespace GetFeeFragmenterAddressReply {
+  export type AsObject = {
+    address: string,
+  }
+}
+
+export class FragmentFeeDepositsRequest extends jspb.Message {
+  getRecoverAddress(): string;
+  setRecoverAddress(value: string): FragmentFeeDepositsRequest;
+
+  getMaxFragments(): number;
+  setMaxFragments(value: number): FragmentFeeDepositsRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FragmentFeeDepositsRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: FragmentFeeDepositsRequest): FragmentFeeDepositsRequest.AsObject;
+  static serializeBinaryToWriter(message: FragmentFeeDepositsRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FragmentFeeDepositsRequest;
+  static deserializeBinaryFromReader(message: FragmentFeeDepositsRequest, reader: jspb.BinaryReader): FragmentFeeDepositsRequest;
+}
+
+export namespace FragmentFeeDepositsRequest {
+  export type AsObject = {
+    recoverAddress: string,
+    maxFragments: number,
+  }
+}
+
+export class FragmentFeeDepositsReply extends jspb.Message {
+  getMessage(): string;
+  setMessage(value: string): FragmentFeeDepositsReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FragmentFeeDepositsReply.AsObject;
+  static toObject(includeInstance: boolean, msg: FragmentFeeDepositsReply): FragmentFeeDepositsReply.AsObject;
+  static serializeBinaryToWriter(message: FragmentFeeDepositsReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FragmentFeeDepositsReply;
+  static deserializeBinaryFromReader(message: FragmentFeeDepositsReply, reader: jspb.BinaryReader): FragmentFeeDepositsReply;
+}
+
+export namespace FragmentFeeDepositsReply {
+  export type AsObject = {
+    message: string,
+  }
+}
+
 export class WithdrawFeeRequest extends jspb.Message {
   getAmount(): number;
   setAmount(value: number): WithdrawFeeRequest;
@@ -622,6 +694,86 @@ export namespace GetMarketCollectedSwapFeesReply {
   export type AsObject = {
     collectedFeesList: Array<FeeInfo.AsObject>,
     totalCollectedFeesPerAssetMap: Array<[string, number]>,
+  }
+}
+
+export class GetMarketFragmenterAddressRequest extends jspb.Message {
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketFragmenterAddressRequest;
+  hasMarket(): boolean;
+  clearMarket(): GetMarketFragmenterAddressRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketFragmenterAddressRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketFragmenterAddressRequest): GetMarketFragmenterAddressRequest.AsObject;
+  static serializeBinaryToWriter(message: GetMarketFragmenterAddressRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketFragmenterAddressRequest;
+  static deserializeBinaryFromReader(message: GetMarketFragmenterAddressRequest, reader: jspb.BinaryReader): GetMarketFragmenterAddressRequest;
+}
+
+export namespace GetMarketFragmenterAddressRequest {
+  export type AsObject = {
+    market?: types_pb.Market.AsObject,
+  }
+}
+
+export class GetMarketFragmenterAddressReply extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): GetMarketFragmenterAddressReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketFragmenterAddressReply.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketFragmenterAddressReply): GetMarketFragmenterAddressReply.AsObject;
+  static serializeBinaryToWriter(message: GetMarketFragmenterAddressReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketFragmenterAddressReply;
+  static deserializeBinaryFromReader(message: GetMarketFragmenterAddressReply, reader: jspb.BinaryReader): GetMarketFragmenterAddressReply;
+}
+
+export namespace GetMarketFragmenterAddressReply {
+  export type AsObject = {
+    address: string,
+  }
+}
+
+export class FragmentMarketDepositsRequest extends jspb.Message {
+  getRecoverAddress(): string;
+  setRecoverAddress(value: string): FragmentMarketDepositsRequest;
+
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): FragmentMarketDepositsRequest;
+  hasMarket(): boolean;
+  clearMarket(): FragmentMarketDepositsRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FragmentMarketDepositsRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: FragmentMarketDepositsRequest): FragmentMarketDepositsRequest.AsObject;
+  static serializeBinaryToWriter(message: FragmentMarketDepositsRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FragmentMarketDepositsRequest;
+  static deserializeBinaryFromReader(message: FragmentMarketDepositsRequest, reader: jspb.BinaryReader): FragmentMarketDepositsRequest;
+}
+
+export namespace FragmentMarketDepositsRequest {
+  export type AsObject = {
+    recoverAddress: string,
+    market?: types_pb.Market.AsObject,
+  }
+}
+
+export class FragmentMarketDepositsReply extends jspb.Message {
+  getMessage(): string;
+  setMessage(value: string): FragmentMarketDepositsReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FragmentMarketDepositsReply.AsObject;
+  static toObject(includeInstance: boolean, msg: FragmentMarketDepositsReply): FragmentMarketDepositsReply.AsObject;
+  static serializeBinaryToWriter(message: FragmentMarketDepositsReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FragmentMarketDepositsReply;
+  static deserializeBinaryFromReader(message: FragmentMarketDepositsReply, reader: jspb.BinaryReader): FragmentMarketDepositsReply;
+}
+
+export namespace FragmentMarketDepositsReply {
+  export type AsObject = {
+    message: string,
   }
 }
 

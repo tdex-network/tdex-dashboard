@@ -17,7 +17,7 @@ export const Shell = ({ children }: Props): JSX.Element => {
       <Header />
       <Content>
         <Row>
-          <Col span={22} offset={1}>
+          <Col span={20} offset={2}>
             {children}
           </Col>
         </Row>

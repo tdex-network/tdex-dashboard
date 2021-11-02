@@ -1,8 +1,9 @@
-import { ErrorMessage } from '@hookform/error-message';
+import Icon from '@ant-design/icons';
+import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
+import { ReactComponent as depositIcon } from '../../../assets/images/deposit-green.svg';
 import { useWithdrawFeeMutation } from '../operator.api';
 
 interface IFormInputs {
@@ -13,75 +14,82 @@ interface IFormInputs {
 }
 
 export const WithdrawFeeForm = (): JSX.Element => {
-  const [withdrawFee, { error: withdrawFeeError }] = useWithdrawFeeMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+  const [form] = Form.useForm<IFormInputs>();
+  const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
+    useWithdrawFeeMutation();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    withdrawFee({
-      amount: data.amount,
-      millisatsPerByte: data.millisatsPerByte,
-      address: data.address,
-      asset: data.asset,
-    });
+  const [isWithdrawFeeModalVisible, setIsWithdrawFeeModalVisible] = useState(false);
+  const showWithdrawFeeModal = () => setIsWithdrawFeeModalVisible(true);
+  const handleWithdrawFeeModalCancel = () => setIsWithdrawFeeModalVisible(false);
+  const handleWithdrawFeeModalOk = async () => {
+    try {
+      const values = await form.validateFields();
+      const res = await withdrawFee({
+        amount: values.amount,
+        millisatsPerByte: values.millisatsPerByte,
+        address: values.address,
+        asset: values.asset,
+      });
+      // @ts-ignore
+      if (res?.error) {
+        // @ts-ignore
+        throw new Error(res?.error);
+      } else {
+        form.resetFields();
+        notification.success({ message: 'Fee withdrawal successful' });
+        setIsWithdrawFeeModalVisible(false);
+      }
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">Amount</span>
-        </label>
-        <input
-          type="number"
-          className={classNames('input input-bordered', { 'mb-7': !errors.amount?.message })}
-          {...register('amount', { required: 'Amount is required' })}
-        />
-        <ErrorMessage errors={errors} name="amount" as={<span className="text-sm mt-1 text-error" />} />
+    <>
+      <Button
+        className="rotate-icon w-100 justify-center"
+        icon={<Icon component={depositIcon} />}
+        onClick={showWithdrawFeeModal}
+      >
+        WITHDRAW
+      </Button>
+      <Modal
+        title="Withdraw Fee"
+        visible={isWithdrawFeeModalVisible}
+        onOk={handleWithdrawFeeModalOk}
+        onCancel={handleWithdrawFeeModalCancel}
+        confirmLoading={withdrawFeeIsLoading}
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          name="withdraw_fee_form"
+          wrapperCol={{ span: 24 }}
+          validateTrigger="onBlur"
+        >
+          <Form.Item label="Amount" name="amount" className={classNames({ 'has-error': withdrawFeeError })}>
+            <Input type="number" />
+          </Form.Item>
 
-        <label className="label">
-          <span className="label-text">Millisats Per Byte</span>
-        </label>
-        <input
-          type="number"
-          className={classNames('input input-bordered', { 'mb-7': !errors.millisatsPerByte?.message })}
-          {...register('millisatsPerByte', { required: 'millisatsPerByte is required' })}
-        />
-        <ErrorMessage
-          errors={errors}
-          name="millisatsPerByte"
-          as={<span className="text-sm mt-1 text-error" />}
-        />
+          <Form.Item label="Address" name="address" className={classNames({ 'has-error': withdrawFeeError })}>
+            <Input />
+          </Form.Item>
 
-        <label className="label">
-          <span className="label-text">Address</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', { 'mb-7': !errors.address?.message })}
-          {...register('address', { required: 'Address is required' })}
-        />
-        <ErrorMessage errors={errors} name="address" as={<span className="text-sm mt-1 text-error" />} />
+          <Form.Item
+            label="Millisats Per Byte"
+            name="millisatsPerByte"
+            className={classNames({ 'has-error': withdrawFeeError })}
+          >
+            <Input type="number" />
+          </Form.Item>
 
-        <label className="label">
-          <span className="label-text">Asset</span>
-        </label>
-        <input
-          type="text"
-          className={classNames('input input-bordered', {
-            'mb-7': !errors.asset?.message && !withdrawFeeError,
-          })}
-          {...register('asset', {
-            required: 'Asset is required',
-          })}
-        />
-        <ErrorMessage errors={errors} name="quoteAsset" as={<span className="text-sm mt-1 text-error" />} />
-        {withdrawFeeError && <span className="text-sm text-error">{withdrawFeeError}</span>}
-      </div>
-      <button className="btn btn-secondary mt-4">New Market</button>
-    </form>
+          <Form.Item label="Asset" name="asset" className={classNames({ 'has-error': withdrawFeeError })}>
+            <Input />
+          </Form.Item>
+          {withdrawFeeError && <p className="error">{withdrawFeeError}</p>}
+        </Form>
+      </Modal>
+    </>
   );
 };

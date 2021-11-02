@@ -1,6 +1,6 @@
-import Icon, { MenuOutlined, SettingOutlined } from '@ant-design/icons';
+import Icon, { MenuOutlined, PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Col, Dropdown, Layout, Menu, Row, Space } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import logo from '../../assets/images/tdex-logo.png';
@@ -10,6 +10,10 @@ import { SET_PASSWORD_ROUTE } from '../../routes/constants';
 
 export const Header = (): JSX.Element => {
   const { Header } = Layout;
+  // AddMarket Modal
+  const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
+  const showAddMarketModal = () => setIsAddMarketModalVisible(true);
+  const handleAddMarketModalCancel = () => setIsAddMarketModalVisible(false);
 
   const menu = (
     <Menu>
@@ -39,7 +43,13 @@ export const Header = (): JSX.Element => {
               WITHDRAW
             </Button>
             <Button icon={<Icon component={depositIcon} />}>DEPOSIT</Button>
-            <NewMarketForm />
+            <Button icon={<PlusCircleOutlined />} onClick={showAddMarketModal}>
+              CREATE NEW MARKET
+            </Button>
+            <NewMarketForm
+              isAddMarketModalVisible={isAddMarketModalVisible}
+              handleAddMarketModalCancel={handleAddMarketModalCancel}
+            />
             <Dropdown overlay={menu}>
               <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
                 <MenuOutlined />

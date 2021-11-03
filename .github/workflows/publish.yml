@@ -1,6 +1,7 @@
 name: Github Pages
 on:
   push:
+    branches: [master]
     tags:
       - '*'
 

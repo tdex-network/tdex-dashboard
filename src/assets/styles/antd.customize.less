@@ -15,10 +15,11 @@
 @component-background: #141414;
 @popover-background: @component-background;
 @icon-color-hover: fade(@white, 75%);
-@heading-color: fade(@white, 85%);
-@text-color: fade(@white, 65%);
-@text-color-secondary: fade(@white, 45%);
-@border-color-base: #434343;
+@heading-color: @white;
+@text-color: @white;
+@text-color-secondary: fade(@white, 75%);
+@border-radius-base: 8px;
+@border-color-base: @grey-dark;
 @border-color-split: @popover-background;
 @border-style-base: solid;
 @layout-body-background: @body-background;
@@ -26,7 +27,9 @@
 @layout-footer-background: transparent;
 @layout-sider-background: @component-background;
 @layout-trigger-background: @component-background;
+@font-size-base: 12px;
 @font-family: dm-sans, dm-mono, roboto, helvetica, serif;
+@code-family: dm-mono, roboto, helvetica, serif;
 @font-feature-settings-base: tnum;
 @disabled-color: fade(@white, 30%);
 @disabled-color-dark: fade(@white, 30%);
@@ -91,3 +94,14 @@
 @alert-warning-bg-color: @warning-color;
 @alert-error-border-color: @error-color;
 @alert-error-bg-color: @error-color;
+
+// Breadcrumb
+// ---
+@breadcrumb-base-color: @white;
+@breadcrumb-last-item-color: @white;
+@breadcrumb-font-size: 14px;
+@breadcrumb-icon-font-size: 14px;
+@breadcrumb-link-color: @white;
+@breadcrumb-link-color-hover: @text-color-secondary;
+@breadcrumb-separator-color: red;
+@breadcrumb-separator-margin: 0 4px;

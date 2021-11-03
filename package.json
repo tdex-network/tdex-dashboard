@@ -12,7 +12,9 @@
     "prettier": "prettier './src/**/*.{ts,tsx}'",
     "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "tdex:clean": "bash scripts/tdexd-clean.sh",
+    "tdex:run": "curl https://raw.githubusercontent.com/TDex-network/tdex-sdk/master/scripts/tdexd-run -o tdex-run && bash tdex-run && rm tdex-run"
   },
   "eslintConfig": {
     "extends": "react-app"

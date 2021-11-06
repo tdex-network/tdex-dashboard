@@ -29,15 +29,15 @@ export const OnboardingPairing = (): JSX.Element => {
     }
   };
 
-  function downloadBase64File(contentType: string, base64Data: string, fileName: string) {
-    const data = '-----BEGIN CERTIFICATE-----\n' + base64Data + '\n-----END CERTIFICATE-----';
-    const linkSource = `data:${contentType};base64,${data}`;
-    const downloadLink = document.createElement('a');
-    //downloadLink.style = 'none';
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
-  }
+  // function downloadBase64File(contentType: string, base64Data: string, fileName: string) {
+  //   const data = '-----BEGIN CERTIFICATE-----\n' + base64Data + '\n-----END CERTIFICATE-----';
+  //   const linkSource = `data:${contentType};base64,${data}`;
+  //   const downloadLink = document.createElement('a');
+  //   //downloadLink.style = 'none';
+  //   downloadLink.href = linkSource;
+  //   downloadLink.download = fileName;
+  //   downloadLink.click();
+  // }
 
   return (
     <Row id="pairing" className="w-100">

@@ -4,23 +4,18 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { SHOW_SEED_ROUTE } from '../../routes/constants';
+import { ONBOARDING_CONFIRM_MNEMONIC_ROUTE } from '../../routes/constants';
 
 interface IFormInputs {
   password: string;
   passwordConfirm: string;
 }
 
-export const SetPassword = (): JSX.Element => {
-  return (
-    <>
-      <h2>Choose A Password</h2>
-      <PasswordForm />
-    </>
-  );
-};
+interface PasswordFormProps {
+  mnemonic: string[];
+}
 
-export const PasswordForm = (): JSX.Element => {
+export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [hasMatchingError, setHasMatchingError] = useState<boolean>(false);
   const history = useHistory();
@@ -30,7 +25,7 @@ export const PasswordForm = (): JSX.Element => {
       const values = await form.validateFields();
       if (values.password === values.passwordConfirm) {
         setHasMatchingError(false);
-        history.push(SHOW_SEED_ROUTE, { password: values.password });
+        history.push(ONBOARDING_CONFIRM_MNEMONIC_ROUTE, { mnemonic, password: values.password });
       } else {
         notification.error({ message: "Passwords don't match" });
         setHasMatchingError(true);
@@ -47,13 +42,12 @@ export const PasswordForm = (): JSX.Element => {
       layout="vertical"
       form={form}
       name="set_password_form"
-      wrapperCol={{ span: 16 }}
+      wrapperCol={{ span: 10, offset: 7 }}
       validateTrigger="onBlur"
     >
       <Form.Item
-        label="Password"
         name="password"
-        className={classNames({ 'has-error': hasMatchingError })}
+        className={classNames('input-password', { 'has-error': hasMatchingError })}
         rules={[
           {
             required: true,
@@ -65,12 +59,14 @@ export const PasswordForm = (): JSX.Element => {
           },
         ]}
       >
-        <Input.Password iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+        <Input.Password
+          placeholder="Set Password"
+          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        />
       </Form.Item>
       <Form.Item
-        label="Confirm Password"
         name="passwordConfirm"
-        className={classNames({ 'has-error': hasMatchingError })}
+        className={classNames('input-password', { 'has-error': hasMatchingError })}
         rules={[
           {
             required: true,
@@ -82,11 +78,14 @@ export const PasswordForm = (): JSX.Element => {
           },
         ]}
       >
-        <Input.Password iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+        <Input.Password
+          placeholder="Confirm Password"
+          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        />
       </Form.Item>
       {hasMatchingError && <p className="error">{hasMatchingError}</p>}
-      <Form.Item>
-        <Button htmlType="submit">Set Password</Button>
+      <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
+        <Button htmlType="submit">Go To Mnemonic</Button>
       </Form.Item>
     </Form>
   );

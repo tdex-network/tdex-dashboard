@@ -18,19 +18,19 @@ export const DashboardPanelRight = (): JSX.Element => {
   return (
     <Space direction="vertical" size={30} id="dashboard-panel-right-container" className="panel">
       <Row>
-        <Title className="title-grey" level={3}>
+        <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
           Fee Account Balance
         </Title>
-        <Col className="white-value white-value__big" span={24}>
+        <Col className="dm-mono dm-mono__big" span={24}>
           {feeBalance?.totalBalance ?? 'N/A'}
         </Col>
       </Row>
       <Row>
-        <Title className="title-grey" level={3}>
+        <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
           Fee Account Address
         </Title>
         <Col span={24}>
-          <div className="fee-address-container white-value white-value__medium break-all">
+          <div className="fee-address-container dm-mono dm-mono__medium break-all">
             {feeFragmenterAddress ?? 'N/A'}
           </div>
         </Col>

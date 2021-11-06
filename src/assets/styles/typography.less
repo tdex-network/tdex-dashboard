@@ -1,14 +1,40 @@
-.ant-typography.title-grey {
-  font-size: 14px;
-  font-family: dm-sans, serif;
-  font-weight: bold;
-  color: #666666;
-}
-
-.white-value {
+.dm-mono,
+.ant-typography.dm-mono {
   font-family: dm-mono, sans-serif;
   font-weight: 400;
-  color: #FFFFFF;
+  color: #ffffff;
+  &__bold {
+    font-weight: 500;
+  }
+  &__small {
+    font-size: 14px;
+    line-height: 14px;
+  }
+  &__medium {
+    font-size: 18px;
+    line-height: 18px;
+  }
+  &__big {
+    font-size: 36px;
+    line-height: 36px;
+  }
+}
+
+.dm-sans,
+.ant-typography.dm-sans,
+.ant-checkbox-wrapper.dm-sans {
+  font-family: dm-sans, sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  &__bold {
+    font-weight: bold;
+  }
+  &__grey {
+    color: @grey-light;
+  }
+  &__green {
+    color: @primary-color;
+  }
   &__small {
     font-size: 14px;
     line-height: 14px;
@@ -27,7 +53,7 @@ p {
   font-family: dm-mono, sans-serif;
   font-weight: 400;
   font-size: 12px;
-  color: #FFFFFF;
+  color: #ffffff;
   line-height: 18px;
 }
 

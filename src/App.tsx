@@ -13,7 +13,7 @@ export const App = (): JSX.Element => {
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
 
   useEffect(() => {
-    if (isReady && !isReady.isUnlocked) showUnlockWalletModal();
+    if (isReady && !isReady.isUnlocked && isReady.isInitialized) showUnlockWalletModal();
   }, [isReady]);
 
   return (

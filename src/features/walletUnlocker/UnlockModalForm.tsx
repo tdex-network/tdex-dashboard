@@ -53,7 +53,7 @@ export const UnlockModalForm = ({
       closable={closable}
       maskClosable={closable}
       // @ts-ignore
-      maskStyle={{ 'backdrop-filter': 'blur(6px)' }}
+      maskStyle={{ backdropFilter: 'blur(6px)' }}
       footer={
         closable
           ? undefined

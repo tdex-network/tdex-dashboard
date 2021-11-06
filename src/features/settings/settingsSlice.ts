@@ -11,26 +11,30 @@ export interface SettingsState {
   chain: 'liquid' | 'regtest';
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
-  gateDaemonEndpoint: string;
-  macaroonCredentials?: string; // macaroon credentials hex encoded
+  tdexDaemonEndpoint: string;
+  macaroonCredentials?: string;
+  tdexdConnectUrl?: string;
 }
 
 export const initialState: SettingsState = {
   chain: 'regtest',
   explorerLiquidAPI: 'https://blockstream.info/liquid/api',
   explorerLiquidUI: 'https://blockstream.info/liquid',
-  gateDaemonEndpoint: 'http://localhost:9000',
+  tdexDaemonEndpoint: 'https://localhost:9000',
 };
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setGateDaemonEndpoint: (state, action: PayloadAction<string>) => {
-      state.gateDaemonEndpoint = action.payload;
+    setTdexDaemonEndpoint: (state, action: PayloadAction<string>) => {
+      state.tdexDaemonEndpoint = action.payload;
     },
     setMacaroonCredentials: (state, action: PayloadAction<string | undefined>) => {
       state.macaroonCredentials = action.payload;
+    },
+    setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
+      state.tdexdConnectUrl = action.payload;
     },
     resetSettings: () => initialState,
   },
@@ -40,8 +44,8 @@ export function selectChain(state: RootState): 'liquid' | 'regtest' {
   return state.settings.chain;
 }
 
-export function selectGateEndpoint(state: RootState): string {
-  return state.settings.gateDaemonEndpoint;
+export function selectTdexEndpoint(state: RootState): string {
+  return state.settings.tdexDaemonEndpoint;
 }
 
 export function selectMacaroonCreds(state: RootState): Metadata | null {
@@ -54,17 +58,18 @@ export function selectMacaroonCreds(state: RootState): Metadata | null {
 }
 
 export function selectOperatorClient(state: RootState): OperatorClient {
-  return new OperatorClient(selectGateEndpoint(state));
+  return new OperatorClient(selectTdexEndpoint(state));
 }
 
 export function selectWalletClient(state: RootState): WalletClient {
-  return new WalletClient(selectGateEndpoint(state));
+  return new WalletClient(selectTdexEndpoint(state));
 }
 
 export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClient {
-  return new WalletUnlockerClient(selectGateEndpoint(state));
+  return new WalletUnlockerClient(selectTdexEndpoint(state));
 }
 
-export const { setGateDaemonEndpoint, setMacaroonCredentials, resetSettings } = settingsSlice.actions;
+export const { setTdexDaemonEndpoint, setMacaroonCredentials, setTdexdConnectUrl, resetSettings } =
+  settingsSlice.actions;
 
 export default settingsSlice.reducer;

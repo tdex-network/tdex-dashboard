@@ -1,0 +1,34 @@
+#show-mnemonic {
+  ol.words-list {
+    margin-bottom: 10vh;
+    list-style: none;
+    counter-reset: my-awesome-counter;
+    li {
+      font-family: 'dm-sans', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      color: @primary-color;
+      counter-increment: my-awesome-counter;
+      &::before {
+        content: counter(my-awesome-counter);
+        color: #ffffff;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .input-password {
+    .ant-form-item-control-input {
+      background-color: @grey-dark;
+      border-radius: 8px;
+      height: 46px;
+      .ant-form-item-control-input-content {
+        height: 100%;
+        .ant-input-affix-wrapper {
+          height: 100%;
+        }
+      }
+    }
+  }
+}

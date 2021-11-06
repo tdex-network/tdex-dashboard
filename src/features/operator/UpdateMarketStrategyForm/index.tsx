@@ -28,7 +28,6 @@ export const UpdateMarketStrategyForm = ({
   updateMarketStrategyError,
 }: UpdateMarketStrategyFormProps): JSX.Element => {
   const handleStrategyChange = (value: StrategyType) => {
-    console.log('value', value);
     form.setFieldsValue({ strategyType: value });
   };
 

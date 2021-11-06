@@ -1,8 +1,10 @@
 import './shell.less';
 import { Col, Row, Layout } from 'antd';
+import clx from 'classnames';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { Footer } from '../Footer';
+import { ReactComponent as TdexLogo } from '../../assets/images/tdex-logo.svg';
 import { Header } from '../Header';
 
 interface Props {
@@ -12,17 +14,36 @@ interface Props {
 const { Content } = Layout;
 
 export const Shell = ({ children }: Props): JSX.Element => {
+  const history = useHistory();
+  const isOnboarding = history.location.pathname.startsWith('/onboarding');
+
   return (
     <Layout id="shell">
-      <Header />
-      <Content>
-        <Row>
-          <Col span={20} offset={2}>
-            {children}
-          </Col>
-        </Row>
+      {!isOnboarding && <Header />}
+      <Content className={clx({ 'is-onboarding': isOnboarding })}>
+        {isOnboarding ? (
+          <div className="w-100">
+            <Row justify="center" className="mb-4">
+              <Col>
+                <div className="text-center">
+                  <TdexLogo />
+                </div>
+              </Col>
+            </Row>
+            <Row className="w-100">
+              <Col span={14} offset={5} className="panel">
+                {children}
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <Row>
+            <Col span={20} offset={2}>
+              {children}
+            </Col>
+          </Row>
+        )}
       </Content>
-      <Footer />
     </Layout>
   );
 };

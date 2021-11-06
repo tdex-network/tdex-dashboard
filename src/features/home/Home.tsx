@@ -11,7 +11,7 @@ export const Home = (): JSX.Element => {
 
   return (
     <>
-      <Title className="title-grey" level={2}>
+      <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={2}>
         Dashboard Overview
       </Title>
 
@@ -23,7 +23,7 @@ export const Home = (): JSX.Element => {
           <DashboardPanelRight />
         </Col>
       </Row>
-      <Title className="title-grey" level={2}>
+      <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={2}>
         Markets
       </Title>
       <ListMarkets />

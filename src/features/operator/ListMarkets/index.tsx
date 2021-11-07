@@ -1,4 +1,5 @@
 import './list-markets.less';
+import { MarketListEmpty } from '../../home/MarketListEmpty';
 import { useListMarketsQuery } from '../operator.api';
 
 import { MarketListItem } from './MarketListItem';
@@ -13,7 +14,7 @@ export const ListMarkets = (): JSX.Element => {
           <MarketListItem marketInfo={marketInfo} key={index} />
         ))
       ) : (
-        <p className="mt-2">No market has been found</p>
+        <MarketListEmpty />
       )}
       {listMarketsError && <p>{listMarketsError}</p>}
     </div>

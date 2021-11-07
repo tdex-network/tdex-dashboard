@@ -2,7 +2,7 @@ import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
 import { Button, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE } from '../../routes/constants';
@@ -11,7 +11,7 @@ import { useGetFeeBalanceQuery, useGetFeeFragmenterAddressQuery } from '../opera
 
 export const DashboardPanelRight = (): JSX.Element => {
   const { Title } = Typography;
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data: feeBalance } = useGetFeeBalanceQuery();
   const { data: feeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
 
@@ -41,7 +41,7 @@ export const DashboardPanelRight = (): JSX.Element => {
         </Col>
         <Col span={12}>
           <Button
-            onClick={() => history.push(FEE_DEPOSIT_ROUTE)}
+            onClick={() => navigate(FEE_DEPOSIT_ROUTE)}
             className="w-100 justify-center"
             icon={<Icon component={depositIcon} />}
           >

@@ -1,6 +1,6 @@
 import { Button, notification, Typography } from 'antd';
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import type { Market as MarketType } from '../../api-spec/generated/js/types_pb';
 import { HOME_ROUTE } from '../../routes/constants';
@@ -21,8 +21,8 @@ export const Market = (): JSX.Element => {
   const [openMarket, { error: openMarketError }] = useOpenMarketMutation();
   const [closeMarket, { error: closeMarketError }] = useCloseMarketMutation();
   const [dropMarket, { error: dropMarketError }] = useDropMarketMutation();
-  const { state } = useLocation<MarketType.AsObject>();
-  const history = useHistory();
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const marketInfo = listMarkets?.marketsList.find(
     ({ market }) => market?.baseAsset === state?.baseAsset && market?.quoteAsset === state?.quoteAsset
   );
@@ -42,7 +42,7 @@ export const Market = (): JSX.Element => {
   const handleClickDropMarket = (market?: MarketType.AsObject) => {
     if (!market) return;
     dropMarket({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
-    history.push(HOME_ROUTE);
+    navigate(HOME_ROUTE);
   };
 
   return (

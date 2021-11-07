@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import type { Market } from '../../../api-spec/generated/js/types_pb';
@@ -17,11 +17,11 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
     baseAsset: marketInfo.market?.baseAsset || '',
     quoteAsset: marketInfo.market?.quoteAsset || '',
   });
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClickMarketDetails = (market?: Market.AsObject) => {
     if (!market) return;
-    history.push(MARKET_ROUTE, market);
+    navigate(MARKET_ROUTE, { state: market });
   };
 
   const { market, tradable } = marketInfo;

@@ -2,7 +2,7 @@ import './onboardingConfirmMnemonic.less';
 import { nanoid } from '@reduxjs/toolkit';
 import { Button, Col, notification, Row, Space, Typography } from 'antd';
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
 import { useTypedDispatch } from '../../app/store';
@@ -25,9 +25,9 @@ function shuffleMnemonic(words: string[]): string[] {
 }
 
 export const OnboardingConfirmMnemonic = (): JSX.Element => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { state } = useLocation<{ mnemonic: string[]; password: string }>();
+  const { state } = useLocation();
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
   const [selected, setSelected] = useState<string[]>([]);
@@ -55,7 +55,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
           await sleep(1);
           await unlockWallet({ password: state.password });
           setIsLoading(false);
-          history.push(HOME_ROUTE);
+          navigate(HOME_ROUTE);
         } else {
           console.log('status', status);
         }

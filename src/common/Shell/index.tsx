@@ -2,7 +2,7 @@ import './shell.less';
 import { Col, Row, Layout } from 'antd';
 import clx from 'classnames';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { ReactComponent as TdexLogo } from '../../assets/images/tdex-logo.svg';
 import { Header } from '../Header';
@@ -14,8 +14,8 @@ interface Props {
 const { Content } = Layout;
 
 export const Shell = ({ children }: Props): JSX.Element => {
-  const history = useHistory();
-  const isOnboarding = history.location.pathname.startsWith('/onboarding');
+  const location = useLocation();
+  const isOnboarding = location.pathname.startsWith('/onboarding');
 
   return (
     <Layout id="shell">

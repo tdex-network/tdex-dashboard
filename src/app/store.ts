@@ -1,20 +1,49 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
+import { liquidApi } from '../features/liquid.api';
 import { operatorApi } from '../features/operator/operator.api';
 import { walletApi } from '../features/wallet/wallet.api';
 import { walletUnlockerApi } from '../features/walletUnlocker/walletUnlocker.api';
 
 import { rootReducer } from './rootReducer';
 
+// Persist all except API slices in order to persist Settings
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+  blacklist: [
+    liquidApi.reducerPath,
+    operatorApi.reducerPath,
+    walletUnlockerApi.reducerPath,
+    walletApi.reducerPath,
+  ],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare({
-      serializableCheck: false, // disable this middleware to avoid conflict with redux-persist
-    }).concat(operatorApi.middleware, walletUnlockerApi.middleware, walletApi.middleware),
+      serializableCheck: false,
+    }).concat(
+      liquidApi.middleware,
+      operatorApi.middleware,
+      walletUnlockerApi.middleware,
+      walletApi.middleware
+    ),
 });
+
+export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
+export const useTypedDispatch = (): AppDispatch => useDispatch<AppDispatch>();
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

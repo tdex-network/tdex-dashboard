@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useAppDispatch } from '../../app/hooks';
+import { useTypedDispatch } from '../../app/store';
 import { ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
 import { setTdexdConnectUrl } from '../settings/settingsSlice';
 
@@ -16,7 +16,7 @@ interface IFormInputs {
 export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const history = useHistory();
-  const dispatch = useAppDispatch();
+  const dispatch = useTypedDispatch();
 
   const onFinish = async () => {
     try {

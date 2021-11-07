@@ -1,7 +1,7 @@
 import './onboardingPairing.less';
 import { Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
@@ -15,14 +15,14 @@ interface IFormInputs {
 
 export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useTypedDispatch();
 
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-      history.push(ONBOARDING_SHOW_MNEMONIC_ROUTE);
+      navigate(ONBOARDING_SHOW_MNEMONIC_ROUTE);
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

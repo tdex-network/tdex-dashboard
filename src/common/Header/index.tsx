@@ -1,6 +1,7 @@
 import Icon, { MenuOutlined, PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Col, Dropdown, Layout, Menu, Row, Space } from 'antd';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import logo from '../../assets/images/tdex-logo.svg';
@@ -22,7 +23,7 @@ export const Header = (): JSX.Element => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a href={ONBOARDING_PAIRING_ROUTE}>Connect</a>
+        <Link to={ONBOARDING_PAIRING_ROUTE}>Connect</Link>
       </Menu.Item>
       <Menu.Item>
         <Button type="text" style={{ padding: 0 }} onClick={showUnlockWalletModal}>

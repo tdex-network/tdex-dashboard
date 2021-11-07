@@ -2,7 +2,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ONBOARDING_CONFIRM_MNEMONIC_ROUTE } from '../../routes/constants';
 
@@ -18,14 +18,14 @@ interface PasswordFormProps {
 export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [hasMatchingError, setHasMatchingError] = useState<boolean>(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
       if (values.password === values.passwordConfirm) {
         setHasMatchingError(false);
-        history.push(ONBOARDING_CONFIRM_MNEMONIC_ROUTE, { mnemonic, password: values.password });
+        navigate(ONBOARDING_CONFIRM_MNEMONIC_ROUTE, { state: { mnemonic, password: values.password } });
       } else {
         notification.error({ message: "Passwords don't match" });
         setHasMatchingError(true);

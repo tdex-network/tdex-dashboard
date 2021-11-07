@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
 
 import { Home } from '../features/home/Home';
 import { FeeDeposit } from '../features/operator/FeeDeposit';
@@ -21,14 +21,14 @@ import {
 
 export const Routes = (): JSX.Element => {
   return (
-    <Switch>
-      <Route exact path={HOME_ROUTE} component={Home} />
-      <Route exact path={MARKET_ROUTE} component={Market} />
-      <Route exact path={SETTINGS_ROUTE} component={Settings} />
-      <Route exact path={FEE_DEPOSIT_ROUTE} component={FeeDeposit} />
-      <Route exact path={ONBOARDING_PAIRING_ROUTE} component={OnboardingPairing} />
-      <Route exact path={ONBOARDING_SHOW_MNEMONIC_ROUTE} component={OnboardingShowMnemonic} />
-      <Route exact path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} component={OnboardingConfirmMnemonic} />
-    </Switch>
+    <ReactRouterDomRoutes>
+      <Route path={HOME_ROUTE} element={<Home />} />
+      <Route path={MARKET_ROUTE} element={<Market />} />
+      <Route path={SETTINGS_ROUTE} element={<Settings />} />
+      <Route path={FEE_DEPOSIT_ROUTE} element={<FeeDeposit />} />
+      <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
+      <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
+      <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
+    </ReactRouterDomRoutes>
   );
 };

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
-import { useAppDispatch } from '../../app/hooks';
+import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE } from '../../routes/constants';
 import { sleep } from '../../utils';
 import { setMacaroonCredentials } from '../settings/settingsSlice';
@@ -26,7 +26,7 @@ function shuffleMnemonic(words: string[]): string[] {
 
 export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const history = useHistory();
-  const dispatch = useAppDispatch();
+  const dispatch = useTypedDispatch();
   const { state } = useLocation<{ mnemonic: string[]; password: string }>();
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);

@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 
-import { useUnlockWalletMutation } from './walletUnlocker.api';
+import { useIsReadyQuery, useUnlockWalletMutation } from './walletUnlocker.api';
 
 interface IFormInputs {
   password: string;
@@ -22,19 +22,26 @@ export const UnlockModalForm = ({
 }: UnlockModalFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [unlockWallet, { error: unlockWalletError, isLoading }] = useUnlockWalletMutation();
+  const { data: isReady } = useIsReadyQuery();
 
   const handleUnlockWalletModalOk = async () => {
     try {
-      const values = await form.validateFields();
-      const res = await unlockWallet({ password: values.password });
-      // @ts-ignore
-      if (res?.error) {
-        // @ts-ignore
-        throw new Error(res?.error);
-      } else {
-        notification.success({ message: 'Wallet unlocked successfully' });
+      if (isReady?.isUnlocked) {
+        notification.success({ message: 'Wallet is already unlocked' });
         form.resetFields();
         handleUnlockWalletModalCancel();
+      } else {
+        const values = await form.validateFields();
+        const res = await unlockWallet({ password: values.password });
+        // @ts-ignore
+        if (res?.error) {
+          // @ts-ignore
+          throw new Error(res?.error);
+        } else {
+          notification.success({ message: 'Wallet unlocked successfully' });
+          form.resetFields();
+          handleUnlockWalletModalCancel();
+        }
       }
     } catch (err) {
       // @ts-ignore
@@ -48,7 +55,10 @@ export const UnlockModalForm = ({
       title="Unlock Wallet"
       visible={isUnlockWalletModalVisible}
       onOk={handleUnlockWalletModalOk}
-      onCancel={handleUnlockWalletModalCancel}
+      onCancel={() => {
+        form.resetFields();
+        handleUnlockWalletModalCancel();
+      }}
       confirmLoading={isLoading}
       closable={closable}
       maskClosable={closable}

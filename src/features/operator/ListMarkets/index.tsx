@@ -1,7 +1,7 @@
-import './list-markets.less';
-import { MarketListEmpty } from '../../home/MarketListEmpty';
+import './listMarkets.less';
 import { useListMarketsQuery } from '../operator.api';
 
+import { MarketListEmpty } from './MarketListEmpty';
 import { MarketListItem } from './MarketListItem';
 
 export const ListMarkets = (): JSX.Element => {

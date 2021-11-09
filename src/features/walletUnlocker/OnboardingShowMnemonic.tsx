@@ -18,27 +18,27 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
     <div id="show-mnemonic">
       <Row justify="center">
         <Col>
-          <Title level={2} className="dm-sans dm-sans__medium dm-sans__bold">
+          <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold">
             Secret Phrase
           </Title>
         </Col>
       </Row>
       <Row justify="center">
         <Col>
-          <p className="dm-sans dm-sans__small">Save your 24-word recovery phrase,in the correct order</p>
+          <p className="dm-sans dm-sans__x">Save your 24-word recovery phrase,in the correct order</p>
         </Col>
       </Row>
       <SeedMnemonicList seed={seedMnemonicList} />
       <Row justify="center">
         <Col>
-          <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__small">
+          <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__x">
             I’ve saved my Secret Phrase
           </Checkbox>
         </Col>
       </Row>
       <Row justify="center" className="mt-8">
         <Col>
-          <Title level={3} className="dm-sans dm-sans__bold dm-sans__medium">
+          <Title level={3} className="dm-sans dm-sans__bold dm-sans__xx">
             Set Password
           </Title>
         </Col>

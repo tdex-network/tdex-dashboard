@@ -42,7 +42,7 @@ export const OnboardingPairing = (): JSX.Element => {
   return (
     <Row id="pairing" className="w-100">
       <Col span={18} offset={3}>
-        <Title level={2} className="dm-sans dm-sans__medium dm-sans__bold text-center mb-8">
+        <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold text-center mb-8">
           Welcome on TDEX Dashboard
         </Title>
         <Form
@@ -57,7 +57,9 @@ export const OnboardingPairing = (): JSX.Element => {
             <Input.TextArea placeholder="Paste the tdexdconnect url or scan QR code" />
           </Form.Item>
           <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-            <Button htmlType="submit">PAIR DASHBOARD</Button>
+            <Button htmlType="submit" className="w-100">
+              PAIR DASHBOARD
+            </Button>
           </Form.Item>
         </Form>
       </Col>

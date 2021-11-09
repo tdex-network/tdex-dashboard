@@ -47,7 +47,7 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
     >
       <Form.Item
         name="password"
-        className={classNames('input-password', { 'has-error': hasMatchingError })}
+        className={classNames('input', { 'has-error': hasMatchingError })}
         rules={[
           {
             required: true,
@@ -66,7 +66,7 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
       </Form.Item>
       <Form.Item
         name="passwordConfirm"
-        className={classNames('input-password', { 'has-error': hasMatchingError })}
+        className={classNames('input', { 'has-error': hasMatchingError })}
         rules={[
           {
             required: true,
@@ -85,7 +85,9 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
       </Form.Item>
       {hasMatchingError && <p className="error">{hasMatchingError}</p>}
       <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
-        <Button htmlType="submit">Go To Mnemonic</Button>
+        <Button htmlType="submit" className="w-100">
+          Go To Mnemonic
+        </Button>
       </Form.Item>
     </Form>
   );

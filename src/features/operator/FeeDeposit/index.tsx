@@ -1,18 +1,51 @@
 import './feeDeposit.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, notification, Row, Typography } from 'antd';
 import QRCode from 'qrcode.react';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ReactComponent as chevronRight } from '../../../assets/images/ chevron-right.svg';
 import alertOctogon from '../../../assets/images/alert-octagon.svg';
+import { ReactComponent as chevronRight } from '../../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../../routes/constants';
-import { useGetFeeFragmenterAddressQuery } from '../operator.api';
+import {
+  useFragmentFeeDepositsMutation,
+  useGetFeeBalanceQuery,
+  useGetFeeFragmenterAddressQuery,
+} from '../operator.api';
 
 const { Text, Title } = Typography;
 
 export const FeeDeposit = (): JSX.Element => {
+  const { refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
+  const { refetch: refetchGetFeeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
+  const [fragmentFeeDeposits] = useFragmentFeeDepositsMutation();
+  const [isFragmenting, setIsFragmenting] = useState(false);
   const { data: feeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
+
+  const handleFragmentFeeDeposits = async () => {
+    try {
+      setIsFragmenting(true);
+      // @ts-ignore
+      const { data } = await fragmentFeeDeposits({ recoverAddress: '', maxFragment: 50 });
+      console.log('data', data);
+      data.on('status', async (status: any) => {
+        console.log('status', status);
+        if (status.code === 0) {
+          setIsFragmenting(false);
+          notification.success({ message: 'Fragmentation successful' });
+          await refetchGetFeeBalance();
+          await refetchGetFeeFragmenterAddress();
+        } else {
+          console.error('status', status);
+          notification.error({ message: status.details });
+          setIsFragmenting(false);
+        }
+      });
+    } catch (err) {
+      // @ts-ignore
+      notification.error({ message: err.message });
+    }
+  };
 
   return (
     <>
@@ -56,7 +89,9 @@ export const FeeDeposit = (): JSX.Element => {
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
               <Row>
                 <Col span={20} offset={2}>
-                  <Button>CONFIRM DEPOSIT</Button>
+                  <Button onClick={handleFragmentFeeDeposits} disabled={isFragmenting}>
+                    CONFIRM DEPOSIT
+                  </Button>
                 </Col>
               </Row>
             </Col>

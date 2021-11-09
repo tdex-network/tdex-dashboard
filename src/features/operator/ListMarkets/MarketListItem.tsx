@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import type { Market } from '../../../api-spec/generated/js/types_pb';
-import checkmark from '../../../assets/images/ checkmark.svg';
-import { CurrencyIcon } from '../../../common/Icons';
+import checkmark from '../../../assets/images/checkmark.svg';
+import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import { MARKET_ROUTE } from '../../../routes/constants';
 import { useGetAssetsDataQuery } from '../../liquid.api';
 

@@ -6,3 +6,4 @@ export const HOME_ROUTE = '/';
 export const MARKET_ROUTE = '/market';
 export const SETTINGS_ROUTE = '/settings';
 export const FEE_DEPOSIT_ROUTE = '/fee-deposit';
+export const CREATE_MARKET_ROUTE = '/create-market';

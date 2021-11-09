@@ -27,9 +27,7 @@ export const FeeDeposit = (): JSX.Element => {
       setIsFragmenting(true);
       // @ts-ignore
       const { data } = await fragmentFeeDeposits({ recoverAddress: '', maxFragment: 50 });
-      console.log('data', data);
       data.on('status', async (status: any) => {
-        console.log('status', status);
         if (status.code === 0) {
           setIsFragmenting(false);
           notification.success({ message: 'Fragmentation successful' });
@@ -49,13 +47,13 @@ export const FeeDeposit = (): JSX.Element => {
 
   return (
     <>
-      <Breadcrumb separator={<Icon component={chevronRight} />}>
+      <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
           <a href={HOME_ROUTE}>Dashboard</a>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Deposit</Breadcrumb.Item>
       </Breadcrumb>
-      <Row className="fee-deposit-container" gutter={{ xs: 25, sm: 30, md: 35 }}>
+      <Row className="fee-deposit-container">
         <Col span={12}>
           <Title level={4}>READ CAREFULLY!</Title>
           <p>
@@ -71,7 +69,7 @@ export const FeeDeposit = (): JSX.Element => {
           </p>
         </Col>
         <Col span={12}>
-          <Row className="grey-panel">
+          <Row className="panel panel__grey">
             <Col span={8} offset={8}>
               <QRCode className="qr-code" level="H" value={feeFragmenterAddress || ''} />
             </Col>
@@ -83,7 +81,7 @@ export const FeeDeposit = (): JSX.Element => {
               </Text>
             </Col>
           </Row>
-          <Row className="grey-panel text-center">
+          <Row className="panel panel__grey text-center">
             <Col span={20} offset={2}>
               <img src={alertOctogon} alt="alert" className="mb-2" />
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>

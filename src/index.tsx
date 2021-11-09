@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import './assets/styles/index.less';
@@ -13,9 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Router>
+        <HashRouter basename={process.env.PUBLIC_URL}>
           <App />
-        </Router>
+        </HashRouter>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

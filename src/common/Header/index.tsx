@@ -6,7 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import logo from '../../assets/images/tdex-logo.svg';
 import { UnlockModalForm } from '../../features/walletUnlocker/UnlockModalForm';
-import { CREATE_MARKET_ROUTE, ONBOARDING_PAIRING_ROUTE } from '../../routes/constants';
+import {
+  CREATE_MARKET_ROUTE,
+  HOME_ROUTE,
+  ONBOARDING_PAIRING_ROUTE,
+  SETTINGS_ROUTE,
+} from '../../routes/constants';
 
 export const Header = (): JSX.Element => {
   const { Header } = Layout;
@@ -40,9 +45,9 @@ export const Header = (): JSX.Element => {
     <Header className="h-100 mt-4">
       <Row>
         <Col span={12}>
-          <a href="/">
+          <Link to={HOME_ROUTE}>
             <img src={logo} alt="logo" style={{ height: '45px' }} />
-          </a>
+          </Link>
         </Col>
         <Col span={12} className="d-flex justify-end align-center pr-4">
           <Space>
@@ -58,7 +63,7 @@ export const Header = (): JSX.Element => {
                 <MenuOutlined />
               </a>
             </Dropdown>
-            <Button icon={<SettingOutlined />} href="/settings" />
+            <Button icon={<SettingOutlined />} onClick={() => navigate(SETTINGS_ROUTE)} />
           </Space>
         </Col>
       </Row>

@@ -16,7 +16,7 @@ export const ListMarkets = (): JSX.Element => {
       ) : (
         <MarketListEmpty />
       )}
-      {listMarketsError && <p>{listMarketsError}</p>}
+      {listMarketsError && <p className="error mt-2">{listMarketsError}</p>}
     </div>
   );
 };

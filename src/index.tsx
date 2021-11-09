@@ -13,7 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <HashRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
           <App />
         </HashRouter>
       </PersistGate>

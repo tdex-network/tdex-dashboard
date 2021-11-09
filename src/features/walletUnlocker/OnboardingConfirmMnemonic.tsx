@@ -109,14 +109,14 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       <div className="onboarding-content">
         <Row justify="center">
           <Col>
-            <Title level={2} className="dm-sans dm-sans__medium dm-sans__bold">
+            <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold">
               Confirm your secret mnemonic phrase
             </Title>
           </Col>
         </Row>
         <Row justify="center">
           <Col>
-            <p className="dm-sans dm-sans__small">
+            <p className="dm-sans dm-sans__x">
               Enter your secret twenty-four words of your mnemonic phrase to make sure it is correct
             </p>
           </Col>
@@ -147,7 +147,12 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       </div>
       <Row>
         <Col span={8} offset={8}>
-          <Button onClick={handleConfirm} disabled={wordsList.length > 0} loading={isLoading}>
+          <Button
+            onClick={handleConfirm}
+            disabled={wordsList.length > 0}
+            loading={isLoading}
+            className="w-100"
+          >
             CONFIRM
           </Button>
         </Col>

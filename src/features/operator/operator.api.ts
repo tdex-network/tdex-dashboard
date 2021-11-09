@@ -1,7 +1,7 @@
 import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
-import type { RpcError } from 'grpc-web';
+import type { Metadata, RpcError } from 'grpc-web';
 
 import type {
   GetInfoReply,
@@ -31,6 +31,7 @@ import type {
   Withdrawal,
   FragmentFeeDepositsReply,
   GetMarketCollectedSwapFeesReply,
+  StrategyType,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -198,7 +199,8 @@ const baseQueryFn: BaseQueryFn<
         const { recoverAddress, maxFragments } = body as { recoverAddress: string; maxFragments: number };
         return {
           data: await client.fragmentFeeDeposits(
-            new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments)
+            new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments),
+            metadata as Metadata | undefined
           ),
         };
       } catch (error) {
@@ -520,10 +522,12 @@ const baseQueryFn: BaseQueryFn<
       try {
         const { market, strategyType, meta } = body as {
           market: Market.AsObject;
-          strategyType: any;
-          meta: string;
+          strategyType: StrategyType;
+          meta?: string;
         };
         const { baseAsset, quoteAsset } = market;
+        console.log('baseAsset, quoteAsset', baseAsset, quoteAsset);
+        console.log('StrategyType', strategyType);
         const newMarket = new Market();
         newMarket.setBaseAsset(baseAsset);
         newMarket.setQuoteAsset(quoteAsset);
@@ -532,7 +536,7 @@ const baseQueryFn: BaseQueryFn<
           new UpdateMarketStrategyRequest()
             .setMarket(newMarket)
             .setStrategyType(strategyType)
-            .setMetadata(meta),
+            .setMetadata(meta || ''),
           metadata
         );
         return {
@@ -786,7 +790,7 @@ export const operatorApi = createApi({
     }),
     updateMarketStrategy: build.mutation<
       UpdateMarketStrategyReply.AsObject,
-      { market: Market.AsObject; strategyType: any; meta: string }
+      { market: Market.AsObject; strategyType: StrategyType; meta?: string }
     >({
       query: (body) => ({ methodName: 'updateMarketStrategy', body }),
       invalidatesTags: ['Market'],

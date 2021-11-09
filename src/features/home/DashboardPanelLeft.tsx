@@ -1,33 +1,31 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/types_pb';
-import { NewMarketForm } from '../operator/NewMarketForm';
+import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 
 const { Title } = Typography;
 
 export const DashboardPanelLeft = (): JSX.Element => {
+  const navigate = useNavigate();
   const { data: listMarkets } = useListMarketsQuery();
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //
   const markets = listMarkets?.marketsList.map((m) => m.market);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets as Market.AsObject[]);
-  // AddMarket Modal
-  const [isAddMarketModalVisible, setIsAddMarketModalVisible] = useState(false);
-  const showAddMarketModal = () => setIsAddMarketModalVisible(true);
-  const handleAddMarketModalCancel = () => setIsAddMarketModalVisible(false);
 
   return (
-    <div id="dashboard-panel-left-container" className="panel">
-      <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
+    <div id="dashboard-panel-left-container" className="panel w-100 h-100">
+      <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
         Total Earned
       </Title>
       <Row>
-        <Col className="dm-mono dm-mono__big" span={12}>
+        <Col className="dm-mono dm-mono__xxxxxx" span={12}>
           {totalCollectedSwapFees ?? 0}
         </Col>
         <Col className="total-earned-change" span={12}>
@@ -38,25 +36,25 @@ export const DashboardPanelLeft = (): JSX.Element => {
       <Divider style={{ margin: '12px 0 40px 0' }} />
       <Row gutter={{ xs: 10, sm: 30, md: 60 }}>
         <Col span={8} className="market-stats market-stats__active">
-          <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
             Active Markets
           </Title>
-          <div className="dm-mono dm-mono__big">{activeMarkets}</div>
+          <div className="dm-mono dm-mono__xxxxxx">{activeMarkets}</div>
         </Col>
         <Col span={8} className="market-stats market-stats">
-          <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
             Paused Markets
           </Title>
-          <div className="dm-mono dm-mono__big">{pausedMarkets}</div>
+          <div className="dm-mono dm-mono__xxxxxx">{pausedMarkets}</div>
         </Col>
         <Col span={8}>
-          <Button className="create-new-btn" icon={<PlusCircleOutlined />} onClick={showAddMarketModal}>
+          <Button
+            className="create-new-btn"
+            icon={<PlusCircleOutlined />}
+            onClick={() => navigate(CREATE_MARKET_ROUTE)}
+          >
             CREATE NEW
           </Button>
-          <NewMarketForm
-            isAddMarketModalVisible={isAddMarketModalVisible}
-            handleAddMarketModalCancel={handleAddMarketModalCancel}
-          />
         </Col>
       </Row>
     </div>

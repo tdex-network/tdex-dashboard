@@ -1,8 +1,8 @@
-button.ant-btn, a.ant-btn {
+button.ant-btn,
+a.ant-btn {
   font-family: 'dm-sans', sans-serif;
   font-weight: bold;
   font-size: 12px;
-  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -11,6 +11,7 @@ button.ant-btn, a.ant-btn {
     &:hover {
       color: #27cb1f;
       background: transparent;
+      box-shadow: none;
     }
   }
   .anticon {
@@ -22,10 +23,51 @@ button.ant-btn, a.ant-btn {
   }
   &:hover {
     color: @primary-color;
-    background: #3a5237;
+    box-shadow: 0 0 0 1px @primary-color inset;
   }
   &:focus {
     color: @primary-color;
     background: @btn-default-bg;
+  }
+}
+
+button.ant-btn.ant-btn-ghost,
+a.ant-btn.ant-btn-ghost {
+  font-family: dm-mono, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #7d7d7d;
+  &:hover {
+    border: none;
+    box-shadow: none;
+    color: @grey-x-light;
+  }
+  &:focus {
+    background: transparent;
+  }
+}
+
+// Radio buttons
+.ant-radio-group {
+  .ant-radio-button-wrapper {
+    height: 38px;
+    font-weight: bold;
+    padding: 0 20px;
+    border-radius: 8px !important;
+    border: none !important;
+    align-items: center;
+    display: inline-flex;
+    &:not(:last-child) {
+      margin-right: 10px !important;
+    }
+    &:not(:first-child)::before {
+      width: 0;
+    }
+    &:hover, &:focus, &:checked {
+      box-shadow: 0 0 0 1px @primary-color inset !important;
+    }
+    &.ant-radio-button-wrapper-checked {
+      box-shadow: 0 0 0 1px @primary-color inset !important;
+    }
   }
 }

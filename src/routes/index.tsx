@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
 
 import { Home } from '../features/home/Home';
+import { CreateMarket } from '../features/operator/CreateMarket';
 import { FeeDeposit } from '../features/operator/FeeDeposit';
 import { Market } from '../features/operator/Market';
 import { Settings } from '../features/settings/Settings';
@@ -17,6 +18,7 @@ import {
   ONBOARDING_PAIRING_ROUTE,
   ONBOARDING_SHOW_MNEMONIC_ROUTE,
   ONBOARDING_CONFIRM_MNEMONIC_ROUTE,
+  CREATE_MARKET_ROUTE,
 } from './constants';
 
 export const Routes = (): JSX.Element => {
@@ -26,6 +28,7 @@ export const Routes = (): JSX.Element => {
       <Route path={MARKET_ROUTE} element={<Market />} />
       <Route path={SETTINGS_ROUTE} element={<Settings />} />
       <Route path={FEE_DEPOSIT_ROUTE} element={<FeeDeposit />} />
+      <Route path={CREATE_MARKET_ROUTE} element={<CreateMarket />} />
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />

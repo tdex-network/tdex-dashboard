@@ -1,38 +1,27 @@
 import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
-import { Button, Col, Row, Space, Typography } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE } from '../../routes/constants';
 import { WithdrawFeeForm } from '../operator/WithdrawFeeForm';
-import { useGetFeeBalanceQuery, useGetFeeFragmenterAddressQuery } from '../operator/operator.api';
+import { useGetFeeBalanceQuery } from '../operator/operator.api';
 
 export const DashboardPanelRight = (): JSX.Element => {
   const { Title } = Typography;
   const navigate = useNavigate();
   const { data: feeBalance } = useGetFeeBalanceQuery();
-  const { data: feeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
 
   return (
-    <Space direction="vertical" size={30} id="dashboard-panel-right-container" className="panel">
+    <div id="dashboard-panel-right-container" className="panel w-100 h-100">
       <Row>
-        <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
+        <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
           Fee Account Balance
         </Title>
-        <Col className="dm-mono dm-mono__big" span={24}>
+        <Col className="dm-mono dm-mono__xxxxxx" span={24}>
           {feeBalance?.totalBalance ?? 'N/A'}
-        </Col>
-      </Row>
-      <Row>
-        <Title className="dm-sans dm-sans__small dm-sans__bold dm-sans__grey" level={3}>
-          Fee Account Address
-        </Title>
-        <Col span={24}>
-          <div className="fee-address-container dm-mono dm-mono__medium break-all">
-            {feeFragmenterAddress ?? 'N/A'}
-          </div>
         </Col>
       </Row>
       <Row gutter={{ xs: 8, sm: 12, md: 16 }}>
@@ -49,6 +38,6 @@ export const DashboardPanelRight = (): JSX.Element => {
           </Button>
         </Col>
       </Row>
-    </Space>
+    </div>
   );
 };

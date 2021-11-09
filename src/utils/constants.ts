@@ -10,6 +10,9 @@ export const BTSE_TICKER = 'BTSE';
 // Blockstream Jade voucher
 export const BJDE_TICKER = 'B-JDE';
 
+export const LBTC_COINGECKOID = 'bitcoin';
+export const USDT_COINGECKOID = 'tether';
+
 export const LBTC_ASSET: Asset =
   network.chain === 'regtest'
     ? {
@@ -26,3 +29,20 @@ export const LBTC_ASSET: Asset =
         chain: 'liquid',
         name: 'Liquid Bitcoin',
       };
+
+export const featuredAssets: Asset[] = [
+  LBTC_ASSET,
+  {
+    coinGeckoID: USDT_COINGECKOID,
+    ticker: USDT_TICKER,
+    asset_id: 'ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2',
+    precision: 8,
+    name: 'Tether USD',
+  },
+  {
+    ticker: LCAD_TICKER,
+    asset_id: '0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a',
+    precision: 8,
+    name: 'Liquid CAD',
+  },
+];

@@ -2,6 +2,7 @@
 @import 'button.less';
 @import 'fonts.less';
 @import 'typography.less';
+@import 'select.less';
 
 .error {
   font-size: 0.8rem;
@@ -19,30 +20,25 @@
 
 .panel {
   border-radius: 8px;
-  background-color: #000000;
-  height: 100%;
-  width: 100%;
   padding: 24px 20px;
-}
-
-.ant-row.grey-panel {
-  background-color: #252525;
-  border-radius: 8px;
-  padding: 20px 0;
+  background-color: #000000;
+  &__grey {
+    background-color: #252525;
+  }
 }
 
 // Notification Fix Icon Colors
 .ant-notification-notice-icon-success {
-  color: #0fff00;
+  color: @primary-color !important;
 }
 .ant-notification-notice-icon-info {
-  color: @info-color;
+  color: @info-color !important;
 }
 .ant-notification-notice-icon-warning {
-  color: @warning-color;
+  color: @warning-color !important;
 }
 .ant-notification-notice-icon-error {
-  color: @error-color;
+  color: @error-color !important;
 }
 
 canvas.qr-code {
@@ -63,3 +59,30 @@ canvas.qr-code {
   }
 }
 
+//.anticon {
+//  color: @grey-light;
+//  &.anticon-setting {
+//    color: @primary-color;
+//  }
+//}
+
+div.ant-divider {
+  border-top: 2px solid #000000;
+  &.ant-divider-horizontal {
+    margin: 8px 0;
+  }
+}
+
+.input {
+  .ant-form-item-control-input {
+    background-color: @grey-dark;
+    border-radius: 8px;
+    height: 46px;
+    .ant-form-item-control-input-content {
+      height: 100%;
+      .ant-input-affix-wrapper, .ant-input {
+        height: 100%;
+      }
+    }
+  }
+}

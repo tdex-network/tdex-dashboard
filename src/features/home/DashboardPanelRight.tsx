@@ -8,8 +8,9 @@ import { ReactComponent as depositIcon } from '../../assets/images/deposit-green
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
 
+const { Title } = Typography;
+
 export const DashboardPanelRight = (): JSX.Element => {
-  const { Title } = Typography;
   const navigate = useNavigate();
   const { data: feeBalance } = useGetFeeBalanceQuery();
 

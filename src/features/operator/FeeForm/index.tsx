@@ -11,19 +11,35 @@ import { useUpdateMarketFixedFeeMutation, useUpdateMarketPercentageFeeMutation }
 const { Title } = Typography;
 
 interface IFormInputs {
-  feeAbsoluteBase: string;
-  feeAbsoluteQuote: string;
-  feeRelative: string;
+  feeAbsoluteBaseInput: string;
+  feeAbsoluteQuoteInput: string;
+  feeRelativeInput: string;
 }
 
 interface FeeFormProps {
   baseAsset: Asset;
   quoteAsset: Asset;
-  className: string;
-  setStep: (step: number) => void;
+  feeAbsoluteBase?: string;
+  feeAbsoluteQuote?: string;
+  feeRelative?: string;
+  className?: string;
+  setStep?: (step: number) => void;
 }
 
-export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormProps): JSX.Element => {
+const FEE_ABSOLUTE_BASE_DEFAULT = '0';
+const FEE_ABSOLUTE_QUOTE_DEFAULT = '0';
+const FEE_RELATIVE_DEFAULT = '25';
+
+export const FeeForm = ({
+  baseAsset,
+  quoteAsset,
+  className,
+  setStep,
+  feeAbsoluteBase = FEE_ABSOLUTE_BASE_DEFAULT,
+  feeAbsoluteQuote = FEE_ABSOLUTE_QUOTE_DEFAULT,
+  feeRelative = FEE_RELATIVE_DEFAULT,
+}: FeeFormProps): JSX.Element => {
+  console.log('baseAsset', baseAsset);
   const [form] = Form.useForm<IFormInputs>();
   const [updateMarketPercentageFee] = useUpdateMarketPercentageFeeMutation();
   const [updateMarketFixedFee] = useUpdateMarketFixedFeeMutation();
@@ -32,18 +48,21 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
     try {
       const values = await form.validateFields();
       const updateMarketPercentageFeeRes = await updateMarketPercentageFee({
-        basisPoint: Number(values.feeRelative),
+        basisPoint: Number(values.feeRelativeInput) * 100,
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
       });
       // @ts-ignore
       if (updateMarketPercentageFeeRes?.error) throw new Error(updateMarketPercentageFeeRes?.error);
       const updateMarketFixedFeeRes = await updateMarketFixedFee({
-        fixedFee: { baseFee: Number(values.feeAbsoluteBase), quoteFee: Number(values.feeAbsoluteQuote) },
+        fixedFee: {
+          baseFee: Number(values.feeAbsoluteBaseInput),
+          quoteFee: Number(values.feeAbsoluteQuoteInput),
+        },
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
       });
       // @ts-ignore
       if (updateMarketFixedFeeRes?.error) throw new Error(updateMarketFixedFeeRes?.error);
-      setStep(2);
+      setStep?.(2);
       notification.success({ message: 'Market fees updated successfully' });
     } catch (err) {
       // @ts-ignore
@@ -51,8 +70,13 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
     }
   };
 
-  const resetAll = () => {
-    form.resetFields();
+  const resetAll = async () => {
+    form.setFieldsValue({
+      feeAbsoluteBaseInput: FEE_ABSOLUTE_BASE_DEFAULT,
+      feeAbsoluteQuoteInput: FEE_ABSOLUTE_QUOTE_DEFAULT,
+      feeRelativeInput: String(Number(FEE_RELATIVE_DEFAULT) / 100),
+    });
+    await onFinish();
   };
 
   return (
@@ -60,11 +84,15 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
       layout="vertical"
       form={form}
       name="fee_form"
-      initialValues={{ feeAbsoluteBase: 0, feeAbsoluteQuote: 0, feeRelative: 3 }}
+      initialValues={{
+        feeAbsoluteBaseInput: feeAbsoluteBase,
+        feeAbsoluteQuoteInput: feeAbsoluteQuote,
+        feeRelativeInput: Number(feeRelative) / 100,
+      }}
       onFinish={onFinish}
       className={`${className} mb-4`}
     >
-      <div className="panel panel__grey">
+      <div className="panel panel__grey h-100">
         <Row>
           <Col span={24}>
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
@@ -79,11 +107,11 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
             <span className="dm-sans dm-sans__xx ml-2">{baseAsset.ticker}</span>
           </Col>
           <Col span={10}>
-            <Form.Item name="feeAbsoluteBase" noStyle>
+            <Form.Item name="feeAbsoluteBaseInput" noStyle>
               <Input
                 type="number"
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteBase: '0' });
+                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteBaseInput: '0' });
                 }}
               />
             </Form.Item>
@@ -96,11 +124,11 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
             <span className="dm-sans dm-sans__xx ml-2">{quoteAsset.ticker}</span>
           </Col>
           <Col span={10}>
-            <Form.Item name="feeAbsoluteQuote" noStyle>
+            <Form.Item name="feeAbsoluteQuoteInput" noStyle>
               <Input
                 type="number"
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteQuote: '0' });
+                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteQuoteInput: '0' });
                 }}
               />
             </Form.Item>
@@ -116,18 +144,18 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
         </Row>
         <Row align="middle" className="fee-relative-container">
           <Col span={14}>
-            <MarketIcons baseAsset={baseAsset.ticker} quoteAsset={quoteAsset.ticker} />
+            <MarketIcons baseAsset={baseAsset.ticker} quoteAsset={quoteAsset.ticker} size="medium" />
             <span className="dm-sans dm-sans__xx">
               {baseAsset.ticker} / {quoteAsset.ticker}
             </span>
           </Col>
           <Col span={10}>
-            <Form.Item name="feeRelative" noStyle>
+            <Form.Item name="feeRelativeInput" noStyle>
               <Input
                 type="number"
                 suffix={'%'}
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeRelative: '0' });
+                  if (!ev.target.value) form.setFieldsValue({ feeRelativeInput: '0' });
                 }}
               />
             </Form.Item>
@@ -135,9 +163,9 @@ export const FeeForm = ({ baseAsset, quoteAsset, className, setStep }: FeeFormPr
         </Row>
         <Row align="middle" className="fee-relative-btn-container">
           <Col span={14}>
-            <Button onClick={() => form.setFieldsValue({ feeRelative: '0.25' })}>0.25%</Button>
-            <Button onClick={() => form.setFieldsValue({ feeRelative: '3' })}>3%</Button>
-            <Button onClick={() => form.setFieldsValue({ feeRelative: '10' })}>10%</Button>
+            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '0.25' })}>0.25%</Button>
+            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '3' })}>3%</Button>
+            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '10' })}>10%</Button>
           </Col>
         </Row>
         <Row className="confirm-btn-container">

@@ -9,31 +9,21 @@ export const liquidApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blockstream.info/liquid/api/' }),
   endpoints: (build) => ({
     getAssetData: build.query<Asset, string>({
-      query: (assetHash) => `asset/${assetHash}`,
-    }),
-    getAssetsData: build.query<Record<string, Asset>, Record<string, string>>({
       async queryFn(
         arg,
         api,
         extraOptions,
         baseQuery
-      ): Promise<{ data: Record<string, Asset> } | { error: FetchBaseQueryError }> {
+      ): Promise<{ data: Asset } | { error: FetchBaseQueryError }> {
         try {
-          const assetRes: Record<string, Asset> = {};
-          for await (const asset of Object.entries(arg).map(([assetType, assetHash]) => ({
-            assetType,
-            assetData: baseQuery(`asset/${assetHash}`),
-          }))) {
-            const assetData = await asset.assetData;
-            if (assetData.error) throw assetData.error;
-            const { asset_id, name, precision, ticker } = assetData.data as Asset;
-            if (asset_id === LBTC_ASSET.asset_id) {
-              assetRes[asset.assetType] = LBTC_ASSET;
-            } else {
-              assetRes[asset.assetType] = { asset_id, name, precision, ticker };
-            }
+          // Checking if asset is LBTC because Esplora 'asset' endpoint does not return ticker for LBTC
+          if (arg === LBTC_ASSET.asset_id) return { data: LBTC_ASSET };
+          const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
+          // Use first 4 asset id chars if no ticker
+          if (!res.data.ticker) {
+            res.data.ticker = res.data.asset_id.substring(0, 4).toUpperCase();
           }
-          return { data: assetRes };
+          return res;
         } catch (err) {
           return { error: err as FetchBaseQueryError };
         }
@@ -46,9 +36,4 @@ export const liquidApi = createApi({
   }),
 });
 
-export const {
-  useGetUtxosByAddressQuery,
-  useGetAssetDataQuery,
-  useGetAssetsDataQuery,
-  useGetLastBlockHeightQuery,
-} = liquidApi;
+export const { useGetUtxosByAddressQuery, useGetAssetDataQuery, useGetLastBlockHeightQuery } = liquidApi;

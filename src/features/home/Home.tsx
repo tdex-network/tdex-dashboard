@@ -15,7 +15,7 @@ export const Home = (): JSX.Element => {
         Dashboard Overview
       </Title>
 
-      <Row gutter={{ xs: 4, sm: 6, md: 8 }} style={{ marginBottom: '34px' }}>
+      <Row gutter={{ xs: 4, sm: 8, md: 12 }} className="mb-8">
         <Col span={12}>
           <DashboardPanelLeft />
         </Col>

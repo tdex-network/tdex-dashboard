@@ -1,4 +1,3 @@
-import './feeDeposit.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, notification, Row, Typography } from 'antd';
 import QRCode from 'qrcode.react';
@@ -53,7 +52,7 @@ export const FeeDeposit = (): JSX.Element => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Deposit</Breadcrumb.Item>
       </Breadcrumb>
-      <Row className="fee-deposit-container">
+      <Row className="panel">
         <Col span={12}>
           <Title level={4}>READ CAREFULLY!</Title>
           <p>

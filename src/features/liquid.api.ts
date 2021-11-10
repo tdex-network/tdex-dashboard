@@ -20,11 +20,13 @@ export const liquidApi = createApi({
           if (arg === LBTC_ASSET.asset_id) return { data: LBTC_ASSET };
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
           // Use first 4 asset id chars if no ticker
-          if (!res.data.ticker) {
+          if (!res.data?.ticker) {
             res.data.ticker = res.data.asset_id.substring(0, 4).toUpperCase();
           }
+          console.log('res', res);
           return res;
         } catch (err) {
+          console.log('catch', err);
           return { error: err as FetchBaseQueryError };
         }
       },

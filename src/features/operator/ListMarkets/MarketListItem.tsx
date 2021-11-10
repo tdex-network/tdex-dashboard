@@ -14,8 +14,27 @@ interface MarketListItemProps {
 export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element => {
   const navigate = useNavigate();
   const { tradable } = marketInfo;
-  const { data: baseAsset } = useGetAssetDataQuery(marketInfo.market?.baseAsset || '');
-  const { data: quoteAsset } = useGetAssetDataQuery(marketInfo.market?.quoteAsset || '');
+  const { data: baseAssetFromQuery, error: baseAssetError } = useGetAssetDataQuery(
+    marketInfo.market?.baseAsset || ''
+  );
+  const { data: quoteAssetFromQuery, error: quoteAssetError } = useGetAssetDataQuery(
+    marketInfo.market?.quoteAsset || ''
+  );
+  const baseAsset = baseAssetError
+    ? {
+        asset_id: marketInfo.market?.baseAsset,
+        ticker: marketInfo.market?.baseAsset?.substring(0, 4).toUpperCase(),
+      }
+    : baseAssetFromQuery;
+  const quoteAsset = quoteAssetError
+    ? {
+        asset_id: marketInfo.market?.quoteAsset,
+        ticker: marketInfo.market?.quoteAsset?.substring(0, 4).toUpperCase(),
+      }
+    : quoteAssetFromQuery;
+
+  console.log('baseAssetError', baseAssetError);
+  console.log('quoteAssetError', quoteAssetError);
 
   const handleClickMarketDetails = () => {
     navigate(MARKET_ROUTE, { state: { baseAsset, quoteAsset } });

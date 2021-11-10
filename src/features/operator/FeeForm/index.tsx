@@ -47,6 +47,9 @@ export const FeeForm = ({
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
+      console.log('values', values);
+      console.log('baseAsset.asset_id', baseAsset.asset_id);
+      console.log('quoteAsset.asset_id', quoteAsset.asset_id);
       const updateMarketPercentageFeeRes = await updateMarketPercentageFee({
         basisPoint: Number(values.feeRelativeInput) * 100,
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },

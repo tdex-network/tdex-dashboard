@@ -53,7 +53,8 @@ export const FeeDeposit = (): JSX.Element => {
         <Breadcrumb.Item>Deposit</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col span={12}>
+        <Col span={12} className="pr-10">
+          <Button className="w-100 mb-4">CREATE NEW DEPOSIT ADDRESS</Button>
           <Title level={4}>READ CAREFULLY!</Title>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.,Lorem Ipsum has been

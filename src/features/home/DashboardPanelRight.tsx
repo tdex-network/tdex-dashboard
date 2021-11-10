@@ -5,8 +5,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
-import { FEE_DEPOSIT_ROUTE } from '../../routes/constants';
-import { WithdrawFeeForm } from '../operator/WithdrawFeeForm';
+import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
 
 export const DashboardPanelRight = (): JSX.Element => {
@@ -26,7 +25,13 @@ export const DashboardPanelRight = (): JSX.Element => {
       </Row>
       <Row gutter={{ xs: 8, sm: 12, md: 16 }}>
         <Col span={12}>
-          <WithdrawFeeForm />
+          <Button
+            onClick={() => navigate(FEE_WITHDRAW_ROUTE)}
+            className="rotate-icon w-100 justify-center"
+            icon={<Icon component={depositIcon} />}
+          >
+            WITHDRAW
+          </Button>
         </Col>
         <Col span={12}>
           <Button

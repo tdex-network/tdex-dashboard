@@ -1,16 +1,16 @@
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
+import { Breadcrumb, Col, Row, Typography } from 'antd';
 import React from 'react';
 
 import { ReactComponent as chevronRight } from '../../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../../routes/constants';
-import { useWithdrawFeeMutation } from '../operator.api';
+//import { useWithdrawFeeMutation } from '../operator.api';
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 export const FeeWithdraw = (): JSX.Element => {
-  const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
-    useWithdrawFeeMutation();
+  // const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
+  //   useWithdrawFeeMutation();
 
   return (
     <>

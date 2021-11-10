@@ -21,6 +21,8 @@ export const liquidApi = createApi({
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
           console.log('//res', res);
           console.log('//arg', arg);
+          // @ts-ignore
+          if (res.error) throw new Error(res.error.data);
           // Use first 4 asset id chars if no ticker
           if (!res.data?.ticker) {
             res.data.ticker = res.data?.asset_id.substring(0, 4).toUpperCase();

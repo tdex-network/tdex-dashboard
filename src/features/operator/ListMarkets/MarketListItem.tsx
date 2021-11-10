@@ -36,6 +36,9 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
   console.log('baseAssetError', baseAssetError);
   console.log('quoteAssetError', quoteAssetError);
 
+  console.log('baseAsset', baseAssetError);
+  console.log('quoteAsset', quoteAssetError);
+
   const handleClickMarketDetails = () => {
     navigate(MARKET_ROUTE, { state: { baseAsset, quoteAsset } });
   };

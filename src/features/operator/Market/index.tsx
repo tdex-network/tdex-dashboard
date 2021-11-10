@@ -1,14 +1,14 @@
 import Icon, { SettingOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit-green.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../common/MarketIcons';
 import type { Asset } from '../../../domain/asset';
-import { HOME_ROUTE } from '../../../routes/constants';
+import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE, HOME_ROUTE } from '../../../routes/constants';
 import { LBTC_TICKER, USDT_TICKER } from '../../../utils';
 import { FeeForm } from '../FeeForm';
 import { MarketSettings } from '../MarketSettings';
@@ -17,6 +17,7 @@ import { useListMarketsQuery } from '../operator.api';
 const { Title } = Typography;
 
 export const Market = (): JSX.Element => {
+  const navigate = useNavigate();
   const { data: listMarkets } = useListMarketsQuery();
 
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
@@ -59,10 +60,16 @@ export const Market = (): JSX.Element => {
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>
             <Space size={16}>
-              <Button className="rotate-icon" icon={<Icon component={depositIcon} />}>
+              <Button
+                className="rotate-icon"
+                icon={<Icon component={depositIcon} />}
+                onClick={() => navigate(FEE_WITHDRAW_ROUTE)}
+              >
                 WITHDRAW
               </Button>
-              <Button icon={<Icon component={depositIcon} />}>DEPOSIT</Button>
+              <Button icon={<Icon component={depositIcon} />} onClick={() => navigate(FEE_DEPOSIT_ROUTE)}>
+                DEPOSIT
+              </Button>
               <Button icon={<SettingOutlined />} onClick={showMarketSettingsModal} />
             </Space>
           </Col>

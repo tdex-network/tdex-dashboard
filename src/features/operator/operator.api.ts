@@ -526,8 +526,6 @@ const baseQueryFn: BaseQueryFn<
           meta?: string;
         };
         const { baseAsset, quoteAsset } = market;
-        console.log('baseAsset, quoteAsset', baseAsset, quoteAsset);
-        console.log('StrategyType', strategyType);
         const newMarket = new Market();
         newMarket.setBaseAsset(baseAsset);
         newMarket.setQuoteAsset(quoteAsset);

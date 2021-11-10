@@ -19,9 +19,11 @@ export const liquidApi = createApi({
           // Checking if asset is LBTC because Esplora 'asset' endpoint does not return ticker for LBTC
           if (arg === LBTC_ASSET.asset_id) return { data: LBTC_ASSET };
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
+          // @ts-ignore
+          if (res.error) throw new Error(res.error.data);
           // Use first 4 asset id chars if no ticker
-          if (!res.data.ticker) {
-            res.data.ticker = res.data.asset_id.substring(0, 4).toUpperCase();
+          if (!res.data?.ticker) {
+            res.data.ticker = res.data?.asset_id.substring(0, 4).toUpperCase();
           }
           return res;
         } catch (err) {

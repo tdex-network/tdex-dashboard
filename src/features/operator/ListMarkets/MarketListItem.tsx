@@ -20,6 +20,7 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
   const { data: quoteAssetFromQuery, error: quoteAssetError } = useGetAssetDataQuery(
     marketInfo.market?.quoteAsset || ''
   );
+  // Last resort if GetAssetData fails
   const baseAsset = baseAssetError
     ? {
         asset_id: marketInfo.market?.baseAsset,
@@ -32,9 +33,6 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
         ticker: marketInfo.market?.quoteAsset?.substring(0, 4).toUpperCase(),
       }
     : quoteAssetFromQuery;
-
-  console.log('baseAssetError', baseAssetError);
-  console.log('quoteAssetError', quoteAssetError);
 
   const handleClickMarketDetails = () => {
     navigate(MARKET_ROUTE, { state: { baseAsset, quoteAsset } });

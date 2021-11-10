@@ -1,6 +1,6 @@
 import './createMarket.less';
-import Icon from '@ant-design/icons';
-import { Breadcrumb, Row, Col } from 'antd';
+import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+import { Breadcrumb, Row, Col, Typography } from 'antd';
 import clx from 'classnames';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,9 +10,11 @@ import type { Asset } from '../../../domain/asset';
 import { HOME_ROUTE } from '../../../routes/constants';
 import { LBTC_ASSET } from '../../../utils';
 import { FeeForm } from '../FeeForm';
-import { MarketStrategyForm } from '../MarketStrategyForm';
+import { MarketStrategy } from '../MarketStrategy';
 
 import { MarketPairForm } from './MarketPairForm';
+
+const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET);
@@ -29,7 +31,7 @@ export const CreateMarket = (): JSX.Element => {
           <Breadcrumb.Item>Create New Market</Breadcrumb.Item>
         </Breadcrumb>
         <Row>
-          <Col span={24} className="create-market-container">
+          <Col span={24} className="create-market-container panel">
             <MarketPairForm
               setBaseAsset={setBaseAsset}
               setQuoteAsset={setQuoteAsset}
@@ -43,10 +45,17 @@ export const CreateMarket = (): JSX.Element => {
               className={clx({ disabled: step < 1 })}
               setStep={setStep}
             />
-            <MarketStrategyForm
-              market={{ baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id }}
-              className={clx({ disabled: step < 2 })}
-            />
+            <div className={clx('panel panel__grey', { disabled: step < 2 })}>
+              <Row className="mb-4">
+                <Col span={24}>
+                  <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                    Set Market Strategy
+                  </Title>
+                  <InfoCircleOutlined />
+                </Col>
+              </Row>
+              <MarketStrategy market={{ baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id }} />
+            </div>
           </Col>
         </Row>
       </Col>

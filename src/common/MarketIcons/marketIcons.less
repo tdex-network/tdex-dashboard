@@ -1,4 +1,6 @@
 .market-icons {
+  line-height: 1;
+  font-size: 24px;
   .quote-icon {
     span:nth-child(1) {
       width: 24px;
@@ -13,6 +15,27 @@
       filter: invert(50%) brightness(33%) contrast(100%);
       position: absolute;
       left: 14px;
+    }
+  }
+}
+
+.market-icons__big {
+  line-height: 1;
+  font-size: 45px;
+  .quote-icon {
+    span:nth-child(1) {
+      width: 45px;
+      transform: translateX(-20px);
+      display: inline-block;
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    span:nth-child(2) {
+      filter: brightness(0);
+      position: absolute;
+      left: 23px;
     }
   }
 }

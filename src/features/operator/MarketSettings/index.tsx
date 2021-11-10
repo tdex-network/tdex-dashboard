@@ -1,84 +1,128 @@
-import { Button, Form, Modal, Row, Col, Slider, Typography } from 'antd';
-import React, { useState } from 'react';
+import './marketSettings.less';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Modal, Row, Col, Typography, Switch, notification, Divider, Input, Button } from 'antd';
+import type { SwitchChangeEventHandler } from 'antd/es/switch';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import type { Market } from '../../../api-spec/generated/js/types_pb';
-import type { UpdateMarketStrategyFormInputs } from '../UpdateMarketStrategyForm';
-import { UpdateMarketStrategyForm } from '../UpdateMarketStrategyForm';
+import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
+import alertOctogon from '../../../assets/images/alert-octagon.svg';
+import { HOME_ROUTE } from '../../../routes/constants';
+import { MarketStrategy } from '../MarketStrategy';
+import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../operator.api';
 
 interface MarketSettingsProps {
-  market?: Market.AsObject;
-}
-
-interface StandardFeeFormInputs {
-  basisPoint: number;
+  marketInfo?: MarketInfo.AsObject;
+  isMarketSettingsModalVisible: boolean;
+  handleMarketSettingsModalCancel: () => void;
 }
 
 const { Title } = Typography;
 
-export const MarketSettings = ({ market }: MarketSettingsProps): JSX.Element => {
-  console.log('market', market);
-  const [standardFeeForm] = Form.useForm<StandardFeeFormInputs>();
-  const [marketStrategyForm] = Form.useForm<UpdateMarketStrategyFormInputs>();
+export const MarketSettings = ({
+  marketInfo,
+  isMarketSettingsModalVisible,
+  handleMarketSettingsModalCancel,
+}: MarketSettingsProps): JSX.Element => {
+  const navigate = useNavigate();
+  const [openMarket] = useOpenMarketMutation();
+  const [closeMarket] = useCloseMarketMutation();
+  const [dropMarket] = useDropMarketMutation();
 
-  const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
-
-  const showMarketSettingsModal = () => {
-    setIsMarketSettingsModalVisible(true);
+  const handlePauseMarket: SwitchChangeEventHandler = (isActive) => {
+    if (isActive) {
+      openMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      notification.success({ message: 'Market opened successfully' });
+    } else {
+      closeMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      notification.info({ message: 'Market closed successfully' });
+    }
   };
 
-  const handleMarketSettingsModalCancel = () => {
-    setIsMarketSettingsModalVisible(false);
+  const handleClickDropMarket = () => {
+    if (!marketInfo?.market?.baseAsset || !marketInfo?.market?.quoteAsset) return;
+    dropMarket({ baseAsset: marketInfo.market.baseAsset, quoteAsset: marketInfo.market.quoteAsset });
+    notification.success({ message: 'Market closed successfully' });
+    navigate(HOME_ROUTE);
   };
 
   return (
-    <>
-      <Button onClick={showMarketSettingsModal}>Settings</Button>
-      <Modal
-        title="Market Settings"
-        visible={isMarketSettingsModalVisible}
-        onCancel={handleMarketSettingsModalCancel}
-        closable={false}
-        footer={<></>}
-      >
-        <Form
-          layout="vertical"
-          form={standardFeeForm}
-          name="market_settings_form"
-          wrapperCol={{ span: 24 }}
-          validateTrigger="onBlur"
-        >
-          <Row>
-            <Col>SET STANDARD FEE</Col>
-            <Col>
-              <Button>FIXED</Button>
-              <Button>%</Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form.Item name="slider" label="Slider">
-                <Slider
-                  marks={{
-                    0: '0',
-                    20: '0.1',
-                    40: '0.2',
-                    60: '0.3',
-                    80: '0.4',
-                    100: '0.5',
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
+    <Modal
+      visible={isMarketSettingsModalVisible}
+      onCancel={handleMarketSettingsModalCancel}
+      closable={false}
+      footer={<></>}
+      className="market-settings-modal"
+    >
+      <Row>
+        <Col span={12}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+            Pause Market
+          </Title>
+          <InfoCircleOutlined />
+        </Col>
+        <Col span={12} style={{ textAlign: 'right' }}>
+          <Switch onChange={handlePauseMarket} checked={marketInfo?.tradable} />
+        </Col>
+      </Row>
 
-          <Title level={2}>Pluggable Strategy</Title>
-          <Row>
-            <Col>
-              <UpdateMarketStrategyForm form={marketStrategyForm} />
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
-    </>
+      <Divider className="my-4" />
+
+      <Row className="mb-2">
+        <Col span={12}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+            Set Market Strategy
+          </Title>
+          <InfoCircleOutlined />
+        </Col>
+      </Row>
+      <MarketStrategy market={marketInfo?.market} />
+
+      <Divider className="my-4" />
+
+      <Row className="mb-2">
+        <Col span={12}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+            Set Notification
+          </Title>
+          <InfoCircleOutlined />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <span>Trade</span>
+          <span>Withdraw</span>
+          <span>Low Balance</span>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Input />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Input />
+        </Col>
+      </Row>
+
+      <Divider className="my-4" />
+
+      <Row className="text-center">
+        <Col span={20} offset={2}>
+          <img src={alertOctogon} alt="alert" className="mb-2" />
+          <p>Withdraw all asset to close Market</p>
+        </Col>
+      </Row>
+      <Button danger className="w-100" onClick={handleClickDropMarket}>
+        CLOSE MARKET
+      </Button>
+    </Modal>
   );
 };

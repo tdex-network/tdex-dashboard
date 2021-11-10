@@ -2,47 +2,36 @@ import { Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
-import type { Market } from '../../../api-spec/generated/js/types_pb';
 import checkmark from '../../../assets/images/checkmark.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import { MARKET_ROUTE } from '../../../routes/constants';
-import { useGetAssetsDataQuery } from '../../liquid.api';
+import { useGetAssetDataQuery } from '../../liquid.api';
 
 interface MarketListItemProps {
   marketInfo: MarketInfo.AsObject;
 }
 
 export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element => {
-  const { data: assetsData, error: getAssetsDataError } = useGetAssetsDataQuery({
-    baseAsset: marketInfo.market?.baseAsset || '',
-    quoteAsset: marketInfo.market?.quoteAsset || '',
-  });
   const navigate = useNavigate();
+  const { tradable } = marketInfo;
+  const { data: baseAsset } = useGetAssetDataQuery(marketInfo.market?.baseAsset || '');
+  const { data: quoteAsset } = useGetAssetDataQuery(marketInfo.market?.quoteAsset || '');
 
-  const handleClickMarketDetails = (market?: Market.AsObject) => {
-    if (!market) return;
-    navigate(MARKET_ROUTE, { state: market });
+  const handleClickMarketDetails = () => {
+    navigate(MARKET_ROUTE, { state: { baseAsset, quoteAsset } });
   };
 
-  const { market, tradable } = marketInfo;
-  const baseAssetTicker = getAssetsDataError
-    ? market?.baseAsset.substring(0, 4).toUpperCase()
-    : assetsData?.baseAsset.ticker || '????';
-  const quoteAssetTicker = getAssetsDataError
-    ? market?.quoteAsset.substring(0, 4).toUpperCase()
-    : assetsData?.quoteAsset.ticker || '????';
-
   return (
-    <div className="w-100 mb-2 market-list-item" onClick={() => handleClickMarketDetails(market)}>
+    <div className="w-100 mb-2 market-list-item" onClick={handleClickMarketDetails}>
       <Row className="w-100">
         <Col span={4}>
           <div className="icons">
-            <CurrencyIcon className="base-icon" currency={baseAssetTicker} />
-            <CurrencyIcon className="quote-icon" currency={quoteAssetTicker} />
+            <CurrencyIcon className="base-icon" currency={baseAsset?.ticker || ''} size={32} />
+            <CurrencyIcon className="quote-icon" currency={quoteAsset?.ticker || ''} size={32} />
           </div>
         </Col>
         <Col span={12}>
-          <span className="tickers">{`${baseAssetTicker} / ${quoteAssetTicker} Markets`}</span>
+          <span className="tickers">{`${baseAsset?.ticker} / ${quoteAsset?.ticker} Markets`}</span>
         </Col>
         <Col span={8}>
           <span className="">

@@ -87,7 +87,7 @@ export const FeeDeposit = (): JSX.Element => {
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
               <Row>
                 <Col span={20} offset={2}>
-                  <Button onClick={handleFragmentFeeDeposits} disabled={isFragmenting}>
+                  <Button onClick={handleFragmentFeeDeposits} loading={isFragmenting}>
                     CONFIRM DEPOSIT
                   </Button>
                 </Col>

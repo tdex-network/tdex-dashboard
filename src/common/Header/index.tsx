@@ -1,45 +1,15 @@
-import Icon, { MenuOutlined, PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Col, Dropdown, Layout, Menu, Row, Space } from 'antd';
-import React, { useState } from 'react';
+import Icon, { PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
+import { Button, Col, Layout, Row, Space } from 'antd';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import logo from '../../assets/images/tdex-logo.svg';
-import { UnlockModalForm } from '../../features/walletUnlocker/UnlockModalForm';
-import {
-  CREATE_MARKET_ROUTE,
-  HOME_ROUTE,
-  ONBOARDING_PAIRING_ROUTE,
-  SETTINGS_ROUTE,
-} from '../../routes/constants';
+import { CREATE_MARKET_ROUTE, HOME_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
 export const Header = (): JSX.Element => {
   const { Header } = Layout;
   const navigate = useNavigate();
-  // UnlockWallet Modal
-  const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
-  const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
-  const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
-
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <Link to={ONBOARDING_PAIRING_ROUTE}>Connect</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Button type="text" style={{ padding: 0 }} onClick={showUnlockWalletModal}>
-          Unlock Wallet
-        </Button>
-        <UnlockModalForm
-          handleUnlockWalletModalCancel={handleUnlockWalletModalCancel}
-          isUnlockWalletModalVisible={isUnlockWalletModalVisible}
-        />
-      </Menu.Item>
-      <Menu.Item>
-        <a>Disconnect</a>
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <Header className="h-100 mt-4">
@@ -58,11 +28,6 @@ export const Header = (): JSX.Element => {
             <Button icon={<PlusCircleOutlined />} onClick={() => navigate(CREATE_MARKET_ROUTE)}>
               CREATE NEW MARKET
             </Button>
-            <Dropdown overlay={menu}>
-              <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                <MenuOutlined />
-              </a>
-            </Dropdown>
             <Button icon={<SettingOutlined />} onClick={() => navigate(SETTINGS_ROUTE)} />
           </Space>
         </Col>

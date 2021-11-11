@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
-import { ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { setTdexdConnectUrl } from '../settings/settingsSlice';
+import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
+import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
 
@@ -16,6 +16,7 @@ interface IFormInputs {
 export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [isValidCert, setIsValidCert] = useState<boolean>(false);
+  const [macaroon, setMacaroon] = useState<string>('');
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
@@ -24,21 +25,43 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-      navigate(ONBOARDING_SHOW_MNEMONIC_ROUTE);
+      if (macaroon) {
+        navigate(HOME_ROUTE);
+      } else {
+        navigate(ONBOARDING_SHOW_MNEMONIC_ROUTE);
+      }
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });
     }
   };
 
+  function base64ToHex(str: string) {
+    const raw = atob(str);
+    let result = '';
+    for (let i = 0; i < raw.length; i++) {
+      const hex = raw.charCodeAt(i).toString(16);
+      result += hex.length === 2 ? hex : '0' + hex;
+    }
+    return result.toUpperCase();
+  }
+
   function downloadBase64File(contentType: string, base64Data: string, fileName: string) {
     const paramsString = base64Data.split('?')[1];
     const params = new URLSearchParams(paramsString);
-    const { cert } = Object.fromEntries(params.entries());
+    const { cert, macaroon } = Object.fromEntries(params.entries());
     if (!cert) {
-      notification.error({ message: 'tdexdconnecturl not valid' });
+      notification.error({ message: 'tdexdConnectUrl not valid' });
       return;
     }
+    // Macaroon
+    // https://github.com/tdex-network/tdex-daemon/issues/499
+    let macaroonFixed = macaroon.replaceAll('-', '+');
+    macaroonFixed = macaroonFixed.replaceAll('_', '/');
+    const macaroonHex = base64ToHex(macaroonFixed);
+    dispatch(setMacaroonCredentials(macaroonHex));
+    setMacaroon(macaroonHex);
+    //
     setIsValidCert(true);
     // Add line breaks
     let certFormatted = cert.replace(/(.{64})/g, '$1\n');

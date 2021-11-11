@@ -1,6 +1,6 @@
 {
-  "short_name": "TDEX Daemon UI",
-  "name": "TDEX daemon UI",
+  "short_name": "TDEX Dashboard",
+  "name": "TDEX Dashboard",
   "icons": [
     {
       "src": "favicon.png",

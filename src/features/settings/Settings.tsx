@@ -6,7 +6,6 @@ import { useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
 import { Info } from '../operator/Info';
-import { ListWebhooks } from '../operator/ListWebhooks';
 
 const { Text, Title } = Typography;
 

@@ -64,7 +64,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       data.on('data', async (data: InitWalletReply) => {
         if (data.getStatus() === 0 && data.getData().length > 150) {
           dispatch(setMacaroonCredentials(data.getData()));
-          dispatch(setTdexdConnectUrl(tdexdConnectUrl + '+macaroon=' + data.getData()));
+          dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + data.getData()));
         }
       });
     } catch (err) {

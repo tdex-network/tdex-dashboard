@@ -56,12 +56,14 @@ export const OnboardingPairing = (): JSX.Element => {
     }
     // Macaroon
     // https://github.com/tdex-network/tdex-daemon/issues/499
-    let macaroonFixed = macaroon.replaceAll('-', '+');
-    macaroonFixed = macaroonFixed.replaceAll('_', '/');
-    const macaroonHex = base64ToHex(macaroonFixed);
-    dispatch(setMacaroonCredentials(macaroonHex));
-    setMacaroon(macaroonHex);
-    //
+    if (macaroon) {
+      let macaroonFixed = macaroon.replaceAll('-', '+');
+      macaroonFixed = macaroonFixed.replaceAll('_', '/');
+      const macaroonHex = base64ToHex(macaroonFixed);
+      dispatch(setMacaroonCredentials(macaroonHex));
+      setMacaroon(macaroonHex);
+    }
+    // Format certificate
     setIsValidCert(true);
     // Add line breaks
     let certFormatted = cert.replace(/(.{64})/g, '$1\n');

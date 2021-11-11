@@ -1,6 +1,7 @@
 import './marketSettings.less';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Modal, Row, Col, Typography, Switch, notification, Divider, Input, Button } from 'antd';
+import type { RadioChangeEvent } from 'antd';
+import { Modal, Row, Col, Typography, Switch, notification, Divider, Input, Button, Radio } from 'antd';
 import type { SwitchChangeEventHandler } from 'antd/es/switch';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +53,10 @@ export const MarketSettings = ({
     navigate(HOME_ROUTE);
   };
 
+  const handleNotificationChange = (ev: RadioChangeEvent) => {
+    console.log(ev.target.value);
+  };
+
   return (
     <Modal
       visible={isMarketSettingsModalVisible}
@@ -96,19 +101,21 @@ export const MarketSettings = ({
       </Row>
       <Row>
         <Col span={24}>
-          <span>Trade</span>
-          <span>Withdraw</span>
-          <span>Low Balance</span>
+          <Radio.Group onChange={handleNotificationChange} className="ghost">
+            <Radio.Button value="trade">Trade</Radio.Button>
+            <Radio.Button value="withdraw">Withdraw</Radio.Button>
+            <Radio.Button value="lowBalance">Low Balance</Radio.Button>
+          </Radio.Group>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
-          <Input />
+          <Input placeholder="Notification URL" className="notification-input my-3" />
         </Col>
       </Row>
       <Row>
         <Col span={24}>
-          <Input />
+          <Input placeholder="Notification Secret" className="notification-input" />
         </Col>
       </Row>
 

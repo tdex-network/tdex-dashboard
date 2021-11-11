@@ -56,19 +56,6 @@ export const Settings = (): JSX.Element => {
           <Row>
             <Col span={24}>
               <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-                List Webhooks
-              </Title>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <ListWebhooks />
-            </Col>
-          </Row>
-          {/**/}
-          <Row>
-            <Col span={24}>
-              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
                 Tdexd Connect Url
               </Title>
             </Col>

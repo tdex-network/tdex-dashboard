@@ -1,5 +1,5 @@
 {
-  "name": "tdex-daemon-ui",
+  "name": "tdex-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {

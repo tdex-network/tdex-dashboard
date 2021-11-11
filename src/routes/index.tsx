@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
+import { Navigate, Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
 
+import { useTypedSelector } from '../app/store';
 import { Home } from '../features/home/Home';
 import { CreateMarket } from '../features/operator/CreateMarket';
 import { FeeDeposit } from '../features/operator/FeeDeposit';
@@ -23,15 +24,66 @@ import {
   FEE_WITHDRAW_ROUTE,
 } from './constants';
 
+const PrivateRoute = ({ children }: any) => {
+  const isOnboarded = useTypedSelector(
+    ({ settings }) => !!(settings.macaroonCredentials && settings.tdexdConnectUrl)
+  );
+  return isOnboarded ? children : <Navigate to={ONBOARDING_PAIRING_ROUTE} />;
+};
+
 export const Routes = (): JSX.Element => {
   return (
     <ReactRouterDomRoutes>
-      <Route path={HOME_ROUTE} element={<Home />} />
-      <Route path={MARKET_ROUTE} element={<Market />} />
-      <Route path={SETTINGS_ROUTE} element={<Settings />} />
-      <Route path={FEE_DEPOSIT_ROUTE} element={<FeeDeposit />} />
-      <Route path={FEE_WITHDRAW_ROUTE} element={<FeeWithdraw />} />
-      <Route path={CREATE_MARKET_ROUTE} element={<CreateMarket />} />
+      <Route
+        path={HOME_ROUTE}
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={MARKET_ROUTE}
+        element={
+          <PrivateRoute>
+            <Market />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={SETTINGS_ROUTE}
+        element={
+          <PrivateRoute>
+            <Settings />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={FEE_DEPOSIT_ROUTE}
+        element={
+          <PrivateRoute>
+            <FeeDeposit />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={FEE_WITHDRAW_ROUTE}
+        element={
+          <PrivateRoute>
+            <FeeWithdraw />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={CREATE_MARKET_ROUTE}
+        element={
+          <PrivateRoute>
+            <CreateMarket />
+          </PrivateRoute>
+        }
+      />
+
+      {/* Onboarding Routes*/}
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />

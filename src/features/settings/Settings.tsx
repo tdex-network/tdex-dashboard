@@ -1,9 +1,8 @@
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Row, Col, Typography, Button } from 'antd';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import type { RootState } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
 import { Info } from '../operator/Info';
@@ -12,8 +11,8 @@ import { ListWebhooks } from '../operator/ListWebhooks';
 const { Text, Title } = Typography;
 
 export const Settings = (): JSX.Element => {
-  const tdexdConnectUrl = useSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
-  const macaroon = useSelector(({ settings }: RootState) => settings.macaroonCredentials);
+  const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
+  const macaroon = useTypedSelector(({ settings }) => settings.macaroonCredentials);
 
   return (
     <>

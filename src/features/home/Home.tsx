@@ -1,7 +1,7 @@
 import { Col, Row, Typography } from 'antd';
 import React from 'react';
 
-import { ListMarkets } from '../operator/ListMarkets';
+import { ListMarkets } from '../operator/Market/ListMarkets';
 
 import { DashboardPanelLeft } from './DashboardPanelLeft';
 import { DashboardPanelRight } from './DashboardPanelRight';

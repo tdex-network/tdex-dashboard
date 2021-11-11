@@ -32,6 +32,7 @@ import type {
   FragmentFeeDepositsReply,
   GetMarketCollectedSwapFeesReply,
   StrategyType,
+  FragmentMarketDepositsReply,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -66,6 +67,7 @@ import {
   Page,
   GetFeeFragmenterAddressRequest,
   FragmentFeeDepositsRequest,
+  FragmentMarketDepositsRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -80,6 +82,7 @@ type MethodName =
   | 'claimFeeDeposits'
   | 'getFeeFragmenterAddress'
   | 'fragmentFeeDeposits'
+  | 'fragmentMarketDeposits'
   | 'withdrawFee'
   | 'getMarketAddress'
   | 'listMarketAddresses'
@@ -200,6 +203,24 @@ const baseQueryFn: BaseQueryFn<
         return {
           data: await client.fragmentFeeDeposits(
             new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments),
+            metadata as Metadata | undefined
+          ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'fragmentMarketDeposits': {
+      try {
+        const { market, recoverAddress } = body as { market: Market.AsObject; recoverAddress: string };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        return {
+          data: await client.fragmentMarketDeposits(
+            new FragmentMarketDepositsRequest().setMarket(newMarket).setRecoverAddress(recoverAddress),
             metadata as Metadata | undefined
           ),
         };
@@ -698,6 +719,12 @@ export const operatorApi = createApi({
       { recoverAddress: string; maxFragments: number }
     >({
       query: (body) => ({ methodName: 'fragmentFeeDeposits', body }),
+    }),
+    fragmentMarketDeposits: build.mutation<
+      FragmentMarketDepositsReply,
+      { market: Market.AsObject; recoverAddress: string }
+    >({
+      query: (body) => ({ methodName: 'fragmentMarketDeposits', body }),
     }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,

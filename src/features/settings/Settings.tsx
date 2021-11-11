@@ -5,7 +5,6 @@ import React from 'react';
 import { useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
-import { Info } from '../operator/Info';
 
 const { Text, Title } = Typography;
 
@@ -81,15 +80,6 @@ export const Settings = (): JSX.Element => {
               </Text>
             </Col>
           </Row>
-          {/**/}
-          <Row>
-            <Col span={24}>
-              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-                Account
-              </Title>
-            </Col>
-          </Row>
-          <Info />
         </div>
       </div>
     </>

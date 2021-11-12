@@ -67,6 +67,7 @@ import {
   Page,
   GetFeeFragmenterAddressRequest,
   FragmentFeeDepositsRequest,
+  GetMarketFragmenterAddressRequest,
   FragmentMarketDepositsRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
@@ -82,6 +83,7 @@ type MethodName =
   | 'claimFeeDeposits'
   | 'getFeeFragmenterAddress'
   | 'fragmentFeeDeposits'
+  | 'getMarketFragmenterAddress'
   | 'fragmentMarketDeposits'
   | 'withdrawFee'
   | 'getMarketAddress'
@@ -205,6 +207,18 @@ const baseQueryFn: BaseQueryFn<
             new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments),
             metadata as Metadata | undefined
           ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'getMarketFragmenterAddress': {
+      try {
+        return {
+          data: (
+            await client.getMarketFragmenterAddress(new GetMarketFragmenterAddressRequest(), metadata)
+          ).getAddress(),
         };
       } catch (error) {
         console.error(error);
@@ -720,6 +734,9 @@ export const operatorApi = createApi({
     >({
       query: (body) => ({ methodName: 'fragmentFeeDeposits', body }),
     }),
+    getMarketFragmenterAddress: build.query<string, void>({
+      query: () => ({ methodName: 'getMarketFragmenterAddress' }),
+    }),
     fragmentMarketDeposits: build.mutation<
       FragmentMarketDepositsReply,
       { market: Market.AsObject; recoverAddress: string }
@@ -862,6 +879,8 @@ export const {
   useClaimFeeDepositsMutation,
   useGetFeeFragmenterAddressQuery,
   useFragmentFeeDepositsMutation,
+  useGetMarketFragmenterAddressQuery,
+  useFragmentMarketDepositsMutation,
   useClaimMarketDepositsMutation,
   useCloseMarketMutation,
   useWithdrawFeeMutation,

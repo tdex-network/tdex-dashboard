@@ -47,8 +47,8 @@ export const MarketOverview = (): JSX.Element => {
         <Row className="mb-4">
           <Col span={12} className="d-flex align-center">
             <MarketIcons
-              baseAsset={state?.baseAsset?.ticker}
-              quoteAsset={state?.quoteAsset?.ticker}
+              baseAssetTicker={state?.baseAsset?.ticker}
+              quoteAssetTicker={state?.quoteAsset?.ticker}
               size="big"
             />
             <Space direction="vertical" size={0}>
@@ -71,7 +71,14 @@ export const MarketOverview = (): JSX.Element => {
               >
                 WITHDRAW
               </Button>
-              <Button icon={<Icon component={depositIcon} />} onClick={() => navigate(MARKET_DEPOSIT_ROUTE)}>
+              <Button
+                icon={<Icon component={depositIcon} />}
+                onClick={() =>
+                  navigate(MARKET_DEPOSIT_ROUTE, {
+                    state: { baseAsset: state?.baseAsset, quoteAsset: state?.quoteAsset },
+                  })
+                }
+              >
                 DEPOSIT
               </Button>
               <Button icon={<SettingOutlined />} onClick={showMarketSettingsModal} />

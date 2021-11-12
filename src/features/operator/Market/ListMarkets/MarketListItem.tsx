@@ -42,7 +42,7 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
     <div className="w-100 mb-2 market-list-item" onClick={handleClickMarketDetails}>
       <Row className="w-100">
         <Col span={4}>
-          <div className="icons">
+          <div className="market-icons-translate">
             <CurrencyIcon className="base-icon" currency={baseAsset?.ticker || ''} size={32} />
             <CurrencyIcon className="quote-icon" currency={quoteAsset?.ticker || ''} size={32} />
           </div>

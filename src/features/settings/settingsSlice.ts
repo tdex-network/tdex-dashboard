@@ -6,12 +6,15 @@ import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClien
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
 import type { RootState } from '../../app/store';
+import type { Asset } from '../../domain/asset';
+import { featuredAssets } from '../../utils';
 
 export interface SettingsState {
   chain: 'liquid' | 'regtest';
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
   tdexDaemonEndpoint: string;
+  assets: Asset[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
 }
@@ -21,12 +24,19 @@ export const initialState: SettingsState = {
   explorerLiquidAPI: 'https://blockstream.info/liquid/api',
   explorerLiquidUI: 'https://blockstream.info/liquid',
   tdexDaemonEndpoint: 'https://localhost:9000',
+  assets: featuredAssets,
 };
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
+    saveAsset: (state, action: PayloadAction<Asset>) => {
+      // Save if asset not already saved
+      if (state.assets.some((a) => a.asset_id !== action.payload.asset_id)) {
+        state.assets = [...state.assets, action.payload];
+      }
+    },
     setTdexDaemonEndpoint: (state, action: PayloadAction<string>) => {
       state.tdexDaemonEndpoint = action.payload;
     },
@@ -73,7 +83,13 @@ export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClie
   return new WalletUnlockerClient(selectTdexEndpoint(state));
 }
 
-export const { setTdexDaemonEndpoint, setMacaroonCredentials, setTdexdConnectUrl, resetSettings, logout } =
-  settingsSlice.actions;
+export const {
+  setTdexDaemonEndpoint,
+  setMacaroonCredentials,
+  setTdexdConnectUrl,
+  resetSettings,
+  logout,
+  saveAsset,
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

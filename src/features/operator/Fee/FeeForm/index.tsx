@@ -145,7 +145,11 @@ export const FeeForm = ({
         </Row>
         <Row align="middle" className="fee-relative-container">
           <Col span={14}>
-            <MarketIcons baseAsset={baseAsset.ticker} quoteAsset={quoteAsset.ticker} size="medium" />
+            <MarketIcons
+              baseAssetTicker={baseAsset.ticker}
+              quoteAssetTicker={quoteAsset.ticker}
+              size="medium"
+            />
             <span className="dm-sans dm-sans__xx">
               {baseAsset.ticker} / {quoteAsset.ticker}
             </span>

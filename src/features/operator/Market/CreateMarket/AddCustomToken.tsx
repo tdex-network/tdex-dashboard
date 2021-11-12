@@ -2,9 +2,11 @@ import { Button, Form, Input } from 'antd';
 import type { ChangeEventHandler } from 'react';
 import React, { useState } from 'react';
 
+import { useTypedDispatch } from '../../../../app/store';
 import checkmark from '../../../../assets/images/checkmark.svg';
 import type { Asset } from '../../../../domain/asset';
 import { useGetAssetDataQuery } from '../../../liquid.api';
+import { saveAsset } from '../../../settings/settingsSlice';
 
 interface IFormInputs {
   customAssetId: string;
@@ -12,7 +14,6 @@ interface IFormInputs {
 
 interface AddCustomTokenProps {
   className: string;
-  setCustomAssets: any;
   setBaseAsset: (asset: Asset) => void;
   setQuoteAsset: (asset: Asset) => void;
   setShowGenericAssetForm: (showGenericAssetForm: boolean) => void;
@@ -21,12 +22,12 @@ interface AddCustomTokenProps {
 
 export const AddCustomToken = ({
   className,
-  setCustomAssets,
   setBaseAsset,
   setQuoteAsset,
   setShowGenericAssetForm,
   activeSelectComponent,
 }: AddCustomTokenProps): JSX.Element => {
+  const dispatch = useTypedDispatch();
   const [form] = Form.useForm<IFormInputs>();
   const [customAssetId, setCustomAssetId] = useState('');
   const { data: assetData, error } = useGetAssetDataQuery(customAssetId);
@@ -34,12 +35,7 @@ export const AddCustomToken = ({
   const onConfirmCustomToken = () => {
     if (!assetData) return;
     const { ticker, asset_id, name, precision } = assetData;
-    setCustomAssets((prevState: Asset[]) => {
-      if (prevState.some((a) => a.asset_id === asset_id)) {
-        return prevState;
-      }
-      return [...prevState, { ticker, asset_id, name, precision }];
-    });
+    dispatch(saveAsset({ ticker, asset_id, name, precision }));
     if (activeSelectComponent === 'base') {
       setBaseAsset(assetData);
     } else {

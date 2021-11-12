@@ -7,26 +7,39 @@
     .ant-select-selection-item {
       display: flex;
       align-items: flex-end;
+      .currency-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+      .select-option-text {
+        display: inline-flex;
+        flex-direction: column;
+        margin-left: 8px;
+        line-height: 1.5;
+        span:nth-child(2) {
+          font-size: 12px;
+          margin: 0
+        }
+      }
     }
-  }
-  .currency-icon svg {
-    width: 36px;
-    height: 36px;
-    margin-right: 8px;
   }
 }
 
 .ant-select-dropdown {
-  .currency-icon svg {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-  }
   .rc-virtual-list-holder {
-    //max-height: 100% !important;
     .ant-select-item-option-content {
       font-size: 18px;
       margin: 15px 0;
+      .select-option-text {
+        display: inline-flex;
+        flex-direction: column;
+        margin-left: 8px;
+        line-height: 1.5;
+        span:nth-child(2) {
+          font-size: 12px;
+          margin: 0
+        }
+      }
     }
   }
 }

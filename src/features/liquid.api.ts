@@ -25,7 +25,8 @@ export const liquidApi = createApi({
           if (!res.data?.ticker) {
             res.data.ticker = res.data?.asset_id.substring(0, 4).toUpperCase();
           }
-          return res;
+          const { ticker, asset_id, name, precision } = res.data;
+          return { data: { ticker, asset_id, name, precision } };
         } catch (err) {
           return { error: err as FetchBaseQueryError };
         }

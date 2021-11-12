@@ -2,14 +2,16 @@ import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { useWithdrawMarketMutation } from '../../operator.api';
+import { useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 const { Title } = Typography;
 
@@ -23,16 +25,40 @@ interface IFormInputs {
 export const MarketWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
+  const [selectedMarket, setSelectedMarket] = useState<string>(
+    JSON.stringify({ baseAssetTicker: state.baseAsset.ticker, quoteAssetTicker: state.quoteAsset.ticker })
+  );
+  const selectedMarketObj = JSON.parse(selectedMarket) as {
+    baseAssetTicker: string;
+    quoteAssetTicker: string;
+  };
   const [withdrawMarket, { error: withdrawMarketError, isLoading: withdrawMarketIsLoading }] =
     useWithdrawMarketMutation();
+  const { data: listMarkets } = useListMarketsQuery();
+  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
+  const marketList: [Asset?, Asset?][] =
+    listMarkets?.marketsList.map(({ market }) => {
+      const baseAsset = savedAssets.find(({ asset_id }) => asset_id === market?.baseAsset);
+      const quoteAsset = savedAssets.find(({ asset_id }) => asset_id === market?.quoteAsset);
+      return [baseAsset, quoteAsset];
+    }) || [];
 
   const onFinish = async () => {
     try {
-      if (!state?.baseAsset) throw new Error('base asset missing');
-      if (!state?.quoteAsset) throw new Error('quote asset missing');
+      const selectedAssetMarket = marketList.find(([baseAsset, quoteAsset]) => {
+        return (
+          baseAsset?.ticker === selectedMarketObj?.baseAssetTicker &&
+          quoteAsset?.ticker === selectedMarketObj?.quoteAssetTicker
+        );
+      });
+      if (!selectedAssetMarket?.[0]) throw new Error('base asset missing');
+      if (!selectedAssetMarket?.[1]) throw new Error('quote asset missing');
       const values = await form.validateFields();
       const res = await withdrawMarket({
-        market: { baseAsset: state?.baseAsset.asset_id, quoteAsset: state?.quoteAsset.asset_id },
+        market: {
+          baseAsset: selectedAssetMarket?.[0].asset_id,
+          quoteAsset: selectedAssetMarket?.[1].asset_id,
+        },
         balance: { baseAmount: values.balanceBaseAmount, quoteAmount: values.balanceQuoteAmount },
         address: values.address,
         millisatPerByte: 100,
@@ -57,6 +83,11 @@ export const MarketWithdraw = (): JSX.Element => {
       </Breadcrumb>
       <Row className="panel">
         <Col span={12} className="pr-10">
+          <SelectMarket
+            selectedMarket={selectedMarket}
+            setSelectedMarket={setSelectedMarket}
+            marketList={marketList}
+          />
           <Title level={4}>READ CAREFULLY!</Title>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.,Lorem Ipsum has been
@@ -84,7 +115,7 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <CurrencyIcon currency={state?.baseAsset?.ticker} />
-                  <span className="dm-sans dm-sans__xx ml-2">{state?.baseAsset?.ticker}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">{selectedMarketObj?.baseAssetTicker}</span>
                 </Col>
                 <Col span={12}>
                   <Form.Item
@@ -100,7 +131,7 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`3,00 ${state?.baseAsset?.ticker}`}</span>
+                  <span className="dm-mono dm-mono__bold">{`3,00 ${selectedMarketObj?.baseAssetTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD
@@ -110,8 +141,8 @@ export const MarketWithdraw = (): JSX.Element => {
             <div className="panel panel__grey panel__bottom mb-6">
               <Row>
                 <Col span={12}>
-                  <CurrencyIcon currency={state?.quoteAsset?.ticker} />
-                  <span className="dm-sans dm-sans__xx ml-2">{state?.quoteAsset?.ticker}</span>
+                  <CurrencyIcon currency={selectedMarketObj?.quoteAssetTicker} />
+                  <span className="dm-sans dm-sans__xx ml-2">{selectedMarketObj?.quoteAssetTicker}</span>
                 </Col>
                 <Col span={12}>
                   <Form.Item
@@ -127,7 +158,7 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`12.000,00 ${state?.quoteAsset?.ticker}`}</span>
+                  <span className="dm-mono dm-mono__bold">{`12.000,00 ${selectedMarketObj?.quoteAssetTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

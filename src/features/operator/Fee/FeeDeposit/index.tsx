@@ -16,10 +16,10 @@ const { Text, Title } = Typography;
 
 export const FeeDeposit = (): JSX.Element => {
   const { refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
-  const { refetch: refetchGetFeeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
+  const { data: feeFragmenterAddress, refetch: refetchGetFeeFragmenterAddress } =
+    useGetFeeFragmenterAddressQuery();
   const [fragmentFeeDeposits] = useFragmentFeeDepositsMutation();
   const [isFragmenting, setIsFragmenting] = useState(false);
-  const { data: feeFragmenterAddress } = useGetFeeFragmenterAddressQuery();
 
   const handleFragmentFeeDeposits = async () => {
     try {

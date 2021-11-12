@@ -4,7 +4,9 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
+import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { HOME_ROUTE } from '../../../../routes/constants';
+import { LBTC_TICKER } from '../../../../utils';
 import { useWithdrawFeeMutation } from '../../operator.api';
 
 const { Title } = Typography;
@@ -26,7 +28,7 @@ export const FeeWithdraw = (): JSX.Element => {
       const values = await form.validateFields();
       const res = await withdrawFee({
         amount: values.amount,
-        millisatsPerByte: values.millisatsPerByte,
+        millisatsPerByte: 100,
         address: values.address,
         asset: values.asset,
       });
@@ -75,32 +77,45 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
+            initialValues={{ balanceBaseAmount: 0, balanceQuoteAmount: 0 }}
           >
-            <Form.Item label="Amount" name="amount" className={classNames({ 'has-error': withdrawFeeError })}>
-              <Input type="number" />
+            <div className="panel panel__grey mb-6">
+              <Row>
+                <Col span={12}>
+                  <CurrencyIcon currency={LBTC_TICKER} />
+                  <span className="dm-sans dm-sans__xx ml-2">{LBTC_TICKER}</span>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="balanceQuoteAmount"
+                    className={classNames('balance-input-container d-flex justify-end dm-mono', {
+                      'has-error': withdrawFeeError,
+                    })}
+                  >
+                    <Input type="number" />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
+                  <span className="dm-mono dm-mono__bold">{`12.000,00 ${LBTC_TICKER}`}</span>
+                </Col>
+                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
+                  0.00 USD
+                </Col>
+              </Row>
+            </div>
+
+            <Form.Item name="address" className={classNames({ 'has-error': withdrawFeeError })}>
+              <Input placeholder="Paste address here or scan QR code" />
             </Form.Item>
 
-            <Form.Item
-              label="Address"
-              name="address"
-              className={classNames({ 'has-error': withdrawFeeError })}
-            >
-              <Input />
+            <Form.Item className="submit-btn-container">
+              <Button htmlType="submit" loading={withdrawFeeIsLoading}>
+                CONFIRM WITHDRAW
+              </Button>
             </Form.Item>
-
-            <Form.Item
-              label="Millisats Per Byte"
-              name="millisatsPerByte"
-              className={classNames({ 'has-error': withdrawFeeError })}
-            >
-              <Input type="number" />
-            </Form.Item>
-
-            <Form.Item label="Asset" name="asset" className={classNames({ 'has-error': withdrawFeeError })}>
-              <Input />
-            </Form.Item>
-            <Button loading={withdrawFeeIsLoading}>CONFIRM WITHDRAW</Button>
-            {withdrawFeeError && <p className="error">{withdrawFeeError}</p>}
           </Form>
         </Col>
       </Row>

@@ -2,9 +2,10 @@ import { Button, Col, Row, notification, Select } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
+import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import type { Asset } from '../../../../domain/asset';
-import { featuredAssets, LBTC_ASSET } from '../../../../utils';
+import { LBTC_ASSET } from '../../../../utils';
 import { useNewMarketMutation } from '../../operator.api';
 
 import { AddCustomToken } from './AddCustomToken';
@@ -28,11 +29,11 @@ export const MarketPairForm = ({
 }: MarketPairFormProps): JSX.Element => {
   const [newMarket] = useNewMarketMutation();
   const [showGenericAssetForm, setShowGenericAssetForm] = useState<boolean>(false);
-  const [customAssets, setCustomAssets] = useState<Asset[]>([]);
   const [activeSelectComponent, setActiveSelectComponent] = useState<'base' | 'quote'>('base');
-  const selectAssetList = featuredAssets
-    .concat(customAssets)
-    .concat([{ ticker: 'Generic Asset', asset_id: '', name: '', precision: 8 }]);
+  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
+  const selectAssetList = savedAssets.concat([
+    { ticker: 'Generic Asset', asset_id: '', name: '', precision: 8 },
+  ]);
 
   useEffect(() => {
     setActiveSelectComponent('base');
@@ -85,7 +86,7 @@ export const MarketPairForm = ({
             {selectAssetList.map(({ ticker }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon currency={ticker} />
-                <span>{ticker}</span>
+                <span className="select-option-text">{ticker}</span>
               </Option>
             ))}
           </Select>
@@ -95,14 +96,13 @@ export const MarketPairForm = ({
             {selectAssetList.map(({ ticker }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon currency={ticker} />
-                <span>{ticker}</span>
+                <span className="select-option-text">{ticker}</span>
               </Option>
             ))}
           </Select>
         </Col>
       </Row>
       <AddCustomToken
-        setCustomAssets={setCustomAssets}
         setBaseAsset={setBaseAsset}
         setQuoteAsset={setQuoteAsset}
         setShowGenericAssetForm={setShowGenericAssetForm}

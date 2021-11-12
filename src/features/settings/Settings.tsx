@@ -2,13 +2,16 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Row, Col, Typography, Button } from 'antd';
 import React from 'react';
 
-import { useTypedSelector } from '../../app/store';
+import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
+
+import { logout, resetSettings } from './settingsSlice';
 
 const { Text, Title } = Typography;
 
 export const Settings = (): JSX.Element => {
+  const dispatch = useTypedDispatch();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
   const macaroon = useTypedSelector(({ settings }) => settings.macaroonCredentials);
 
@@ -25,13 +28,36 @@ export const Settings = (): JSX.Element => {
           <Row>
             <Col span={24}>
               <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                Log Out
+              </Title>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button onClick={() => dispatch(logout())} className="w-100">
+                Log Out
+              </Button>
+            </Col>
+          </Row>
+          {/**/}
+          <Row>
+            <Col span={24}>
+              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
                 Clear Cache
               </Title>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button>Clear Cache</Button>
+              <Button onClick={() => dispatch(resetSettings())}>Clear Cache</Button>
+            </Col>
+          </Row>
+          {/**/}
+          <Row>
+            <Col span={24}>
+              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                Change password
+              </Title>
             </Col>
           </Row>
           {/**/}

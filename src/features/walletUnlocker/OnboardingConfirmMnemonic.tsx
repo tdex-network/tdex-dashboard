@@ -159,8 +159,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
           </Button>
         </Col>
       </Row>
-      {unlockWalletError && <p>{unlockWalletError}</p>}
-      {initWalletError && <p>{initWalletError}</p>}
+      {unlockWalletError && <p className="error">{unlockWalletError}</p>}
+      {initWalletError && <p className="error">{initWalletError}</p>}
     </div>
   );
 };

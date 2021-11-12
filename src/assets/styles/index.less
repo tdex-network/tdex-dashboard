@@ -3,6 +3,9 @@
 @import 'fonts.less';
 @import 'typography.less';
 @import 'select.less';
+@import 'modal.less';
+@import 'input.less';
+@import 'icon.less';
 
 .error {
   font-size: 0.8rem;
@@ -65,36 +68,9 @@ canvas.qr-code {
   }
 }
 
-//.anticon {
-//  color: @grey-light;
-//  &.anticon-setting {
-//    color: @primary-color;
-//  }
-//}
-
 div.ant-divider {
   border-top: 2px solid #000000;
   &.ant-divider-horizontal {
     margin: 8px 0;
   }
-}
-
-.input {
-  .ant-form-item-control-input {
-    background-color: @grey-dark;
-    border-radius: 8px;
-    height: 46px;
-    .ant-form-item-control-input-content {
-      height: 100%;
-      .ant-input-affix-wrapper, .ant-input {
-        height: 100%;
-      }
-    }
-  }
-}
-
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }

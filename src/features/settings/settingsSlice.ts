@@ -36,6 +36,10 @@ export const settingsSlice = createSlice({
     setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
       state.tdexdConnectUrl = action.payload;
     },
+    logout: (state) => {
+      state.macaroonCredentials = undefined;
+      state.tdexdConnectUrl = undefined;
+    },
     resetSettings: () => initialState,
   },
 });
@@ -69,7 +73,7 @@ export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClie
   return new WalletUnlockerClient(selectTdexEndpoint(state));
 }
 
-export const { setTdexDaemonEndpoint, setMacaroonCredentials, setTdexdConnectUrl, resetSettings } =
+export const { setTdexDaemonEndpoint, setMacaroonCredentials, setTdexdConnectUrl, resetSettings, logout } =
   settingsSlice.actions;
 
 export default settingsSlice.reducer;

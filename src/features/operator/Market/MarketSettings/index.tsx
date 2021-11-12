@@ -1,7 +1,6 @@
 import './marketSettings.less';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import type { RadioChangeEvent } from 'antd';
-import { Modal, Row, Col, Typography, Switch, notification, Divider, Input, Button, Radio } from 'antd';
+import { Modal, Row, Col, Typography, Switch, notification, Divider, Button } from 'antd';
 import type { SwitchChangeEventHandler } from 'antd/es/switch';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,8 @@ import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
+
+import { Webhook } from './Webhook';
 
 interface MarketSettingsProps {
   marketInfo?: MarketInfo.AsObject;
@@ -53,10 +54,6 @@ export const MarketSettings = ({
     navigate(HOME_ROUTE);
   };
 
-  const handleNotificationChange = (ev: RadioChangeEvent) => {
-    console.log(ev.target.value);
-  };
-
   return (
     <Modal
       visible={isMarketSettingsModalVisible}
@@ -87,7 +84,7 @@ export const MarketSettings = ({
           <InfoCircleOutlined />
         </Col>
       </Row>
-      <MarketStrategy market={marketInfo?.market} />
+      <MarketStrategy marketInfo={marketInfo} />
 
       <Divider className="my-4" />
 
@@ -99,25 +96,7 @@ export const MarketSettings = ({
           <InfoCircleOutlined />
         </Col>
       </Row>
-      <Row>
-        <Col span={24}>
-          <Radio.Group onChange={handleNotificationChange} className="ghost">
-            <Radio.Button value="trade">Trade</Radio.Button>
-            <Radio.Button value="withdraw">Withdraw</Radio.Button>
-            <Radio.Button value="lowBalance">Low Balance</Radio.Button>
-          </Radio.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Input placeholder="Notification URL" className="notification-input my-3" />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Input placeholder="Notification Secret" className="notification-input" />
-        </Col>
-      </Row>
+      <Webhook />
 
       <Divider className="my-4" />
 

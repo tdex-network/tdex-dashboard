@@ -34,14 +34,10 @@ export const UnlockModalForm = ({
         const values = await form.validateFields();
         const res = await unlockWallet({ password: values.password });
         // @ts-ignore
-        if (res?.error) {
-          // @ts-ignore
-          throw new Error(res?.error);
-        } else {
-          notification.success({ message: 'Wallet unlocked successfully' });
-          form.resetFields();
-          handleUnlockWalletModalCancel();
-        }
+        if (res?.error) throw new Error(res?.error);
+        notification.success({ message: 'Wallet unlocked successfully' });
+        form.resetFields();
+        handleUnlockWalletModalCancel();
       }
     } catch (err) {
       // @ts-ignore
@@ -62,7 +58,6 @@ export const UnlockModalForm = ({
       confirmLoading={isLoading}
       closable={closable}
       maskClosable={closable}
-      // @ts-ignore
       maskStyle={{ backdropFilter: 'blur(6px)' }}
       footer={
         closable

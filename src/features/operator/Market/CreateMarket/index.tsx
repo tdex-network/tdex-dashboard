@@ -10,6 +10,7 @@ import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { LBTC_ASSET } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
+import { useListMarketsQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
 import { MarketPairForm } from './MarketPairForm';
@@ -17,9 +18,13 @@ import { MarketPairForm } from './MarketPairForm';
 const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
+  const { data: listMarkets } = useListMarketsQuery();
   const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET);
   const [quoteAsset, setQuoteAsset] = useState<Asset>(LBTC_ASSET);
   const [step, setStep] = useState<number>(0);
+  const marketInfo = listMarkets?.marketsList.find(
+    ({ market }) => market?.baseAsset === baseAsset?.asset_id && market?.quoteAsset === quoteAsset?.asset_id
+  );
 
   return (
     <Row>
@@ -54,7 +59,7 @@ export const CreateMarket = (): JSX.Element => {
                   <InfoCircleOutlined />
                 </Col>
               </Row>
-              <MarketStrategy market={{ baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id }} />
+              <MarketStrategy marketInfo={marketInfo} />
             </div>
           </Col>
         </Row>

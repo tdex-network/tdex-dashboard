@@ -1,7 +1,7 @@
 import Icon, { SettingOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd';
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
@@ -38,7 +38,7 @@ export const MarketOverview = (): JSX.Element => {
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
-          <a href={HOME_ROUTE}>Dashboard</a>
+          <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Market Overview</Breadcrumb.Item>
       </Breadcrumb>

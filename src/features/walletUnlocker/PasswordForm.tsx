@@ -62,6 +62,7 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
         <Input.Password
           placeholder="Set Password"
           iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+          autoComplete="on"
         />
       </Form.Item>
       <Form.Item
@@ -81,6 +82,7 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
         <Input.Password
           placeholder="Confirm Password"
           iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+          autoComplete="on"
         />
       </Form.Item>
       {hasMatchingError && <p className="error">{hasMatchingError}</p>}

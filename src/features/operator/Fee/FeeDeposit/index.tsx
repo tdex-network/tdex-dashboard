@@ -2,6 +2,7 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, notification, Row, Typography } from 'antd';
 import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
@@ -48,7 +49,7 @@ export const FeeDeposit = (): JSX.Element => {
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
-          <a href={HOME_ROUTE}>Dashboard</a>
+          <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Fee Deposit</Breadcrumb.Item>
       </Breadcrumb>

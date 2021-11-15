@@ -1,6 +1,7 @@
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Row, Col, Typography, Button } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
@@ -19,7 +20,7 @@ export const Settings = (): JSX.Element => {
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
-          <a href={HOME_ROUTE}>Dashboard</a>
+          <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Settings</Breadcrumb.Item>
       </Breadcrumb>

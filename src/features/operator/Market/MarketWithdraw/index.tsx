@@ -3,7 +3,7 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
@@ -77,7 +77,7 @@ export const MarketWithdraw = (): JSX.Element => {
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
-          <a href={HOME_ROUTE}>Dashboard</a>
+          <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Market Withdraw</Breadcrumb.Item>
       </Breadcrumb>

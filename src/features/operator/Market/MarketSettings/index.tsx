@@ -31,19 +31,28 @@ export const MarketSettings = ({
   const [closeMarket] = useCloseMarketMutation();
   const [dropMarket] = useDropMarketMutation();
 
-  const handlePauseMarket: SwitchChangeEventHandler = (isActive) => {
-    if (isActive) {
-      openMarket({
-        baseAsset: marketInfo?.market?.baseAsset || '',
-        quoteAsset: marketInfo?.market?.quoteAsset || '',
-      });
-      notification.success({ message: 'Market opened successfully' });
-    } else {
-      closeMarket({
-        baseAsset: marketInfo?.market?.baseAsset || '',
-        quoteAsset: marketInfo?.market?.quoteAsset || '',
-      });
-      notification.info({ message: 'Market closed successfully' });
+  const handlePauseMarket: SwitchChangeEventHandler = async (isActive) => {
+    try {
+      if (isActive) {
+        const resOpen = await openMarket({
+          baseAsset: marketInfo?.market?.baseAsset || '',
+          quoteAsset: marketInfo?.market?.quoteAsset || '',
+        });
+        //@ts-ignore
+        if (resOpen?.error) throw new Error(resOpen?.error);
+        notification.success({ message: 'Market opened successfully' });
+      } else {
+        const resClose = await closeMarket({
+          baseAsset: marketInfo?.market?.baseAsset || '',
+          quoteAsset: marketInfo?.market?.quoteAsset || '',
+        });
+        //@ts-ignore
+        if (resClose?.error) throw new Error(resClose?.error);
+        notification.info({ message: 'Market closed successfully' });
+      }
+    } catch (err) {
+      //@ts-ignore
+      notification.error({ message: err.message });
     }
   };
 
@@ -65,7 +74,7 @@ export const MarketSettings = ({
       <Row>
         <Col span={12}>
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-            Pause Market
+            Open Market
           </Title>
           <InfoCircleOutlined />
         </Col>

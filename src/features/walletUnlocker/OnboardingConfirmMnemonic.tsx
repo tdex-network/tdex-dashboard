@@ -8,6 +8,7 @@ import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE } from '../../routes/constants';
 import { sleep } from '../../utils';
+import { encodeBase64UrlMacaroon } from '../../utils/connect';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useIsReadyQuery, useUnlockWalletMutation } from './walletUnlocker.api';
@@ -64,7 +65,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       data.on('data', async (data: InitWalletReply) => {
         if (data.getStatus() === 0 && data.getData().length > 150) {
           dispatch(setMacaroonCredentials(data.getData()));
-          dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + data.getData()));
+          const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
+          dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
         }
       });
     } catch (err) {

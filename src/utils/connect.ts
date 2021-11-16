@@ -22,8 +22,9 @@ export const downloadCert = (certPem: string): void => {
 export const extractHostCertMacaroon = (
   connectString: string
 ): { host?: string; cert?: string; macaroon?: string } => {
-  if (!connectString.startsWith('tdexdconnect://')) throw new Error('Tdexd Connect URL is not valid');
-  const [baseUrl, paramsString] = connectString.split('?');
+  const connectStr = connectString.trim();
+  if (!connectStr.startsWith('tdexdconnect://')) throw new Error('Tdexd Connect URL is not valid');
+  const [baseUrl, paramsString] = connectStr.split('?');
   const [, host] = baseUrl.split('://');
   const params = new URLSearchParams(paramsString);
   const { cert, macaroon } = Object.fromEntries(params.entries());
@@ -82,12 +83,22 @@ function isAbsolute(path: string) {
 }
 
 /**
- * decode a binary macaroon as a base64 decoded url string.
+ * Decode a base64Url macaroon as a hex string.
  * @param  {String} macaroonString
  * @return {String} decoded macaroon
  */
-export const decodeMacaroon = (macaroonString: string): string => {
+export const decodeBase64UrlMacaroon = (macaroonString: string): string => {
   const unescaped = decodeUriComponent(macaroonString);
   if (isAbsolute(untildify(unescaped))) return unescaped;
   return base64url.toBuffer(unescaped).toString('hex');
+};
+
+/**
+ * Encode a hex macaroon as a base64 encoded url string.
+ * @param  {String} macaroonHex
+ * @return {String} Encoded macaroon
+ */
+export const encodeBase64UrlMacaroon = (macaroonHex: string): string => {
+  const macaroonBase64 = Buffer.from(macaroonHex).toString('base64');
+  return base64url.fromBase64(macaroonBase64);
 };

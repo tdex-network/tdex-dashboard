@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { decodeCert, decodeMacaroon, downloadCert, extractHostCertMacaroon } from '../../utils/connect';
+import {
+  decodeCert,
+  decodeBase64UrlMacaroon,
+  downloadCert,
+  extractHostCertMacaroon,
+} from '../../utils/connect';
 import { setMacaroonCredentials, setTdexDaemonBaseUrl, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
@@ -90,7 +95,7 @@ export const OnboardingPairing = (): JSX.Element => {
               throw new Error('Tdexd Connect URL is not valid');
             }
             if (macaroon) {
-              const decodedMacaroonHex = decodeMacaroon(macaroon);
+              const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
               dispatch(setMacaroonCredentials(decodedMacaroonHex));
               setMacaroon(decodedMacaroonHex);
             }

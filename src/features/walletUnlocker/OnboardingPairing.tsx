@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
+import { decodeCert, decodeMacaroon, downloadCert, extractCertMacaroon } from '../../utils/connect';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
@@ -35,51 +36,6 @@ export const OnboardingPairing = (): JSX.Element => {
       notification.error({ message: err.message });
     }
   };
-
-  function base64ToHex(str: string) {
-    const raw = atob(str);
-    let result = '';
-    for (let i = 0; i < raw.length; i++) {
-      const hex = raw.charCodeAt(i).toString(16);
-      result += hex.length === 2 ? hex : '0' + hex;
-    }
-    return result.toUpperCase();
-  }
-
-  function downloadBase64File(contentType: string, base64Data: string, fileName: string) {
-    const paramsString = base64Data.split('?')[1];
-    const params = new URLSearchParams(paramsString);
-    const { cert, macaroon } = Object.fromEntries(params.entries());
-    if (!cert) {
-      notification.error({ message: 'tdexdConnectUrl not valid' });
-      return;
-    }
-    // Macaroon
-    // https://github.com/tdex-network/tdex-daemon/issues/499
-    if (macaroon) {
-      let macaroonFixed = macaroon.replaceAll('-', '+');
-      macaroonFixed = macaroonFixed.replaceAll('_', '/');
-      const macaroonHex = base64ToHex(macaroonFixed);
-      dispatch(setMacaroonCredentials(macaroonHex));
-      setMacaroon(macaroonHex);
-    }
-    // Format certificate
-    setIsValidCert(true);
-    // Add line breaks
-    let certFormatted = cert.replace(/(.{64})/g, '$1\n');
-    // https://github.com/tdex-network/tdex-daemon/issues/499
-    certFormatted = certFormatted.replaceAll('-', '+');
-    certFormatted = certFormatted.replaceAll('_', '/');
-    certFormatted += '==';
-    //
-    const certWithHeaders = '-----BEGIN CERTIFICATE-----\n' + certFormatted + '\n-----END CERTIFICATE-----';
-    const uriContent = URL.createObjectURL(new Blob([certWithHeaders], { type: contentType }));
-    const link = document.createElement('a');
-    link.setAttribute('href', uriContent);
-    link.setAttribute('download', fileName);
-    const event = new MouseEvent('click');
-    link.dispatchEvent(event);
-  }
 
   const showDownloadCertModal = () => {
     setIsDownloadCertModalVisible(true);
@@ -118,8 +74,20 @@ export const OnboardingPairing = (): JSX.Element => {
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}
         onOk={() => {
-          downloadBase64File('application/x-pem-file', form.getFieldValue('tdexdConnectUrl'), 'cert.pem');
-          setIsDownloadCertModalVisible(false);
+          const { cert, macaroon } = extractCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
+          if (macaroon) {
+            const decodedMacaroonHex = decodeMacaroon(macaroon);
+            dispatch(setMacaroonCredentials(decodedMacaroonHex));
+            setMacaroon(decodedMacaroonHex);
+          }
+          if (cert) {
+            const certPem = decodeCert(cert);
+            downloadCert(certPem);
+            setIsValidCert(true);
+            setIsDownloadCertModalVisible(false);
+          } else {
+            notification.error({ message: 'tdexdConnectUrl is not valid' });
+          }
         }}
         onCancel={() => setIsDownloadCertModalVisible(false)}
       >

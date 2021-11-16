@@ -18,7 +18,7 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
 
   useEffect(() => {
     if (marketInfo) {
-      // https://github.com/tdex-network/tdex-daemon/issues/500
+      // TODO: https://github.com/tdex-network/tdex-daemon/issues/500
       const strategy = marketInfo.strategyType === (255 as StrategyType) ? 0 : marketInfo?.strategyType;
       setDefaultStrategyType(strategy);
     }

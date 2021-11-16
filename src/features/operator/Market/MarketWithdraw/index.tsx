@@ -167,12 +167,12 @@ export const MarketWithdraw = (): JSX.Element => {
             </div>
 
             <Form.Item name="address" className={classNames({ 'has-error': withdrawMarketError })}>
-              <Input placeholder="Paste address here or scan QR code" />
+              <Input placeholder="Paste address here or scan QR code" className="input__big" />
             </Form.Item>
 
-            <Form.Item className="submit-btn-container">
-              <Button htmlType="submit" loading={withdrawMarketIsLoading}>
-                CONFIRM WITHDRAW
+            <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
+              <Button htmlType="submit" loading={withdrawMarketIsLoading} className="w-100">
+                WITHDRAW
               </Button>
             </Form.Item>
           </Form>

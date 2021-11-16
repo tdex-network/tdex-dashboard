@@ -34,13 +34,9 @@ export const FeeWithdraw = (): JSX.Element => {
         asset: values.asset,
       });
       // @ts-ignore
-      if (res?.error) {
-        // @ts-ignore
-        throw new Error(res?.error);
-      } else {
-        form.resetFields();
-        notification.success({ message: 'Fee withdrawal successful' });
-      }
+      if (res?.error) throw new Error(res?.error);
+      form.resetFields();
+      notification.success({ message: 'Fee withdrawal successful' });
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

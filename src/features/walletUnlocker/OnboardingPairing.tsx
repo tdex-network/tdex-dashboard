@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { decodeCert, decodeMacaroon, downloadCert, extractCertMacaroon } from '../../utils/connect';
-import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import { decodeCert, decodeMacaroon, downloadCert, extractHostCertMacaroon } from '../../utils/connect';
+import { setMacaroonCredentials, setTdexDaemonBaseUrl, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
 
@@ -74,19 +74,29 @@ export const OnboardingPairing = (): JSX.Element => {
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}
         onOk={() => {
-          const { cert, macaroon } = extractCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
-          if (macaroon) {
-            const decodedMacaroonHex = decodeMacaroon(macaroon);
-            dispatch(setMacaroonCredentials(decodedMacaroonHex));
-            setMacaroon(decodedMacaroonHex);
-          }
-          if (cert) {
-            const certPem = decodeCert(cert);
-            downloadCert(certPem);
-            setIsValidCert(true);
-            setIsDownloadCertModalVisible(false);
-          } else {
-            notification.error({ message: 'tdexdConnectUrl is not valid' });
+          try {
+            const { host, cert, macaroon } = extractHostCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
+            if (host) {
+              dispatch(setTdexDaemonBaseUrl('https://' + host));
+            } else {
+              throw new Error('Tdexd Connect URL is not valid');
+            }
+            if (cert) {
+              const certPem = decodeCert(cert);
+              downloadCert(certPem);
+              setIsValidCert(true);
+              setIsDownloadCertModalVisible(false);
+            } else {
+              throw new Error('Tdexd Connect URL is not valid');
+            }
+            if (macaroon) {
+              const decodedMacaroonHex = decodeMacaroon(macaroon);
+              dispatch(setMacaroonCredentials(decodedMacaroonHex));
+              setMacaroon(decodedMacaroonHex);
+            }
+          } catch (err) {
+            // @ts-ignore
+            notification.error({ message: err.message });
           }
         }}
         onCancel={() => setIsDownloadCertModalVisible(false)}

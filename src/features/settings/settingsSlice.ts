@@ -13,8 +13,8 @@ export interface SettingsState {
   chain: 'liquid' | 'regtest';
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
-  tdexDaemonEndpoint: string;
   assets: Asset[];
+  tdexDaemonBaseUrl: string;
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
 }
@@ -23,7 +23,7 @@ export const initialState: SettingsState = {
   chain: 'regtest',
   explorerLiquidAPI: 'https://blockstream.info/liquid/api',
   explorerLiquidUI: 'https://blockstream.info/liquid',
-  tdexDaemonEndpoint: 'https://localhost:9000',
+  tdexDaemonBaseUrl: 'https://localhost:9000',
   assets: featuredAssets,
 };
 
@@ -37,8 +37,8 @@ export const settingsSlice = createSlice({
         state.assets = [...state.assets, action.payload];
       }
     },
-    setTdexDaemonEndpoint: (state, action: PayloadAction<string>) => {
-      state.tdexDaemonEndpoint = action.payload;
+    setTdexDaemonBaseUrl: (state, action: PayloadAction<string>) => {
+      state.tdexDaemonBaseUrl = action.payload;
     },
     setMacaroonCredentials: (state, action: PayloadAction<string | undefined>) => {
       state.macaroonCredentials = action.payload;
@@ -58,8 +58,8 @@ export function selectChain(state: RootState): 'liquid' | 'regtest' {
   return state.settings.chain;
 }
 
-export function selectTdexEndpoint(state: RootState): string {
-  return state.settings.tdexDaemonEndpoint;
+export function selectTdexDaemonBaseUrl(state: RootState): string {
+  return state.settings.tdexDaemonBaseUrl;
 }
 
 export function selectMacaroonCreds(state: RootState): Metadata | null {
@@ -72,19 +72,19 @@ export function selectMacaroonCreds(state: RootState): Metadata | null {
 }
 
 export function selectOperatorClient(state: RootState): OperatorClient {
-  return new OperatorClient(selectTdexEndpoint(state));
+  return new OperatorClient(selectTdexDaemonBaseUrl(state));
 }
 
 export function selectWalletClient(state: RootState): WalletClient {
-  return new WalletClient(selectTdexEndpoint(state));
+  return new WalletClient(selectTdexDaemonBaseUrl(state));
 }
 
 export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClient {
-  return new WalletUnlockerClient(selectTdexEndpoint(state));
+  return new WalletUnlockerClient(selectTdexDaemonBaseUrl(state));
 }
 
 export const {
-  setTdexDaemonEndpoint,
+  setTdexDaemonBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,
   resetSettings,

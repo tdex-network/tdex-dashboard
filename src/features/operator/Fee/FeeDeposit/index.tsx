@@ -1,3 +1,4 @@
+import './feeDeposit.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, notification, Row, Typography } from 'antd';
 import QRCode from 'qrcode.react';
@@ -70,19 +71,19 @@ export const FeeDeposit = (): JSX.Element => {
           </p>
         </Col>
         <Col span={12}>
-          <Row className="panel panel__grey">
+          <Row className="panel panel__grey panel__top">
             <Col span={8} offset={8}>
               <QRCode className="qr-code" level="H" value={feeFragmenterAddress || ''} />
             </Col>
           </Row>
-          <Row className="my-6">
+          <Row className="py-6 fee-fragmenter-address">
             <Col span={21} offset={1}>
               <Text className="address" copyable>
                 {feeFragmenterAddress ?? 'N/A'}
               </Text>
             </Col>
           </Row>
-          <Row className="panel panel__grey text-center">
+          <Row className="panel panel__grey panel__bottom text-center">
             <Col span={20} offset={2}>
               <img src={alertOctogon} alt="alert" className="mb-2" />
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>

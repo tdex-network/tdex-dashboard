@@ -18,3 +18,22 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+input.input__big {
+  height: 64px;
+  text-align: center;
+  background: @grey-dark;
+}
+
+.balance-input-container {
+  margin: 0;
+  input.ant-input,
+  input.ant-input:hover,
+  input.ant-input:focus {
+    text-align: end;
+    line-height: 1;
+    font-size: 30px;
+    border: none;
+    box-shadow: none;
+  }
+}

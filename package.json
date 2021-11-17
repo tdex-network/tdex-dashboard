@@ -15,7 +15,9 @@
     "eject": "react-scripts eject",
     "tdexd:clean": "bash scripts/tdexd-clean.sh",
     "tdexd:run": "curl https://raw.githubusercontent.com/TDex-network/tdex-sdk/master/scripts/tdexd-run -o tdex-run && bash tdex-run && rm tdex-run",
-    "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url"
+    "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
+    "tauri:build": "npx tauri build",
+    "tauri:dev": "npx tauri dev"
   },
   "eslintConfig": {
     "extends": "react-app"

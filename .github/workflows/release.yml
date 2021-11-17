@@ -1,0 +1,52 @@
+name: "Release desktop apps"
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish-tauri:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install Rust latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: nightly
+            override: true
+
+      - name: install webkit2gtk (ubuntu only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webkit2gtk-4.0
+
+      - name: install app dependencies and build it
+        run: yarn && yarn build
+
+      # get current  tag
+      - name: tag
+        id: next_tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ steps.next_tag.outputs.tag }}
+          releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
+          body: "See the assets to download this version and install."
+          draft: false
+          prerelease: false

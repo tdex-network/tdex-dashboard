@@ -17,7 +17,7 @@ interface MarketPairFormProps {
   setQuoteAsset: (asset: Asset) => void;
   baseAsset: Asset;
   quoteAsset: Asset;
-  setStep: (step: number) => void;
+  incrementStep: () => void;
 }
 
 export const MarketPairForm = ({
@@ -25,7 +25,7 @@ export const MarketPairForm = ({
   setQuoteAsset,
   baseAsset,
   quoteAsset,
-  setStep,
+  incrementStep,
 }: MarketPairFormProps): JSX.Element => {
   const [newMarket] = useNewMarketMutation();
   const [showGenericAssetForm, setShowGenericAssetForm] = useState<boolean>(false);
@@ -67,10 +67,11 @@ export const MarketPairForm = ({
         notification.error({ message: 'Cannot create a market with both same assets' });
         return;
       }
+      console.log('baseAsset.asset_id, quoteAsset.asset_id', baseAsset.asset_id, quoteAsset.asset_id);
       const res = await newMarket({ baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
-      setStep(1);
+      incrementStep();
       notification.success({ message: 'New market created successfully' });
     } catch (err) {
       // @ts-ignore

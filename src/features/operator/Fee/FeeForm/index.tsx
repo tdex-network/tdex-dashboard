@@ -23,7 +23,7 @@ interface FeeFormProps {
   feeAbsoluteQuote?: string;
   feeRelative?: string;
   className?: string;
-  setStep?: (step: number) => void;
+  incrementStep?: () => void;
 }
 
 const FEE_ABSOLUTE_BASE_DEFAULT = '0';
@@ -34,7 +34,7 @@ export const FeeForm = ({
   baseAsset,
   quoteAsset,
   className,
-  setStep,
+  incrementStep,
   feeAbsoluteBase = FEE_ABSOLUTE_BASE_DEFAULT,
   feeAbsoluteQuote = FEE_ABSOLUTE_QUOTE_DEFAULT,
   feeRelative = FEE_RELATIVE_DEFAULT,
@@ -61,7 +61,7 @@ export const FeeForm = ({
       });
       // @ts-ignore
       if (updateMarketFixedFeeRes?.error) throw new Error(updateMarketFixedFeeRes?.error);
-      setStep?.(2);
+      incrementStep?.();
       notification.success({ message: 'Market fees updated successfully' });
     } catch (err) {
       // @ts-ignore

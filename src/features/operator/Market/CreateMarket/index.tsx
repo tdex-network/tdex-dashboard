@@ -13,6 +13,7 @@ import { FeeForm } from '../../Fee/FeeForm';
 import { useListMarketsQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
+import { MarketLabelForm } from './MarketLabelForm';
 import { MarketPairForm } from './MarketPairForm';
 
 const { Title } = Typography;
@@ -25,6 +26,8 @@ export const CreateMarket = (): JSX.Element => {
   const marketInfo = listMarkets?.marketsList.find(
     ({ market }) => market?.baseAsset === baseAsset?.asset_id && market?.quoteAsset === quoteAsset?.asset_id
   );
+
+  const incrementStep = () => setStep(step + 1);
 
   return (
     <Row>
@@ -42,15 +45,21 @@ export const CreateMarket = (): JSX.Element => {
               setQuoteAsset={setQuoteAsset}
               baseAsset={baseAsset}
               quoteAsset={quoteAsset}
-              setStep={setStep}
+              incrementStep={incrementStep}
+            />
+            <MarketLabelForm
+              baseAsset={baseAsset}
+              quoteAsset={quoteAsset}
+              className={clx({ disabled: step < 1 })}
+              incrementStep={incrementStep}
             />
             <FeeForm
               baseAsset={baseAsset}
               quoteAsset={quoteAsset}
-              className={clx({ disabled: step < 1 })}
-              setStep={setStep}
+              className={clx({ disabled: step < 2 })}
+              incrementStep={incrementStep}
             />
-            <div className={clx('panel panel__grey', { disabled: step < 2 })}>
+            <div className={clx('panel panel__grey mb-4', { disabled: step < 3 })}>
               <Row className="mb-4">
                 <Col span={24}>
                   <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>

@@ -4,6 +4,10 @@
   }
   .disabled {
     opacity: 0.35;
+    cursor: not-allowed;
+    & * {
+      pointer-events: none;
+    }
   }
   form#add_custom_asset_form {
     .ant-input-suffix {

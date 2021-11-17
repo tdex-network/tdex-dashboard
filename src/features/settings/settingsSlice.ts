@@ -1,6 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { Metadata } from 'grpc-web';
 
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
@@ -19,6 +18,8 @@ export interface SettingsState {
   marketsLabelled?: MarketLabelled[];
   tdexDaemonBaseUrl: string;
   macaroonCredentials?: string;
+  proxyUrl: string;
+  isInitialized: boolean;
   tdexdConnectUrl?: string;
 }
 
@@ -28,6 +29,7 @@ export const initialState: SettingsState = {
   explorerLiquidUI: network.explorerLiquidUI,
   tdexDaemonBaseUrl: network.tdexDaemonBaseUrl,
   assets: featuredAssets,
+  isInitialized: false,
 };
 
 export const settingsSlice = createSlice({
@@ -52,8 +54,11 @@ export const settingsSlice = createSlice({
     setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
       state.tdexdConnectUrl = action.payload;
     },
+    setIsInitialized: (state, action: PayloadAction<boolean>) => {
+      state.isInitialized = action.payload;
+    },
     logout: (state) => {
-      state.macaroonCredentials = undefined;
+      state.isInitialized = false;
       state.tdexdConnectUrl = undefined;
     },
     resetSettings: () => initialState,
@@ -64,17 +69,12 @@ export function selectChain(state: RootState): 'liquid' | 'regtest' {
   return state.settings.chain;
 }
 
-export function selectTdexDaemonBaseUrl(state: RootState): string {
-  return state.settings.tdexDaemonBaseUrl;
+export function selectProxyUrl(state: RootState): string {
+  return state.settings.proxyUrl;
 }
 
-export function selectMacaroonCreds(state: RootState): Metadata | null {
-  if (state.settings.macaroonCredentials) {
-    return {
-      macaroon: state.settings.macaroonCredentials,
-    };
-  }
-  return null;
+export function selectIsInitialized(state: RootState): boolean {
+  return state.settings.isInitialized;
 }
 
 export function selectMarketLabelled(state: RootState): MarketLabelled[] | undefined {
@@ -83,15 +83,15 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 
 //
 export function selectOperatorClient(state: RootState): OperatorClient {
-  return new OperatorClient(selectTdexDaemonBaseUrl(state));
+  return new OperatorClient(selectProxyUrl(state));
 }
 
 export function selectWalletClient(state: RootState): WalletClient {
-  return new WalletClient(selectTdexDaemonBaseUrl(state));
+  return new WalletClient(selectProxyUrl(state));
 }
 
 export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClient {
-  return new WalletUnlockerClient(selectTdexDaemonBaseUrl(state));
+  return new WalletUnlockerClient(selectProxyUrl(state));
 }
 
 export const {
@@ -102,6 +102,7 @@ export const {
   logout,
   saveAsset,
   setMarketLabelled,
+  setIsInitialized
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

@@ -78,7 +78,7 @@ import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
 import type { BalanceInfo } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
-import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
+import { selectOperatorClient } from '../settings/settingsSlice';
 
 type MethodName =
   // Fee
@@ -138,7 +138,7 @@ const baseQueryFn: BaseQueryFn<
 > = async ({ methodName, body }, { getState }: BaseQueryApi) => {
   const state = getState() as RootState;
   const client = selectOperatorClient(state);
-  const metadata = selectMacaroonCreds(state);
+  const metadata = {};
 
   switch (methodName) {
     // Fee

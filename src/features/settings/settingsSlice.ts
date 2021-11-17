@@ -7,6 +7,7 @@ import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb'
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
+import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
 export interface SettingsState {
@@ -14,6 +15,7 @@ export interface SettingsState {
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
   assets: Asset[];
+  marketsLabelled?: MarketLabelled[];
   tdexDaemonBaseUrl: string;
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
@@ -36,6 +38,9 @@ export const settingsSlice = createSlice({
       if (state.assets.some((a) => a.asset_id !== action.payload.asset_id)) {
         state.assets = [...state.assets, action.payload];
       }
+    },
+    setMarketLabelled: (state, action: PayloadAction<MarketLabelled>) => {
+      state.marketsLabelled = [...(state.marketsLabelled || []), action.payload];
     },
     setTdexDaemonBaseUrl: (state, action: PayloadAction<string>) => {
       state.tdexDaemonBaseUrl = action.payload;
@@ -71,6 +76,11 @@ export function selectMacaroonCreds(state: RootState): Metadata | null {
   return null;
 }
 
+export function selectMarketLabelled(state: RootState): MarketLabelled[] | undefined {
+  return state.settings.marketsLabelled;
+}
+
+//
 export function selectOperatorClient(state: RootState): OperatorClient {
   return new OperatorClient(selectTdexDaemonBaseUrl(state));
 }
@@ -90,6 +100,7 @@ export const {
   resetSettings,
   logout,
   saveAsset,
+  setMarketLabelled,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

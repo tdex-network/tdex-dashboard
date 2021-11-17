@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd'
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
@@ -19,6 +20,7 @@ const { Title } = Typography;
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const { data: listMarkets } = useListMarketsQuery();
+  const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
 
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const marketInfo = listMarkets?.marketsList.find(
@@ -55,7 +57,16 @@ export const MarketOverview = (): JSX.Element => {
               <span className="dm-sans dm-sans__xx">
                 {state?.baseAsset?.ticker} / {state?.quoteAsset?.ticker}
               </span>
-              <span>Custom Name</span>
+              <span>
+                {marketsLabelled?.find(
+                  ({ marketStr }) =>
+                    marketStr ===
+                    JSON.stringify({
+                      baseAssetTicker: state?.baseAsset?.ticker,
+                      quoteAssetTicker: state?.quoteAsset?.ticker,
+                    })
+                )?.label || 'Custom name'}
+              </span>
             </Space>
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>

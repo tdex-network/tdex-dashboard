@@ -30,7 +30,7 @@ import {
 
 const PrivateRoute = ({ children }: any) => {
   const isOnboarded = useTypedSelector(
-    ({ settings }) => !!(settings.isInitialized && settings.tdexdConnectUrl)
+    ({ settings }) => !!(settings.tdexdConnectUrl)
   );
   return isOnboarded ? children : <Navigate to={ONBOARDING_PAIRING_ROUTE} />;
 };

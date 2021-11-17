@@ -34,7 +34,7 @@ const (
 )
 
 var (
-	// maxMsgRecvSize is the largest message our REST proxy will receive. We
+	// maxMsgRecvSize is the largest message our proxy will receive. We
 	// set this to 200MiB atm.
 	maxMsgRecvSize = grpc.MaxCallRecvMsgSize(1 * 1024 * 1024 * 200)
 	connectUrlPath = filepath.Join(
@@ -151,7 +151,7 @@ func newRpcProxy(connectUrl string) (*rpcProxy, error) {
 
 	httpHandler := func(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Set("Access-Control-Allow-Origin", "*")
-		resp.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 		resp.Header().Set("Access-Control-Allow-Headers", "*")
 
 		if grpcWebProxy.IsGrpcWebRequest(req) ||

@@ -12,6 +12,7 @@ import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
 import { LBTC_TICKER, USDT_TICKER } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
+import { TxsTable } from '../../TxsTable';
 import { useListMarketsQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
@@ -130,7 +131,7 @@ export const MarketOverview = (): JSX.Element => {
         <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>
           Transactions
         </Title>
-        <Skeleton />
+        {marketInfo && <TxsTable marketInfo={marketInfo} />}
         {/**/}
       </div>
       <MarketSettings

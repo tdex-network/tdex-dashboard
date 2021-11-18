@@ -18,7 +18,6 @@ import type {
   UpdateMarketPriceReply,
   UpdateMarketStrategyReply,
   ListMarketsReply,
-  ListTradesReply,
   ReloadUtxosReply,
   ListUtxosReply,
   AddWebhookReply,
@@ -33,6 +32,7 @@ import type {
   GetMarketCollectedSwapFeesReply,
   StrategyType,
   FragmentMarketDepositsReply,
+  TradeInfo,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -69,6 +69,7 @@ import {
   FragmentFeeDepositsRequest,
   GetMarketFragmenterAddressRequest,
   FragmentMarketDepositsRequest,
+  ListTradesRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -591,6 +592,31 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
+    case 'listTrades': {
+      try {
+        const { market, page } = body as { market: Market.AsObject; page: Page.AsObject };
+        const { pageNumber, pageSize } = page;
+        const newPage = new Page();
+        newPage.setPageNumber(pageNumber);
+        newPage.setPageSize(pageSize);
+        //
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const listTradesReply = await client.listTrades(
+          new ListTradesRequest().setMarket(newMarket).setPage(newPage),
+          metadata
+        );
+        return {
+          data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
     case 'reloadUtxos': {
       try {
         return {
@@ -841,8 +867,8 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'listMarkets' }),
       providesTags: ['Market'],
     }),
-    listTrades: build.query<ListTradesReply, void>({
-      query: () => ({ methodName: 'listTrades' }),
+    listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
+      query: (body) => ({ methodName: 'listTrades', body }),
     }),
     reloadUtxos: build.query<ReloadUtxosReply, void>({
       query: () => ({ methodName: 'reloadUtxos' }),

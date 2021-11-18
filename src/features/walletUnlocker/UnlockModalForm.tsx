@@ -63,21 +63,24 @@ export const UnlockModalForm = ({
         closable
           ? undefined
           : [
-              <Button key="unlock" loading={isLoading} onClick={handleUnlockWalletModalOk}>
-                Unlock
+              <Button key="unlock" loading={isLoading} onClick={handleUnlockWalletModalOk} className="w-100">
+                UNLOCK
               </Button>,
             ]
       }
     >
-      <Form layout="vertical" form={form} name="unlock_wallet_form" wrapperCol={{ span: 16 }}>
+      <Form layout="vertical" form={form} name="unlock_wallet_form" wrapperCol={{ span: 24 }}>
         <Form.Item
-          label="Password"
+          noStyle
+          label="Enter your password"
           name="password"
           className={classNames({ 'has-error': unlockWalletError })}
         >
-          <Input.Password iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+          <Input.Password
+            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            className="input__medium"
+          />
         </Form.Item>
-        {unlockWalletError && <p className="error">{unlockWalletError}</p>}
       </Form>
     </Modal>
   );

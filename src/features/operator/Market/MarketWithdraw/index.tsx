@@ -61,7 +61,7 @@ export const MarketWithdraw = (): JSX.Element => {
         },
         balance: { baseAmount: values.balanceBaseAmount, quoteAmount: values.balanceQuoteAmount },
         address: values.address,
-        millisatPerByte: 100,
+        millisatsPerByte: 100,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);

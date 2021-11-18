@@ -16,6 +16,19 @@ export const App = (): JSX.Element => {
     if (isReady && !isReady.isUnlocked && isReady.isInitialized) showUnlockWalletModal();
   }, [isReady]);
 
+  useEffect(() => {
+    document.addEventListener('keypress', function (event) {
+      if (event.metaKey && event.key === 'c') {
+        document.execCommand('copy');
+        event.preventDefault();
+      }
+      if (event.metaKey && event.key === 'v') {
+        document.execCommand('paste');
+        event.preventDefault();
+      }
+    });
+  }, []);
+
   return (
     <>
       <Shell>

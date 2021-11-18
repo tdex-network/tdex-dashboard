@@ -852,7 +852,7 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'withdrawFee', body }),
     }),
     getFeeFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
-      query: () => ({ methodName: 'getFeeFragmenterAddress' }),
+      query: (body) => ({ methodName: 'getFeeFragmenterAddress', body }),
     }),
     listFeeFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'listFeeFragmenterAddresses' }),
@@ -861,10 +861,10 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'getFeeFragmenterBalance' }),
     }),
     feeFragmenterSplitFunds: build.mutation<void, { maxFragments: number; millisatsPerByte: number }>({
-      query: () => ({ methodName: 'feeFragmenterSplitFunds' }),
+      query: (body) => ({ methodName: 'feeFragmenterSplitFunds', body }),
     }),
     withdrawFeeFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
-      query: () => ({ methodName: 'withdrawFeeFragmenter' }),
+      query: (body) => ({ methodName: 'withdrawFeeFragmenter', body }),
     }),
     // Market
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -947,7 +947,19 @@ export const operatorApi = createApi({
       providesTags: ['Market'],
     }),
     getMarketFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
-      query: () => ({ methodName: 'getMarketFragmenterAddress' }),
+      query: (body) => ({ methodName: 'getMarketFragmenterAddress', body }),
+    }),
+    listMarketFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
+      query: () => ({ methodName: 'listMarketFragmenterAddresses' }),
+    }),
+    getMarketFragmenterBalance: build.query<Map<string, BalanceInfo>, void>({
+      query: () => ({ methodName: 'getMarketFragmenterBalance' }),
+    }),
+    marketFragmenterSplitFunds: build.mutation<void, { market: Market.AsObject; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'marketFragmenterSplitFunds', body }),
+    }),
+    withdrawMarketFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),
     }),
     // Trades
     listTrades: build.query<ListTradesReply, void>({
@@ -995,35 +1007,49 @@ export const operatorApi = createApi({
 });
 
 export const {
-  useGetInfoQuery,
+  // Fee
   useGetFeeAddressQuery,
   useListFeeAddressesQuery,
   useGetFeeBalanceQuery,
   useClaimFeeDepositsMutation,
-  useGetFeeFragmenterAddressQuery,
-  useGetMarketFragmenterAddressQuery,
-  useClaimMarketDepositsMutation,
-  useCloseMarketMutation,
   useWithdrawFeeMutation,
-  useGetMarketAddressQuery,
-  useListMarketAddressesQuery,
-  useGetMarketBalanceQuery,
-  useNewMarketMutation,
-  useOpenMarketMutation,
-  useDropMarketMutation,
-  useGetMarketCollectedSwapFeesQuery,
-  useTotalCollectedSwapFeesQuery,
+  useGetFeeFragmenterAddressQuery,
+  useListFeeFragmenterAddressesQuery,
+  useGetFeeFragmenterBalanceQuery,
+  useFeeFragmenterSplitFundsMutation,
+  useWithdrawFeeFragmenterMutation,
+  // Market
   useWithdrawMarketMutation,
   useUpdateMarketPercentageFeeMutation,
   useUpdateMarketFixedFeeMutation,
   useUpdateMarketPriceMutation,
   useUpdateMarketStrategyMutation,
   useListMarketsQuery,
+  useClaimMarketDepositsMutation,
+  useCloseMarketMutation,
+  useGetMarketAddressQuery,
+  useListMarketAddressesQuery,
+  useGetMarketBalanceQuery,
+  useNewMarketMutation,
+  useOpenMarketMutation,
+  useDropMarketMutation,
+  useGetMarketFragmenterAddressQuery,
+  useListMarketFragmenterAddressesQuery,
+  useGetMarketFragmenterBalanceQuery,
+  useMarketFragmenterSplitFundsMutation,
+  useWithdrawMarketFragmenterMutation,
+  // Trades
+  useGetMarketCollectedSwapFeesQuery,
+  useTotalCollectedSwapFeesQuery,
   useListTradesQuery,
+  // Utxos
   useListUtxosQuery,
+  // Webhook
   useAddWebhookMutation,
   useRemoveWebhookMutation,
   useListWebhooksQuery,
+  //
+  useGetInfoQuery,
   useListDepositsQuery,
   useListWithdrawalsQuery,
 } = operatorApi;

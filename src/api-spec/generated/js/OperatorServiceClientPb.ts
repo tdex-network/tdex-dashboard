@@ -250,71 +250,6 @@ export class OperatorClient {
     this.methodInfoClaimFeeDeposits);
   }
 
-  methodInfoGetFeeFragmenterAddress = new grpcWeb.MethodDescriptor(
-    '/Operator/GetFeeFragmenterAddress',
-    grpcWeb.MethodType.UNARY,
-    operator_pb.GetFeeFragmenterAddressRequest,
-    operator_pb.GetFeeFragmenterAddressReply,
-    (request: operator_pb.GetFeeFragmenterAddressRequest) => {
-      return request.serializeBinary();
-    },
-    operator_pb.GetFeeFragmenterAddressReply.deserializeBinary
-  );
-
-  getFeeFragmenterAddress(
-    request: operator_pb.GetFeeFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetFeeFragmenterAddressReply>;
-
-  getFeeFragmenterAddress(
-    request: operator_pb.GetFeeFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: operator_pb.GetFeeFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetFeeFragmenterAddressReply>;
-
-  getFeeFragmenterAddress(
-    request: operator_pb.GetFeeFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: operator_pb.GetFeeFragmenterAddressReply) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetFeeFragmenterAddress',
-        request,
-        metadata || {},
-        this.methodInfoGetFeeFragmenterAddress,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/Operator/GetFeeFragmenterAddress',
-    request,
-    metadata || {},
-    this.methodInfoGetFeeFragmenterAddress);
-  }
-
-  methodInfoFragmentFeeDeposits = new grpcWeb.MethodDescriptor(
-    '/Operator/FragmentFeeDeposits',
-    grpcWeb.MethodType.SERVER_STREAMING,
-    operator_pb.FragmentFeeDepositsRequest,
-    operator_pb.FragmentFeeDepositsReply,
-    (request: operator_pb.FragmentFeeDepositsRequest) => {
-      return request.serializeBinary();
-    },
-    operator_pb.FragmentFeeDepositsReply.deserializeBinary
-  );
-
-  fragmentFeeDeposits(
-    request: operator_pb.FragmentFeeDepositsRequest,
-    metadata?: grpcWeb.Metadata) {
-    return this.client_.serverStreaming(
-      this.hostname_ +
-        '/Operator/FragmentFeeDeposits',
-      request,
-      metadata || {},
-      this.methodInfoFragmentFeeDeposits);
-  }
-
   methodInfoWithdrawFee = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawFee',
     grpcWeb.MethodType.UNARY,
@@ -745,71 +680,6 @@ export class OperatorClient {
     this.methodInfoGetMarketCollectedSwapFees);
   }
 
-  methodInfoGetMarketFragmenterAddress = new grpcWeb.MethodDescriptor(
-    '/Operator/GetMarketFragmenterAddress',
-    grpcWeb.MethodType.UNARY,
-    operator_pb.GetMarketFragmenterAddressRequest,
-    operator_pb.GetMarketFragmenterAddressReply,
-    (request: operator_pb.GetMarketFragmenterAddressRequest) => {
-      return request.serializeBinary();
-    },
-    operator_pb.GetMarketFragmenterAddressReply.deserializeBinary
-  );
-
-  getMarketFragmenterAddress(
-    request: operator_pb.GetMarketFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketFragmenterAddressReply>;
-
-  getMarketFragmenterAddress(
-    request: operator_pb.GetMarketFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: operator_pb.GetMarketFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketFragmenterAddressReply>;
-
-  getMarketFragmenterAddress(
-    request: operator_pb.GetMarketFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: operator_pb.GetMarketFragmenterAddressReply) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/Operator/GetMarketFragmenterAddress',
-        request,
-        metadata || {},
-        this.methodInfoGetMarketFragmenterAddress,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/Operator/GetMarketFragmenterAddress',
-    request,
-    metadata || {},
-    this.methodInfoGetMarketFragmenterAddress);
-  }
-
-  methodInfoFragmentMarketDeposits = new grpcWeb.MethodDescriptor(
-    '/Operator/FragmentMarketDeposits',
-    grpcWeb.MethodType.SERVER_STREAMING,
-    operator_pb.FragmentMarketDepositsRequest,
-    operator_pb.FragmentMarketDepositsReply,
-    (request: operator_pb.FragmentMarketDepositsRequest) => {
-      return request.serializeBinary();
-    },
-    operator_pb.FragmentMarketDepositsReply.deserializeBinary
-  );
-
-  fragmentMarketDeposits(
-    request: operator_pb.FragmentMarketDepositsRequest,
-    metadata?: grpcWeb.Metadata) {
-    return this.client_.serverStreaming(
-      this.hostname_ +
-        '/Operator/FragmentMarketDeposits',
-      request,
-      metadata || {},
-      this.methodInfoFragmentMarketDeposits);
-  }
-
   methodInfoWithdrawMarket = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawMarket',
     grpcWeb.MethodType.UNARY,
@@ -1023,6 +893,394 @@ export class OperatorClient {
     request,
     metadata || {},
     this.methodInfoUpdateMarketStrategy);
+  }
+
+  methodInfoGetFeeFragmenterAddress = new grpcWeb.MethodDescriptor(
+    '/Operator/GetFeeFragmenterAddress',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetFeeFragmenterAddressRequest,
+    operator_pb.GetFeeFragmenterAddressReply,
+    (request: operator_pb.GetFeeFragmenterAddressRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetFeeFragmenterAddressReply.deserializeBinary
+  );
+
+  getFeeFragmenterAddress(
+    request: operator_pb.GetFeeFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetFeeFragmenterAddressReply>;
+
+  getFeeFragmenterAddress(
+    request: operator_pb.GetFeeFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetFeeFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetFeeFragmenterAddressReply>;
+
+  getFeeFragmenterAddress(
+    request: operator_pb.GetFeeFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetFeeFragmenterAddressReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetFeeFragmenterAddress',
+        request,
+        metadata || {},
+        this.methodInfoGetFeeFragmenterAddress,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetFeeFragmenterAddress',
+    request,
+    metadata || {},
+    this.methodInfoGetFeeFragmenterAddress);
+  }
+
+  methodInfoListFeeFragmenterAddresses = new grpcWeb.MethodDescriptor(
+    '/Operator/ListFeeFragmenterAddresses',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.ListFeeFragmenterAddressesRequest,
+    operator_pb.ListFeeFragmenterAddressesReply,
+    (request: operator_pb.ListFeeFragmenterAddressesRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.ListFeeFragmenterAddressesReply.deserializeBinary
+  );
+
+  listFeeFragmenterAddresses(
+    request: operator_pb.ListFeeFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListFeeFragmenterAddressesReply>;
+
+  listFeeFragmenterAddresses(
+    request: operator_pb.ListFeeFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.ListFeeFragmenterAddressesReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListFeeFragmenterAddressesReply>;
+
+  listFeeFragmenterAddresses(
+    request: operator_pb.ListFeeFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.ListFeeFragmenterAddressesReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/ListFeeFragmenterAddresses',
+        request,
+        metadata || {},
+        this.methodInfoListFeeFragmenterAddresses,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/ListFeeFragmenterAddresses',
+    request,
+    metadata || {},
+    this.methodInfoListFeeFragmenterAddresses);
+  }
+
+  methodInfoGetFeeFragmenterBalance = new grpcWeb.MethodDescriptor(
+    '/Operator/GetFeeFragmenterBalance',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetFeeFragmenterBalanceRequest,
+    operator_pb.GetFeeFragmenterBalanceReply,
+    (request: operator_pb.GetFeeFragmenterBalanceRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetFeeFragmenterBalanceReply.deserializeBinary
+  );
+
+  getFeeFragmenterBalance(
+    request: operator_pb.GetFeeFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetFeeFragmenterBalanceReply>;
+
+  getFeeFragmenterBalance(
+    request: operator_pb.GetFeeFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetFeeFragmenterBalanceReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetFeeFragmenterBalanceReply>;
+
+  getFeeFragmenterBalance(
+    request: operator_pb.GetFeeFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetFeeFragmenterBalanceReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetFeeFragmenterBalance',
+        request,
+        metadata || {},
+        this.methodInfoGetFeeFragmenterBalance,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetFeeFragmenterBalance',
+    request,
+    metadata || {},
+    this.methodInfoGetFeeFragmenterBalance);
+  }
+
+  methodInfoFeeFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
+    '/Operator/FeeFragmenterSplitFunds',
+    grpcWeb.MethodType.SERVER_STREAMING,
+    operator_pb.FeeFragmenterSplitFundsRequest,
+    operator_pb.FragmenterSplitFundsReply,
+    (request: operator_pb.FeeFragmenterSplitFundsRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.FragmenterSplitFundsReply.deserializeBinary
+  );
+
+  feeFragmenterSplitFunds(
+    request: operator_pb.FeeFragmenterSplitFundsRequest,
+    metadata?: grpcWeb.Metadata) {
+    return this.client_.serverStreaming(
+      this.hostname_ +
+        '/Operator/FeeFragmenterSplitFunds',
+      request,
+      metadata || {},
+      this.methodInfoFeeFragmenterSplitFunds);
+  }
+
+  methodInfoWithdrawFeeFragmenter = new grpcWeb.MethodDescriptor(
+    '/Operator/WithdrawFeeFragmenter',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.WithdrawFeeFragmenterRequest,
+    operator_pb.WithdrawFeeFragmenterReply,
+    (request: operator_pb.WithdrawFeeFragmenterRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.WithdrawFeeFragmenterReply.deserializeBinary
+  );
+
+  withdrawFeeFragmenter(
+    request: operator_pb.WithdrawFeeFragmenterRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.WithdrawFeeFragmenterReply>;
+
+  withdrawFeeFragmenter(
+    request: operator_pb.WithdrawFeeFragmenterRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.WithdrawFeeFragmenterReply) => void): grpcWeb.ClientReadableStream<operator_pb.WithdrawFeeFragmenterReply>;
+
+  withdrawFeeFragmenter(
+    request: operator_pb.WithdrawFeeFragmenterRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.WithdrawFeeFragmenterReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/WithdrawFeeFragmenter',
+        request,
+        metadata || {},
+        this.methodInfoWithdrawFeeFragmenter,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/WithdrawFeeFragmenter',
+    request,
+    metadata || {},
+    this.methodInfoWithdrawFeeFragmenter);
+  }
+
+  methodInfoGetMarketFragmenterAddress = new grpcWeb.MethodDescriptor(
+    '/Operator/GetMarketFragmenterAddress',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetMarketFragmenterAddressRequest,
+    operator_pb.GetMarketFragmenterAddressReply,
+    (request: operator_pb.GetMarketFragmenterAddressRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetMarketFragmenterAddressReply.deserializeBinary
+  );
+
+  getMarketFragmenterAddress(
+    request: operator_pb.GetMarketFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketFragmenterAddressReply>;
+
+  getMarketFragmenterAddress(
+    request: operator_pb.GetMarketFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketFragmenterAddressReply>;
+
+  getMarketFragmenterAddress(
+    request: operator_pb.GetMarketFragmenterAddressRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketFragmenterAddressReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetMarketFragmenterAddress',
+        request,
+        metadata || {},
+        this.methodInfoGetMarketFragmenterAddress,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetMarketFragmenterAddress',
+    request,
+    metadata || {},
+    this.methodInfoGetMarketFragmenterAddress);
+  }
+
+  methodInfoListMarketFragmenterAddresses = new grpcWeb.MethodDescriptor(
+    '/Operator/ListMarketFragmenterAddresses',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.ListMarketFragmenterAddressesRequest,
+    operator_pb.ListMarketFragmenterAddressesReply,
+    (request: operator_pb.ListMarketFragmenterAddressesRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.ListMarketFragmenterAddressesReply.deserializeBinary
+  );
+
+  listMarketFragmenterAddresses(
+    request: operator_pb.ListMarketFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.ListMarketFragmenterAddressesReply>;
+
+  listMarketFragmenterAddresses(
+    request: operator_pb.ListMarketFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.ListMarketFragmenterAddressesReply) => void): grpcWeb.ClientReadableStream<operator_pb.ListMarketFragmenterAddressesReply>;
+
+  listMarketFragmenterAddresses(
+    request: operator_pb.ListMarketFragmenterAddressesRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.ListMarketFragmenterAddressesReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/ListMarketFragmenterAddresses',
+        request,
+        metadata || {},
+        this.methodInfoListMarketFragmenterAddresses,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/ListMarketFragmenterAddresses',
+    request,
+    metadata || {},
+    this.methodInfoListMarketFragmenterAddresses);
+  }
+
+  methodInfoGetMarketFragmenterBalance = new grpcWeb.MethodDescriptor(
+    '/Operator/GetMarketFragmenterBalance',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetMarketFragmenterBalanceRequest,
+    operator_pb.GetMarketFragmenterBalanceReply,
+    (request: operator_pb.GetMarketFragmenterBalanceRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetMarketFragmenterBalanceReply.deserializeBinary
+  );
+
+  getMarketFragmenterBalance(
+    request: operator_pb.GetMarketFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketFragmenterBalanceReply>;
+
+  getMarketFragmenterBalance(
+    request: operator_pb.GetMarketFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketFragmenterBalanceReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketFragmenterBalanceReply>;
+
+  getMarketFragmenterBalance(
+    request: operator_pb.GetMarketFragmenterBalanceRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketFragmenterBalanceReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetMarketFragmenterBalance',
+        request,
+        metadata || {},
+        this.methodInfoGetMarketFragmenterBalance,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetMarketFragmenterBalance',
+    request,
+    metadata || {},
+    this.methodInfoGetMarketFragmenterBalance);
+  }
+
+  methodInfoMarketFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
+    '/Operator/MarketFragmenterSplitFunds',
+    grpcWeb.MethodType.SERVER_STREAMING,
+    operator_pb.MarketFragmenterSplitFundsRequest,
+    operator_pb.FragmenterSplitFundsReply,
+    (request: operator_pb.MarketFragmenterSplitFundsRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.FragmenterSplitFundsReply.deserializeBinary
+  );
+
+  marketFragmenterSplitFunds(
+    request: operator_pb.MarketFragmenterSplitFundsRequest,
+    metadata?: grpcWeb.Metadata) {
+    return this.client_.serverStreaming(
+      this.hostname_ +
+        '/Operator/MarketFragmenterSplitFunds',
+      request,
+      metadata || {},
+      this.methodInfoMarketFragmenterSplitFunds);
+  }
+
+  methodInfoWithdrawMarketFragmenter = new grpcWeb.MethodDescriptor(
+    '/Operator/WithdrawMarketFragmenter',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.WithdrawMarketFragmenterRequest,
+    operator_pb.WithdrawMarketFragmenterReply,
+    (request: operator_pb.WithdrawMarketFragmenterRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.WithdrawMarketFragmenterReply.deserializeBinary
+  );
+
+  withdrawMarketFragmenter(
+    request: operator_pb.WithdrawMarketFragmenterRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.WithdrawMarketFragmenterReply>;
+
+  withdrawMarketFragmenter(
+    request: operator_pb.WithdrawMarketFragmenterRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.WithdrawMarketFragmenterReply) => void): grpcWeb.ClientReadableStream<operator_pb.WithdrawMarketFragmenterReply>;
+
+  withdrawMarketFragmenter(
+    request: operator_pb.WithdrawMarketFragmenterRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.WithdrawMarketFragmenterReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/WithdrawMarketFragmenter',
+        request,
+        metadata || {},
+        this.methodInfoWithdrawMarketFragmenter,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/WithdrawMarketFragmenter',
+    request,
+    metadata || {},
+    this.methodInfoWithdrawMarketFragmenter);
   }
 
   methodInfoListMarkets = new grpcWeb.MethodDescriptor(

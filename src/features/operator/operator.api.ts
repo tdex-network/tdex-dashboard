@@ -31,6 +31,7 @@ import type {
   Withdrawal,
   GetMarketCollectedSwapFeesReply,
   StrategyType,
+  TradeInfo,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -73,6 +74,7 @@ import {
   MarketFragmenterSplitFundsRequest,
   GetMarketFragmenterBalanceRequest,
   ListMarketFragmenterAddressesRequest,
+  ListTradesRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -644,6 +646,31 @@ const baseQueryFn: BaseQueryFn<
       }
     }
     // Trades
+    case 'listTrades': {
+      try {
+        const { market, page } = body as { market: Market.AsObject; page: Page.AsObject };
+        const { pageNumber, pageSize } = page;
+        const newPage = new Page();
+        newPage.setPageNumber(pageNumber);
+        newPage.setPageSize(pageSize);
+        //
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const listTradesReply = await client.listTrades(
+          new ListTradesRequest().setMarket(newMarket).setPage(newPage),
+          metadata
+        );
+        return {
+          data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
     case 'getMarketCollectedSwapFees': {
       try {
         const { baseAsset, quoteAsset } = body as Market.AsObject;
@@ -962,8 +989,8 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),
     }),
     // Trades
-    listTrades: build.query<ListTradesReply, void>({
-      query: () => ({ methodName: 'listTrades' }),
+    listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
+      query: (body) => ({ methodName: 'listTrades', body }),
     }),
     getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),

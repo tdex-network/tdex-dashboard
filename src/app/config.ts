@@ -5,11 +5,17 @@ if (process.env.NODE_ENV === 'production') {
   network = {
     chain: 'liquid',
     explorerLiquidAPI: 'https://blockstream.info/liquid/api',
+    explorerBitcoinAPI: 'https://blockstream.info/api',
+    explorerLiquidUI: 'https://blockstream.info/liquid',
+    explorerBitcoinUI: 'https://blockstream.info',
   };
 } else {
   network = {
     chain: 'regtest',
     explorerLiquidAPI: 'http://localhost:3001',
+    explorerBitcoinAPI: 'http://localhost:3000',
+    explorerLiquidUI: 'http://localhost:5001',
+    explorerBitcoinUI: 'http://localhost:5000',
   };
 }
 

@@ -27,6 +27,12 @@ jobs:
             toolchain: nightly
             override: true
 
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.1
+        id: go
+
       - name: install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
         run: |
@@ -35,6 +41,9 @@ jobs:
 
       - name: install app dependencies and build it
         run: yarn && yarn build
+
+      - name: build rpc proxy
+        run: make build
 
       # get current  tag
       - name: tag

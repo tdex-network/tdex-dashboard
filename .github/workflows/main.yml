@@ -11,9 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.1
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
+      - run: make install
+      - run: make fmt
       - run: yarn
       - run: yarn build
       - run: yarn lint

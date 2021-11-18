@@ -13,7 +13,7 @@ const { Text, Title } = Typography;
 export const Settings = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
-
+  console.log('AAAAAAAAA', process.env);
   return (
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">

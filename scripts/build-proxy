@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+PARENT_PATH=$(dirname $(
+  cd $(dirname $0)
+  pwd -P
+))
+
+VENDOR=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
+OS=gnu
+EXT=""
+
+if [ "$VENDOR" == "darwin" ]
+then
+  OS=${VENDOR}
+  VENDOR="apple"
+fi
+
+if [ "$VENDOR" == "windows" ]
+then
+  EXT=".exe"
+fi
+
+pushd $PARENT_PATH
+mkdir -p src-tauri/bin
+GO111MODULE=on CGO_ENABLED=1 go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
+popd

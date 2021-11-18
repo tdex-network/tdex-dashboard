@@ -25,3 +25,5 @@ yarn-error.log*
 .vscode
 .idea
 .eslintcache
+
+src-tauri/bin

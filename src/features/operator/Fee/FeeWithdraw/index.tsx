@@ -74,7 +74,7 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
-            initialValues={{ balanceBaseAmount: 0, balanceQuoteAmount: 0 }}
+            initialValues={{ amount: 0 }}
           >
             <div className="panel panel__grey mb-6">
               <Row>
@@ -84,7 +84,7 @@ export const FeeWithdraw = (): JSX.Element => {
                 </Col>
                 <Col span={12}>
                   <Form.Item
-                    name="balanceQuoteAmount"
+                    name="amount"
                     className={classNames('balance-input-container d-flex justify-end dm-mono', {
                       'has-error': withdrawFeeError,
                     })}

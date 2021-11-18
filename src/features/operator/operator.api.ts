@@ -18,6 +18,7 @@ import type {
   UpdateMarketPriceReply,
   UpdateMarketStrategyReply,
   ListMarketsReply,
+  ListTradesReply,
   ReloadUtxosReply,
   ListUtxosReply,
   AddWebhookReply,
@@ -28,11 +29,8 @@ import type {
   WebhookInfo,
   UtxoInfo,
   Withdrawal,
-  FragmentFeeDepositsReply,
   GetMarketCollectedSwapFeesReply,
   StrategyType,
-  FragmentMarketDepositsReply,
-  TradeInfo,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -66,27 +64,35 @@ import {
   UpdateMarketPercentageFeeRequest,
   Page,
   GetFeeFragmenterAddressRequest,
-  FragmentFeeDepositsRequest,
   GetMarketFragmenterAddressRequest,
-  FragmentMarketDepositsRequest,
-  ListTradesRequest,
+  ListFeeFragmenterAddressesRequest,
+  GetFeeFragmenterBalanceRequest,
+  FeeFragmenterSplitFundsRequest,
+  WithdrawFeeFragmenterRequest,
+  WithdrawMarketFragmenterRequest,
+  MarketFragmenterSplitFundsRequest,
+  GetMarketFragmenterBalanceRequest,
+  ListMarketFragmenterAddressesRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
+import type { BalanceInfo } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 
 type MethodName =
-  | 'getInfo'
+  // Fee
   | 'getFeeAddress'
   | 'listFeeAddresses'
   | 'getFeeBalance'
   | 'claimFeeDeposits'
-  | 'getFeeFragmenterAddress'
-  | 'fragmentFeeDeposits'
-  | 'getMarketFragmenterAddress'
-  | 'fragmentMarketDeposits'
   | 'withdrawFee'
+  | 'getFeeFragmenterAddress'
+  | 'listFeeFragmenterAddresses'
+  | 'getFeeFragmenterBalance'
+  | 'feeFragmenterSplitFunds'
+  | 'withdrawFeeFragmenter'
+  // Market
   | 'getMarketAddress'
   | 'listMarketAddresses'
   | 'getMarketBalance'
@@ -95,20 +101,30 @@ type MethodName =
   | 'openMarket'
   | 'closeMarket'
   | 'dropMarket'
-  | 'getMarketCollectedSwapFees'
-  | 'totalCollectedSwapFees'
   | 'withdrawMarket'
   | 'updateMarketPercentageFee'
   | 'updateMarketFixedFee'
   | 'updateMarketPrice'
   | 'updateMarketStrategy'
   | 'listMarkets'
+  | 'getMarketFragmenterAddress'
+  | 'listMarketFragmenterAddresses'
+  | 'getMarketFragmenterBalance'
+  | 'marketFragmenterSplitFunds'
+  | 'withdrawMarketFragmenter'
+  // Trades
+  | 'getMarketCollectedSwapFees'
+  | 'totalCollectedSwapFees'
   | 'listTrades'
+  // Utxos
   | 'reloadUtxos'
   | 'listUtxos'
+  // Webhook
   | 'addWebhook'
   | 'removeWebhook'
   | 'listWebhooks'
+  //
+  | 'getInfo'
   | 'listDeposits'
   | 'listWithdrawals';
 
@@ -125,15 +141,7 @@ const baseQueryFn: BaseQueryFn<
   const metadata = selectMacaroonCreds(state);
 
   switch (methodName) {
-    case 'getInfo': {
-      try {
-        const info = await client.getInfo(new GetInfoRequest(), metadata);
-        return { data: info.toObject(false) };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
+    // Fee
     case 'getFeeAddress': {
       try {
         const feeAddressReply: GetFeeAddressReply = await client.getFeeAddress(
@@ -151,7 +159,7 @@ const baseQueryFn: BaseQueryFn<
         const listFeeAddressesReply = await client.listFeeAddresses(new ListFeeAddressesRequest(), metadata);
         return {
           data: listFeeAddressesReply
-            .getAddressWithBlinidngKeyList()
+            .getAddressWithBlindingKeyList()
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
@@ -188,62 +196,6 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
-    case 'getFeeFragmenterAddress': {
-      try {
-        return {
-          data: (
-            await client.getFeeFragmenterAddress(new GetFeeFragmenterAddressRequest(), metadata)
-          ).getAddress(),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'fragmentFeeDeposits': {
-      try {
-        const { recoverAddress, maxFragments } = body as { recoverAddress: string; maxFragments: number };
-        return {
-          data: await client.fragmentFeeDeposits(
-            new FragmentFeeDepositsRequest().setRecoverAddress(recoverAddress).setMaxFragments(maxFragments),
-            metadata as Metadata | undefined
-          ),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'getMarketFragmenterAddress': {
-      try {
-        return {
-          data: (
-            await client.getMarketFragmenterAddress(new GetMarketFragmenterAddressRequest(), metadata)
-          ).getAddress(),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'fragmentMarketDeposits': {
-      try {
-        const { market, recoverAddress } = body as { market: Market.AsObject; recoverAddress: string };
-        const { baseAsset, quoteAsset } = market;
-        const newMarket = new Market();
-        newMarket.setBaseAsset(baseAsset);
-        newMarket.setQuoteAsset(quoteAsset);
-        return {
-          data: await client.fragmentMarketDeposits(
-            new FragmentMarketDepositsRequest().setMarket(newMarket).setRecoverAddress(recoverAddress),
-            metadata as Metadata | undefined
-          ),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
     case 'withdrawFee': {
       try {
         const { amount, millisatsPerByte, address, asset } = body as {
@@ -267,6 +219,79 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
+    case 'getFeeFragmenterAddress': {
+      try {
+        const { numOfAddresses } = body as { numOfAddresses: number };
+        return {
+          data: (
+            await client.getFeeFragmenterAddress(
+              new GetFeeFragmenterAddressRequest().setNumOfAddresses(numOfAddresses),
+              metadata
+            )
+          )
+            .getAddressWithBlindingKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'listFeeFragmenterAddresses': {
+      try {
+        return {
+          data: (await client.listFeeFragmenterAddresses(new ListFeeFragmenterAddressesRequest(), metadata))
+            .getAddressWithBlindingKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'getFeeFragmenterBalance': {
+      try {
+        return {
+          data: (
+            await client.getFeeFragmenterBalance(new GetFeeFragmenterBalanceRequest(), metadata)
+          ).getBalanceMap(),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'feeFragmenterSplitFunds': {
+      try {
+        const { maxFragments, millisatsPerByte } = body as { maxFragments: number; millisatsPerByte: number };
+        return {
+          data: await client.feeFragmenterSplitFunds(
+            new FeeFragmenterSplitFundsRequest()
+              .setMaxFragments(maxFragments)
+              .setMillisatsPerByte(millisatsPerByte),
+            metadata as Metadata | undefined
+          ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'withdrawFeeFragmenter': {
+      try {
+        const { address, millisatsPerByte } = body as { address: string; millisatsPerByte: number };
+        return {
+          data: await client.withdrawFeeFragmenter(
+            new WithdrawFeeFragmenterRequest().setAddress(address).setMillisatsPerByte(millisatsPerByte),
+            metadata
+          ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    // Market
     case 'getMarketAddress': {
       try {
         const getMarketAddressReply = await client.getMarketAddress(new GetMarketAddressRequest(), metadata);
@@ -288,7 +313,7 @@ const baseQueryFn: BaseQueryFn<
         );
         return {
           data: listMarketAddressesReply
-            .getAddressWithBlinidngKeyList()
+            .getAddressWithBlindingKeyList()
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
@@ -399,65 +424,13 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
-    case 'getMarketCollectedSwapFees': {
-      try {
-        const { baseAsset, quoteAsset } = body as Market.AsObject;
-        const newMarket = new Market();
-        newMarket.setBaseAsset(baseAsset);
-        newMarket.setQuoteAsset(quoteAsset);
-        const getMarketCollectedSwapFeesReply = await client.getMarketCollectedSwapFees(
-          new GetMarketCollectedSwapFeesRequest().setMarket(newMarket),
-          metadata
-        );
-        return {
-          data: getMarketCollectedSwapFeesReply.toObject(false),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'totalCollectedSwapFees': {
-      try {
-        let totalCollectedSwapFees = 0;
-        const markets = (body as Market.AsObject[]).map(({ baseAsset, quoteAsset }) => {
-          const newMarket = new Market();
-          newMarket.setBaseAsset(baseAsset);
-          newMarket.setQuoteAsset(quoteAsset);
-          return newMarket;
-        });
-        const results = await Promise.all(
-          markets.map((market) =>
-            client
-              .getMarketCollectedSwapFees(new GetMarketCollectedSwapFeesRequest().setMarket(market), metadata)
-              .then((res) => ({
-                market: [market.getBaseAsset(), market.getQuoteAsset()],
-                getMarketCollectedSwapFeesReply: res,
-              }))
-          )
-        );
-        for (const r of results) {
-          r.market.forEach((marketId) => {
-            const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
-              .getTotalCollectedFeesPerAssetMap()
-              .get(marketId);
-            if (marketIdCollectedSwapFees) {
-              totalCollectedSwapFees += marketIdCollectedSwapFees;
-            }
-          });
-        }
-        return { data: totalCollectedSwapFees };
-      } catch (err) {
-        return { error: (err as RpcError).message };
-      }
-    }
     case 'withdrawMarket': {
       try {
-        const { market, balance, address, millisatPerByte } = body as {
+        const { market, balance, address, millisatsPerByte } = body as {
           market: Market.AsObject;
           balance: Balance.AsObject;
           address: string;
-          millisatPerByte: number;
+          millisatsPerByte: number;
         };
         const { baseAsset, quoteAsset } = market;
         const newMarket = new Market();
@@ -474,7 +447,7 @@ const baseQueryFn: BaseQueryFn<
             .setMarket(newMarket)
             .setBalanceToWithdraw(newBalance)
             .setAddress(address)
-            .setMillisatPerByte(millisatPerByte),
+            .setMillisatsPerByte(millisatsPerByte),
           metadata
         );
         return {
@@ -592,31 +565,138 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
-    case 'listTrades': {
+    case 'getMarketFragmenterAddress': {
       try {
-        const { market, page } = body as { market: Market.AsObject; page: Page.AsObject };
-        const { pageNumber, pageSize } = page;
-        const newPage = new Page();
-        newPage.setPageNumber(pageNumber);
-        newPage.setPageSize(pageSize);
-        //
-        const { baseAsset, quoteAsset } = market;
-        const newMarket = new Market();
-        newMarket.setBaseAsset(baseAsset);
-        newMarket.setQuoteAsset(quoteAsset);
-        //
-        const listTradesReply = await client.listTrades(
-          new ListTradesRequest().setMarket(newMarket).setPage(newPage),
-          metadata
-        );
+        const { numOfAddresses } = body as { numOfAddresses: number };
         return {
-          data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
+          data: (
+            await client.getMarketFragmenterAddress(
+              new GetMarketFragmenterAddressRequest().setNumOfAddresses(numOfAddresses),
+              metadata
+            )
+          )
+            .getAddressWithBlindingKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
         console.error(error);
         return { error: (error as RpcError).message };
       }
     }
+    case 'listMarketFragmenterAddresses': {
+      try {
+        return {
+          data: (
+            await client.listMarketFragmenterAddresses(new ListMarketFragmenterAddressesRequest(), metadata)
+          )
+            .getAddressWithBlindingKeyList()
+            .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'getMarketFragmenterBalance': {
+      try {
+        return {
+          data: (
+            await client.getMarketFragmenterBalance(new GetMarketFragmenterBalanceRequest(), metadata)
+          ).getBalanceMap(),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'marketFragmenterSplitFunds': {
+      try {
+        const { market, millisatsPerByte } = body as { market: Market.AsObject; millisatsPerByte: number };
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        return {
+          data: await client.marketFragmenterSplitFunds(
+            new MarketFragmenterSplitFundsRequest()
+              .setMarket(newMarket)
+              .setMillisatsPerByte(millisatsPerByte),
+            metadata as Metadata | undefined
+          ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'withdrawMarketFragmenter': {
+      try {
+        const { address, millisatsPerByte } = body as { address: string; millisatsPerByte: number };
+        return {
+          data: await client.withdrawMarketFragmenter(
+            new WithdrawMarketFragmenterRequest().setAddress(address).setMillisatsPerByte(millisatsPerByte),
+            metadata
+          ),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    // Trades
+    case 'getMarketCollectedSwapFees': {
+      try {
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        const getMarketCollectedSwapFeesReply = await client.getMarketCollectedSwapFees(
+          new GetMarketCollectedSwapFeesRequest().setMarket(newMarket),
+          metadata
+        );
+        return {
+          data: getMarketCollectedSwapFeesReply.toObject(false),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    case 'totalCollectedSwapFees': {
+      try {
+        let totalCollectedSwapFees = 0;
+        const markets = (body as Market.AsObject[]).map(({ baseAsset, quoteAsset }) => {
+          const newMarket = new Market();
+          newMarket.setBaseAsset(baseAsset);
+          newMarket.setQuoteAsset(quoteAsset);
+          return newMarket;
+        });
+        const results = await Promise.all(
+          markets.map((market) =>
+            client
+              .getMarketCollectedSwapFees(new GetMarketCollectedSwapFeesRequest().setMarket(market), metadata)
+              .then((res) => ({
+                market: [market.getBaseAsset(), market.getQuoteAsset()],
+                getMarketCollectedSwapFeesReply: res,
+              }))
+          )
+        );
+        for (const r of results) {
+          r.market.forEach((marketId) => {
+            const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
+              .getTotalCollectedFeesPerAssetMap()
+              .get(marketId);
+            if (marketIdCollectedSwapFees) {
+              totalCollectedSwapFees += marketIdCollectedSwapFees;
+            }
+          });
+        }
+        return { data: totalCollectedSwapFees };
+      } catch (err) {
+        return { error: (err as RpcError).message };
+      }
+    }
+    // Utxos
     case 'reloadUtxos': {
       try {
         return {
@@ -642,6 +722,7 @@ const baseQueryFn: BaseQueryFn<
         return { error: (error as RpcError).message };
       }
     }
+    // Webhook
     case 'addWebhook': {
       try {
         const { action, endpoint, secret } = body as { action: ActionType; endpoint: string; secret: string };
@@ -681,6 +762,16 @@ const baseQueryFn: BaseQueryFn<
             .getWebhookInfoList()
             .map((webhookInfo: WebhookInfo) => webhookInfo.toObject(false)),
         };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
+    //
+    case 'getInfo': {
+      try {
+        const info = await client.getInfo(new GetInfoRequest(), metadata);
+        return { data: info.toObject(false) };
       } catch (error) {
         console.error(error);
         return { error: (error as RpcError).message };
@@ -736,9 +827,7 @@ export const operatorApi = createApi({
   baseQuery: baseQueryFn,
   tagTypes: ['Market'],
   endpoints: (build) => ({
-    getInfo: build.query<GetInfoReply.AsObject, void>({
-      query: () => ({ methodName: 'getInfo' }),
-    }),
+    // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'getFeeAddress' }),
     }),
@@ -751,24 +840,6 @@ export const operatorApi = createApi({
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, TxOutpoint.AsObject[]>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
     }),
-    getFeeFragmenterAddress: build.query<string, void>({
-      query: () => ({ methodName: 'getFeeFragmenterAddress' }),
-    }),
-    fragmentFeeDeposits: build.mutation<
-      FragmentFeeDepositsReply,
-      { recoverAddress: string; maxFragments: number }
-    >({
-      query: (body) => ({ methodName: 'fragmentFeeDeposits', body }),
-    }),
-    getMarketFragmenterAddress: build.query<string, void>({
-      query: () => ({ methodName: 'getMarketFragmenterAddress' }),
-    }),
-    fragmentMarketDeposits: build.mutation<
-      FragmentMarketDepositsReply,
-      { market: Market.AsObject; recoverAddress: string }
-    >({
-      query: (body) => ({ methodName: 'fragmentMarketDeposits', body }),
-    }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,
       {
@@ -780,6 +851,22 @@ export const operatorApi = createApi({
     >({
       query: (body) => ({ methodName: 'withdrawFee', body }),
     }),
+    getFeeFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
+      query: (body) => ({ methodName: 'getFeeFragmenterAddress', body }),
+    }),
+    listFeeFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
+      query: () => ({ methodName: 'listFeeFragmenterAddresses' }),
+    }),
+    getFeeFragmenterBalance: build.query<Map<string, BalanceInfo>, void>({
+      query: () => ({ methodName: 'getFeeFragmenterBalance' }),
+    }),
+    feeFragmenterSplitFunds: build.mutation<void, { maxFragments: number; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'feeFragmenterSplitFunds', body }),
+    }),
+    withdrawFeeFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'withdrawFeeFragmenter', body }),
+    }),
+    // Market
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'getMarketAddress' }),
       providesTags: ['Market'],
@@ -815,21 +902,13 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'dropMarket', body }),
       invalidatesTags: ['Market'],
     }),
-    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
-      query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
-      providesTags: ['Market'],
-    }),
-    totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
-      query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
-      providesTags: ['Market'],
-    }),
     withdrawMarket: build.mutation<
       WithdrawMarketReply.AsObject,
       {
         market: Market.AsObject;
         balance: Balance.AsObject;
         address: string;
-        millisatPerByte: number;
+        millisatsPerByte: number;
       }
     >({
       query: (body) => ({ methodName: 'withdrawMarket', body }),
@@ -867,15 +946,41 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'listMarkets' }),
       providesTags: ['Market'],
     }),
-    listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
-      query: (body) => ({ methodName: 'listTrades', body }),
+    getMarketFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
+      query: (body) => ({ methodName: 'getMarketFragmenterAddress', body }),
     }),
+    listMarketFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
+      query: () => ({ methodName: 'listMarketFragmenterAddresses' }),
+    }),
+    getMarketFragmenterBalance: build.query<Map<string, BalanceInfo>, void>({
+      query: () => ({ methodName: 'getMarketFragmenterBalance' }),
+    }),
+    marketFragmenterSplitFunds: build.mutation<void, { market: Market.AsObject; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'marketFragmenterSplitFunds', body }),
+    }),
+    withdrawMarketFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
+      query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),
+    }),
+    // Trades
+    listTrades: build.query<ListTradesReply, void>({
+      query: () => ({ methodName: 'listTrades' }),
+    }),
+    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
+      query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
+      providesTags: ['Market'],
+    }),
+    totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
+      query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
+      providesTags: ['Market'],
+    }),
+    // Utxos
     reloadUtxos: build.query<ReloadUtxosReply, void>({
       query: () => ({ methodName: 'reloadUtxos' }),
     }),
     listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
       query: () => ({ methodName: 'listUtxos' }),
     }),
+    // Webhook
     addWebhook: build.mutation<
       AddWebhookReply.AsObject,
       { action: ActionType; endpoint: string; secret: string }
@@ -888,6 +993,10 @@ export const operatorApi = createApi({
     listWebhooks: build.query<WebhookInfo.AsObject[], { action: ActionType }>({
       query: (body) => ({ methodName: 'listWebhooks', body }),
     }),
+    //
+    getInfo: build.query<GetInfoReply.AsObject, void>({
+      query: () => ({ methodName: 'getInfo' }),
+    }),
     listDeposits: build.query<UtxoInfo.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
     }),
@@ -898,37 +1007,49 @@ export const operatorApi = createApi({
 });
 
 export const {
-  useGetInfoQuery,
+  // Fee
   useGetFeeAddressQuery,
   useListFeeAddressesQuery,
   useGetFeeBalanceQuery,
   useClaimFeeDepositsMutation,
-  useGetFeeFragmenterAddressQuery,
-  useFragmentFeeDepositsMutation,
-  useGetMarketFragmenterAddressQuery,
-  useFragmentMarketDepositsMutation,
-  useClaimMarketDepositsMutation,
-  useCloseMarketMutation,
   useWithdrawFeeMutation,
-  useGetMarketAddressQuery,
-  useListMarketAddressesQuery,
-  useGetMarketBalanceQuery,
-  useNewMarketMutation,
-  useOpenMarketMutation,
-  useDropMarketMutation,
-  useGetMarketCollectedSwapFeesQuery,
-  useTotalCollectedSwapFeesQuery,
+  useGetFeeFragmenterAddressQuery,
+  useListFeeFragmenterAddressesQuery,
+  useGetFeeFragmenterBalanceQuery,
+  useFeeFragmenterSplitFundsMutation,
+  useWithdrawFeeFragmenterMutation,
+  // Market
   useWithdrawMarketMutation,
   useUpdateMarketPercentageFeeMutation,
   useUpdateMarketFixedFeeMutation,
   useUpdateMarketPriceMutation,
   useUpdateMarketStrategyMutation,
   useListMarketsQuery,
+  useClaimMarketDepositsMutation,
+  useCloseMarketMutation,
+  useGetMarketAddressQuery,
+  useListMarketAddressesQuery,
+  useGetMarketBalanceQuery,
+  useNewMarketMutation,
+  useOpenMarketMutation,
+  useDropMarketMutation,
+  useGetMarketFragmenterAddressQuery,
+  useListMarketFragmenterAddressesQuery,
+  useGetMarketFragmenterBalanceQuery,
+  useMarketFragmenterSplitFundsMutation,
+  useWithdrawMarketFragmenterMutation,
+  // Trades
+  useGetMarketCollectedSwapFeesQuery,
+  useTotalCollectedSwapFeesQuery,
   useListTradesQuery,
+  // Utxos
   useListUtxosQuery,
+  // Webhook
   useAddWebhookMutation,
   useRemoveWebhookMutation,
   useListWebhooksQuery,
+  //
+  useGetInfoQuery,
   useListDepositsQuery,
   useListWithdrawalsQuery,
 } = operatorApi;

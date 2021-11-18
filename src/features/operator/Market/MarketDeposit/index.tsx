@@ -8,24 +8,27 @@ import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { useFragmentMarketDepositsMutation, useGetFeeFragmenterAddressQuery } from '../../operator.api';
+import {
+  useMarketFragmenterSplitFundsMutation,
+  useGetMarketFragmenterAddressQuery,
+} from '../../operator.api';
 
 const { Text, Title } = Typography;
 
 export const MarketDeposit = (): JSX.Element => {
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
-  const [fragmentMarketDeposits] = useFragmentMarketDepositsMutation();
+  const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
   const [isFragmenting, setIsFragmenting] = useState(false);
   const { data: marketFragmenterAddress, refetch: refetchGetMarketFragmenterAddress } =
-    useGetFeeFragmenterAddressQuery();
+    useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 });
 
   const handleFragmentMarketDeposits = async () => {
     try {
       setIsFragmenting(true);
       // @ts-ignore
-      const { data } = await fragmentMarketDeposits({
+      const { data } = await marketFragmenterSplitFunds({
         market: { baseAsset: state?.baseAsset?.asset_id, quoteAsset: state?.quoteAsset?.asset_id },
-        recoverAddress: '',
+        millisatsPerByte: 100,
       });
       data.on('status', async (status: any) => {
         if (status.code === 0) {
@@ -71,13 +74,13 @@ export const MarketDeposit = (): JSX.Element => {
         <Col span={12}>
           <Row className="panel panel__grey">
             <Col span={8} offset={8}>
-              <QRCode className="qr-code" level="H" value={marketFragmenterAddress || ''} />
+              <QRCode className="qr-code" level="H" value={marketFragmenterAddress?.[0].address || ''} />
             </Col>
           </Row>
           <Row className="my-6">
             <Col span={21} offset={1}>
               <Text className="address" copyable>
-                {marketFragmenterAddress ?? 'N/A'}
+                {marketFragmenterAddress?.[0].address ?? 'N/A'}
               </Text>
             </Col>
           </Row>

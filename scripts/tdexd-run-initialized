@@ -21,12 +21,11 @@ echo ""
 
 docker run -it -d --name tdexd \
 -p 9945:9945 -p 9000:9000 \
--v "$(pwd)/tdexd:/.tdex-daemon" \
+-v "$(pwd)/tdexd:/home/user/.tdex-daemon" \
 -e TDEX_NETWORK="regtest" \
 -e TDEX_BASE_ASSET="$TDEX_BASE_ASSET" \
 -e TDEX_LOG_LEVEL=5 \
 -e TDEX_EXPLORER_ENDPOINT="http://chopsticks-liquid:3000" \
--e TDEX_NO_MACAROONS=true \
 --network="nigiri" \
 ghcr.io/tdex-network/tdexd:latest
 
@@ -34,7 +33,7 @@ echo ""
 echo "init wallet"
 
 tdex='docker exec -it tdexd tdex '
-$tdex config init --network "regtest" --no_macaroons
+$tdex config init --network "regtest"
 
 mnemonic=$($tdex genseed | grep "\S")
 $tdex init --seed "${mnemonic}" --password secret &>/dev/null
@@ -181,6 +180,3 @@ $tdex market claim --outpoints '[{"hash":"'$btctxid'", "index":'$btcvout'}, {"ha
 echo ""
 echo "opening market"
 $tdex market open
-
-echo '[{"market": {"baseAsset": "'$TDEX_BASE_ASSET'","quoteAsset": "'$usdt'"}}, {"market": {"baseAsset": "'$TDEX_BASE_ASSET'",
-"quoteAsset": "'$lcad'"}}]' > ./test/fixtures/trade.integration.json

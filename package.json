@@ -13,8 +13,9 @@
     "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "tdexd:clean": "bash scripts/tdexd-clean.sh",
-    "tdexd:run": "curl https://raw.githubusercontent.com/TDex-network/tdex-sdk/master/scripts/tdexd-run -o tdex-run && bash tdex-run && rm tdex-run",
+    "tdexd:clean": "bash scripts/tdexd-clean",
+    "tdexd:run": "bash scripts/tdexd-run",
+    "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
     "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
     "tauri:build": "npx tauri build",
     "tauri:dev": "npx tauri dev"

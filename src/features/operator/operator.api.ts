@@ -323,7 +323,14 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'getMarketBalance': {
       try {
-        const getMarketBalanceReply = await client.getMarketBalance(new GetMarketBalanceRequest(), metadata);
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        const getMarketBalanceReply = await client.getMarketBalance(
+          new GetMarketBalanceRequest().setMarket(newMarket),
+          metadata
+        );
         return {
           data: getMarketBalanceReply.toObject(false),
         };
@@ -602,7 +609,7 @@ const baseQueryFn: BaseQueryFn<
         return {
           data: (
             await client.getMarketFragmenterBalance(new GetMarketFragmenterBalanceRequest(), metadata)
-          ).getBalanceMap(),
+          ).toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -875,8 +882,8 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'listMarketAddresses' }),
       providesTags: ['Market'],
     }),
-    getMarketBalance: build.query<GetMarketBalanceReply.AsObject, void>({
-      query: () => ({ methodName: 'getMarketBalance' }),
+    getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({
+      query: (body) => ({ methodName: 'getMarketBalance', body }),
       providesTags: ['Market'],
     }),
     claimMarketDeposits: build.mutation<

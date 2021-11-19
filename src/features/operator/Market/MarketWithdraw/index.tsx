@@ -11,7 +11,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
+import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 const { Title } = Typography;
 
@@ -42,6 +42,10 @@ export const MarketWithdraw = (): JSX.Element => {
       const quoteAsset = savedAssets.find(({ asset_id }) => asset_id === market?.quoteAsset);
       return [baseAsset, quoteAsset];
     }) || [];
+  const { data: marketBalance } = useGetMarketBalanceQuery({
+    baseAsset: state?.baseAsset.asset_id,
+    quoteAsset: state?.quoteAsset.asset_id,
+  });
 
   const onFinish = async () => {
     try {
@@ -131,7 +135,9 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`3,00 ${selectedMarketObj?.baseAssetTicker}`}</span>
+                  <span className="dm-mono dm-mono__bold">{`${
+                    marketBalance?.availableBalance?.baseAmount || 'N/A'
+                  } ${selectedMarketObj?.baseAssetTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD
@@ -158,7 +164,9 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`12.000,00 ${selectedMarketObj?.quoteAssetTicker}`}</span>
+                  <span className="dm-mono dm-mono__bold">{`${
+                    marketBalance?.availableBalance?.quoteAmount || 'N/A'
+                  } ${selectedMarketObj?.quoteAssetTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

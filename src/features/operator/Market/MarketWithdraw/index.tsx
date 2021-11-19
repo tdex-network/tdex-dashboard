@@ -124,7 +124,7 @@ export const MarketWithdraw = (): JSX.Element => {
                 <Col span={12}>
                   <Form.Item
                     name="balanceBaseAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono', {
+                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
                       'has-error': withdrawMarketError,
                     })}
                   >
@@ -132,12 +132,20 @@ export const MarketWithdraw = (): JSX.Element => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
+              <Row align="middle">
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`${
-                    marketBalance?.availableBalance?.baseAmount || 'N/A'
-                  } ${selectedMarketObj?.baseAssetTicker}`}</span>
+                  <Button
+                    type="ghost"
+                    className="dm-mono dm-mono__bold"
+                    onClick={() =>
+                      form.setFieldsValue({
+                        balanceBaseAmount: marketBalance?.availableBalance?.baseAmount || 0,
+                      })
+                    }
+                  >{`${marketBalance?.availableBalance?.baseAmount || 'N/A'} ${
+                    selectedMarketObj?.baseAssetTicker
+                  }`}</Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD
@@ -153,7 +161,7 @@ export const MarketWithdraw = (): JSX.Element => {
                 <Col span={12}>
                   <Form.Item
                     name="balanceQuoteAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono', {
+                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
                       'has-error': withdrawMarketError,
                     })}
                   >
@@ -161,12 +169,20 @@ export const MarketWithdraw = (): JSX.Element => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
+              <Row align="middle">
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`${
-                    marketBalance?.availableBalance?.quoteAmount || 'N/A'
-                  } ${selectedMarketObj?.quoteAssetTicker}`}</span>
+                  <Button
+                    type="ghost"
+                    className="dm-mono dm-mono__bold"
+                    onClick={() =>
+                      form.setFieldsValue({
+                        balanceQuoteAmount: marketBalance?.availableBalance?.quoteAmount || 0,
+                      })
+                    }
+                  >{`${marketBalance?.availableBalance?.quoteAmount || 'N/A'} ${
+                    selectedMarketObj?.quoteAssetTicker
+                  }`}</Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

@@ -27,3 +27,4 @@ yarn-error.log*
 .eslintcache
 
 src-tauri/bin
+tdexd

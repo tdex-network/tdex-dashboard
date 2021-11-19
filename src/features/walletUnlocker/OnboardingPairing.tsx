@@ -1,12 +1,17 @@
 import './onboardingPairing.less';
 import { Button, Col, Form, Input, Modal, notification, Row, Typography } from 'antd';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { decodeCert, downloadCert, extractHostCertMacaroon } from '../../utils/connect';
-import { setIsInitialized, setTdexdConnectUrl } from '../settings/settingsSlice';
+import { 
+  decodeCert,
+  decodeBase64UrlMacaroon,
+  downloadCert,
+  extractHostCertMacaroon,
+} from '../../utils/connect';
+import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
 
@@ -17,7 +22,7 @@ interface IFormInputs {
 export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [isValidCert, setIsValidCert] = useState<boolean>(false);
-  const [isValidMac, setIsValidMac] = useState<boolean>(false);
+  const [macaroon, setMacaroon] = useState<string>('');
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
@@ -26,7 +31,7 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-      if (isValidMac) {
+      if (macaroon) {
         navigate(HOME_ROUTE);
       } else {
         navigate(ONBOARDING_SHOW_MNEMONIC_ROUTE);
@@ -75,7 +80,12 @@ export const OnboardingPairing = (): JSX.Element => {
         visible={isDownloadCertModalVisible}
         onOk={() => {
           try {
-            const { cert, macaroon } = extractHostCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
+            const { host, cert, macaroon } = extractHostCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
+            if (host) {
+              dispatch(setBaseUrl('https://' + host));
+            } else {
+              throw new Error('Tdexd Connect URL is not valid');
+            }
             if (cert) {
               const certPem = decodeCert(cert);
               downloadCert(certPem);
@@ -83,8 +93,9 @@ export const OnboardingPairing = (): JSX.Element => {
               setIsDownloadCertModalVisible(false);
             }
             if (macaroon) {
-              dispatch(setIsInitialized(true));
-              setIsValidMac(true);
+              const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+              dispatch(setMacaroonCredentials(decodedMacaroonHex));
+              setMacaroon(decodedMacaroonHex);
             }
           } catch (err) {
             // @ts-ignore

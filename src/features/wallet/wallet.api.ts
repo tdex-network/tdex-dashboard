@@ -15,7 +15,7 @@ import {
   WalletBalanceRequest,
 } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
-import { selectWalletClient } from '../settings/settingsSlice';
+import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';
 
 type MethodName = 'walletAddress' | 'walletBalance' | 'sendToMany';
 
@@ -29,7 +29,7 @@ const baseQueryFn: BaseQueryFn<
 > = async ({ methodName, body }, { getState }: BaseQueryApi) => {
   const state = getState() as RootState;
   const client = selectWalletClient(state);
-  const metadata = {};
+  const metadata = selectMacaroonCreds(state);
 
   switch (methodName) {
     case 'walletAddress': {

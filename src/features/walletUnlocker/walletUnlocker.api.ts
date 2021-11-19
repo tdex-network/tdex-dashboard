@@ -16,7 +16,7 @@ import {
   UnlockWalletRequest,
 } from '../../api-spec/generated/js/walletunlocker_pb';
 import type { RootState } from '../../app/store';
-import { selectWalletUnlockerClient } from '../settings/settingsSlice';
+import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 
 type MethodName = 'genSeed' | 'initWallet' | 'unlockWallet' | 'changePassword' | 'isReady';
 
@@ -30,7 +30,7 @@ const baseQueryFn: BaseQueryFn<
 > = async ({ methodName, body }, { getState }: BaseQueryApi) => {
   const state = getState() as RootState;
   const client = selectWalletUnlockerClient(state);
-  const metadata = {};
+  const metadata = selectMacaroonCreds(state);
 
   switch (methodName) {
     case 'genSeed': {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { 
+import {
   decodeCert,
   decodeBase64UrlMacaroon,
   downloadCert,

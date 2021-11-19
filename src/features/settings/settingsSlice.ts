@@ -78,7 +78,7 @@ export function selectMacaroonCreds(state: RootState): Metadata | null {
       macaroon: state.settings.macaroonCredentials,
     };
   }
-  return null
+  return null;
 }
 
 export function selectMarketLabelled(state: RootState): MarketLabelled[] | undefined {

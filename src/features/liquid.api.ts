@@ -1,12 +1,13 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { network } from '../app/config';
 import type { Asset } from '../domain/asset';
 import { LBTC_ASSET } from '../utils';
 
 export const liquidApi = createApi({
   reducerPath: 'liquidApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://blockstream.info/liquid/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: network.explorerLiquidAPI }),
   endpoints: (build) => ({
     getAssetData: build.query<Asset, string>({
       async queryFn(

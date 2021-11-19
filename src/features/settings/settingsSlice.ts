@@ -5,6 +5,7 @@ import type { Metadata } from 'grpc-web';
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
+import { network } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
@@ -22,10 +23,10 @@ export interface SettingsState {
 }
 
 export const initialState: SettingsState = {
-  chain: 'regtest',
-  explorerLiquidAPI: 'https://blockstream.info/liquid/api',
-  explorerLiquidUI: 'https://blockstream.info/liquid',
-  tdexDaemonBaseUrl: 'https://localhost:9000',
+  chain: network.chain,
+  explorerLiquidAPI: network.explorerLiquidAPI,
+  explorerLiquidUI: network.explorerLiquidUI,
+  tdexDaemonBaseUrl: network.tdexDaemonBaseUrl,
   assets: featuredAssets,
 };
 

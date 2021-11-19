@@ -7,10 +7,8 @@ import { CurrencyIcon } from '../CurrencyIcon';
 const { Option } = Select;
 
 interface SelectMarketProps {
-  // Because Select can only get string as value
-  // JSON.stringify({ baseAssetTicker: baseAsset?.ticker, quoteAssetTicker: quoteAsset?.ticker })
-  selectedMarket: string;
-  setSelectedMarket: (m: string) => void;
+  selectedMarket: { baseAsset?: Asset; quoteAsset?: Asset };
+  setSelectedMarket: (m: { baseAsset?: Asset; quoteAsset?: Asset }) => void;
   marketList: [Asset?, Asset?][];
 }
 
@@ -22,11 +20,24 @@ export const SelectMarket = ({
   const selectMarketsList = marketList.map(([baseAsset, quoteAsset]) =>
     JSON.stringify({ baseAssetTicker: baseAsset?.ticker, quoteAssetTicker: quoteAsset?.ticker })
   );
+  const selectedMarketStr = JSON.stringify({
+    baseAssetTicker: selectedMarket.baseAsset?.ticker,
+    quoteAssetTicker: selectedMarket.quoteAsset?.ticker,
+  });
 
-  const handleChangeMarket = (market: string) => setSelectedMarket(market);
+  const handleChangeMarket = (selectedMarketStr: string) => {
+    const selectedMarketStrParsed = JSON.parse(selectedMarketStr);
+    const selectedAssetMarket = marketList.find(([baseAsset, quoteAsset]) => {
+      return (
+        baseAsset?.ticker === selectedMarketStrParsed.baseAssetTicker &&
+        quoteAsset?.ticker === selectedMarketStrParsed.quoteAssetTicker
+      );
+    });
+    setSelectedMarket({ baseAsset: selectedAssetMarket?.[0], quoteAsset: selectedAssetMarket?.[1] });
+  };
 
   return (
-    <Select value={selectedMarket} onChange={handleChangeMarket} className="w-100 mb-8">
+    <Select value={selectedMarketStr} onChange={handleChangeMarket} className="w-100 mb-8">
       {selectMarketsList?.map((marketStr, index) => {
         const market = JSON.parse(marketStr) as { baseAssetTicker: string; quoteAssetTicker: string };
         return (

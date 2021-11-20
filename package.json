@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
-    "build": "craco build",
+    "build": "npx craco build",
     "bundle-analyzer": "open http://localhost:8888",
     "eslint": "eslint './src/**/*.{ts,tsx}'",
     "fmt": "yarn run eslint --fix && yarn run prettier --write",

@@ -7,6 +7,7 @@ import type { Metadata } from 'grpc-web';
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
+import { network } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
@@ -29,14 +30,10 @@ export const startProxy = createAsyncThunk<Child, void, { state: RootState }>(
   'settings/startProxy',
   async (_, thunkAPI) => {
     const { settings } = thunkAPI.getState();
-    console.log('HEYHEY', settings);
     if (settings.proxyCommand) {
-      console.log('stopping proxy');
       settings.proxyCommand.kill();
     }
-    console.log('starting up proxy with url', settings.tdexdConnectUrl);
     const cmd = await Command.sidecar('grpcproxy', ['--tdexdconnecturl', settings.tdexdConnectUrl!]).spawn();
-    console.log('done!!!', cmd.pid);
     return cmd;
   }
 );
@@ -53,10 +50,10 @@ export const stopProxy = createAsyncThunk<void, void, { state: RootState }>(
 );
 
 export const initialState: SettingsState = {
-  chain: 'regtest',
-  explorerLiquidAPI: 'https://blockstream.info/liquid/api',
-  explorerLiquidUI: 'https://blockstream.info/liquid',
-  baseUrl: '__TAURI__' in window ? 'http://localhost:3030' : 'http://localhost:9000',
+  chain: network.chain,
+  explorerLiquidAPI: network.explorerLiquidAPI,
+  explorerLiquidUI: network.explorerLiquidUI,
+  baseUrl: '__TAURI__' in window ? 'http://localhost:3030' : network.tdexdBaseUrl,
   assets: featuredAssets,
   useProxy: '__TAURI__' in window,
 };

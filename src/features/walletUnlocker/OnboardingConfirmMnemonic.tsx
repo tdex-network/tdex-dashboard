@@ -9,9 +9,9 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE } from '../../routes/constants';
 import { sleep } from '../../utils';
 import { encodeBase64UrlMacaroon } from '../../utils/connect';
-import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import { setMacaroonCredentials, setTdexdConnectUrl, startProxy } from '../settings/settingsSlice';
 
-import { useInitWalletMutation, useIsReadyQuery, useUnlockWalletMutation } from './walletUnlocker.api';
+import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
 
 const { Title } = Typography;
 const NULL_ERROR = '';
@@ -30,6 +30,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const { state } = useLocation();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
+  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
   const [selected, setSelected] = useState<string[]>([]);
@@ -38,14 +39,9 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   //
   const [unlockWallet, { error: unlockWalletError }] = useUnlockWalletMutation();
   const [initWallet, { error: initWalletError }] = useInitWalletMutation();
-  const { data: isReady } = useIsReadyQuery();
 
   const handleInitWallet = async () => {
     try {
-      if (isReady?.isInitialized) {
-        notification.info({ message: 'Wallet has already been initialized' });
-        return;
-      }
       // @ts-ignore
       const { data } = await initWallet({
         isRestore: false,
@@ -67,6 +63,10 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
           dispatch(setMacaroonCredentials(data.getData()));
           const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
           dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+          if (useProxy) {
+            dispatch(startProxy());
+            await sleep(1);
+          }
         }
       });
     } catch (err) {

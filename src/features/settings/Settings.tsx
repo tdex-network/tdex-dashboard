@@ -6,14 +6,21 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
 
-import { logout, resetSettings } from './settingsSlice';
+import { logout, resetSettings, stopProxy } from './settingsSlice';
 
 const { Text, Title } = Typography;
 
 export const Settings = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
-  console.log('AAAAAAAAA', process.env);
+  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
+  const handleLogout = () => {
+    if (useProxy) {
+      dispatch(stopProxy());
+    }
+    dispatch(logout());
+  };
+
   return (
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
@@ -33,7 +40,7 @@ export const Settings = (): JSX.Element => {
           </Row>
           <Row>
             <Col>
-              <Button onClick={() => dispatch(logout())} className="w-100">
+              <Button onClick={handleLogout} className="w-100">
                 Log Out
               </Button>
             </Col>

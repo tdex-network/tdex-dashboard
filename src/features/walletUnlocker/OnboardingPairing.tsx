@@ -3,15 +3,21 @@ import { Button, Col, Form, Input, Modal, notification, Row, Typography } from '
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useTypedDispatch } from '../../app/store';
+import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
+import { sleep } from '../../utils';
 import {
   decodeCert,
   decodeBase64UrlMacaroon,
   downloadCert,
   extractHostCertMacaroon,
 } from '../../utils/connect';
-import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import {
+  setBaseUrl,
+  setMacaroonCredentials,
+  setTdexdConnectUrl,
+  startProxy,
+} from '../settings/settingsSlice';
 
 const { Title } = Typography;
 
@@ -26,11 +32,18 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
+  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
 
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
+
+      if (useProxy) {
+        dispatch(startProxy());
+        await sleep(1);
+      }
+
       if (macaroon) {
         navigate(HOME_ROUTE);
       } else {

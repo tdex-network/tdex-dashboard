@@ -1,11 +1,12 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { Child } from '@tauri-apps/api/shell';
+import { Command } from '@tauri-apps/api/shell';
 import type { Metadata } from 'grpc-web';
 
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
-import { network } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
@@ -21,7 +22,35 @@ export interface SettingsState {
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
+  proxyCommand?: Child;
 }
+
+export const startProxy = createAsyncThunk<Child, void, { state: RootState }>(
+  'settings/startProxy',
+  async (_, thunkAPI) => {
+    const { settings } = thunkAPI.getState();
+    console.log('HEYHEY', settings);
+    if (settings.proxyCommand) {
+      console.log('stopping proxy');
+      settings.proxyCommand.kill();
+    }
+    console.log('starting up proxy with url', settings.tdexdConnectUrl);
+    const cmd = await Command.sidecar('grpcproxy', ['--tdexdconnecturl', settings.tdexdConnectUrl!]).spawn();
+    console.log('done!!!', cmd.pid);
+    return cmd;
+  }
+);
+
+export const stopProxy = createAsyncThunk<void, void, { state: RootState }>(
+  'settings/stopProxy',
+  async (_, thunkAPI) => {
+    const { settings } = thunkAPI.getState();
+    if (settings.proxyCommand) {
+      settings.proxyCommand.kill();
+    }
+    return;
+  }
+);
 
 export const initialState: SettingsState = {
   chain: 'regtest',
@@ -59,8 +88,18 @@ export const settingsSlice = createSlice({
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
+      state.proxyCommand = undefined;
+      state.useProxy = false;
     },
     resetSettings: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(startProxy.fulfilled, (state: SettingsState, action) => {
+      state.proxyCommand = action.payload;
+    });
+    builder.addCase(stopProxy.fulfilled, (state: SettingsState, action) => {
+      state.proxyCommand = undefined;
+    });
   },
 });
 
@@ -73,7 +112,7 @@ export function selectBaseUrl(state: RootState): string {
 }
 
 export function selectMacaroonCreds(state: RootState): Metadata | null {
-  if (state.settings.useProxy && state.settings.macaroonCredentials) {
+  if (!state.settings.useProxy && state.settings.macaroonCredentials) {
     return {
       macaroon: state.settings.macaroonCredentials,
     };

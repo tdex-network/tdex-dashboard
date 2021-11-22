@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/x509"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -37,8 +38,8 @@ var (
 	// maxMsgRecvSize is the largest message our proxy will receive. We
 	// set this to 200MiB atm.
 	maxMsgRecvSize = grpc.MaxCallRecvMsgSize(1 * 1024 * 1024 * 200)
-	connectUrlPath = filepath.Join(
-		btcutil.AppDataDir("tdex-dashboard", false), "tdexdconnect.txt",
+	configPath     = filepath.Join(
+		btcutil.AppDataDir("tdex-dashboard", false), "config.json",
 	)
 )
 
@@ -46,13 +47,11 @@ func main() {
 	connectUrl, httpServerAddr := parseFlags()
 	// if --tdexdconnecturl is not set, let's source the url from the datadir.
 	if len(connectUrl) <= 0 {
-		url, err := ioutil.ReadFile(connectUrlPath)
+		var err error
+		connectUrl, err = getUrlFromConfigFile()
 		if err != nil {
-			log.Fatalf(
-				"failed to read TDEXConnect url from file %s: %s", connectUrlPath, err,
-			)
+			log.Fatal(err)
 		}
-		connectUrl = string(url)
 	}
 
 	proxy, err := newRpcProxy(connectUrl)
@@ -95,6 +94,24 @@ func parseFlags() (string, string) {
 	flag.Parse()
 
 	return *connectUrl, *httpServerAddr
+}
+
+func getUrlFromConfigFile() (string, error) {
+	buf, err := ioutil.ReadFile(configPath)
+	if err != nil {
+		return "", fmt.Errorf(
+			"failed to read TDEXConnect url from file %s: %s", configPath, err,
+		)
+	}
+	var cfg map[string]interface{}
+	if err := json.Unmarshal(buf, &cfg); err != nil {
+		return "", fmt.Errorf("failed to parse config JSON %s", configPath)
+	}
+	settings, ok := cfg["settings"].(map[string]interface{})
+	if !ok {
+		return "", fmt.Errorf("'settings' not found in config")
+	}
+	return settings["tdexdConnectUrl"].(string), nil
 }
 
 type rpcProxy struct {

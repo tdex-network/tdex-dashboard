@@ -19,6 +19,8 @@ done
 echo "TDEX_BASE_ASSET: $TDEX_BASE_ASSET";
 echo ""
 
+mkdir -p tdexd
+
 docker run -it -d --name tdexd \
 -p 9945:9945 -p 9000:9000 \
 -v "$(pwd)/tdexd:/home/user/.tdex-daemon" \
@@ -27,4 +29,4 @@ docker run -it -d --name tdexd \
 -e TDEX_LOG_LEVEL=5 \
 -e TDEX_EXPLORER_ENDPOINT="http://chopsticks-liquid:3000" \
 --network="nigiri" \
-ghcr.io/tdex-network/tdexd:latest
+ghcr.io/tdex-network/tdexd:v0.8.0-rc.0

@@ -1,18 +1,24 @@
 import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
+import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
 const { Title } = Typography;
 
 export const DashboardPanelRight = (): JSX.Element => {
   const navigate = useNavigate();
-  const { data: feeBalance } = useGetFeeBalanceQuery();
+  const { data: feeBalance, refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
+  const { data: isReady } = useIsReadyQuery();
+
+  useEffect(() => {
+    if (isReady?.isUnlocked && isReady?.isInitialized) refetchGetFeeBalance();
+  }, [isReady]);
 
   return (
     <div id="dashboard-panel-right-container" className="panel w-100 h-100">

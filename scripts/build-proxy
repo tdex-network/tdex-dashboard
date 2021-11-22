@@ -25,5 +25,5 @@ fi
 
 pushd $PARENT_PATH
 mkdir -p src-tauri/bin
-GO111MODULE=on CGO_ENABLED=1 go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
 popd

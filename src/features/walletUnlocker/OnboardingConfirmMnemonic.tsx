@@ -9,7 +9,7 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE } from '../../routes/constants';
 import { sleep } from '../../utils';
 import { encodeBase64UrlMacaroon } from '../../utils/connect';
-import { setMacaroonCredentials, setTdexdConnectUrl, startProxy } from '../settings/settingsSlice';
+import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
 
@@ -30,7 +30,6 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const { state } = useLocation();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
-  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
   const [selected, setSelected] = useState<string[]>([]);
@@ -50,8 +49,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       });
       data.on('status', async (status: any) => {
         if (status.code === 0) {
-          await sleep(1);
           await unlockWallet({ password: state.password });
+          await sleep(1);
           setIsLoading(false);
           navigate(HOME_ROUTE);
         } else {
@@ -63,10 +62,6 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
           dispatch(setMacaroonCredentials(data.getData()));
           const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
           dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
-          if (useProxy) {
-            dispatch(startProxy());
-            await sleep(1);
-          }
         }
       });
     } catch (err) {

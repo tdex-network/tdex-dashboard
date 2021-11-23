@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-import { sleep } from '../../utils';
+
 import {
   decodeCert,
   decodeBase64UrlMacaroon,
@@ -16,7 +16,6 @@ import {
   setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,
-  startProxy,
 } from '../settings/settingsSlice';
 
 const { Title } = Typography;
@@ -38,11 +37,6 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-
-      if (useProxy) {
-        dispatch(startProxy());
-        await sleep(1);
-      }
 
       if (macaroon) {
         navigate(HOME_ROUTE);

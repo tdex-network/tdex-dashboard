@@ -40,7 +40,7 @@ var (
 
 	// flag --addr to customize host:port on which the HTTP server should listen.
 	httpServerAddr = flag.String(
-		"addr",
+		"insecure-httplisten",
 		defaultServerAddr,
 		"the host:port address which the HTTP proxy should listen on",
 	)

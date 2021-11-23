@@ -33,7 +33,6 @@ export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
       await fetch(settings.baseUrl + '/connect', {
         method: 'post',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ url: settings.tdexdConnectUrl }),

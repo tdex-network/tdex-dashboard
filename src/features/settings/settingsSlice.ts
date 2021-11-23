@@ -11,8 +11,10 @@ import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
-const USE_PROXY = '__TAURI__' in window || (process.env.USE_PROXY !== undefined && Boolean(process.env.USE_PROXY) === true);
-const PROXY_URL = process.env.PROXY_URL;
+const USE_PROXY = '__TAURI__' in window || process.env.REACT_APP_USE_PROXY !== undefined;
+const PROXY_URL = process.env.REACT_APP_PROXY_URL;
+
+console.log(USE_PROXY, PROXY_URL);
 
 export interface SettingsState {
   chain: 'liquid' | 'regtest';

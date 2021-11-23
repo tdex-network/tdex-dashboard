@@ -3,6 +3,9 @@
 ###
 FROM node:16-bullseye-slim AS nodebuilder
 
+ARG USE_PROXY
+ARG PROXY_URL
+
 # Add a work directory
 WORKDIR /app
 # Cache and Install dependencies
@@ -16,6 +19,11 @@ COPY craco.config.js .
 # Add folders
 COPY src ./src
 COPY public ./public
+
+# set env vars for React
+ENV REACT_APP_USE_PROXY $USE_PROXY
+ENV REACT_APP_PROXY_URL $PROXY_URL
+
 # Build the app
 RUN yarn build
 

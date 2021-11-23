@@ -6,13 +6,13 @@ services:
     container_name: dashboard
     build: 
       dockerfile: ./Dockerfile.web
+      args:
+        USE_PROXY: true
+        PROXY_URL: http://localhost:3030
     restart: unless-stopped
     ports:
       - 8080:8080
-    environment:
-      # App Config
-      PROXY_URL: http://proxy:3030
-      USE_PROXY: true 
+
 
   proxy: 
     container_name: rpcproxy
@@ -21,6 +21,8 @@ services:
     restart: unless-stopped
     command:
       - --insecure-httplisten=0.0.0.0:3030
+    ports:
+      - 3030:3030
 
   tdexd:
     container_name: "tdexd"

@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Modal, notification, Row, Typography } from '
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import { useTypedDispatch } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
 import {
   decodeCert,
@@ -26,7 +26,6 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
 
   const onFinish = async () => {
     try {

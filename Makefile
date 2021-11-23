@@ -23,7 +23,7 @@ help:
 
 ## run: Run proxy
 run:
-	@go run ./rpc_proxy.go --tdexdconnecturl "$(filter-out $@,$(MAKECMDGOALS))"
+	@go run ./rpc_proxy.go
 
 
 ## vet: code analysis

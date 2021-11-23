@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
+	github.com/gorilla/mux v1.8.0
 	github.com/improbable-eng/grpc-web v0.13.0
 	github.com/mwitkow/grpc-proxy v0.0.0-20181017164139-0f1106ef9c76
 	github.com/sirupsen/logrus v1.8.1

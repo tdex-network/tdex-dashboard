@@ -6,16 +6,15 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"os/signal"
-	"path/filepath"
+	"sync"
 	"syscall"
 	"time"
 
-	"github.com/btcsuite/btcutil"
+	"github.com/gorilla/mux"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	grpcProxy "github.com/mwitkow/grpc-proxy/proxy"
 	log "github.com/sirupsen/logrus"
@@ -38,23 +37,21 @@ var (
 	// maxMsgRecvSize is the largest message our proxy will receive. We
 	// set this to 200MiB atm.
 	maxMsgRecvSize = grpc.MaxCallRecvMsgSize(1 * 1024 * 1024 * 200)
-	settingsPath   = filepath.Join(
-		btcutil.AppDataDir("tdex-dashboard", false), "settings.json",
+
+	// flag --addr to customize host:port on which the HTTP server should listen.
+	httpServerAddr = flag.String(
+		"addr",
+		defaultServerAddr,
+		"the host:port address which the HTTP proxy should listen on",
 	)
 )
 
-func main() {
-	connectUrl, httpServerAddr := parseFlags()
-	// if --tdexdconnecturl is not set, let's source the url from the datadir.
-	if len(connectUrl) <= 0 {
-		var err error
-		connectUrl, err = getUrlFromSettings()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+func init() {
+	flag.Parse()
+}
 
-	proxy, err := newRpcProxy(connectUrl)
+func main() {
+	proxy, err := newRpcProxy()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +59,7 @@ func main() {
 
 	chErr := make(chan error, 1)
 	go func() {
-		if err := proxy.Start(httpServerAddr); err != nil {
+		if err := proxy.Start(*httpServerAddr); err != nil {
 			chErr <- err
 		}
 	}()
@@ -79,128 +76,22 @@ func main() {
 	}
 }
 
-func parseFlags() (string, string) {
-	connectUrl := flag.String(
-		"tdexdconnecturl",
-		"",
-		"the TDEXConnect url to connect to the TDEX daemon",
-	)
-	httpServerAddr := flag.String(
-		"addr",
-		defaultServerAddr,
-		"the host:port address which the HTTP proxy should listen on",
-	)
-
-	flag.Parse()
-
-	return *connectUrl, *httpServerAddr
-}
-
-func getUrlFromSettings() (string, error) {
-	buf, err := ioutil.ReadFile(settingsPath)
-	if err != nil {
-		return "", fmt.Errorf(
-			"failed to read from file %s: %s", settingsPath, err,
-		)
-	}
-	var settings map[string]interface{}
-	if err := json.Unmarshal(buf, &settings); err != nil {
-		return "", fmt.Errorf("failed to parse settings JSON")
-	}
-	url, ok := settings["tdexdConnectUrl"].(string)
-	if !ok {
-		return "", fmt.Errorf("connect url not found in %s", settingsPath)
-	}
-	return url, nil
-}
-
 type rpcProxy struct {
 	tdexdConn    *grpc.ClientConn
 	grpcServer   *grpc.Server
 	grpcWebProxy *grpcweb.WrappedGrpcServer
 	httpServer   *http.Server
+
+	lock *sync.Mutex
 }
 
-func newRpcProxy(connectUrl string) (*rpcProxy, error) {
-	if len(connectUrl) <= 0 {
-		return nil, fmt.Errorf("tdexdconnect url must not be an empty string")
+func newRpcProxy() (*rpcProxy, error) {
+	proxy := &rpcProxy{
+		lock: &sync.Mutex{},
 	}
-
-	addr, tlsCert, macaroon, err := tdexdconnect.Decode(connectUrl)
-	if err != nil {
-		return nil, err
-	}
-
-	tdexdConn, err := createGRPCConn(addr, macaroon, tlsCert)
-	if err != nil {
-		return nil, err
-	}
-
-	director := func(
-		ctx context.Context, requireURI string,
-	) (context.Context, *grpc.ClientConn, error) {
-		// If this header is present in the request from the web client,
-		// the actual connection to the backend will not be established.
-		// https://github.com/improbable-eng/grpc-web/issues/568
-		md, _ := metadata.FromIncomingContext(ctx)
-		mdCopy := md.Copy()
-		delete(mdCopy, "connection")
-
-		outCtx := metadata.NewOutgoingContext(ctx, mdCopy)
-
-		return outCtx, tdexdConn, nil
-	}
-
-	grpcServer := grpc.NewServer(
-		grpc.CustomCodec(grpcProxy.Codec()),
-		grpc.UnknownServiceHandler(
-			grpcProxy.TransparentHandler(director),
-		),
-	)
-
-	opts := []grpcweb.Option{
-		grpcweb.WithWebsockets(true),
-		grpcweb.WithWebsocketPingInterval(2 * time.Minute),
-		grpcweb.WithCorsForRegisteredEndpointsOnly(false),
-	}
-
-	grpcWebProxy := grpcweb.WrapServer(grpcServer, opts...)
-
-	httpHandler := func(resp http.ResponseWriter, req *http.Request) {
-		resp.Header().Set("Access-Control-Allow-Origin", "*")
-		resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-		resp.Header().Set("Access-Control-Allow-Headers", "*")
-
-		if grpcWebProxy.IsGrpcWebRequest(req) ||
-			grpcWebProxy.IsGrpcWebSocketRequest(req) ||
-			grpcWebProxy.IsAcceptableGrpcCorsRequest(req) {
-			if req.Method != "OPTIONS" {
-				log.Infof("handling gRPC web request: %s", req.URL.Path)
-			}
-			grpcWebProxy.ServeHTTP(resp, req)
-			return
-		}
-		if req.Method != "OPTIONS" {
-			log.Infof("handling gRPC request: %s", req.URL.Path)
-		}
-		grpcServer.ServeHTTP(resp, req)
-	}
-	httpServer := &http.Server{
-		// To make sure that long-running calls and indefinitely opened
-		// streaming connections aren't terminated by the internal
-		// proxy, we need to disable all timeouts except the one for
-		// reading the HTTP headers. That timeout shouldn't be removed
-		// as we would otherwise be prone to the slowloris attack where
-		// an attacker takes too long to send the headers and uses up
-		// connections that way.
-		WriteTimeout:      0,
-		IdleTimeout:       0,
-		ReadTimeout:       0,
-		ReadHeaderTimeout: defaultServerTimeout,
-		Handler:           http.HandlerFunc(httpHandler),
-	}
-
-	return &rpcProxy{tdexdConn, grpcServer, grpcWebProxy, httpServer}, nil
+	proxy.newGRPCWebProxy()
+	proxy.newHTTPServer()
+	return proxy, nil
 }
 
 func (p *rpcProxy) Start(addr string) error {
@@ -213,10 +104,140 @@ func (p *rpcProxy) Start(addr string) error {
 }
 
 func (p *rpcProxy) Stop() error {
+	log.Debug("stopping http server")
+	if err := p.httpServer.Close(); err != nil {
+		return err
+	}
+
 	log.Debug("stopping internal gRPC server")
 	p.grpcServer.Stop()
-	log.Debug("closing connection with TDEX daemon")
-	return p.tdexdConn.Close()
+
+	if p.tdexdConn != nil {
+		log.Debug("closing connection with TDEX daemon")
+		return p.tdexdConn.Close()
+	}
+	return nil
+}
+
+func (p *rpcProxy) newGRPCWebProxy() {
+	grpcServer := grpc.NewServer(
+		grpc.CustomCodec(grpcProxy.Codec()),
+		grpc.UnknownServiceHandler(
+			grpcProxy.TransparentHandler(p.director),
+		),
+	)
+
+	opts := []grpcweb.Option{
+		grpcweb.WithWebsockets(true),
+		grpcweb.WithWebsocketPingInterval(2 * time.Minute),
+		grpcweb.WithCorsForRegisteredEndpointsOnly(false),
+	}
+
+	grpcWebProxy := grpcweb.WrapServer(grpcServer, opts...)
+	p.grpcServer, p.grpcWebProxy = grpcServer, grpcWebProxy
+}
+
+func (p *rpcProxy) newHTTPServer() {
+	httpHandler := p.newHTTPHandler()
+	httpServer := &http.Server{
+		// To make sure that long-running calls and indefinitely opened
+		// streaming connections aren't terminated by the internal
+		// proxy, we need to disable all timeouts except the one for
+		// reading the HTTP headers. That timeout shouldn't be removed
+		// as we would otherwise be prone to the slowloris attack where
+		// an attacker takes too long to send the headers and uses up
+		// connections that way.
+		WriteTimeout:      0,
+		IdleTimeout:       0,
+		ReadTimeout:       0,
+		ReadHeaderTimeout: defaultServerTimeout,
+		Handler:           httpHandler,
+	}
+	p.httpServer = httpServer
+}
+
+func (p *rpcProxy) director(
+	ctx context.Context, requireURI string,
+) (context.Context, *grpc.ClientConn, error) {
+	// If this header is present in the request from the web client,
+	// the actual connection to the backend will not be established.
+	// https://github.com/improbable-eng/grpc-web/issues/568
+	md, _ := metadata.FromIncomingContext(ctx)
+	mdCopy := md.Copy()
+	delete(mdCopy, "connection")
+
+	outCtx := metadata.NewOutgoingContext(ctx, mdCopy)
+
+	return outCtx, p.tdexdConn, nil
+}
+
+func (p *rpcProxy) newHTTPHandler() *mux.Router {
+	router := mux.NewRouter()
+
+	// Forward all requests to taget TDEX daemon.
+	router.HandleFunc("/connect", p.handleConnectRequest).Methods(http.MethodPost, http.MethodOptions)
+	router.PathPrefix("/").HandlerFunc(p.forwardGRPCRequest)
+
+	return router
+}
+
+func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if p.grpcWebProxy.IsGrpcWebRequest(req) ||
+		p.grpcWebProxy.IsGrpcWebSocketRequest(req) ||
+		p.grpcWebProxy.IsAcceptableGrpcCorsRequest(req) {
+		if req.Method != "OPTIONS" {
+			log.Infof("handling gRPC web request: %s", req.URL.Path)
+		}
+		p.grpcWebProxy.ServeHTTP(resp, req)
+		return
+	}
+	if req.Method != "OPTIONS" {
+		log.Infof("handling gRPC request: %s", req.URL.Path)
+	}
+	p.grpcServer.ServeHTTP(resp, req)
+}
+
+func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
+	log.Info("handling connect request: %s", req.URL.Path)
+	body := make(map[string]interface{})
+	if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
+		errMsg := fmt.Sprintf("invalid request body: %v", err)
+		http.Error(resp, errMsg, http.StatusBadRequest)
+		return
+	}
+
+	connectUrl, ok := body["url"].(string)
+	if !ok || len(connectUrl) <= 0 {
+		http.Error(resp, "url is undefined", http.StatusBadRequest)
+		return
+	}
+
+	addr, tlsCert, macaroon, err := tdexdconnect.Decode(connectUrl)
+	if err != nil {
+		errMsg := fmt.Sprintf("failed to parse url: %s", err)
+		http.Error(resp, errMsg, http.StatusBadRequest)
+		return
+	}
+
+	tdexdConn, err := createGRPCConn(addr, macaroon, tlsCert)
+	if err != nil {
+		errMsg := fmt.Sprintf("failed to connect to daemon: %s", err)
+		http.Error(resp, errMsg, http.StatusInternalServerError)
+		return
+	}
+
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	p.tdexdConn = tdexdConn
+
+	json.NewEncoder(resp).Encode(map[string]interface{}{
+		"status": "connected",
+	})
 }
 
 func createGRPCConn(

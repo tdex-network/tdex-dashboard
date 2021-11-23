@@ -1,7 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { Child } from '@tauri-apps/api/shell';
-import { Command } from '@tauri-apps/api/shell';
 import type { Metadata } from 'grpc-web';
 
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
@@ -13,6 +11,8 @@ import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
+const USE_PROXY = '__TAURI__' in window || process.env.USE_PROXY !== undefined;
+
 export interface SettingsState {
   chain: 'liquid' | 'regtest';
   explorerLiquidAPI: string;
@@ -23,29 +23,25 @@ export interface SettingsState {
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
-  proxyCommand?: Child;
 }
 
-export const startProxy = createAsyncThunk<Child, void, { state: RootState }>(
-  'settings/startProxy',
+export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
+  'settings/connectProxy',
   async (_, thunkAPI) => {
-    const { settings } = thunkAPI.getState();
-    if (settings.proxyCommand) {
-      settings.proxyCommand.kill();
+    try {
+      const { settings } = thunkAPI.getState();
+      await fetch(settings.baseUrl + '/connect', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: settings.tdexdConnectUrl }),
+        mode: 'no-cors',
+      });
+    } catch (e) {
+      console.log('error /connect', e);
     }
-    const cmd = await Command.sidecar('grpcproxy', ['--tdexdconnecturl', settings.tdexdConnectUrl!]).spawn();
-    return cmd;
-  }
-);
-
-export const stopProxy = createAsyncThunk<void, void, { state: RootState }>(
-  'settings/stopProxy',
-  async (_, thunkAPI) => {
-    const { settings } = thunkAPI.getState();
-    if (settings.proxyCommand) {
-      settings.proxyCommand.kill();
-    }
-    return;
   }
 );
 
@@ -53,9 +49,9 @@ export const initialState: SettingsState = {
   chain: network.chain,
   explorerLiquidAPI: network.explorerLiquidAPI,
   explorerLiquidUI: network.explorerLiquidUI,
-  baseUrl: '__TAURI__' in window ? 'http://localhost:3030' : network.tdexdBaseUrl,
+  baseUrl: USE_PROXY ? 'http://localhost:3030' : network.tdexdBaseUrl,
   assets: featuredAssets,
-  useProxy: '__TAURI__' in window,
+  useProxy: USE_PROXY,
 };
 
 export const settingsSlice = createSlice({
@@ -85,18 +81,9 @@ export const settingsSlice = createSlice({
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
-      state.proxyCommand = undefined;
       state.useProxy = false;
     },
     resetSettings: () => initialState,
-  },
-  extraReducers: (builder) => {
-    builder.addCase(startProxy.fulfilled, (state: SettingsState, action) => {
-      state.proxyCommand = action.payload;
-    });
-    builder.addCase(stopProxy.fulfilled, (state: SettingsState, action) => {
-      state.proxyCommand = undefined;
-    });
   },
 });
 

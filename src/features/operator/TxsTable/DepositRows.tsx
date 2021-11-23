@@ -1,4 +1,4 @@
-import Icon from '@ant-design/icons';
+import Icon, { RightOutlined } from '@ant-design/icons';
 import { groupBy } from 'lodash';
 import React from 'react';
 
@@ -32,16 +32,47 @@ const DepositRow = ({ baseAssetTicker, quoteAssetTicker, reducedDeposit, txId }:
   const { data: tx } = useGetTransactionByIdQuery(txId);
 
   return (
-    <tr>
-      <td>
-        <Icon component={depositIcon} />
-        {`Deposit ${quoteAssetTicker}`}
-      </td>
-      <td>{`$${reducedDeposit[1][1]}`}</td>
-      <td>{`${reducedDeposit[0][1]} ${baseAssetTicker}`}</td>
-      <td>{`${reducedDeposit[1][1]} ${quoteAssetTicker}`}</td>
-      <td>{timeAgo(tx?.status.block_time)}</td>
-    </tr>
+    <>
+      <tr
+        onClick={(ev) => {
+          ev.currentTarget.classList.toggle('opened');
+          ev.currentTarget.nextElementSibling?.classList.toggle('opened');
+        }}
+      >
+        <td>
+          <Icon component={depositIcon} className="tx-icon" />
+          {`Deposit ${quoteAssetTicker}`}
+        </td>
+        <td>{`$${reducedDeposit[1][1]}`}</td>
+        <td>{`${reducedDeposit[0][1]} ${baseAssetTicker}`}</td>
+        <td>{`${reducedDeposit[1][1]} ${quoteAssetTicker}`}</td>
+        <td>{timeAgo(tx?.status.block_time)}</td>
+        <td>
+          <RightOutlined />
+        </td>
+      </tr>
+      <tr
+        className="details"
+        onClick={(ev) => {
+          ev.currentTarget.classList.toggle('opened');
+          ev.currentTarget.previousElementSibling?.classList.toggle('opened');
+        }}
+      >
+        <td></td>
+        <td colSpan={5}>
+          <div className="d-flex details-content-container mb-2">
+            <div className="d-flex details-content">
+              <span className="dm-mono dm-mono__bold">Status</span>
+              <span className="status">Pending</span>
+            </div>
+            <div className="d-flex details-content">
+              <span className="dm-mono dm-mono__bold">Transaction Id</span>
+              <span>84g96f5hy6mu13971563f95f08gh818s3526h7dpv22d1r006hn8563247855690</span>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </>
   );
 };
 

@@ -10,8 +10,48 @@ table#txs-table {
     }
   }
   tbody {
-    tr {
+    tr:not(.details) {
       border-top: 1px solid #CCCCCC;
+      height: 50px;
+      .anticon.anticon-right {
+        rotate: 0deg;
+        transition: 200ms linear rotate;
+      }
+      .anticon.tx-icon {
+        margin-right: 7px;
+        font-size: 16px;
+        vertical-align: inherit;
+      }
+      &.opened {
+        .anticon.anticon-right {
+          rotate: 90deg;
+          transition: 200ms linear rotate;
+        }
+      }
+    }
+    tr.details {
+      font-size: 10px;
+      line-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 400ms 0ms, line-height 200ms 0ms;
+      &.opened {
+        display: table-row;
+        line-height: 1.55;
+        opacity: 1;
+        transition: opacity 400ms 0ms, line-height 200ms 0ms;
+      }
+      .details-content-container {
+        .details-content {
+          flex-direction: column;
+          .status {
+            color: @warning-color;
+          }
+          &:nth-child(1) {
+            margin-right: 30px;
+          }
+        }
+      }
     }
   }
 }

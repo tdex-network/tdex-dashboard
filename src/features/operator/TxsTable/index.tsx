@@ -97,6 +97,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
             <th>Base Token Amount</th>
             <th>Quote Token Amount</th>
             <th>Time</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{tableRows(mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>

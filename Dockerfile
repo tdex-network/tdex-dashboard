@@ -1,12 +1,9 @@
-FROM node:16-buster-slim AS builder
-ENV NODE_ENV production
+FROM node:16-bullseye-slim AS builder
 # Add a work directory
 WORKDIR /app
 # Cache and Install dependencies
 COPY package.json .
 COPY tsconfig.json .
-COPY yarn.lock .
-
 
 RUN yarn install --check-files
 # Copy app files
@@ -16,7 +13,6 @@ COPY craco.config.js .
 
 # Build the app
 RUN yarn build
-
 # Bundle static assets with nginx
 FROM caddy:alpine as production
 ENV NODE_ENV production

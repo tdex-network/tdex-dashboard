@@ -1,5 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { Metadata } from 'grpc-web';
 
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
@@ -11,23 +11,46 @@ import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
+const USE_PROXY = '__TAURI__' in window || process.env.USE_PROXY !== undefined;
+
 export interface SettingsState {
   chain: 'liquid' | 'regtest';
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
   assets: Asset[];
+  baseUrl: string;
+  useProxy: boolean;
   marketsLabelled?: MarketLabelled[];
-  tdexDaemonBaseUrl: string;
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
 }
+
+export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
+  'settings/connectProxy',
+  async (_, thunkAPI) => {
+    try {
+      const { settings } = thunkAPI.getState();
+      await fetch(settings.baseUrl + '/connect', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: settings.tdexdConnectUrl }),
+        mode: 'no-cors',
+      });
+    } catch (e) {
+      console.log('error /connect', e);
+    }
+  }
+);
 
 export const initialState: SettingsState = {
   chain: network.chain,
   explorerLiquidAPI: network.explorerLiquidAPI,
   explorerLiquidUI: network.explorerLiquidUI,
-  tdexDaemonBaseUrl: network.tdexDaemonBaseUrl,
+  baseUrl: USE_PROXY ? 'http://localhost:3030' : network.tdexdBaseUrl,
   assets: featuredAssets,
+  useProxy: USE_PROXY,
 };
 
 export const settingsSlice = createSlice({
@@ -43,8 +66,10 @@ export const settingsSlice = createSlice({
     setMarketLabelled: (state, action: PayloadAction<MarketLabelled>) => {
       state.marketsLabelled = [...(state.marketsLabelled || []), action.payload];
     },
-    setTdexDaemonBaseUrl: (state, action: PayloadAction<string>) => {
-      state.tdexDaemonBaseUrl = action.payload;
+    setBaseUrl: (state, action: PayloadAction<string>) => {
+      if (!state.useProxy) {
+        state.baseUrl = action.payload;
+      }
     },
     setMacaroonCredentials: (state, action: PayloadAction<string | undefined>) => {
       state.macaroonCredentials = action.payload;
@@ -55,6 +80,7 @@ export const settingsSlice = createSlice({
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
+      state.useProxy = false;
     },
     resetSettings: () => initialState,
   },
@@ -64,12 +90,12 @@ export function selectChain(state: RootState): 'liquid' | 'regtest' {
   return state.settings.chain;
 }
 
-export function selectTdexDaemonBaseUrl(state: RootState): string {
-  return state.settings.tdexDaemonBaseUrl;
+export function selectBaseUrl(state: RootState): string {
+  return state.settings.baseUrl;
 }
 
 export function selectMacaroonCreds(state: RootState): Metadata | null {
-  if (state.settings.macaroonCredentials) {
+  if (!state.settings.useProxy && state.settings.macaroonCredentials) {
     return {
       macaroon: state.settings.macaroonCredentials,
     };
@@ -83,19 +109,19 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 
 //
 export function selectOperatorClient(state: RootState): OperatorClient {
-  return new OperatorClient(selectTdexDaemonBaseUrl(state));
+  return new OperatorClient(selectBaseUrl(state));
 }
 
 export function selectWalletClient(state: RootState): WalletClient {
-  return new WalletClient(selectTdexDaemonBaseUrl(state));
+  return new WalletClient(selectBaseUrl(state));
 }
 
 export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClient {
-  return new WalletUnlockerClient(selectTdexDaemonBaseUrl(state));
+  return new WalletUnlockerClient(selectBaseUrl(state));
 }
 
 export const {
-  setTdexDaemonBaseUrl,
+  setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,
   resetSettings,

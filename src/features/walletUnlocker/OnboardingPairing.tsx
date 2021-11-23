@@ -11,7 +11,7 @@ import {
   downloadCert,
   extractHostCertMacaroon,
 } from '../../utils/connect';
-import { setMacaroonCredentials, setTdexDaemonBaseUrl, setTdexdConnectUrl } from '../settings/settingsSlice';
+import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
 
@@ -31,6 +31,7 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
+
       if (macaroon) {
         navigate(HOME_ROUTE);
       } else {
@@ -82,7 +83,7 @@ export const OnboardingPairing = (): JSX.Element => {
           try {
             const { host, cert, macaroon } = extractHostCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
             if (host) {
-              dispatch(setTdexDaemonBaseUrl('https://' + host));
+              dispatch(setBaseUrl('https://' + host));
             } else {
               throw new Error('Tdexd Connect URL is not valid');
             }
@@ -91,8 +92,6 @@ export const OnboardingPairing = (): JSX.Element => {
               downloadCert(certPem);
               setIsValidCert(true);
               setIsDownloadCertModalVisible(false);
-            } else {
-              throw new Error('Tdexd Connect URL is not valid');
             }
             if (macaroon) {
               const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);

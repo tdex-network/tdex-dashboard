@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { Command } from '@tauri-apps/api/shell';
+import React, { useEffect } from 'react';
 
+import { useTypedDispatch, useTypedSelector } from './app/store';
 import Shell from './common/Shell';
-import { UnlockModalForm } from './features/walletUnlocker/UnlockModalForm';
-import { useIsReadyQuery } from './features/walletUnlocker/walletUnlocker.api';
+import { connectProxy } from './features/settings/settingsSlice';
 import { Routes } from './routes';
 
 export const App = (): JSX.Element => {
-  const { data: isReady } = useIsReadyQuery();
-  // UnlockWallet Modal
-  const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
-  const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
-  const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
-
-  useEffect(() => {
-    if (isReady && !isReady.isUnlocked && isReady.isInitialized) showUnlockWalletModal();
-  }, [isReady]);
+  const dispatch = useTypedDispatch();
+  const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
+  const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
 
   useEffect(() => {
     document.addEventListener('keypress', function (event) {
@@ -29,16 +24,27 @@ export const App = (): JSX.Element => {
     });
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (useProxy && !tdexdConnectUrl) {
+        await Command.sidecar('grpcproxy').spawn();
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (useProxy && tdexdConnectUrl) {
+        dispatch(connectProxy());
+      }
+    })();
+  }, [tdexdConnectUrl]);
+
   return (
     <>
       <Shell>
         <Routes />
       </Shell>
-      <UnlockModalForm
-        closable={false}
-        handleUnlockWalletModalCancel={handleUnlockWalletModalCancel}
-        isUnlockWalletModalVisible={isUnlockWalletModalVisible}
-      />
     </>
   );
 };

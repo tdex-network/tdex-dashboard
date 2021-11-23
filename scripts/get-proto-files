@@ -10,12 +10,6 @@ declare -a files=(
     "https://raw.githubusercontent.com/tdex-network/tdex-daemon/master/api-spec/protobuf/wallet.proto"
 )
 
-if [ -z "$GITHUB_TOKEN" ]
-then
-    echo "GITHUB_TOKEN needs to be set"
-    exit 1
-fi
-
 mkdir ./src/api-spec
 cd ./src/api-spec || exit
 rm -r ./*
@@ -23,6 +17,6 @@ rm -r ./*
 for file in "${files[@]}"
 do
     echo "downloading proto file: $file"
-    wget -q --header "Authorization: token $GITHUB_TOKEN" "$file"
+    wget -q "$file"
 done
 

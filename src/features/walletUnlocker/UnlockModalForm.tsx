@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 
-import { useIsReadyQuery, useUnlockWalletMutation } from './walletUnlocker.api';
+import { useUnlockWalletMutation } from './walletUnlocker.api';
 
 interface IFormInputs {
   password: string;
@@ -22,23 +22,16 @@ export const UnlockModalForm = ({
 }: UnlockModalFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [unlockWallet, { error: unlockWalletError, isLoading }] = useUnlockWalletMutation();
-  const { data: isReady } = useIsReadyQuery();
 
   const handleUnlockWalletModalOk = async () => {
     try {
-      if (isReady?.isUnlocked) {
-        notification.success({ message: 'Wallet is already unlocked' });
-        form.resetFields();
-        handleUnlockWalletModalCancel();
-      } else {
-        const values = await form.validateFields();
-        const res = await unlockWallet({ password: values.password });
-        // @ts-ignore
-        if (res?.error) throw new Error(res?.error);
-        notification.success({ message: 'Wallet unlocked successfully' });
-        form.resetFields();
-        handleUnlockWalletModalCancel();
-      }
+      const values = await form.validateFields();
+      const res = await unlockWallet({ password: values.password });
+      // @ts-ignore
+      if (res?.error) throw new Error(res?.error);
+      notification.success({ message: 'Wallet unlocked successfully' });
+      form.resetFields();
+      handleUnlockWalletModalCancel();
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

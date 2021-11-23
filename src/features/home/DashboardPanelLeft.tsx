@@ -1,23 +1,29 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/types_pb';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
 const { Title } = Typography;
 
 export const DashboardPanelLeft = (): JSX.Element => {
   const navigate = useNavigate();
-  const { data: listMarkets } = useListMarketsQuery();
+  const { data: listMarkets, refetch: refetchListMarkets } = useListMarketsQuery();
+  const { data: isReady } = useIsReadyQuery();
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //
   const markets = listMarkets?.marketsList.map((m) => m.market);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets as Market.AsObject[]);
+
+  useEffect(() => {
+    if (isReady?.isUnlocked && isReady?.isInitialized) refetchListMarkets();
+  }, [isReady]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

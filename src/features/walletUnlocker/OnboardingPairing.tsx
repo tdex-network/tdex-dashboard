@@ -5,18 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
-
 import {
   decodeCert,
   decodeBase64UrlMacaroon,
   downloadCert,
   extractHostCertMacaroon,
 } from '../../utils/connect';
-import {
-  setBaseUrl,
-  setMacaroonCredentials,
-  setTdexdConnectUrl,
-} from '../settings/settingsSlice';
+import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 const { Title } = Typography;
 

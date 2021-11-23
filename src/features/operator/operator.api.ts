@@ -18,7 +18,6 @@ import type {
   UpdateMarketPriceReply,
   UpdateMarketStrategyReply,
   ListMarketsReply,
-  ListTradesReply,
   ReloadUtxosReply,
   ListUtxosReply,
   AddWebhookReply,
@@ -859,7 +858,7 @@ const baseQueryFn: BaseQueryFn<
 export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
-  tagTypes: ['Market'],
+  tagTypes: ['Market', 'Fee', 'Trade', 'Webhook'],
   endpoints: (build) => ({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -998,14 +997,15 @@ export const operatorApi = createApi({
     // Trades
     listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listTrades', body }),
+      providesTags: ['Trade'],
     }),
     getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
-      providesTags: ['Market'],
+      providesTags: ['Trade'],
     }),
     totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
       query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
-      providesTags: ['Market'],
+      providesTags: ['Trade'],
     }),
     // Utxos
     reloadUtxos: build.query<ReloadUtxosReply, void>({
@@ -1026,16 +1026,20 @@ export const operatorApi = createApi({
     }),
     listWebhooks: build.query<WebhookInfo.AsObject[], { action: ActionType }>({
       query: (body) => ({ methodName: 'listWebhooks', body }),
+      providesTags: ['Webhook'],
     }),
     //
     getInfo: build.query<GetInfoReply.AsObject, void>({
       query: () => ({ methodName: 'getInfo' }),
+      providesTags: ['Market', 'Fee', 'Trade'],
     }),
     listDeposits: build.query<UtxoInfo.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
+      providesTags: ['Market', 'Fee'],
     }),
     listWithdrawals: build.query<Withdrawal.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listWithdrawals', body }),
+      providesTags: ['Market', 'Fee'],
     }),
   }),
 });

@@ -7,6 +7,7 @@ import { FeeDeposit } from '../features/operator/Fee/FeeDeposit';
 import { FeeWithdraw } from '../features/operator/Fee/FeeWithdraw';
 import { CreateMarket } from '../features/operator/Market/CreateMarket';
 import { MarketDeposit } from '../features/operator/Market/MarketDeposit';
+import { MarketFragmenterWithdraw } from '../features/operator/Market/MarketFragmenterWithdraw';
 import { MarketOverview } from '../features/operator/Market/MarketOverview';
 import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
 import { Settings } from '../features/settings/Settings';
@@ -26,6 +27,7 @@ import {
   MARKET_WITHDRAW_ROUTE,
   MARKET_DEPOSIT_ROUTE,
   MARKET_OVERVIEW_ROUTE,
+  MARKET_WITHDRAW_FRAGMENTER_ROUTE,
 } from './constants';
 
 const PrivateRoute = ({ children }: any) => {
@@ -78,6 +80,15 @@ export const Routes = (): JSX.Element => {
           </PrivateRoute>
         }
       />
+      {/* Market */}
+      <Route
+        path={CREATE_MARKET_ROUTE}
+        element={
+          <PrivateRoute>
+            <CreateMarket />
+          </PrivateRoute>
+        }
+      />
       <Route
         path={MARKET_DEPOSIT_ROUTE}
         element={
@@ -95,14 +106,13 @@ export const Routes = (): JSX.Element => {
         }
       />
       <Route
-        path={CREATE_MARKET_ROUTE}
+        path={MARKET_WITHDRAW_FRAGMENTER_ROUTE}
         element={
           <PrivateRoute>
-            <CreateMarket />
+            <MarketFragmenterWithdraw />
           </PrivateRoute>
         }
       />
-
       {/* Onboarding Routes*/}
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />

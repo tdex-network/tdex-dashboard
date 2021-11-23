@@ -3,12 +3,15 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import React, { useState } from 'react';
 
-import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
-import { useListDepositsQuery, useListTradesQuery } from '../operator.api';
+import type { MarketInfo, Withdrawal, UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
+import { useTypedSelector } from '../../../app/store';
+import type { Asset } from '../../../domain/asset';
+import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { DepositRows } from './DepositRows';
 import type { Trade } from './TradeRows';
 import { TradeRows } from './TradeRows';
+import { WithdrawalRows } from './WithdrawalRows';
 
 interface ButtonsTableModeProps {
   mode: 'all' | 'swap' | 'deposit' | 'withdraw';
@@ -31,16 +34,23 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   );
 };
 
-const tableRows = (mode: ButtonsTableModeProps['mode'], trades?: Trade[]) => {
+const tableRows = (
+  mode: ButtonsTableModeProps['mode'],
+  savedAssets: Asset[],
+  marketInfo: MarketInfo.AsObject,
+  trades: Trade[],
+  deposits?: UtxoInfo.AsObject[],
+  withdrawals?: Withdrawal.AsObject[]
+) => {
   switch (mode) {
     case 'all':
       return 'bar';
     case 'swap':
-      return <TradeRows trades={trades} />;
+      return <TradeRows trades={trades} savedAssets={savedAssets} />;
     case 'deposit':
-      return <DepositRows />;
+      return <DepositRows deposits={deposits} savedAssets={savedAssets} />;
     case 'withdraw':
-      return 'bar';
+      return <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />;
     default:
       return 'all';
   }
@@ -48,23 +58,31 @@ const tableRows = (mode: ButtonsTableModeProps['mode'], trades?: Trade[]) => {
 
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [mode, setMode] = useState<'all' | 'swap' | 'deposit' | 'withdraw'>('all');
+  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
   // Swaps
   const { data: listTrades } = useListTradesQuery({
     market: {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
-    page: { pageNumber: 5, pageSize: 5 },
+    page: { pageNumber: 0, pageSize: 100 },
   });
-  const trades = listTrades?.map((tradeInfo) => ({
-    tradeId: tradeInfo.tradeId,
-    status: tradeInfo.status,
-    swapInfo: tradeInfo.swapInfo,
-  }));
+  const trades =
+    listTrades?.map((tradeInfo) => ({
+      tradeId: tradeInfo.tradeId,
+      status: tradeInfo.status,
+      swapInfo: tradeInfo.swapInfo,
+      settleTimeUnix: tradeInfo.settleTimeUnix,
+    })) || [];
   // Deposits
-  const { data: listDeposits } = useListDepositsQuery({
-    accountIndex: 5,
-    page: { pageNumber: 5, pageSize: 5 },
+  const { data: deposits } = useListDepositsQuery({
+    accountIndex: marketInfo.accountIndex,
+    page: { pageNumber: 0, pageSize: 100 },
+  });
+  // Withdrawals
+  const { data: withdrawals } = useListWithdrawalsQuery({
+    accountIndex: marketInfo.accountIndex,
+    page: { pageNumber: 0, pageSize: 100 },
   });
 
   return (
@@ -81,7 +99,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
             <th>Time</th>
           </tr>
         </thead>
-        <tbody>{tableRows(mode, trades)}</tbody>
+        <tbody>{tableRows(mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
       </table>
     </div>
   );

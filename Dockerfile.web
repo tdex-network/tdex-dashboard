@@ -1,0 +1,35 @@
+###
+## React App
+###
+FROM node:16-bullseye-slim AS nodebuilder
+
+# Add a work directory
+WORKDIR /app
+# Cache and Install dependencies
+COPY package.json .
+COPY tsconfig.json .
+
+# Install
+RUN yarn install
+# Copy app files
+COPY craco.config.js .
+# Add folders
+COPY src ./src
+COPY public ./public
+# Build the app
+RUN yarn build
+
+###
+## Caddy Web Server & Run proxy binary
+###
+FROM caddy:alpine as production
+
+# Add your Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
+# Copy built assets from builder
+COPY --from=nodebuilder /app/build /usr/share/caddy/html
+
+# Expose port
+EXPOSE 8080
+
+

@@ -11,7 +11,8 @@ import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
-const USE_PROXY = '__TAURI__' in window || process.env.USE_PROXY !== undefined;
+const USE_PROXY = '__TAURI__' in window || (process.env.USE_PROXY !== undefined && Boolean(process.env.USE_PROXY) === true);
+const PROXY_URL = process.env.PROXY_URL;
 
 export interface SettingsState {
   chain: 'liquid' | 'regtest';
@@ -48,7 +49,7 @@ export const initialState: SettingsState = {
   chain: network.chain,
   explorerLiquidAPI: network.explorerLiquidAPI,
   explorerLiquidUI: network.explorerLiquidUI,
-  baseUrl: USE_PROXY ? 'http://localhost:3030' : network.tdexdBaseUrl,
+  baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
   assets: featuredAssets,
   useProxy: USE_PROXY,
 };

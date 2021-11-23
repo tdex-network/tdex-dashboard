@@ -1,8 +1,5 @@
-0.0.0.0:8080 {
-	gzip
-	root /usr/share/caddy/html
-	rewrite {
-		regexp .*
-		to {path} /
-	}
-}
+:8080
+
+file_server
+root * /usr/share/caddy/html
+try_files {path} /index.html

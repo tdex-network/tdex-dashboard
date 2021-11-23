@@ -1,0 +1,29 @@
+###
+## Golang RPC Proxy
+###
+FROM golang:latest as gobuilder
+
+ARG TARGETOS
+ARG TARGETARCH
+
+WORKDIR /app
+
+COPY go.mod .
+COPY rpc_proxy.go .
+
+RUN go mod tidy
+RUN go mod download
+
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-s -w " -o rpcproxy rpc_proxy.go
+
+RUN GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
+
+
+FROM debian:buster-slim
+
+# Copy built proxy
+COPY --from=gobuilder /app/rpcproxy /rpcproxy
+
+
+ENTRYPOINT ["/rpcproxy"]
+

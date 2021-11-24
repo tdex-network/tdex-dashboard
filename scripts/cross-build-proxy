@@ -19,7 +19,7 @@ fi
 if [ "$VENDOR" == "linux" ]
 then
   OS=gnu
-  VENDOR="unkonwn-linux"
+  VENDOR="unknown-linux"
 fi
 
 pushd $PARENT_PATH

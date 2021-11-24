@@ -26,8 +26,10 @@
     -->
     <title>TDEX Dashboard</title>
     <script>
-      window.USE_PROXY = __USE_PROXY__;
-      window.PROXY_URL = __PROXY_URL__;
+      if (!'__TAURI__' in window) {
+        window.USE_PROXY = __USE_PROXY__;
+        window.PROXY_URL = __PROXY_URL__;
+      }
     </script>
   </head>
   <body>

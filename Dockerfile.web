@@ -3,8 +3,6 @@
 ###
 FROM node:16-bullseye-slim AS nodebuilder
 
-ARG USE_PROXY
-ARG PROXY_URL
 
 # Add a work directory
 WORKDIR /app

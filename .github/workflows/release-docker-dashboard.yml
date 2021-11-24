@@ -1,4 +1,4 @@
-name: "Release docker image for dashboard web app"
+name: "Publish dashboard docker image"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   # Push image to GitHub Packages.
-  push-docker:
+  push-docker-dashboard:
     runs-on: ubuntu-latest
     env:
       DOCKER_CLI_EXPERIMENTAL: "enabled"

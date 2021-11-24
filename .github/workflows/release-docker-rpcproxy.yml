@@ -1,4 +1,4 @@
-name: "Release docker images for rpc proxy"
+name: "Publish proxy docker image"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   # Push image to GitHub Packages.
-  push-docker:
+  push-docker-proxy:
     runs-on: ubuntu-latest
     env:
       DOCKER_CLI_EXPERIMENTAL: "enabled"

@@ -8,7 +8,7 @@ PARENT_PATH=$(dirname $(
 ))
 
 VENDOR=$(uname -s | tr '[:upper:]' '[:lower:]')
-OS=gnu
+
 
 if [ "$VENDOR" == "darwin" ]
 then
@@ -16,8 +16,14 @@ then
   VENDOR="apple"
 fi
 
+if [ "$VENDOR" == "linux" ]
+then
+  OS=gnu
+  VENDOR="unkonwn-linux"
+fi
+
 pushd $PARENT_PATH
 mkdir -p src-tauri/bin
-GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-amd64-$VENDOR-$OS rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-x86_64-$VENDOR-$OS rpc_proxy.go
 GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-aarch64-$VENDOR-$OS rpc_proxy.go
 popd

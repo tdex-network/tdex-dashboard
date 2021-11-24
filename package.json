@@ -17,8 +17,8 @@
     "tdexd:run": "bash scripts/tdexd-run",
     "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
     "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
-    "tauri:build": "npx tauri build",
-    "tauri:dev": "npx tauri dev"
+    "tauri:build": "cargo tauri build",
+    "tauri:dev": "cargo tauri dev"
   },
   "eslintConfig": {
     "extends": "react-app"

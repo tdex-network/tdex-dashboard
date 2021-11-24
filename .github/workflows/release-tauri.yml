@@ -42,8 +42,8 @@ jobs:
       - name: install app dependencies and build it
         run: yarn && yarn build
 
-      - name: build rpc proxy
-        run: make build
+      - name: build rpc proxy for amd & arm
+        run: make crossbuild
 
       # get current  tag
       - name: tag

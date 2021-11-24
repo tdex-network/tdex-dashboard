@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+PARENT_PATH=$(dirname $(
+  cd $(dirname $0)
+  pwd -P
+))
+
+VENDOR=$(uname -s | tr '[:upper:]' '[:lower:]')
+OS=gnu
+
+if [ "$VENDOR" == "darwin" ]
+then
+  OS=${VENDOR}
+  VENDOR="apple"
+fi
+
+pushd $PARENT_PATH
+mkdir -p src-tauri/bin
+GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-amd64-$VENDOR-$OS rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-aarch64-$VENDOR-$OS rpc_proxy.go
+popd

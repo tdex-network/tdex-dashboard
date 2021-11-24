@@ -16,9 +16,6 @@ RUN go mod download
 
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-s -w " -o rpcproxy rpc_proxy.go
 
-RUN GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
-
-
 FROM debian:buster-slim
 
 # Copy built proxy

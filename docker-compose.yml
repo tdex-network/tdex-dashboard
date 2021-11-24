@@ -6,10 +6,10 @@ services:
     container_name: dashboard
     build: 
       dockerfile: ./Dockerfile.web
-      args:
-        USE_PROXY: true
-        PROXY_URL: http://localhost:3030
     restart: unless-stopped
+    environment:
+      USE_PROXY: true
+      PROXY_URL: "http://localhost:3030"
     ports:
       - 8080:8080
 

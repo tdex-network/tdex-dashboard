@@ -20,10 +20,6 @@ COPY craco.config.js .
 COPY src ./src
 COPY public ./public
 
-# set env vars for React
-ENV REACT_APP_USE_PROXY $USE_PROXY
-ENV REACT_APP_PROXY_URL $PROXY_URL
-
 # Build the app
 RUN yarn build
 
@@ -37,7 +33,16 @@ COPY Caddyfile /etc/caddy/Caddyfile
 # Copy built assets from builder
 COPY --from=nodebuilder /app/build /usr/share/caddy/html
 
+WORKDIR /patch
+# Add the script to patch window with ENV vars
+# https://create-react-app.dev/docs/title-and-meta-tags#injecting-data-from-the-server-into-the-page
+COPY web-entrypoint.sh .
+RUN chmod +x /patch/web-entrypoint.sh
+
+
 # Expose port
 EXPOSE 8080
 
+ENTRYPOINT ["/patch/web-entrypoint.sh"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
 

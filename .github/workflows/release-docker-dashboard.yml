@@ -1,4 +1,4 @@
-name: "Release docker images for proxy and webapp"
+name: "Release docker image for dashboard web app"
 
 on:
   push:
@@ -36,15 +36,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push proxy image
-        run:  >-
-          docker buildx build --push 
-          --file ./Dockerfile.proxy
-          --tag ghcr.io/tdex-network/rpcproxy:latest 
-          --tag ghcr.io/tdex-network/rpcproxy:${{ steps.next_tag.outputs.tag }}  
-          --platform linux/arm64,linux/amd64 .
-      
-      - name: Build & push web app image
+      - name: Build & push dashboard
         run:  >-
           docker buildx build --push 
           --file ./Dockerfile.web

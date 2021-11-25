@@ -12,6 +12,9 @@ jobs:
         with:
           node-version: "16"
       - run: yarn install --frozen-lockfile
+
+      - name: Patch the window.USE_PROXY variable in index.html
+        run: sed -i 's#__USE_PROXY__#false#g' ./public/index.html
       
       - run: yarn build
         env:

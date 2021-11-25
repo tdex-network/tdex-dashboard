@@ -41,6 +41,7 @@
     "@typescript-eslint/explicit-module-boundary-types": ["error", { "allowArgumentsExplicitlyTypedAsAny": true }],
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/consistent-type-assertions": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/prefer-optional-chain": "error",
     "import/first": "error",

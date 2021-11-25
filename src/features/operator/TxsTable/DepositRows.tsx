@@ -1,9 +1,10 @@
 import Icon, { RightOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 import { groupBy } from 'lodash';
 import React from 'react';
 
 import type { UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
-import { ReactComponent as depositIcon } from '../../../assets/images/deposit-green.svg';
+import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
 import { assetIdToTicker, timeAgo } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
@@ -30,7 +31,6 @@ const reduceValue = (deposits: UtxoInfo.AsObject[]) => {
 
 const DepositRow = ({ baseAssetTicker, quoteAssetTicker, reducedDeposit, txId }: DepositRowProps) => {
   const { data: tx } = useGetTransactionByIdQuery(txId);
-
   return (
     <>
       <tr
@@ -46,28 +46,36 @@ const DepositRow = ({ baseAssetTicker, quoteAssetTicker, reducedDeposit, txId }:
         <td>{`$${reducedDeposit[1][1]}`}</td>
         <td>{`${reducedDeposit[0][1]} ${baseAssetTicker}`}</td>
         <td>{`${reducedDeposit[1][1]} ${quoteAssetTicker}`}</td>
-        <td>{timeAgo(tx?.status.block_time)}</td>
+        <td data-time={tx?.status.block_time}>{timeAgo(tx?.status.block_time)}</td>
         <td>
           <RightOutlined />
         </td>
       </tr>
       <tr
         className="details"
+        data-time={tx?.status.block_time}
         onClick={(ev) => {
           ev.currentTarget.classList.toggle('opened');
           ev.currentTarget.previousElementSibling?.classList.toggle('opened');
         }}
       >
-        <td></td>
+        <td />
         <td colSpan={5}>
-          <div className="d-flex details-content-container mb-2">
+          <div className="d-flex details-content-container">
             <div className="d-flex details-content">
               <span className="dm-mono dm-mono__bold">Status</span>
-              <span className="status">Pending</span>
+              <span
+                className={classNames('status', {
+                  status__confirmed: tx?.status?.confirmed,
+                  status__pending: !tx?.status?.confirmed,
+                })}
+              >
+                {tx?.status?.confirmed ? 'Confirmed' : 'Pending'}
+              </span>
             </div>
             <div className="d-flex details-content">
               <span className="dm-mono dm-mono__bold">Transaction Id</span>
-              <span>84g96f5hy6mu13971563f95f08gh818s3526h7dpv22d1r006hn8563247855690</span>
+              <span>{tx?.txid}</span>
             </div>
           </div>
         </td>

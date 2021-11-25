@@ -10,6 +10,11 @@ table#txs-table {
     }
   }
   tbody {
+    tr {
+      td {
+        padding: 0 !important;
+      }
+    }
     tr:not(.details) {
       border-top: 1px solid #CCCCCC;
       height: 50px;
@@ -40,12 +45,20 @@ table#txs-table {
         line-height: 1.55;
         opacity: 1;
         transition: opacity 400ms 0ms, line-height 200ms 0ms;
+        td {
+          padding-bottom: 8px !important;
+        }
       }
       .details-content-container {
         .details-content {
           flex-direction: column;
           .status {
-            color: @warning-color;
+            &__success, &__confirmed {
+              color: @success-color;
+            }
+            &__failed, &__pending {
+              color: @warning-color;
+            }
           }
           &:nth-child(1) {
             margin-right: 30px;

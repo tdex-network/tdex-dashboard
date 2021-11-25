@@ -1,11 +1,12 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
-import { Radio } from 'antd';
-import React, { useState } from 'react';
+import { Radio, Skeleton } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import type { MarketInfo, Withdrawal, UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
+import { sleep } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { DepositRows } from './DepositRows';
@@ -44,7 +45,13 @@ const tableRows = (
 ) => {
   switch (mode) {
     case 'all':
-      return 'bar';
+      return (
+        <>
+          <TradeRows trades={trades} savedAssets={savedAssets} />
+          <DepositRows deposits={deposits} savedAssets={savedAssets} />
+          <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />
+        </>
+      );
     case 'swap':
       return <TradeRows trades={trades} savedAssets={savedAssets} />;
     case 'deposit':
@@ -52,11 +59,18 @@ const tableRows = (
     case 'withdraw':
       return <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />;
     default:
-      return 'all';
+      return (
+        <>
+          <TradeRows trades={trades} savedAssets={savedAssets} />
+          <DepositRows deposits={deposits} savedAssets={savedAssets} />
+          <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />
+        </>
+      );
   }
 };
 
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
+  const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
   const [mode, setMode] = useState<'all' | 'swap' | 'deposit' | 'withdraw'>('all');
   const savedAssets = useTypedSelector(({ settings }) => settings.assets);
   // Swaps
@@ -85,23 +99,63 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     page: { pageNumber: 0, pageSize: 100 },
   });
 
+  const headerRow = useCallback(
+    (node) => {
+      if (node !== null && isAllDataLoaded) {
+        Array.from<HTMLElement>(node.getElementsByClassName('time')).forEach(async (thTime) => {
+          // Need to wait a bit for the cells to get data
+          await sleep(100);
+          const rowsArray = Array.from(thTime!.closest('table')!.querySelectorAll<HTMLElement>('tbody tr'));
+          const timeColIndex = Array.from(thTime!.parentNode!.children).indexOf(thTime);
+          rowsArray.sort((a, b) => {
+            const aBlockTime = Number(
+              (a.children[timeColIndex] as HTMLElement)?.dataset.time ?? (a as HTMLElement)?.dataset.time ?? 0
+            );
+            const bBlockTime = Number(
+              (b.children[timeColIndex] as HTMLElement)?.dataset.time ?? (b as HTMLElement)?.dataset.time ?? 0
+            );
+            console.log('aBlockTime', aBlockTime);
+            console.log('bBlockTime', bBlockTime);
+            return bBlockTime - aBlockTime;
+          });
+          rowsArray.forEach((elem) => {
+            thTime.closest('table')!.querySelector('tbody')!.appendChild(elem);
+          });
+          //
+        });
+      }
+    },
+    // Order table when all data is loaded and when mode change
+    [isAllDataLoaded, mode]
+  );
+
+  useEffect(() => {
+    if (listTrades !== undefined && deposits !== undefined && withdrawals !== undefined) {
+      setIsAllDataLoaded(true);
+    }
+  }, [listTrades, deposits, withdrawals]);
+
   return (
     <div className="panel panel__grey dm-mono">
-      <table id="txs-table">
-        <thead>
-          <tr>
-            <th>
-              <ButtonsTableMode mode={mode} setMode={setMode} />
-            </th>
-            <th>Total Value</th>
-            <th>Base Token Amount</th>
-            <th>Quote Token Amount</th>
-            <th>Time</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{tableRows(mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
-      </table>
+      {isAllDataLoaded ? (
+        <table id="txs-table">
+          <thead>
+            <tr ref={headerRow}>
+              <th>
+                <ButtonsTableMode mode={mode} setMode={setMode} />
+              </th>
+              <th>Total Value</th>
+              <th>Base Token Amount</th>
+              <th>Quote Token Amount</th>
+              <th className="time">Time</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>{tableRows(mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
+        </table>
+      ) : (
+        <Skeleton active paragraph={{ rows: 5 }} />
+      )}
     </div>
   );
 };

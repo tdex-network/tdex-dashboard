@@ -40,7 +40,7 @@ export const App = (): JSX.Element => {
         dispatch(connectProxy());
       }
     })();
-  }, [tdexdConnectUrl]);
+  }, [tdexdConnectUrl, proxyIsRunning]);
 
   return (
     <>

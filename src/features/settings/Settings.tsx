@@ -15,7 +15,6 @@ export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
-  const macaroon = useTypedSelector(({ settings }) => settings.macaroonCredentials);
 
   return (
     <>
@@ -105,21 +104,6 @@ export const Settings = (): JSX.Element => {
             <Col span={24}>
               <Text copyable className="address">
                 {tdexdConnectUrl || 'Not found'}
-              </Text>
-            </Col>
-          </Row>
-          {/**/}
-          <Row>
-            <Col span={24}>
-              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-                Macaroon
-              </Title>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Text copyable className="address">
-                {macaroon || 'Not found'}
               </Text>
             </Col>
           </Row>

@@ -11,7 +11,7 @@ import { sleep } from '../../utils';
 import { encodeBase64UrlMacaroon } from '../../utils/connect';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
-import { useInitWalletMutation, useIsReadyQuery, useUnlockWalletMutation } from './walletUnlocker.api';
+import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
 
 const { Title } = Typography;
 const NULL_ERROR = '';
@@ -38,14 +38,9 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   //
   const [unlockWallet, { error: unlockWalletError }] = useUnlockWalletMutation();
   const [initWallet, { error: initWalletError }] = useInitWalletMutation();
-  const { data: isReady } = useIsReadyQuery();
 
   const handleInitWallet = async () => {
     try {
-      if (isReady?.isInitialized) {
-        notification.info({ message: 'Wallet has already been initialized' });
-        return;
-      }
       // @ts-ignore
       const { data } = await initWallet({
         isRestore: false,
@@ -54,8 +49,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       });
       data.on('status', async (status: any) => {
         if (status.code === 0) {
-          await sleep(1);
           await unlockWallet({ password: state.password });
+          await sleep(1);
           setIsLoading(false);
           navigate(HOME_ROUTE);
         } else {

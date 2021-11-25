@@ -4,4 +4,4 @@ set -e
 
 docker stop tdexd
 docker rm tdexd
-sudo rm -rf ./tdexd
+rm -rf ./tdexd

@@ -99,6 +99,6 @@ export const decodeBase64UrlMacaroon = (macaroonString: string): string => {
  * @return {String} Encoded macaroon
  */
 export const encodeBase64UrlMacaroon = (macaroonHex: string): string => {
-  const macaroonBase64 = Buffer.from(macaroonHex).toString('base64');
+  const macaroonBase64 = Buffer.from(macaroonHex, 'hex').toString('base64');
   return base64url.fromBase64(macaroonBase64);
 };

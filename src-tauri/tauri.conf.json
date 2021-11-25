@@ -22,7 +22,7 @@
         "icons/icon.ico"
       ],
       "resources": [],
-      "externalBin": [],
+      "externalBin": ["bin/grpcproxy"],
       "copyright": "",
       "category": "DeveloperTool",
       "shortDescription": "",

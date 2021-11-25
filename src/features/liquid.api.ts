@@ -34,10 +34,16 @@ export const liquidApi = createApi({
       },
     }),
     getLastBlockHeight: build.query<number, void>({ query: () => 'blocks/tip/height' }),
+    getTransactionById: build.query<any, string>({ query: (txId: string) => `/tx/${txId}` }),
     getUtxosByAddress: build.query<number, string>({
       query: (feeDepositAddress: string) => `/address/${feeDepositAddress}/utxo`,
     }),
   }),
 });
 
-export const { useGetUtxosByAddressQuery, useGetAssetDataQuery, useGetLastBlockHeightQuery } = liquidApi;
+export const {
+  useGetUtxosByAddressQuery,
+  useGetAssetDataQuery,
+  useGetLastBlockHeightQuery,
+  useGetTransactionByIdQuery,
+} = liquidApi;

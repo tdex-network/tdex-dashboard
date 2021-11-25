@@ -18,7 +18,6 @@ import type {
   UpdateMarketPriceReply,
   UpdateMarketStrategyReply,
   ListMarketsReply,
-  ListTradesReply,
   ReloadUtxosReply,
   ListUtxosReply,
   AddWebhookReply,
@@ -31,6 +30,7 @@ import type {
   Withdrawal,
   GetMarketCollectedSwapFeesReply,
   StrategyType,
+  TradeInfo,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -73,6 +73,7 @@ import {
   MarketFragmenterSplitFundsRequest,
   GetMarketFragmenterBalanceRequest,
   ListMarketFragmenterAddressesRequest,
+  ListTradesRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -651,6 +652,31 @@ const baseQueryFn: BaseQueryFn<
       }
     }
     // Trades
+    case 'listTrades': {
+      try {
+        const { market, page } = body as { market: Market.AsObject; page: Page.AsObject };
+        const { pageNumber, pageSize } = page;
+        const newPage = new Page();
+        newPage.setPageNumber(pageNumber);
+        newPage.setPageSize(pageSize);
+        //
+        const { baseAsset, quoteAsset } = market;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        //
+        const listTradesReply = await client.listTrades(
+          new ListTradesRequest().setMarket(newMarket).setPage(newPage),
+          metadata
+        );
+        return {
+          data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
     case 'getMarketCollectedSwapFees': {
       try {
         const { baseAsset, quoteAsset } = body as Market.AsObject;
@@ -832,7 +858,7 @@ const baseQueryFn: BaseQueryFn<
 export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
-  tagTypes: ['Market'],
+  tagTypes: ['Market', 'Fee', 'Trade', 'Webhook'],
   endpoints: (build) => ({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -969,16 +995,17 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),
     }),
     // Trades
-    listTrades: build.query<ListTradesReply, void>({
-      query: () => ({ methodName: 'listTrades' }),
+    listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
+      query: (body) => ({ methodName: 'listTrades', body }),
+      providesTags: ['Trade'],
     }),
     getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
-      providesTags: ['Market'],
+      providesTags: ['Trade'],
     }),
     totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
       query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
-      providesTags: ['Market'],
+      providesTags: ['Trade'],
     }),
     // Utxos
     reloadUtxos: build.query<ReloadUtxosReply, void>({
@@ -999,16 +1026,20 @@ export const operatorApi = createApi({
     }),
     listWebhooks: build.query<WebhookInfo.AsObject[], { action: ActionType }>({
       query: (body) => ({ methodName: 'listWebhooks', body }),
+      providesTags: ['Webhook'],
     }),
     //
     getInfo: build.query<GetInfoReply.AsObject, void>({
       query: () => ({ methodName: 'getInfo' }),
+      providesTags: ['Market', 'Fee', 'Trade'],
     }),
     listDeposits: build.query<UtxoInfo.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
+      providesTags: ['Market', 'Fee'],
     }),
     listWithdrawals: build.query<Withdrawal.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listWithdrawals', body }),
+      providesTags: ['Market', 'Fee'],
     }),
   }),
 });

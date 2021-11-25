@@ -26,7 +26,7 @@ export const App = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      if (useProxy && !tdexdConnectUrl) {
+      if (useProxy) {
         await Command.sidecar('grpcproxy').spawn();
       }
     })();

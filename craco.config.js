@@ -3,6 +3,8 @@ const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
+process.env.BROWSER = 'none';
+
 module.exports = {
   plugins: [
     {

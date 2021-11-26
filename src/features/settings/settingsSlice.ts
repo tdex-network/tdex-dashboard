@@ -9,7 +9,8 @@ import { network } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
-import { featuredAssets } from '../../utils';
+import type { LbtcUnit } from '../../utils';
+import { featuredAssets, LBTC_UNITS } from '../../utils';
 
 const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
@@ -24,6 +25,7 @@ export interface SettingsState {
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
+  lbtcUnit: LbtcUnit;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -52,12 +54,16 @@ export const initialState: SettingsState = {
   baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
   assets: featuredAssets,
   useProxy: USE_PROXY,
+  lbtcUnit: LBTC_UNITS[0],
 };
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
+    setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
+      state.lbtcUnit = action.payload;
+    },
     saveAsset: (state, action: PayloadAction<Asset>) => {
       // Save if asset not already saved
       if (state.assets.some((a) => a.asset_id !== action.payload.asset_id)) {
@@ -122,6 +128,7 @@ export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClie
 }
 
 export const {
+  setLbtcUnit,
   setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,

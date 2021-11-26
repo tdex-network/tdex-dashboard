@@ -5,7 +5,9 @@ import React from 'react';
 import type { TradeInfo } from '../../../api-spec/generated/js/operator_pb';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';
+import type { LbtcUnit } from '../../../utils';
 import { assetIdToTicker, timeAgo } from '../../../utils';
+import { formatSatsToUnit } from '../../../utils/unitConvert';
 
 export interface Trade {
   tradeId: TradeInfo.AsObject['tradeId'];
@@ -17,14 +19,23 @@ export interface Trade {
 interface TradeRowsProps {
   trades?: Trade[];
   savedAssets: Asset[];
+  lbtcUnit: LbtcUnit;
 }
 
-export const TradeRows = ({ trades, savedAssets }: TradeRowsProps): JSX.Element => {
+export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JSX.Element => {
   return (
     <>
       {trades?.map(({ swapInfo, tradeId, status, settleTimeUnix }) => {
         const baseAssetTicker = assetIdToTicker(swapInfo?.assetP || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(swapInfo?.assetR || '', savedAssets);
+        const baseAmount =
+          swapInfo?.amountR === undefined
+            ? 'N/A'
+            : formatSatsToUnit(swapInfo?.amountP, lbtcUnit, swapInfo?.assetP);
+        const quoteAmount =
+          swapInfo?.amountR === undefined
+            ? 'N/A'
+            : formatSatsToUnit(swapInfo?.amountR, lbtcUnit, swapInfo?.assetR);
         return (
           <>
             <tr
@@ -40,9 +51,9 @@ export const TradeRows = ({ trades, savedAssets }: TradeRowsProps): JSX.Element 
                 </span>
                 {`Swap ${baseAssetTicker} for ${quoteAssetTicker}`}
               </td>
-              <td>{`$${swapInfo?.amountR}`}</td>
-              <td>{`${swapInfo?.amountP} ${baseAssetTicker}`}</td>
-              <td>{`${swapInfo?.amountR} ${quoteAssetTicker}`}</td>
+              <td>{quoteAmount}</td>
+              <td>{`${baseAmount} ${baseAssetTicker}`}</td>
+              <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
               <td data-time={settleTimeUnix}>{timeAgo(settleTimeUnix)}</td>
               <td>
                 <RightOutlined />

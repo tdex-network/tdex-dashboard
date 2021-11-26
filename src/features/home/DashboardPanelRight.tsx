@@ -6,12 +6,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
+import type { LbtcUnit } from '../../utils';
+import { formatSatsToUnit } from '../../utils/unitConvert';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
 const { Title } = Typography;
 
-export const DashboardPanelRight = (): JSX.Element => {
+interface DashboardPanelRightProps {
+  lbtcUnit: LbtcUnit;
+}
+
+export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX.Element => {
   const navigate = useNavigate();
   const { data: feeBalance, refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
   const { data: isReady } = useIsReadyQuery();
@@ -27,7 +33,9 @@ export const DashboardPanelRight = (): JSX.Element => {
           Fee Account Balance
         </Title>
         <Col className="dm-mono dm-mono__xxxxxx" span={24}>
-          {feeBalance?.totalBalance ?? 'N/A'}
+          {feeBalance?.totalBalance === undefined
+            ? 'N/A'
+            : formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit)}
         </Col>
       </Row>
       <Row gutter={{ xs: 8, sm: 12, md: 16 }}>

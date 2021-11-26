@@ -6,12 +6,18 @@ import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/types_pb';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
+import type { LbtcUnit } from '../../utils';
+import { formatSatsToUnit } from '../../utils/unitConvert';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
 const { Title } = Typography;
 
-export const DashboardPanelLeft = (): JSX.Element => {
+interface DashboardPanelLeftProps {
+  lbtcUnit: LbtcUnit;
+}
+
+export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
   const { data: listMarkets, refetch: refetchListMarkets } = useListMarketsQuery();
   const { data: isReady } = useIsReadyQuery();
@@ -32,7 +38,7 @@ export const DashboardPanelLeft = (): JSX.Element => {
       </Title>
       <Row>
         <Col className="dm-mono dm-mono__xxxxxx" span={12}>
-          {totalCollectedSwapFees ?? 0}
+          {totalCollectedSwapFees === undefined ? 'N/A' : formatSatsToUnit(totalCollectedSwapFees, lbtcUnit)}
         </Col>
         <Col className="total-earned-change" span={12}>
           <div>24h</div>

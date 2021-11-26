@@ -1,6 +1,7 @@
 name: "Release desktop apps"
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "*"
@@ -24,14 +25,9 @@ jobs:
       - name: Install Rust latest nightly
         uses: actions-rs/toolchain@v1
         with:
-            toolchain: nightly
-            override: true
-
+          toolchain: "stable"
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
-        with:
-          go-version: 1.16.1
-        id: go
 
       - name: install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -39,8 +35,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y webkit2gtk-4.0
 
-      - name: install app dependencies and build it
-        run: yarn && yarn build
+      - name: install app dependencies
+        run: yarn install
 
       - name: build rpc proxy for amd & arm
         run: make crossbuild
@@ -56,6 +52,6 @@ jobs:
         with:
           tagName: ${{ steps.next_tag.outputs.tag }}
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
-          body: "See the assets to download this version and install."
-          draft: false
-          prerelease: false
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: false
+          prerelease: false   

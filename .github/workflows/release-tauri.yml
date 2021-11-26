@@ -39,8 +39,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y webkit2gtk-4.0
 
-      - name: install app dependencies and build it
-        run: yarn && yarn build
+      - name: install app dependencies
+        run: yarn install
 
       - name: build rpc proxy for amd & arm
         run: make crossbuild

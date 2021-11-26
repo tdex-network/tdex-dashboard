@@ -33,7 +33,8 @@ export const App = (): JSX.Element => {
         setProxyIsRunning(true);
       }
     })();
-  }, [useProxy]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     (async () => {

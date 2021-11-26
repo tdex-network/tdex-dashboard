@@ -20,9 +20,6 @@
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

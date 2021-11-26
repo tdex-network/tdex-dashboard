@@ -23,7 +23,7 @@ export const DashboardPanelLeft = (): JSX.Element => {
 
   useEffect(() => {
     if (isReady?.isUnlocked && isReady?.isInitialized) refetchListMarkets();
-  }, [isReady]);
+  }, [isReady, refetchListMarkets]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

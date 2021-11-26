@@ -715,6 +715,7 @@ const baseQueryFn: BaseQueryFn<
           )
         );
         for (const r of results) {
+          // eslint-disable-next-line
           r.market.forEach((marketId) => {
             const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
               .getTotalCollectedFeesPerAssetMap()

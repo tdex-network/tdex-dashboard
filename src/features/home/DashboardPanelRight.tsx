@@ -18,7 +18,7 @@ export const DashboardPanelRight = (): JSX.Element => {
 
   useEffect(() => {
     if (isReady?.isUnlocked && isReady?.isInitialized) refetchGetFeeBalance();
-  }, [isReady]);
+  }, [isReady, refetchGetFeeBalance]);
 
   return (
     <div id="dashboard-panel-right-container" className="panel w-100 h-100">

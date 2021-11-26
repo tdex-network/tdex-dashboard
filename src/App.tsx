@@ -23,6 +23,7 @@ export const App = (): JSX.Element => {
         event.preventDefault();
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export const App = (): JSX.Element => {
         setProxyIsRunning(true);
       }
     })();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export const App = (): JSX.Element => {
         dispatch(connectProxy());
       }
     })();
-  }, [tdexdConnectUrl, proxyIsRunning]);
+  }, [tdexdConnectUrl, proxyIsRunning, useProxy, dispatch]);
 
   return (
     <>

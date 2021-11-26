@@ -1,0 +1,5 @@
+:8080
+
+file_server
+root * /usr/share/caddy/html
+try_files {path} /index.html

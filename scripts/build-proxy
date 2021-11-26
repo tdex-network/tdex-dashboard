@@ -7,23 +7,9 @@ PARENT_PATH=$(dirname $(
   pwd -P
 ))
 
-VENDOR=$(uname -s | tr '[:upper:]' '[:lower:]')
-ARCH=$(uname -m)
-OS=gnu
-EXT=""
-
-if [ "$VENDOR" == "darwin" ]
-then
-  OS=${VENDOR}
-  VENDOR="apple"
-fi
-
-if [ "$VENDOR" == "windows" ]
-then
-  EXT=".exe"
-fi
+TARGET_TRIPLE=$(rustc -vV | sed -n 's|host: ||p')
 
 pushd $PARENT_PATH
 mkdir -p src-tauri/bin
-GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$ARCH-$VENDOR-$OS$EXT rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$TARGET_TRIPLE rpc_proxy.go
 popd

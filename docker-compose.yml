@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+
+  web:
+    container_name: dashboard
+    build: 
+      dockerfile: ./Dockerfile.web
+    restart: unless-stopped
+    environment:
+      USE_PROXY: true
+      PROXY_URL: "http://localhost:3030"
+    ports:
+      - 8080:8080
+
+
+  proxy: 
+    container_name: rpcproxy
+    build: 
+      dockerfile: ./Dockerfile.proxy 
+    restart: unless-stopped
+    command:
+      - --insecure-httplisten=0.0.0.0:3030
+    ports:
+      - 3030:3030
+
+  tdexd:
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    
+    environment:
+      TDEX_NETWORK: regtest
+      TDEX_BASE_ASSET: 5ac9f65c0efcc4775e0baec4ec03abdde22473cd3cf33c0419ca290e0751b225
+      TDEX_LOG_LEVEL: 5
+      TDEX_EXPLORER_ENDPOINT: http://chopsticks-liquid:3000
+      TDEX_OPERATOR_EXTRA_IP: 10.10.11.174
+    
+    ports:
+      - "9945:9945"
+      - "9000:9000"
+
+networks:
+  default:
+    external: true
+    name: nigiri

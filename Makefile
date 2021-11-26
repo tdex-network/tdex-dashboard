@@ -3,9 +3,13 @@
 install:
 	@go mod download && go mod tidy
 
-## build: build for all platforms
+## build: build for current OS & Architecture
 build: 
 	@chmod u+x ./scripts/build-proxy && ./scripts/build-proxy
+
+## crossbuild: build for all architctures for current OS
+crossbuild: 
+	@chmod u+x ./scripts/cross-build-proxy && ./scripts/cross-build-proxy
 
 ## clean: cleans the binary
 clean:

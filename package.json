@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
-    "build": "craco build",
+    "build": "npx craco build",
     "bundle-analyzer": "open http://localhost:8888",
     "eslint": "eslint './src/**/*.{ts,tsx}'",
     "fmt": "yarn run eslint --fix && yarn run prettier --write",
@@ -17,8 +17,8 @@
     "tdexd:run": "bash scripts/tdexd-run",
     "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
     "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
-    "tauri:build": "npx tauri build",
-    "tauri:dev": "npx tauri dev"
+    "tauri:build": "cargo tauri build",
+    "tauri:dev": "cargo tauri dev"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,7 +61,6 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.4.0",
-    "@tauri-apps/cli": "^1.0.0-beta.10",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -77,12 +76,11 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.0",
-    "grpc-tools": "^1.11.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.4.1",
-    "protoc-gen-grpc-web": "^1.3.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpackbar": "^5.0.2"
   }

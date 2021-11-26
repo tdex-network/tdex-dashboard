@@ -17,6 +17,13 @@ Tauri GH: https://github.com/tauri-apps/tauri
 
 You need to [set up your environment](https://tauri.studio/en/docs/getting-started/intro#setting-up-your-environment) depending on your OS.
 
+
+### Install the Tauri CLI
+
+```
+cargo install tauri-cli --version 1.0.0-beta.7
+```
+
 ### Build
 
 Use `tauri:build` script to compile a .deb and .AppImage _production_ file.

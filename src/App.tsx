@@ -1,5 +1,5 @@
 import { Command } from '@tauri-apps/api/shell';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from './app/store';
 import Shell from './common/Shell';
@@ -10,6 +10,7 @@ export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const useProxy = useTypedSelector(({ settings }) => settings.useProxy);
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
+  const [proxyIsRunning, setProxyIsRunning] = useState<boolean>(false);
 
   useEffect(() => {
     document.addEventListener('keypress', function (event) {
@@ -26,19 +27,20 @@ export const App = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      if (useProxy && !tdexdConnectUrl) {
+      if (useProxy) {
         await Command.sidecar('grpcproxy').spawn();
+        setProxyIsRunning(true);
       }
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      if (useProxy && tdexdConnectUrl) {
+      if (useProxy && tdexdConnectUrl && proxyIsRunning) {
         dispatch(connectProxy());
       }
     })();
-  }, [tdexdConnectUrl]);
+  }, [tdexdConnectUrl, proxyIsRunning]);
 
   return (
     <>

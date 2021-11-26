@@ -10,7 +10,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
-import { LBTC_TICKER, USDT_TICKER } from '../../../../utils';
+import { formatSatsToUnit } from '../../../../utils/unitConvert';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useListMarketsQuery } from '../../operator.api';
@@ -21,7 +21,7 @@ const { Title } = Typography;
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const { data: listMarkets } = useListMarketsQuery();
-  const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
+  const { marketsLabelled, lbtcUnit } = useTypedSelector(({ settings }) => settings);
 
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const marketInfo = listMarkets?.marketsList.find(
@@ -36,6 +36,14 @@ export const MarketOverview = (): JSX.Element => {
   const handleMarketSettingsModalCancel = () => {
     setIsMarketSettingsModalVisible(false);
   };
+  const baseAmount =
+    marketInfo?.balance?.baseAmount === undefined
+      ? 'N/A'
+      : formatSatsToUnit(marketInfo?.balance?.baseAmount, lbtcUnit, state?.baseAsset?.asset_id);
+  const quoteAmount =
+    marketInfo?.balance?.quoteAmount === undefined
+      ? 'N/A'
+      : formatSatsToUnit(marketInfo?.balance?.quoteAmount, lbtcUnit, state?.quoteAsset?.asset_id);
 
   return (
     <>
@@ -116,12 +124,12 @@ export const MarketOverview = (): JSX.Element => {
             <div className="panel panel__grey h-100">
               <Row>
                 <Col span={24} className="">
-                  <CurrencyIcon currency={LBTC_TICKER} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{LBTC_TICKER}</span>
-                  <span className="dm-mono dm-mono__xx mr-10">{marketInfo?.balance?.baseAmount}</span>
-                  <CurrencyIcon currency={USDT_TICKER} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{USDT_TICKER}</span>
-                  <span className="dm-mono dm-mono__xx">{marketInfo?.balance?.quoteAmount}</span>
+                  <CurrencyIcon currency={state?.baseAsset?.ticker} />
+                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{state?.baseAsset?.ticker}</span>
+                  <span className="dm-mono dm-mono__xx mr-10">{baseAmount}</span>
+                  <CurrencyIcon currency={state?.quoteAsset?.ticker} />
+                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{state?.quoteAsset?.ticker}</span>
+                  <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
                 </Col>
               </Row>
               <Skeleton active paragraph={{ rows: 5 }} />

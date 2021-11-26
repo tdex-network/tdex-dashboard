@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import type { MarketInfo, Withdrawal, UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
+import type { LbtcUnit } from '../../../utils';
 import { sleep } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
@@ -36,6 +37,7 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
 };
 
 const tableRows = (
+  lbtcUnit: LbtcUnit,
   mode: ButtonsTableModeProps['mode'],
   savedAssets: Asset[],
   marketInfo: MarketInfo.AsObject,
@@ -47,23 +49,40 @@ const tableRows = (
     case 'all':
       return (
         <>
-          <TradeRows trades={trades} savedAssets={savedAssets} />
-          <DepositRows deposits={deposits} savedAssets={savedAssets} />
-          <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />
+          <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <WithdrawalRows
+            withdrawals={withdrawals}
+            marketInfo={marketInfo}
+            savedAssets={savedAssets}
+            lbtcUnit={lbtcUnit}
+          />
         </>
       );
     case 'swap':
-      return <TradeRows trades={trades} savedAssets={savedAssets} />;
+      return <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
     case 'deposit':
-      return <DepositRows deposits={deposits} savedAssets={savedAssets} />;
+      return <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
     case 'withdraw':
-      return <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />;
+      return (
+        <WithdrawalRows
+          withdrawals={withdrawals}
+          marketInfo={marketInfo}
+          savedAssets={savedAssets}
+          lbtcUnit={lbtcUnit}
+        />
+      );
     default:
       return (
         <>
-          <TradeRows trades={trades} savedAssets={savedAssets} />
-          <DepositRows deposits={deposits} savedAssets={savedAssets} />
-          <WithdrawalRows withdrawals={withdrawals} marketInfo={marketInfo} savedAssets={savedAssets} />
+          <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <WithdrawalRows
+            withdrawals={withdrawals}
+            marketInfo={marketInfo}
+            savedAssets={savedAssets}
+            lbtcUnit={lbtcUnit}
+          />
         </>
       );
   }
@@ -72,7 +91,7 @@ const tableRows = (
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
   const [mode, setMode] = useState<'all' | 'swap' | 'deposit' | 'withdraw'>('all');
-  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
+  const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
   // Swaps
   const { data: listTrades } = useListTradesQuery({
     market: {
@@ -104,7 +123,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       if (node !== null && isAllDataLoaded && mode) {
         Array.from<HTMLElement>(node.getElementsByClassName('time')).forEach(async (thTime) => {
           // Need to wait a bit for the cells to get data
-          await sleep(100);
+          await sleep(200);
           const rowsArray = Array.from(thTime!.closest('table')!.querySelectorAll<HTMLElement>('tbody tr'));
           const timeColIndex = Array.from(thTime!.parentNode!.children).indexOf(thTime);
           rowsArray.sort((a, b) => {
@@ -114,8 +133,6 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
             const bBlockTime = Number(
               (b.children[timeColIndex] as HTMLElement)?.dataset.time ?? (b as HTMLElement)?.dataset.time ?? 0
             );
-            console.log('aBlockTime', aBlockTime);
-            console.log('bBlockTime', bBlockTime);
             return bBlockTime - aBlockTime;
           });
           rowsArray.forEach((elem) => {
@@ -151,7 +168,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
               <th />
             </tr>
           </thead>
-          <tbody>{tableRows(mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
+          <tbody>{tableRows(lbtcUnit, mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
         </table>
       ) : (
         <Skeleton active paragraph={{ rows: 5 }} />

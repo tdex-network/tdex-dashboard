@@ -5,24 +5,44 @@ import React from 'react';
 import type { Withdrawal, MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
+import type { LbtcUnit } from '../../../utils';
 import { assetIdToTicker, timeAgo } from '../../../utils';
+import { formatSatsToUnit } from '../../../utils/unitConvert';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
 interface WithdrawalRowsProps {
   marketInfo: MarketInfo.AsObject;
   savedAssets: Asset[];
   withdrawals?: Withdrawal.AsObject[];
+  lbtcUnit: LbtcUnit;
 }
 
 interface WithdrawRowProps {
   balance: Withdrawal.AsObject['balance'];
   baseAssetTicker: string;
   quoteAssetTicker: string;
+  baseAssetId: string;
+  quoteAssetId: string;
   txId: string;
+  lbtcUnit: LbtcUnit;
 }
 
-const WithdrawRow = ({ balance, baseAssetTicker, quoteAssetTicker, txId }: WithdrawRowProps) => {
+const WithdrawRow = ({
+  balance,
+  baseAssetTicker,
+  quoteAssetTicker,
+  txId,
+  lbtcUnit,
+  baseAssetId,
+  quoteAssetId,
+}: WithdrawRowProps) => {
   const { data: tx } = useGetTransactionByIdQuery(txId);
+  const baseAmount =
+    balance?.baseAmount === undefined ? 'N/A' : formatSatsToUnit(balance?.baseAmount, lbtcUnit, baseAssetId);
+  const quoteAmount =
+    balance?.quoteAmount === undefined
+      ? 'N/A'
+      : formatSatsToUnit(balance?.quoteAmount, lbtcUnit, baseAssetId);
   return (
     <>
       <tr
@@ -35,9 +55,9 @@ const WithdrawRow = ({ balance, baseAssetTicker, quoteAssetTicker, txId }: Withd
           <Icon component={depositIcon} className="rotate-icon tx-icon" />
           {`Withdraw ${baseAssetTicker}`}
         </td>
-        <td>{balance?.baseAmount}</td>
-        <td>{`${balance?.baseAmount} ${baseAssetTicker}`}</td>
-        <td>{`${balance?.quoteAmount} ${quoteAssetTicker}`}</td>
+        <td>{baseAmount}</td>
+        <td>{`${baseAmount} ${baseAssetTicker}`}</td>
+        <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
         <td data-time={tx?.status.block_time}>{timeAgo(tx?.status.block_time)}</td>
         <td>
           <RightOutlined />
@@ -79,6 +99,7 @@ export const WithdrawalRows = ({
   withdrawals,
   savedAssets,
   marketInfo,
+  lbtcUnit,
 }: WithdrawalRowsProps): JSX.Element => {
   const baseAssetId = marketInfo?.market?.baseAsset || '';
   const quoteAssetId = marketInfo?.market?.quoteAsset || '';
@@ -93,7 +114,10 @@ export const WithdrawalRows = ({
           balance={balance}
           baseAssetTicker={baseAssetTicker}
           quoteAssetTicker={quoteAssetTicker}
+          baseAssetId={baseAssetId}
+          quoteAssetId={quoteAssetId}
           txId={txId}
+          lbtcUnit={lbtcUnit}
         />
       ))}
     </>

@@ -4,7 +4,6 @@ import { Breadcrumb, Row, Col, Typography, Button, Radio } from 'antd';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { ActionType } from '../../api-spec/generated/js/operator_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';

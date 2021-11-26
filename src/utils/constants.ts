@@ -46,3 +46,8 @@ export const featuredAssets: Asset[] = [
     name: 'Liquid CAD',
   },
 ];
+
+export const isAssetBitcoin = (asset: string): boolean => asset === LBTC_ASSET.asset_id;
+
+export const LBTC_UNITS = ['btc', 'mBtc', 'bits', 'sats'] as const;
+export type LbtcUnit = typeof LBTC_UNITS[number];

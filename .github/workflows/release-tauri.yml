@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest]
+        platform: [macos-latest, ubuntu-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -26,8 +26,6 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: "stable"
-          default: true
-
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
 

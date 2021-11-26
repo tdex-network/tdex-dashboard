@@ -11,8 +11,7 @@ import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import { featuredAssets } from '../../utils';
 
-const USE_PROXY =
-  '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY) === true);
+const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 
 export interface SettingsState {

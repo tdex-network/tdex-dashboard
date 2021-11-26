@@ -101,7 +101,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
 
   const headerRow = useCallback(
     (node) => {
-      if (node !== null && isAllDataLoaded) {
+      if (node !== null && isAllDataLoaded && mode) {
         Array.from<HTMLElement>(node.getElementsByClassName('time')).forEach(async (thTime) => {
           // Need to wait a bit for the cells to get data
           await sleep(100);

@@ -3,7 +3,7 @@ import Big from 'big.js';
 import type { LbtcUnit } from './constants';
 import { isAssetBitcoin, LBTC_ASSET } from './constants';
 
-const rxLeadingZeros = /^[\s0]+/;
+const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
 const removeInsignificant = (str: string) => {
   str = str.replace(rxLeadingZeros, '');

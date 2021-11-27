@@ -65,7 +65,30 @@ export const OnboardingPairing = (): JSX.Element => {
             <Form.Item name="tdexdConnectUrl" className="mb-8">
               <Input.TextArea
                 placeholder="Paste the tdexdconnect url or scan QR code"
-                onPaste={showDownloadCertModal}
+                onPaste={(ev) => {
+                  try {
+                    if (!(window as any).__TAURI__ && (window as any).USE_PROXY) {
+                      // web
+                      showDownloadCertModal();
+                    } else {
+                      // desktop
+                      const connectString = ev.clipboardData.getData('text');
+                      const { cert, macaroon } = extractHostCertMacaroon(connectString);
+                      if (cert) {
+                        decodeCert(cert);
+                        setIsValidCert(true);
+                      }
+                      if (macaroon) {
+                        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+                        dispatch(setMacaroonCredentials(decodedMacaroonHex));
+                        setMacaroon(decodedMacaroonHex);
+                      }
+                    }
+                  } catch (err) {
+                    // @ts-ignore
+                    notification.error({ message: err.message });
+                  }
+                }}
               />
             </Form.Item>
             <Form.Item wrapperCol={{ span: 12, offset: 6 }}>

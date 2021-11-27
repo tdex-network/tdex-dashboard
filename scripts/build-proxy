@@ -11,5 +11,5 @@ TARGET_TRIPLE=$(rustc -vV | sed -n 's|host: ||p')
 
 pushd $PARENT_PATH
 mkdir -p src-tauri/bin
-GO111MODULE=on go build -ldflags="-s -w" -o src-tauri/bin/grpcproxy-$TARGET_TRIPLE rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -tags netgo -a -o src-tauri/bin/grpcproxy-$TARGET_TRIPLE rpc_proxy.go
 popd

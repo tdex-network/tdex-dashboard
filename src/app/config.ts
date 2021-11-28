@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
     explorerBitcoinAPI: 'https://blockstream.info/api',
     explorerLiquidUI: 'https://blockstream.info/liquid',
     explorerBitcoinUI: 'https://blockstream.info',
+    tdexdBaseUrl: 'https://localhost:9000',
   };
 } else {
   network = {
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV === 'production') {
     explorerBitcoinAPI: 'http://localhost:3000',
     explorerLiquidUI: 'http://localhost:5001',
     explorerBitcoinUI: 'http://localhost:5000',
+    tdexdBaseUrl: 'https://localhost:9000',
   };
 }
 

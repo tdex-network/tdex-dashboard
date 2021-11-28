@@ -67,7 +67,7 @@ export const OnboardingPairing = (): JSX.Element => {
                 placeholder="Paste the tdexdconnect url or scan QR code"
                 onPaste={(ev) => {
                   try {
-                    if (!(window as any).__TAURI__ && (window as any).USE_PROXY) {
+                    if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
                       // web
                       showDownloadCertModal();
                     } else {

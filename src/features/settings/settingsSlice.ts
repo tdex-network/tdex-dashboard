@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { Metadata } from 'grpc-web';
+import type { NetworkString } from 'ldk';
 
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
@@ -16,7 +17,7 @@ const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((wi
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 
 export interface SettingsState {
-  chain: 'liquid' | 'regtest';
+  chain: NetworkString;
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
   assets: Asset[];
@@ -93,7 +94,7 @@ export const settingsSlice = createSlice({
   },
 });
 
-export function selectChain(state: RootState): 'liquid' | 'regtest' {
+export function selectChain(state: RootState): NetworkString {
   return state.settings.chain;
 }
 

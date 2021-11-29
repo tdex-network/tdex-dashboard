@@ -6,7 +6,14 @@ import { ReactComponent as GenericIcon } from '../../assets/images/coins/generic
 import { ReactComponent as LbtcIcon } from '../../assets/images/coins/lbtc.svg';
 import { ReactComponent as LcadIcon } from '../../assets/images/coins/lcad.svg';
 import { ReactComponent as UsdtIcon } from '../../assets/images/coins/usdt.svg';
-import { BJDE_TICKER, BTSE_TICKER, LBTC_TICKER, LCAD_TICKER, USDT_TICKER } from '../../utils';
+import {
+  BJDE_TICKER,
+  BTSE_TICKER,
+  LBTC_TESTNET_TICKER,
+  LBTC_TICKER,
+  LCAD_TICKER,
+  USDT_TICKER,
+} from '../../utils';
 
 interface CurrencyIconProps {
   currency: string;
@@ -17,6 +24,7 @@ interface CurrencyIconProps {
 export const CurrencyIcon = ({ currency, size = 24, ...props }: CurrencyIconProps): JSX.Element => {
   switch (currency) {
     case LBTC_TICKER:
+    case LBTC_TESTNET_TICKER:
       return (
         <Icon
           component={LbtcIcon}

@@ -4,6 +4,7 @@ import type { Asset } from '../domain/asset';
 export const defaultPrecision = 8;
 
 export const LBTC_TICKER = 'L-BTC';
+export const LBTC_TESTNET_TICKER = 'tL-BTC';
 export const USDT_TICKER = 'USDt';
 export const LCAD_TICKER = 'LCAD';
 export const BTSE_TICKER = 'BTSE';
@@ -41,14 +42,12 @@ export const LBTC_ASSET: Asset = (network.chain === 'regtest' && {
     name: 'Liquid Bitcoin',
   };
 
-console.log('LBTC_ASSET', LBTC_ASSET);
-
 export const featuredAssets: Asset[] = [
   LBTC_ASSET,
   {
     coinGeckoID: USDT_COINGECKOID,
     ticker: USDT_TICKER,
-    asset_id: 'ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2',
+    asset_id: 'b612eb46313a2cd6ebabd8b7a8eed5696e29898b87a43bff41c94f51acef9d73',
     precision: 8,
     name: 'Tether USD',
   },

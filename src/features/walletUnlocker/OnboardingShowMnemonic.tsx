@@ -35,7 +35,7 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
         </Row>
         <Row justify="center">
           <Col>
-            <p className="dm-sans dm-sans__x">Save your 24-word recovery phrase,in the correct order</p>
+            <p className="dm-sans dm-sans__x">Save your 24-word recovery phrase, in the correct order</p>
           </Col>
         </Row>
         <SeedMnemonicList seed={seedMnemonicList} />

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
-import { HOME_ROUTE, ONBOARDING_SHOW_MNEMONIC_ROUTE } from '../../routes/constants';
+import { HOME_ROUTE, ONBOARDING_CREATE_OR_RESTORE_ROUTE } from '../../routes/constants';
 import {
   decodeCert,
   decodeBase64UrlMacaroon,
@@ -35,7 +35,7 @@ export const OnboardingPairing = (): JSX.Element => {
       if (macaroon) {
         navigate(HOME_ROUTE);
       } else {
-        navigate(ONBOARDING_SHOW_MNEMONIC_ROUTE);
+        navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
       }
     } catch (err) {
       // @ts-ignore

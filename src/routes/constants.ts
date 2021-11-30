@@ -1,4 +1,6 @@
 export const ONBOARDING_PAIRING_ROUTE = '/onboarding-pairing';
+export const ONBOARDING_CREATE_OR_RESTORE_ROUTE = '/onboarding-create-or-restore';
+export const ONBOARDING_RESTORE_MNEMONIC_ROUTE = '/onboarding-restore-mnemonic';
 export const ONBOARDING_SHOW_MNEMONIC_ROUTE = '/onboarding-show-mnemonic';
 export const ONBOARDING_CONFIRM_MNEMONIC_ROUTE = '/onboarding-confirm-mnemonic';
 //

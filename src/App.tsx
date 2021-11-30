@@ -51,7 +51,7 @@ export const App = (): JSX.Element => {
 
   // If onboarded and isReady returns an error
   useEffect(() => {
-    if (isReadyError) {
+    if (macaroonCredentials && tdexdConnectUrl && isReadyError) {
       setIsServiceUnavailableModalVisible(true);
     }
   }, [macaroonCredentials, tdexdConnectUrl, isReadyError]);
@@ -60,7 +60,10 @@ export const App = (): JSX.Element => {
     <>
       <Shell>
         <Routes />
-        <ServiceUnavailableModal isServiceUnavailableModalVisible={isServiceUnavailableModalVisible} />
+        <ServiceUnavailableModal
+          isServiceUnavailableModalVisible={isServiceUnavailableModalVisible}
+          setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible}
+        />
       </Shell>
     </>
   );

@@ -1,30 +1,27 @@
 import { Button, Modal } from 'antd';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { ONBOARDING_PAIRING_ROUTE } from '../../routes/constants';
 
 interface ServiceUnavailableModalProps {
   isServiceUnavailableModalVisible: boolean;
+  setIsServiceUnavailableModalVisible: (isVisible: boolean) => void;
 }
 
 export const ServiceUnavailableModal = ({
   isServiceUnavailableModalVisible,
+  setIsServiceUnavailableModalVisible,
 }: ServiceUnavailableModalProps): JSX.Element => {
-  const navigate = useNavigate();
-
   return (
     <Modal
       centered={true}
       className="modal-error"
+      closable={false}
+      maskClosable={true}
+      onCancel={() => setIsServiceUnavailableModalVisible(false)}
       title="Service Unavailable"
       visible={isServiceUnavailableModalVisible}
-      closable={false}
-      maskClosable={false}
-      maskStyle={{ backdropFilter: 'blur(6px)' }}
       footer={
-        <Button key="goBack" onClick={() => navigate(ONBOARDING_PAIRING_ROUTE)}>
-          RETRY PAIRING
+        <Button key="close" onClick={() => setIsServiceUnavailableModalVisible(false)}>
+          CLOSE
         </Button>
       }
     >

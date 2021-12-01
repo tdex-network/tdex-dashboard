@@ -20,26 +20,31 @@ const removeInsignificant = (str: string) => {
 };
 
 export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): string {
-  const val = new Big(sats);
-  const exp = val.e;
-  // If asset is not bitcoin format with precision 8
-  if (!isAssetBitcoin(asset || LBTC_ASSET.asset_id)) {
-    val.e = exp - 8;
-    return removeInsignificant(val.toFixed(8));
-  }
-  switch (unit) {
-    case 'btc':
+  try {
+    const val = new Big(sats);
+    const exp = val.e;
+    // If asset is not bitcoin format with precision 8
+    if (!isAssetBitcoin(asset || LBTC_ASSET.asset_id)) {
       val.e = exp - 8;
       return removeInsignificant(val.toFixed(8));
-    case 'mBtc':
-      val.e = exp - 5;
-      return removeInsignificant(val.toFixed(8));
-    case 'bits':
-      val.e = exp - 2;
-      return removeInsignificant(val.toFixed(8));
-    case 'sats':
-      return removeInsignificant(sats.toFixed(8));
-    default:
-      return removeInsignificant(sats.toFixed(8));
+    }
+    switch (unit) {
+      case 'btc':
+        val.e = exp - 8;
+        return removeInsignificant(val.toFixed(8));
+      case 'mBtc':
+        val.e = exp - 5;
+        return removeInsignificant(val.toFixed(8));
+      case 'bits':
+        val.e = exp - 2;
+        return removeInsignificant(val.toFixed(8));
+      case 'sats':
+        return removeInsignificant(sats.toFixed(8));
+      default:
+        return removeInsignificant(sats.toFixed(8));
+    }
+  } catch (err) {
+    console.error(err);
+    return 'N/A';
   }
 }

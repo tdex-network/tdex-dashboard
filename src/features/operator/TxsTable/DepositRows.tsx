@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { groupBy } from 'lodash';
 import React from 'react';
 
-import type { UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
+import type { Deposit, MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
@@ -12,41 +12,48 @@ import { formatSatsToUnit } from '../../../utils/unitConvert';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
 interface DepositRowsProps {
-  deposits?: UtxoInfo.AsObject[];
-  savedAssets: Asset[];
+  deposits?: Deposit.AsObject[];
   lbtcUnit: LbtcUnit;
+  marketInfo: MarketInfo.AsObject;
+  savedAssets: Asset[];
 }
 
 interface DepositRowProps {
   baseAssetTicker: string;
   quoteAssetTicker: string;
-  baseAssetId: string;
-  quoteAssetId: string;
-  reducedDeposit: [string, string | number][];
-  txId: string;
+  baseAmount: number;
+  quoteAmount: number;
   lbtcUnit: LbtcUnit;
+  marketInfo: MarketInfo.AsObject;
+  timestampUnix: number;
+  txId: string;
 }
 
-const reduceValue = (deposits: UtxoInfo.AsObject[]) => {
+const reduceValue = (deposits: Deposit.AsObject[]) => {
   if (!deposits) return {};
   return deposits.reduce((result, currentValue) => {
-    result[currentValue.asset] = (result[currentValue.asset] ?? 0) + currentValue.value;
+    result[currentValue.utxo?.asset || ''] = {
+      value: (result[currentValue.utxo?.asset || '']?.value ?? 0) + (currentValue.utxo?.value || 0),
+      timestampUnix: currentValue.timestampUnix,
+    };
     return result;
-  }, {} as { [asset: string]: number });
+  }, {} as { [asset: string]: { value: number; timestampUnix: number } });
 };
 
 const DepositRow = ({
   baseAssetTicker,
   quoteAssetTicker,
-  baseAssetId,
-  quoteAssetId,
-  reducedDeposit,
-  txId,
+  baseAmount,
+  quoteAmount,
   lbtcUnit,
+  marketInfo,
+  timestampUnix,
+  txId,
 }: DepositRowProps) => {
   const { data: tx } = useGetTransactionByIdQuery(txId);
-  const baseAmount = formatSatsToUnit(Number(reducedDeposit[0][1]), lbtcUnit, baseAssetId);
-  const quoteAmount = formatSatsToUnit(Number(reducedDeposit[1][1]), lbtcUnit, quoteAssetId);
+  const baseAmountFormatted = formatSatsToUnit(Number(baseAmount), lbtcUnit, marketInfo.market?.baseAsset);
+  const quoteAmountFormatted = formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset);
+  const time = timestampUnix || tx?.status.block_time;
   return (
     <>
       <tr
@@ -59,17 +66,17 @@ const DepositRow = ({
           <Icon component={depositIcon} className="tx-icon" />
           {`Deposit ${quoteAssetTicker}`}
         </td>
-        <td>{`$${quoteAmount}`}</td>
-        <td>{`${baseAmount} ${baseAssetTicker}`}</td>
-        <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
-        <td data-time={tx?.status.block_time}>{timeAgo(tx?.status.block_time)}</td>
+        <td>{`$${quoteAmountFormatted}`}</td>
+        <td>{`${baseAmountFormatted} ${baseAssetTicker}`}</td>
+        <td>{`${quoteAmountFormatted} ${quoteAssetTicker}`}</td>
+        <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />
         </td>
       </tr>
       <tr
         className="details"
-        data-time={tx?.status.block_time}
+        data-time={time}
         onClick={(ev) => {
           ev.currentTarget.classList.toggle('opened');
           ev.currentTarget.previousElementSibling?.classList.toggle('opened');
@@ -100,10 +107,16 @@ const DepositRow = ({
   );
 };
 
-export const DepositRows = ({ deposits, savedAssets, lbtcUnit }: DepositRowsProps): JSX.Element => {
-  const depositsByTxId = groupBy(deposits || [], (utxo) => utxo.outpoint?.hash);
+export const DepositRows = ({
+  deposits,
+  lbtcUnit,
+  marketInfo,
+  savedAssets,
+}: DepositRowsProps): JSX.Element => {
+  const depositsByTxId = groupBy(deposits || [], (deposit) => deposit.utxo?.outpoint?.hash);
   const reducedDeposits = Object.entries(depositsByTxId).map(([txId, arr]) => {
-    const res = reduceValue(arr) as { [key: string]: number | string };
+    const res = reduceValue(arr) as { [asset: string]: { value: number; timestampUnix: number } };
+    // @ts-ignore
     res.txId = txId;
     return res;
   });
@@ -111,18 +124,29 @@ export const DepositRows = ({ deposits, savedAssets, lbtcUnit }: DepositRowsProp
     <>
       {reducedDeposits?.map((deposit) => {
         const reducedDeposit = Object.entries(deposit);
-        const baseAssetTicker = assetIdToTicker(reducedDeposit[0][0], savedAssets);
-        const quoteAssetTicker = assetIdToTicker(reducedDeposit[1][0], savedAssets);
+        const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
+        const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
+        const txId = (reducedDeposit?.[2]?.[1] as unknown as string) || '';
+        const baseAmount =
+          reducedDeposit[0][0] === marketInfo.market?.baseAsset
+            ? reducedDeposit[0][1].value
+            : reducedDeposit[1][1].value;
+        const quoteAmount =
+          reducedDeposit[0][0] === marketInfo.market?.quoteAsset
+            ? reducedDeposit[0][1].value
+            : reducedDeposit[1][1].value;
+        const timestampUnix = reducedDeposit[0][1].timestampUnix;
         return (
           <DepositRow
-            key={reducedDeposit[2][1]}
-            reducedDeposit={reducedDeposit}
+            key={txId}
+            baseAmount={baseAmount}
+            quoteAmount={quoteAmount}
             baseAssetTicker={baseAssetTicker}
             quoteAssetTicker={quoteAssetTicker}
-            baseAssetId={reducedDeposit[0][0]}
-            quoteAssetId={reducedDeposit[1][0]}
-            txId={reducedDeposit[2][1] as string}
             lbtcUnit={lbtcUnit}
+            timestampUnix={timestampUnix}
+            marketInfo={marketInfo}
+            txId={txId}
           />
         );
       })}

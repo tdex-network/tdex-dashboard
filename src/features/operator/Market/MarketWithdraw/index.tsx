@@ -138,10 +138,10 @@ export const MarketWithdraw = (): JSX.Element => {
                     className="dm-mono dm-mono__bold"
                     onClick={() =>
                       form.setFieldsValue({
-                        balanceBaseAmount: marketBalance?.availableBalance?.baseAmount || 0,
+                        balanceBaseAmount: marketBalance?.availableBalance?.baseAmount ?? 0,
                       })
                     }
-                  >{`${marketBalance?.availableBalance?.baseAmount || 'N/A'} ${
+                  >{`${marketBalance?.availableBalance?.baseAmount ?? 'N/A'} ${
                     selectedMarket.baseAsset?.ticker
                   }`}</Button>
                 </Col>
@@ -175,10 +175,10 @@ export const MarketWithdraw = (): JSX.Element => {
                     className="dm-mono dm-mono__bold"
                     onClick={() =>
                       form.setFieldsValue({
-                        balanceQuoteAmount: marketBalance?.availableBalance?.quoteAmount || 0,
+                        balanceQuoteAmount: marketBalance?.availableBalance?.quoteAmount ?? 0,
                       })
                     }
-                  >{`${marketBalance?.availableBalance?.quoteAmount || 'N/A'} ${
+                  >{`${marketBalance?.availableBalance?.quoteAmount ?? 'N/A'} ${
                     selectedMarket.quoteAsset?.ticker
                   }`}</Button>
                 </Col>

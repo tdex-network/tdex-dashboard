@@ -12,7 +12,9 @@ import { MarketOverview } from '../features/operator/Market/MarketOverview';
 import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
 import { Settings } from '../features/settings/Settings';
 import { OnboardingConfirmMnemonic } from '../features/walletUnlocker/OnboardingConfirmMnemonic';
+import { OnboardingCreateOrRestore } from '../features/walletUnlocker/OnboardingCreateOrRestore';
 import { OnboardingPairing } from '../features/walletUnlocker/OnboardingPairing';
+import { OnboardingRestoreMnemonic } from '../features/walletUnlocker/OnboardingRestoreMnemonic';
 import { OnboardingShowMnemonic } from '../features/walletUnlocker/OnboardingShowMnemonic';
 
 import {
@@ -28,6 +30,8 @@ import {
   MARKET_DEPOSIT_ROUTE,
   MARKET_OVERVIEW_ROUTE,
   MARKET_WITHDRAW_FRAGMENTER_ROUTE,
+  ONBOARDING_CREATE_OR_RESTORE_ROUTE,
+  ONBOARDING_RESTORE_MNEMONIC_ROUTE,
 } from './constants';
 
 const PrivateRoute = ({ children }: any) => {
@@ -115,6 +119,8 @@ export const Routes = (): JSX.Element => {
       />
       {/* Onboarding Routes*/}
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
+      <Route path={ONBOARDING_CREATE_OR_RESTORE_ROUTE} element={<OnboardingCreateOrRestore />} />
+      <Route path={ONBOARDING_RESTORE_MNEMONIC_ROUTE} element={<OnboardingRestoreMnemonic />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
     </ReactRouterDomRoutes>

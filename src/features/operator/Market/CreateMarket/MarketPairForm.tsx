@@ -67,7 +67,6 @@ export const MarketPairForm = ({
         notification.error({ message: 'Cannot create a market with both same assets' });
         return;
       }
-      console.log('baseAsset.asset_id, quoteAsset.asset_id', baseAsset.asset_id, quoteAsset.asset_id);
       const res = await newMarket({ baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);

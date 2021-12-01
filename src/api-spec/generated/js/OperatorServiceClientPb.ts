@@ -336,6 +336,49 @@ export class OperatorClient {
     this.methodInfoNewMarket);
   }
 
+  methodInfoGetMarketInfo = new grpcWeb.MethodDescriptor(
+    '/Operator/GetMarketInfo',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetMarketInfoRequest,
+    operator_pb.GetMarketInfoReply,
+    (request: operator_pb.GetMarketInfoRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetMarketInfoReply.deserializeBinary
+  );
+
+  getMarketInfo(
+    request: operator_pb.GetMarketInfoRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketInfoReply>;
+
+  getMarketInfo(
+    request: operator_pb.GetMarketInfoRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketInfoReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketInfoReply>;
+
+  getMarketInfo(
+    request: operator_pb.GetMarketInfoRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketInfoReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetMarketInfo',
+        request,
+        metadata || {},
+        this.methodInfoGetMarketInfo,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetMarketInfo',
+    request,
+    metadata || {},
+    this.methodInfoGetMarketInfo);
+  }
+
   methodInfoGetMarketAddress = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketAddress',
     grpcWeb.MethodType.UNARY,

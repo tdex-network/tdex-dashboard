@@ -27,7 +27,6 @@ export const MarketLabelForm = ({
 
   const onFinish = async () => {
     const values = await form.validateFields();
-    console.log('values', values);
     const marketStr = JSON.stringify({
       baseAssetTicker: baseAsset?.ticker,
       quoteAssetTicker: quoteAsset?.ticker,

@@ -3,7 +3,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio, Skeleton } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import type { MarketInfo, Withdrawal, UtxoInfo } from '../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo, Withdrawal, Deposit } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
@@ -42,7 +42,7 @@ const tableRows = (
   savedAssets: Asset[],
   marketInfo: MarketInfo.AsObject,
   trades: Trade[],
-  deposits?: UtxoInfo.AsObject[],
+  deposits?: Deposit.AsObject[],
   withdrawals?: Withdrawal.AsObject[]
 ) => {
   switch (mode) {
@@ -50,7 +50,12 @@ const tableRows = (
       return (
         <>
           <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
-          <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <DepositRows
+            deposits={deposits}
+            marketInfo={marketInfo}
+            savedAssets={savedAssets}
+            lbtcUnit={lbtcUnit}
+          />
           <WithdrawalRows
             withdrawals={withdrawals}
             marketInfo={marketInfo}
@@ -62,7 +67,14 @@ const tableRows = (
     case 'swap':
       return <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
     case 'deposit':
-      return <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
+      return (
+        <DepositRows
+          deposits={deposits}
+          marketInfo={marketInfo}
+          savedAssets={savedAssets}
+          lbtcUnit={lbtcUnit}
+        />
+      );
     case 'withdraw':
       return (
         <WithdrawalRows
@@ -76,7 +88,12 @@ const tableRows = (
       return (
         <>
           <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
-          <DepositRows deposits={deposits} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
+          <DepositRows
+            deposits={deposits}
+            marketInfo={marketInfo}
+            savedAssets={savedAssets}
+            lbtcUnit={lbtcUnit}
+          />
           <WithdrawalRows
             withdrawals={withdrawals}
             marketInfo={marketInfo}

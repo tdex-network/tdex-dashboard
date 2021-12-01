@@ -32,6 +32,8 @@ service Operator {
   // Creates a new market account in the daemon's wallet.
   rpc NewMarket(NewMarketRequest) returns (NewMarketReply) {}
   
+  rpc GetMarketInfo(GetMarketInfoRequest) returns (GetMarketInfoReply) {}
+  
   // Returns some new derived address(es) for the given market.
   rpc GetMarketAddress(GetMarketAddressRequest)
     returns (GetMarketAddressReply) {}
@@ -214,6 +216,13 @@ message NewMarketRequest {
   Market market = 1;
 }
 message NewMarketReply {}
+
+message GetMarketInfoRequest {
+  Market market = 1;
+}
+message GetMarketInfoReply {
+  MarketInfo info = 1;
+}
 
 message GetMarketAddressRequest {
   // The market for which deriving new addresses.
@@ -487,7 +496,7 @@ message ListDepositsReply{
   // The index of the wallet account.
   int64 account_index = 1;
   // The list of info about the deposits.
-  repeated UtxoInfo deposits = 2;
+  repeated Deposit deposits = 2;
 }
 
 message ListWithdrawalsRequest{
@@ -666,6 +675,15 @@ message WebhookInfo {
   bool is_secured = 3;
 }
 
+message Deposit {
+  // The utxo deposited.
+  UtxoInfo utxo = 1;
+  // The timestamp of the deposit transaction in Unix format.
+  uint64 timestamp_unix = 2;
+  // The timestamp of the deposit transaction in UTC format.
+  string timestamp_utc = 5;
+}
+
 message Withdrawal {
   // The hash of the transaction included in mempool/blockchain.
   string tx_id = 1;
@@ -673,6 +691,10 @@ message Withdrawal {
   Balance balance = 2;
   // The address where the funds have been sent.
   string address = 3;
+  // The timestamp of the withdrawal transaction in Unix format.
+  uint64 timestamp_unix = 4;
+  // The timestamp of the withdrawal transaction in UTC format.
+  string timestamp_utc = 5;
 }
 
 message Page {

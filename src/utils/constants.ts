@@ -35,13 +35,13 @@ export const featuredAssets: Asset[] = [
   {
     coinGeckoID: USDT_COINGECKOID,
     ticker: USDT_TICKER,
-    asset_id: 'ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2',
+    asset_id: '2dcf5a8834645654911964ec3602426fd3b9b4017554d3f9c19403e7fc1411d3',
     precision: 8,
     name: 'Tether USD',
   },
   {
     ticker: LCAD_TICKER,
-    asset_id: '0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a',
+    asset_id: '25a9dcae7815a2590769a64847d584edc276e8218a591f14581e93e2f8c34036',
     precision: 8,
     name: 'Liquid CAD',
   },

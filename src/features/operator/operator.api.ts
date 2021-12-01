@@ -26,11 +26,11 @@ import type {
   ClaimMarketDepositsReply,
   ActionType,
   WebhookInfo,
-  UtxoInfo,
   Withdrawal,
   GetMarketCollectedSwapFeesReply,
   StrategyType,
   TradeInfo,
+  Deposit,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -823,7 +823,7 @@ const baseQueryFn: BaseQueryFn<
           metadata
         );
         return {
-          data: listDepositsReply.getDepositsList().map((utxoInfo: UtxoInfo) => utxoInfo.toObject(false)),
+          data: listDepositsReply.getDepositsList().map((deposit) => deposit.toObject(false)),
         };
       } catch (error) {
         console.error(error);
@@ -1034,7 +1034,7 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'getInfo' }),
       providesTags: ['Market', 'Fee', 'Trade'],
     }),
-    listDeposits: build.query<UtxoInfo.AsObject[], { accountIndex: number; page: Page.AsObject }>({
+    listDeposits: build.query<Deposit.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
       providesTags: ['Market', 'Fee'],
     }),

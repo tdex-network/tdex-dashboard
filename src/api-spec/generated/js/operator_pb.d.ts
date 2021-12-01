@@ -270,6 +270,46 @@ export namespace NewMarketReply {
   }
 }
 
+export class GetMarketInfoRequest extends jspb.Message {
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketInfoRequest;
+  hasMarket(): boolean;
+  clearMarket(): GetMarketInfoRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketInfoRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketInfoRequest): GetMarketInfoRequest.AsObject;
+  static serializeBinaryToWriter(message: GetMarketInfoRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketInfoRequest;
+  static deserializeBinaryFromReader(message: GetMarketInfoRequest, reader: jspb.BinaryReader): GetMarketInfoRequest;
+}
+
+export namespace GetMarketInfoRequest {
+  export type AsObject = {
+    market?: types_pb.Market.AsObject,
+  }
+}
+
+export class GetMarketInfoReply extends jspb.Message {
+  getInfo(): MarketInfo | undefined;
+  setInfo(value?: MarketInfo): GetMarketInfoReply;
+  hasInfo(): boolean;
+  clearInfo(): GetMarketInfoReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketInfoReply.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketInfoReply): GetMarketInfoReply.AsObject;
+  static serializeBinaryToWriter(message: GetMarketInfoReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketInfoReply;
+  static deserializeBinaryFromReader(message: GetMarketInfoReply, reader: jspb.BinaryReader): GetMarketInfoReply;
+}
+
+export namespace GetMarketInfoReply {
+  export type AsObject = {
+    info?: MarketInfo.AsObject,
+  }
+}
+
 export class GetMarketAddressRequest extends jspb.Message {
   getMarket(): types_pb.Market | undefined;
   setMarket(value?: types_pb.Market): GetMarketAddressRequest;
@@ -1454,10 +1494,10 @@ export class ListDepositsReply extends jspb.Message {
   getAccountIndex(): number;
   setAccountIndex(value: number): ListDepositsReply;
 
-  getDepositsList(): Array<UtxoInfo>;
-  setDepositsList(value: Array<UtxoInfo>): ListDepositsReply;
+  getDepositsList(): Array<Deposit>;
+  setDepositsList(value: Array<Deposit>): ListDepositsReply;
   clearDepositsList(): ListDepositsReply;
-  addDeposits(value?: UtxoInfo, index?: number): UtxoInfo;
+  addDeposits(value?: Deposit, index?: number): Deposit;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListDepositsReply.AsObject;
@@ -1470,7 +1510,7 @@ export class ListDepositsReply extends jspb.Message {
 export namespace ListDepositsReply {
   export type AsObject = {
     accountIndex: number,
-    depositsList: Array<UtxoInfo.AsObject>,
+    depositsList: Array<Deposit.AsObject>,
   }
 }
 
@@ -1908,6 +1948,34 @@ export namespace WebhookInfo {
   }
 }
 
+export class Deposit extends jspb.Message {
+  getUtxo(): UtxoInfo | undefined;
+  setUtxo(value?: UtxoInfo): Deposit;
+  hasUtxo(): boolean;
+  clearUtxo(): Deposit;
+
+  getTimestampUnix(): number;
+  setTimestampUnix(value: number): Deposit;
+
+  getTimestampUtc(): string;
+  setTimestampUtc(value: string): Deposit;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Deposit.AsObject;
+  static toObject(includeInstance: boolean, msg: Deposit): Deposit.AsObject;
+  static serializeBinaryToWriter(message: Deposit, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Deposit;
+  static deserializeBinaryFromReader(message: Deposit, reader: jspb.BinaryReader): Deposit;
+}
+
+export namespace Deposit {
+  export type AsObject = {
+    utxo?: UtxoInfo.AsObject,
+    timestampUnix: number,
+    timestampUtc: string,
+  }
+}
+
 export class Withdrawal extends jspb.Message {
   getTxId(): string;
   setTxId(value: string): Withdrawal;
@@ -1919,6 +1987,12 @@ export class Withdrawal extends jspb.Message {
 
   getAddress(): string;
   setAddress(value: string): Withdrawal;
+
+  getTimestampUnix(): number;
+  setTimestampUnix(value: number): Withdrawal;
+
+  getTimestampUtc(): string;
+  setTimestampUtc(value: string): Withdrawal;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Withdrawal.AsObject;
@@ -1933,6 +2007,8 @@ export namespace Withdrawal {
     txId: string,
     balance?: types_pb.Balance.AsObject,
     address: string,
+    timestampUnix: number,
+    timestampUtc: string,
   }
 }
 

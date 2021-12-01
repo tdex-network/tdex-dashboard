@@ -31,6 +31,7 @@ import type {
   StrategyType,
   TradeInfo,
   Deposit,
+  MarketInfo,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -74,6 +75,7 @@ import {
   GetMarketFragmenterBalanceRequest,
   ListMarketFragmenterAddressesRequest,
   ListTradesRequest,
+  GetMarketInfoRequest,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
@@ -94,6 +96,7 @@ type MethodName =
   | 'feeFragmenterSplitFunds'
   | 'withdrawFeeFragmenter'
   // Market
+  | 'getMarketInfo'
   | 'getMarketAddress'
   | 'listMarketAddresses'
   | 'getMarketBalance'
@@ -293,6 +296,24 @@ const baseQueryFn: BaseQueryFn<
       }
     }
     // Market
+    case 'getMarketInfo': {
+      try {
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        const getMarketInfoReply = await client.getMarketInfo(
+          new GetMarketInfoRequest().setMarket(newMarket),
+          metadata
+        );
+        return {
+          data: getMarketInfoReply.toObject(false).info,
+        };
+      } catch (error) {
+        console.error(error);
+        return { error: (error as RpcError).message };
+      }
+    }
     case 'getMarketAddress': {
       try {
         const getMarketAddressReply = await client.getMarketAddress(new GetMarketAddressRequest(), metadata);
@@ -901,6 +922,10 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'withdrawFeeFragmenter', body }),
     }),
     // Market
+    getMarketInfo: build.query<MarketInfo.AsObject, Market.AsObject>({
+      query: (body) => ({ methodName: 'getMarketInfo', body }),
+      providesTags: ['Market'],
+    }),
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'getMarketAddress' }),
       providesTags: ['Market'],
@@ -1058,6 +1083,7 @@ export const {
   useFeeFragmenterSplitFundsMutation,
   useWithdrawFeeFragmenterMutation,
   // Market
+  useGetMarketInfoQuery,
   useWithdrawMarketMutation,
   useUpdateMarketPercentageFeeMutation,
   useUpdateMarketFixedFeeMutation,

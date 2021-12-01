@@ -6,7 +6,11 @@ import React from 'react';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
-import { useUpdateMarketFixedFeeMutation, useUpdateMarketPercentageFeeMutation } from '../../operator.api';
+import {
+  useGetMarketInfoQuery,
+  useUpdateMarketFixedFeeMutation,
+  useUpdateMarketPercentageFeeMutation,
+} from '../../operator.api';
 
 const { Title } = Typography;
 
@@ -42,6 +46,10 @@ export const FeeForm = ({
   const [form] = Form.useForm<IFormInputs>();
   const [updateMarketPercentageFee] = useUpdateMarketPercentageFeeMutation();
   const [updateMarketFixedFee] = useUpdateMarketFixedFeeMutation();
+  const { data: marketInfo } = useGetMarketInfoQuery({
+    baseAsset: baseAsset.asset_id,
+    quoteAsset: quoteAsset.asset_id,
+  });
 
   const onFinish = async () => {
     try {
@@ -71,11 +79,12 @@ export const FeeForm = ({
 
   const resetAll = async () => {
     form.setFieldsValue({
-      feeAbsoluteBaseInput: FEE_ABSOLUTE_BASE_DEFAULT,
-      feeAbsoluteQuoteInput: FEE_ABSOLUTE_QUOTE_DEFAULT,
-      feeRelativeInput: String(Number(FEE_RELATIVE_DEFAULT) / 100),
+      feeAbsoluteBaseInput: marketInfo?.fee?.fixed?.baseFee ? String(marketInfo?.fee?.fixed?.baseFee) : 'n/a',
+      feeAbsoluteQuoteInput: marketInfo?.fee?.fixed?.quoteFee
+        ? String(marketInfo?.fee?.fixed?.quoteFee)
+        : 'n/a',
+      feeRelativeInput: marketInfo?.fee?.basisPoint ? String(marketInfo.fee.basisPoint / 100) : 'n/a',
     });
-    await onFinish();
   };
 
   return (

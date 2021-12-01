@@ -22,7 +22,7 @@ interface WithdrawRowProps {
   baseAssetTicker: string;
   quoteAssetTicker: string;
   baseAssetId: string;
-  quoteAssetId: string;
+  timestampUnix: number;
   txId: string;
   lbtcUnit: LbtcUnit;
 }
@@ -34,15 +34,19 @@ const WithdrawRow = ({
   txId,
   lbtcUnit,
   baseAssetId,
-  quoteAssetId,
+  timestampUnix,
 }: WithdrawRowProps) => {
-  const { data: tx } = useGetTransactionByIdQuery(txId);
+  const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId);
+  if (!tx?.status?.confirmed) {
+    setTimeout(refetchTx, 1000 * 60);
+  }
   const baseAmount =
     balance?.baseAmount === undefined ? 'N/A' : formatSatsToUnit(balance?.baseAmount, lbtcUnit, baseAssetId);
   const quoteAmount =
     balance?.quoteAmount === undefined
       ? 'N/A'
       : formatSatsToUnit(balance?.quoteAmount, lbtcUnit, baseAssetId);
+  const time = timestampUnix || tx?.status.block_time;
   return (
     <>
       <tr
@@ -58,7 +62,7 @@ const WithdrawRow = ({
         <td>{baseAmount}</td>
         <td>{`${baseAmount} ${baseAssetTicker}`}</td>
         <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
-        <td data-time={tx?.status.block_time}>{timeAgo(tx?.status.block_time)}</td>
+        <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />
         </td>
@@ -108,16 +112,16 @@ export const WithdrawalRows = ({
 
   return (
     <>
-      {withdrawals?.map(({ balance, txId }) => (
+      {withdrawals?.map(({ balance, txId, timestampUnix }) => (
         <WithdrawRow
           key={txId}
           balance={balance}
           baseAssetTicker={baseAssetTicker}
           quoteAssetTicker={quoteAssetTicker}
           baseAssetId={baseAssetId}
-          quoteAssetId={quoteAssetId}
           txId={txId}
           lbtcUnit={lbtcUnit}
+          timestampUnix={timestampUnix}
         />
       ))}
     </>

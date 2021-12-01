@@ -11,6 +11,7 @@
     "lint": "yarn run eslint && yarn run prettier --check",
     "prettier": "prettier './src/**/*.{ts,tsx}'",
     "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
+    "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "test": "craco test",
     "eject": "react-scripts eject",
     "tdexd:clean": "bash scripts/tdexd-clean",

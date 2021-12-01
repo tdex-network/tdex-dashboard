@@ -3,8 +3,19 @@
   windows_subsystem = "windows"
 )]
 
+use tauri::{Menu, MenuItem, Submenu};
+
 fn main() {
+  let menu = Menu::new()
+      .add_submenu(Submenu::new(
+        "TdexDashboard",
+        Menu::new()
+            .add_native_item(MenuItem::About("TdexDashboard".to_string()))
+            .add_native_item(MenuItem::Quit),
+      ));
+
   tauri::Builder::default()
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+      .menu(menu)
+      .run(tauri::generate_context!())
+      .expect("error while running tauri application");
 }

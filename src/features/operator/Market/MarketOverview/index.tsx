@@ -13,21 +13,20 @@ import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../.
 import { formatSatsToUnit } from '../../../../utils/unitConvert';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
-import { useListMarketsQuery } from '../../operator.api';
+import { useGetMarketInfoQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 const { Title } = Typography;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
-  const { data: listMarkets } = useListMarketsQuery();
   const { marketsLabelled, lbtcUnit } = useTypedSelector(({ settings }) => settings);
 
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
-  const marketInfo = listMarkets?.marketsList.find(
-    ({ market }) =>
-      market?.baseAsset === state?.baseAsset?.asset_id && market?.quoteAsset === state?.quoteAsset?.asset_id
-  );
+  const { data: marketInfo } = useGetMarketInfoQuery({
+    baseAsset: state?.baseAsset?.asset_id,
+    quoteAsset: state?.quoteAsset?.asset_id,
+  });
 
   const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
   const showMarketSettingsModal = () => {
@@ -93,11 +92,7 @@ export const MarketOverview = (): JSX.Element => {
               </Button>
               <Button
                 icon={<Icon component={depositIcon} />}
-                onClick={() =>
-                  navigate(MARKET_DEPOSIT_ROUTE, {
-                    state: { baseAsset: state?.baseAsset, quoteAsset: state?.quoteAsset },
-                  })
-                }
+                onClick={() => navigate(MARKET_DEPOSIT_ROUTE, { state: { marketInfo } })}
               >
                 DEPOSIT
               </Button>

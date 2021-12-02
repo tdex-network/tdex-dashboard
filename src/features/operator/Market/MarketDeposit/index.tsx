@@ -4,30 +4,38 @@ import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
-import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import {
   useMarketFragmenterSplitFundsMutation,
   useGetMarketFragmenterAddressQuery,
+  useListDepositsQuery,
 } from '../../operator.api';
 
 const { Text, Title } = Typography;
 
 export const MarketDeposit = (): JSX.Element => {
-  const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
+  const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
   const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
   const [isFragmenting, setIsFragmenting] = useState(false);
   const { data: marketFragmenterAddress, refetch: refetchGetMarketFragmenterAddress } =
     useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 });
+  const { refetch: refetchDeposits } = useListDepositsQuery({
+    accountIndex: state?.marketInfo.accountIndex,
+    page: { pageNumber: 0, pageSize: 100 },
+  });
 
   const handleFragmentMarketDeposits = async () => {
     try {
       setIsFragmenting(true);
       // @ts-ignore
       const { data } = await marketFragmenterSplitFunds({
-        market: { baseAsset: state?.baseAsset?.asset_id, quoteAsset: state?.quoteAsset?.asset_id },
+        market: {
+          baseAsset: state?.marketInfo?.market?.baseAsset || '',
+          quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
+        },
         millisatsPerByte: 100,
       });
       data.on('status', async (status: any) => {
@@ -35,6 +43,7 @@ export const MarketDeposit = (): JSX.Element => {
           setIsFragmenting(false);
           notification.success({ message: 'Fragmentation successful' });
           await refetchGetMarketFragmenterAddress();
+          await refetchDeposits();
         } else {
           console.error('status', status);
           notification.error({ message: status.details });

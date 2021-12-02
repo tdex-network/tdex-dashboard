@@ -63,16 +63,25 @@ export const USDT_ASSET: Asset = ((network.chain === 'regtest' || network.chain 
     name: 'Tether USD',
   };
 
-export const featuredAssets: Asset[] = [
-  LBTC_ASSET,
-  USDT_ASSET,
-  {
+export const LCAD_ASSET: Asset = ((network.chain === 'regtest' || network.chain === 'liquid') && {
+  ticker: LCAD_TICKER,
+  asset_id: '0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a',
+  precision: 8,
+  name: 'Liquid CAD',
+}) ||
+  (network.chain === 'testnet' && {
+    ticker: LCAD_TICKER,
+    asset_id: 'ac3e0ff248c5051ffd61e00155b7122e5ebc04fd397a0ecbdd4f4e4a56232926',
+    precision: 8,
+    name: 'Liquid CAD',
+  }) || {
     ticker: LCAD_TICKER,
     asset_id: '0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a',
     precision: 8,
     name: 'Liquid CAD',
-  },
-];
+  };
+
+export const featuredAssets: Asset[] = [LBTC_ASSET, USDT_ASSET, LCAD_ASSET];
 
 export const isAssetBitcoin = (asset: string): boolean => asset === LBTC_ASSET.asset_id;
 

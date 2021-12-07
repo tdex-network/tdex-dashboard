@@ -3,6 +3,12 @@
 
 ## Getting started
 
+### Requirements
+
+- `protoc` 
+- `grpc-tools` (npm)
+- `protoc-gen-grpc-web` (npm)
+
 ### Installation
 
 Fetch node dependencies:

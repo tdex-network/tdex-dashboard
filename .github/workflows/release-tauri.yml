@@ -74,3 +74,12 @@ jobs:
           releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false   
+
+      # Commit package.json, tauri.conf.json and Cargo.toml to master
+      - name: Commit & Push
+        run: |
+          git config --local user.email "$(git log --format='%ae' HEAD^!)"
+          git config --local user.name "$(git log --format='%an' HEAD^!)"
+          git add .
+          git commit -m "${{ steps.next_tag.outputs.tag }}"
+          git push origin HEAD:master

@@ -1,6 +1,4 @@
-
 [build-dependencies]
-
   [build-dependencies.tauri-build]
     version = "1.0.0-beta.4"
 
@@ -20,12 +18,12 @@
   default = ["custom-protocol"]
 
 [package]
-  authors = ["you"]
+  authors = ["SevenLabs"]
   build = "src/build.rs"
-  default-run = "app"
-  description = "A Tauri App"
-  edition = "2018"
+  default-run = "tdex-dashboard"
+  description = "Tdex Dashboard"
+  edition = "2021"
   license = ""
-  name = "app"
-  repository = ""
+  name = "tdex-dashboard"
+  repository = "https://github.com/tdex-network/tdex-dashboard"
   version = "0.0.9"

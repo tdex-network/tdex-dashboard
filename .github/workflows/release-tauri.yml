@@ -60,6 +60,7 @@ jobs:
           echo ::set-output name=version::${tag:1}
 
       - name: Increment version
+        if: matrix.platform == 'ubuntu-latest'
         run: |
           dasel put string -f package.json ".version" "${{ steps.next_version.outputs.version }}"
           dasel put string -f src-tauri/tauri.conf.json ".package.version" "${{ steps.next_version.outputs.version }}"
@@ -77,9 +78,11 @@ jobs:
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push
+        if: matrix.platform == 'ubuntu-latest'
         run: |
           git config --local user.email "$(git log --format='%ae' HEAD^!)"
           git config --local user.name "$(git log --format='%an' HEAD^!)"
+          git config pull.rebase true
           git fetch origin master
           git pull origin master
           git add .

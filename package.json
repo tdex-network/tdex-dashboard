@@ -1,36 +1,14 @@
 {
-  "name": "tdex-dashboard",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
-    "build": "npx craco build",
-    "bundle-analyzer": "open http://localhost:8888",
-    "eslint": "eslint './src/**/*.{ts,tsx}'",
-    "fmt": "yarn run eslint --fix && yarn run prettier --write",
-    "lint": "yarn run eslint && yarn run prettier --check",
-    "prettier": "prettier './src/**/*.{ts,tsx}'",
-    "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
-    "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
-    "test": "craco test",
-    "eject": "react-scripts eject",
-    "tdexd:clean": "bash scripts/tdexd-clean",
-    "tdexd:run": "bash scripts/tdexd-run",
-    "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
-    "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
-    "tauri:build": "cargo tauri build",
-    "tauri:dev": "cargo tauri dev"
-  },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ]
   },
   "dependencies": {
@@ -83,5 +61,27 @@
     "prettier": "^2.5.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpackbar": "^5.0.2"
-  }
+  },
+  "name": "tdex-dashboard",
+  "private": true,
+  "scripts": {
+    "build": "npx craco build",
+    "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
+    "bundle-analyzer": "open http://localhost:8888",
+    "eject": "react-scripts eject",
+    "eslint": "eslint './src/**/*.{ts,tsx}'",
+    "fmt": "yarn run eslint --fix && yarn run prettier --write",
+    "lint": "yarn run eslint && yarn run prettier --check",
+    "prettier": "prettier './src/**/*.{ts,tsx}'",
+    "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
+    "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
+    "tauri:build": "cargo tauri build",
+    "tauri:dev": "cargo tauri dev",
+    "tdexd:clean": "bash scripts/tdexd-clean",
+    "tdexd:run": "bash scripts/tdexd-run",
+    "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
+    "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
+    "test": "craco test"
+  },
+  "version": "0.0.9"
 }

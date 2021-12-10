@@ -1,19 +1,29 @@
 {
+  "build": {
+    "beforeBuildCommand": "yarn build",
+    "beforeDevCommand": "yarn start",
+    "devPath": "http://localhost:3003",
+    "distDir": "../build"
+  },
   "package": {
     "productName": "tdex-dashboard",
-    "version": "0.1.0"
-  },
-  "build": {
-    "distDir": "../build",
-    "devPath": "http://localhost:3003",
-    "beforeDevCommand": "yarn start",
-    "beforeBuildCommand": "yarn build"
+    "version": "0.0.9"
   },
   "tauri": {
+    "allowlist": {
+      "all": true
+    },
     "bundle": {
       "active": true,
-      "targets": "all",
-      "identifier": "com.tauri.dev",
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": [],
+        "useBootstrapper": false
+      },
+      "externalBin": [
+        "bin/grpcproxy"
+      ],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -21,47 +31,39 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "resources": [],
-      "externalBin": ["bin/grpcproxy"],
-      "copyright": "",
-      "category": "DeveloperTool",
-      "shortDescription": "",
+      "identifier": "com.tauri.dev",
       "longDescription": "",
-      "deb": {
-        "depends": [],
-        "useBootstrapper": false
-      },
       "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
         "frameworks": [],
         "minimumSystemVersion": "11.0",
-        "useBootstrapper": false,
-        "exceptionDomain": "",
         "signingIdentity": null,
-        "entitlements": null
+        "useBootstrapper": false
       },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
         "timestampUrl": ""
       }
     },
+    "security": {
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+    },
     "updater": {
       "active": false
     },
-    "allowlist": {
-      "all": true
-    },
     "windows": [
       {
-        "title": "TDEX Dashboard",
-        "width": 1100,
+        "fullscreen": false,
         "height": 750,
         "resizable": true,
-        "fullscreen": false
+        "title": "TDEX Dashboard",
+        "width": 1100
       }
-    ],
-    "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
-    }
+    ]
   }
 }

@@ -17,6 +17,7 @@ export const liquidApi = createApi({
         baseQuery
       ): Promise<{ data: Asset } | { error: FetchBaseQueryError }> {
         try {
+          if (!arg) throw new Error('no argument provided');
           // Checking if asset is LBTC because Esplora 'asset' endpoint does not return ticker for LBTC
           if (arg === LBTC_ASSET.asset_id) return { data: LBTC_ASSET };
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };

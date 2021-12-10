@@ -1,4 +1,6 @@
+
 [build-dependencies]
+
   [build-dependencies.tauri-build]
     version = "1.0.0-beta.4"
 
@@ -26,4 +28,4 @@
   license = ""
   name = "tdex-dashboard"
   repository = "https://github.com/tdex-network/tdex-dashboard"
-  version = "0.0.9"
+  version = "0.1.2"

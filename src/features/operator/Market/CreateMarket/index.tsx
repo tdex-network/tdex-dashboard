@@ -40,6 +40,12 @@ export const CreateMarket = (): JSX.Element => {
     }
   }, [marketInfoError]);
 
+  // After confirming a pair, changing the pair should reset all the form
+  useEffect(() => {
+    if (step > 0) setStep(0);
+    // eslint-disable-next-line
+  }, [baseAsset, quoteAsset]);
+
   return (
     <Row>
       <Col span={10} offset={7}>

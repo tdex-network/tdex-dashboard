@@ -10,7 +10,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit } from '../../../../utils/unitConvert';
+import { formatSatsToUnit } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketInfoQuery } from '../../operator.api';
@@ -104,7 +104,7 @@ export const MarketOverview = (): JSX.Element => {
           <Col span={8}>
             {/* Render FeeForm only when marketInfo is ready */}
             {/* To ensure AntD form initialValues are correct */}
-            {marketInfo && (
+            {marketInfo ? (
               <FeeForm
                 baseAsset={state?.baseAsset}
                 quoteAsset={state?.quoteAsset}
@@ -113,6 +113,12 @@ export const MarketOverview = (): JSX.Element => {
                 feeRelative={marketInfo?.fee?.basisPoint?.toString()}
                 className="h-100"
               />
+            ) : (
+              <Row>
+                <Col span={22}>
+                  <Skeleton active paragraph={{ rows: 7 }} />
+                </Col>
+              </Row>
             )}
           </Col>
           <Col span={16}>

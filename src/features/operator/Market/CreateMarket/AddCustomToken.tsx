@@ -1,6 +1,7 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
+import classNames from 'classnames';
 import type { ChangeEventHandler } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTypedDispatch } from '../../../../app/store';
 import checkmark from '../../../../assets/images/checkmark.svg';
@@ -31,6 +32,18 @@ export const AddCustomToken = ({
   const [form] = Form.useForm<IFormInputs>();
   const [customAssetId, setCustomAssetId] = useState('');
   const { data: assetData, error } = useGetAssetDataQuery(customAssetId);
+  const getAssetDataErrorMsg =
+    // @ts-ignore
+    error && error?.message !== 'no argument provided' && error?.message !== 'missing argument'
+      ? // @ts-ignore
+        (error.message as string)
+      : null;
+
+  useEffect(() => {
+    if (getAssetDataErrorMsg) {
+      notification.error({ message: getAssetDataErrorMsg, key: getAssetDataErrorMsg });
+    }
+  }, [getAssetDataErrorMsg]);
 
   const onConfirmCustomToken = () => {
     if (!assetData) return;
@@ -69,6 +82,7 @@ export const AddCustomToken = ({
             ) : null
           }
           onChange={handleChange}
+          className={classNames({ error: !!getAssetDataErrorMsg })}
         />
       </Form.Item>
       <Form.Item className="my-4">

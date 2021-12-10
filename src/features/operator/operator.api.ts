@@ -299,6 +299,7 @@ const baseQueryFn: BaseQueryFn<
     case 'getMarketInfo': {
       try {
         const { baseAsset, quoteAsset } = body as Market.AsObject;
+        if (!baseAsset || !quoteAsset) throw new Error('missing argument');
         const newMarket = new Market();
         newMarket.setBaseAsset(baseAsset);
         newMarket.setQuoteAsset(quoteAsset);

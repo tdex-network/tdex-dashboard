@@ -30,7 +30,7 @@ export const CreateMarket = (): JSX.Element => {
   const incrementStep = () => setStep(step + 1);
 
   useEffect(() => {
-    if (marketInfoError) {
+    if (marketInfoError && marketInfoError !== 'missing argument') {
       notification.error({ message: capitalize(marketInfoError.toString()) });
     }
   }, [marketInfoError]);

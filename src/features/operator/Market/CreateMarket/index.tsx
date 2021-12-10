@@ -1,14 +1,14 @@
 import './createMarket.less';
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Typography, notification } from 'antd';
+import { Breadcrumb, Row, Col, Typography, notification, Button } from 'antd';
 import clx from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { capitalize, LBTC_ASSET, USDT_ASSET } from '../../../../utils';
+import { LBTC_ASSET, USDT_ASSET } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { useGetMarketInfoQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
@@ -19,6 +19,7 @@ import { MarketPairForm } from './MarketPairForm';
 const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
+  const navigate = useNavigate();
   const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET);
   const [quoteAsset, setQuoteAsset] = useState<Asset>(USDT_ASSET);
   const { data: marketInfo, error: marketInfoError } = useGetMarketInfoQuery({
@@ -30,8 +31,12 @@ export const CreateMarket = (): JSX.Element => {
   const incrementStep = () => setStep(step + 1);
 
   useEffect(() => {
-    if (marketInfoError && marketInfoError !== 'missing argument') {
-      notification.error({ message: capitalize(marketInfoError.toString()) });
+    if (
+      marketInfoError &&
+      marketInfoError !== 'missing argument' &&
+      marketInfoError !== 'market does not exist'
+    ) {
+      notification.error({ message: marketInfoError.toString() });
     }
   }, [marketInfoError]);
 
@@ -76,6 +81,9 @@ export const CreateMarket = (): JSX.Element => {
               </Row>
               <MarketStrategy marketInfo={marketInfo} />
             </div>
+            <Button className={clx('w-100', { disabled: step < 1 })} onClick={() => navigate(HOME_ROUTE)}>
+              DONE
+            </Button>
           </Col>
         </Row>
       </Col>

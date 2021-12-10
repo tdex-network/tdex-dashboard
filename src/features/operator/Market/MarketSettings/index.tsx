@@ -56,11 +56,20 @@ export const MarketSettings = ({
     }
   };
 
-  const handleClickDropMarket = () => {
+  const handleClickDropMarket = async () => {
     if (!marketInfo?.market?.baseAsset || !marketInfo?.market?.quoteAsset) return;
-    dropMarket({ baseAsset: marketInfo.market.baseAsset, quoteAsset: marketInfo.market.quoteAsset });
-    notification.success({ message: 'Market closed successfully' });
-    navigate(HOME_ROUTE);
+    const res = await dropMarket({
+      baseAsset: marketInfo.market.baseAsset,
+      quoteAsset: marketInfo.market.quoteAsset,
+    });
+    // @ts-ignore
+    if (res?.error) {
+      // @ts-ignore
+      notification.error({ message: res?.error });
+    } else {
+      notification.success({ message: 'Market closed successfully' });
+      navigate(HOME_ROUTE);
+    }
   };
 
   return (

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Market } from '../../api-spec/generated/js/types_pb';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
-import { formatSatsToUnit } from '../../utils/unitConvert';
+import { formatSatsToUnit } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 

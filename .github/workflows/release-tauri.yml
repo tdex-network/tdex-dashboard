@@ -34,7 +34,6 @@ jobs:
         id: go
 
       - name: Install dasel
-        if: matrix.platform == 'ubuntu-latest'
         run: |
           go install github.com/tomwright/dasel/cmd/dasel@latest
 
@@ -55,14 +54,12 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
 
       - name: version
-        if: matrix.platform == 'ubuntu-latest'
         id: next_version
         run: |
           tag=${{ steps.next_tag.outputs.tag }}
           echo ::set-output name=version::${tag:1}
 
       - name: Git config and pull
-        if: matrix.platform == 'ubuntu-latest'
         run: |
           git config --local user.email "$(git log --format='%ae' HEAD^!)"
           git config --local user.name "$(git log --format='%an' HEAD^!)"
@@ -71,7 +68,6 @@ jobs:
           git pull origin master    
 
       - name: Increment version
-        if: matrix.platform == 'ubuntu-latest'
         run: |
           dasel put string -f package.json ".version" "${{ steps.next_version.outputs.version }}"
           dasel put string -f src-tauri/tauri.conf.json ".package.version" "${{ steps.next_version.outputs.version }}"
@@ -89,7 +85,6 @@ jobs:
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push
-        if: matrix.platform == 'ubuntu-latest'
         run: |
           git add .
           git commit -m "${{ steps.next_tag.outputs.tag }}"

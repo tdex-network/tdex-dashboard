@@ -20,7 +20,7 @@
   default = ["custom-protocol"]
 
 [package]
-  authors = ["SevenLabs"]
+  authors = ["TDEX Network Team"]
   build = "src/build.rs"
   default-run = "tdex-dashboard"
   description = "Tdex Dashboard"

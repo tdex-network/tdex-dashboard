@@ -85,6 +85,7 @@ jobs:
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push
+        if: matrix.platform == 'ubuntu-latest'
         run: |
           git add .
           git commit -m "${{ steps.next_tag.outputs.tag }}"

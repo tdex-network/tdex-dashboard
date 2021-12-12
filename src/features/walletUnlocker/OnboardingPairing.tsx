@@ -49,56 +49,58 @@ export const OnboardingPairing = (): JSX.Element => {
 
   return (
     <>
-      <Row id="pairing" className="w-100">
-        <Col span={18} offset={3}>
-          <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold text-center mb-8">
-            Welcome on TDEX Dashboard
-          </Title>
-          <Form
-            onFinish={onFinish}
-            layout="vertical"
-            form={form}
-            name="pairing_form"
-            wrapperCol={{ span: 24 }}
-            validateTrigger="onBlur"
-          >
-            <Form.Item name="tdexdConnectUrl" className="mb-8">
-              <Input.TextArea
-                placeholder="Paste the tdexdconnect url or scan QR code"
-                onPaste={(ev) => {
-                  try {
-                    if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
-                      // web
-                      showDownloadCertModal();
-                    } else {
-                      // desktop
-                      const connectString = ev.clipboardData.getData('text');
-                      const { cert, macaroon } = extractHostCertMacaroon(connectString);
-                      if (cert) {
-                        decodeCert(cert);
-                        setIsValidCert(true);
+      <div className="panel">
+        <Row id="pairing" className="w-100">
+          <Col span={18} offset={3}>
+            <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold text-center mb-8">
+              Welcome on TDEX Dashboard
+            </Title>
+            <Form
+              onFinish={onFinish}
+              layout="vertical"
+              form={form}
+              name="pairing_form"
+              wrapperCol={{ span: 24 }}
+              validateTrigger="onBlur"
+            >
+              <Form.Item name="tdexdConnectUrl" className="mb-8">
+                <Input.TextArea
+                  placeholder="Paste the tdexdconnect url or scan QR code"
+                  onPaste={(ev) => {
+                    try {
+                      if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
+                        // web
+                        showDownloadCertModal();
+                      } else {
+                        // desktop
+                        const connectString = ev.clipboardData.getData('text');
+                        const { cert, macaroon } = extractHostCertMacaroon(connectString);
+                        if (cert) {
+                          decodeCert(cert);
+                          setIsValidCert(true);
+                        }
+                        if (macaroon) {
+                          const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+                          dispatch(setMacaroonCredentials(decodedMacaroonHex));
+                          setMacaroon(decodedMacaroonHex);
+                        }
                       }
-                      if (macaroon) {
-                        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
-                        dispatch(setMacaroonCredentials(decodedMacaroonHex));
-                        setMacaroon(decodedMacaroonHex);
-                      }
+                    } catch (err) {
+                      // @ts-ignore
+                      notification.error({ message: err.message });
                     }
-                  } catch (err) {
-                    // @ts-ignore
-                    notification.error({ message: err.message });
-                  }
-                }}
-              />
-            </Form.Item>
-            <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-              <Button htmlType="submit" className="w-100" disabled={!isValidCert}>
-                PAIR DASHBOARD
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+                  }}
+                />
+              </Form.Item>
+              <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+                <Button htmlType="submit" className="w-100" disabled={!isValidCert}>
+                  PAIR DASHBOARD
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      </div>
       <Modal
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}

@@ -1,12 +1,19 @@
 import './onboardingConfirmMnemonic.less';
+import Icon from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
-import { Button, Col, notification, Row, Space, Typography } from 'antd';
+import { Breadcrumb, Button, Col, notification, Row, Space, Typography } from 'antd';
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
-import { HOME_ROUTE } from '../../routes/constants';
+import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
+import {
+  HOME_ROUTE,
+  ONBOARDING_CREATE_OR_RESTORE_ROUTE,
+  ONBOARDING_PAIRING_ROUTE,
+  ONBOARDING_SHOW_MNEMONIC_ROUTE,
+} from '../../routes/constants';
 import { sleep } from '../../utils';
 import { encodeBase64UrlMacaroon } from '../../utils/connect';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
@@ -104,60 +111,79 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   };
 
   return (
-    <div className="onboarding-container" id="onboarding-confirm-mnemonic">
-      <div className="onboarding-content">
-        <Row justify="center">
-          <Col>
-            <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold">
-              Confirm your secret mnemonic phrase
-            </Title>
-          </Col>
-        </Row>
-        <Row justify="center">
-          <Col>
-            <p className="dm-sans dm-sans__x">
-              Enter your secret twenty-four words of your mnemonic phrase to make sure it is correct
-            </p>
-          </Col>
-        </Row>
+    <>
+      <Breadcrumb separator={<Icon component={chevronRight} />} className="mt-8 mb-2">
+        <Breadcrumb.Item>
+          <Link to={ONBOARDING_PAIRING_ROUTE}>Pairing</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={ONBOARDING_CREATE_OR_RESTORE_ROUTE}>Create or Restore</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={ONBOARDING_SHOW_MNEMONIC_ROUTE}>Show Mnemonic</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Confirm Mnemonic</Breadcrumb.Item>
+      </Breadcrumb>
+      <div className="panel">
+        <div id="onboarding-confirm-mnemonic">
+          <Row justify="center">
+            <Col>
+              <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold">
+                Confirm your secret mnemonic phrase
+              </Title>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col>
+              <p className="dm-sans dm-sans__x">
+                Enter your secret twenty-four words of your mnemonic phrase to make sure it is correct
+              </p>
+            </Col>
+          </Row>
 
-        <Space className="w-full my-4" direction="vertical" size={24}>
-          <div className="words-container">
-            {selected.map((word: string, i: number) => (
+          <Space className="w-full my-4" direction="vertical" size={24}>
+            <div className="words-container">
+              {selected.map((word: string, i: number) => (
+                <Button
+                  className="word"
+                  key={nanoid()}
+                  onClick={() => deleteSelectedWord(i)}
+                  style={{ margin: '2px' }}
+                >
+                  {word}
+                </Button>
+              ))}
+            </div>
+            <div className="words-container-initial">
+              {wordsList.map((word, i) => (
+                <Button
+                  className="word"
+                  key={nanoid()}
+                  onClick={() => selectWord(i)}
+                  style={{ margin: '2px' }}
+                >
+                  {word}
+                </Button>
+              ))}
+            </div>
+            <div className="error">{error}</div>
+          </Space>
+          <Row>
+            <Col span={8} offset={8}>
               <Button
-                className="word"
-                key={nanoid()}
-                onClick={() => deleteSelectedWord(i)}
-                style={{ margin: '2px' }}
+                onClick={handleConfirm}
+                disabled={wordsList.length > 0}
+                loading={isLoading}
+                className="w-100"
               >
-                {word}
+                CONFIRM
               </Button>
-            ))}
-          </div>
-          <div className="words-container-initial">
-            {wordsList.map((word, i) => (
-              <Button className="word" key={nanoid()} onClick={() => selectWord(i)} style={{ margin: '2px' }}>
-                {word}
-              </Button>
-            ))}
-          </div>
-          <div className="error">{error}</div>
-        </Space>
+            </Col>
+          </Row>
+          {unlockWalletError && <p className="error">{unlockWalletError}</p>}
+          {initWalletError && <p className="error">{initWalletError}</p>}
+        </div>
       </div>
-      <Row>
-        <Col span={8} offset={8}>
-          <Button
-            onClick={handleConfirm}
-            disabled={wordsList.length > 0}
-            loading={isLoading}
-            className="w-100"
-          >
-            CONFIRM
-          </Button>
-        </Col>
-      </Row>
-      {unlockWalletError && <p className="error">{unlockWalletError}</p>}
-      {initWalletError && <p className="error">{initWalletError}</p>}
-    </div>
+    </>
   );
 };

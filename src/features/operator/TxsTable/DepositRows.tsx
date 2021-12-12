@@ -7,8 +7,7 @@ import type { Deposit, MarketInfo } from '../../../api-spec/generated/js/operato
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo } from '../../../utils';
-import { formatSatsToUnit } from '../../../utils';
+import { assetIdToTicker, timeAgo, formatSatsToUnit } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
 interface DepositRowsProps {

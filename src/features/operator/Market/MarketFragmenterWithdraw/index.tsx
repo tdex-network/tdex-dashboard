@@ -5,7 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
-import { HOME_ROUTE } from '../../../../routes/constants';
+import { HOME_ROUTE, SETTINGS_ROUTE } from '../../../../routes/constants';
 import { useWithdrawMarketFragmenterMutation } from '../../operator.api';
 
 const { Title } = Typography;
@@ -44,6 +44,9 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
         <Breadcrumb.Item>
           <Link to={HOME_ROUTE}>Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={SETTINGS_ROUTE}>Settings</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Recovery Markets Withdraw</Breadcrumb.Item>
       </Breadcrumb>

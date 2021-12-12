@@ -9,6 +9,8 @@ import { ReactComponent as chevronRight } from '../../assets/images/chevron-righ
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { LBTC_UNITS } from '../../utils';
 
+import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
+import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
 import { logout, resetSettings, setLbtcUnit } from './settingsSlice';
 
 const { Text, Title } = Typography;
@@ -35,7 +37,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Favorite Bitcoin Unit
                 </Title>
               </Col>
@@ -55,7 +57,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Log Out
                 </Title>
               </Col>
@@ -72,7 +74,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Clear Cache
                 </Title>
               </Col>
@@ -87,7 +89,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Recovery Withdraw Markets
                 </Title>
               </Col>
@@ -104,7 +106,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Change password
                 </Title>
               </Col>
@@ -114,7 +116,7 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Default currency
                 </Title>
               </Col>
@@ -124,9 +126,14 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-                  Explorers endpoints
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                  Liquid explorer API endpoints
                 </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <ExplorersLiquidApiForm />
               </Col>
             </Row>
           </div>
@@ -134,7 +141,22 @@ export const Settings = (): JSX.Element => {
           <div className="mb-4">
             <Row>
               <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                  Liquid explorer UI endpoints
+                </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <ExplorersLiquidUiForm />
+              </Col>
+            </Row>
+          </div>
+          {/**/}
+          <div className="mb-4">
+            <Row>
+              <Col span={24}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Tdexd Connect Url
                 </Title>
               </Col>

@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'production') {
     chain: 'testnet',
     explorerLiquidAPI: 'https://blockstream.info/liquidtestnet/api',
     explorerBitcoinAPI: 'https://blockstream.info/testnet/api',
-    explorerLiquidUI: 'blockstream.info/liquidtestnet',
-    explorerBitcoinUI: 'blockstream.info/testnet',
+    explorerLiquidUI: 'https://blockstream.info/liquidtestnet',
+    explorerBitcoinUI: 'https://blockstream.info/testnet',
     tdexdBaseUrl: 'https://localhost:9000',
   };
 } else {

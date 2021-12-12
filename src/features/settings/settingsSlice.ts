@@ -20,6 +20,8 @@ export interface SettingsState {
   chain: NetworkString;
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
+  explorersLiquidAPI: string[];
+  explorersLiquidUI: string[];
   assets: Asset[];
   baseUrl: string;
   useProxy: boolean;
@@ -51,6 +53,16 @@ export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
 export const initialState: SettingsState = {
   chain: network.chain,
   explorerLiquidAPI: network.explorerLiquidAPI,
+  explorersLiquidAPI: [
+    'http://localhost:3001',
+    'https://blockstream.info/liquidtestnet/api',
+    'https://blockstream.info/liquid/api',
+  ],
+  explorersLiquidUI: [
+    'http://localhost:5001',
+    'https://blockstream.info/liquidtestnet',
+    'https://blockstream.info/liquid',
+  ],
   explorerLiquidUI: network.explorerLiquidUI,
   baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
   assets: featuredAssets,
@@ -62,6 +74,22 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
+    addExplorerLiquidAPI: (state, action: PayloadAction<string>) => {
+      if (!state.explorersLiquidAPI.includes(action.payload)) {
+        state.explorersLiquidAPI = [...state.explorersLiquidAPI, action.payload];
+      }
+    },
+    addExplorerLiquidUI: (state, action: PayloadAction<string>) => {
+      if (!state.explorersLiquidUI.includes(action.payload)) {
+        state.explorersLiquidUI = [...state.explorersLiquidUI, action.payload];
+      }
+    },
+    setExplorerLiquidAPI: (state, action: PayloadAction<string>) => {
+      state.explorerLiquidAPI = action.payload;
+    },
+    setExplorerLiquidUI: (state, action: PayloadAction<string>) => {
+      state.explorerLiquidUI = action.payload;
+    },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
     },
@@ -129,6 +157,10 @@ export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClie
 }
 
 export const {
+  addExplorerLiquidAPI,
+  addExplorerLiquidUI,
+  setExplorerLiquidAPI,
+  setExplorerLiquidUI,
   setLbtcUnit,
   setBaseUrl,
   setMacaroonCredentials,

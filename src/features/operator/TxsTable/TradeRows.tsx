@@ -6,7 +6,7 @@ import type { TradeInfo } from '../../../api-spec/generated/js/operator_pb';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo, formatSatsToUnit } from '../../../utils';
+import { assetIdToTicker, timeAgo, formatSatsToUnit, isLbtc } from '../../../utils';
 
 export interface Trade {
   txUrl: TradeInfo.AsObject['txUrl'];
@@ -27,6 +27,8 @@ export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JS
       {trades?.map(({ swapInfo, txUrl, status, settleTimeUnix }) => {
         const baseAssetTicker = assetIdToTicker(swapInfo?.assetP || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(swapInfo?.assetR || '', savedAssets);
+        const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+        const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
         const baseAmount =
           swapInfo?.amountR === undefined
             ? 'N/A'
@@ -36,6 +38,7 @@ export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JS
             ? 'N/A'
             : formatSatsToUnit(swapInfo?.amountR, lbtcUnit, swapInfo?.assetR);
         const txId = txUrl.substring(txUrl.lastIndexOf('/') + 1, txUrl.indexOf('#'));
+
         return (
           <>
             <tr
@@ -49,11 +52,11 @@ export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JS
                   <CurrencyIcon className="base-icon" currency={baseAssetTicker || ''} size={16} />
                   <CurrencyIcon className="quote-icon" currency={quoteAssetTicker || ''} size={16} />
                 </span>
-                {`Swap ${baseAssetTicker} for ${quoteAssetTicker}`}
+                {`Swap ${baseAssetTickerFormatted} for ${quoteAssetTickerFormatted}`}
               </td>
               <td>{quoteAmount}</td>
-              <td>{`${baseAmount} ${baseAssetTicker}`}</td>
-              <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
+              <td>{`${baseAmount} ${baseAssetTickerFormatted}`}</td>
+              <td>{`${quoteAmount} ${quoteAssetTickerFormatted}`}</td>
               <td data-time={settleTimeUnix}>{timeAgo(settleTimeUnix)}</td>
               <td>
                 <RightOutlined />

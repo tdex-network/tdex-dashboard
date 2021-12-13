@@ -6,8 +6,7 @@ import type { Withdrawal, MarketInfo } from '../../../api-spec/generated/js/oper
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo } from '../../../utils';
-import { formatSatsToUnit } from '../../../utils/unitConvert';
+import { assetIdToTicker, isLbtc, timeAgo, formatSatsToUnit } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
 interface WithdrawalRowsProps {
@@ -47,6 +46,8 @@ const WithdrawRow = ({
       ? 'N/A'
       : formatSatsToUnit(balance?.quoteAmount, lbtcUnit, baseAssetId);
   const time = timestampUnix || tx?.status.block_time;
+  const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+  const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
   return (
     <>
       <tr
@@ -57,11 +58,11 @@ const WithdrawRow = ({
       >
         <td>
           <Icon component={depositIcon} className="rotate-icon tx-icon" />
-          {`Withdraw ${baseAssetTicker}`}
+          {`Withdraw ${baseAssetTickerFormatted}`}
         </td>
         <td>{baseAmount}</td>
-        <td>{`${baseAmount} ${baseAssetTicker}`}</td>
-        <td>{`${quoteAmount} ${quoteAssetTicker}`}</td>
+        <td>{`${baseAmount} ${baseAssetTickerFormatted}`}</td>
+        <td>{`${quoteAmount} ${quoteAssetTickerFormatted}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />

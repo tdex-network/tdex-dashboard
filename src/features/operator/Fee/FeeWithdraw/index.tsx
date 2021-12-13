@@ -1,14 +1,16 @@
+import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { LBTC_TICKER } from '../../../../utils';
-import { useWithdrawFeeMutation } from '../../operator.api';
+import { formatSatsToUnit, LBTC_TICKER } from '../../../../utils';
+import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 const { Title } = Typography;
 
@@ -23,6 +25,11 @@ export const FeeWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
+  const { data: feeBalance } = useGetFeeBalanceQuery();
+  const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const feeBalanceFormatted = feeBalance?.availableBalance
+    ? formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit)
+    : 'N/A';
 
   const onFinish = async () => {
     try {
@@ -93,10 +100,22 @@ export const FeeWithdraw = (): JSX.Element => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
+              <Row className="residual-balance-container">
                 <Col span={12}>
-                  <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
-                  <span className="dm-mono dm-mono__bold">{`12.000,00 ${LBTC_TICKER}`}</span>
+                  <span className="dm-mono dm-mono__bold">Residual balance:</span>
+                  <Button
+                    type="ghost"
+                    className="dm-mono dm-mono__bold pl-1"
+                    onClick={() => {
+                      if (feeBalanceFormatted !== 'N/A') {
+                        form.setFieldsValue({
+                          amount: Number(feeBalanceFormatted),
+                        });
+                      }
+                    }}
+                  >
+                    {`${feeBalanceFormatted} ${LBTC_TICKER}`}
+                  </Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

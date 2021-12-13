@@ -11,6 +11,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
+import { formatSatsToUnit } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 const { Title } = Typography;
@@ -32,7 +33,7 @@ export const MarketWithdraw = (): JSX.Element => {
   const [withdrawMarket, { error: withdrawMarketError, isLoading: withdrawMarketIsLoading }] =
     useWithdrawMarketMutation();
   const { data: listMarkets } = useListMarketsQuery();
-  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
+  const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
   const marketList: [Asset?, Asset?][] =
     listMarkets?.marketsList.map(({ market }) => {
       const baseAsset = savedAssets.find(({ asset_id }) => asset_id === market?.baseAsset);
@@ -75,6 +76,24 @@ export const MarketWithdraw = (): JSX.Element => {
     }
   };
 
+  const baseAmountFormatted =
+    marketBalance?.availableBalance?.baseAmount !== undefined
+      ? formatSatsToUnit(
+          marketBalance?.availableBalance?.baseAmount,
+          lbtcUnit,
+          selectedMarket.baseAsset?.asset_id
+        )
+      : 'N/A';
+
+  const quoteAmountFormatted =
+    marketBalance?.availableBalance?.quoteAmount !== undefined
+      ? formatSatsToUnit(
+          marketBalance?.availableBalance?.quoteAmount,
+          lbtcUnit,
+          selectedMarket.quoteAsset?.asset_id
+        )
+      : 'N/A';
+
   return (
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
@@ -116,7 +135,7 @@ export const MarketWithdraw = (): JSX.Element => {
             <div className="base-amount-container panel panel__grey panel__top">
               <Row>
                 <Col span={12}>
-                  <CurrencyIcon currency={state?.baseAsset?.ticker} />
+                  <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">{selectedMarket.baseAsset?.ticker}</span>
                 </Col>
                 <Col span={12}>
@@ -130,20 +149,20 @@ export const MarketWithdraw = (): JSX.Element => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row align="middle">
+              <Row align="middle" className="residual-balance-container">
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold"
-                    onClick={() =>
-                      form.setFieldsValue({
-                        balanceBaseAmount: marketBalance?.availableBalance?.baseAmount ?? 0,
-                      })
-                    }
-                  >{`${marketBalance?.availableBalance?.baseAmount ?? 'N/A'} ${
-                    selectedMarket.baseAsset?.ticker
-                  }`}</Button>
+                    className="dm-mono dm-mono__bold pl-1"
+                    onClick={() => {
+                      if (baseAmountFormatted !== 'N/A') {
+                        form.setFieldsValue({
+                          balanceBaseAmount: Number(baseAmountFormatted),
+                        });
+                      }
+                    }}
+                  >{`${baseAmountFormatted} ${selectedMarket.baseAsset?.ticker}`}</Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD
@@ -167,20 +186,20 @@ export const MarketWithdraw = (): JSX.Element => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row align="middle">
+              <Row align="middle" className="residual-balance-container">
                 <Col span={12}>
                   <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold"
-                    onClick={() =>
-                      form.setFieldsValue({
-                        balanceQuoteAmount: marketBalance?.availableBalance?.quoteAmount ?? 0,
-                      })
-                    }
-                  >{`${marketBalance?.availableBalance?.quoteAmount ?? 'N/A'} ${
-                    selectedMarket.quoteAsset?.ticker
-                  }`}</Button>
+                    className="dm-mono dm-mono__bold pl-1"
+                    onClick={() => {
+                      if (quoteAmountFormatted !== 'N/A') {
+                        form.setFieldsValue({
+                          balanceQuoteAmount: Number(quoteAmountFormatted),
+                        });
+                      }
+                    }}
+                  >{`${quoteAmountFormatted} ${selectedMarket.quoteAsset?.ticker}`}</Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

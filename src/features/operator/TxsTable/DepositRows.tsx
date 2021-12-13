@@ -15,6 +15,7 @@ interface DepositRowsProps {
   lbtcUnit: LbtcUnit;
   marketInfo: MarketInfo.AsObject;
   savedAssets: Asset[];
+  numItemsToShow: number;
 }
 
 interface DepositRowProps {
@@ -119,6 +120,7 @@ export const DepositRows = ({
   lbtcUnit,
   marketInfo,
   savedAssets,
+  numItemsToShow,
 }: DepositRowsProps): JSX.Element => {
   const depositsByTxId = groupBy(deposits || [], (deposit) => deposit.utxo?.outpoint?.hash);
   const reducedDeposits = Object.entries(depositsByTxId).map(([txId, arr]) => {
@@ -129,7 +131,7 @@ export const DepositRows = ({
   });
   return (
     <>
-      {reducedDeposits?.map((deposit) => {
+      {reducedDeposits?.slice(0, numItemsToShow).map((deposit) => {
         const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
         const reducedDeposit = Object.entries(deposit);

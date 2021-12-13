@@ -1,6 +1,6 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
-import { Radio, Skeleton } from 'antd';
+import { Button, Col, Radio, Row, Skeleton } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import type { MarketInfo, Withdrawal, Deposit } from '../../../api-spec/generated/js/operator_pb';
@@ -36,15 +36,26 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   );
 };
 
-const tableRows = (
-  lbtcUnit: LbtcUnit,
-  mode: ButtonsTableModeProps['mode'],
-  savedAssets: Asset[],
-  marketInfo: MarketInfo.AsObject,
-  trades: Trade[],
-  deposits?: Deposit.AsObject[],
-  withdrawals?: Withdrawal.AsObject[]
-) => {
+interface tableRowsProps {
+  lbtcUnit: LbtcUnit;
+  mode: ButtonsTableModeProps['mode'];
+  savedAssets: Asset[];
+  marketInfo: MarketInfo.AsObject;
+  trades: Trade[];
+  deposits?: Deposit.AsObject[];
+  numDepositsToShow: number;
+  withdrawals?: Withdrawal.AsObject[];
+}
+const tableRows = ({
+  lbtcUnit,
+  mode,
+  savedAssets,
+  marketInfo,
+  trades,
+  deposits,
+  numDepositsToShow,
+  withdrawals,
+}: tableRowsProps) => {
   switch (mode) {
     case 'all':
       return (
@@ -55,6 +66,7 @@ const tableRows = (
             marketInfo={marketInfo}
             savedAssets={savedAssets}
             lbtcUnit={lbtcUnit}
+            numItemsToShow={numDepositsToShow}
           />
           <WithdrawalRows
             withdrawals={withdrawals}
@@ -73,6 +85,7 @@ const tableRows = (
           marketInfo={marketInfo}
           savedAssets={savedAssets}
           lbtcUnit={lbtcUnit}
+          numItemsToShow={numDepositsToShow}
         />
       );
     case 'withdraw':
@@ -93,6 +106,7 @@ const tableRows = (
             marketInfo={marketInfo}
             savedAssets={savedAssets}
             lbtcUnit={lbtcUnit}
+            numItemsToShow={numDepositsToShow}
           />
           <WithdrawalRows
             withdrawals={withdrawals}
@@ -107,6 +121,8 @@ const tableRows = (
 
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
+  const DEPOSITS_PAGE_SIZE_FRONT = 2;
+  const [numDepositsToShow, setNumDepositsToShow] = useState<number>(DEPOSITS_PAGE_SIZE_FRONT);
   const [mode, setMode] = useState<'all' | 'swap' | 'deposit' | 'withdraw'>('all');
   const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
   // Swaps
@@ -132,7 +148,11 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   // Withdrawals
   const { data: withdrawals } = useListWithdrawalsQuery({
     accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 0, pageSize: 100 },
+    page: { pageNumber: 0, pageSize: 10 },
+  });
+  const { data: withdrawalsNext } = useListWithdrawalsQuery({
+    accountIndex: marketInfo.accountIndex,
+    page: { pageNumber: 1, pageSize: 10 },
   });
 
   const headerRow = useCallback(
@@ -170,26 +190,56 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   }, [listTrades, deposits, withdrawals]);
 
   return (
-    <div className="panel panel__grey dm-mono">
-      {isAllDataLoaded ? (
-        <table id="txs-table">
-          <thead>
-            <tr ref={headerRow}>
-              <th>
-                <ButtonsTableMode mode={mode} setMode={setMode} />
-              </th>
-              <th>Total Value</th>
-              <th>Base Token Amount</th>
-              <th>Quote Token Amount</th>
-              <th className="time">Time</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>{tableRows(lbtcUnit, mode, savedAssets, marketInfo, trades, deposits, withdrawals)}</tbody>
-        </table>
-      ) : (
-        <Skeleton active paragraph={{ rows: 5 }} />
-      )}
-    </div>
+    <>
+      <div className="panel panel__grey dm-mono">
+        {isAllDataLoaded ? (
+          <table id="txs-table">
+            <thead>
+              <tr ref={headerRow}>
+                <th>
+                  <ButtonsTableMode mode={mode} setMode={setMode} />
+                </th>
+                <th>Total Value</th>
+                <th>Base Token Amount</th>
+                <th>Quote Token Amount</th>
+                <th className="time">Time</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {tableRows({
+                lbtcUnit,
+                mode,
+                savedAssets,
+                marketInfo,
+                trades,
+                deposits,
+                numDepositsToShow,
+                withdrawals,
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <Skeleton active paragraph={{ rows: 5 }} />
+        )}
+      </div>
+      <Row className="mt-2">
+        <Col className="dm-sans dm-sans__bold text-center" span={24}>
+          <Button
+            type="link"
+            onClick={() => {
+              console.log('mode', mode);
+              if (mode === 'deposit') {
+                setNumDepositsToShow(numDepositsToShow + DEPOSITS_PAGE_SIZE_FRONT);
+              } else if (mode === 'withdraw') {
+                //
+              }
+            }}
+          >
+            SHOW MORE
+          </Button>
+        </Col>
+      </Row>
+    </>
   );
 };

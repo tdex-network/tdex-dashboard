@@ -50,8 +50,14 @@ const DepositRow = ({
   txId,
 }: DepositRowProps) => {
   const { data: tx } = useGetTransactionByIdQuery(txId);
-  const baseAmountFormatted = formatSatsToUnit(Number(baseAmount), lbtcUnit, marketInfo.market?.baseAsset);
-  const quoteAmountFormatted = formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset);
+  const baseAmountFormatted =
+    baseAmount !== undefined
+      ? formatSatsToUnit(Number(baseAmount), lbtcUnit, marketInfo.market?.baseAsset)
+      : 'N/A';
+  const quoteAmountFormatted =
+    quoteAmount !== undefined
+      ? formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset)
+      : 'N/A';
   const time = timestampUnix || tx?.status.block_time;
   return (
     <>
@@ -122,31 +128,53 @@ export const DepositRows = ({
   return (
     <>
       {reducedDeposits?.map((deposit) => {
-        const reducedDeposit = Object.entries(deposit);
         const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
-        const txId = (reducedDeposit?.[2]?.[1] as unknown as string) || '';
-        const baseAmount =
-          reducedDeposit[0][0] === marketInfo.market?.baseAsset
-            ? reducedDeposit[0][1].value
-            : reducedDeposit[1][1].value;
-        const quoteAmount =
-          reducedDeposit[0][0] === marketInfo.market?.quoteAsset
-            ? reducedDeposit[0][1].value
-            : reducedDeposit[1][1].value;
-        const timestampUnix = reducedDeposit[0][1].timestampUnix;
+        const reducedDeposit = Object.entries(deposit);
+        let txId, baseAmount, quoteAmount, timestampUnix;
+        // 1 asset has been deposited
+        if (reducedDeposit.length === 2) {
+          txId = (reducedDeposit?.[1]?.[1] as unknown as string) || '';
+          baseAmount = reducedDeposit[0][0] === marketInfo.market?.baseAsset ? reducedDeposit[0][1].value : 0;
+          quoteAmount =
+            reducedDeposit[0][0] === marketInfo.market?.quoteAsset ? reducedDeposit[0][1].value : 0;
+          timestampUnix = reducedDeposit[0][1].timestampUnix;
+        }
+        // 2 assets has been deposited in the same tx
+        if (reducedDeposit.length === 3) {
+          txId = (reducedDeposit?.[2]?.[1] as unknown as string) || '';
+          baseAmount =
+            reducedDeposit[0][0] === marketInfo.market?.baseAsset
+              ? reducedDeposit[0][1].value
+              : reducedDeposit[1][1].value;
+          quoteAmount =
+            reducedDeposit[0][0] === marketInfo.market?.quoteAsset
+              ? reducedDeposit[0][1].value
+              : reducedDeposit[1][1].value;
+          timestampUnix = reducedDeposit[0][1].timestampUnix;
+        }
+
         return (
-          <DepositRow
-            key={txId}
-            baseAmount={baseAmount}
-            quoteAmount={quoteAmount}
-            baseAssetTicker={baseAssetTicker}
-            quoteAssetTicker={quoteAssetTicker}
-            lbtcUnit={lbtcUnit}
-            timestampUnix={timestampUnix}
-            marketInfo={marketInfo}
-            txId={txId}
-          />
+          <>
+            {baseAmount !== undefined &&
+            quoteAmount !== undefined &&
+            timestampUnix !== undefined &&
+            txId !== undefined ? (
+              <DepositRow
+                key={txId}
+                baseAmount={baseAmount}
+                quoteAmount={quoteAmount}
+                baseAssetTicker={baseAssetTicker}
+                quoteAssetTicker={quoteAssetTicker}
+                lbtcUnit={lbtcUnit}
+                timestampUnix={timestampUnix}
+                marketInfo={marketInfo}
+                txId={txId}
+              />
+            ) : (
+              <tr />
+            )}
+          </>
         );
       })}
     </>

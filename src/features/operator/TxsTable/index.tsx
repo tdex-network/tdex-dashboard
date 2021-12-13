@@ -119,7 +119,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   });
   const trades =
     listTrades?.map((tradeInfo) => ({
-      tradeId: tradeInfo.tradeId,
+      txUrl: tradeInfo.txUrl,
       status: tradeInfo.status,
       swapInfo: tradeInfo.swapInfo,
       settleTimeUnix: tradeInfo.settleTimeUnix,

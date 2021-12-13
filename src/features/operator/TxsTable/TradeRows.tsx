@@ -6,11 +6,10 @@ import type { TradeInfo } from '../../../api-spec/generated/js/operator_pb';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo } from '../../../utils';
-import { formatSatsToUnit } from '../../../utils/unitConvert';
+import { assetIdToTicker, timeAgo, formatSatsToUnit } from '../../../utils';
 
 export interface Trade {
-  tradeId: TradeInfo.AsObject['tradeId'];
+  txUrl: TradeInfo.AsObject['txUrl'];
   status: TradeInfo.AsObject['status'];
   swapInfo: TradeInfo.AsObject['swapInfo'];
   settleTimeUnix: TradeInfo.AsObject['settleTimeUnix'];
@@ -25,7 +24,7 @@ interface TradeRowsProps {
 export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JSX.Element => {
   return (
     <>
-      {trades?.map(({ swapInfo, tradeId, status, settleTimeUnix }) => {
+      {trades?.map(({ swapInfo, txUrl, status, settleTimeUnix }) => {
         const baseAssetTicker = assetIdToTicker(swapInfo?.assetP || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(swapInfo?.assetR || '', savedAssets);
         const baseAmount =
@@ -36,6 +35,7 @@ export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JS
           swapInfo?.amountR === undefined
             ? 'N/A'
             : formatSatsToUnit(swapInfo?.amountR, lbtcUnit, swapInfo?.assetR);
+        const txId = txUrl.substring(txUrl.lastIndexOf('/') + 1, txUrl.indexOf('#'));
         return (
           <>
             <tr
@@ -82,8 +82,8 @@ export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JS
                     </span>
                   </div>
                   <div className="d-flex details-content">
-                    <span className="dm-mono dm-mono__bold">Trade Id</span>
-                    <span>{tradeId}</span>
+                    <span className="dm-mono dm-mono__bold">Transaction Id</span>
+                    <a href={txUrl}>{txId}</a>
                   </div>
                 </div>
               </td>

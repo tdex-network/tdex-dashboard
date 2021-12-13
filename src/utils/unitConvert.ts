@@ -29,19 +29,49 @@ export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): 
       return removeInsignificant(val.toFixed(8));
     }
     switch (unit) {
-      case 'btc':
+      case 'L-BTC':
         val.e = exp - 8;
         return removeInsignificant(val.toFixed(8));
-      case 'mBtc':
+      case 'mBTC':
         val.e = exp - 5;
-        return removeInsignificant(val.toFixed(8));
-      case 'bits':
+        return removeInsignificant(val.toFixed(5));
+      case 'Bits':
         val.e = exp - 2;
-        return removeInsignificant(val.toFixed(8));
-      case 'sats':
-        return removeInsignificant(sats.toFixed(8));
+        return removeInsignificant(val.toFixed(2));
+      case 'Sats':
+        return removeInsignificant(val.toFixed(0));
       default:
-        return removeInsignificant(sats.toFixed(8));
+        return removeInsignificant(val.toFixed(0));
+    }
+  } catch (err) {
+    console.error(err);
+    return 'N/A';
+  }
+}
+
+/**
+ * Format any lbtc unit to sats
+ * @param amount
+ * @param unit
+ */
+export function formatLbtcUnitToSats(amount: number, unit: LbtcUnit): string {
+  try {
+    const val = new Big(amount);
+    const exp = val.e;
+    switch (unit) {
+      case 'L-BTC':
+        val.e = exp + 8;
+        return removeInsignificant(val.toFixed(8));
+      case 'mBTC':
+        val.e = exp + 5;
+        return removeInsignificant(val.toFixed(5));
+      case 'Bits':
+        val.e = exp + 2;
+        return removeInsignificant(val.toFixed(2));
+      case 'Sats':
+        return removeInsignificant(val.toFixed(0));
+      default:
+        return removeInsignificant(val.toFixed(0));
     }
   } catch (err) {
     console.error(err);

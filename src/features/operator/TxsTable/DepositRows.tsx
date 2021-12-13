@@ -7,7 +7,7 @@ import type { Deposit, MarketInfo } from '../../../api-spec/generated/js/operato
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo, formatSatsToUnit } from '../../../utils';
+import { assetIdToTicker, timeAgo, formatSatsToUnit, isLbtc } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
 interface DepositRowsProps {
@@ -59,6 +59,8 @@ const DepositRow = ({
       ? formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset)
       : 'N/A';
   const time = timestampUnix || tx?.status.block_time;
+  const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+  const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
   return (
     <>
       <tr
@@ -69,11 +71,11 @@ const DepositRow = ({
       >
         <td>
           <Icon component={depositIcon} className="tx-icon" />
-          {`Deposit ${quoteAssetTicker}`}
+          {`Deposit ${quoteAssetTickerFormatted}`}
         </td>
         <td>{`$${quoteAmountFormatted}`}</td>
-        <td>{`${baseAmountFormatted} ${baseAssetTicker}`}</td>
-        <td>{`${quoteAmountFormatted} ${quoteAssetTicker}`}</td>
+        <td>{`${baseAmountFormatted} ${baseAssetTickerFormatted}`}</td>
+        <td>{`${quoteAmountFormatted} ${quoteAssetTickerFormatted}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />

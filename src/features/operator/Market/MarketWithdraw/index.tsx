@@ -11,7 +11,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatFiatToSats, formatSatsToUnit } from '../../../../utils';
+import { formatFiatToSats, formatLbtcUnitToSats, formatSatsToUnit, isLbtc } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 const { Title } = Typography;
@@ -59,9 +59,14 @@ export const MarketWithdraw = (): JSX.Element => {
           baseAsset: selectedAssetMarket?.[0].asset_id,
           quoteAsset: selectedAssetMarket?.[1].asset_id,
         },
+        // Expect lbtc amount to be in favorite user unit
         balance: {
-          baseAmount: values.balanceBaseAmount,
-          quoteAmount: Number(formatFiatToSats(values.balanceQuoteAmount)),
+          baseAmount: isLbtc(selectedAssetMarket?.[0].ticker)
+            ? Number(formatLbtcUnitToSats(values.balanceBaseAmount, lbtcUnit))
+            : Number(formatFiatToSats(values.balanceBaseAmount)),
+          quoteAmount: isLbtc(selectedAssetMarket?.[1].ticker)
+            ? Number(formatLbtcUnitToSats(values.balanceQuoteAmount, lbtcUnit))
+            : Number(formatFiatToSats(values.balanceQuoteAmount)),
         },
         address: values.address,
         millisatsPerByte: 100,
@@ -165,7 +170,7 @@ export const MarketWithdraw = (): JSX.Element => {
                         });
                       }
                     }}
-                  >{`${baseAmountFormatted} ${selectedMarket.baseAsset?.ticker}`}</Button>
+                  >{`${baseAmountFormatted} ${lbtcUnit}`}</Button>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

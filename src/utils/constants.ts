@@ -75,5 +75,5 @@ export const featuredAssets: Asset[] = [LBTC_ASSET, USDT_ASSET, LCAD_ASSET];
 
 export const isAssetBitcoin = (asset: string): boolean => asset === LBTC_ASSET.asset_id;
 
-export const LBTC_UNITS = ['btc', 'mBtc', 'bits', 'sats'] as const;
+export const LBTC_UNITS = ['L-BTC', 'mBTC', 'Bits', 'Sats'] as const;
 export type LbtcUnit = typeof LBTC_UNITS[number];

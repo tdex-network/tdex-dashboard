@@ -11,7 +11,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit } from '../../../../utils';
+import { formatFiatToSats, formatSatsToUnit } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 const { Title } = Typography;
@@ -59,7 +59,10 @@ export const MarketWithdraw = (): JSX.Element => {
           baseAsset: selectedAssetMarket?.[0].asset_id,
           quoteAsset: selectedAssetMarket?.[1].asset_id,
         },
-        balance: { baseAmount: values.balanceBaseAmount, quoteAmount: values.balanceQuoteAmount },
+        balance: {
+          baseAmount: values.balanceBaseAmount,
+          quoteAmount: Number(formatFiatToSats(values.balanceQuoteAmount)),
+        },
         address: values.address,
         millisatsPerByte: 100,
       });

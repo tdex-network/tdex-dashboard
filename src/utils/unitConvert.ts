@@ -48,3 +48,19 @@ export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): 
     return 'N/A';
   }
 }
+
+/**
+ * Format fiat value to sats
+ * @param val
+ */
+export function formatFiatToSats(val: number): string {
+  try {
+    const sats = new Big(val);
+    const exp = sats.e;
+    sats.e = exp + 8;
+    return removeInsignificant(sats.toFixed(0));
+  } catch (err) {
+    console.error(err);
+    return 'N/A';
+  }
+}

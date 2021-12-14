@@ -1,97 +1,53 @@
-import { RightOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
-import React from 'react';
-
-import type { TradeInfo } from '../../../api-spec/generated/js/operator_pb';
-import { CurrencyIcon } from '../../../common/CurrencyIcon';
+import type { TradeInfo, MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, timeAgo, formatSatsToUnit, isLbtc } from '../../../utils';
+import { formatSatsToUnit } from '../../../utils';
 
-export interface Trade {
-  txUrl: TradeInfo.AsObject['txUrl'];
-  status: TradeInfo.AsObject['status'];
-  swapInfo: TradeInfo.AsObject['swapInfo'];
-  settleTimeUnix: TradeInfo.AsObject['settleTimeUnix'];
-}
+import type { TxData } from './TxRow';
+import { TxRow } from './TxRow';
+import { getTickersFormatted } from './index';
 
 interface TradeRowsProps {
-  trades?: Trade[];
+  trades?: TradeInfo.AsObject[];
   savedAssets: Asset[];
+  marketInfo: MarketInfo.AsObject;
   lbtcUnit: LbtcUnit;
 }
 
-export const TradeRows = ({ trades, savedAssets, lbtcUnit }: TradeRowsProps): JSX.Element => {
+export const getTradeData = (
+  row: TradeInfo.AsObject,
+  lbtcUnit: LbtcUnit
+): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
+  const baseAmountFormatted =
+    row.swapInfo?.amountR === undefined
+      ? 'N/A'
+      : formatSatsToUnit(row.swapInfo?.amountP, lbtcUnit, row.swapInfo?.assetP);
+  const quoteAmountFormatted =
+    row.swapInfo?.amountR === undefined
+      ? 'N/A'
+      : formatSatsToUnit(row.swapInfo?.amountR, lbtcUnit, row.swapInfo?.assetR);
+  const txId = row.txUrl.substring(row.txUrl.lastIndexOf('/') + 1, row.txUrl.indexOf('#'));
+  return { baseAmountFormatted, quoteAmountFormatted, txId };
+};
+
+export const TradeRows = ({ trades, savedAssets, marketInfo, lbtcUnit }: TradeRowsProps): JSX.Element => {
   return (
     <>
-      {trades?.map(({ swapInfo, txUrl, status, settleTimeUnix }) => {
-        const baseAssetTicker = assetIdToTicker(swapInfo?.assetP || '', savedAssets);
-        const quoteAssetTicker = assetIdToTicker(swapInfo?.assetR || '', savedAssets);
-        const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-        const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
-        const baseAmount =
-          swapInfo?.amountR === undefined
-            ? 'N/A'
-            : formatSatsToUnit(swapInfo?.amountP, lbtcUnit, swapInfo?.assetP);
-        const quoteAmount =
-          swapInfo?.amountR === undefined
-            ? 'N/A'
-            : formatSatsToUnit(swapInfo?.amountR, lbtcUnit, swapInfo?.assetR);
-        const txId = txUrl.substring(txUrl.lastIndexOf('/') + 1, txUrl.indexOf('#'));
+      {trades?.map((row) => {
+        const data = getTradeData(row, lbtcUnit);
+        const tickers = getTickersFormatted(marketInfo, savedAssets, lbtcUnit);
 
         return (
-          <>
-            <tr
-              onClick={(ev) => {
-                ev.currentTarget.classList.toggle('opened');
-                ev.currentTarget.nextElementSibling?.classList.toggle('opened');
-              }}
-            >
-              <td>
-                <span className="market-icons-translate__small">
-                  <CurrencyIcon className="base-icon" currency={baseAssetTicker || ''} size={16} />
-                  <CurrencyIcon className="quote-icon" currency={quoteAssetTicker || ''} size={16} />
-                </span>
-                {`Swap ${baseAssetTickerFormatted} for ${quoteAssetTickerFormatted}`}
-              </td>
-              <td>{quoteAmount}</td>
-              <td>{`${baseAmount} ${baseAssetTickerFormatted}`}</td>
-              <td>{`${quoteAmount} ${quoteAssetTickerFormatted}`}</td>
-              <td data-time={settleTimeUnix}>{timeAgo(settleTimeUnix)}</td>
-              <td>
-                <RightOutlined />
-              </td>
-            </tr>
-            <tr
-              className="details"
-              data-time={settleTimeUnix}
-              onClick={(ev) => {
-                ev.currentTarget.classList.toggle('opened');
-                ev.currentTarget.previousElementSibling?.classList.toggle('opened');
-              }}
-            >
-              <td />
-              <td colSpan={5}>
-                <div className="d-flex details-content-container">
-                  <div className="d-flex details-content">
-                    <span className="dm-mono dm-mono__bold">Status</span>
-                    <span
-                      className={classNames('status', {
-                        status__failed: status?.failed,
-                        status__success: !status?.failed,
-                      })}
-                    >
-                      {status?.failed ? 'Failed' : 'Success'}
-                    </span>
-                  </div>
-                  <div className="d-flex details-content">
-                    <span className="dm-mono dm-mono__bold">Transaction Id</span>
-                    <a href={txUrl}>{txId}</a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </>
+          <TxRow
+            key={data.txId}
+            mode="trade"
+            baseAssetTickerFormatted={tickers.baseAssetTickerFormatted}
+            quoteAssetTickerFormatted={tickers.quoteAssetTickerFormatted}
+            baseAmountFormatted={data.baseAmountFormatted}
+            quoteAmountFormatted={data.quoteAmountFormatted}
+            row={row as TxData}
+            txId={data.txId}
+          />
         );
       })}
     </>

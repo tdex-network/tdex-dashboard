@@ -48,7 +48,7 @@ export const USDT_ASSET: Asset = (network.chain === 'liquid' && {
   }) || {
     coinGeckoID: USDT_COINGECKOID,
     ticker: USDT_TICKER,
-    asset_id: '5cac00bb7b3c1cf1fcd7e53b42930121a78dcaed336e8b169012917c747371ff',
+    asset_id: 'f1f51b8f087413e1140503149fc410f94f24178db90a27149fd0116799118e4a',
     precision: 8,
     name: 'Tether USD',
   };

@@ -7,6 +7,21 @@ a.ant-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  .anticon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+  &.rotate-icon > .anticon {
+    rotate: 180deg;
+  }
+  &:hover {
+    color: @primary-color;
+    box-shadow: 0 0 0 1px @primary-color inset;
+  }
+  &:focus {
+    color: @primary-color;
+    background: @btn-default-bg;
+  }
   &.ant-btn-icon-only {
     background: transparent;
     width: auto;
@@ -41,36 +56,24 @@ a.ant-btn {
       box-shadow: 0 0 0 1px #FF0000 inset;
     }
   }
-  .anticon {
-    font-size: 16px;
-    margin-right: 6px;
+  &.ant-btn-ghost {
+    font-family: dm-mono, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #7d7d7d;
+    &:hover {
+      border: none;
+      box-shadow: none;
+      color: @grey-x-light;
+    }
+    &:focus {
+      background: transparent;
+    }
   }
-  &.rotate-icon > .anticon {
-    rotate: 180deg;
-  }
-  &:hover {
-    color: @primary-color;
-    box-shadow: 0 0 0 1px @primary-color inset;
-  }
-  &:focus {
-    color: @primary-color;
-    background: @btn-default-bg;
-  }
-}
-
-button.ant-btn.ant-btn-ghost,
-a.ant-btn.ant-btn-ghost {
-  font-family: dm-mono, sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-  color: #7d7d7d;
-  &:hover {
-    border: none;
-    box-shadow: none;
-    color: @grey-x-light;
-  }
-  &:focus {
-    background: transparent;
+  &.ant-btn-link {
+    &:focus {
+      background: transparent;
+    }
   }
 }
 

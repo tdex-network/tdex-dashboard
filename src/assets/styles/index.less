@@ -6,6 +6,7 @@
 @import 'modal.less';
 @import 'input.less';
 @import 'icon.less';
+@import 'colors.less';
 
 .error {
   font-size: 0.8rem;
@@ -25,12 +26,15 @@
   border-radius: 8px;
   padding: 24px 20px;
   background-color: #000000;
+
   &__grey {
     background-color: #252525;
   }
+
   &__top {
     border-radius: 8px 8px 0 0;
   }
+
   &__bottom {
     border-radius: 0 0 8px 8px;
   }
@@ -40,12 +44,15 @@
 .ant-notification-notice-icon-success {
   color: @primary-color !important;
 }
+
 .ant-notification-notice-icon-info {
   color: @info-color !important;
 }
+
 .ant-notification-notice-icon-warning {
   color: @warning-color !important;
 }
+
 .ant-notification-notice-icon-error {
   color: @error-color !important;
 }
@@ -63,6 +70,7 @@ canvas.qr-code {
   font-weight: bold;
   font-family: 'dm-sans', serif;
   margin-bottom: 8px;
+
   .ant-breadcrumb-separator {
     filter: invert(100%) opacity(0.75);
   }
@@ -70,6 +78,7 @@ canvas.qr-code {
 
 div.ant-divider {
   border-top: 2px solid #000000;
+
   &.ant-divider-horizontal {
     margin: 8px 0;
   }
@@ -81,6 +90,7 @@ div.ant-divider {
       transform: translateX(-12px);
     }
   }
+
   &__small {
     .currency-icon {
       &:nth-child(2) {

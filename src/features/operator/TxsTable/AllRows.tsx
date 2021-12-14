@@ -31,9 +31,7 @@ export const AllRows = ({
 }: AllRowsProps): JSX.Element => {
   const all = [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[];
   all.sort((a, b) => {
-    // @ts-ignore
     const aTime = a?.timestampUnix ?? a?.settleTimeUnix;
-    // @ts-ignore
     const bTime = b?.timestampUnix ?? b?.settleTimeUnix;
     if (aTime < bTime) return 1;
     if (aTime > bTime) return -1;

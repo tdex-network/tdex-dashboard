@@ -8,15 +8,8 @@ import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 import { assetIdToTicker, timeAgo, formatSatsToUnit, isLbtc } from '../../../utils';
 
-export interface Trade {
-  txUrl: TradeInfo.AsObject['txUrl'];
-  status: TradeInfo.AsObject['status'];
-  swapInfo: TradeInfo.AsObject['swapInfo'];
-  settleTimeUnix: TradeInfo.AsObject['settleTimeUnix'];
-}
-
 interface TradeRowsProps {
-  trades?: Trade[];
+  trades?: TradeInfo.AsObject[];
   savedAssets: Asset[];
   lbtcUnit: LbtcUnit;
 }

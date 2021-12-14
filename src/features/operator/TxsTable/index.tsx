@@ -3,7 +3,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import type { MarketInfo, Withdrawal, Deposit } from '../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo, Withdrawal, Deposit, TradeInfo } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
@@ -11,12 +11,13 @@ import { sleep } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { DepositRows } from './DepositRows';
-import type { Trade } from './TradeRows';
 import { TradeRows } from './TradeRows';
 import { WithdrawalRows } from './WithdrawalRows';
 
+type Mode = 'all' | 'trade' | 'deposit' | 'withdraw';
+
 interface ButtonsTableModeProps {
-  mode: 'all' | 'swap' | 'deposit' | 'withdraw';
+  mode: Mode;
   setMode: (mode: ButtonsTableModeProps['mode']) => void;
 }
 
@@ -29,7 +30,7 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   return (
     <Radio.Group onChange={handleTableModeChange} value={mode} className="ghost">
       <Radio.Button value="all">All</Radio.Button>
-      <Radio.Button value="swap">Swap</Radio.Button>
+      <Radio.Button value="trade">Swap</Radio.Button>
       <Radio.Button value="deposit">Deposit</Radio.Button>
       <Radio.Button value="withdraw">Withdraw</Radio.Button>
     </Radio.Group>
@@ -41,7 +42,7 @@ interface tableRowsProps {
   mode: ButtonsTableModeProps['mode'];
   savedAssets: Asset[];
   marketInfo: MarketInfo.AsObject;
-  trades: Trade[];
+  trades?: TradeInfo.AsObject[];
   deposits?: Deposit.AsObject[];
   numDepositsToShow: number;
   withdrawals?: Withdrawal.AsObject[];
@@ -76,7 +77,7 @@ const tableRows = ({
           />
         </>
       );
-    case 'swap':
+    case 'trade':
       return <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
     case 'deposit':
       return (
@@ -121,39 +122,52 @@ const tableRows = ({
 
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
-  const DEPOSITS_PAGE_SIZE_FRONT = 2;
-  const [numDepositsToShow, setNumDepositsToShow] = useState<number>(DEPOSITS_PAGE_SIZE_FRONT);
-  const [mode, setMode] = useState<'all' | 'swap' | 'deposit' | 'withdraw'>('all');
+  const [mode, setMode] = useState<Mode>('all');
   const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
-  // Swaps
-  const { data: listTrades } = useListTradesQuery({
+  const PAGE_SIZE_FRONTEND = 2;
+
+  // Trades
+  const [pageNumberTrades, setPageNumberTrades] = useState<number>(PAGE_SIZE_FRONTEND);
+  const { data: tradesFirstPage } = useListTradesQuery({
     market: {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
-    page: { pageNumber: 0, pageSize: 100 },
+    page: { pageNumber: 0, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const trades =
-    listTrades?.map((tradeInfo) => ({
-      txUrl: tradeInfo.txUrl,
-      status: tradeInfo.status,
-      swapInfo: tradeInfo.swapInfo,
-      settleTimeUnix: tradeInfo.settleTimeUnix,
-    })) || [];
-  // Deposits
-  const { data: deposits } = useListDepositsQuery({
-    accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 0, pageSize: 100 },
+  const { data: tradesNextPage } = useListTradesQuery({
+    market: {
+      baseAsset: marketInfo?.market?.baseAsset || '',
+      quoteAsset: marketInfo?.market?.quoteAsset || '',
+    },
+    page: { pageNumber: pageNumberTrades, pageSize: PAGE_SIZE_FRONTEND },
   });
+  const [trades, setTrades] = useState<TradeInfo.AsObject[] | undefined>([]);
+  // Set first page trades when ready
+  useEffect(() => {
+    setTrades(tradesFirstPage);
+  }, [tradesFirstPage]);
+
   // Withdrawals
-  const { data: withdrawals } = useListWithdrawalsQuery({
+  const [pageNumberWithdrawals, setPageNumberWithdrawals] = useState<number>(PAGE_SIZE_FRONTEND);
+  const { data: withdrawalsFirstPage } = useListWithdrawalsQuery({
     accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 0, pageSize: 10 },
+    page: { pageNumber: 1, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const { data: withdrawalsNext } = useListWithdrawalsQuery({
+  const { data: withdrawalsNextPage } = useListWithdrawalsQuery({
     accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 1, pageSize: 10 },
+    page: { pageNumber: pageNumberWithdrawals, pageSize: PAGE_SIZE_FRONTEND },
   });
+  const [withdrawals, setWithdrawals] = useState<Withdrawal.AsObject[] | undefined>([]);
+  // Set first page withdrawals when ready
+  useEffect(() => {
+    setWithdrawals(withdrawalsFirstPage);
+  }, [withdrawalsFirstPage]);
+
+  // Deposits
+  const [numDepositsToShow, setNumDepositsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
+  // request all because ListDeposits returns fragments
+  const { data: deposits } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
 
   const headerRow = useCallback(
     (node) => {
@@ -184,10 +198,10 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   );
 
   useEffect(() => {
-    if (listTrades !== undefined && deposits !== undefined && withdrawals !== undefined) {
+    if (trades !== undefined && deposits !== undefined && withdrawals !== undefined) {
       setIsAllDataLoaded(true);
     }
-  }, [listTrades, deposits, withdrawals]);
+  }, [trades, deposits, withdrawals]);
 
   return (
     <>
@@ -228,11 +242,14 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
           <Button
             type="link"
             onClick={() => {
-              console.log('mode', mode);
               if (mode === 'deposit') {
-                setNumDepositsToShow(numDepositsToShow + DEPOSITS_PAGE_SIZE_FRONT);
-              } else if (mode === 'withdraw') {
-                //
+                setNumDepositsToShow(numDepositsToShow + PAGE_SIZE_FRONTEND);
+              } else if (mode === 'withdraw' && withdrawalsNextPage?.length) {
+                setWithdrawals(withdrawals?.concat(withdrawalsNextPage));
+                setPageNumberWithdrawals(pageNumberWithdrawals + 1);
+              } else if (mode === 'trade' && tradesNextPage?.length) {
+                setTrades(trades?.concat(tradesNextPage));
+                setPageNumberTrades(pageNumberTrades + 1);
               }
             }}
           >

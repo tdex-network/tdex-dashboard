@@ -24,7 +24,6 @@ export const MarketDeposit = (): JSX.Element => {
     useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 });
   const { refetch: refetchDeposits } = useListDepositsQuery({
     accountIndex: state?.marketInfo.accountIndex,
-    page: { pageNumber: 0, pageSize: 100 },
   });
 
   const handleFragmentMarketDeposits = async () => {

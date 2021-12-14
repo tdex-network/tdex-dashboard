@@ -835,13 +835,9 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listDeposits': {
       try {
-        const { accountIndex, page } = body as { accountIndex: number; page: Page.AsObject };
-        const { pageNumber, pageSize } = page;
-        const newPage = new Page();
-        newPage.setPageNumber(pageNumber);
-        newPage.setPageSize(pageSize);
+        const { accountIndex } = body as { accountIndex: number };
         const listDepositsReply = await client.listDeposits(
-          new ListDepositsRequest().setPage(newPage).setAccountIndex(accountIndex),
+          new ListDepositsRequest().setAccountIndex(accountIndex),
           metadata
         );
         return {
@@ -1060,7 +1056,7 @@ export const operatorApi = createApi({
       query: () => ({ methodName: 'getInfo' }),
       providesTags: ['Market', 'Fee', 'Trade'],
     }),
-    listDeposits: build.query<Deposit.AsObject[], { accountIndex: number; page: Page.AsObject }>({
+    listDeposits: build.query<Deposit.AsObject[], { accountIndex: number }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
       providesTags: ['Market', 'Fee'],
     }),

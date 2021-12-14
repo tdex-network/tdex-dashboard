@@ -1,29 +1,43 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import { groupBy } from 'lodash';
+import React, { useEffect, useState } from 'react';
 
-import type { MarketInfo, Withdrawal, Deposit, TradeInfo } from '../../../api-spec/generated/js/operator_pb';
+import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { sleep } from '../../../utils';
+import { assetIdToTicker, isLbtc } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
+import { AllRows } from './AllRows';
 import { DepositRows } from './DepositRows';
 import { TradeRows } from './TradeRows';
 import { WithdrawalRows } from './WithdrawalRows';
 
-type Mode = 'all' | 'trade' | 'deposit' | 'withdraw';
+export type TableMode = 'all' | 'trade' | 'deposit' | 'withdraw';
 
 interface ButtonsTableModeProps {
-  mode: Mode;
+  mode: TableMode;
   setMode: (mode: ButtonsTableModeProps['mode']) => void;
 }
 
 interface TxsTableProps {
   marketInfo: MarketInfo.AsObject;
 }
+
+export const getTickersFormatted = (
+  marketInfo: MarketInfo.AsObject,
+  savedAssets: Asset[],
+  lbtcUnit: LbtcUnit
+): { baseAssetTickerFormatted: string; quoteAssetTickerFormatted: string } => {
+  const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
+  const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
+  const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+  const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
+  return { baseAssetTickerFormatted, quoteAssetTickerFormatted };
+};
 
 const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   const handleTableModeChange = (ev: RadioChangeEvent) => setMode(ev.target.value);
@@ -43,10 +57,19 @@ interface tableRowsProps {
   savedAssets: Asset[];
   marketInfo: MarketInfo.AsObject;
   trades?: TradeInfo.AsObject[];
-  deposits?: Deposit.AsObject[];
+  deposits?: {
+    assetId: string;
+    assetIdSecond?: string;
+    value: number;
+    valueSecond?: number;
+    timestampUnix: number;
+    txId: string;
+  }[];
   numDepositsToShow: number;
+  numAllItemsToShow: number;
   withdrawals?: Withdrawal.AsObject[];
 }
+
 const tableRows = ({
   lbtcUnit,
   mode,
@@ -55,30 +78,26 @@ const tableRows = ({
   trades,
   deposits,
   numDepositsToShow,
+  numAllItemsToShow,
   withdrawals,
 }: tableRowsProps) => {
   switch (mode) {
     case 'all':
       return (
-        <>
-          <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
-          <DepositRows
-            deposits={deposits}
-            marketInfo={marketInfo}
-            savedAssets={savedAssets}
-            lbtcUnit={lbtcUnit}
-            numItemsToShow={numDepositsToShow}
-          />
-          <WithdrawalRows
-            withdrawals={withdrawals}
-            marketInfo={marketInfo}
-            savedAssets={savedAssets}
-            lbtcUnit={lbtcUnit}
-          />
-        </>
+        <AllRows
+          trades={trades}
+          deposits={deposits}
+          withdrawals={withdrawals}
+          savedAssets={savedAssets}
+          marketInfo={marketInfo}
+          lbtcUnit={lbtcUnit}
+          numItemsToShow={numAllItemsToShow}
+        />
       );
     case 'trade':
-      return <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />;
+      return (
+        <TradeRows trades={trades} savedAssets={savedAssets} marketInfo={marketInfo} lbtcUnit={lbtcUnit} />
+      );
     case 'deposit':
       return (
         <DepositRows
@@ -100,31 +119,27 @@ const tableRows = ({
       );
     default:
       return (
-        <>
-          <TradeRows trades={trades} savedAssets={savedAssets} lbtcUnit={lbtcUnit} />
-          <DepositRows
-            deposits={deposits}
-            marketInfo={marketInfo}
-            savedAssets={savedAssets}
-            lbtcUnit={lbtcUnit}
-            numItemsToShow={numDepositsToShow}
-          />
-          <WithdrawalRows
-            withdrawals={withdrawals}
-            marketInfo={marketInfo}
-            savedAssets={savedAssets}
-            lbtcUnit={lbtcUnit}
-          />
-        </>
+        <AllRows
+          trades={trades}
+          deposits={deposits}
+          withdrawals={withdrawals}
+          savedAssets={savedAssets}
+          marketInfo={marketInfo}
+          lbtcUnit={lbtcUnit}
+          numItemsToShow={numAllItemsToShow}
+        />
       );
   }
 };
 
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
-  const [mode, setMode] = useState<Mode>('all');
+  const [mode, setMode] = useState<TableMode>('all');
   const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
-  const PAGE_SIZE_FRONTEND = 2;
+  const PAGE_SIZE_FRONTEND = 5;
+
+  // All
+  const [numAllItemsToShow, setNumAllItemsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
 
   // Trades
   const [pageNumberTrades, setPageNumberTrades] = useState<number>(PAGE_SIZE_FRONTEND);
@@ -167,34 +182,55 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   // Deposits
   const [numDepositsToShow, setNumDepositsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
   // request all because ListDeposits returns fragments
-  const { data: deposits } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
-
-  const headerRow = useCallback(
-    (node) => {
-      if (node !== null && isAllDataLoaded && mode) {
-        Array.from<HTMLElement>(node.getElementsByClassName('time')).forEach(async (thTime) => {
-          // Need to wait a bit for the cells to get data
-          await sleep(200);
-          const rowsArray = Array.from(thTime!.closest('table')!.querySelectorAll<HTMLElement>('tbody tr'));
-          const timeColIndex = Array.from(thTime!.parentNode!.children).indexOf(thTime);
-          rowsArray.sort((a, b) => {
-            const aBlockTime = Number(
-              (a.children[timeColIndex] as HTMLElement)?.dataset.time ?? (a as HTMLElement)?.dataset.time ?? 0
-            );
-            const bBlockTime = Number(
-              (b.children[timeColIndex] as HTMLElement)?.dataset.time ?? (b as HTMLElement)?.dataset.time ?? 0
-            );
-            return bBlockTime - aBlockTime;
-          });
-          rowsArray.forEach((elem) => {
-            thTime.closest('table')!.querySelector('tbody')!.appendChild(elem);
-          });
-          //
-        });
+  const { data: depositFragments } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
+  // Recreate deposits from fragments
+  // A deposit tx can have 1 or 2 assets/values
+  const reduceValue = (deposits: Deposit.AsObject[], txId: string) => {
+    if (!deposits) return {};
+    return deposits.reduce((result, currentValue, index) => {
+      // First utxo sets assetId
+      if (index === 0) {
+        return {
+          assetId: currentValue.utxo?.asset || '',
+          value: currentValue.utxo?.value || 0,
+          timestampUnix: currentValue.timestampUnix,
+          txId: txId,
+        };
       }
-    },
-    // Order table when all data is loaded and when mode change
-    [isAllDataLoaded, mode]
+      // Then we check if utxo.asset === assetId or new
+      const isSecondAsset = currentValue.utxo?.asset !== result?.assetId;
+      if (isSecondAsset) {
+        return {
+          assetId: result.assetId,
+          assetIdSecond: currentValue.utxo?.asset || '',
+          value: result.value,
+          valueSecond: (result?.valueSecond ?? 0) + (currentValue.utxo?.value || 0),
+          timestampUnix: currentValue.timestampUnix,
+          txId: txId,
+        };
+      } else {
+        return {
+          assetId: currentValue.utxo?.asset || '',
+          assetIdSecond: result.assetIdSecond,
+          value: (result?.value ?? 0) + (currentValue.utxo?.value || 0),
+          valueSecond: result.valueSecond,
+          timestampUnix: currentValue.timestampUnix,
+          txId: txId,
+        };
+      }
+    }, {} as { assetId: string; assetIdSecond?: string; value: number; valueSecond?: number; timestampUnix: number; txId: string });
+  };
+  const depositsByTxId = groupBy(depositFragments || [], (deposit) => deposit.utxo?.outpoint?.hash);
+  const deposits = Object.entries(depositsByTxId).map(
+    ([txId, arr]) =>
+      reduceValue(arr, txId) as {
+        assetId: string;
+        assetIdSecond?: string;
+        value: number;
+        valueSecond?: number;
+        timestampUnix: number;
+        txId: string;
+      }
   );
 
   useEffect(() => {
@@ -209,7 +245,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
         {isAllDataLoaded ? (
           <table id="txs-table">
             <thead>
-              <tr ref={headerRow}>
+              <tr>
                 <th>
                   <ButtonsTableMode mode={mode} setMode={setMode} />
                 </th>
@@ -229,6 +265,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
                 trades,
                 deposits,
                 numDepositsToShow,
+                numAllItemsToShow,
                 withdrawals,
               })}
             </tbody>
@@ -250,6 +287,8 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
               } else if (mode === 'trade' && tradesNextPage?.length) {
                 setTrades(trades?.concat(tradesNextPage));
                 setPageNumberTrades(pageNumberTrades + 1);
+              } else if (mode === 'all') {
+                setNumAllItemsToShow(numAllItemsToShow + PAGE_SIZE_FRONTEND);
               }
             }}
           >

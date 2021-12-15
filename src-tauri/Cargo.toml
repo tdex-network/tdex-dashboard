@@ -28,4 +28,4 @@
   license = ""
   name = "tdex-dashboard"
   repository = "https://github.com/tdex-network/tdex-dashboard"
-  version = "0.1.8"
+  version = "0.1.9"

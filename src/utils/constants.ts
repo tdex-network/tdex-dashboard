@@ -48,7 +48,7 @@ export const USDT_ASSET: Asset = (network.chain === 'liquid' && {
   }) || {
     coinGeckoID: USDT_COINGECKOID,
     ticker: USDT_TICKER,
-    asset_id: 'f1f51b8f087413e1140503149fc410f94f24178db90a27149fd0116799118e4a',
+    asset_id: '016d94449801e5f522c845e1cf1ba45fed94f6dc2f3b72f469943d35013017c8',
     precision: 8,
     name: 'Tether USD',
   };
@@ -66,14 +66,12 @@ export const LCAD_ASSET: Asset = (network.chain === 'liquid' && {
     name: 'Liquid CAD',
   }) || {
     ticker: LCAD_TICKER,
-    asset_id: '4117f9dfc0aea885d71def447c7e0dc58c20d20e4d77590c2d6f90c537f0c868',
+    asset_id: '1ad48d8c8c6f86b05ffdba5938bacde697f74281ff19eb552815697ad5047f74',
     precision: 8,
     name: 'Liquid CAD',
   };
 
 export const featuredAssets: Asset[] = [LBTC_ASSET, USDT_ASSET, LCAD_ASSET];
 
-export const isAssetBitcoin = (asset: string): boolean => asset === LBTC_ASSET.asset_id;
-
-export const LBTC_UNITS = ['L-BTC', 'mBTC', 'Bits', 'Sats'] as const;
+export const LBTC_UNITS = ['L-BTC', 'L-mBTC', 'L-bits', 'L-sats'] as const;
 export type LbtcUnit = typeof LBTC_UNITS[number];

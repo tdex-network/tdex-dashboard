@@ -1,7 +1,7 @@
 import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, isLbtc } from '../../../utils';
+import { assetIdToTicker, isLbtcTicker } from '../../../utils';
 
 import type { DepositRow } from './DepositRows';
 import { getDepositData } from './DepositRows';
@@ -50,8 +50,8 @@ export const AllRows = ({
 
         const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
         const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
-        baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-        quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
+        baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+        quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
 
         if (mode === 'deposit') {
           const data = getDepositData(row, lbtcUnit, marketInfo);

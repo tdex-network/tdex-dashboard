@@ -83,5 +83,5 @@
     "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
     "test": "craco test"
   },
-  "version": "0.1.7"
+  "version": "0.1.8"
 }

@@ -18,10 +18,7 @@ export const MarketListEmpty = (): JSX.Element => {
       <Col span={24}>
         <Row>
           <Col span={16} offset={4}>
-            <p className="mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tecididunt ut labore et
-              dolore magna aliqua.
-            </p>
+            <p className="mb-4" />
           </Col>
         </Row>
         <Row>

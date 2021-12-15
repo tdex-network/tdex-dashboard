@@ -1,5 +1,5 @@
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, SETTINGS_ROUTE } from '../../../../routes/constants';
 import { useWithdrawMarketFragmenterMutation } from '../../operator.api';
-
-const { Title } = Typography;
 
 interface IFormInputs {
   millisatsPerByte: number;
@@ -51,10 +49,7 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Recovery Markets Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col span={12} className="pr-10">
-          <Title level={4}>READ CAREFULLY!</Title>
-        </Col>
-        <Col span={12}>
+        <Col span={12} offset={12}>
           <Form
             layout="vertical"
             form={form}

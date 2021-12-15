@@ -1,6 +1,6 @@
 import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -11,8 +11,6 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { formatSatsToUnit, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
-
-const { Title } = Typography;
 
 interface IFormInputs {
   amount: number;
@@ -59,10 +57,7 @@ export const FeeWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Fee Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col span={12} className="pr-10">
-          <Title level={4}>READ CAREFULLY!</Title>
-        </Col>
-        <Col span={12}>
+        <Col span={12} offset={12}>
           <Form
             layout="vertical"
             form={form}

@@ -14,7 +14,7 @@ import {
   useGetFeeFragmenterAddressQuery,
 } from '../../operator.api';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export const FeeDeposit = (): JSX.Element => {
   const { refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
@@ -57,7 +57,6 @@ export const FeeDeposit = (): JSX.Element => {
       <Row className="panel">
         <Col span={12} className="pr-10">
           <Button className="w-100 mb-4">CREATE NEW DEPOSIT ADDRESS</Button>
-          <Title level={4}>READ CAREFULLY!</Title>
         </Col>
         <Col span={12}>
           <Row className="panel panel__grey panel__top">

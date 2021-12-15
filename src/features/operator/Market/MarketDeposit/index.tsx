@@ -18,7 +18,7 @@ import {
   useClaimMarketDepositsMutation,
 } from '../../operator.api';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export const MarketDeposit = (): JSX.Element => {
   const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
@@ -110,9 +110,8 @@ export const MarketDeposit = (): JSX.Element => {
       <Row className="panel">
         <Col span={12} className="pr-10">
           <Button className="w-100 mb-4">CREATE NEW DEPOSIT ADDRESS</Button>
-          <Title level={4}>READ CAREFULLY!</Title>
           <Checkbox onChange={handleCheckboxChange} className="dm-sans dm-sans__x mt-4">
-            I want to use the Tdex fragmenter
+            Advanced: split deposit into multiple fragments for concurrent trade support
           </Checkbox>
         </Col>
         <Col span={12}>

@@ -1,6 +1,6 @@
 import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,8 +13,6 @@ import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { formatFiatToSats, formatLbtcUnitToSats, formatSatsToUnit, isLbtc } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
-
-const { Title } = Typography;
 
 interface IFormInputs {
   balanceBaseAmount: number;
@@ -117,7 +115,6 @@ export const MarketWithdraw = (): JSX.Element => {
             setSelectedMarket={setSelectedMarket}
             marketList={marketList}
           />
-          <Title level={4}>READ CAREFULLY!</Title>
         </Col>
         <Col span={12}>
           <Form

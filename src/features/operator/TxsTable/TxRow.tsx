@@ -37,6 +37,17 @@ export const TxRow = ({
   }
   const time = row?.timestampUnix || row?.settleTimeUnix || tx?.status.block_time;
 
+  let tickerStr;
+  const hasBaseAmount = baseAmountFormatted !== 'N/A' && Number(baseAmountFormatted) !== 0;
+  const hasQuoteAmount = quoteAmountFormatted !== 'N/A' && Number(quoteAmountFormatted) !== 0;
+  if (hasBaseAmount && hasQuoteAmount) {
+    tickerStr = `${baseAssetTickerFormatted} - ${quoteAssetTickerFormatted}`;
+  } else if (hasBaseAmount) {
+    tickerStr = baseAssetTickerFormatted;
+  } else if (hasQuoteAmount) {
+    tickerStr = quoteAssetTickerFormatted;
+  }
+
   return (
     <>
       <tr
@@ -57,13 +68,13 @@ export const TxRow = ({
         {mode === 'withdraw' && (
           <td>
             <Icon component={depositIcon} className="rotate-icon tx-icon" />
-            {`Withdraw ${baseAssetTickerFormatted}`}
+            {`Withdraw ${tickerStr}`}
           </td>
         )}
         {mode === 'deposit' && (
           <td>
             <Icon component={depositIcon} className="tx-icon" />
-            {`Deposit ${quoteAssetTickerFormatted}`}
+            {`Deposit ${tickerStr}`}
           </td>
         )}
         {(mode === 'deposit' || mode === 'trade') && <td>{quoteAmountFormatted}</td>}

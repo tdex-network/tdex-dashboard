@@ -317,7 +317,15 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'getMarketAddress': {
       try {
-        const getMarketAddressReply = await client.getMarketAddress(new GetMarketAddressRequest(), metadata);
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        if (!baseAsset || !quoteAsset) throw new Error('missing argument');
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
+        const getMarketAddressReply = await client.getMarketAddress(
+          new GetMarketAddressRequest().setMarket(newMarket),
+          metadata
+        );
         return {
           data: getMarketAddressReply
             .getAddressWithBlindingKeyList()
@@ -384,7 +392,7 @@ const baseQueryFn: BaseQueryFn<
           metadata
         );
         return {
-          data: claimMarketDepositsReply,
+          data: claimMarketDepositsReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -923,8 +931,8 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'getMarketInfo', body }),
       providesTags: ['Market'],
     }),
-    getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
-      query: () => ({ methodName: 'getMarketAddress' }),
+    getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
+      query: (body) => ({ methodName: 'getMarketAddress', body }),
       providesTags: ['Market'],
     }),
     listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({

@@ -1,10 +1,12 @@
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, notification, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Checkbox, Col, notification, Row, Typography } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
+import { useTypedSelector } from '../../../../app/store';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
@@ -12,19 +14,33 @@ import {
   useMarketFragmenterSplitFundsMutation,
   useGetMarketFragmenterAddressQuery,
   useListDepositsQuery,
+  useGetMarketAddressQuery,
+  useClaimMarketDepositsMutation,
 } from '../../operator.api';
 
 const { Text, Title } = Typography;
 
 export const MarketDeposit = (): JSX.Element => {
   const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
+  const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
+  const [useFragmenter, setUseFragmenter] = useState(false);
   const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
   const [isFragmenting, setIsFragmenting] = useState(false);
   const { data: marketFragmenterAddress, refetch: refetchGetMarketFragmenterAddress } =
     useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 });
+  //
+  const { data: marketAddress } = useGetMarketAddressQuery({
+    baseAsset: state?.marketInfo.market?.baseAsset || '',
+    quoteAsset: state?.marketInfo.market?.quoteAsset || '',
+  });
+  const [claimMarketDeposits] = useClaimMarketDepositsMutation();
+  //
   const { refetch: refetchDeposits } = useListDepositsQuery({
     accountIndex: state?.marketInfo.accountIndex,
   });
+  const address = useFragmenter
+    ? marketFragmenterAddress?.[0].address || 'N/A'
+    : marketAddress?.[0].address || 'N/A';
 
   const handleFragmentMarketDeposits = async () => {
     try {
@@ -55,6 +71,34 @@ export const MarketDeposit = (): JSX.Element => {
     }
   };
 
+  const handleMarketDeposits = async () => {
+    try {
+      setIsFragmenting(true);
+      const response = await fetch(`${explorerLiquidAPI}/address/${address}/utxo`);
+      const utxoList = await response.json();
+      if (!utxoList.length) throw new Error('No utxo found. Did you wait for confirmation?');
+      const res = await claimMarketDeposits({
+        outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
+        market: {
+          baseAsset: state?.marketInfo?.market?.baseAsset || '',
+          quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
+        },
+      });
+      // @ts-ignore
+      if (res?.error) throw new Error(res?.error);
+      notification.success({ message: 'Deposit successful' });
+      setIsFragmenting(false);
+    } catch (err) {
+      setIsFragmenting(false);
+      // @ts-ignore
+      notification.error({ message: err.message, key: err.message });
+    }
+  };
+
+  const handleCheckboxChange = (ev: CheckboxChangeEvent) => {
+    setUseFragmenter(ev.target.checked);
+  };
+
   return (
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
@@ -73,22 +117,20 @@ export const MarketDeposit = (): JSX.Element => {
             type and scrambled it to make a type specimen book.,,- It has survived not only five centuries,-
             but also the leap into electronic typesetting, remaining essentially unchanged.
           </p>
-          <p>
-            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-            passages, and more recently with desktop publishing software like Aldus PageMaker including
-            versions of Lorem Ipsum.
-          </p>
+          <Checkbox onChange={handleCheckboxChange} className="dm-sans dm-sans__x mt-4">
+            I want to use the Tdex fragmenter
+          </Checkbox>
         </Col>
         <Col span={12}>
           <Row className="panel panel__grey">
             <Col span={8} offset={8}>
-              <QRCode className="qr-code" level="H" value={marketFragmenterAddress?.[0].address || ''} />
+              <QRCode className="qr-code" level="H" value={address} />
             </Col>
           </Row>
           <Row className="my-6">
             <Col span={21} offset={1}>
               <Text className="address" copyable>
-                {marketFragmenterAddress?.[0].address ?? 'N/A'}
+                {address}
               </Text>
             </Col>
           </Row>
@@ -98,7 +140,10 @@ export const MarketDeposit = (): JSX.Element => {
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
               <Row>
                 <Col span={20} offset={2}>
-                  <Button onClick={handleFragmentMarketDeposits} loading={isFragmenting}>
+                  <Button
+                    onClick={useFragmenter ? handleFragmentMarketDeposits : handleMarketDeposits}
+                    loading={isFragmenting}
+                  >
                     CONFIRM DEPOSIT
                   </Button>
                 </Col>

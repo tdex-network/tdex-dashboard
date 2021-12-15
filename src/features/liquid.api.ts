@@ -37,7 +37,7 @@ export const liquidApi = createApi({
     getLastBlockHeight: build.query<number, void>({ query: () => 'blocks/tip/height' }),
     getTransactionById: build.query<any, string>({ query: (txId: string) => `/tx/${txId}` }),
     getUtxosByAddress: build.query<number, string>({
-      query: (feeDepositAddress: string) => `/address/${feeDepositAddress}/utxo`,
+      query: (address: string) => `/address/${address}/utxo`,
     }),
   }),
 });

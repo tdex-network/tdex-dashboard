@@ -1,7 +1,8 @@
 import Big from 'big.js';
 
+import { isLbtcAssetId } from './asset';
 import type { LbtcUnit } from './constants';
-import { isAssetBitcoin, LBTC_ASSET } from './constants';
+import { LBTC_ASSET } from './constants';
 
 const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
@@ -24,7 +25,7 @@ export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): 
     const val = new Big(sats);
     const exp = val.e;
     // If asset is not bitcoin format with precision 8
-    if (!isAssetBitcoin(asset || LBTC_ASSET.asset_id)) {
+    if (!isLbtcAssetId(asset || LBTC_ASSET.asset_id)) {
       val.e = exp - 8;
       return removeInsignificant(val.toFixed(8));
     }
@@ -32,13 +33,13 @@ export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): 
       case 'L-BTC':
         val.e = exp - 8;
         return removeInsignificant(val.toFixed(8));
-      case 'mBTC':
+      case 'L-mBTC':
         val.e = exp - 5;
         return removeInsignificant(val.toFixed(5));
-      case 'Bits':
+      case 'L-bits':
         val.e = exp - 2;
         return removeInsignificant(val.toFixed(2));
-      case 'Sats':
+      case 'L-sats':
         return removeInsignificant(val.toFixed(0));
       default:
         return removeInsignificant(val.toFixed(0));
@@ -62,13 +63,13 @@ export function formatLbtcUnitToSats(amount: number, unit: LbtcUnit): string {
       case 'L-BTC':
         val.e = exp + 8;
         return removeInsignificant(val.toFixed(8));
-      case 'mBTC':
+      case 'L-mBTC':
         val.e = exp + 5;
         return removeInsignificant(val.toFixed(5));
-      case 'Bits':
+      case 'L-bits':
         val.e = exp + 2;
         return removeInsignificant(val.toFixed(2));
-      case 'Sats':
+      case 'L-sats':
         return removeInsignificant(val.toFixed(0));
       default:
         return removeInsignificant(val.toFixed(0));

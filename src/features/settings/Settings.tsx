@@ -46,9 +46,9 @@ export const Settings = (): JSX.Element => {
               <Col>
                 <Radio.Group onChange={handleBitcoinUnitChange} value={lbtcUnit}>
                   <Radio.Button value={LBTC_UNITS[0]}>L-BTC</Radio.Button>
-                  <Radio.Button value={LBTC_UNITS[1]}>mBTC</Radio.Button>
-                  <Radio.Button value={LBTC_UNITS[2]}>Bits</Radio.Button>
-                  <Radio.Button value={LBTC_UNITS[3]}>Sats</Radio.Button>
+                  <Radio.Button value={LBTC_UNITS[1]}>L-mBTC</Radio.Button>
+                  <Radio.Button value={LBTC_UNITS[2]}>L-bits</Radio.Button>
+                  <Radio.Button value={LBTC_UNITS[3]}>L-sats</Radio.Button>
                 </Radio.Group>
               </Col>
             </Row>

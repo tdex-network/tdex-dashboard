@@ -11,7 +11,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatFiatToSats, formatLbtcUnitToSats, formatSatsToUnit, isLbtc } from '../../../../utils';
+import { formatFiatToSats, formatLbtcUnitToSats, formatSatsToUnit, isLbtcTicker } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -59,10 +59,10 @@ export const MarketWithdraw = (): JSX.Element => {
         },
         // Expect lbtc amount to be in favorite user unit
         balance: {
-          baseAmount: isLbtc(selectedAssetMarket?.[0].ticker)
+          baseAmount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
             ? Number(formatLbtcUnitToSats(values.balanceBaseAmount, lbtcUnit))
             : Number(formatFiatToSats(values.balanceBaseAmount)),
-          quoteAmount: isLbtc(selectedAssetMarket?.[1].ticker)
+          quoteAmount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
             ? Number(formatLbtcUnitToSats(values.balanceQuoteAmount, lbtcUnit))
             : Number(formatFiatToSats(values.balanceQuoteAmount)),
         },
@@ -74,6 +74,7 @@ export const MarketWithdraw = (): JSX.Element => {
       form.resetFields();
       // Refetch after some time, waiting available balance to equal total balance
       setTimeout(() => refetchMarketBalance(), 1000);
+      setTimeout(() => refetchMarketBalance(), 5000);
       setTimeout(() => refetchMarketBalance(), 10000);
       notification.success({ message: 'Market withdrawal successful' });
     } catch (err) {
@@ -82,7 +83,7 @@ export const MarketWithdraw = (): JSX.Element => {
     }
   };
 
-  const baseAmountFormatted =
+  const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount !== undefined
       ? formatSatsToUnit(
           marketBalance?.availableBalance?.baseAmount,
@@ -90,8 +91,15 @@ export const MarketWithdraw = (): JSX.Element => {
           selectedMarket.baseAsset?.asset_id
         )
       : 'N/A';
-
-  const quoteAmountFormatted =
+  const baseTotalAmountFormatted =
+    marketBalance?.totalBalance?.baseAmount !== undefined
+      ? formatSatsToUnit(
+          marketBalance?.totalBalance?.baseAmount,
+          lbtcUnit,
+          selectedMarket.baseAsset?.asset_id
+        )
+      : 'N/A';
+  const quoteAvailableAmountFormatted =
     marketBalance?.availableBalance?.quoteAmount !== undefined
       ? formatSatsToUnit(
           marketBalance?.availableBalance?.quoteAmount,
@@ -99,6 +107,20 @@ export const MarketWithdraw = (): JSX.Element => {
           selectedMarket.quoteAsset?.asset_id
         )
       : 'N/A';
+  const quoteTotalAmountFormatted =
+    marketBalance?.totalBalance?.quoteAmount !== undefined
+      ? formatSatsToUnit(
+          marketBalance?.totalBalance?.quoteAmount,
+          lbtcUnit,
+          selectedMarket.quoteAsset?.asset_id
+        )
+      : 'N/A';
+  const baseTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
+    ? lbtcUnit
+    : selectedMarket?.baseAsset?.ticker || 'N/A';
+  const quoteTickerFormatted = isLbtcTicker(selectedMarket?.quoteAsset?.ticker)
+    ? lbtcUnit
+    : selectedMarket?.quoteAsset?.ticker || 'N/A';
 
   return (
     <>
@@ -129,7 +151,7 @@ export const MarketWithdraw = (): JSX.Element => {
             <div className="base-amount-container panel panel__grey panel__top">
               <Row>
                 <Col span={12}>
-                  <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
+                  <CurrencyIcon currency={baseTickerFormatted} />
                   <span className="dm-sans dm-sans__xx ml-2">{selectedMarket.baseAsset?.ticker}</span>
                 </Col>
                 <Col span={12}>
@@ -145,18 +167,19 @@ export const MarketWithdraw = (): JSX.Element => {
               </Row>
               <Row align="middle" className="residual-balance-container">
                 <Col span={12}>
-                  <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
+                  <span className="dm-mono dm-mono__bold mr-2">Available balance:</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold pl-1"
+                    className="dm-mono dm-mono__bold pl-0"
                     onClick={() => {
-                      if (baseAmountFormatted !== 'N/A') {
+                      if (baseAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceBaseAmount: Number(baseAmountFormatted),
+                          balanceBaseAmount: Number(baseAvailableAmountFormatted),
                         });
                       }
                     }}
-                  >{`${baseAmountFormatted} ${lbtcUnit}`}</Button>
+                  >{`${baseAvailableAmountFormatted} ${baseTickerFormatted}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${baseTickerFormatted}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD
@@ -166,8 +189,8 @@ export const MarketWithdraw = (): JSX.Element => {
             <div className="panel panel__grey panel__bottom mb-6">
               <Row>
                 <Col span={12}>
-                  <CurrencyIcon currency={selectedMarket.quoteAsset?.ticker || ''} />
-                  <span className="dm-sans dm-sans__xx ml-2">{selectedMarket.quoteAsset?.ticker}</span>
+                  <CurrencyIcon currency={quoteTickerFormatted} />
+                  <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
                   <Form.Item
@@ -182,18 +205,19 @@ export const MarketWithdraw = (): JSX.Element => {
               </Row>
               <Row align="middle" className="residual-balance-container">
                 <Col span={12}>
-                  <span className="dm-mono dm-mono__bold mr-2">Residual balance:</span>
+                  <span className="dm-mono dm-mono__bold mr-2">Available balance:</span>
                   <Button
                     type="ghost"
                     className="dm-mono dm-mono__bold pl-1"
                     onClick={() => {
-                      if (quoteAmountFormatted !== 'N/A') {
+                      if (quoteAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceQuoteAmount: Number(quoteAmountFormatted),
+                          balanceQuoteAmount: Number(quoteAvailableAmountFormatted),
                         });
                       }
                     }}
-                  >{`${quoteAmountFormatted} ${selectedMarket.quoteAsset?.ticker}`}</Button>
+                  >{`${quoteAvailableAmountFormatted} ${quoteTickerFormatted}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${quoteTickerFormatted}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

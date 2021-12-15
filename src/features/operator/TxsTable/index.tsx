@@ -8,7 +8,7 @@ import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-sp
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, isLbtc } from '../../../utils';
+import { assetIdToTicker, isLbtcTicker } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { AllRows } from './AllRows';
@@ -34,8 +34,8 @@ export const getTickersFormatted = (
 ): { baseAssetTickerFormatted: string; quoteAssetTickerFormatted: string } => {
   const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
   const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
-  const baseAssetTickerFormatted = isLbtc(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-  const quoteAssetTickerFormatted = isLbtc(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
+  const baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+  const quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
   return { baseAssetTickerFormatted, quoteAssetTickerFormatted };
 };
 

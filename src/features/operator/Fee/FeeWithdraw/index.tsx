@@ -23,11 +23,14 @@ export const FeeWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
-  const { data: feeBalance } = useGetFeeBalanceQuery();
+  const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
   const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
-  const feeBalanceFormatted = feeBalance?.availableBalance
-    ? formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit)
-    : 'N/A';
+  const feeAvailableBalanceFormatted =
+    feeBalance?.availableBalance !== undefined
+      ? formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit)
+      : 'N/A';
+  const feeTotalBalanceFormatted =
+    feeBalance?.totalBalance !== undefined ? formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit) : 'N/A';
 
   const onFinish = async () => {
     try {
@@ -41,10 +44,14 @@ export const FeeWithdraw = (): JSX.Element => {
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
       form.resetFields();
+      // Refetch after some time, waiting available balance to equal total balance
+      setTimeout(() => refetchFeeBalance(), 1000);
+      setTimeout(() => refetchFeeBalance(), 5000);
+      setTimeout(() => refetchFeeBalance(), 10000);
       notification.success({ message: 'Fee withdrawal successful' });
     } catch (err) {
       // @ts-ignore
-      notification.error({ message: err.message });
+      notification.error({ message: err.message, key: err.message });
     }
   };
 
@@ -86,20 +93,21 @@ export const FeeWithdraw = (): JSX.Element => {
               </Row>
               <Row className="residual-balance-container">
                 <Col span={12}>
-                  <span className="dm-mono dm-mono__bold">Residual balance:</span>
+                  <span className="dm-mono dm-mono__bold">Available balance:</span>
                   <Button
                     type="ghost"
                     className="dm-mono dm-mono__bold pl-1"
                     onClick={() => {
-                      if (feeBalanceFormatted !== 'N/A') {
+                      if (feeAvailableBalanceFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          amount: Number(feeBalanceFormatted),
+                          amount: Number(feeAvailableBalanceFormatted),
                         });
                       }
                     }}
                   >
-                    {`${feeBalanceFormatted} ${LBTC_TICKER}`}
+                    {`${feeAvailableBalanceFormatted} ${lbtcUnit}`}
                   </Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
                   0.00 USD

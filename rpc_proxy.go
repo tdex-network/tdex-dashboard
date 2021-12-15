@@ -31,6 +31,10 @@ const (
 	defaultConnectTimeout = 15 * time.Second
 	defaultServerTimeout  = 10 * time.Second
 	defaultServerAddr     = ":3030"
+
+	statusServing serviceState = iota
+	statusNotConnected
+	statusNotServing
 )
 
 var (
@@ -44,7 +48,19 @@ var (
 		defaultServerAddr,
 		"the host:port address which the HTTP proxy should listen on",
 	)
+
+	serviceStateMap = map[serviceState]string{
+		statusServing:      "SERVING",
+		statusNotServing:   "NOT_SERVING",
+		statusNotConnected: "SERVING_NOT_CONNECTED",
+	}
 )
+
+type serviceState int
+
+func (s serviceState) String() string {
+	return serviceStateMap[s]
+}
 
 func init() {
 	flag.Parse()
@@ -175,6 +191,7 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 	router := mux.NewRouter()
 
 	// Forward all requests to taget TDEX daemon.
+	router.HandleFunc("/healthcheck", p.handleHealthCheckRequest).Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/connect", p.handleConnectRequest).Methods(http.MethodPost, http.MethodOptions)
 	router.PathPrefix("/").HandlerFunc(p.forwardGRPCRequest)
 
@@ -199,6 +216,17 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 		log.Infof("handling gRPC request: %s", req.URL.Path)
 	}
 	p.grpcServer.ServeHTTP(resp, req)
+}
+
+func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
+	status := statusServing
+	if p.tdexdConn == nil {
+		status = statusNotConnected
+	}
+	json.NewEncoder(resp).Encode(map[string]interface{}{
+		"code": status,
+		"desc": status.String(),
+	})
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {

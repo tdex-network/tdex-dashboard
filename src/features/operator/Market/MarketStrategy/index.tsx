@@ -17,9 +17,7 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
   );
 
   useEffect(() => {
-    if (marketInfo?.strategyType) {
-      setDefaultStrategyType(marketInfo.strategyType);
-    }
+    setDefaultStrategyType(marketInfo?.strategyType);
   }, [marketInfo?.strategyType]);
 
   const handleChange = async (ev: RadioChangeEvent) => {
@@ -37,12 +35,12 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
       notification.success({ message: 'Market strategy updated successfully' });
     } catch (err) {
       // @ts-ignore
-      notification.error({ message: err.message });
+      notification.error({ message: err.message, key: err.message });
     }
   };
 
   return (
-    <Row justify="center" style={{ textAlign: 'center' }}>
+    <Row justify="center" className="text-center">
       <Col span={24}>
         <Radio.Group onChange={handleChange} value={defaultStrategyType}>
           <Radio.Button value={StrategyType.BALANCED}>BALANCED</Radio.Button>

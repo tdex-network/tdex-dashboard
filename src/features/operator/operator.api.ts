@@ -897,7 +897,7 @@ export const operatorApi = createApi({
     getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getFeeBalance' }),
     }),
-    claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, TxOutpoint.AsObject[]>({
+    claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { outpointsList: TxOutpoint.AsObject[] }>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
     }),
     withdrawFee: build.mutation<

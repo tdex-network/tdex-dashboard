@@ -111,12 +111,6 @@ export const MarketDeposit = (): JSX.Element => {
         <Col span={12} className="pr-10">
           <Button className="w-100 mb-4">CREATE NEW DEPOSIT ADDRESS</Button>
           <Title level={4}>READ CAREFULLY!</Title>
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.,Lorem Ipsum has been
-            the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book.,,- It has survived not only five centuries,-
-            but also the leap into electronic typesetting, remaining essentially unchanged.
-          </p>
           <Checkbox onChange={handleCheckboxChange} className="dm-sans dm-sans__x mt-4">
             I want to use the Tdex fragmenter
           </Checkbox>
@@ -137,7 +131,10 @@ export const MarketDeposit = (): JSX.Element => {
           <Row className="panel panel__grey text-center">
             <Col span={20} offset={2}>
               <img src={alertOctogon} alt="alert" className="mb-2" />
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+              <p>
+                The pending transaction will appear here, once you are done depositing assets click on CONFIRM
+                to claim your deposit.
+              </p>
               <Row>
                 <Col span={20} offset={2}>
                   <Button

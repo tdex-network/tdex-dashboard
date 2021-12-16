@@ -8,6 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
+import { AnimatedEllipsis } from '../../common/AnimatedEllipsis';
+import { WaitingModal } from '../../common/WaitingModal';
 import {
   HOME_ROUTE,
   ONBOARDING_CREATE_OR_RESTORE_ROUTE,
@@ -36,6 +38,16 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
 
+  // Waiting modal
+  const [isWaitingModalVisible, setIsWaitingModalVisible] = useState<boolean>(false);
+  const [waitingModalLogs, setWaitingModalLogs] = useState<string[]>(['starting restoration']);
+  const [newWaitingModalLogStr, setNewWaitingModalLogStr] = useState<string>();
+  useEffect(() => {
+    if (newWaitingModalLogStr && !waitingModalLogs.includes(newWaitingModalLogStr)) {
+      setWaitingModalLogs([...waitingModalLogs, newWaitingModalLogStr]);
+    }
+  }, [newWaitingModalLogStr, waitingModalLogs]);
+
   useEffect(() => {
     unlockWalletError && notification.error({ message: unlockWalletError });
   }, [unlockWalletError]);
@@ -47,6 +59,7 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
   const handleRestoreWallet = async () => {
     try {
       setIsLoading(true);
+      setIsWaitingModalVisible(true);
       const { mnemonic, password, passwordConfirm } = await form.validateFields();
       if (!mnemonic || !password || !passwordConfirm) return;
       const mnemonicSanitized = mnemonic.trim().split(' ');
@@ -70,11 +83,19 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           }
         });
         data.on('data', async (data: InitWalletReply) => {
+          // If not macaroon, log data in modal
+          if (data.getData().length < 150) {
+            setNewWaitingModalLogStr(data.getData());
+          }
           if (data.getStatus() === 0 && data.getData().length > 150) {
             dispatch(setMacaroonCredentials(data.getData()));
             const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
             dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+            setIsWaitingModalVisible(false);
           }
+        });
+        data.on('error', async (error: any) => {
+          console.error('error', error);
         });
       } else {
         notification.error({ message: "Passwords don't match" });
@@ -187,6 +208,19 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           </Row>
         </div>
       </div>
+      <WaitingModal
+        isWaitingModalVisible={isWaitingModalVisible}
+        setIsWaitingModalVisible={setIsWaitingModalVisible}
+      >
+        <>
+          {waitingModalLogs.map((str, index) => (
+            <p key={`${str}_${index}`}>
+              {str}
+              {index === waitingModalLogs.length - 1 ? <AnimatedEllipsis /> : null}
+            </p>
+          ))}
+        </>
+      </WaitingModal>
     </>
   );
 };

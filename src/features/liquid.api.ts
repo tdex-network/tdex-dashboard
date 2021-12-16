@@ -1,13 +1,23 @@
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { network } from '../app/config';
+import type { RootState } from '../app/store';
 import type { Asset } from '../domain/asset';
 import { LBTC_ASSET } from '../utils';
 
+const dynamicBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  WebApi,
+  extraOptions
+) => {
+  const baseUrl = (WebApi.getState() as RootState).settings.explorerLiquidAPI;
+  const rawBaseQuery = fetchBaseQuery({ baseUrl });
+  return rawBaseQuery(args, WebApi, extraOptions);
+};
+
 export const liquidApi = createApi({
   reducerPath: 'liquidApi',
-  baseQuery: fetchBaseQuery({ baseUrl: network.explorerLiquidAPI }),
+  baseQuery: dynamicBaseQuery,
   endpoints: (build) => ({
     getAssetData: build.query<Asset, string>({
       async queryFn(

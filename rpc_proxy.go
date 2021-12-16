@@ -216,7 +216,7 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 }
 
 func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -236,7 +236,7 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 }
 
 func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
 	resp.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -255,7 +255,7 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 

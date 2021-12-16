@@ -219,6 +219,14 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 }
 
 func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
 	status := statusServing
 	if p.tdexdConn == nil {
 		status = statusNotConnected
@@ -230,7 +238,14 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
-	log.Info("handling connect request: %s", req.URL.Path)
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
 	body := make(map[string]interface{})
 	if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
 		errMsg := fmt.Sprintf("invalid request body: %v", err)

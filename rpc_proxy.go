@@ -31,6 +31,7 @@ const (
 	defaultConnectTimeout = 15 * time.Second
 	defaultServerTimeout  = 10 * time.Second
 	defaultServerAddr     = ":3030"
+	defaultLogToFile      = false
 
 	statusServing serviceState = iota
 	statusNotConnected
@@ -48,6 +49,11 @@ var (
 		defaultServerAddr,
 		"the host:port address which the HTTP proxy should listen on",
 	)
+	logToFile = flag.Bool(
+		"log-to-file",
+		defaultLogToFile,
+		"write logs to rpc_proxy.log file instead of stdout",
+	)
 
 	serviceStateMap = map[serviceState]string{
 		statusServing:      "SERVING",
@@ -64,6 +70,17 @@ func (s serviceState) String() string {
 
 func init() {
 	flag.Parse()
+
+	if *logToFile {
+		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			log.WithError(err).Warn(
+				"unable to open rpc_proxy.log. Falling back to stdout logs",
+			)
+			return
+		}
+		log.SetOutput(file)
+	}
 }
 
 func main() {

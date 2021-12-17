@@ -1,19 +1,9 @@
 version: v1
 plugins:
-  - remote: buf.build/protocolbuffers/plugins/go
-    out: generated/go/tdex-daemon
-    opt:
-      - paths=source_relative
-
-  - remote: buf.build/grpc/plugins/go
-    out: generated/go/tdex-daemon
-    opt:
-      - paths=source_relative,require_unimplemented_servers=false
-
   - remote: buf.build/protocolbuffers/plugins/js
-    out: generated/js
+    out: src/api-spec/generated/js
     opt: import_style=commonjs,binary
 
   - remote: buf.build/grpc/plugins/web
-    out: generated/js
+    out: src/api-spec/generated/js
     opt: import_style=typescript,mode=grpcwebtext

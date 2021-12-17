@@ -12,7 +12,6 @@
     ]
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.4",
     "@reduxjs/toolkit": "^1.6.2",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "antd": "^4.17.2",
@@ -66,7 +65,7 @@
   "private": true,
   "scripts": {
     "build": "npx craco build",
-    "build:proto": "./scripts/get-proto-files && ./scripts/compile-proto-js",
+    "build:proto": "buf generate",
     "bundle-analyzer": "open http://localhost:8888",
     "eject": "react-scripts eject",
     "eslint": "eslint './src/**/*.{ts,tsx}'",

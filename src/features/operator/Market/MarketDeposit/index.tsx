@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
@@ -17,8 +17,9 @@ export const MarketDeposit = (): JSX.Element => {
   const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
   const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
+  const [skipGetMarketFragmenterAddress, setSkipGetMarketFragmenterAddress] = useState(true);
   const { data: marketFragmenterAddress, refetch: refetchMarketFragmenterAddress } =
-    useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 });
+    useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetMarketFragmenterAddress });
   const { data: marketAddress, refetch: refetchMarketAddress } = useGetMarketAddressQuery({
     baseAsset: state?.marketInfo.market?.baseAsset || '',
     quoteAsset: state?.marketInfo.market?.quoteAsset || '',
@@ -30,6 +31,12 @@ export const MarketDeposit = (): JSX.Element => {
 
   const [useFragmenter, setUseFragmenter] = useState(false);
   const [isFragmenting, setIsFragmenting] = useState(false);
+
+  useEffect(() => {
+    if (useFragmenter) {
+      setSkipGetMarketFragmenterAddress(false);
+    }
+  }, [useFragmenter]);
 
   const depositAddress = useFragmenter
     ? marketFragmenterAddress?.[0].address || 'N/A'

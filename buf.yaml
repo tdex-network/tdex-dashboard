@@ -1,0 +1,8 @@
+version: v1
+name: buf.build/tdex-network/tdex-daemon
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE

@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - remote: buf.build/protocolbuffers/plugins/js
+    out: src/api-spec/generated/js
+    opt: import_style=commonjs,binary
+
+  - remote: buf.build/grpc/plugins/web
+    out: src/api-spec/generated/js
+    opt: import_style=typescript,mode=grpcwebtext

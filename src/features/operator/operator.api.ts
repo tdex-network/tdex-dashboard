@@ -154,7 +154,7 @@ const baseQueryFn: BaseQueryFn<
         );
         return { data: feeAddressReply.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)) };
       } catch (error) {
-        console.error(error);
+        console.error('getFeeAddress', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -167,7 +167,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listFeeAddresses', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -178,7 +178,7 @@ const baseQueryFn: BaseQueryFn<
           data: feeBalanceReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getFeeBalance', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -196,7 +196,7 @@ const baseQueryFn: BaseQueryFn<
           data: await client.claimFeeDeposits(new ClaimFeeDepositsRequest().setOutpointsList(arr), metadata),
         };
       } catch (error) {
-        console.error(error);
+        console.error('claimFeeDeposits', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -219,7 +219,7 @@ const baseQueryFn: BaseQueryFn<
           ),
         };
       } catch (error) {
-        console.error(error);
+        console.error('withdrawFee', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -237,7 +237,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getFeeFragmenterAddress', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -249,7 +249,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listFeeFragmenterAddresses', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -261,7 +261,7 @@ const baseQueryFn: BaseQueryFn<
           ).getBalanceMap(),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getFeeFragmenterBalance', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -277,7 +277,7 @@ const baseQueryFn: BaseQueryFn<
           ),
         };
       } catch (error) {
-        console.error(error);
+        console.error('feeFragmenterSplitFunds', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -291,7 +291,7 @@ const baseQueryFn: BaseQueryFn<
           ),
         };
       } catch (error) {
-        console.error(error);
+        console.error('withdrawFeeFragmenter', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -311,7 +311,7 @@ const baseQueryFn: BaseQueryFn<
           data: getMarketInfoReply.toObject(false).info,
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketInfo', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -332,7 +332,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketAddress', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -348,7 +348,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listMarketAddresses', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -366,7 +366,7 @@ const baseQueryFn: BaseQueryFn<
           data: getMarketBalanceReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketBalance', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -395,7 +395,7 @@ const baseQueryFn: BaseQueryFn<
           data: claimMarketDepositsReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('claimMarketDeposits', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -410,7 +410,7 @@ const baseQueryFn: BaseQueryFn<
           data: newMarketReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('newMarket', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -425,7 +425,7 @@ const baseQueryFn: BaseQueryFn<
           data: openMarketReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('openMarket', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -443,7 +443,7 @@ const baseQueryFn: BaseQueryFn<
           data: closeMarketReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('closeMarket', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -458,7 +458,7 @@ const baseQueryFn: BaseQueryFn<
           data: dropMarketReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('dropMarket', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -492,7 +492,7 @@ const baseQueryFn: BaseQueryFn<
           data: withdrawMarketReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('withdrawMarket', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -511,7 +511,7 @@ const baseQueryFn: BaseQueryFn<
           data: updateMarketFeeReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('updateMarketPercentageFee', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -536,7 +536,7 @@ const baseQueryFn: BaseQueryFn<
           data: updateMarketFeeReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('updateMarketFixedFee', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -561,7 +561,7 @@ const baseQueryFn: BaseQueryFn<
           data: updateMarketPriceReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('updateMarketPrice', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -588,7 +588,7 @@ const baseQueryFn: BaseQueryFn<
           data: updateMarketStrategyReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('updateMarketStrategy', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -599,7 +599,7 @@ const baseQueryFn: BaseQueryFn<
           data: listMarketsReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listMarkets', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -617,7 +617,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketFragmenterAddress', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -631,7 +631,7 @@ const baseQueryFn: BaseQueryFn<
             .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listMarketFragmenterAddresses', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -643,7 +643,7 @@ const baseQueryFn: BaseQueryFn<
           ).toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketFragmenterBalance', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -663,7 +663,7 @@ const baseQueryFn: BaseQueryFn<
           ),
         };
       } catch (error) {
-        console.error(error);
+        console.error('marketFragmenterSplitFunds', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -677,7 +677,7 @@ const baseQueryFn: BaseQueryFn<
           ),
         };
       } catch (error) {
-        console.error(error);
+        console.error('withdrawMarketFragmenter', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -703,7 +703,7 @@ const baseQueryFn: BaseQueryFn<
           data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listTrades', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -721,7 +721,7 @@ const baseQueryFn: BaseQueryFn<
           data: getMarketCollectedSwapFeesReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('getMarketCollectedSwapFees', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -756,8 +756,9 @@ const baseQueryFn: BaseQueryFn<
           });
         }
         return { data: totalCollectedSwapFees };
-      } catch (err) {
-        return { error: (err as RpcError).message };
+      } catch (error) {
+        console.error('totalCollectedSwapFees', error);
+        return { error: (error as RpcError).message };
       }
     }
     // Utxos
@@ -767,7 +768,7 @@ const baseQueryFn: BaseQueryFn<
           data: await client.reloadUtxos(new ReloadUtxosRequest(), metadata),
         };
       } catch (error) {
-        console.error(error);
+        console.error('reloadUtxos', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -782,7 +783,7 @@ const baseQueryFn: BaseQueryFn<
           data: listUtxosReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listUtxos', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -798,7 +799,7 @@ const baseQueryFn: BaseQueryFn<
           data: addWebhookReply.toObject(false),
         };
       } catch (error) {
-        console.error(error);
+        console.error('addWebhook', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -810,7 +811,7 @@ const baseQueryFn: BaseQueryFn<
           data: removeWebhookReply,
         };
       } catch (error) {
-        console.error(error);
+        console.error('removeWebhook', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -827,7 +828,7 @@ const baseQueryFn: BaseQueryFn<
             .map((webhookInfo: WebhookInfo) => webhookInfo.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listWebhooks', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -837,7 +838,7 @@ const baseQueryFn: BaseQueryFn<
         const info = await client.getInfo(new GetInfoRequest(), metadata);
         return { data: info.toObject(false) };
       } catch (error) {
-        console.error(error);
+        console.error('getInfo', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -852,7 +853,7 @@ const baseQueryFn: BaseQueryFn<
           data: listDepositsReply.getDepositsList().map((deposit) => deposit.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listDeposits', error);
         return { error: (error as RpcError).message };
       }
     }
@@ -873,7 +874,7 @@ const baseQueryFn: BaseQueryFn<
             .map((withdrawal: Withdrawal) => withdrawal.toObject(false)),
         };
       } catch (error) {
-        console.error(error);
+        console.error('listWithdrawals', error);
         return { error: (error as RpcError).message };
       }
     }

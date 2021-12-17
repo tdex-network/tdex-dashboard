@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTypedSelector } from '../../../../app/store';
 import { DepositPage } from '../../../../common/DepositPage';
@@ -14,14 +14,21 @@ import {
 export const FeeDeposit = (): JSX.Element => {
   const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const { refetch: refetchGetFeeBalance } = useGetFeeBalanceQuery();
+  const [skipGetFeeFragmenterAddress, setSkipGetFeeFragmenterAddress] = useState(true);
   const { data: feeFragmenterAddress, refetch: refetchFeeFragmenterAddress } =
-    useGetFeeFragmenterAddressQuery({ numOfAddresses: 1 });
+    useGetFeeFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetFeeFragmenterAddress });
   const { data: feeAddress, refetch: refetchFeeAddress } = useGetFeeAddressQuery();
   const [feeFragmenterSplitFunds] = useFeeFragmenterSplitFundsMutation();
   const [claimFeeDeposits] = useClaimFeeDepositsMutation();
 
   const [isFragmenting, setIsFragmenting] = useState(false);
   const [useFragmenter, setUseFragmenter] = useState(false);
+
+  useEffect(() => {
+    if (useFragmenter) {
+      setSkipGetFeeFragmenterAddress(false);
+    }
+  }, [useFragmenter]);
 
   const depositAddress = useFragmenter
     ? feeFragmenterAddress?.[0].address || 'N/A'

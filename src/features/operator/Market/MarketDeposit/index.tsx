@@ -15,6 +15,10 @@ import {
 
 export const MarketDeposit = (): JSX.Element => {
   const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
+  const market = {
+    baseAsset: state?.marketInfo?.market?.baseAsset || '',
+    quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
+  };
   const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
   const [skipGetMarketFragmenterAddress, setSkipGetMarketFragmenterAddress] = useState(true);
@@ -45,23 +49,23 @@ export const MarketDeposit = (): JSX.Element => {
   const handleFragmentMarketDeposits = async () => {
     // @ts-ignore
     const { data } = await marketFragmenterSplitFunds({
-      market: {
-        baseAsset: state?.marketInfo?.market?.baseAsset || '',
-        quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
-      },
+      market,
       millisatsPerByte: 100,
     });
-    data.on('status', async (status: any) => {
-      if (status.code === 0) {
-        await refetchDeposits();
-        notification.success({ message: 'Fragmentation deposit successful' });
-        setIsFragmenting(false);
-      } else {
-        console.error('status', status);
-        notification.error({ message: status.details, key: status.details });
-        setIsFragmenting(false);
-      }
+    const marketFragmenterSplitFundsStreamPromise = new Promise((resolve, reject) => {
+      data.on('status', async (status: any) => {
+        if (status.code === 0) {
+          await refetchDeposits();
+          notification.success({ message: 'Fragmentation deposit successful' });
+          resolve(0);
+        } else {
+          console.error('status', status);
+          notification.error({ message: status.details, key: status.details });
+          reject(status.details);
+        }
+      });
     });
+    await marketFragmenterSplitFundsStreamPromise;
   };
 
   const handleClaimMarketDeposits = async () => {
@@ -78,7 +82,6 @@ export const MarketDeposit = (): JSX.Element => {
     // @ts-ignore
     if (res?.error) throw new Error(res?.error);
     notification.success({ message: 'Deposit successful' });
-    setIsFragmenting(false);
   };
 
   const handleDeposit = async () => {
@@ -90,9 +93,10 @@ export const MarketDeposit = (): JSX.Element => {
         await handleClaimMarketDeposits();
       }
     } catch (err) {
-      setIsFragmenting(false);
       // @ts-ignore
       notification.error({ message: err.message, key: err.message });
+    } finally {
+      setIsFragmenting(false);
     }
   };
 

@@ -1,6 +1,6 @@
 import Icon from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
-import { Breadcrumb, Row, Col, Typography, Button, Radio } from 'antd';
+import { Breadcrumb, Row, Col, Typography, Button, Radio, notification } from 'antd';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { LBTC_UNITS } from '../../utils';
+import { useReloadUtxosMutation } from '../operator/operator.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
@@ -19,7 +20,7 @@ export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const { tdexdConnectUrl, lbtcUnit } = useTypedSelector(({ settings }) => settings);
-
+  const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
   const handleBitcoinUnitChange = async (ev: RadioChangeEvent) => {
     dispatch(setLbtcUnit(ev.target.value));
   };
@@ -82,6 +83,36 @@ export const Settings = (): JSX.Element => {
             <Row>
               <Col>
                 <Button onClick={() => dispatch(resetSettings())}>Clear Cache</Button>
+              </Col>
+            </Row>
+          </div>
+          {/**/}
+          <div className="mb-4">
+            <Row>
+              <Col span={24}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                  Reload Utxos
+                </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Button
+                  onClick={async () => {
+                    try {
+                      const res = await reloadUtxos();
+                      // @ts-ignore
+                      if (res?.error) throw new Error(res?.error);
+                      notification.success({ message: 'Utxos reloaded', key: 'Utxos reloaded' });
+                    } catch (err) {
+                      // @ts-ignore
+                      notification.error({ message: err.message, key: err.message });
+                    }
+                  }}
+                  loading={isReloadUtxosLoading}
+                >
+                  Reload Utxos
+                </Button>
               </Col>
             </Row>
           </div>

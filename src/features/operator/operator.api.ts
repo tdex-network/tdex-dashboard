@@ -727,6 +727,7 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'totalCollectedSwapFees': {
       try {
+        if (!body) return { data: 0 };
         let totalCollectedSwapFees = 0;
         const markets = (body as Market.AsObject[]).map(({ baseAsset, quoteAsset }) => {
           const newMarket = new Market();
@@ -1039,7 +1040,7 @@ export const operatorApi = createApi({
       query: (body) => ({ methodName: 'getMarketCollectedSwapFees', body }),
       providesTags: ['Trade'],
     }),
-    totalCollectedSwapFees: build.query<number, Market.AsObject[]>({
+    totalCollectedSwapFees: build.query<number, Market.AsObject[] | undefined>({
       query: (body) => ({ methodName: 'totalCollectedSwapFees', body }),
       providesTags: ['Trade'],
     }),

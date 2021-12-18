@@ -24,8 +24,8 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //
-  const markets = listMarkets?.marketsList.map((m) => m.market);
-  const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets as Market.AsObject[]);
+  const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
+  const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
 
   useEffect(() => {
     if (isReady?.isUnlocked && isReady?.isInitialized) refetchListMarkets();

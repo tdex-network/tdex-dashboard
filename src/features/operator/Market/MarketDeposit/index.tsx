@@ -4,7 +4,9 @@ import { useLocation } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
+import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
+import { WaitingModal } from '../../../../common/WaitingModal';
 import {
   useMarketFragmenterSplitFundsMutation,
   useGetMarketFragmenterAddressQuery,
@@ -101,19 +103,34 @@ export const MarketDeposit = (): JSX.Element => {
   };
 
   return (
-    <DepositPage
-      type="Market"
-      depositAddress={depositAddress}
-      isFragmenting={isFragmenting}
-      handleDeposit={handleDeposit}
-      setUseFragmenter={setUseFragmenter}
-      getNewAddress={() => {
-        if (useFragmenter) {
-          refetchMarketFragmenterAddress();
-        } else {
-          refetchMarketAddress();
-        }
-      }}
-    />
+    <>
+      <DepositPage
+        type="Market"
+        depositAddress={depositAddress}
+        isFragmenting={isFragmenting}
+        handleDeposit={handleDeposit}
+        setUseFragmenter={setUseFragmenter}
+        getNewAddress={() => {
+          if (useFragmenter) {
+            refetchMarketFragmenterAddress();
+          } else {
+            refetchMarketAddress();
+          }
+        }}
+      />
+      <WaitingModal
+        isWaitingModalVisible={isWaitingModalVisible}
+        setIsWaitingModalVisible={setIsWaitingModalVisible}
+      >
+        <>
+          {waitingModalLogs.map((str, index) => (
+            <p key={`${str}_${index}`}>
+              {str}
+              {index === waitingModalLogs.length - 1 ? <AnimatedEllipsis /> : null}
+            </p>
+          ))}
+        </>
+      </WaitingModal>
+    </>
   );
 };

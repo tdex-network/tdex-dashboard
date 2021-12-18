@@ -26,12 +26,9 @@ export const MarketDeposit = (): JSX.Element => {
   const [skipGetMarketFragmenterAddress, setSkipGetMarketFragmenterAddress] = useState(true);
   const { data: marketFragmenterAddress, refetch: refetchMarketFragmenterAddress } =
     useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetMarketFragmenterAddress });
-  const { data: marketAddress, refetch: refetchMarketAddress } = useGetMarketAddressQuery({
-    baseAsset: state?.marketInfo.market?.baseAsset || '',
-    quoteAsset: state?.marketInfo.market?.quoteAsset || '',
-  });
+  const { data: marketAddress, refetch: refetchMarketAddress } = useGetMarketAddressQuery(market);
   const [claimMarketDeposits] = useClaimMarketDepositsMutation();
-  const { data: deposits, refetch: refetchDeposits } = useListDepositsQuery({
+  const { data: deposits } = useListDepositsQuery({
     accountIndex: state?.marketInfo.accountIndex,
   });
 
@@ -70,7 +67,6 @@ export const MarketDeposit = (): JSX.Element => {
     const marketFragmenterSplitFundsStreamPromise = new Promise((resolve, reject) => {
       data.on('status', async (status: any) => {
         if (status.code === 0) {
-          await refetchDeposits();
           notification.success({ message: 'Fragmentation deposit successful' });
           resolve({ code: 0 });
         } else {
@@ -87,7 +83,13 @@ export const MarketDeposit = (): JSX.Element => {
   const handleClaimMarketDeposits = async () => {
     const response = await fetch(`${explorerLiquidAPI}/address/${depositAddress}/utxo`);
     const utxoList = await response.json();
-    if (!utxoList.length) throw new Error('No utxo found. Did you wait for confirmation?');
+    if (!utxoList.length) throw new Error('No deposit transaction found');
+    // Check confirmation
+    utxoList.forEach((utxo: any) => {
+      if (!utxo.status.confirmed) {
+        throw new Error('Deposit transaction not confirmed');
+      }
+    });
     // Check if deposit already processed by daemon
     const foundArr = utxoList.map((utxo: any) => deposits?.find((d) => d.utxo?.outpoint?.hash === utxo.txid));
     if (foundArr.every(Boolean)) {
@@ -96,13 +98,10 @@ export const MarketDeposit = (): JSX.Element => {
     // @ts-ignore
     const { error } = await claimMarketDeposits({
       outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
-      market: {
-        baseAsset: state?.marketInfo?.market?.baseAsset || '',
-        quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
-      },
+      market,
     });
     if (error) throw new Error(error);
-    notification.success({ message: 'Deposit successful' });
+    notification.success({ message: 'Deposit successful', key: 'Deposit successful' });
   };
 
   const handleDeposit = async () => {

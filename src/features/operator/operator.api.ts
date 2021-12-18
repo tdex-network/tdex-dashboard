@@ -886,7 +886,7 @@ const baseQueryFn: BaseQueryFn<
 export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
-  tagTypes: ['Market', 'Fee', 'Trade', 'Webhook'],
+  tagTypes: ['Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
   endpoints: (build) => ({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -897,9 +897,11 @@ export const operatorApi = createApi({
     }),
     getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getFeeBalance' }),
+      providesTags: ['FeeUTXOs'],
     }),
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { outpointsList: TxOutpoint.AsObject[] }>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
+      invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,
@@ -911,6 +913,7 @@ export const operatorApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'withdrawFee', body }),
+      invalidatesTags: ['FeeUTXOs'],
     }),
     getFeeFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
       query: (body) => ({ methodName: 'getFeeFragmenterAddress', body }),
@@ -923,6 +926,7 @@ export const operatorApi = createApi({
     }),
     feeFragmenterSplitFunds: build.mutation<void, { maxFragments: number; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'feeFragmenterSplitFunds', body }),
+      invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFeeFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'withdrawFeeFragmenter', body }),
@@ -934,7 +938,6 @@ export const operatorApi = createApi({
     }),
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketAddress', body }),
-      providesTags: ['Market'],
     }),
     listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'listMarketAddresses' }),
@@ -942,14 +945,14 @@ export const operatorApi = createApi({
     }),
     getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketBalance', body }),
-      providesTags: ['Market'],
+      providesTags: ['MarketUTXOs'],
     }),
     claimMarketDeposits: build.mutation<
       ClaimMarketDepositsReply.AsObject,
       { market: Market.AsObject; outpointsList: TxOutpoint.AsObject[] }
     >({
       query: (body) => ({ methodName: 'claimMarketDeposits', body }),
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['MarketUTXOs'],
     }),
     newMarket: build.mutation<NewMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'newMarket', body }),
@@ -977,7 +980,7 @@ export const operatorApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'withdrawMarket', body }),
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['MarketUTXOs'],
     }),
     updateMarketPercentageFee: build.mutation<
       UpdateMarketFeeReply.AsObject,
@@ -1022,6 +1025,7 @@ export const operatorApi = createApi({
     }),
     marketFragmenterSplitFunds: build.mutation<void, { market: Market.AsObject; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'marketFragmenterSplitFunds', body }),
+      invalidatesTags: ['MarketUTXOs'],
     }),
     withdrawMarketFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),
@@ -1040,11 +1044,13 @@ export const operatorApi = createApi({
       providesTags: ['Trade'],
     }),
     // Utxos
-    reloadUtxos: build.query<ReloadUtxosReply, void>({
+    reloadUtxos: build.mutation<ReloadUtxosReply, void>({
       query: () => ({ methodName: 'reloadUtxos' }),
+      invalidatesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
     listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
       query: () => ({ methodName: 'listUtxos' }),
+      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
     // Webhook
     addWebhook: build.mutation<
@@ -1067,7 +1073,7 @@ export const operatorApi = createApi({
     }),
     listDeposits: build.query<Deposit.AsObject[], { accountIndex: number }>({
       query: (body) => ({ methodName: 'listDeposits', body }),
-      providesTags: ['Market', 'Fee'],
+      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
     listWithdrawals: build.query<Withdrawal.AsObject[], { accountIndex: number; page: Page.AsObject }>({
       query: (body) => ({ methodName: 'listWithdrawals', body }),
@@ -1114,6 +1120,7 @@ export const {
   useTotalCollectedSwapFeesQuery,
   useListTradesQuery,
   // Utxos
+  useReloadUtxosMutation,
   useListUtxosQuery,
   // Webhook
   useAddWebhookMutation,

@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo, FragmenterSplitFundsReply } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
@@ -31,13 +31,25 @@ export const MarketDeposit = (): JSX.Element => {
     quoteAsset: state?.marketInfo.market?.quoteAsset || '',
   });
   const [claimMarketDeposits] = useClaimMarketDepositsMutation();
-  const { refetch: refetchDeposits } = useListDepositsQuery({
+  const { data: deposits, refetch: refetchDeposits } = useListDepositsQuery({
     accountIndex: state?.marketInfo.accountIndex,
   });
 
   const [useFragmenter, setUseFragmenter] = useState(false);
   const [isFragmenting, setIsFragmenting] = useState(false);
 
+  // Waiting modal
+  const initWaitingModalMarketFragmentationLog = ['starting market deposit fragmentation'];
+  const [waitingModalLogs, setWaitingModalLogs] = useState<string[]>(initWaitingModalMarketFragmentationLog);
+  const [newWaitingModalLogStr, setNewWaitingModalLogStr] = useState<string>();
+  const [isWaitingModalVisible, setIsWaitingModalVisible] = useState<boolean>(false);
+  useEffect(() => {
+    if (newWaitingModalLogStr && !waitingModalLogs.includes(newWaitingModalLogStr)) {
+      setWaitingModalLogs([...waitingModalLogs, newWaitingModalLogStr]);
+    }
+  }, [newWaitingModalLogStr, waitingModalLogs]);
+
+  // Set skip to false to call GetMarketFragmenterAddress
   useEffect(() => {
     if (useFragmenter) {
       setSkipGetMarketFragmenterAddress(false);
@@ -49,6 +61,7 @@ export const MarketDeposit = (): JSX.Element => {
     : marketAddress?.[0].address || 'N/A';
 
   const handleFragmentMarketDeposits = async () => {
+    setIsWaitingModalVisible(true);
     // @ts-ignore
     const { data } = await marketFragmenterSplitFunds({
       market,
@@ -59,12 +72,13 @@ export const MarketDeposit = (): JSX.Element => {
         if (status.code === 0) {
           await refetchDeposits();
           notification.success({ message: 'Fragmentation deposit successful' });
-          resolve(0);
+          resolve({ code: 0 });
         } else {
-          console.error('status', status);
-          notification.error({ message: status.details, key: status.details });
-          reject(status.details);
+          reject({ message: status.details });
         }
+      });
+      data.on('data', async (data: FragmenterSplitFundsReply) => {
+        setNewWaitingModalLogStr(data.getMessage());
       });
     });
     await marketFragmenterSplitFundsStreamPromise;
@@ -74,15 +88,20 @@ export const MarketDeposit = (): JSX.Element => {
     const response = await fetch(`${explorerLiquidAPI}/address/${depositAddress}/utxo`);
     const utxoList = await response.json();
     if (!utxoList.length) throw new Error('No utxo found. Did you wait for confirmation?');
-    const res = await claimMarketDeposits({
+    // Check if deposit already processed by daemon
+    const foundArr = utxoList.map((utxo: any) => deposits?.find((d) => d.utxo?.outpoint?.hash === utxo.txid));
+    if (foundArr.every(Boolean)) {
+      throw new Error('Deposit already processed');
+    }
+    // @ts-ignore
+    const { error } = await claimMarketDeposits({
       outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
       market: {
         baseAsset: state?.marketInfo?.market?.baseAsset || '',
         quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
       },
     });
-    // @ts-ignore
-    if (res?.error) throw new Error(res?.error);
+    if (error) throw new Error(error);
     notification.success({ message: 'Deposit successful' });
   };
 
@@ -99,6 +118,8 @@ export const MarketDeposit = (): JSX.Element => {
       notification.error({ message: err.message, key: err.message });
     } finally {
       setIsFragmenting(false);
+      setWaitingModalLogs(initWaitingModalMarketFragmentationLog);
+      setIsWaitingModalVisible(false);
     }
   };
 

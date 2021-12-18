@@ -934,7 +934,6 @@ export const operatorApi = createApi({
     }),
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketAddress', body }),
-      providesTags: ['Market'],
     }),
     listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       query: () => ({ methodName: 'listMarketAddresses' }),

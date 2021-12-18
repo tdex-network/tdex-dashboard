@@ -886,7 +886,7 @@ const baseQueryFn: BaseQueryFn<
 export const operatorApi = createApi({
   reducerPath: 'operatorService',
   baseQuery: baseQueryFn,
-  tagTypes: ['Market', 'Fee', 'Trade', 'Webhook'],
+  tagTypes: ['Market', 'MarketBalance', 'Fee', 'FeeBalance', 'Trade', 'Webhook'],
   endpoints: (build) => ({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -897,9 +897,11 @@ export const operatorApi = createApi({
     }),
     getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       query: () => ({ methodName: 'getFeeBalance' }),
+      providesTags: ['FeeBalance'],
     }),
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { outpointsList: TxOutpoint.AsObject[] }>({
       query: (body) => ({ methodName: 'claimFeeDeposits', body }),
+      invalidatesTags: ['FeeBalance'],
     }),
     withdrawFee: build.mutation<
       WithdrawFeeReply,
@@ -911,6 +913,7 @@ export const operatorApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'withdrawFee', body }),
+      invalidatesTags: ['FeeBalance'],
     }),
     getFeeFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
       query: (body) => ({ methodName: 'getFeeFragmenterAddress', body }),
@@ -923,6 +926,7 @@ export const operatorApi = createApi({
     }),
     feeFragmenterSplitFunds: build.mutation<void, { maxFragments: number; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'feeFragmenterSplitFunds', body }),
+      invalidatesTags: ['FeeBalance'],
     }),
     withdrawFeeFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'withdrawFeeFragmenter', body }),
@@ -941,14 +945,14 @@ export const operatorApi = createApi({
     }),
     getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketBalance', body }),
-      providesTags: ['Market'],
+      providesTags: ['MarketBalance'],
     }),
     claimMarketDeposits: build.mutation<
       ClaimMarketDepositsReply.AsObject,
       { market: Market.AsObject; outpointsList: TxOutpoint.AsObject[] }
     >({
       query: (body) => ({ methodName: 'claimMarketDeposits', body }),
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['MarketBalance'],
     }),
     newMarket: build.mutation<NewMarketReply, Market.AsObject>({
       query: (body) => ({ methodName: 'newMarket', body }),
@@ -976,7 +980,7 @@ export const operatorApi = createApi({
       }
     >({
       query: (body) => ({ methodName: 'withdrawMarket', body }),
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['MarketBalance'],
     }),
     updateMarketPercentageFee: build.mutation<
       UpdateMarketFeeReply.AsObject,
@@ -1021,6 +1025,7 @@ export const operatorApi = createApi({
     }),
     marketFragmenterSplitFunds: build.mutation<void, { market: Market.AsObject; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'marketFragmenterSplitFunds', body }),
+      invalidatesTags: ['MarketBalance'],
     }),
     withdrawMarketFragmenter: build.mutation<void, { address: string; millisatsPerByte: number }>({
       query: (body) => ({ methodName: 'withdrawMarketFragmenter', body }),

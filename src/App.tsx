@@ -34,7 +34,7 @@ export const App = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       if (useProxy) {
-        await Command.sidecar('grpcproxy').spawn();
+        await Command.sidecar('grpcproxy', '--log-to-file').spawn();
         setProxyIsRunning(true);
       }
     })();

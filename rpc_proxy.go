@@ -31,6 +31,7 @@ const (
 	defaultConnectTimeout = 15 * time.Second
 	defaultServerTimeout  = 10 * time.Second
 	defaultServerAddr     = ":3030"
+	defaultLogToFile      = false
 
 	statusServing serviceState = iota
 	statusNotConnected
@@ -48,6 +49,11 @@ var (
 		defaultServerAddr,
 		"the host:port address which the HTTP proxy should listen on",
 	)
+	logToFile = flag.Bool(
+		"log-to-file",
+		defaultLogToFile,
+		"write logs to rpc_proxy.log file instead of stdout",
+	)
 
 	serviceStateMap = map[serviceState]string{
 		statusServing:      "SERVING",
@@ -64,6 +70,17 @@ func (s serviceState) String() string {
 
 func init() {
 	flag.Parse()
+
+	if *logToFile {
+		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			log.WithError(err).Warn(
+				"unable to open rpc_proxy.log. Falling back to stdout logs",
+			)
+			return
+		}
+		log.SetOutput(file)
+	}
 }
 
 func main() {
@@ -199,7 +216,7 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 }
 
 func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -219,6 +236,14 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 }
 
 func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
 	status := statusServing
 	if p.tdexdConn == nil {
 		status = statusNotConnected
@@ -230,7 +255,14 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
-	log.Info("handling connect request: %s", req.URL.Path)
+	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
 	body := make(map[string]interface{})
 	if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
 		errMsg := fmt.Sprintf("invalid request body: %v", err)

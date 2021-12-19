@@ -35,7 +35,7 @@ function shuffleMnemonic(words: string[]): string[] {
 export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { state } = useLocation();
+  const { state } = useLocation() as { state: { mnemonic: string[]; password: string } };
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);

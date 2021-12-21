@@ -16,6 +16,10 @@ import { featuredAssets, LBTC_UNITS } from '../../utils';
 const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 
+const proxyHealthStatus = ['SERVING', 'SERVING_NOT_CONNECTED', 'NOT_SERVING'] as const;
+export type ProxyHealthStatus = typeof proxyHealthStatus[number];
+export const isProxyHealthStatus = (x: any): x is ProxyHealthStatus => proxyHealthStatus.includes(x);
+
 export interface SettingsState {
   chain: NetworkString;
   explorerLiquidAPI: string;
@@ -29,6 +33,7 @@ export interface SettingsState {
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
   lbtcUnit: LbtcUnit;
+  proxyHealth?: ProxyHealthStatus;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -37,18 +42,44 @@ export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
     try {
       const { settings } = thunkAPI.getState();
       await fetch(settings.baseUrl + '/connect', {
-        method: 'post',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ url: settings.tdexdConnectUrl }),
         mode: 'no-cors',
       });
-    } catch (e) {
-      console.log('error /connect', e);
+    } catch (err) {
+      if (err instanceof TypeError) {
+        return thunkAPI.rejectWithValue(err.message);
+      } else {
+        // @ts-ignore
+        return thunkAPI.rejectWithValue(err.response.data);
+      }
     }
   }
 );
+
+export const healthCheckProxy = createAsyncThunk<
+  { desc: ProxyHealthStatus; code: number },
+  void,
+  { state: RootState }
+>('settings/healthCheckProxy', async (_, thunkAPI) => {
+  try {
+    const { settings } = thunkAPI.getState();
+    const res = await fetch(settings.baseUrl + '/healthcheck', { method: 'GET' });
+    const proxyHealth = JSON.parse(await res.text());
+    thunkAPI.dispatch(setProxyHealth(proxyHealth.desc));
+    return proxyHealth;
+  } catch (err) {
+    if (err instanceof TypeError) {
+      return thunkAPI.rejectWithValue(err.message);
+    } else {
+      // @ts-ignore
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+});
 
 export const initialState: SettingsState = {
   chain: network.chain,
@@ -113,10 +144,12 @@ export const settingsSlice = createSlice({
     setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
       state.tdexdConnectUrl = action.payload;
     },
+    setProxyHealth: (state, action: PayloadAction<any>) => {
+      state.proxyHealth = action.payload;
+    },
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
-      state.useProxy = false;
     },
     resetSettings: () => initialState,
   },
@@ -165,6 +198,7 @@ export const {
   setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,
+  setProxyHealth,
   resetSettings,
   logout,
   saveAsset,

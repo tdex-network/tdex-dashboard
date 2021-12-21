@@ -72,6 +72,7 @@
     "fmt": "yarn run eslint --fix && yarn run prettier --write",
     "lint": "yarn run eslint && yarn run prettier --check",
     "prettier": "prettier './src/**/*.{ts,tsx}'",
+    "proxy:run": "./src-tauri/bin/grpcproxy-aarch64-apple-darwin",
     "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "tauri:build": "cargo tauri build",

@@ -5,6 +5,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { ReactComponent as TdexLogo } from '../../assets/images/tdex-logo.svg';
+import { Footer } from '../Footer';
 import { Header } from '../Header';
 
 interface Props {
@@ -44,6 +45,7 @@ export const Shell = ({ children }: Props): JSX.Element => {
           </Row>
         )}
       </Content>
+      <Footer />
     </Layout>
   );
 };

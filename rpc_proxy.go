@@ -70,6 +70,11 @@ func (s serviceState) String() string {
 
 func init() {
 	flag.Parse()
+	// Log method name
+	// Adds between between 20 and 40% overhead
+	// Comment when not debugging
+	// https://github.com/sirupsen/logrus#logging-method-name
+    log.SetReportCaller(true)
 
 	if *logToFile {
 		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
@@ -207,7 +212,7 @@ func (p *rpcProxy) director(
 func (p *rpcProxy) newHTTPHandler() *mux.Router {
 	router := mux.NewRouter()
 
-	// Forward all requests to taget TDEX daemon.
+	// Forward all requests to target TDEX daemon.
 	router.HandleFunc("/healthcheck", p.handleHealthCheckRequest).Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/connect", p.handleConnectRequest).Methods(http.MethodPost, http.MethodOptions)
 	router.PathPrefix("/").HandlerFunc(p.forwardGRPCRequest)
@@ -216,7 +221,10 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 }
 
 func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+    // TODO: 'cargo tauri dev' requires "Access-Control-Allow-Origin: http://localhost:3003/"
+    // and 'cargo tauri build' requires "Access-Control-Allow-Origin: tauri://localhost"
+    // Set header from flag
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -236,7 +244,7 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 }
 
 func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -255,7 +263,7 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 

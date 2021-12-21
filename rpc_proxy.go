@@ -71,7 +71,7 @@ func (s serviceState) String() string {
 func init() {
 	flag.Parse()
 	// Log method name
-	// Adds between between 20 and 40% overhead
+	// Adds between 20 and 40% overhead
 	// Comment when not debugging
 	// https://github.com/sirupsen/logrus#logging-method-name
     log.SetReportCaller(true)

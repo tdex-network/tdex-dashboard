@@ -229,8 +229,9 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
-	if !p.isConnected() {
-		http.Error(resp, "proxy not connected", http.StatusInternalServerError)
+	if req.Method != "OPTIONS" && !p.isConnected() {
+		resp.Header().Set("Content-Type", req.Header.Get("Content-Type"))
+		resp.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
 
@@ -322,6 +323,8 @@ func (p *rpcProxy) handleDisconnectRequest(resp http.ResponseWriter, req *http.R
 	if req.Method != "OPTIONS" {
 		log.Infof("handling http request: %s", req.URL.Path)
 	}
+
+	p.tdexdConn.Close()
 
 	p.lock.Lock()
 	defer p.lock.Unlock()

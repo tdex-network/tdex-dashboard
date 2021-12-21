@@ -12,7 +12,7 @@ import { useReloadUtxosMutation } from '../operator/operator.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { logout, resetSettings, setLbtcUnit } from './settingsSlice';
+import { disconnectProxy, logout, resetSettings, setLbtcUnit } from './settingsSlice';
 
 const { Text, Title } = Typography;
 
@@ -65,7 +65,17 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col>
-                <Button onClick={() => dispatch(logout())} className="w-100">
+                <Button
+                  onClick={async () => {
+                    try {
+                      await dispatch(logout());
+                      await dispatch(disconnectProxy()).unwrap();
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  className="w-100"
+                >
                   Log Out
                 </Button>
               </Col>
@@ -82,7 +92,18 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col>
-                <Button onClick={() => dispatch(resetSettings())}>Clear Cache</Button>
+                <Button
+                  onClick={async () => {
+                    try {
+                      await dispatch(resetSettings());
+                      await dispatch(disconnectProxy()).unwrap();
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  Clear Cache
+                </Button>
               </Col>
             </Row>
           </div>

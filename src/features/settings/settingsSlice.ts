@@ -60,6 +60,29 @@ export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
   }
 );
 
+export const disconnectProxy = createAsyncThunk<void, void, { state: RootState }>(
+  'settings/disconnectProxy',
+  async (_, thunkAPI) => {
+    try {
+      const { settings } = thunkAPI.getState();
+      await fetch(settings.baseUrl + '/disconnect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'no-cors',
+      });
+    } catch (err) {
+      if (err instanceof TypeError) {
+        return thunkAPI.rejectWithValue(err.message);
+      } else {
+        // @ts-ignore
+        return thunkAPI.rejectWithValue(err.response.data);
+      }
+    }
+  }
+);
+
 export const healthCheckProxy = createAsyncThunk<
   { desc: ProxyHealthStatus; code: number },
   void,

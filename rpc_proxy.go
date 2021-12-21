@@ -74,7 +74,7 @@ func init() {
 	// Adds between 20 and 40% overhead
 	// Comment when not debugging
 	// https://github.com/sirupsen/logrus#logging-method-name
-    log.SetReportCaller(true)
+	log.SetReportCaller(true)
 
 	if *logToFile {
 		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
@@ -221,12 +221,17 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 }
 
 func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
-    // TODO: 'cargo tauri dev' requires "Access-Control-Allow-Origin: http://localhost:3003/"
-    // and 'cargo tauri build' requires "Access-Control-Allow-Origin: tauri://localhost"
-    // Set header from flag
+	// TODO: 'cargo tauri dev' requires "Access-Control-Allow-Origin: http://localhost:3003/"
+	// and 'cargo tauri build' requires "Access-Control-Allow-Origin: tauri://localhost"
+	// Set header from flag
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if !p.isConnected() {
+		http.Error(resp, "proxy not connected", http.StatusInternalServerError)
+		return
+	}
 
 	if p.grpcWebProxy.IsGrpcWebRequest(req) ||
 		p.grpcWebProxy.IsGrpcWebSocketRequest(req) ||
@@ -253,7 +258,7 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 	}
 
 	status := statusServing
-	if p.tdexdConn == nil {
+	if !p.isConnected() {
 		status = statusNotConnected
 	}
 	json.NewEncoder(resp).Encode(map[string]interface{}{
@@ -306,6 +311,10 @@ func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Requ
 	json.NewEncoder(resp).Encode(map[string]interface{}{
 		"status": "connected",
 	})
+}
+
+func (p *rpcProxy) isConnected() bool {
+	return p.tdexdConn != nil
 }
 
 func createGRPCConn(

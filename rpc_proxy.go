@@ -215,6 +215,7 @@ func (p *rpcProxy) newHTTPHandler() *mux.Router {
 	// Forward all requests to target TDEX daemon.
 	router.HandleFunc("/healthcheck", p.handleHealthCheckRequest).Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/connect", p.handleConnectRequest).Methods(http.MethodPost, http.MethodOptions)
+	router.HandleFunc("/disconnect", p.handleDisconnectRequest).Methods(http.MethodPost, http.MethodOptions)
 	router.PathPrefix("/").HandlerFunc(p.forwardGRPCRequest)
 
 	return router
@@ -310,6 +311,25 @@ func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Requ
 
 	json.NewEncoder(resp).Encode(map[string]interface{}{
 		"status": "connected",
+	})
+}
+
+func (p *rpcProxy) handleDisconnectRequest(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	p.tdexdConn = nil
+
+	json.NewEncoder(resp).Encode(map[string]interface{}{
+		"status": "disconnected",
 	})
 }
 

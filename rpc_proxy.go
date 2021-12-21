@@ -324,12 +324,14 @@ func (p *rpcProxy) handleDisconnectRequest(resp http.ResponseWriter, req *http.R
 		log.Infof("handling http request: %s", req.URL.Path)
 	}
 
-	p.tdexdConn.Close()
-
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	p.tdexdConn = nil
+	if p.tdexdConn != nil {
+		p.tdexdConn.Close()
+
+		p.tdexdConn = nil
+	}
 
 	json.NewEncoder(resp).Encode(map[string]interface{}{
 		"status": "disconnected",

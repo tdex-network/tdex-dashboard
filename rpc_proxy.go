@@ -28,14 +28,14 @@ import (
 )
 
 const (
+	statusServing serviceState = iota
+	statusNotConnected
+	statusNotServing
+
 	defaultConnectTimeout = 15 * time.Second
 	defaultServerTimeout  = 10 * time.Second
 	defaultServerAddr     = ":3030"
 	defaultLogToFile      = false
-
-	statusServing serviceState = iota
-	statusNotConnected
-	statusNotServing
 )
 
 var (

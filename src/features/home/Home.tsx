@@ -12,18 +12,36 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const { data: isReady } = useIsReadyQuery();
-  const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
+  const { data: isReady, refetch: refetchIsReady } = useIsReadyQuery();
+  const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
+  //
+  const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
+
+  useEffect(() => {
+    console.log('!!!isReady?.isInitialized', isReady?.isInitialized);
+    console.log('!!!proxyHealth', proxyHealth);
+    if (proxyHealth === 'SERVING') {
+      if (isReady?.isInitialized) {
+        setProxyIsServingAndReady(true);
+      } else {
+        refetchIsReady();
+      }
+    }
+  }, [isReady?.isInitialized, proxyHealth, refetchIsReady]);
 
   useEffect(() => {
     if (isReady?.isInitialized && !isReady?.isUnlocked) {
       showUnlockWalletModal();
     }
   }, [isReady]);
+
+  if (!proxyIsServingAndReady) {
+    return <div />;
+  }
 
   return (
     <>

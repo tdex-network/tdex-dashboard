@@ -1,10 +1,17 @@
+import { once } from '@tauri-apps/api/event';
+import { exit } from '@tauri-apps/api/process';
 import { Command } from '@tauri-apps/api/shell';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from './app/store';
 import { ServiceUnavailableModal } from './common/ServiceUnavailableModal';
 import Shell from './common/Shell';
-import { connectProxy, healthCheckProxy, setProxyHealth } from './features/settings/settingsSlice';
+import {
+  connectProxy,
+  disconnectProxy,
+  healthCheckProxy,
+  setProxyHealth,
+} from './features/settings/settingsSlice';
 import { useIsReadyQuery } from './features/walletUnlocker/walletUnlocker.api';
 import { useInterval } from './hooks/useInterval';
 import { Routes } from './routes';
@@ -15,6 +22,7 @@ export const App = (): JSX.Element => {
   const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const { macaroonCredentials, tdexdConnectUrl } = useTypedSelector(({ settings }) => settings);
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
+  const [isExiting, setIsExiting] = useState<boolean>(false);
   const {
     data: isReady,
     error: isReadyError,
@@ -22,18 +30,32 @@ export const App = (): JSX.Element => {
     isUninitialized: isReadyUninitialized,
   } = useIsReadyQuery();
 
-  // Enable copy/paste on Tauri app
   useEffect(() => {
-    document.addEventListener('keypress', function (event) {
-      if (event.metaKey && event.key === 'c') {
-        document.execCommand('copy');
-        event.preventDefault();
-      }
-      if (event.metaKey && event.key === 'v') {
-        document.execCommand('paste');
-        event.preventDefault();
-      }
-    });
+    (async () => {
+      // Enable copy/paste on Tauri app
+      document.addEventListener('keypress', function (event) {
+        if (event.metaKey && event.key === 'c') {
+          document.execCommand('copy');
+          event.preventDefault();
+        }
+        if (event.metaKey && event.key === 'v') {
+          document.execCommand('paste');
+          event.preventDefault();
+        }
+      });
+
+      // Register close app event for cleanup
+      await once('quit-event', async () => {
+        try {
+          setIsExiting(true);
+          await dispatch(disconnectProxy()).unwrap();
+          dispatch(setProxyHealth('NOT_SERVING'));
+          await exit();
+        } catch (err) {
+          console.error('err', err);
+        }
+      });
+    })();
     // eslint-disable-next-line
   }, []);
 
@@ -51,7 +73,7 @@ export const App = (): JSX.Element => {
 
   const startAndConnectToProxy = useCallback(async () => {
     console.log('startAndConnectToProxy');
-    if (useProxy && proxyHealth !== 'SERVING') {
+    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
       // Start proxy
       await startProxy();
       // Health check
@@ -74,12 +96,12 @@ export const App = (): JSX.Element => {
         console.error('gRPC Proxy:', desc);
       }
     }
-  }, [dispatch, macaroonCredentials, proxyHealth, tdexdConnectUrl, useProxy]);
+  }, [dispatch, macaroonCredentials, proxyHealth, tdexdConnectUrl, useProxy, isExiting]);
 
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
   useInterval(() => {
-    if (useProxy) {
+    if (useProxy && !isExiting) {
       (async () => {
         try {
           const health = await dispatch(healthCheckProxy()).unwrap();

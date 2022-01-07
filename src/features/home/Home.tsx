@@ -22,8 +22,6 @@ export const Home = (): JSX.Element => {
   const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
 
   useEffect(() => {
-    console.log('!!!isReady?.isInitialized', isReady?.isInitialized);
-    console.log('!!!proxyHealth', proxyHealth);
     if (proxyHealth === 'SERVING') {
       if (isReady?.isInitialized) {
         setProxyIsServingAndReady(true);

@@ -12,8 +12,7 @@ import {
   healthCheckProxy,
   setProxyHealth,
 } from './features/settings/settingsSlice';
-import { useIsReadyQuery } from './features/walletUnlocker/walletUnlocker.api';
-import { useInterval } from './hooks/useInterval';
+import { useExponentialInterval } from './hooks/useExponentialInterval';
 import { Routes } from './routes';
 import { sleep } from './utils';
 
@@ -23,12 +22,6 @@ export const App = (): JSX.Element => {
   const { macaroonCredentials, tdexdConnectUrl } = useTypedSelector(({ settings }) => settings);
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
-  const {
-    data: isReady,
-    error: isReadyError,
-    isLoading: isReadyLoading,
-    isUninitialized: isReadyUninitialized,
-  } = useIsReadyQuery();
 
   useEffect(() => {
     (async () => {
@@ -50,7 +43,6 @@ export const App = (): JSX.Element => {
           setIsExiting(true);
           await dispatch(disconnectProxy()).unwrap();
           dispatch(setProxyHealth('NOT_SERVING'));
-          await exit();
         } catch (err) {
           console.error('err', err);
         }
@@ -58,6 +50,17 @@ export const App = (): JSX.Element => {
     })();
     // eslint-disable-next-line
   }, []);
+
+  // Exit after cleanup
+  useEffect(() => {
+    (async () => {
+      if (isExiting && proxyHealth === 'NOT_SERVING') {
+        // Need to sleep the time to write in persistent storage
+        await sleep(250);
+        await exit();
+      }
+    })();
+  }, [isExiting, proxyHealth]);
 
   const startProxy = async () => {
     const command = Command.sidecar('grpcproxy');
@@ -72,7 +75,6 @@ export const App = (): JSX.Element => {
   };
 
   const startAndConnectToProxy = useCallback(async () => {
-    console.log('startAndConnectToProxy');
     if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
       // Start proxy
       await startProxy();
@@ -100,16 +102,11 @@ export const App = (): JSX.Element => {
 
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
-  useInterval(() => {
+  useExponentialInterval(() => {
     if (useProxy && !isExiting) {
       (async () => {
         try {
-          const health = await dispatch(healthCheckProxy()).unwrap();
-          console.log('health status:', health);
-          console.log('isReady', isReady);
-          console.log('isReadyLoading', isReadyLoading);
-          console.log('isReadyError', isReadyError);
-          console.log('isReadyUninitialized', isReadyUninitialized);
+          await dispatch(healthCheckProxy()).unwrap();
         } catch (err) {
           // Restart proxy
           if (err === 'Load failed') {
@@ -125,7 +122,7 @@ export const App = (): JSX.Element => {
         }
       })();
     }
-  }, 5_000);
+  }, 125);
 
   // Start and connect to gRPC proxy
   useEffect(() => {
@@ -142,7 +139,6 @@ export const App = (): JSX.Element => {
           }
         };
         try {
-          console.log('startAndConnectToProxyRetry');
           await startAndConnectToProxyRetry();
         } catch (err) {
           console.error('startAndConnectToProxyRetry error', err);

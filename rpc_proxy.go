@@ -70,12 +70,6 @@ func (s serviceState) String() string {
 
 func init() {
 	flag.Parse()
-	// Log method name
-	// Adds between 20 and 40% overhead
-	// Comment when not debugging
-	// https://github.com/sirupsen/logrus#logging-method-name
-	// log.SetReportCaller(true)
-
 	if *logToFile {
 		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		if err != nil {

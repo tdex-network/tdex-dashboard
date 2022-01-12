@@ -50,7 +50,7 @@ export const Home = (): JSX.Element => {
     }
   }, [isReady]);
 
-  if (!proxyIsServingAndReady) {
+  if ('__TAURI__' in window && !proxyIsServingAndReady) {
     return <div />;
   }
 

@@ -19,7 +19,11 @@ const { Text, Title } = Typography;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const { tdexdConnectUrl, lbtcUnit, useProxy } = useTypedSelector(({ settings }) => ({
+    tdexdConnectUrl: settings.tdexdConnectUrl,
+    lbtcUnit: settings.lbtcUnit,
+    useProxy: settings.useProxy,
+  }));
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
   const handleBitcoinUnitChange = async (ev: RadioChangeEvent) => {
     dispatch(setLbtcUnit(ev.target.value));
@@ -67,11 +71,13 @@ export const Settings = (): JSX.Element => {
               <Col>
                 <Button
                   onClick={async () => {
-                    try {
-                      // Close proxy connection to avoid conflict
-                      await dispatch(disconnectProxy()).unwrap();
-                    } catch (err) {
-                      console.error(err);
+                    if (useProxy) {
+                      try {
+                        // Close proxy connection to avoid conflict
+                        await dispatch(disconnectProxy()).unwrap();
+                      } catch (err) {
+                        console.error(err);
+                      }
                     }
                     await dispatch(logout());
                   }}
@@ -95,11 +101,13 @@ export const Settings = (): JSX.Element => {
               <Col>
                 <Button
                   onClick={async () => {
-                    try {
-                      // Close proxy connection to avoid conflict
-                      await dispatch(disconnectProxy()).unwrap();
-                    } catch (err) {
-                      console.error(err);
+                    if (useProxy) {
+                      try {
+                        // Close proxy connection to avoid conflict
+                        await dispatch(disconnectProxy()).unwrap();
+                      } catch (err) {
+                        console.error(err);
+                      }
                     }
                     await dispatch(resetSettings());
                   }}

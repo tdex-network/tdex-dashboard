@@ -34,15 +34,17 @@ export const App = (): JSX.Element => {
         }
       });
 
-      // Register close app event for cleanup
-      await once('quit-event', async () => {
-        try {
-          setIsExiting(true);
-          dispatch(setProxyHealth('NOT_SERVING'));
-        } catch (err) {
-          console.error('err', err);
-        }
-      });
+      if (useProxy) {
+        // Register close app event for cleanup
+        await once('quit-event', async () => {
+          try {
+            setIsExiting(true);
+            dispatch(setProxyHealth('NOT_SERVING'));
+          } catch (err) {
+            console.error('err', err);
+          }
+        });
+      }
     })();
     // eslint-disable-next-line
   }, []);

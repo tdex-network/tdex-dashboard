@@ -167,7 +167,7 @@ export const settingsSlice = createSlice({
     setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
       state.tdexdConnectUrl = action.payload;
     },
-    setProxyHealth: (state, action: PayloadAction<any>) => {
+    setProxyHealth: (state, action: PayloadAction<ProxyHealthStatus | undefined>) => {
       state.proxyHealth = action.payload;
     },
     logout: (state) => {

@@ -1,17 +1,13 @@
 import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
+import type { Child } from '@tauri-apps/api/shell';
 import { Command } from '@tauri-apps/api/shell';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from './app/store';
 import { ServiceUnavailableModal } from './common/ServiceUnavailableModal';
 import Shell from './common/Shell';
-import {
-  connectProxy,
-  disconnectProxy,
-  healthCheckProxy,
-  setProxyHealth,
-} from './features/settings/settingsSlice';
+import { connectProxy, healthCheckProxy, setProxyHealth } from './features/settings/settingsSlice';
 import { useExponentialInterval } from './hooks/useExponentialInterval';
 import { Routes } from './routes';
 import { sleep } from './utils';
@@ -22,6 +18,7 @@ export const App = (): JSX.Element => {
   const { macaroonCredentials, tdexdConnectUrl } = useTypedSelector(({ settings }) => settings);
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
+  const proxyChildProcess = useRef<Child | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -41,7 +38,6 @@ export const App = (): JSX.Element => {
       await once('quit-event', async () => {
         try {
           setIsExiting(true);
-          await dispatch(disconnectProxy()).unwrap();
           dispatch(setProxyHealth('NOT_SERVING'));
         } catch (err) {
           console.error('err', err);
@@ -54,25 +50,28 @@ export const App = (): JSX.Element => {
   // Exit after cleanup
   useEffect(() => {
     (async () => {
-      if (isExiting && proxyHealth === 'NOT_SERVING') {
+      if (proxyChildProcess.current?.pid && isExiting && proxyHealth === 'NOT_SERVING') {
         // Need to sleep the time to write in persistent storage
         await sleep(250);
+        await proxyChildProcess.current?.kill();
         await exit();
       }
     })();
-  }, [isExiting, proxyHealth]);
+  }, [isExiting, proxyChildProcess, proxyHealth]);
 
-  const startProxy = async () => {
-    const command = Command.sidecar('grpcproxy');
-    command.on('close', (data) => {
-      console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
-    });
-    command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
-    command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
-    command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
-    const child = await command.spawn();
-    console.log('Proxy pid:', child.pid);
-  };
+  const startProxy = useCallback(async () => {
+    if (!proxyChildProcess.current?.pid) {
+      const command = Command.sidecar('grpcproxy');
+      command.on('close', (data) => {
+        console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
+      });
+      command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
+      command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
+      command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
+      proxyChildProcess.current = await command.spawn();
+      console.log('Proxy pid:', proxyChildProcess.current?.pid);
+    }
+  }, []);
 
   const startAndConnectToProxy = useCallback(async () => {
     if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
@@ -98,12 +97,12 @@ export const App = (): JSX.Element => {
         console.error('gRPC Proxy:', desc);
       }
     }
-  }, [dispatch, macaroonCredentials, proxyHealth, tdexdConnectUrl, useProxy, isExiting]);
+  }, [useProxy, proxyHealth, isExiting, startProxy, dispatch, macaroonCredentials, tdexdConnectUrl]);
 
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
   useExponentialInterval(() => {
-    if (useProxy && !isExiting) {
+    if (useProxy && proxyChildProcess.current?.pid && !isExiting) {
       (async () => {
         try {
           await dispatch(healthCheckProxy()).unwrap();
@@ -142,6 +141,7 @@ export const App = (): JSX.Element => {
           await startAndConnectToProxyRetry();
         } catch (err) {
           console.error('startAndConnectToProxyRetry error', err);
+          setIsServiceUnavailableModalVisible(true);
         }
       })();
     }

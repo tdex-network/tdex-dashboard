@@ -67,7 +67,12 @@ export const Settings = (): JSX.Element => {
               <Col>
                 <Button
                   onClick={async () => {
-                    await dispatch(disconnectProxy()).unwrap();
+                    try {
+                      // Close proxy connection to avoid conflict
+                      await dispatch(disconnectProxy()).unwrap();
+                    } catch (err) {
+                      console.error(err);
+                    }
                     await dispatch(logout());
                   }}
                   className="w-100"
@@ -90,7 +95,12 @@ export const Settings = (): JSX.Element => {
               <Col>
                 <Button
                   onClick={async () => {
-                    await dispatch(disconnectProxy()).unwrap();
+                    try {
+                      // Close proxy connection to avoid conflict
+                      await dispatch(disconnectProxy()).unwrap();
+                    } catch (err) {
+                      console.error(err);
+                    }
                     await dispatch(resetSettings());
                   }}
                 >

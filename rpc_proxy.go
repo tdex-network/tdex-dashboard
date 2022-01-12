@@ -74,7 +74,7 @@ func init() {
 	// Adds between 20 and 40% overhead
 	// Comment when not debugging
 	// https://github.com/sirupsen/logrus#logging-method-name
-	log.SetReportCaller(true)
+	// log.SetReportCaller(true)
 
 	if *logToFile {
 		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
@@ -329,7 +329,6 @@ func (p *rpcProxy) handleDisconnectRequest(resp http.ResponseWriter, req *http.R
 
 	if p.tdexdConn != nil {
 		p.tdexdConn.Close()
-
 		p.tdexdConn = nil
 	}
 

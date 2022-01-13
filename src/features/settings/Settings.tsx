@@ -12,14 +12,18 @@ import { useReloadUtxosMutation } from '../operator/operator.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { logout, resetSettings, setLbtcUnit } from './settingsSlice';
+import { disconnectProxy, logout, resetSettings, setLbtcUnit } from './settingsSlice';
 
 const { Text, Title } = Typography;
 
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const { tdexdConnectUrl, lbtcUnit, useProxy } = useTypedSelector(({ settings }) => ({
+    tdexdConnectUrl: settings.tdexdConnectUrl,
+    lbtcUnit: settings.lbtcUnit,
+    useProxy: settings.useProxy,
+  }));
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
   const handleBitcoinUnitChange = async (ev: RadioChangeEvent) => {
     dispatch(setLbtcUnit(ev.target.value));
@@ -65,7 +69,20 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col>
-                <Button onClick={() => dispatch(logout())} className="w-100">
+                <Button
+                  onClick={async () => {
+                    if (useProxy) {
+                      try {
+                        // Close proxy connection to avoid conflict
+                        await dispatch(disconnectProxy()).unwrap();
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }
+                    await dispatch(logout());
+                  }}
+                  className="w-100"
+                >
                   Log Out
                 </Button>
               </Col>
@@ -82,7 +99,21 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col>
-                <Button onClick={() => dispatch(resetSettings())}>Clear Cache</Button>
+                <Button
+                  onClick={async () => {
+                    if (useProxy) {
+                      try {
+                        // Close proxy connection to avoid conflict
+                        await dispatch(disconnectProxy()).unwrap();
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }
+                    await dispatch(resetSettings());
+                  }}
+                >
+                  Clear Cache
+                </Button>
               </Col>
             </Row>
           </div>

@@ -7,7 +7,7 @@ install:
 build: 
 	@chmod u+x ./scripts/build-proxy && ./scripts/build-proxy
 
-## crossbuild: build for all architctures for current OS
+## crossbuild: build for all architectures for current OS
 crossbuild: 
 	@chmod u+x ./scripts/cross-build-proxy && ./scripts/cross-build-proxy
 

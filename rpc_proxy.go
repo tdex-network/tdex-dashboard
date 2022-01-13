@@ -70,7 +70,6 @@ func (s serviceState) String() string {
 
 func init() {
 	flag.Parse()
-
 	if *logToFile {
 		file, err := os.OpenFile("rpc_proxy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		if err != nil {
@@ -207,18 +206,28 @@ func (p *rpcProxy) director(
 func (p *rpcProxy) newHTTPHandler() *mux.Router {
 	router := mux.NewRouter()
 
-	// Forward all requests to taget TDEX daemon.
+	// Forward all requests to target TDEX daemon.
 	router.HandleFunc("/healthcheck", p.handleHealthCheckRequest).Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/connect", p.handleConnectRequest).Methods(http.MethodPost, http.MethodOptions)
+	router.HandleFunc("/disconnect", p.handleDisconnectRequest).Methods(http.MethodPost, http.MethodOptions)
 	router.PathPrefix("/").HandlerFunc(p.forwardGRPCRequest)
 
 	return router
 }
 
 func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	// TODO: 'cargo tauri dev' requires "Access-Control-Allow-Origin: http://localhost:3003/"
+	// and 'cargo tauri build' requires "Access-Control-Allow-Origin: tauri://localhost"
+	// Set header from flag
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" && !p.isConnected() {
+		resp.Header().Set("Content-Type", req.Header.Get("Content-Type"))
+		resp.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
 
 	if p.grpcWebProxy.IsGrpcWebRequest(req) ||
 		p.grpcWebProxy.IsGrpcWebSocketRequest(req) ||
@@ -236,7 +245,7 @@ func (p *rpcProxy) forwardGRPCRequest(resp http.ResponseWriter, req *http.Reques
 }
 
 func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -245,7 +254,7 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 	}
 
 	status := statusServing
-	if p.tdexdConn == nil {
+	if !p.isConnected() {
 		status = statusNotConnected
 	}
 	json.NewEncoder(resp).Encode(map[string]interface{}{
@@ -255,7 +264,7 @@ func (p *rpcProxy) handleHealthCheckRequest(resp http.ResponseWriter, req *http.
 }
 
 func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Access-Control-Allow-Origin", "localhost")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
@@ -298,6 +307,32 @@ func (p *rpcProxy) handleConnectRequest(resp http.ResponseWriter, req *http.Requ
 	json.NewEncoder(resp).Encode(map[string]interface{}{
 		"status": "connected",
 	})
+}
+
+func (p *rpcProxy) handleDisconnectRequest(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
+
+	if req.Method != "OPTIONS" {
+		log.Infof("handling http request: %s", req.URL.Path)
+	}
+
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	if p.tdexdConn != nil {
+		p.tdexdConn.Close()
+		p.tdexdConn = nil
+	}
+
+	json.NewEncoder(resp).Encode(map[string]interface{}{
+		"status": "disconnected",
+	})
+}
+
+func (p *rpcProxy) isConnected() bool {
+	return p.tdexdConn != nil
 }
 
 func createGRPCConn(

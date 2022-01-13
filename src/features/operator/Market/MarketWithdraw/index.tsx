@@ -2,16 +2,23 @@ import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatFiatToSats, formatLbtcUnitToSats, formatSatsToUnit, isLbtcTicker } from '../../../../utils';
+import {
+  formatFiatToSats,
+  formatLbtcUnitToSats,
+  formatSatsToUnit,
+  isLbtcTicker,
+  LBTC_ASSET,
+} from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -23,6 +30,7 @@ interface IFormInputs {
 
 export const MarketWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
+  const explorerLiquidAPI = useTypedSelector(({ settings }: RootState) => settings.explorerLiquidAPI);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [selectedMarket, setSelectedMarket] = useState<{ baseAsset?: Asset; quoteAsset?: Asset }>({
     baseAsset: state?.baseAsset,
@@ -31,24 +39,44 @@ export const MarketWithdraw = (): JSX.Element => {
   const [withdrawMarket, { error: withdrawMarketError, isLoading: withdrawMarketIsLoading }] =
     useWithdrawMarketMutation();
   const { data: listMarkets } = useListMarketsQuery();
-  const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
-  const marketList: [Asset?, Asset?][] =
-    listMarkets?.marketsList.map(({ market }) => {
-      const baseAsset = savedAssets.find(({ asset_id }) => asset_id === market?.baseAsset);
-      const quoteAsset = savedAssets.find(({ asset_id }) => asset_id === market?.quoteAsset);
-      return [baseAsset, quoteAsset];
-    }) || [];
   const { data: marketBalance, refetch: refetchMarketBalance } = useGetMarketBalanceQuery({
     baseAsset: state?.baseAsset.asset_id,
     quoteAsset: state?.quoteAsset.asset_id,
   });
+  const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const marketList = useRef<[Asset?, Asset?][]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchPromises = [];
+      for (const { market } of listMarkets!.marketsList) {
+        fetchPromises.push([
+          fetch(`${explorerLiquidAPI}/asset/${market?.baseAsset}`).then((response) => response.json()),
+          fetch(`${explorerLiquidAPI}/asset/${market?.quoteAsset}`).then((response) => response.json()),
+        ]);
+      }
+      const marketListTmp = (await Promise.all(fetchPromises.map((pair) => Promise.all(pair)))) as [
+        Asset?,
+        Asset?
+      ][];
+      // Add L-BTC ticker since it's not returned by chain asset data
+      marketList.current = marketListTmp.map((market) =>
+        market.map((asset) => {
+          if (asset?.asset_id === LBTC_ASSET.asset_id) {
+            asset.ticker = LBTC_ASSET.ticker;
+          }
+          return { ...asset, ticker: asset?.ticker };
+        })
+      ) as [Asset?, Asset?][];
+    })();
+  }, [explorerLiquidAPI, listMarkets]);
 
   const onFinish = async () => {
     try {
-      const selectedAssetMarket = marketList.find(
+      const selectedAssetMarket = marketList.current?.find(
         ([baseAsset, quoteAsset]) =>
-          baseAsset?.asset_id === selectedMarket.baseAsset?.asset_id &&
-          quoteAsset?.asset_id === selectedMarket.quoteAsset?.asset_id
+          baseAsset?.ticker === selectedMarket.baseAsset?.ticker &&
+          quoteAsset?.ticker === selectedMarket.quoteAsset?.ticker
       );
       if (!selectedAssetMarket?.[0] || !selectedAssetMarket?.[1]) throw new Error('Market selection error');
       const values = await form.validateFields();
@@ -135,7 +163,7 @@ export const MarketWithdraw = (): JSX.Element => {
           <SelectMarket
             selectedMarket={selectedMarket}
             setSelectedMarket={setSelectedMarket}
-            marketList={marketList}
+            marketList={marketList.current}
           />
         </Col>
         <Col span={12}>

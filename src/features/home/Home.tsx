@@ -1,8 +1,9 @@
 import { Col, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import { useTypedSelector } from '../../app/store';
+import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ListMarkets } from '../operator/Market/ListMarkets';
+import { setProxyHealth } from '../settings/settingsSlice';
 import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
@@ -12,18 +13,46 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const { data: isReady } = useIsReadyQuery();
-  const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
+  const dispatch = useTypedDispatch();
+  const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
+  const {
+    data: isReady,
+    refetch: refetchIsReady,
+    error: errorIsReady,
+  } = useIsReadyQuery(undefined, {
+    skip: proxyHealth !== 'SERVING',
+  });
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
+  //
+  const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
+
+  useEffect(() => {
+    if (errorIsReady) dispatch(setProxyHealth('NOT_SERVING'));
+    // eslint-disable-next-line
+  }, [errorIsReady]);
+
+  useEffect(() => {
+    if (proxyHealth === 'SERVING') {
+      if (isReady?.isInitialized) {
+        setProxyIsServingAndReady(true);
+      } else {
+        refetchIsReady();
+      }
+    }
+  }, [isReady?.isInitialized, proxyHealth, refetchIsReady]);
 
   useEffect(() => {
     if (isReady?.isInitialized && !isReady?.isUnlocked) {
       showUnlockWalletModal();
     }
   }, [isReady]);
+
+  if ('__TAURI__' in window && !proxyIsServingAndReady) {
+    return <div />;
+  }
 
   return (
     <>

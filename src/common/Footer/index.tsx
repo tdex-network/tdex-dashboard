@@ -1,16 +1,22 @@
 import { Row, Col, Layout } from 'antd';
 import React from 'react';
 
+import { useTypedSelector } from '../../app/store';
+import { ProxyConnectionIndicator } from '../ProxyConnectionIndicator';
+
 export const Footer = (): JSX.Element => {
+  const { useProxy } = useTypedSelector(({ settings }) => settings);
   const { Footer } = Layout;
 
   return (
     <Footer>
-      <Row align="middle" justify="space-between">
-        <Col span={22} offset={1}>
-          SevenLabs © 2021
-        </Col>
-      </Row>
+      {useProxy ? (
+        <Row className="w-100 text-end">
+          <Col span={24}>
+            <ProxyConnectionIndicator />
+          </Col>
+        </Row>
+      ) : null}
     </Footer>
   );
 };

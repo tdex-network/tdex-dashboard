@@ -22,13 +22,15 @@ export const tauriStorage: Storage = {
     return JSON.parse(json);
   },
   async setItem(key: string, value: any) {
-    const appDir = await path.appDir();
-    try {
-      await readDir(appDir);
-    } catch (err) {
-      await createDir(appDir);
+    if ('__TAURI__' in window) {
+      const appDir = await path.appDir();
+      try {
+        await readDir(appDir);
+      } catch (err) {
+        await createDir(appDir);
+      }
+      await writeFile({ path: await getFilePath(key), contents: JSON.stringify(value) });
     }
-    await writeFile({ path: await getFilePath(key), contents: JSON.stringify(value) });
   },
   async removeItem(key: string) {
     await removeFile(await getFilePath(key));

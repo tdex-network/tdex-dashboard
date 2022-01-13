@@ -1,7 +1,7 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/types_pb';
@@ -9,7 +9,6 @@ import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { formatSatsToUnit } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
-import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
 const { Title } = Typography;
 
@@ -19,17 +18,12 @@ interface DashboardPanelLeftProps {
 
 export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
-  const { data: listMarkets, refetch: refetchListMarkets } = useListMarketsQuery();
-  const { data: isReady } = useIsReadyQuery();
+  const { data: listMarkets } = useListMarketsQuery();
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
-
-  useEffect(() => {
-    if (isReady?.isUnlocked && isReady?.isInitialized) refetchListMarkets();
-  }, [isReady, refetchListMarkets]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

@@ -72,6 +72,7 @@
     "fmt": "yarn run eslint --fix && yarn run prettier --write",
     "lint": "yarn run eslint && yarn run prettier --check",
     "prettier": "prettier './src/**/*.{ts,tsx}'",
+    "proxy:run": "make run",
     "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "tauri:build": "cargo tauri build",
@@ -81,6 +82,10 @@
     "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
     "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
     "test": "craco test"
+  },
+  "resolutions": {
+    "//": "See https://github.com/facebook/create-react-app/issues/11773",
+    "react-error-overlay": "6.0.9"
   },
   "version": "0.1.9"
 }

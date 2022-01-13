@@ -78,12 +78,11 @@ export const FeeForm = ({
   };
 
   const resetAll = async () => {
+    if (!marketInfo?.fee?.fixed) return;
     form.setFieldsValue({
-      feeAbsoluteBaseInput: marketInfo?.fee?.fixed?.baseFee ? String(marketInfo?.fee?.fixed?.baseFee) : 'n/a',
-      feeAbsoluteQuoteInput: marketInfo?.fee?.fixed?.quoteFee
-        ? String(marketInfo?.fee?.fixed?.quoteFee)
-        : 'n/a',
-      feeRelativeInput: marketInfo?.fee?.basisPoint ? String(marketInfo.fee.basisPoint / 100) : 'n/a',
+      feeAbsoluteBaseInput: String(marketInfo.fee.fixed.baseFee),
+      feeAbsoluteQuoteInput: String(marketInfo.fee.fixed.quoteFee),
+      feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
     });
   };
 

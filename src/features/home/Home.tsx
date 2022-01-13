@@ -2,8 +2,8 @@ import { Col, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import { ServiceUnavailableModal } from '../../common/ServiceUnavailableModal';
 import { ListMarkets } from '../operator/Market/ListMarkets';
-import { setProxyHealth } from '../settings/settingsSlice';
 import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
@@ -28,11 +28,11 @@ export const Home = (): JSX.Element => {
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
   //
   const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
+  const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    if (errorIsReady) dispatch(setProxyHealth('NOT_SERVING'));
-    // eslint-disable-next-line
-  }, [errorIsReady]);
+    if (errorIsReady) setIsServiceUnavailableModalVisible(true);
+  }, [dispatch, errorIsReady]);
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {
@@ -51,7 +51,12 @@ export const Home = (): JSX.Element => {
   }, [isReady]);
 
   if ('__TAURI__' in window && !proxyIsServingAndReady) {
-    return <div />;
+    return (
+      <ServiceUnavailableModal
+        isServiceUnavailableModalVisible={isServiceUnavailableModalVisible}
+        setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible}
+      />
+    );
   }
 
   return (
@@ -59,7 +64,6 @@ export const Home = (): JSX.Element => {
       <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>
         Dashboard Overview
       </Title>
-
       <Row gutter={{ xs: 4, sm: 8, md: 12 }} className="mb-8">
         <Col span={12}>
           <DashboardPanelLeft lbtcUnit={lbtcUnit} />

@@ -77,10 +77,10 @@
     "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev",
-    "tdexd:clean": "bash scripts/tdexd-clean",
-    "tdexd:run": "bash scripts/tdexd-run",
-    "tdexd:run-initialized": "bash scripts/tdexd-run-initialized",
-    "tdexd:tdexdconnect": " docker exec -it tdexd tdexdconnect --out url",
+    "tdex:clean": "bash scripts/tdexd-clean",
+    "tdex:run": "bash scripts/tdexd-run",
+    "tdex:run-initialized": "bash scripts/tdexd-run-initialized",
+    "tdex:connect": " docker exec -it tdexd tdexdconnect --out url",
     "test": "craco test"
   },
   "resolutions": {

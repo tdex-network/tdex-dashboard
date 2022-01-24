@@ -63,6 +63,10 @@
   },
   "name": "tdex-dashboard",
   "private": true,
+  "resolutions": {
+    "//": "See https://github.com/facebook/create-react-app/issues/11773",
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
     "build": "npx craco build",
     "build:proto": "buf generate",
@@ -78,14 +82,10 @@
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev",
     "tdex:clean": "bash scripts/tdexd-clean",
+    "tdex:connect": " docker exec -it tdexd tdexdconnect --out url",
     "tdex:run": "bash scripts/tdexd-run",
     "tdex:run-initialized": "bash scripts/tdexd-run-initialized",
-    "tdex:connect": " docker exec -it tdexd tdexdconnect --out url",
     "test": "craco test"
   },
-  "resolutions": {
-    "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9"
-  },
-  "version": "0.1.9"
+  "version": "0.1.10"
 }

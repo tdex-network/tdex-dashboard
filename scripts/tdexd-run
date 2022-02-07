@@ -31,3 +31,17 @@ docker run -it -d --name tdexd \
 -e TDEX_EXPLORER_ENDPOINT="http://chopsticks-liquid:3000" \
 --network="nigiri" \
 ghcr.io/tdex-network/tdexd:latest
+
+echo ""
+echo "init wallet"
+
+tdex='docker exec -it tdexd tdex '
+$tdex config init --network "regtest"
+
+mnemonic=$($tdex genseed | grep "\S")
+$tdex init --seed "${mnemonic}" --password secret &>/dev/null
+
+echo ""
+echo "unlocking wallet"
+
+$tdex unlock --password secret &>/dev/null

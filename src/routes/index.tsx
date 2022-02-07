@@ -35,10 +35,19 @@ import {
 } from './constants';
 
 const PrivateRoute = ({ children }: any) => {
-  const isOnboarded = useTypedSelector(
+  const isFullyOnboarded = useTypedSelector(
     ({ settings }) => !!(settings.macaroonCredentials && settings.tdexdConnectUrl)
   );
-  return isOnboarded ? children : <Navigate to={ONBOARDING_PAIRING_ROUTE} />;
+  const isPairedWithNotInitDaemon = useTypedSelector(
+    ({ settings }) => !!(!settings.macaroonCredentials && settings.tdexdConnectUrl)
+  );
+  return isFullyOnboarded ? (
+    children
+  ) : isPairedWithNotInitDaemon ? (
+    <Navigate to={ONBOARDING_CREATE_OR_RESTORE_ROUTE} />
+  ) : (
+    <Navigate to={ONBOARDING_PAIRING_ROUTE} />
+  );
 };
 
 export const Routes = (): JSX.Element => {

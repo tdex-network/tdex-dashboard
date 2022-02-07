@@ -20,7 +20,8 @@ export const Home = (): JSX.Element => {
     refetch: refetchIsReady,
     error: errorIsReady,
   } = useIsReadyQuery(undefined, {
-    skip: proxyHealth !== 'SERVING',
+    // Skip if proxy is used and not serving
+    skip: proxyHealth && proxyHealth !== 'SERVING',
   });
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);

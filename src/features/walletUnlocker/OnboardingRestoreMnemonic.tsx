@@ -68,13 +68,13 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
         // @ts-ignore
         const { data } = await initWallet({
           isRestore: true,
-          password: password,
+          password: Buffer.from(password),
           mnemonic: mnemonicSanitized,
         });
         data.on('status', async (status: any) => {
           if (status.code === 0) {
             await sleep(1000);
-            await unlockWallet({ password });
+            await unlockWallet({ password: Buffer.from(password) });
             await sleep(1000);
             setIsLoading(false);
             navigate(HOME_ROUTE);

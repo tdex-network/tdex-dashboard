@@ -31,7 +31,6 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-
       if (macaroon) {
         navigate(HOME_ROUTE);
       } else {

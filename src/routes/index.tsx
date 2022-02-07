@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
 
+import type { IsReadyReply } from '../api-spec/generated/js/walletunlocker_pb';
+import type { RootState } from '../app/store';
 import { useTypedSelector } from '../app/store';
 import { Home } from '../features/home/Home';
 import { FeeDeposit } from '../features/operator/Fee/FeeDeposit';
@@ -16,6 +18,7 @@ import { OnboardingCreateOrRestore } from '../features/walletUnlocker/Onboarding
 import { OnboardingPairing } from '../features/walletUnlocker/OnboardingPairing';
 import { OnboardingRestoreMnemonic } from '../features/walletUnlocker/OnboardingRestoreMnemonic';
 import { OnboardingShowMnemonic } from '../features/walletUnlocker/OnboardingShowMnemonic';
+import { useIsReadyQuery } from '../features/walletUnlocker/walletUnlocker.api';
 
 import {
   HOME_ROUTE,
@@ -35,23 +38,28 @@ import {
 } from './constants';
 
 const PrivateRoute = ({ children }: any) => {
-  const isFullyOnboarded = useTypedSelector(
-    ({ settings }) => !!(settings.macaroonCredentials && settings.tdexdConnectUrl)
+  const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
+  const isDaemonInitialized = useTypedSelector(
+    ({ walletUnlockerService }: RootState) =>
+      (walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject).initialized
   );
-  const isPairedWithNotInitDaemon = useTypedSelector(
-    ({ settings }) => !!(!settings.macaroonCredentials && settings.tdexdConnectUrl)
-  );
-  return isFullyOnboarded ? (
-    children
-  ) : isPairedWithNotInitDaemon ? (
-    <Navigate to={ONBOARDING_CREATE_OR_RESTORE_ROUTE} />
-  ) : (
-    <Navigate to={ONBOARDING_PAIRING_ROUTE} />
-  );
+  if (isDaemonInitialized && tdexdConnectUrl) {
+    return children;
+  } else if (!isDaemonInitialized && !tdexdConnectUrl) {
+    return <Navigate to={ONBOARDING_PAIRING_ROUTE} />;
+  } else if (!isDaemonInitialized && tdexdConnectUrl) {
+    return <Navigate to={ONBOARDING_CREATE_OR_RESTORE_ROUTE} />;
+  } else if (isDaemonInitialized && !tdexdConnectUrl) {
+    return <Navigate to={ONBOARDING_PAIRING_ROUTE} />;
+  }
 };
 
 export const Routes = (): JSX.Element => {
-  return (
+  // If tdexdConnectUrl, call IsReady to set data in store
+  const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
+  const { data: isReadyData } = useIsReadyQuery(undefined, { skip: !tdexdConnectUrl });
+
+  return isReadyData ? (
     <ReactRouterDomRoutes>
       <Route
         path={HOME_ROUTE}
@@ -133,5 +141,7 @@ export const Routes = (): JSX.Element => {
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
     </ReactRouterDomRoutes>
+  ) : (
+    <></>
   );
 };

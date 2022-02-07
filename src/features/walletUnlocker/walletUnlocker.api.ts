@@ -7,6 +7,7 @@ import type {
   InitWalletReply,
   ChangePasswordReply,
   UnlockWalletReply,
+  IsReadyReply,
 } from '../../api-spec/generated/js/walletunlocker_pb';
 import {
   ChangePasswordRequest,
@@ -101,11 +102,7 @@ const baseQueryFn: BaseQueryFn<
       try {
         const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
         return {
-          data: {
-            isUnlocked: isReadyReply.getUnlocked(),
-            isInitialized: isReadyReply.getInitialized(),
-            isSynced: isReadyReply.getSynced(),
-          },
+          data: isReadyReply.toObject(false),
         };
       } catch (error) {
         console.error(error);
@@ -155,14 +152,7 @@ export const walletUnlockerApi = createApi({
       query: (body) => ({ methodName: 'changePassword', body }),
       invalidatesTags: ['Unlocker'],
     }),
-    isReady: build.query<
-      {
-        isUnlocked: boolean;
-        isInitialized: boolean;
-        isSynced: boolean;
-      },
-      void
-    >({
+    isReady: build.query<IsReadyReply.AsObject, void>({
       query: () => ({ methodName: 'isReady' }),
       providesTags: ['Unlocker'],
     }),

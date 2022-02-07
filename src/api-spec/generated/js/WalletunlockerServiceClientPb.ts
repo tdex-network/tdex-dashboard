@@ -35,7 +35,7 @@ export class WalletUnlockerClient {
     this.options_ = options;
   }
 
-  methodInfoGenSeed = new grpcWeb.MethodDescriptor(
+  methodDescriptorGenSeed = new grpcWeb.MethodDescriptor(
     '/WalletUnlocker/GenSeed',
     grpcWeb.MethodType.UNARY,
     walletunlocker_pb.GenSeedRequest,
@@ -67,7 +67,7 @@ export class WalletUnlockerClient {
           '/WalletUnlocker/GenSeed',
         request,
         metadata || {},
-        this.methodInfoGenSeed,
+        this.methodDescriptorGenSeed,
         callback);
     }
     return this.client_.unaryCall(
@@ -75,10 +75,10 @@ export class WalletUnlockerClient {
       '/WalletUnlocker/GenSeed',
     request,
     metadata || {},
-    this.methodInfoGenSeed);
+    this.methodDescriptorGenSeed);
   }
 
-  methodInfoInitWallet = new grpcWeb.MethodDescriptor(
+  methodDescriptorInitWallet = new grpcWeb.MethodDescriptor(
     '/WalletUnlocker/InitWallet',
     grpcWeb.MethodType.SERVER_STREAMING,
     walletunlocker_pb.InitWalletRequest,
@@ -91,16 +91,16 @@ export class WalletUnlockerClient {
 
   initWallet(
     request: walletunlocker_pb.InitWalletRequest,
-    metadata?: grpcWeb.Metadata) {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<walletunlocker_pb.InitWalletReply> {
     return this.client_.serverStreaming(
       this.hostname_ +
         '/WalletUnlocker/InitWallet',
       request,
       metadata || {},
-      this.methodInfoInitWallet);
+      this.methodDescriptorInitWallet);
   }
 
-  methodInfoUnlockWallet = new grpcWeb.MethodDescriptor(
+  methodDescriptorUnlockWallet = new grpcWeb.MethodDescriptor(
     '/WalletUnlocker/UnlockWallet',
     grpcWeb.MethodType.UNARY,
     walletunlocker_pb.UnlockWalletRequest,
@@ -132,7 +132,7 @@ export class WalletUnlockerClient {
           '/WalletUnlocker/UnlockWallet',
         request,
         metadata || {},
-        this.methodInfoUnlockWallet,
+        this.methodDescriptorUnlockWallet,
         callback);
     }
     return this.client_.unaryCall(
@@ -140,10 +140,10 @@ export class WalletUnlockerClient {
       '/WalletUnlocker/UnlockWallet',
     request,
     metadata || {},
-    this.methodInfoUnlockWallet);
+    this.methodDescriptorUnlockWallet);
   }
 
-  methodInfoChangePassword = new grpcWeb.MethodDescriptor(
+  methodDescriptorChangePassword = new grpcWeb.MethodDescriptor(
     '/WalletUnlocker/ChangePassword',
     grpcWeb.MethodType.UNARY,
     walletunlocker_pb.ChangePasswordRequest,
@@ -175,7 +175,7 @@ export class WalletUnlockerClient {
           '/WalletUnlocker/ChangePassword',
         request,
         metadata || {},
-        this.methodInfoChangePassword,
+        this.methodDescriptorChangePassword,
         callback);
     }
     return this.client_.unaryCall(
@@ -183,10 +183,10 @@ export class WalletUnlockerClient {
       '/WalletUnlocker/ChangePassword',
     request,
     metadata || {},
-    this.methodInfoChangePassword);
+    this.methodDescriptorChangePassword);
   }
 
-  methodInfoIsReady = new grpcWeb.MethodDescriptor(
+  methodDescriptorIsReady = new grpcWeb.MethodDescriptor(
     '/WalletUnlocker/IsReady',
     grpcWeb.MethodType.UNARY,
     walletunlocker_pb.IsReadyRequest,
@@ -218,7 +218,7 @@ export class WalletUnlockerClient {
           '/WalletUnlocker/IsReady',
         request,
         metadata || {},
-        this.methodInfoIsReady,
+        this.methodDescriptorIsReady,
         callback);
     }
     return this.client_.unaryCall(
@@ -226,7 +226,7 @@ export class WalletUnlockerClient {
       '/WalletUnlocker/IsReady',
     request,
     metadata || {},
-    this.methodInfoIsReady);
+    this.methodDescriptorIsReady);
   }
 
 }

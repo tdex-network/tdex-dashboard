@@ -35,7 +35,7 @@ export class OperatorClient {
     this.options_ = options;
   }
 
-  methodInfoGetInfo = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetInfo = new grpcWeb.MethodDescriptor(
     '/Operator/GetInfo',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetInfoRequest,
@@ -67,7 +67,7 @@ export class OperatorClient {
           '/Operator/GetInfo',
         request,
         metadata || {},
-        this.methodInfoGetInfo,
+        this.methodDescriptorGetInfo,
         callback);
     }
     return this.client_.unaryCall(
@@ -75,10 +75,10 @@ export class OperatorClient {
       '/Operator/GetInfo',
     request,
     metadata || {},
-    this.methodInfoGetInfo);
+    this.methodDescriptorGetInfo);
   }
 
-  methodInfoGetFeeAddress = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetFeeAddress = new grpcWeb.MethodDescriptor(
     '/Operator/GetFeeAddress',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetFeeAddressRequest,
@@ -110,7 +110,7 @@ export class OperatorClient {
           '/Operator/GetFeeAddress',
         request,
         metadata || {},
-        this.methodInfoGetFeeAddress,
+        this.methodDescriptorGetFeeAddress,
         callback);
     }
     return this.client_.unaryCall(
@@ -118,10 +118,10 @@ export class OperatorClient {
       '/Operator/GetFeeAddress',
     request,
     metadata || {},
-    this.methodInfoGetFeeAddress);
+    this.methodDescriptorGetFeeAddress);
   }
 
-  methodInfoListFeeAddresses = new grpcWeb.MethodDescriptor(
+  methodDescriptorListFeeAddresses = new grpcWeb.MethodDescriptor(
     '/Operator/ListFeeAddresses',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListFeeAddressesRequest,
@@ -153,7 +153,7 @@ export class OperatorClient {
           '/Operator/ListFeeAddresses',
         request,
         metadata || {},
-        this.methodInfoListFeeAddresses,
+        this.methodDescriptorListFeeAddresses,
         callback);
     }
     return this.client_.unaryCall(
@@ -161,10 +161,10 @@ export class OperatorClient {
       '/Operator/ListFeeAddresses',
     request,
     metadata || {},
-    this.methodInfoListFeeAddresses);
+    this.methodDescriptorListFeeAddresses);
   }
 
-  methodInfoGetFeeBalance = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetFeeBalance = new grpcWeb.MethodDescriptor(
     '/Operator/GetFeeBalance',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetFeeBalanceRequest,
@@ -196,7 +196,7 @@ export class OperatorClient {
           '/Operator/GetFeeBalance',
         request,
         metadata || {},
-        this.methodInfoGetFeeBalance,
+        this.methodDescriptorGetFeeBalance,
         callback);
     }
     return this.client_.unaryCall(
@@ -204,10 +204,10 @@ export class OperatorClient {
       '/Operator/GetFeeBalance',
     request,
     metadata || {},
-    this.methodInfoGetFeeBalance);
+    this.methodDescriptorGetFeeBalance);
   }
 
-  methodInfoClaimFeeDeposits = new grpcWeb.MethodDescriptor(
+  methodDescriptorClaimFeeDeposits = new grpcWeb.MethodDescriptor(
     '/Operator/ClaimFeeDeposits',
     grpcWeb.MethodType.UNARY,
     operator_pb.ClaimFeeDepositsRequest,
@@ -239,7 +239,7 @@ export class OperatorClient {
           '/Operator/ClaimFeeDeposits',
         request,
         metadata || {},
-        this.methodInfoClaimFeeDeposits,
+        this.methodDescriptorClaimFeeDeposits,
         callback);
     }
     return this.client_.unaryCall(
@@ -247,10 +247,10 @@ export class OperatorClient {
       '/Operator/ClaimFeeDeposits',
     request,
     metadata || {},
-    this.methodInfoClaimFeeDeposits);
+    this.methodDescriptorClaimFeeDeposits);
   }
 
-  methodInfoWithdrawFee = new grpcWeb.MethodDescriptor(
+  methodDescriptorWithdrawFee = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawFee',
     grpcWeb.MethodType.UNARY,
     operator_pb.WithdrawFeeRequest,
@@ -282,7 +282,7 @@ export class OperatorClient {
           '/Operator/WithdrawFee',
         request,
         metadata || {},
-        this.methodInfoWithdrawFee,
+        this.methodDescriptorWithdrawFee,
         callback);
     }
     return this.client_.unaryCall(
@@ -290,10 +290,10 @@ export class OperatorClient {
       '/Operator/WithdrawFee',
     request,
     metadata || {},
-    this.methodInfoWithdrawFee);
+    this.methodDescriptorWithdrawFee);
   }
 
-  methodInfoNewMarket = new grpcWeb.MethodDescriptor(
+  methodDescriptorNewMarket = new grpcWeb.MethodDescriptor(
     '/Operator/NewMarket',
     grpcWeb.MethodType.UNARY,
     operator_pb.NewMarketRequest,
@@ -325,7 +325,7 @@ export class OperatorClient {
           '/Operator/NewMarket',
         request,
         metadata || {},
-        this.methodInfoNewMarket,
+        this.methodDescriptorNewMarket,
         callback);
     }
     return this.client_.unaryCall(
@@ -333,10 +333,10 @@ export class OperatorClient {
       '/Operator/NewMarket',
     request,
     metadata || {},
-    this.methodInfoNewMarket);
+    this.methodDescriptorNewMarket);
   }
 
-  methodInfoGetMarketInfo = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketInfo = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketInfo',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketInfoRequest,
@@ -368,7 +368,7 @@ export class OperatorClient {
           '/Operator/GetMarketInfo',
         request,
         metadata || {},
-        this.methodInfoGetMarketInfo,
+        this.methodDescriptorGetMarketInfo,
         callback);
     }
     return this.client_.unaryCall(
@@ -376,10 +376,10 @@ export class OperatorClient {
       '/Operator/GetMarketInfo',
     request,
     metadata || {},
-    this.methodInfoGetMarketInfo);
+    this.methodDescriptorGetMarketInfo);
   }
 
-  methodInfoGetMarketAddress = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketAddress = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketAddress',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketAddressRequest,
@@ -411,7 +411,7 @@ export class OperatorClient {
           '/Operator/GetMarketAddress',
         request,
         metadata || {},
-        this.methodInfoGetMarketAddress,
+        this.methodDescriptorGetMarketAddress,
         callback);
     }
     return this.client_.unaryCall(
@@ -419,10 +419,10 @@ export class OperatorClient {
       '/Operator/GetMarketAddress',
     request,
     metadata || {},
-    this.methodInfoGetMarketAddress);
+    this.methodDescriptorGetMarketAddress);
   }
 
-  methodInfoListMarketAddresses = new grpcWeb.MethodDescriptor(
+  methodDescriptorListMarketAddresses = new grpcWeb.MethodDescriptor(
     '/Operator/ListMarketAddresses',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListMarketAddressesRequest,
@@ -454,7 +454,7 @@ export class OperatorClient {
           '/Operator/ListMarketAddresses',
         request,
         metadata || {},
-        this.methodInfoListMarketAddresses,
+        this.methodDescriptorListMarketAddresses,
         callback);
     }
     return this.client_.unaryCall(
@@ -462,10 +462,10 @@ export class OperatorClient {
       '/Operator/ListMarketAddresses',
     request,
     metadata || {},
-    this.methodInfoListMarketAddresses);
+    this.methodDescriptorListMarketAddresses);
   }
 
-  methodInfoGetMarketBalance = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketBalance = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketBalance',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketBalanceRequest,
@@ -497,7 +497,7 @@ export class OperatorClient {
           '/Operator/GetMarketBalance',
         request,
         metadata || {},
-        this.methodInfoGetMarketBalance,
+        this.methodDescriptorGetMarketBalance,
         callback);
     }
     return this.client_.unaryCall(
@@ -505,10 +505,10 @@ export class OperatorClient {
       '/Operator/GetMarketBalance',
     request,
     metadata || {},
-    this.methodInfoGetMarketBalance);
+    this.methodDescriptorGetMarketBalance);
   }
 
-  methodInfoClaimMarketDeposits = new grpcWeb.MethodDescriptor(
+  methodDescriptorClaimMarketDeposits = new grpcWeb.MethodDescriptor(
     '/Operator/ClaimMarketDeposits',
     grpcWeb.MethodType.UNARY,
     operator_pb.ClaimMarketDepositsRequest,
@@ -540,7 +540,7 @@ export class OperatorClient {
           '/Operator/ClaimMarketDeposits',
         request,
         metadata || {},
-        this.methodInfoClaimMarketDeposits,
+        this.methodDescriptorClaimMarketDeposits,
         callback);
     }
     return this.client_.unaryCall(
@@ -548,10 +548,10 @@ export class OperatorClient {
       '/Operator/ClaimMarketDeposits',
     request,
     metadata || {},
-    this.methodInfoClaimMarketDeposits);
+    this.methodDescriptorClaimMarketDeposits);
   }
 
-  methodInfoOpenMarket = new grpcWeb.MethodDescriptor(
+  methodDescriptorOpenMarket = new grpcWeb.MethodDescriptor(
     '/Operator/OpenMarket',
     grpcWeb.MethodType.UNARY,
     operator_pb.OpenMarketRequest,
@@ -583,7 +583,7 @@ export class OperatorClient {
           '/Operator/OpenMarket',
         request,
         metadata || {},
-        this.methodInfoOpenMarket,
+        this.methodDescriptorOpenMarket,
         callback);
     }
     return this.client_.unaryCall(
@@ -591,10 +591,10 @@ export class OperatorClient {
       '/Operator/OpenMarket',
     request,
     metadata || {},
-    this.methodInfoOpenMarket);
+    this.methodDescriptorOpenMarket);
   }
 
-  methodInfoCloseMarket = new grpcWeb.MethodDescriptor(
+  methodDescriptorCloseMarket = new grpcWeb.MethodDescriptor(
     '/Operator/CloseMarket',
     grpcWeb.MethodType.UNARY,
     operator_pb.CloseMarketRequest,
@@ -626,7 +626,7 @@ export class OperatorClient {
           '/Operator/CloseMarket',
         request,
         metadata || {},
-        this.methodInfoCloseMarket,
+        this.methodDescriptorCloseMarket,
         callback);
     }
     return this.client_.unaryCall(
@@ -634,10 +634,10 @@ export class OperatorClient {
       '/Operator/CloseMarket',
     request,
     metadata || {},
-    this.methodInfoCloseMarket);
+    this.methodDescriptorCloseMarket);
   }
 
-  methodInfoDropMarket = new grpcWeb.MethodDescriptor(
+  methodDescriptorDropMarket = new grpcWeb.MethodDescriptor(
     '/Operator/DropMarket',
     grpcWeb.MethodType.UNARY,
     operator_pb.DropMarketRequest,
@@ -669,7 +669,7 @@ export class OperatorClient {
           '/Operator/DropMarket',
         request,
         metadata || {},
-        this.methodInfoDropMarket,
+        this.methodDescriptorDropMarket,
         callback);
     }
     return this.client_.unaryCall(
@@ -677,10 +677,10 @@ export class OperatorClient {
       '/Operator/DropMarket',
     request,
     metadata || {},
-    this.methodInfoDropMarket);
+    this.methodDescriptorDropMarket);
   }
 
-  methodInfoGetMarketCollectedSwapFees = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketCollectedSwapFees = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketCollectedSwapFees',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketCollectedSwapFeesRequest,
@@ -712,7 +712,7 @@ export class OperatorClient {
           '/Operator/GetMarketCollectedSwapFees',
         request,
         metadata || {},
-        this.methodInfoGetMarketCollectedSwapFees,
+        this.methodDescriptorGetMarketCollectedSwapFees,
         callback);
     }
     return this.client_.unaryCall(
@@ -720,10 +720,10 @@ export class OperatorClient {
       '/Operator/GetMarketCollectedSwapFees',
     request,
     metadata || {},
-    this.methodInfoGetMarketCollectedSwapFees);
+    this.methodDescriptorGetMarketCollectedSwapFees);
   }
 
-  methodInfoWithdrawMarket = new grpcWeb.MethodDescriptor(
+  methodDescriptorWithdrawMarket = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawMarket',
     grpcWeb.MethodType.UNARY,
     operator_pb.WithdrawMarketRequest,
@@ -755,7 +755,7 @@ export class OperatorClient {
           '/Operator/WithdrawMarket',
         request,
         metadata || {},
-        this.methodInfoWithdrawMarket,
+        this.methodDescriptorWithdrawMarket,
         callback);
     }
     return this.client_.unaryCall(
@@ -763,10 +763,10 @@ export class OperatorClient {
       '/Operator/WithdrawMarket',
     request,
     metadata || {},
-    this.methodInfoWithdrawMarket);
+    this.methodDescriptorWithdrawMarket);
   }
 
-  methodInfoUpdateMarketPercentageFee = new grpcWeb.MethodDescriptor(
+  methodDescriptorUpdateMarketPercentageFee = new grpcWeb.MethodDescriptor(
     '/Operator/UpdateMarketPercentageFee',
     grpcWeb.MethodType.UNARY,
     operator_pb.UpdateMarketPercentageFeeRequest,
@@ -798,7 +798,7 @@ export class OperatorClient {
           '/Operator/UpdateMarketPercentageFee',
         request,
         metadata || {},
-        this.methodInfoUpdateMarketPercentageFee,
+        this.methodDescriptorUpdateMarketPercentageFee,
         callback);
     }
     return this.client_.unaryCall(
@@ -806,10 +806,10 @@ export class OperatorClient {
       '/Operator/UpdateMarketPercentageFee',
     request,
     metadata || {},
-    this.methodInfoUpdateMarketPercentageFee);
+    this.methodDescriptorUpdateMarketPercentageFee);
   }
 
-  methodInfoUpdateMarketFixedFee = new grpcWeb.MethodDescriptor(
+  methodDescriptorUpdateMarketFixedFee = new grpcWeb.MethodDescriptor(
     '/Operator/UpdateMarketFixedFee',
     grpcWeb.MethodType.UNARY,
     operator_pb.UpdateMarketFixedFeeRequest,
@@ -841,7 +841,7 @@ export class OperatorClient {
           '/Operator/UpdateMarketFixedFee',
         request,
         metadata || {},
-        this.methodInfoUpdateMarketFixedFee,
+        this.methodDescriptorUpdateMarketFixedFee,
         callback);
     }
     return this.client_.unaryCall(
@@ -849,10 +849,10 @@ export class OperatorClient {
       '/Operator/UpdateMarketFixedFee',
     request,
     metadata || {},
-    this.methodInfoUpdateMarketFixedFee);
+    this.methodDescriptorUpdateMarketFixedFee);
   }
 
-  methodInfoUpdateMarketPrice = new grpcWeb.MethodDescriptor(
+  methodDescriptorUpdateMarketPrice = new grpcWeb.MethodDescriptor(
     '/Operator/UpdateMarketPrice',
     grpcWeb.MethodType.UNARY,
     operator_pb.UpdateMarketPriceRequest,
@@ -884,7 +884,7 @@ export class OperatorClient {
           '/Operator/UpdateMarketPrice',
         request,
         metadata || {},
-        this.methodInfoUpdateMarketPrice,
+        this.methodDescriptorUpdateMarketPrice,
         callback);
     }
     return this.client_.unaryCall(
@@ -892,10 +892,10 @@ export class OperatorClient {
       '/Operator/UpdateMarketPrice',
     request,
     metadata || {},
-    this.methodInfoUpdateMarketPrice);
+    this.methodDescriptorUpdateMarketPrice);
   }
 
-  methodInfoUpdateMarketStrategy = new grpcWeb.MethodDescriptor(
+  methodDescriptorUpdateMarketStrategy = new grpcWeb.MethodDescriptor(
     '/Operator/UpdateMarketStrategy',
     grpcWeb.MethodType.UNARY,
     operator_pb.UpdateMarketStrategyRequest,
@@ -927,7 +927,7 @@ export class OperatorClient {
           '/Operator/UpdateMarketStrategy',
         request,
         metadata || {},
-        this.methodInfoUpdateMarketStrategy,
+        this.methodDescriptorUpdateMarketStrategy,
         callback);
     }
     return this.client_.unaryCall(
@@ -935,10 +935,10 @@ export class OperatorClient {
       '/Operator/UpdateMarketStrategy',
     request,
     metadata || {},
-    this.methodInfoUpdateMarketStrategy);
+    this.methodDescriptorUpdateMarketStrategy);
   }
 
-  methodInfoGetFeeFragmenterAddress = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetFeeFragmenterAddress = new grpcWeb.MethodDescriptor(
     '/Operator/GetFeeFragmenterAddress',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetFeeFragmenterAddressRequest,
@@ -970,7 +970,7 @@ export class OperatorClient {
           '/Operator/GetFeeFragmenterAddress',
         request,
         metadata || {},
-        this.methodInfoGetFeeFragmenterAddress,
+        this.methodDescriptorGetFeeFragmenterAddress,
         callback);
     }
     return this.client_.unaryCall(
@@ -978,10 +978,10 @@ export class OperatorClient {
       '/Operator/GetFeeFragmenterAddress',
     request,
     metadata || {},
-    this.methodInfoGetFeeFragmenterAddress);
+    this.methodDescriptorGetFeeFragmenterAddress);
   }
 
-  methodInfoListFeeFragmenterAddresses = new grpcWeb.MethodDescriptor(
+  methodDescriptorListFeeFragmenterAddresses = new grpcWeb.MethodDescriptor(
     '/Operator/ListFeeFragmenterAddresses',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListFeeFragmenterAddressesRequest,
@@ -1013,7 +1013,7 @@ export class OperatorClient {
           '/Operator/ListFeeFragmenterAddresses',
         request,
         metadata || {},
-        this.methodInfoListFeeFragmenterAddresses,
+        this.methodDescriptorListFeeFragmenterAddresses,
         callback);
     }
     return this.client_.unaryCall(
@@ -1021,10 +1021,10 @@ export class OperatorClient {
       '/Operator/ListFeeFragmenterAddresses',
     request,
     metadata || {},
-    this.methodInfoListFeeFragmenterAddresses);
+    this.methodDescriptorListFeeFragmenterAddresses);
   }
 
-  methodInfoGetFeeFragmenterBalance = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetFeeFragmenterBalance = new grpcWeb.MethodDescriptor(
     '/Operator/GetFeeFragmenterBalance',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetFeeFragmenterBalanceRequest,
@@ -1056,7 +1056,7 @@ export class OperatorClient {
           '/Operator/GetFeeFragmenterBalance',
         request,
         metadata || {},
-        this.methodInfoGetFeeFragmenterBalance,
+        this.methodDescriptorGetFeeFragmenterBalance,
         callback);
     }
     return this.client_.unaryCall(
@@ -1064,10 +1064,10 @@ export class OperatorClient {
       '/Operator/GetFeeFragmenterBalance',
     request,
     metadata || {},
-    this.methodInfoGetFeeFragmenterBalance);
+    this.methodDescriptorGetFeeFragmenterBalance);
   }
 
-  methodInfoFeeFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
+  methodDescriptorFeeFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
     '/Operator/FeeFragmenterSplitFunds',
     grpcWeb.MethodType.SERVER_STREAMING,
     operator_pb.FeeFragmenterSplitFundsRequest,
@@ -1080,16 +1080,16 @@ export class OperatorClient {
 
   feeFragmenterSplitFunds(
     request: operator_pb.FeeFragmenterSplitFundsRequest,
-    metadata?: grpcWeb.Metadata) {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<operator_pb.FragmenterSplitFundsReply> {
     return this.client_.serverStreaming(
       this.hostname_ +
         '/Operator/FeeFragmenterSplitFunds',
       request,
       metadata || {},
-      this.methodInfoFeeFragmenterSplitFunds);
+      this.methodDescriptorFeeFragmenterSplitFunds);
   }
 
-  methodInfoWithdrawFeeFragmenter = new grpcWeb.MethodDescriptor(
+  methodDescriptorWithdrawFeeFragmenter = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawFeeFragmenter',
     grpcWeb.MethodType.UNARY,
     operator_pb.WithdrawFeeFragmenterRequest,
@@ -1121,7 +1121,7 @@ export class OperatorClient {
           '/Operator/WithdrawFeeFragmenter',
         request,
         metadata || {},
-        this.methodInfoWithdrawFeeFragmenter,
+        this.methodDescriptorWithdrawFeeFragmenter,
         callback);
     }
     return this.client_.unaryCall(
@@ -1129,10 +1129,10 @@ export class OperatorClient {
       '/Operator/WithdrawFeeFragmenter',
     request,
     metadata || {},
-    this.methodInfoWithdrawFeeFragmenter);
+    this.methodDescriptorWithdrawFeeFragmenter);
   }
 
-  methodInfoGetMarketFragmenterAddress = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketFragmenterAddress = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketFragmenterAddress',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketFragmenterAddressRequest,
@@ -1164,7 +1164,7 @@ export class OperatorClient {
           '/Operator/GetMarketFragmenterAddress',
         request,
         metadata || {},
-        this.methodInfoGetMarketFragmenterAddress,
+        this.methodDescriptorGetMarketFragmenterAddress,
         callback);
     }
     return this.client_.unaryCall(
@@ -1172,10 +1172,10 @@ export class OperatorClient {
       '/Operator/GetMarketFragmenterAddress',
     request,
     metadata || {},
-    this.methodInfoGetMarketFragmenterAddress);
+    this.methodDescriptorGetMarketFragmenterAddress);
   }
 
-  methodInfoListMarketFragmenterAddresses = new grpcWeb.MethodDescriptor(
+  methodDescriptorListMarketFragmenterAddresses = new grpcWeb.MethodDescriptor(
     '/Operator/ListMarketFragmenterAddresses',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListMarketFragmenterAddressesRequest,
@@ -1207,7 +1207,7 @@ export class OperatorClient {
           '/Operator/ListMarketFragmenterAddresses',
         request,
         metadata || {},
-        this.methodInfoListMarketFragmenterAddresses,
+        this.methodDescriptorListMarketFragmenterAddresses,
         callback);
     }
     return this.client_.unaryCall(
@@ -1215,10 +1215,10 @@ export class OperatorClient {
       '/Operator/ListMarketFragmenterAddresses',
     request,
     metadata || {},
-    this.methodInfoListMarketFragmenterAddresses);
+    this.methodDescriptorListMarketFragmenterAddresses);
   }
 
-  methodInfoGetMarketFragmenterBalance = new grpcWeb.MethodDescriptor(
+  methodDescriptorGetMarketFragmenterBalance = new grpcWeb.MethodDescriptor(
     '/Operator/GetMarketFragmenterBalance',
     grpcWeb.MethodType.UNARY,
     operator_pb.GetMarketFragmenterBalanceRequest,
@@ -1250,7 +1250,7 @@ export class OperatorClient {
           '/Operator/GetMarketFragmenterBalance',
         request,
         metadata || {},
-        this.methodInfoGetMarketFragmenterBalance,
+        this.methodDescriptorGetMarketFragmenterBalance,
         callback);
     }
     return this.client_.unaryCall(
@@ -1258,10 +1258,10 @@ export class OperatorClient {
       '/Operator/GetMarketFragmenterBalance',
     request,
     metadata || {},
-    this.methodInfoGetMarketFragmenterBalance);
+    this.methodDescriptorGetMarketFragmenterBalance);
   }
 
-  methodInfoMarketFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
+  methodDescriptorMarketFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
     '/Operator/MarketFragmenterSplitFunds',
     grpcWeb.MethodType.SERVER_STREAMING,
     operator_pb.MarketFragmenterSplitFundsRequest,
@@ -1274,16 +1274,16 @@ export class OperatorClient {
 
   marketFragmenterSplitFunds(
     request: operator_pb.MarketFragmenterSplitFundsRequest,
-    metadata?: grpcWeb.Metadata) {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<operator_pb.FragmenterSplitFundsReply> {
     return this.client_.serverStreaming(
       this.hostname_ +
         '/Operator/MarketFragmenterSplitFunds',
       request,
       metadata || {},
-      this.methodInfoMarketFragmenterSplitFunds);
+      this.methodDescriptorMarketFragmenterSplitFunds);
   }
 
-  methodInfoWithdrawMarketFragmenter = new grpcWeb.MethodDescriptor(
+  methodDescriptorWithdrawMarketFragmenter = new grpcWeb.MethodDescriptor(
     '/Operator/WithdrawMarketFragmenter',
     grpcWeb.MethodType.UNARY,
     operator_pb.WithdrawMarketFragmenterRequest,
@@ -1315,7 +1315,7 @@ export class OperatorClient {
           '/Operator/WithdrawMarketFragmenter',
         request,
         metadata || {},
-        this.methodInfoWithdrawMarketFragmenter,
+        this.methodDescriptorWithdrawMarketFragmenter,
         callback);
     }
     return this.client_.unaryCall(
@@ -1323,10 +1323,10 @@ export class OperatorClient {
       '/Operator/WithdrawMarketFragmenter',
     request,
     metadata || {},
-    this.methodInfoWithdrawMarketFragmenter);
+    this.methodDescriptorWithdrawMarketFragmenter);
   }
 
-  methodInfoListMarkets = new grpcWeb.MethodDescriptor(
+  methodDescriptorListMarkets = new grpcWeb.MethodDescriptor(
     '/Operator/ListMarkets',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListMarketsRequest,
@@ -1358,7 +1358,7 @@ export class OperatorClient {
           '/Operator/ListMarkets',
         request,
         metadata || {},
-        this.methodInfoListMarkets,
+        this.methodDescriptorListMarkets,
         callback);
     }
     return this.client_.unaryCall(
@@ -1366,10 +1366,10 @@ export class OperatorClient {
       '/Operator/ListMarkets',
     request,
     metadata || {},
-    this.methodInfoListMarkets);
+    this.methodDescriptorListMarkets);
   }
 
-  methodInfoListTrades = new grpcWeb.MethodDescriptor(
+  methodDescriptorListTrades = new grpcWeb.MethodDescriptor(
     '/Operator/ListTrades',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListTradesRequest,
@@ -1401,7 +1401,7 @@ export class OperatorClient {
           '/Operator/ListTrades',
         request,
         metadata || {},
-        this.methodInfoListTrades,
+        this.methodDescriptorListTrades,
         callback);
     }
     return this.client_.unaryCall(
@@ -1409,10 +1409,10 @@ export class OperatorClient {
       '/Operator/ListTrades',
     request,
     metadata || {},
-    this.methodInfoListTrades);
+    this.methodDescriptorListTrades);
   }
 
-  methodInfoReloadUtxos = new grpcWeb.MethodDescriptor(
+  methodDescriptorReloadUtxos = new grpcWeb.MethodDescriptor(
     '/Operator/ReloadUtxos',
     grpcWeb.MethodType.UNARY,
     operator_pb.ReloadUtxosRequest,
@@ -1444,7 +1444,7 @@ export class OperatorClient {
           '/Operator/ReloadUtxos',
         request,
         metadata || {},
-        this.methodInfoReloadUtxos,
+        this.methodDescriptorReloadUtxos,
         callback);
     }
     return this.client_.unaryCall(
@@ -1452,10 +1452,10 @@ export class OperatorClient {
       '/Operator/ReloadUtxos',
     request,
     metadata || {},
-    this.methodInfoReloadUtxos);
+    this.methodDescriptorReloadUtxos);
   }
 
-  methodInfoListUtxos = new grpcWeb.MethodDescriptor(
+  methodDescriptorListUtxos = new grpcWeb.MethodDescriptor(
     '/Operator/ListUtxos',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListUtxosRequest,
@@ -1487,7 +1487,7 @@ export class OperatorClient {
           '/Operator/ListUtxos',
         request,
         metadata || {},
-        this.methodInfoListUtxos,
+        this.methodDescriptorListUtxos,
         callback);
     }
     return this.client_.unaryCall(
@@ -1495,10 +1495,10 @@ export class OperatorClient {
       '/Operator/ListUtxos',
     request,
     metadata || {},
-    this.methodInfoListUtxos);
+    this.methodDescriptorListUtxos);
   }
 
-  methodInfoAddWebhook = new grpcWeb.MethodDescriptor(
+  methodDescriptorAddWebhook = new grpcWeb.MethodDescriptor(
     '/Operator/AddWebhook',
     grpcWeb.MethodType.UNARY,
     operator_pb.AddWebhookRequest,
@@ -1530,7 +1530,7 @@ export class OperatorClient {
           '/Operator/AddWebhook',
         request,
         metadata || {},
-        this.methodInfoAddWebhook,
+        this.methodDescriptorAddWebhook,
         callback);
     }
     return this.client_.unaryCall(
@@ -1538,10 +1538,10 @@ export class OperatorClient {
       '/Operator/AddWebhook',
     request,
     metadata || {},
-    this.methodInfoAddWebhook);
+    this.methodDescriptorAddWebhook);
   }
 
-  methodInfoRemoveWebhook = new grpcWeb.MethodDescriptor(
+  methodDescriptorRemoveWebhook = new grpcWeb.MethodDescriptor(
     '/Operator/RemoveWebhook',
     grpcWeb.MethodType.UNARY,
     operator_pb.RemoveWebhookRequest,
@@ -1573,7 +1573,7 @@ export class OperatorClient {
           '/Operator/RemoveWebhook',
         request,
         metadata || {},
-        this.methodInfoRemoveWebhook,
+        this.methodDescriptorRemoveWebhook,
         callback);
     }
     return this.client_.unaryCall(
@@ -1581,10 +1581,10 @@ export class OperatorClient {
       '/Operator/RemoveWebhook',
     request,
     metadata || {},
-    this.methodInfoRemoveWebhook);
+    this.methodDescriptorRemoveWebhook);
   }
 
-  methodInfoListWebhooks = new grpcWeb.MethodDescriptor(
+  methodDescriptorListWebhooks = new grpcWeb.MethodDescriptor(
     '/Operator/ListWebhooks',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListWebhooksRequest,
@@ -1616,7 +1616,7 @@ export class OperatorClient {
           '/Operator/ListWebhooks',
         request,
         metadata || {},
-        this.methodInfoListWebhooks,
+        this.methodDescriptorListWebhooks,
         callback);
     }
     return this.client_.unaryCall(
@@ -1624,10 +1624,10 @@ export class OperatorClient {
       '/Operator/ListWebhooks',
     request,
     metadata || {},
-    this.methodInfoListWebhooks);
+    this.methodDescriptorListWebhooks);
   }
 
-  methodInfoListDeposits = new grpcWeb.MethodDescriptor(
+  methodDescriptorListDeposits = new grpcWeb.MethodDescriptor(
     '/Operator/ListDeposits',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListDepositsRequest,
@@ -1659,7 +1659,7 @@ export class OperatorClient {
           '/Operator/ListDeposits',
         request,
         metadata || {},
-        this.methodInfoListDeposits,
+        this.methodDescriptorListDeposits,
         callback);
     }
     return this.client_.unaryCall(
@@ -1667,10 +1667,10 @@ export class OperatorClient {
       '/Operator/ListDeposits',
     request,
     metadata || {},
-    this.methodInfoListDeposits);
+    this.methodDescriptorListDeposits);
   }
 
-  methodInfoListWithdrawals = new grpcWeb.MethodDescriptor(
+  methodDescriptorListWithdrawals = new grpcWeb.MethodDescriptor(
     '/Operator/ListWithdrawals',
     grpcWeb.MethodType.UNARY,
     operator_pb.ListWithdrawalsRequest,
@@ -1702,7 +1702,7 @@ export class OperatorClient {
           '/Operator/ListWithdrawals',
         request,
         metadata || {},
-        this.methodInfoListWithdrawals,
+        this.methodDescriptorListWithdrawals,
         callback);
     }
     return this.client_.unaryCall(
@@ -1710,7 +1710,7 @@ export class OperatorClient {
       '/Operator/ListWithdrawals',
     request,
     metadata || {},
-    this.methodInfoListWithdrawals);
+    this.methodDescriptorListWithdrawals);
   }
 
 }

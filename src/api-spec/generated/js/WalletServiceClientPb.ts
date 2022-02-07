@@ -35,7 +35,7 @@ export class WalletClient {
     this.options_ = options;
   }
 
-  methodInfoWalletAddress = new grpcWeb.MethodDescriptor(
+  methodDescriptorWalletAddress = new grpcWeb.MethodDescriptor(
     '/Wallet/WalletAddress',
     grpcWeb.MethodType.UNARY,
     wallet_pb.WalletAddressRequest,
@@ -67,7 +67,7 @@ export class WalletClient {
           '/Wallet/WalletAddress',
         request,
         metadata || {},
-        this.methodInfoWalletAddress,
+        this.methodDescriptorWalletAddress,
         callback);
     }
     return this.client_.unaryCall(
@@ -75,10 +75,10 @@ export class WalletClient {
       '/Wallet/WalletAddress',
     request,
     metadata || {},
-    this.methodInfoWalletAddress);
+    this.methodDescriptorWalletAddress);
   }
 
-  methodInfoWalletBalance = new grpcWeb.MethodDescriptor(
+  methodDescriptorWalletBalance = new grpcWeb.MethodDescriptor(
     '/Wallet/WalletBalance',
     grpcWeb.MethodType.UNARY,
     wallet_pb.WalletBalanceRequest,
@@ -110,7 +110,7 @@ export class WalletClient {
           '/Wallet/WalletBalance',
         request,
         metadata || {},
-        this.methodInfoWalletBalance,
+        this.methodDescriptorWalletBalance,
         callback);
     }
     return this.client_.unaryCall(
@@ -118,10 +118,10 @@ export class WalletClient {
       '/Wallet/WalletBalance',
     request,
     metadata || {},
-    this.methodInfoWalletBalance);
+    this.methodDescriptorWalletBalance);
   }
 
-  methodInfoSendToMany = new grpcWeb.MethodDescriptor(
+  methodDescriptorSendToMany = new grpcWeb.MethodDescriptor(
     '/Wallet/SendToMany',
     grpcWeb.MethodType.UNARY,
     wallet_pb.SendToManyRequest,
@@ -153,7 +153,7 @@ export class WalletClient {
           '/Wallet/SendToMany',
         request,
         metadata || {},
-        this.methodInfoSendToMany,
+        this.methodDescriptorSendToMany,
         callback);
     }
     return this.client_.unaryCall(
@@ -161,7 +161,7 @@ export class WalletClient {
       '/Wallet/SendToMany',
     request,
     metadata || {},
-    this.methodInfoSendToMany);
+    this.methodDescriptorSendToMany);
   }
 
 }

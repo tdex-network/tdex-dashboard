@@ -8,7 +8,10 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { LBTC_UNITS } from '../../utils';
-import { useReloadUtxosMutation } from '../operator/operator.api';
+import { liquidApi } from '../liquid.api';
+import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
+import { walletApi } from '../wallet/wallet.api';
+import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
@@ -79,7 +82,12 @@ export const Settings = (): JSX.Element => {
                         console.error(err);
                       }
                     }
-                    await dispatch(logout());
+                    dispatch(logout());
+                    // Reset the APIs state completely
+                    dispatch(liquidApi.util.resetApiState());
+                    dispatch(operatorApi.util.resetApiState());
+                    dispatch(walletUnlockerApi.util.resetApiState());
+                    dispatch(walletApi.util.resetApiState());
                   }}
                   className="w-100"
                 >
@@ -109,7 +117,12 @@ export const Settings = (): JSX.Element => {
                         console.error(err);
                       }
                     }
-                    await dispatch(resetSettings());
+                    dispatch(resetSettings());
+                    // Reset the APIs state completely
+                    dispatch(liquidApi.util.resetApiState());
+                    dispatch(operatorApi.util.resetApiState());
+                    dispatch(walletUnlockerApi.util.resetApiState());
+                    dispatch(walletApi.util.resetApiState());
                   }}
                 >
                   Clear Cache

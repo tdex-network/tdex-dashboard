@@ -152,7 +152,7 @@ export const App = (): JSX.Element => {
   return (
     <>
       <Shell>
-        <Routes />
+        <Routes setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible} />
         <ServiceUnavailableModal
           isServiceUnavailableModalVisible={isServiceUnavailableModalVisible}
           setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible}

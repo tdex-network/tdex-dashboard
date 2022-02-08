@@ -20,7 +20,7 @@ export const Home = (): JSX.Element => {
     refetch: refetchIsReady,
     error: errorIsReady,
   } = useIsReadyQuery(undefined, {
-    // Skip if proxy is used and not serving
+    // Skip if proxy is used but not serving
     skip: proxyHealth && proxyHealth !== 'SERVING',
   });
   // UnlockWallet Modal
@@ -37,16 +37,16 @@ export const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {
-      if (isReady?.isInitialized) {
+      if (isReady?.initialized) {
         setProxyIsServingAndReady(true);
       } else {
         refetchIsReady();
       }
     }
-  }, [isReady?.isInitialized, proxyHealth, refetchIsReady]);
+  }, [isReady?.initialized, proxyHealth, refetchIsReady]);
 
   useEffect(() => {
-    if (isReady?.isInitialized && !isReady?.isUnlocked) {
+    if (isReady?.initialized && !isReady?.unlocked) {
       showUnlockWalletModal();
     }
   }, [isReady]);

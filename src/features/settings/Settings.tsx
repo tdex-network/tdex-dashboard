@@ -4,6 +4,7 @@ import { Breadcrumb, Row, Col, Typography, Button, Radio, notification } from 'a
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
@@ -22,15 +23,10 @@ const { Text, Title } = Typography;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy } = useTypedSelector(({ settings }) => ({
-    tdexdConnectUrl: settings.tdexdConnectUrl,
-    lbtcUnit: settings.lbtcUnit,
-    useProxy: settings.useProxy,
-  }));
+  const { tdexdConnectUrl, lbtcUnit, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
-  const handleBitcoinUnitChange = async (ev: RadioChangeEvent) => {
-    dispatch(setLbtcUnit(ev.target.value));
-  };
+
+  const handleBitcoinUnitChange = (ev: RadioChangeEvent) => dispatch(setLbtcUnit(ev.target.value));
 
   return (
     <>

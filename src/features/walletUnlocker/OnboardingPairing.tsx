@@ -1,6 +1,6 @@
 import './onboardingPairing.less';
 import { Button, Col, Form, Input, Modal, notification, Row, Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch } from '../../app/store';
@@ -11,7 +11,12 @@ import {
   downloadCert,
   extractHostCertMacaroon,
 } from '../../utils/connect';
+import { liquidApi } from '../liquid.api';
+import { operatorApi } from '../operator/operator.api';
 import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import { walletApi } from '../wallet/wallet.api';
+
+import { walletUnlockerApi } from './walletUnlocker.api';
 
 const { Title } = Typography;
 
@@ -26,6 +31,16 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
+
+  useEffect(() => {
+    // Reset the APIs state completely
+    // Especially useful when redirected on this page after failed pairing attempt
+    dispatch(liquidApi.util.resetApiState());
+    dispatch(operatorApi.util.resetApiState());
+    dispatch(walletUnlockerApi.util.resetApiState());
+    dispatch(walletApi.util.resetApiState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onFinish = async () => {
     try {

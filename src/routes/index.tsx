@@ -1,9 +1,9 @@
-import React from 'react';
-import { Navigate, Route, Routes as ReactRouterDomRoutes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
 import type { IsReadyReply } from '../api-spec/generated/js/walletunlocker_pb';
 import type { RootState } from '../app/store';
-import { useTypedSelector } from '../app/store';
+import { useTypedDispatch, useTypedSelector } from '../app/store';
 import { Home } from '../features/home/Home';
 import { FeeDeposit } from '../features/operator/Fee/FeeDeposit';
 import { FeeWithdraw } from '../features/operator/Fee/FeeWithdraw';
@@ -13,6 +13,7 @@ import { MarketFragmenterWithdraw } from '../features/operator/Market/MarketFrag
 import { MarketOverview } from '../features/operator/Market/MarketOverview';
 import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
 import { Settings } from '../features/settings/Settings';
+import { disconnectProxy, logout } from '../features/settings/settingsSlice';
 import { OnboardingConfirmMnemonic } from '../features/walletUnlocker/OnboardingConfirmMnemonic';
 import { OnboardingCreateOrRestore } from '../features/walletUnlocker/OnboardingCreateOrRestore';
 import { OnboardingPairing } from '../features/walletUnlocker/OnboardingPairing';
@@ -41,7 +42,7 @@ const PrivateRoute = ({ children }: any) => {
   const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
   const isDaemonInitialized = useTypedSelector(
     ({ walletUnlockerService }: RootState) =>
-      (walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject).initialized
+      (walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject)?.initialized
   );
   if (isDaemonInitialized && tdexdConnectUrl) {
     return children;
@@ -54,94 +55,117 @@ const PrivateRoute = ({ children }: any) => {
   }
 };
 
-export const Routes = (): JSX.Element => {
-  // If tdexdConnectUrl, call IsReady to set data in store
-  const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
-  const { data: isReadyData } = useIsReadyQuery(undefined, { skip: !tdexdConnectUrl });
+interface RoutesProps {
+  setIsServiceUnavailableModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  return isReadyData ? (
+export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JSX.Element => {
+  const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
+  // If tdexdConnectUrl, call IsReady to set data in store
+  const { tdexdConnectUrl, proxyHealth, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
+  const { isSuccess, isError } = useIsReadyQuery(undefined, {
+    // Skip if no tdexdConnectUrl or if proxy is used but not serving
+    skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
+  });
+
+  useEffect(() => {
+    (async () => {
+      if (isError) {
+        navigate(ONBOARDING_PAIRING_ROUTE);
+        setIsServiceUnavailableModalVisible(true);
+        dispatch(logout());
+        if (useProxy) {
+          await dispatch(disconnectProxy()).unwrap();
+        }
+      }
+    })();
+  }, [dispatch, isError, navigate, setIsServiceUnavailableModalVisible, useProxy]);
+
+  return (
     <ReactRouterDomRoutes>
-      <Route
-        path={HOME_ROUTE}
-        element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={MARKET_OVERVIEW_ROUTE}
-        element={
-          <PrivateRoute>
-            <MarketOverview />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={SETTINGS_ROUTE}
-        element={
-          <PrivateRoute>
-            <Settings />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={FEE_DEPOSIT_ROUTE}
-        element={
-          <PrivateRoute>
-            <FeeDeposit />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={FEE_WITHDRAW_ROUTE}
-        element={
-          <PrivateRoute>
-            <FeeWithdraw />
-          </PrivateRoute>
-        }
-      />
-      {/* Market */}
-      <Route
-        path={CREATE_MARKET_ROUTE}
-        element={
-          <PrivateRoute>
-            <CreateMarket />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={MARKET_DEPOSIT_ROUTE}
-        element={
-          <PrivateRoute>
-            <MarketDeposit />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={MARKET_WITHDRAW_ROUTE}
-        element={
-          <PrivateRoute>
-            <MarketWithdraw />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path={MARKET_WITHDRAW_FRAGMENTER_ROUTE}
-        element={
-          <PrivateRoute>
-            <MarketFragmenterWithdraw />
-          </PrivateRoute>
-        }
-      />
       {/* Onboarding Routes*/}
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
       <Route path={ONBOARDING_CREATE_OR_RESTORE_ROUTE} element={<OnboardingCreateOrRestore />} />
       <Route path={ONBOARDING_RESTORE_MNEMONIC_ROUTE} element={<OnboardingRestoreMnemonic />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
+      {(isSuccess || !tdexdConnectUrl) && (
+        <>
+          <Route
+            path={HOME_ROUTE}
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={MARKET_OVERVIEW_ROUTE}
+            element={
+              <PrivateRoute>
+                <MarketOverview />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={SETTINGS_ROUTE}
+            element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={FEE_DEPOSIT_ROUTE}
+            element={
+              <PrivateRoute>
+                <FeeDeposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={FEE_WITHDRAW_ROUTE}
+            element={
+              <PrivateRoute>
+                <FeeWithdraw />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={CREATE_MARKET_ROUTE}
+            element={
+              <PrivateRoute>
+                <CreateMarket />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={MARKET_DEPOSIT_ROUTE}
+            element={
+              <PrivateRoute>
+                <MarketDeposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={MARKET_WITHDRAW_ROUTE}
+            element={
+              <PrivateRoute>
+                <MarketWithdraw />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={MARKET_WITHDRAW_FRAGMENTER_ROUTE}
+            element={
+              <PrivateRoute>
+                <MarketFragmenterWithdraw />
+              </PrivateRoute>
+            }
+          />
+        </>
+      )}
     </ReactRouterDomRoutes>
-  ) : (
-    <></>
   );
 };

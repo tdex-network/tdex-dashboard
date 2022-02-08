@@ -1,5 +1,6 @@
 import { Button, Col, Row, notification, Select } from 'antd';
 import classNames from 'classnames';
+import type { NetworkString } from 'ldk';
 import React, { useEffect, useState } from 'react';
 
 import { useTypedSelector } from '../../../../app/store';
@@ -30,7 +31,7 @@ export const MarketPairForm = ({
   const [newMarket] = useNewMarketMutation();
   const [showGenericAssetForm, setShowGenericAssetForm] = useState<boolean>(false);
   const [activeSelectComponent, setActiveSelectComponent] = useState<'base' | 'quote'>('base');
-  const savedAssets = useTypedSelector(({ settings }) => settings.assets);
+  const { assets: savedAssets, network } = useTypedSelector(({ settings }) => settings);
   const selectAssetList = savedAssets.concat([
     { ticker: 'Generic Asset', asset_id: '', name: '', precision: 8 },
   ]);
@@ -43,22 +44,22 @@ export const MarketPairForm = ({
     setActiveSelectComponent('quote');
   }, [quoteAsset]);
 
-  const handleChangeBaseAsset = (ticker: string) => {
+  const handleChangeBaseAsset = (ticker: string, network: NetworkString) => {
     if (ticker === 'Generic Asset') {
       setShowGenericAssetForm(true);
     } else {
       setShowGenericAssetForm(false);
     }
-    setBaseAsset(selectAssetList.find((a) => a.ticker === ticker) || LBTC_ASSET);
+    setBaseAsset(selectAssetList.find((a) => a.ticker === ticker) || LBTC_ASSET[network]);
   };
 
-  const handleChangeQuoteAsset = (ticker: string) => {
+  const handleChangeQuoteAsset = (ticker: string, network: NetworkString) => {
     if (ticker === 'Generic Asset') {
       setShowGenericAssetForm(true);
     } else {
       setShowGenericAssetForm(false);
     }
-    setQuoteAsset(selectAssetList.find((a) => a.ticker === ticker) || LBTC_ASSET);
+    setQuoteAsset(selectAssetList.find((a) => a.ticker === ticker) || LBTC_ASSET[network]);
   };
 
   const createMarket = async () => {
@@ -82,7 +83,7 @@ export const MarketPairForm = ({
     <div id="market-pair-container">
       <Row gutter={{ xs: 4, sm: 10, md: 16 }} className={classNames({ 'mb-4': !showGenericAssetForm })}>
         <Col span={12}>
-          <Select value={baseAsset.ticker} onChange={handleChangeBaseAsset}>
+          <Select value={baseAsset.ticker} onChange={(ticker) => handleChangeBaseAsset(ticker, network)}>
             {selectAssetList.map(({ ticker }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon currency={ticker} />
@@ -92,7 +93,7 @@ export const MarketPairForm = ({
           </Select>
         </Col>
         <Col span={12}>
-          <Select value={quoteAsset.ticker} onChange={handleChangeQuoteAsset}>
+          <Select value={quoteAsset.ticker} onChange={(ticker) => handleChangeQuoteAsset(ticker, network)}>
             {selectAssetList.map(({ ticker }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon currency={ticker} />

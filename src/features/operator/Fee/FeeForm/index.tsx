@@ -118,8 +118,12 @@ export const FeeForm = ({
               <Input
                 type="number"
                 min="0"
+                placeholder="0"
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteBaseInput: '0' });
+                  if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteBaseInput: '0' });
+                }}
+                onFocus={(ev) => {
+                  if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteBaseInput: '' });
                 }}
               />
             </Form.Item>
@@ -136,8 +140,12 @@ export const FeeForm = ({
               <Input
                 type="number"
                 min="0"
+                placeholder="0"
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeAbsoluteQuoteInput: '0' });
+                  if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteQuoteInput: '0' });
+                }}
+                onFocus={(ev) => {
+                  if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteQuoteInput: '' });
                 }}
               />
             </Form.Item>
@@ -169,8 +177,12 @@ export const FeeForm = ({
                 min="0"
                 step="any"
                 suffix={'%'}
+                placeholder="0"
                 onBlur={(ev) => {
-                  if (!ev.target.value) form.setFieldsValue({ feeRelativeInput: '0' });
+                  if (ev.target.value === '') form.setFieldsValue({ feeRelativeInput: '0' });
+                }}
+                onFocus={(ev) => {
+                  if (ev.target.value === '0') form.setFieldsValue({ feeRelativeInput: '' });
                 }}
               />
             </Form.Item>

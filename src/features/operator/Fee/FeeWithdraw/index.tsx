@@ -13,7 +13,7 @@ import { formatSatsToUnit, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
-  amount: number;
+  amount: string;
   millisatsPerByte: number;
   address: string;
   asset: string;
@@ -36,7 +36,7 @@ export const FeeWithdraw = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       const res = await withdrawFee({
-        amount: values.amount,
+        amount: Number(values.amount),
         millisatsPerByte: 100,
         address: values.address,
         asset: values.asset,
@@ -72,7 +72,7 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
-            initialValues={{ amount: 0 }}
+            initialValues={{ amount: '0' }}
           >
             <div className="panel panel__grey mb-6">
               <Row>
@@ -87,7 +87,16 @@ export const FeeWithdraw = (): JSX.Element => {
                       'has-error': withdrawFeeError,
                     })}
                   >
-                    <Input type="number" />
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      onBlur={(ev) => {
+                        if (ev.target.value === '') form.setFieldsValue({ amount: '0' });
+                      }}
+                      onFocus={(ev) => {
+                        if (ev.target.value === '0') form.setFieldsValue({ amount: '' });
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -100,7 +109,7 @@ export const FeeWithdraw = (): JSX.Element => {
                     onClick={() => {
                       if (feeAvailableBalanceFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          amount: Number(feeAvailableBalanceFormatted),
+                          amount: feeAvailableBalanceFormatted,
                         });
                       }
                     }}

@@ -124,7 +124,15 @@ export const MarketSettings = ({
           <p>Withdraw all asset to close Market</p>
         </Col>
       </Row>
-      <Button danger className="w-100" onClick={handleClickDropMarket}>
+      <Button
+        danger
+        className="w-100"
+        onClick={handleClickDropMarket}
+        disabled={
+          (marketInfo?.balance && marketInfo.balance.baseAmount > 0) ||
+          (marketInfo?.balance && marketInfo.balance.quoteAmount > 0)
+        }
+      >
         CLOSE MARKET
       </Button>
     </Modal>

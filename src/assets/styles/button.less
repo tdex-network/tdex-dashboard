@@ -43,13 +43,7 @@ a.ant-btn {
   &.ant-btn-dangerous {
     background: rgba(189, 10, 10, 0.15);
     border: 1px solid rgba(189, 10, 10, 0.15);
-    &:hover {
-      background: rgba(189, 10, 10, 0.15) !important;
-      border: 1px solid rgba(189, 10, 10, 0.15) !important;
-      color: #FF0000;
-      box-shadow: 0 0 0 1px #FF0000 inset;
-    }
-    &:focus {
+    &:hover, &:focus, &:disabled {
       background: rgba(189, 10, 10, 0.15) !important;
       border: 1px solid rgba(189, 10, 10, 0.15) !important;
       color: #FF0000;

@@ -1,7 +1,6 @@
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { network } from '../app/config';
 import type { RootState } from '../app/store';
 import type { Asset } from '../domain/asset';
 import { isLbtcAssetId, LBTC_ASSET } from '../utils';
@@ -31,7 +30,7 @@ export const liquidApi = createApi({
           if (!arg) throw new Error('no argument provided');
           // Checking if asset is LBTC because Esplora 'asset' endpoint does not return ticker for LBTC
           const { settings } = api.getState() as RootState;
-          if (isLbtcAssetId(arg, network)) return { data: LBTC_ASSET[settings.network] };
+          if (isLbtcAssetId(arg, settings.network)) return { data: LBTC_ASSET[settings.network] };
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
           // @ts-ignore
           if (res.error) throw new Error(res.error.data);

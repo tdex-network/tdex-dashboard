@@ -3,9 +3,18 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Input, Divider, Form, Button, notification } from 'antd';
 import React from 'react';
 
+import type { RootState } from '../../../../app/store';
+import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
+import {
+  formatFiatToSats,
+  formatLbtcUnitToSats,
+  formatSatsToUnit,
+  isLbtcAssetId,
+  sleep,
+} from '../../../../utils';
 import {
   useGetMarketInfoQuery,
   useUpdateMarketFixedFeeMutation,
@@ -28,6 +37,7 @@ interface FeeFormProps {
   feeRelative?: string;
   className?: string;
   incrementStep?: () => void;
+  marketInfoRefetch?: () => void;
 }
 
 const FEE_ABSOLUTE_BASE_DEFAULT = '0';
@@ -42,7 +52,9 @@ export const FeeForm = ({
   feeAbsoluteBase = FEE_ABSOLUTE_BASE_DEFAULT,
   feeAbsoluteQuote = FEE_ABSOLUTE_QUOTE_DEFAULT,
   feeRelative = FEE_RELATIVE_DEFAULT,
+  marketInfoRefetch,
 }: FeeFormProps): JSX.Element => {
+  const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
   const [updateMarketPercentageFee] = useUpdateMarketPercentageFeeMutation();
   const [updateMarketFixedFee] = useUpdateMarketFixedFeeMutation();
@@ -62,8 +74,12 @@ export const FeeForm = ({
       if (updateMarketPercentageFeeRes?.error) throw new Error(updateMarketPercentageFeeRes?.error);
       const updateMarketFixedFeeRes = await updateMarketFixedFee({
         fixedFee: {
-          baseFee: Number(values.feeAbsoluteBaseInput),
-          quoteFee: Number(values.feeAbsoluteQuoteInput),
+          baseFee: isLbtcAssetId(baseAsset.asset_id, network)
+            ? Number(formatLbtcUnitToSats(Number(values.feeAbsoluteBaseInput), lbtcUnit))
+            : Number(formatFiatToSats(Number(values.feeAbsoluteBaseInput))),
+          quoteFee: isLbtcAssetId(quoteAsset.asset_id, network)
+            ? Number(formatLbtcUnitToSats(Number(values.feeAbsoluteQuoteInput), lbtcUnit))
+            : Number(formatFiatToSats(Number(values.feeAbsoluteQuoteInput))),
         },
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
       });
@@ -71,6 +87,8 @@ export const FeeForm = ({
       if (updateMarketFixedFeeRes?.error) throw new Error(updateMarketFixedFeeRes?.error);
       incrementStep?.();
       notification.success({ message: 'Market fees updated successfully' });
+      await sleep(500);
+      marketInfoRefetch?.();
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });
@@ -92,8 +110,18 @@ export const FeeForm = ({
       form={form}
       name="fee_form"
       initialValues={{
-        feeAbsoluteBaseInput: feeAbsoluteBase,
-        feeAbsoluteQuoteInput: feeAbsoluteQuote,
+        feeAbsoluteBaseInput: formatSatsToUnit(
+          Number(feeAbsoluteBase),
+          lbtcUnit,
+          baseAsset.asset_id,
+          network
+        ),
+        feeAbsoluteQuoteInput: formatSatsToUnit(
+          Number(feeAbsoluteQuote),
+          lbtcUnit,
+          quoteAsset.asset_id,
+          network
+        ),
         feeRelativeInput: Number(feeRelative) / 100,
       }}
       onFinish={onFinish}
@@ -109,15 +137,16 @@ export const FeeForm = ({
           </Col>
         </Row>
         <Row align="middle">
-          <Col span={14}>
+          <Col span={8}>
             <CurrencyIcon currency={baseAsset.ticker} />
             <span className="dm-sans dm-sans__xx ml-2">{baseAsset.ticker}</span>
           </Col>
-          <Col span={10}>
-            <Form.Item name="feeAbsoluteBaseInput" noStyle>
+          <Col span={16}>
+            <Form.Item name="feeAbsoluteBaseInput">
               <Input
                 type="number"
                 min="0"
+                step="any"
                 placeholder="0"
                 onBlur={(ev) => {
                   if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteBaseInput: '0' });
@@ -125,21 +154,23 @@ export const FeeForm = ({
                 onFocus={(ev) => {
                   if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteBaseInput: '' });
                 }}
+                addonAfter={isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : null}
               />
             </Form.Item>
           </Col>
         </Row>
         <Divider />
         <Row align="middle">
-          <Col span={14}>
+          <Col span={8}>
             <CurrencyIcon currency={quoteAsset.ticker} />
             <span className="dm-sans dm-sans__xx ml-2">{quoteAsset.ticker}</span>
           </Col>
-          <Col span={10}>
+          <Col span={16}>
             <Form.Item name="feeAbsoluteQuoteInput" noStyle>
               <Input
                 type="number"
                 min="0"
+                step="any"
                 placeholder="0"
                 onBlur={(ev) => {
                   if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteQuoteInput: '0' });
@@ -147,6 +178,7 @@ export const FeeForm = ({
                 onFocus={(ev) => {
                   if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteQuoteInput: '' });
                 }}
+                addonAfter={isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : null}
               />
             </Form.Item>
           </Col>

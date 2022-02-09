@@ -12,6 +12,7 @@ import { assetIdToTicker, isLbtcTicker } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { AllRows } from './AllRows';
+import type { DepositRow } from './DepositRows';
 import { DepositRows } from './DepositRows';
 import { TradeRows } from './TradeRows';
 import { WithdrawalRows } from './WithdrawalRows';
@@ -57,14 +58,7 @@ interface tableRowsProps {
   savedAssets: Asset[];
   marketInfo: MarketInfo.AsObject;
   trades?: TradeInfo.AsObject[];
-  deposits?: {
-    assetId: string;
-    assetIdSecond?: string;
-    value: number;
-    valueSecond?: number;
-    timestampUnix: number;
-    txId: string;
-  }[];
+  deposits?: DepositRow[];
   numDepositsToShow: number;
   numAllItemsToShow: number;
   withdrawals?: Withdrawal.AsObject[];
@@ -135,7 +129,7 @@ const tableRows = ({
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
   const [mode, setMode] = useState<TableMode>('all');
-  const { assets: savedAssets, lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const { assets: savedAssets, lbtcUnit, explorerLiquidUI } = useTypedSelector(({ settings }) => settings);
   const PAGE_SIZE_FRONTEND = 5;
 
   // All
@@ -195,6 +189,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
           value: currentValue.utxo?.value || 0,
           timestampUnix: currentValue.timestampUnix,
           txId: txId,
+          txUrl: `${explorerLiquidUI}/tx/${txId}`,
         };
       }
       // Then we check if utxo.asset === assetId or new
@@ -207,6 +202,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
           valueSecond: (result?.valueSecond ?? 0) + (currentValue.utxo?.value || 0),
           timestampUnix: currentValue.timestampUnix,
           txId: txId,
+          txUrl: `${explorerLiquidUI}/tx/${txId}`,
         };
       } else {
         return {
@@ -216,23 +212,13 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
           valueSecond: result.valueSecond,
           timestampUnix: currentValue.timestampUnix,
           txId: txId,
+          txUrl: `${explorerLiquidUI}/tx/${txId}`,
         };
       }
     }, {} as { assetId: string; assetIdSecond?: string; value: number; valueSecond?: number; timestampUnix: number; txId: string });
   };
   const depositsByTxId = groupBy(depositFragments || [], (deposit) => deposit.utxo?.outpoint?.hash);
-  const deposits = Object.entries(depositsByTxId).map(
-    ([txId, arr]) =>
-      reduceValue(arr, txId) as {
-        assetId: string;
-        assetIdSecond?: string;
-        value: number;
-        valueSecond?: number;
-        timestampUnix: number;
-        txId: string;
-      }
-  );
-
+  const deposits = Object.entries(depositsByTxId).map(([txId, arr]) => reduceValue(arr, txId) as DepositRow);
   useEffect(() => {
     if (trades !== undefined && deposits !== undefined && withdrawals !== undefined) {
       setIsAllDataLoaded(true);

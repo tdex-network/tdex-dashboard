@@ -1,9 +1,8 @@
-import Icon, { PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Col, Layout, Row, Space } from 'antd';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import logo from '../../assets/images/tdex-logo.svg';
 import { CREATE_MARKET_ROUTE, HOME_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
@@ -21,10 +20,6 @@ export const Header = (): JSX.Element => {
         </Col>
         <Col span={12} className="d-flex justify-end align-center pr-4">
           <Space>
-            <Button className="rotate-icon" icon={<Icon component={depositIcon} />}>
-              WITHDRAW
-            </Button>
-            <Button icon={<Icon component={depositIcon} />}>DEPOSIT</Button>
             <Button icon={<PlusCircleOutlined />} onClick={() => navigate(CREATE_MARKET_ROUTE)}>
               CREATE NEW MARKET
             </Button>

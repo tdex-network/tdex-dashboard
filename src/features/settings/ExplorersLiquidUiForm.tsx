@@ -18,7 +18,7 @@ export const ExplorersLiquidUiForm = (): JSX.Element => {
   const onSubmit = async () => {
     try {
       const values = await form.validateFields();
-      setExplorerLiquidUI(values.explorerLiquidUI);
+      dispatch(setExplorerLiquidUI(values.explorerLiquidUI));
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

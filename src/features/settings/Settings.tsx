@@ -1,6 +1,7 @@
 import Icon from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
-import { Breadcrumb, Row, Col, Typography, Button, Radio, notification } from 'antd';
+import { Breadcrumb, Row, Col, Typography, Button, Radio, notification, Select } from 'antd';
+import type { NetworkString } from 'ldk';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -16,14 +17,17 @@ import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { disconnectProxy, logout, resetSettings, setLbtcUnit } from './settingsSlice';
+import { disconnectProxy, logout, resetSettings, setLbtcUnit, setNetwork } from './settingsSlice';
 
 const { Text, Title } = Typography;
+const { Option } = Select;
 
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
+  const { tdexdConnectUrl, lbtcUnit, useProxy, network } = useTypedSelector(
+    ({ settings }: RootState) => settings
+  );
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
 
   const handleBitcoinUnitChange = (ev: RadioChangeEvent) => dispatch(setLbtcUnit(ev.target.value));
@@ -190,6 +194,25 @@ export const Settings = (): JSX.Element => {
                 <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Default currency
                 </Title>
+              </Col>
+            </Row>
+          </div>
+          {/**/}
+          <div className="mb-4">
+            <Row>
+              <Col span={24}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                  Network
+                </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Select value={network} onChange={(network: NetworkString) => dispatch(setNetwork(network))}>
+                  <Option value="liquid">Liquid</Option>
+                  <Option value="testnet">Testnet</Option>
+                  <Option value="regtest">Regtest</Option>
+                </Select>
               </Col>
             </Row>
           </div>

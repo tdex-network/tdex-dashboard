@@ -2,7 +2,7 @@ import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import type { RootState } from '../../../../app/store';
@@ -41,40 +41,44 @@ export const MarketWithdraw = (): JSX.Element => {
     useWithdrawMarketMutation();
   const { data: listMarkets } = useListMarketsQuery();
   const { data: marketBalance, refetch: refetchMarketBalance } = useGetMarketBalanceQuery({
-    baseAsset: state?.baseAsset.asset_id,
-    quoteAsset: state?.quoteAsset.asset_id,
+    baseAsset: selectedMarket.baseAsset?.asset_id || '',
+    quoteAsset: selectedMarket.quoteAsset?.asset_id || '',
   });
   const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
-  const marketList = useRef<[Asset?, Asset?][]>([]);
+  const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
 
   useEffect(() => {
     (async () => {
-      const fetchPromises = [];
-      for (const { market } of listMarkets!.marketsList) {
-        fetchPromises.push([
-          fetch(`${explorerLiquidAPI}/asset/${market?.baseAsset}`).then((response) => response.json()),
-          fetch(`${explorerLiquidAPI}/asset/${market?.quoteAsset}`).then((response) => response.json()),
-        ]);
+      if (listMarkets) {
+        const fetchPromises = [];
+        for (const { market } of listMarkets.marketsList) {
+          fetchPromises.push([
+            fetch(`${explorerLiquidAPI}/asset/${market?.baseAsset}`).then((response) => response.json()),
+            fetch(`${explorerLiquidAPI}/asset/${market?.quoteAsset}`).then((response) => response.json()),
+          ]);
+        }
+        const marketListTmp = (await Promise.all(fetchPromises.map((pair) => Promise.all(pair)))) as [
+          Asset?,
+          Asset?
+        ][];
+        // Add L-BTC ticker since it's not returned by chain asset data
+        setMarketList(
+          marketListTmp.map((market) =>
+            market.map((asset) => {
+              if (isLbtcAssetId(asset?.asset_id || '', network)) {
+                return LBTC_ASSET[network];
+              }
+              return asset;
+            })
+          ) as [Asset?, Asset?][]
+        );
       }
-      const marketListTmp = (await Promise.all(fetchPromises.map((pair) => Promise.all(pair)))) as [
-        Asset?,
-        Asset?
-      ][];
-      // Add L-BTC ticker since it's not returned by chain asset data
-      marketList.current = marketListTmp.map((market) =>
-        market.map((asset) => {
-          if (isLbtcAssetId(asset?.asset_id || '', network)) {
-            return LBTC_ASSET[network];
-          }
-          return asset;
-        })
-      ) as [Asset?, Asset?][];
     })();
   }, [explorerLiquidAPI, listMarkets, network]);
 
   const onFinish = async () => {
     try {
-      const selectedAssetMarket = marketList.current?.find(
+      const selectedAssetMarket = marketList.find(
         ([baseAsset, quoteAsset]) =>
           baseAsset?.ticker === selectedMarket.baseAsset?.ticker &&
           quoteAsset?.ticker === selectedMarket.quoteAsset?.ticker
@@ -168,7 +172,7 @@ export const MarketWithdraw = (): JSX.Element => {
           <SelectMarket
             selectedMarket={selectedMarket}
             setSelectedMarket={setSelectedMarket}
-            marketList={marketList.current}
+            marketList={marketList}
           />
         </Col>
         <Col span={12}>

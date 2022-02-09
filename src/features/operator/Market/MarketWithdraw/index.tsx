@@ -16,6 +16,7 @@ import {
   formatFiatToSats,
   formatLbtcUnitToSats,
   formatSatsToUnit,
+  isLbtcAssetId,
   isLbtcTicker,
   LBTC_ASSET,
 } from '../../../../utils';
@@ -30,7 +31,7 @@ interface IFormInputs {
 
 export const MarketWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
-  const explorerLiquidAPI = useTypedSelector(({ settings }: RootState) => settings.explorerLiquidAPI);
+  const { explorerLiquidAPI, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [selectedMarket, setSelectedMarket] = useState<{ baseAsset?: Asset; quoteAsset?: Asset }>({
     baseAsset: state?.baseAsset,
@@ -62,14 +63,14 @@ export const MarketWithdraw = (): JSX.Element => {
       // Add L-BTC ticker since it's not returned by chain asset data
       marketList.current = marketListTmp.map((market) =>
         market.map((asset) => {
-          if (asset?.asset_id === LBTC_ASSET.asset_id) {
-            asset.ticker = LBTC_ASSET.ticker;
+          if (isLbtcAssetId(asset?.asset_id || '', network)) {
+            return LBTC_ASSET[network];
           }
-          return { ...asset, ticker: asset?.ticker };
+          return asset;
         })
       ) as [Asset?, Asset?][];
     })();
-  }, [explorerLiquidAPI, listMarkets]);
+  }, [explorerLiquidAPI, listMarkets, network]);
 
   const onFinish = async () => {
     try {

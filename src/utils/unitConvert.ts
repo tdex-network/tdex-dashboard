@@ -1,6 +1,5 @@
 import Big from 'big.js';
 
-import { isLbtcAssetId } from './asset';
 import type { LbtcUnit } from './constants';
 import { LBTC_ASSET } from './constants';
 
@@ -25,7 +24,11 @@ export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): 
     const val = new Big(sats);
     const exp = val.e;
     // If asset is not bitcoin format with precision 8
-    if (!isLbtcAssetId(asset || LBTC_ASSET.asset_id)) {
+    if (
+      asset !== LBTC_ASSET['liquid'].asset_id ||
+      asset !== LBTC_ASSET['testnet'].asset_id ||
+      asset !== LBTC_ASSET['regtest'].asset_id
+    ) {
       val.e = exp - 8;
       return removeInsignificant(val.toFixed(8));
     }

@@ -21,7 +21,7 @@ export type ProxyHealthStatus = typeof proxyHealthStatus[number];
 export const isProxyHealthStatus = (x: any): x is ProxyHealthStatus => proxyHealthStatus.includes(x);
 
 export interface SettingsState {
-  chain: NetworkString;
+  network: NetworkString;
   explorerLiquidAPI: string;
   explorerLiquidUI: string;
   explorersLiquidAPI: string[];
@@ -105,7 +105,7 @@ export const healthCheckProxy = createAsyncThunk<
 });
 
 export const initialState: SettingsState = {
-  chain: network.chain,
+  network: network.chain,
   explorerLiquidAPI: network.explorerLiquidAPI,
   explorersLiquidAPI: [
     'http://localhost:3001',
@@ -119,7 +119,7 @@ export const initialState: SettingsState = {
   ],
   explorerLiquidUI: network.explorerLiquidUI,
   baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
-  assets: featuredAssets,
+  assets: featuredAssets[network.chain as NetworkString],
   useProxy: USE_PROXY,
   lbtcUnit: LBTC_UNITS[0],
 };
@@ -177,10 +177,6 @@ export const settingsSlice = createSlice({
     resetSettings: () => initialState,
   },
 });
-
-export function selectChain(state: RootState): NetworkString {
-  return state.settings.chain;
-}
 
 export function selectBaseUrl(state: RootState): string {
   return state.settings.baseUrl;

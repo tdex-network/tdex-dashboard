@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
@@ -20,11 +21,11 @@ interface IFormInputs {
 }
 
 export const FeeWithdraw = (): JSX.Element => {
+  const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
-  const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
   const feeAvailableBalanceFormatted =
     feeBalance?.availableBalance !== undefined
       ? formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit)
@@ -77,7 +78,7 @@ export const FeeWithdraw = (): JSX.Element => {
             <div className="panel panel__grey mb-6">
               <Row>
                 <Col span={12}>
-                  <CurrencyIcon currency={LBTC_TICKER} />
+                  <CurrencyIcon currency={LBTC_TICKER[network]} />
                   <span className="dm-sans dm-sans__xx ml-2">{LBTC_TICKER}</span>
                 </Col>
                 <Col span={12}>

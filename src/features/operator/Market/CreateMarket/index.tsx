@@ -5,6 +5,7 @@ import clx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
@@ -20,8 +21,9 @@ const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const navigate = useNavigate();
-  const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET);
-  const [quoteAsset, setQuoteAsset] = useState<Asset>(USDT_ASSET);
+  const { network } = useTypedSelector(({ settings }) => settings);
+  const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET[network]);
+  const [quoteAsset, setQuoteAsset] = useState<Asset>(USDT_ASSET[network]);
   const { data: marketInfo, error: marketInfoError } = useGetMarketInfoQuery({
     baseAsset: baseAsset?.asset_id,
     quoteAsset: quoteAsset?.asset_id,

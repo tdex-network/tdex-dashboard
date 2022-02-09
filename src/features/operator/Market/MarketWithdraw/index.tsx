@@ -23,8 +23,8 @@ import {
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
-  balanceBaseAmount: number;
-  balanceQuoteAmount: number;
+  balanceBaseAmount: string;
+  balanceQuoteAmount: string;
   address: string;
   millisatPerByte: number;
 }
@@ -89,11 +89,11 @@ export const MarketWithdraw = (): JSX.Element => {
         // Expect lbtc amount to be in favorite user unit
         balance: {
           baseAmount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
-            ? Number(formatLbtcUnitToSats(values.balanceBaseAmount, lbtcUnit))
-            : Number(formatFiatToSats(values.balanceBaseAmount)),
+            ? Number(formatLbtcUnitToSats(Number(values.balanceBaseAmount), lbtcUnit))
+            : Number(formatFiatToSats(Number(values.balanceBaseAmount))),
           quoteAmount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
-            ? Number(formatLbtcUnitToSats(values.balanceQuoteAmount, lbtcUnit))
-            : Number(formatFiatToSats(values.balanceQuoteAmount)),
+            ? Number(formatLbtcUnitToSats(Number(values.balanceQuoteAmount), lbtcUnit))
+            : Number(formatFiatToSats(Number(values.balanceQuoteAmount))),
         },
         address: values.address,
         millisatsPerByte: 100,
@@ -175,7 +175,7 @@ export const MarketWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
-            initialValues={{ balanceBaseAmount: 0, balanceQuoteAmount: 0 }}
+            initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
               <Row>
@@ -190,7 +190,16 @@ export const MarketWithdraw = (): JSX.Element => {
                       'has-error': withdrawMarketError,
                     })}
                   >
-                    <Input type="number" />
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      onBlur={(ev) => {
+                        if (ev.target.value === '') form.setFieldsValue({ balanceBaseAmount: '0' });
+                      }}
+                      onFocus={(ev) => {
+                        if (ev.target.value === '0') form.setFieldsValue({ balanceBaseAmount: '' });
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -203,7 +212,7 @@ export const MarketWithdraw = (): JSX.Element => {
                     onClick={() => {
                       if (baseAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceBaseAmount: Number(baseAvailableAmountFormatted),
+                          balanceBaseAmount: baseAvailableAmountFormatted,
                         });
                       }
                     }}
@@ -228,7 +237,16 @@ export const MarketWithdraw = (): JSX.Element => {
                       'has-error': withdrawMarketError,
                     })}
                   >
-                    <Input type="number" />
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      onBlur={(ev) => {
+                        if (ev.target.value === '') form.setFieldsValue({ balanceQuoteAmount: '0' });
+                      }}
+                      onFocus={(ev) => {
+                        if (ev.target.value === '0') form.setFieldsValue({ balanceQuoteAmount: '' });
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -241,7 +259,7 @@ export const MarketWithdraw = (): JSX.Element => {
                     onClick={() => {
                       if (quoteAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceQuoteAmount: Number(quoteAvailableAmountFormatted),
+                          balanceQuoteAmount: quoteAvailableAmountFormatted,
                         });
                       }
                     }}

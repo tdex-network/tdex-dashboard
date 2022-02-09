@@ -1,7 +1,8 @@
 import Big from 'big.js';
+import type { NetworkString } from 'ldk';
 
+import { isLbtcAssetId } from './asset';
 import type { LbtcUnit } from './constants';
-import { LBTC_ASSET } from './constants';
 
 const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
@@ -19,16 +20,17 @@ const removeInsignificant = (str: string) => {
   return str;
 };
 
-export function formatSatsToUnit(sats: number, unit: LbtcUnit, asset?: string): string {
+export function formatSatsToUnit(
+  sats: number,
+  unit: LbtcUnit,
+  asset: string,
+  network: NetworkString
+): string {
   try {
     const val = new Big(sats);
     const exp = val.e;
     // If asset is not bitcoin format with precision 8
-    if (
-      asset !== LBTC_ASSET['liquid'].asset_id ||
-      asset !== LBTC_ASSET['testnet'].asset_id ||
-      asset !== LBTC_ASSET['regtest'].asset_id
-    ) {
+    if (!isLbtcAssetId(asset, network)) {
       val.e = exp - 8;
       return removeInsignificant(val.toFixed(8));
     }

@@ -1,6 +1,9 @@
+import type { NetworkString } from 'ldk';
 import React from 'react';
 
 import type { Withdrawal, MarketInfo } from '../../../api-spec/generated/js/operator_pb';
+import type { RootState } from '../../../app/store';
+import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 import { formatSatsToUnit } from '../../../utils';
@@ -19,16 +22,17 @@ interface WithdrawalRowsProps {
 export const getWithdrawData = (
   row: Withdrawal.AsObject,
   lbtcUnit: LbtcUnit,
-  marketInfo: MarketInfo.AsObject
+  marketInfo: MarketInfo.AsObject,
+  network: NetworkString
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   const baseAmountFormatted =
-    row.balance?.baseAmount === undefined
+    row.balance?.baseAmount === undefined || !marketInfo.market?.baseAsset
       ? 'N/A'
-      : formatSatsToUnit(row.balance?.baseAmount, lbtcUnit, marketInfo.market?.baseAsset);
+      : formatSatsToUnit(row.balance?.baseAmount, lbtcUnit, marketInfo.market?.baseAsset, network);
   const quoteAmountFormatted =
-    row.balance?.quoteAmount === undefined
+    row.balance?.quoteAmount === undefined || !marketInfo.market?.quoteAsset
       ? 'N/A'
-      : formatSatsToUnit(row.balance?.quoteAmount, lbtcUnit, marketInfo.market?.quoteAsset);
+      : formatSatsToUnit(row.balance?.quoteAmount, lbtcUnit, marketInfo.market?.quoteAsset, network);
   const txId = row.txId;
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };
@@ -39,10 +43,11 @@ export const WithdrawalRows = ({
   marketInfo,
   lbtcUnit,
 }: WithdrawalRowsProps): JSX.Element => {
+  const { network } = useTypedSelector(({ settings }: RootState) => settings);
   return (
     <>
       {withdrawals?.map((row) => {
-        const data = getWithdrawData(row, lbtcUnit, marketInfo);
+        const data = getWithdrawData(row, lbtcUnit, marketInfo, network);
         const tickers = getTickersFormatted(marketInfo, savedAssets, lbtcUnit);
         return (
           <TxRow

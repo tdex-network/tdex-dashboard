@@ -3,10 +3,12 @@ import Icon from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
+import type { RootState } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
-import { formatSatsToUnit } from '../../utils';
+import { formatSatsToUnit, LBTC_ASSET } from '../../utils';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
 
 const { Title } = Typography;
@@ -17,6 +19,7 @@ interface DashboardPanelRightProps {
 
 export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX.Element => {
   const navigate = useNavigate();
+  const { network } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: feeBalance } = useGetFeeBalanceQuery();
 
   return (
@@ -28,7 +31,7 @@ export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX
         <Col className="dm-mono dm-mono__xxxxxx" span={24}>
           {feeBalance?.totalBalance === undefined
             ? 'N/A'
-            : formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit)}
+            : formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit, LBTC_ASSET[network].asset_id, network)}
         </Col>
       </Row>
       <Row gutter={{ xs: 8, sm: 12, md: 16 }}>

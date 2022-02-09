@@ -146,6 +146,7 @@ export const settingsSlice = createSlice({
     },
     setNetwork: (state, action: PayloadAction<NetworkString>) => {
       state.network = action.payload;
+      state.assets = [...state.assets, ...featuredAssets[action.payload]];
     },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;

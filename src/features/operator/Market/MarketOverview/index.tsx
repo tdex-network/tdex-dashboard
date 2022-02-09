@@ -20,10 +20,10 @@ const { Title } = Typography;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
-  const { marketsLabelled, lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const { marketsLabelled, lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
 
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
-  const { data: marketInfo } = useGetMarketInfoQuery({
+  const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery({
     baseAsset: state?.baseAsset?.asset_id,
     quoteAsset: state?.quoteAsset?.asset_id,
   });
@@ -38,11 +38,11 @@ export const MarketOverview = (): JSX.Element => {
   const baseAmount =
     marketInfo?.balance?.baseAmount === undefined
       ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.baseAmount, lbtcUnit, state?.baseAsset?.asset_id);
+      : formatSatsToUnit(marketInfo?.balance?.baseAmount, lbtcUnit, state?.baseAsset?.asset_id, network);
   const quoteAmount =
     marketInfo?.balance?.quoteAmount === undefined
       ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.quoteAmount, lbtcUnit, state?.quoteAsset?.asset_id);
+      : formatSatsToUnit(marketInfo?.balance?.quoteAmount, lbtcUnit, state?.quoteAsset?.asset_id, network);
 
   return (
     <>
@@ -112,6 +112,7 @@ export const MarketOverview = (): JSX.Element => {
                 feeAbsoluteQuote={marketInfo?.fee?.fixed?.quoteFee?.toString()}
                 feeRelative={marketInfo?.fee?.basisPoint?.toString()}
                 className="h-100"
+                marketInfoRefetch={marketInfoRefetch}
               />
             ) : (
               <Row>

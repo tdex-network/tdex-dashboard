@@ -1,4 +1,6 @@
 import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
+import type { RootState } from '../../../app/store';
+import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 import { assetIdToTicker, isLbtcTicker } from '../../../utils';
@@ -29,6 +31,7 @@ export const AllRows = ({
   lbtcUnit,
   numItemsToShow,
 }: AllRowsProps): JSX.Element => {
+  const { network } = useTypedSelector(({ settings }: RootState) => settings);
   const all = [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[];
   all.sort((a, b) => {
     const aTime = a?.timestampUnix ?? a?.settleTimeUnix;
@@ -54,21 +57,21 @@ export const AllRows = ({
         quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
 
         if (mode === 'deposit') {
-          const data = getDepositData(row, lbtcUnit, marketInfo);
+          const data = getDepositData(row, lbtcUnit, marketInfo, network);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;
         }
 
         if (mode === 'withdraw') {
-          const data = getWithdrawData(row, lbtcUnit, marketInfo);
+          const data = getWithdrawData(row, lbtcUnit, marketInfo, network);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;
         }
 
         if (mode === 'trade') {
-          const data = getTradeData(row, lbtcUnit);
+          const data = getTradeData(row, lbtcUnit, network);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;

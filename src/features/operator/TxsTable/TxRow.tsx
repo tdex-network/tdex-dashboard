@@ -122,8 +122,16 @@ export const TxRow = ({
             </div>
             <div className="d-flex details-content">
               <span className="dm-mono dm-mono__bold">Transaction Id</span>
-              {mode === 'trade' && <a href={row.txUrl}>{txId}</a>}
-              {(mode === 'deposit' || mode === 'withdraw') && <span>{txId}</span>}
+              {mode === 'trade' && (
+                <a href={row.txUrl} target="_blank" rel="noreferrer">
+                  {txId}
+                </a>
+              )}
+              {(mode === 'deposit' || mode === 'withdraw') && (
+                <a href={row.txUrl} target="_blank" rel="noreferrer">
+                  {txId}
+                </a>
+              )}
             </div>
           </div>
         </td>

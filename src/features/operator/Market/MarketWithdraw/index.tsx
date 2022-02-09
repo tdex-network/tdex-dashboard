@@ -113,37 +113,41 @@ export const MarketWithdraw = (): JSX.Element => {
   };
 
   const baseAvailableAmountFormatted =
-    marketBalance?.availableBalance?.baseAmount !== undefined
-      ? formatSatsToUnit(
+    marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
+      ? 'N/A'
+      : formatSatsToUnit(
           marketBalance?.availableBalance?.baseAmount,
           lbtcUnit,
-          selectedMarket.baseAsset?.asset_id
-        )
-      : 'N/A';
+          selectedMarket.baseAsset?.asset_id,
+          network
+        );
   const baseTotalAmountFormatted =
-    marketBalance?.totalBalance?.baseAmount !== undefined
-      ? formatSatsToUnit(
+    marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
+      ? 'N/A'
+      : formatSatsToUnit(
           marketBalance?.totalBalance?.baseAmount,
           lbtcUnit,
-          selectedMarket.baseAsset?.asset_id
-        )
-      : 'N/A';
+          selectedMarket.baseAsset?.asset_id,
+          network
+        );
   const quoteAvailableAmountFormatted =
-    marketBalance?.availableBalance?.quoteAmount !== undefined
-      ? formatSatsToUnit(
+    marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
+      ? 'N/A'
+      : formatSatsToUnit(
           marketBalance?.availableBalance?.quoteAmount,
           lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id
-        )
-      : 'N/A';
+          selectedMarket.quoteAsset?.asset_id,
+          network
+        );
   const quoteTotalAmountFormatted =
-    marketBalance?.totalBalance?.quoteAmount !== undefined
-      ? formatSatsToUnit(
+    marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
+      ? 'N/A'
+      : formatSatsToUnit(
           marketBalance?.totalBalance?.quoteAmount,
           lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id
-        )
-      : 'N/A';
+          selectedMarket.quoteAsset?.asset_id,
+          network
+        );
   const baseTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
     ? lbtcUnit
     : selectedMarket?.baseAsset?.ticker || 'N/A';

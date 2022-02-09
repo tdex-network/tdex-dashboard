@@ -10,7 +10,7 @@ import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit, LBTC_TICKER } from '../../../../utils';
+import { formatSatsToUnit, LBTC_ASSET, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -27,11 +27,13 @@ export const FeeWithdraw = (): JSX.Element => {
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
   const feeAvailableBalanceFormatted =
-    feeBalance?.availableBalance !== undefined
-      ? formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit)
-      : 'N/A';
+    feeBalance?.availableBalance === undefined
+      ? 'N/A'
+      : formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit, LBTC_ASSET[network].asset_id, network);
   const feeTotalBalanceFormatted =
-    feeBalance?.totalBalance !== undefined ? formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit) : 'N/A';
+    feeBalance?.totalBalance === undefined
+      ? 'N/A'
+      : formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit, LBTC_ASSET[network].asset_id, network);
 
   const onFinish = async () => {
     try {

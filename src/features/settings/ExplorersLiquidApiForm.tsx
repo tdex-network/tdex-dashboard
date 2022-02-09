@@ -18,7 +18,7 @@ export const ExplorersLiquidApiForm = (): JSX.Element => {
   const onSubmit = async () => {
     try {
       const values = await form.validateFields();
-      setExplorerLiquidAPI(values.explorerLiquidApi);
+      dispatch(setExplorerLiquidAPI(values.explorerLiquidApi));
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

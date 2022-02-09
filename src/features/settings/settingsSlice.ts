@@ -144,6 +144,9 @@ export const settingsSlice = createSlice({
     setExplorerLiquidUI: (state, action: PayloadAction<string>) => {
       state.explorerLiquidUI = action.payload;
     },
+    setNetwork: (state, action: PayloadAction<NetworkString>) => {
+      state.network = action.payload;
+    },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
     },
@@ -213,6 +216,7 @@ export const {
   addExplorerLiquidUI,
   setExplorerLiquidAPI,
   setExplorerLiquidUI,
+  setNetwork,
   setLbtcUnit,
   setBaseUrl,
   setMacaroonCredentials,

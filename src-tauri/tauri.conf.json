@@ -59,7 +59,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 750,
+        "height": 800,
         "resizable": true,
         "title": "TDEX Dashboard",
         "width": 1180

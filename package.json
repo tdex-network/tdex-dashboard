@@ -87,5 +87,5 @@
     "tdex:run-initialized": "bash scripts/tdexd-run-initialized",
     "test": "craco test"
   },
-  "version": "0.1.11"
+  "version": "0.1.12"
 }

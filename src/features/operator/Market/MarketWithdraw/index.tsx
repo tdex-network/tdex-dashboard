@@ -212,8 +212,8 @@ export const MarketWithdraw = (): JSX.Element => {
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">
-                <Col span={12}>
-                  <span className="dm-mono dm-mono__bold mr-2">Available balance:</span>
+                <Col span={16}>
+                  <span className="dm-mono dm-mono__bold mr-1">Available balance:</span>
                   <Button
                     type="ghost"
                     className="dm-mono dm-mono__bold pl-0"
@@ -227,7 +227,7 @@ export const MarketWithdraw = (): JSX.Element => {
                   >{`${baseAvailableAmountFormatted} ${baseTickerFormatted}`}</Button>
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${baseTickerFormatted}`}</span>
                 </Col>
-                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
+                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD
                 </Col>
               </Row>
@@ -259,8 +259,8 @@ export const MarketWithdraw = (): JSX.Element => {
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">
-                <Col span={12}>
-                  <span className="dm-mono dm-mono__bold mr-2">Available balance:</span>
+                <Col span={16}>
+                  <span className="dm-mono dm-mono__bold mr-1">Available balance:</span>
                   <Button
                     type="ghost"
                     className="dm-mono dm-mono__bold pl-1"
@@ -274,7 +274,7 @@ export const MarketWithdraw = (): JSX.Element => {
                   >{`${quoteAvailableAmountFormatted} ${quoteTickerFormatted}`}</Button>
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${quoteTickerFormatted}`}</span>
                 </Col>
-                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
+                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD
                 </Col>
               </Row>

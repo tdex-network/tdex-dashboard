@@ -77,9 +77,10 @@ export const OnboardingPairing = (): JSX.Element => {
               wrapperCol={{ span: 24 }}
               validateTrigger="onBlur"
             >
-              <Form.Item name="tdexdConnectUrl" className="mb-8">
+              <Form.Item name="tdexdConnectUrl" className="mb-16">
                 <Input.TextArea
-                  placeholder="Paste the tdexdconnect url or scan QR code"
+                  className="overflow-hidden"
+                  placeholder="Paste the Tdex daemon connect URL"
                   onPaste={(ev) => {
                     try {
                       if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {

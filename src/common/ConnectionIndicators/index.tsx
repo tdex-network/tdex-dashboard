@@ -15,9 +15,24 @@ export const ConnectionIndicators = (): JSX.Element => {
   const daemonError = useTypedSelector(
     ({ walletUnlockerService }: RootState) => walletUnlockerService.queries['isReady(undefined)']?.error
   );
-  const tooltipTextDaemon = daemonState
-    ? `Initialized: ${daemonState?.initialized} • Unlocked: ${daemonState?.unlocked} • Synced: ${daemonState?.synced}`
-    : 'Daemon unavailable';
+  const tooltipDaemonElement = daemonState ? (
+    <div>
+      <span className="mr-1">Initialized:</span>
+      <span className="mr-2">
+        {daemonState?.initialized ? <span className="checkmark__green">✔️</span> : '❌'}
+      </span>
+      <span className="mr-1">Unlocked:</span>
+      <span className="mr-2">
+        {daemonState?.unlocked ? <span className="checkmark__green">✔️</span> : '❌'}
+      </span>
+      <span className="mr-1">Synced:</span>
+      <span className="mr-2">
+        {daemonState?.synced ? <span className="checkmark__green">✔️</span> : '❌'}
+      </span>
+    </div>
+  ) : (
+    'Daemon unavailable'
+  );
   const tooltipTextProxy =
     proxyHealth === 'NOT_SERVING' || proxyHealth === undefined
       ? 'Not serving'
@@ -28,7 +43,7 @@ export const ConnectionIndicators = (): JSX.Element => {
   return (
     <div className="d-flex align-center justify-end mr-2">
       <span className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey mr-2">Daemon: </span>
-      <Tooltip placement="topRight" title={tooltipTextDaemon}>
+      <Tooltip placement="topRight" title={tooltipDaemonElement}>
         <span
           className={classNames('connection-indicator', {
             'connection-indicator__red': tdexdConnectUrl === undefined || daemonError,

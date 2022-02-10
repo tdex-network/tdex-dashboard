@@ -12,6 +12,8 @@ import {
   useGetFeeAddressQuery,
   useGetFeeFragmenterAddressQuery,
   useListDepositsQuery,
+  useListFeeAddressesQuery,
+  useListFeeFragmenterAddressesQuery,
 } from '../../operator.api';
 
 export const FeeDeposit = (): JSX.Element => {
@@ -20,12 +22,25 @@ export const FeeDeposit = (): JSX.Element => {
   const { data: feeFragmenterAddress, refetch: refetchFeeFragmenterAddress } =
     useGetFeeFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetFeeFragmenterAddress });
   const { data: feeAddress, refetch: refetchFeeAddress } = useGetFeeAddressQuery();
+  const { data: listFeeAddresses, refetch: refetchListFeeAddresses } = useListFeeAddressesQuery();
+  const { data: listFeeFragmenterAddresses, refetch: refetchListFeeFragmenterAddresses } =
+    useListFeeFragmenterAddressesQuery(undefined, {
+      skip: skipGetFeeFragmenterAddress,
+    });
   const [feeFragmenterSplitFunds] = useFeeFragmenterSplitFundsMutation();
   const [claimFeeDeposits] = useClaimFeeDepositsMutation();
   const { data: deposits } = useListDepositsQuery({ accountIndex: 0 });
-
   const [isFragmenting, setIsFragmenting] = useState(false);
   const [useFragmenter, setUseFragmenter] = useState(false);
+  const [depositAddress, setDepositAddress] = useState<string>(
+    useFragmenter ? feeFragmenterAddress?.[0].address || 'N/A' : feeAddress?.[0].address || 'N/A'
+  );
+  useEffect(() => {
+    if (!useFragmenter) setDepositAddress(feeAddress?.[0].address || '');
+  }, [feeAddress, useFragmenter]);
+  useEffect(() => {
+    if (useFragmenter) setDepositAddress(feeFragmenterAddress?.[0].address || '');
+  }, [feeFragmenterAddress, useFragmenter]);
 
   // Waiting modal
   const initWaitingModalFeeFragmentationLog = ['starting fee deposit fragmentation'];
@@ -44,9 +59,7 @@ export const FeeDeposit = (): JSX.Element => {
     }
   }, [useFragmenter]);
 
-  const depositAddress = useFragmenter
-    ? feeFragmenterAddress?.[0].address || 'N/A'
-    : feeAddress?.[0].address || 'N/A';
+  const depositAddresses = useFragmenter ? listFeeFragmenterAddresses || [] : listFeeAddresses || [];
 
   const handleFragmentFeeDeposits = async () => {
     setIsWaitingModalVisible(true);
@@ -114,14 +127,18 @@ export const FeeDeposit = (): JSX.Element => {
       <DepositPage
         type="Fee"
         depositAddress={depositAddress}
+        setDepositAddress={setDepositAddress}
+        depositAddresses={depositAddresses}
         isFragmenting={isFragmenting}
         handleDeposit={handleDeposit}
         setUseFragmenter={setUseFragmenter}
         getNewAddress={() => {
           if (useFragmenter) {
             refetchFeeFragmenterAddress();
+            refetchListFeeFragmenterAddresses();
           } else {
             refetchFeeAddress();
+            refetchListFeeAddresses();
           }
         }}
       />

@@ -338,8 +338,12 @@ const baseQueryFn: BaseQueryFn<
     }
     case 'listMarketAddresses': {
       try {
+        const { baseAsset, quoteAsset } = body as Market.AsObject;
+        const newMarket = new Market();
+        newMarket.setBaseAsset(baseAsset);
+        newMarket.setQuoteAsset(quoteAsset);
         const listMarketAddressesReply = await client.listMarketAddresses(
-          new ListMarketAddressesRequest(),
+          new ListMarketAddressesRequest().setMarket(newMarket),
           metadata
         );
         return {
@@ -940,8 +944,8 @@ export const operatorApi = createApi({
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
       query: (body) => ({ methodName: 'getMarketAddress', body }),
     }),
-    listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
-      query: () => ({ methodName: 'listMarketAddresses' }),
+    listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
+      query: (body) => ({ methodName: 'listMarketAddresses', body }),
       providesTags: ['Market'],
     }),
     getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({

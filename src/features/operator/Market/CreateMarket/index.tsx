@@ -84,7 +84,7 @@ export const CreateMarket = (): JSX.Element => {
                   <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
                     Set Market Strategy
                   </Title>
-                  <InfoCircleOutlined />
+                  <InfoCircleOutlined className="grey" />
                 </Col>
               </Row>
               <MarketStrategy marketInfo={marketInfo} />

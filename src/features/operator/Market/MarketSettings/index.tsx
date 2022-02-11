@@ -85,7 +85,7 @@ export const MarketSettings = ({
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
             Open Market
           </Title>
-          <InfoCircleOutlined />
+          <InfoCircleOutlined className="grey" />
         </Col>
         <Col span={12} style={{ textAlign: 'right' }}>
           <Switch onChange={handlePauseMarket} checked={marketInfo?.tradable} />
@@ -99,7 +99,7 @@ export const MarketSettings = ({
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
             Set Market Strategy
           </Title>
-          <InfoCircleOutlined />
+          <InfoCircleOutlined className="grey" />
         </Col>
       </Row>
       <MarketStrategy marketInfo={marketInfo} />
@@ -111,7 +111,7 @@ export const MarketSettings = ({
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
             Set Notification
           </Title>
-          <InfoCircleOutlined />
+          <InfoCircleOutlined className="grey" />
         </Col>
       </Row>
       <Webhook />

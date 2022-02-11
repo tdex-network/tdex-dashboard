@@ -90,9 +90,6 @@ export const MarketOverview = (): JSX.Element => {
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>
             <Space size={16}>
-              <Button icon={<InfoCircleOutlined />} onClick={showAssetInfoModal}>
-                INFO
-              </Button>
               <Button
                 className="rotate-icon"
                 icon={<Icon component={depositIcon} />}
@@ -110,6 +107,7 @@ export const MarketOverview = (): JSX.Element => {
               >
                 DEPOSIT
               </Button>
+              <Button icon={<InfoCircleOutlined />} onClick={showAssetInfoModal} />
               <Button icon={<SettingOutlined />} onClick={showMarketSettingsModal} />
             </Space>
           </Col>

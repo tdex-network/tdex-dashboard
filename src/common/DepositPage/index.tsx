@@ -59,28 +59,30 @@ export const DepositPage = ({
               Previous addresses
             </Title>
             <div className="panel panel__grey scrollbar" style={{ maxHeight: '300px', overflowY: 'scroll' }}>
-              {depositAddresses
-                ?.slice()
-                .reverse()
-                .map((addr, index) => {
-                  return (
-                    <Row key={addr.address} className="mb-2" gutter={{ xs: 8, sm: 10, md: 12, lg: 14 }}>
-                      <Col span={2}>{`#${depositAddresses?.length - index - 1}`}</Col>
-                      <Col span={17}>
-                        <span className="break-all">{addr.address}</span>
-                      </Col>
-                      <Col span={5} className="d-flex justify-end">
-                        <Button
-                          className="w-100"
-                          onClick={() => setDepositAddress(addr.address)}
-                          loading={isFragmenting}
-                        >
-                          {depositAddress === addr.address ? 'SELECTED' : 'SELECT'}
-                        </Button>
-                      </Col>
-                    </Row>
-                  );
-                })}
+              {depositAddresses.length
+                ? depositAddresses
+                    ?.slice()
+                    .reverse()
+                    .map((addr, index) => {
+                      return (
+                        <Row key={addr.address} className="mb-2" gutter={{ xs: 8, sm: 10, md: 12, lg: 14 }}>
+                          <Col span={2}>{`#${depositAddresses?.length - index - 1}`}</Col>
+                          <Col span={17}>
+                            <span className="break-all">{addr.address}</span>
+                          </Col>
+                          <Col span={5} className="d-flex justify-end">
+                            <Button
+                              className="w-100"
+                              onClick={() => setDepositAddress(addr.address)}
+                              loading={isFragmenting}
+                            >
+                              {depositAddress === addr.address ? 'SELECTED' : 'SELECT'}
+                            </Button>
+                          </Col>
+                        </Row>
+                      );
+                    })
+                : 'Your generated addresses will appear here'}
             </div>
           </div>
         </Col>

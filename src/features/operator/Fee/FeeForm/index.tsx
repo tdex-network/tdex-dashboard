@@ -142,7 +142,7 @@ export const FeeForm = ({
             <span className="dm-sans dm-sans__xx ml-2">{baseAsset.ticker}</span>
           </Col>
           <Col span={16}>
-            <Form.Item name="feeAbsoluteBaseInput">
+            <Form.Item name="feeAbsoluteBaseInput" noStyle>
               <Input
                 type="number"
                 min="0"

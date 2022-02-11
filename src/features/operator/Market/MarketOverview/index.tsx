@@ -10,7 +10,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit } from '../../../../utils';
+import { formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketInfoQuery } from '../../operator.api';
@@ -139,10 +139,16 @@ export const MarketOverview = (): JSX.Element => {
               <Row>
                 <Col span={24} className="">
                   <CurrencyIcon currency={state?.baseAsset?.ticker} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{state?.baseAsset?.ticker}</span>
+                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
+                    {isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker}
+                  </span>
                   <span className="dm-mono dm-mono__xx mr-10">{baseAmount}</span>
                   <CurrencyIcon currency={state?.quoteAsset?.ticker} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{state?.quoteAsset?.ticker}</span>
+                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
+                    {isLbtcAssetId(state?.quoteAsset?.asset_id, network)
+                      ? lbtcUnit
+                      : state?.quoteAsset?.ticker}
+                  </span>
                   <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
                 </Col>
               </Row>

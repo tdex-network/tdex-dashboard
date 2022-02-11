@@ -42,8 +42,7 @@ function createLocalStorageConfig<S>(
   whitelist?: string[],
   blacklist?: string[],
   version = 0
-  // eslint-disable-next-line
-): PersistConfig<S, any, any, any> {
+): PersistConfig<S> {
   return {
     key,
     storage: tauriStorage,
@@ -54,8 +53,7 @@ function createLocalStorageConfig<S>(
 }
 
 // custom persist reducer function
-// eslint-disable-next-line
-export function persist<S extends any>(opts: {
+export function persist<S>(opts: {
   reducer: Reducer<S, Action>;
   key: string;
   whitelist?: string[];

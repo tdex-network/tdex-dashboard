@@ -133,7 +133,7 @@ export const FeeForm = ({
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
               Set Absolute Fee
             </Title>
-            <InfoCircleOutlined />
+            <InfoCircleOutlined className="grey" />
           </Col>
         </Row>
         <Row align="middle">
@@ -188,7 +188,7 @@ export const FeeForm = ({
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
               Set Relative Fee
             </Title>
-            <InfoCircleOutlined />
+            <InfoCircleOutlined className="grey" />
           </Col>
         </Row>
         <Row align="middle" className="fee-relative-container">

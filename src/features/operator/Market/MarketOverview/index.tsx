@@ -1,4 +1,4 @@
-import Icon, { SettingOutlined } from '@ant-design/icons';
+import Icon, { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -15,6 +15,8 @@ import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketInfoQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
+
+import { AssetInfoModal } from './AssetInfoModal';
 
 const { Title } = Typography;
 
@@ -35,6 +37,15 @@ export const MarketOverview = (): JSX.Element => {
   const handleMarketSettingsModalCancel = () => {
     setIsMarketSettingsModalVisible(false);
   };
+
+  const [isAssetInfoModalVisible, setIsAssetInfoModalVisible] = useState(false);
+  const showAssetInfoModal = () => {
+    setIsAssetInfoModalVisible(true);
+  };
+  const handleAssetInfoModalCancel = () => {
+    setIsAssetInfoModalVisible(false);
+  };
+
   const baseAmount =
     marketInfo?.balance?.baseAmount === undefined
       ? 'N/A'
@@ -79,6 +90,9 @@ export const MarketOverview = (): JSX.Element => {
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>
             <Space size={16}>
+              <Button icon={<InfoCircleOutlined />} onClick={showAssetInfoModal}>
+                INFO
+              </Button>
               <Button
                 className="rotate-icon"
                 icon={<Icon component={depositIcon} />}
@@ -145,9 +159,14 @@ export const MarketOverview = (): JSX.Element => {
         {/**/}
       </div>
       <MarketSettings
-        marketInfo={marketInfo}
-        isMarketSettingsModalVisible={isMarketSettingsModalVisible}
         handleMarketSettingsModalCancel={handleMarketSettingsModalCancel}
+        isMarketSettingsModalVisible={isMarketSettingsModalVisible}
+        marketInfo={marketInfo}
+      />
+      <AssetInfoModal
+        handleAssetInfoModalCancel={handleAssetInfoModalCancel}
+        isAssetInfoModalVisible={isAssetInfoModalVisible}
+        market={marketInfo?.market}
       />
     </>
   );

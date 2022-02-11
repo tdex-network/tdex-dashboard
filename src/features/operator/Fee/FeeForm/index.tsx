@@ -139,7 +139,9 @@ export const FeeForm = ({
         <Row align="middle">
           <Col span={8}>
             <CurrencyIcon currency={baseAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">{baseAsset.ticker}</span>
+            <span className="dm-sans dm-sans__xx ml-2">
+              {isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : baseAsset.ticker}
+            </span>
           </Col>
           <Col span={16}>
             <Form.Item name="feeAbsoluteBaseInput" noStyle>
@@ -154,7 +156,6 @@ export const FeeForm = ({
                 onFocus={(ev) => {
                   if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteBaseInput: '' });
                 }}
-                addonAfter={isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : null}
               />
             </Form.Item>
           </Col>
@@ -163,7 +164,9 @@ export const FeeForm = ({
         <Row align="middle">
           <Col span={8}>
             <CurrencyIcon currency={quoteAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">{quoteAsset.ticker}</span>
+            <span className="dm-sans dm-sans__xx ml-2">
+              {isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker}
+            </span>
           </Col>
           <Col span={16}>
             <Form.Item name="feeAbsoluteQuoteInput" noStyle>
@@ -178,7 +181,6 @@ export const FeeForm = ({
                 onFocus={(ev) => {
                   if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteQuoteInput: '' });
                 }}
-                addonAfter={isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : null}
               />
             </Form.Item>
           </Col>

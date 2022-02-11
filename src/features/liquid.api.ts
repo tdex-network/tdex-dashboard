@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import type { RootState } from '../app/store';
 import type { Asset } from '../domain/asset';
-import { isLbtcAssetId, LBTC_ASSET } from '../utils';
+import { isLbtcAssetId, isLcadAssetId, isUsdtAssetId, LBTC_ASSET, LCAD_ASSET, USDT_ASSET } from '../utils';
 
 const dynamicBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
@@ -31,6 +31,8 @@ export const liquidApi = createApi({
           // Checking if asset is LBTC because Esplora 'asset' endpoint does not return ticker for LBTC
           const { settings } = api.getState() as RootState;
           if (isLbtcAssetId(arg, settings.network)) return { data: LBTC_ASSET[settings.network] };
+          if (isUsdtAssetId(arg, settings.network)) return { data: USDT_ASSET[settings.network] };
+          if (isLcadAssetId(arg, settings.network)) return { data: LCAD_ASSET[settings.network] };
           const res = (await baseQuery(`asset/${arg}`)) as { data: Asset };
           // @ts-ignore
           if (res.error) throw new Error(res.error.data);

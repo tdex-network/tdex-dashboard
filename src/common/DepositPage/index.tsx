@@ -3,17 +3,21 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Checkbox, Col, Row, Typography } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import QRCode from 'qrcode.react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
 import alertOctogon from '../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 interface DepositPageProps {
   type: 'Fee' | 'Market';
   depositAddress: string;
+  setDepositAddress: React.Dispatch<React.SetStateAction<string>>;
+  depositAddresses: AddressWithBlindingKey.AsObject[];
   isFragmenting: boolean;
   handleDeposit: () => void;
   setUseFragmenter: (checked: boolean) => void;
@@ -23,6 +27,8 @@ interface DepositPageProps {
 export const DepositPage = ({
   type,
   depositAddress,
+  setDepositAddress,
+  depositAddresses,
   isFragmenting,
   handleDeposit,
   setUseFragmenter,
@@ -48,6 +54,37 @@ export const DepositPage = ({
           <Checkbox onChange={handleOptInFragmentationChange} className="dm-sans dm-sans__x mt-4">
             Advanced: split deposit into multiple fragments for concurrent trade support
           </Checkbox>
+          <div className="mt-4">
+            <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+              Previous addresses
+            </Title>
+            <div className="panel panel__grey scrollbar" style={{ maxHeight: '300px', overflowY: 'scroll' }}>
+              {depositAddresses.length
+                ? depositAddresses
+                    ?.slice()
+                    .reverse()
+                    .map((addr, index) => {
+                      return (
+                        <Row key={addr.address} className="mb-2" gutter={{ xs: 8, sm: 10, md: 12, lg: 14 }}>
+                          <Col span={2}>{`#${depositAddresses?.length - index - 1}`}</Col>
+                          <Col span={17}>
+                            <span className="break-all">{addr.address}</span>
+                          </Col>
+                          <Col span={5} className="d-flex justify-end">
+                            <Button
+                              className="w-100"
+                              onClick={() => setDepositAddress(addr.address)}
+                              loading={isFragmenting}
+                            >
+                              {depositAddress === addr.address ? 'SELECTED' : 'SELECT'}
+                            </Button>
+                          </Col>
+                        </Row>
+                      );
+                    })
+                : 'Your generated addresses will appear here'}
+            </div>
+          </div>
         </Col>
         <Col span={12}>
           <Row className="panel panel__grey panel__top">

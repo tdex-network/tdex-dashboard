@@ -13,6 +13,8 @@ import {
   useListDepositsQuery,
   useGetMarketAddressQuery,
   useClaimMarketDepositsMutation,
+  useListMarketAddressesQuery,
+  useListMarketFragmenterAddressesQuery,
 } from '../../operator.api';
 
 export const MarketDeposit = (): JSX.Element => {
@@ -27,13 +29,28 @@ export const MarketDeposit = (): JSX.Element => {
   const { data: marketFragmenterAddress, refetch: refetchMarketFragmenterAddress } =
     useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetMarketFragmenterAddress });
   const { data: marketAddress, refetch: refetchMarketAddress } = useGetMarketAddressQuery(market);
+  const { data: listMarketAddresses, refetch: refetchListMarketAddresses } =
+    useListMarketAddressesQuery(market);
+  const { data: listMarketFragmenterAddresses, refetch: refetchListMarketFragmenterAddresses } =
+    useListMarketFragmenterAddressesQuery(undefined, {
+      skip: skipGetMarketFragmenterAddress,
+    });
   const [claimMarketDeposits] = useClaimMarketDepositsMutation();
   const { data: deposits } = useListDepositsQuery({
     accountIndex: state?.marketInfo.accountIndex,
   });
-
   const [useFragmenter, setUseFragmenter] = useState(false);
   const [isFragmenting, setIsFragmenting] = useState(false);
+  const [depositAddress, setDepositAddress] = useState<string>(
+    useFragmenter ? marketFragmenterAddress?.[0].address || 'N/A' : marketAddress?.[0].address || 'N/A'
+  );
+  useEffect(() => {
+    if (!useFragmenter) setDepositAddress(marketAddress?.[0].address || '');
+  }, [marketAddress, useFragmenter]);
+  useEffect(() => {
+    if (useFragmenter) setDepositAddress(marketFragmenterAddress?.[0].address || '');
+  }, [marketFragmenterAddress, useFragmenter]);
+  const depositAddresses = useFragmenter ? listMarketFragmenterAddresses || [] : listMarketAddresses || [];
 
   // Waiting modal
   const initWaitingModalMarketFragmentationLog = ['starting market deposit fragmentation'];
@@ -52,10 +69,6 @@ export const MarketDeposit = (): JSX.Element => {
       setSkipGetMarketFragmenterAddress(false);
     }
   }, [useFragmenter]);
-
-  const depositAddress = useFragmenter
-    ? marketFragmenterAddress?.[0].address || 'N/A'
-    : marketAddress?.[0].address || 'N/A';
 
   const handleFragmentMarketDeposits = async () => {
     setIsWaitingModalVisible(true);
@@ -127,14 +140,18 @@ export const MarketDeposit = (): JSX.Element => {
       <DepositPage
         type="Market"
         depositAddress={depositAddress}
+        setDepositAddress={setDepositAddress}
+        depositAddresses={depositAddresses}
         isFragmenting={isFragmenting}
         handleDeposit={handleDeposit}
         setUseFragmenter={setUseFragmenter}
         getNewAddress={() => {
           if (useFragmenter) {
             refetchMarketFragmenterAddress();
+            refetchListMarketFragmenterAddresses();
           } else {
             refetchMarketAddress();
+            refetchListMarketAddresses();
           }
         }}
       />

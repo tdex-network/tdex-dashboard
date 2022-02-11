@@ -108,3 +108,31 @@ div.ant-divider {
 .grey {
   color: #8D8D8D;
 }
+
+/* Scrollbar */
+/* Firefox */
+:root {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  scrollbar-width: thin;
+}
+scrollbar {
+  width: 5px;
+  margin-left: 5px;
+}
+scrollbar thumb {
+  border-radius: 15px;
+}
+/* Chrome */
+.scrollbar::-webkit-scrollbar {
+  width: 14px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+}
+.scrollbar::-webkit-scrollbar-corner,
+.scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+/**/

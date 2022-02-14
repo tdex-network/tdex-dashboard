@@ -95,26 +95,35 @@ export const MarketDeposit = (): JSX.Element => {
 
   const handleClaimMarketDeposits = async () => {
     const response = await fetch(`${explorerLiquidAPI}/address/${depositAddress}/utxo`);
-    const utxoList = await response.json();
-    if (!utxoList.length) throw new Error('No deposit transaction found');
-    // Check confirmation
-    utxoList.forEach((utxo: any) => {
-      if (!utxo.status.confirmed) {
-        throw new Error('Deposit transaction not confirmed');
+    if (response.ok) {
+      const utxoList = await response.json();
+      if (!utxoList.length) throw new Error('No deposit transaction found');
+      // Check confirmation
+      utxoList.forEach((utxo: any) => {
+        if (!utxo.status.confirmed) {
+          throw new Error('Deposit transaction not confirmed');
+        }
+      });
+      // Check if deposit already processed by daemon
+      const foundArr = utxoList.map((utxo: any) =>
+        deposits?.find((d) => d.utxo?.outpoint?.hash === utxo.txid)
+      );
+      if (foundArr.every(Boolean)) {
+        throw new Error('Deposit already processed');
       }
-    });
-    // Check if deposit already processed by daemon
-    const foundArr = utxoList.map((utxo: any) => deposits?.find((d) => d.utxo?.outpoint?.hash === utxo.txid));
-    if (foundArr.every(Boolean)) {
-      throw new Error('Deposit already processed');
+      // @ts-ignore
+      const { error } = await claimMarketDeposits({
+        outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
+        market,
+      });
+      if (error) throw new Error(error);
+      notification.success({ message: 'Deposit successful', key: 'Deposit successful' });
+    } else {
+      notification.error({
+        message: `${response.url} returned status ${response.status}`,
+        key: 'utxo request error',
+      });
     }
-    // @ts-ignore
-    const { error } = await claimMarketDeposits({
-      outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
-      market,
-    });
-    if (error) throw new Error(error);
-    notification.success({ message: 'Deposit successful', key: 'Deposit successful' });
   };
 
   const handleDeposit = async () => {

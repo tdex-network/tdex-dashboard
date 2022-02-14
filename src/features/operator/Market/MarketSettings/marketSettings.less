@@ -3,8 +3,19 @@
   top: 215px;
   width: 30vw !important;
   position: fixed;
-  input.notification-input {
+  input {
     background-color: @grey-dark;
     height: 38px;
+  }
+  form#updateMarketPriceForm .ant-form-item {
+    margin-bottom: 12px;
+    .ant-form-item-label {
+      text-align: start;
+      display: flex;
+      align-items: end;
+    }
+    .ant-input-affix-wrapper {
+      background-color: @grey-dark;
+    }
   }
 }

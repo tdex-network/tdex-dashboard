@@ -11,12 +11,15 @@ import { HOME_ROUTE } from '../../../../routes/constants';
 import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
+import { UpdateMarketPriceForm } from './UpdateMarketPriceForm';
 import { Webhook } from './Webhook';
 
 interface MarketSettingsProps {
   marketInfo?: MarketInfo.AsObject;
   isMarketSettingsModalVisible: boolean;
   handleMarketSettingsModalCancel: () => void;
+  baseAssetTicker: string;
+  quoteAssetTicker: string;
 }
 
 const { Title } = Typography;
@@ -25,6 +28,8 @@ export const MarketSettings = ({
   marketInfo,
   isMarketSettingsModalVisible,
   handleMarketSettingsModalCancel,
+  baseAssetTicker,
+  quoteAssetTicker,
 }: MarketSettingsProps): JSX.Element => {
   const navigate = useNavigate();
   const [openMarket] = useOpenMarketMutation();
@@ -105,6 +110,26 @@ export const MarketSettings = ({
       <MarketStrategy marketInfo={marketInfo} />
 
       <Divider className="my-4" />
+
+      {marketInfo?.strategyType === 0 ? (
+        <>
+          <Row className="mb-2">
+            <Col span={12}>
+              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                Update Market Price
+              </Title>
+              <InfoCircleOutlined className="grey" />
+            </Col>
+          </Row>
+          <UpdateMarketPriceForm
+            market={marketInfo.market}
+            baseAssetTicker={baseAssetTicker}
+            quoteAssetTicker={quoteAssetTicker}
+            handleMarketSettingsModalCancel={handleMarketSettingsModalCancel}
+          />
+          <Divider className="my-4" />
+        </>
+      ) : null}
 
       <Row className="mb-2">
         <Col span={12}>

@@ -22,12 +22,12 @@ export const Webhook = (): JSX.Element => {
       </Row>
       <Row>
         <Col span={24}>
-          <Input placeholder="Notification URL" className="notification-input my-3" />
+          <Input placeholder="Notification URL" className="my-3" />
         </Col>
       </Row>
       <Row>
         <Col span={24}>
-          <Input placeholder="Notification Secret" className="notification-input" />
+          <Input placeholder="Notification Secret" />
         </Col>
       </Row>
     </>

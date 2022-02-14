@@ -10,7 +10,7 @@ import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit, LBTC_ASSET, LBTC_TICKER } from '../../../../utils';
+import { formatLbtcUnitToSats, formatSatsToUnit, LBTC_ASSET, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -39,7 +39,7 @@ export const FeeWithdraw = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       const res = await withdrawFee({
-        amount: Number(values.amount),
+        amount: Number(formatLbtcUnitToSats(Number(values.amount), lbtcUnit)),
         millisatsPerByte: 100,
         address: values.address,
         asset: values.asset,
@@ -81,7 +81,7 @@ export const FeeWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <CurrencyIcon currency={LBTC_TICKER[network]} />
-                  <span className="dm-sans dm-sans__xx ml-2">{LBTC_TICKER}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">{LBTC_TICKER[network]}</span>
                 </Col>
                 <Col span={12}>
                   <Form.Item

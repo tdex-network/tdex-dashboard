@@ -10,7 +10,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
-import { formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
+import { formatCompact, formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketInfoQuery } from '../../operator.api';
@@ -23,13 +23,11 @@ const { Title } = Typography;
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const { marketsLabelled, lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
-
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery({
     baseAsset: state?.baseAsset?.asset_id,
     quoteAsset: state?.quoteAsset?.asset_id,
   });
-
   const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
   const showMarketSettingsModal = () => {
     setIsMarketSettingsModalVisible(true);
@@ -137,7 +135,7 @@ export const MarketOverview = (): JSX.Element => {
           <Col span={16}>
             <div className="panel panel__grey h-100">
               <Row>
-                <Col span={24} className="">
+                <Col span={12}>
                   <CurrencyIcon currency={state?.baseAsset?.ticker} />
                   <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
                     {isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker}
@@ -151,6 +149,39 @@ export const MarketOverview = (): JSX.Element => {
                   </span>
                   <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
                 </Col>
+                {marketInfo?.strategyType === 0 ? (
+                  <Col span={12} className="text-end">
+                    <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
+                      isLbtcAssetId(state?.baseAsset?.asset_id, network)
+                        ? Number(
+                            formatSatsToUnit(
+                              marketInfo.price?.basePrice ?? 0,
+                              lbtcUnit,
+                              state?.baseAsset?.asset_id,
+                              network
+                            )
+                          )
+                        : marketInfo.price?.basePrice ?? 0
+                    )} ${
+                      isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker
+                    } for ${formatCompact(
+                      isLbtcAssetId(state?.quoteAsset?.asset_id, network)
+                        ? Number(
+                            formatSatsToUnit(
+                              marketInfo.price?.quotePrice ?? 0,
+                              lbtcUnit,
+                              state?.quoteAsset?.asset_id,
+                              network
+                            )
+                          )
+                        : marketInfo.price?.quotePrice ?? 0
+                    )} ${
+                      isLbtcAssetId(state?.quoteAsset?.asset_id, network)
+                        ? lbtcUnit
+                        : state?.quoteAsset?.ticker
+                    }`}</span>
+                  </Col>
+                ) : null}
               </Row>
               <Skeleton active paragraph={{ rows: 5 }} />
             </div>
@@ -166,6 +197,8 @@ export const MarketOverview = (): JSX.Element => {
         handleMarketSettingsModalCancel={handleMarketSettingsModalCancel}
         isMarketSettingsModalVisible={isMarketSettingsModalVisible}
         marketInfo={marketInfo}
+        baseAssetTicker={state?.baseAsset?.ticker ?? 'N/A'}
+        quoteAssetTicker={state?.quoteAsset?.ticker ?? 'N/A'}
       />
       <AssetInfoModal
         handleAssetInfoModalCancel={handleAssetInfoModalCancel}

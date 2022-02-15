@@ -32,7 +32,10 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
-      notification.success({ message: 'Market strategy updated successfully' });
+      notification.success({
+        message: 'Market strategy updated successfully',
+        key: 'Market strategy updated successfully',
+      });
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message, key: err.message });

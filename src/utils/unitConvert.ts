@@ -100,3 +100,8 @@ export function formatFiatToSats(val: number): string {
     return 'N/A';
   }
 }
+
+export function formatCompact(amount: number): string {
+  const formatter = Intl.NumberFormat('en', { notation: 'compact', maximumSignificantDigits: 21 });
+  return formatter.format(amount);
+}

@@ -135,12 +135,12 @@ export const MarketOverview = (): JSX.Element => {
           <Col span={16}>
             <div className="panel panel__grey h-100">
               <Row>
-                <Col span={12}>
+                <Col span={16}>
                   <CurrencyIcon currency={state?.baseAsset?.ticker} />
                   <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
                     {isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker}
                   </span>
-                  <span className="dm-mono dm-mono__xx mr-10">{baseAmount}</span>
+                  <span className="dm-mono dm-mono__xx mr-6">{baseAmount}</span>
                   <CurrencyIcon currency={state?.quoteAsset?.ticker} />
                   <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
                     {isLbtcAssetId(state?.quoteAsset?.asset_id, network)
@@ -150,7 +150,7 @@ export const MarketOverview = (): JSX.Element => {
                   <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
                 </Col>
                 {marketInfo?.strategyType === 0 ? (
-                  <Col span={12} className="text-end">
+                  <Col span={8} className="text-end">
                     <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
                       isLbtcAssetId(state?.baseAsset?.asset_id, network)
                         ? Number(

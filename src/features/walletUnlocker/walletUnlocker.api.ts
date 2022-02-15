@@ -1,6 +1,4 @@
-import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
-import { createApi } from '@reduxjs/toolkit/query/react';
-import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RpcError, ClientReadableStream } from 'grpc-web';
 
 import type {
@@ -19,108 +17,24 @@ import {
 import type { RootState } from '../../app/store';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 
-type MethodName = 'genSeed' | 'initWallet' | 'unlockWallet' | 'changePassword' | 'isReady';
-
-const baseQueryFn: BaseQueryFn<
-  {
-    methodName: MethodName;
-    body?: any;
-  },
-  unknown,
-  string
-> = async ({ methodName, body }, { getState }: BaseQueryApi) => {
-  const state = getState() as RootState;
-  const client = selectWalletUnlockerClient(state);
-  const metadata = selectMacaroonCreds(state);
-
-  switch (methodName) {
-    case 'genSeed': {
-      try {
-        const genSeedReply = await client.genSeed(new GenSeedRequest(), metadata);
-        return { data: genSeedReply.getSeedMnemonicList() };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'initWallet': {
-      try {
-        const { isRestore, password, mnemonic } = body as {
-          isRestore: boolean;
-          password: string | Uint8Array;
-          mnemonic: string[];
-        };
-        const clientReadableStream = await client.initWallet(
-          new InitWalletRequest()
-            .setRestore(isRestore)
-            .setWalletPassword(password)
-            .setSeedMnemonicList(mnemonic)
-        );
-        return {
-          data: clientReadableStream,
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'unlockWallet': {
-      try {
-        const { password } = body as {
-          password: string | Uint8Array;
-        };
-        const unlockWalletReply = await client.unlockWallet(
-          new UnlockWalletRequest().setWalletPassword(password),
-          metadata
-        );
-        return {
-          data: unlockWalletReply.toObject(false),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'changePassword': {
-      try {
-        const { currentPassword, newPassword } = body as {
-          currentPassword: string | Uint8Array;
-          newPassword: string | Uint8Array;
-        };
-        return {
-          data: await client.changePassword(
-            new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
-            metadata
-          ),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'isReady': {
-      try {
-        const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
-        return {
-          data: isReadyReply.toObject(false),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    default:
-      return { error: 'method name is unknown' };
-  }
-};
-
 export const walletUnlockerApi = createApi({
   reducerPath: 'walletUnlockerService',
-  baseQuery: baseQueryFn,
+  baseQuery: fakeBaseQuery<string>(),
   tagTypes: ['Unlocker'],
   endpoints: (build) => ({
     genSeed: build.query<string[], void>({
-      query: () => ({ methodName: 'genSeed' }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletUnlockerClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const genSeedReply = await client.genSeed(new GenSeedRequest(), metadata);
+          return { data: genSeedReply.getSeedMnemonicList() };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
     }),
     initWallet: build.mutation<
       ClientReadableStream<InitWalletReply>,
@@ -130,16 +44,51 @@ export const walletUnlockerApi = createApi({
         mnemonic: string[];
       }
     >({
-      query: (body) => ({ methodName: 'initWallet', body }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const { isRestore, password, mnemonic } = arg;
+          const state = getState() as RootState;
+          const client = selectWalletUnlockerClient(state);
+          const clientReadableStream = await client.initWallet(
+            new InitWalletRequest()
+              .setRestore(isRestore)
+              .setWalletPassword(password)
+              .setSeedMnemonicList(mnemonic)
+          );
+          return {
+            data: clientReadableStream,
+          };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
       invalidatesTags: ['Unlocker'],
     }),
     unlockWallet: build.mutation<
-      UnlockWalletReply,
+      UnlockWalletReply.AsObject,
       {
         password: string | Uint8Array;
       }
     >({
-      query: (body) => ({ methodName: 'unlockWallet', body }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const { password } = arg;
+          const state = getState() as RootState;
+          const client = selectWalletUnlockerClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const unlockWalletReply = await client.unlockWallet(
+            new UnlockWalletRequest().setWalletPassword(password),
+            metadata
+          );
+          return {
+            data: unlockWalletReply.toObject(false),
+          };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
       invalidatesTags: ['Unlocker'],
     }),
     changePassword: build.mutation<
@@ -149,11 +98,40 @@ export const walletUnlockerApi = createApi({
         newPassword: string | Uint8Array;
       }
     >({
-      query: (body) => ({ methodName: 'changePassword', body }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletUnlockerClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const { currentPassword, newPassword } = arg;
+          return {
+            data: await client.changePassword(
+              new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
+              metadata
+            ),
+          };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
       invalidatesTags: ['Unlocker'],
     }),
     isReady: build.query<IsReadyReply.AsObject, void>({
-      query: () => ({ methodName: 'isReady' }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletUnlockerClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
+          return {
+            data: isReadyReply.toObject(false),
+          };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
       providesTags: ['Unlocker'],
     }),
   }),

@@ -1,6 +1,5 @@
-import type { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
+import { fakeBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import type { RpcError } from 'grpc-web';
 
 import type {
@@ -17,69 +16,35 @@ import {
 import type { RootState } from '../../app/store';
 import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';
 
-type MethodName = 'walletAddress' | 'walletBalance' | 'sendToMany';
-
-const baseQueryFn: BaseQueryFn<
-  {
-    methodName: MethodName;
-    body?: any;
-  },
-  unknown,
-  string
-> = async ({ methodName, body }, { getState }: BaseQueryApi) => {
-  const state = getState() as RootState;
-  const client = selectWalletClient(state);
-  const metadata = selectMacaroonCreds(state);
-
-  switch (methodName) {
-    case 'walletAddress': {
-      try {
-        return { data: await client.walletAddress(new WalletAddressRequest(), metadata) };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'walletBalance': {
-      try {
-        return { data: await client.walletBalance(new WalletBalanceRequest(), metadata) };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    case 'sendToMany': {
-      try {
-        const { isPush, millisatPerByte, txOut } = body as {
-          isPush: boolean;
-          millisatPerByte: number;
-          txOut: TxOut[];
-        };
-        return {
-          data: await client.sendToMany(
-            new SendToManyRequest().setPush(isPush).setMillisatPerByte(millisatPerByte).setOutputsList(txOut),
-            metadata
-          ),
-        };
-      } catch (error) {
-        console.error(error);
-        return { error: (error as RpcError).message };
-      }
-    }
-    default:
-      return { error: 'method name is unknown' };
-  }
-};
-
 export const walletApi = createApi({
   reducerPath: 'walletService',
-  baseQuery: baseQueryFn,
+  baseQuery: fakeBaseQuery<string>(),
   endpoints: (build) => ({
     walletAddress: build.query<WalletAddressReply, void>({
-      query: () => ({ methodName: 'walletAddress' }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletClient(state);
+          const metadata = selectMacaroonCreds(state);
+          return { data: await client.walletAddress(new WalletAddressRequest(), metadata) };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
     }),
     walletBalance: build.query<WalletBalanceReply, void>({
-      query: () => ({ methodName: 'walletBalance' }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletClient(state);
+          const metadata = selectMacaroonCreds(state);
+          return { data: await client.walletBalance(new WalletBalanceRequest(), metadata) };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
     }),
     sendToMany: build.mutation<
       SendToManyReply,
@@ -89,7 +54,26 @@ export const walletApi = createApi({
         txOut: TxOut[];
       }
     >({
-      query: (body) => ({ methodName: 'sendToMany', body }),
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectWalletClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const { isPush, millisatPerByte, txOut } = arg;
+          return {
+            data: await client.sendToMany(
+              new SendToManyRequest()
+                .setPush(isPush)
+                .setMillisatPerByte(millisatPerByte)
+                .setOutputsList(txOut),
+              metadata
+            ),
+          };
+        } catch (error) {
+          console.error(error);
+          return { error: (error as RpcError).message };
+        }
+      },
     }),
   }),
 });

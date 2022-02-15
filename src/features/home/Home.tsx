@@ -1,7 +1,7 @@
 import { Col, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import { ServiceUnavailableModal } from '../../common/ServiceUnavailableModal';
 import { ListMarkets } from '../operator/Market/ListMarkets';
 import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
@@ -13,7 +13,6 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const dispatch = useTypedDispatch();
   const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const {
     data: isReady,
@@ -33,7 +32,7 @@ export const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (errorIsReady) setIsServiceUnavailableModalVisible(true);
-  }, [dispatch, errorIsReady]);
+  }, [errorIsReady]);
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {

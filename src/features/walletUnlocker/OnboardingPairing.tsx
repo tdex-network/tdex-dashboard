@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Modal, notification, Row, Typography } from '
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useTypedDispatch } from '../../app/store';
+import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_CREATE_OR_RESTORE_ROUTE } from '../../routes/constants';
 import {
   decodeCert,
@@ -31,6 +31,7 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
+  const { useProxy } = useTypedSelector(({ settings }) => settings);
 
   useEffect(() => {
     // Reset the APIs state completely
@@ -61,6 +62,39 @@ export const OnboardingPairing = (): JSX.Element => {
     setIsDownloadCertModalVisible(true);
   };
 
+  const setConnectUrlDataToStore = (connectString: string) => {
+    try {
+      const { host, cert, macaroon } = extractHostCertMacaroon(connectString);
+      if (!useProxy) {
+        if (host) {
+          dispatch(setBaseUrl('https://' + host));
+        } else {
+          throw new Error('Tdexd Connect URL is not valid');
+        }
+      }
+      if (cert) {
+        const certPem = decodeCert(cert);
+        setIsValidCert(true);
+        if (!useProxy) {
+          downloadCert(certPem);
+          setIsDownloadCertModalVisible(false);
+        }
+      } else {
+        throw new Error('Tdexd Connect URL is not valid');
+      }
+      if (macaroon) {
+        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+        dispatch(setMacaroonCredentials(decodedMacaroonHex));
+        setMacaroon(decodedMacaroonHex);
+      }
+    } catch (err) {
+      console.error('setConnectUrlDataToStore', err);
+      if (err instanceof Error) {
+        notification.error({ message: err.message });
+      }
+    }
+  };
+
   return (
     <>
       <div className="panel">
@@ -82,27 +116,11 @@ export const OnboardingPairing = (): JSX.Element => {
                   className="overflow-hidden"
                   placeholder="Paste the Tdex daemon connect URL"
                   onPaste={(ev) => {
-                    try {
-                      if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
-                        // web
-                        showDownloadCertModal();
-                      } else {
-                        // desktop
-                        const connectString = ev.clipboardData.getData('text');
-                        const { cert, macaroon } = extractHostCertMacaroon(connectString);
-                        if (cert) {
-                          decodeCert(cert);
-                          setIsValidCert(true);
-                        }
-                        if (macaroon) {
-                          const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
-                          dispatch(setMacaroonCredentials(decodedMacaroonHex));
-                          setMacaroon(decodedMacaroonHex);
-                        }
-                      }
-                    } catch (err) {
-                      // @ts-ignore
-                      notification.error({ message: err.message });
+                    if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
+                      showDownloadCertModal();
+                    } else {
+                      const connectString = ev.clipboardData.getData('text');
+                      setConnectUrlDataToStore(connectString);
                     }
                   }}
                 />
@@ -119,30 +137,7 @@ export const OnboardingPairing = (): JSX.Element => {
       <Modal
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}
-        onOk={() => {
-          try {
-            const { host, cert, macaroon } = extractHostCertMacaroon(form.getFieldValue('tdexdConnectUrl'));
-            if (host) {
-              dispatch(setBaseUrl('https://' + host));
-            } else {
-              throw new Error('Tdexd Connect URL is not valid');
-            }
-            if (cert) {
-              const certPem = decodeCert(cert);
-              downloadCert(certPem);
-              setIsValidCert(true);
-              setIsDownloadCertModalVisible(false);
-            }
-            if (macaroon) {
-              const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
-              dispatch(setMacaroonCredentials(decodedMacaroonHex));
-              setMacaroon(decodedMacaroonHex);
-            }
-          } catch (err) {
-            // @ts-ignore
-            notification.error({ message: err.message });
-          }
-        }}
+        onOk={() => setConnectUrlDataToStore(form.getFieldValue('tdexdConnectUrl'))}
         onCancel={() => setIsDownloadCertModalVisible(false)}
       >
         <Title className="dm-sans dm-sans__xx dm-sans__bold" level={3}>

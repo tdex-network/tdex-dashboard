@@ -7,7 +7,7 @@ import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 
 export const ConnectionIndicators = (): JSX.Element => {
-  const { useProxy, proxyHealth, tdexdConnectUrl } = useTypedSelector(({ settings }) => settings);
+  const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const daemonState = useTypedSelector(
     ({ walletUnlockerService }: RootState) =>
       walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject | undefined
@@ -46,13 +46,11 @@ export const ConnectionIndicators = (): JSX.Element => {
       <Tooltip placement="topRight" title={tooltipDaemonElement}>
         <span
           className={classNames('connection-indicator', {
-            'connection-indicator__red': tdexdConnectUrl === undefined || daemonError,
+            'connection-indicator__red': daemonError,
             'connection-indicator__orange':
-              tdexdConnectUrl &&
               daemonError === undefined &&
               (!daemonState?.initialized || !daemonState?.unlocked || !daemonState?.synced),
             'connection-indicator__green':
-              tdexdConnectUrl &&
               daemonError === undefined &&
               daemonState?.initialized &&
               daemonState?.unlocked &&

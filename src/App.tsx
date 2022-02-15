@@ -4,6 +4,7 @@ import type { Child } from '@tauri-apps/api/shell';
 import { Command } from '@tauri-apps/api/shell';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import type { RootState } from './app/store';
 import { useTypedDispatch, useTypedSelector } from './app/store';
 import { ServiceUnavailableModal } from './common/ServiceUnavailableModal';
 import Shell from './common/Shell';
@@ -14,8 +15,9 @@ import { sleep } from './utils';
 
 export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
-  const { macaroonCredentials, tdexdConnectUrl } = useTypedSelector(({ settings }) => settings);
+  const { useProxy, proxyHealth, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
+    ({ settings }: RootState) => settings
+  );
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
   const proxyChildProcess = useRef<Child | null>(null);

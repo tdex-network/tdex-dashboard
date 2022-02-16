@@ -8,6 +8,7 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
+import { VolumeChart } from '../../../../common/VolumeChart';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
 import { formatCompact, formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
@@ -213,7 +214,23 @@ export const MarketOverview = (): JSX.Element => {
                   </Col>
                 ) : null}
               </Row>
-              <Skeleton active paragraph={{ rows: 5 }} />
+              <VolumeChart
+                topLeft={
+                  <div className="mb-4">
+                    <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey ml-2 d-inline" level={3}>
+                      Volume
+                    </Title>
+                    <span className="dm-sans dm-sans__xx ml-2">$1.22b</span>
+                  </div>
+                }
+                topRight={
+                  <div className="text-end">
+                    <Button className="mr-2">D</Button>
+                    <Button className="mr-2">W</Button>
+                    <Button>M</Button>
+                  </div>
+                }
+              />
             </div>
           </Col>
         </Row>

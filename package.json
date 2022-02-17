@@ -82,9 +82,9 @@
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev",
     "tdex:clean": "bash scripts/tdexd-clean",
-    "tdex:connect": " docker exec -it tdexd tdexdconnect --out url",
+    "tdex:connect": "docker exec -it tdexd tdexdconnect --out url",
     "tdex:run": "bash scripts/tdexd-run",
-    "tdex:run-initialized": "bash scripts/tdexd-run-initialized",
+    "tdex:run-init": "bash scripts/tdexd-run-initialized",
     "test": "craco test"
   },
   "version": "0.1.14"

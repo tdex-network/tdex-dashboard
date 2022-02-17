@@ -21,7 +21,7 @@ You need to [set up your environment](https://tauri.studio/en/docs/getting-start
 ### Install the Tauri CLI
 
 ```
-cargo install tauri-cli --version 1.0.0-beta.7
+cargo install tauri-cli --version 1.0.0-beta.10
 ```
 
 ### Build

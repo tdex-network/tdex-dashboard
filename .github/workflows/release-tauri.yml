@@ -80,8 +80,7 @@ jobs:
           tagName: ${{ steps.next_tag.outputs.tag }}
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
           releaseBody: "See the assets to download this version and install."
-          releaseDraft: false
-          prerelease: false   
+          includeDebug: true
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push

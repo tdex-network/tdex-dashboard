@@ -74,7 +74,7 @@ export const DepositPage = ({
                             <Button
                               className="w-100"
                               onClick={() => setDepositAddress(addr.address)}
-                              loading={isFragmenting}
+                              disabled={isFragmenting}
                             >
                               {depositAddress === addr.address ? 'SELECTED' : 'SELECT'}
                             </Button>

@@ -163,6 +163,7 @@ export const MarketDeposit = (): JSX.Element => {
             refetchListMarketAddresses();
           }
         }}
+        market={market}
       />
       <WaitingModal
         isWaitingModalVisible={isWaitingModalVisible}

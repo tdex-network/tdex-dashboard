@@ -4,12 +4,14 @@ import { Breadcrumb, Button, Checkbox, Col, Row, Typography } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import QRCode from 'qrcode.react';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
+import type { AddressWithBlindingKey, Market } from '../../api-spec/generated/js/types_pb';
+import type { RootState } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import alertOctogon from '../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import { HOME_ROUTE } from '../../routes/constants';
+import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../routes/constants';
 
 const { Text, Title } = Typography;
 
@@ -22,6 +24,7 @@ interface DepositPageProps {
   handleDeposit: () => void;
   setUseFragmenter: (checked: boolean) => void;
   getNewAddress: () => void;
+  market?: Market.AsObject;
 }
 
 export const DepositPage = ({
@@ -33,10 +36,15 @@ export const DepositPage = ({
   handleDeposit,
   setUseFragmenter,
   getNewAddress,
+  market,
 }: DepositPageProps): JSX.Element => {
+  const navigate = useNavigate();
+  const assetRegistry = useTypedSelector(({ settings }: RootState) => settings.assets);
   const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
     setUseFragmenter(ev.target.checked);
   };
+  const baseAsset = assetRegistry.find((a) => a.asset_id === market?.baseAsset);
+  const quoteAsset = assetRegistry.find((a) => a.asset_id === market?.quoteAsset);
 
   return (
     <>
@@ -44,6 +52,25 @@ export const DepositPage = ({
         <Breadcrumb.Item>
           <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
+        {market && (
+          // We can't use Link to pass market state because of HashRouter limitation
+          <Breadcrumb.Item>
+            <Button
+              type="link"
+              className="dm-sans dm-sans__x"
+              onClick={() =>
+                navigate(MARKET_OVERVIEW_ROUTE, {
+                  state: {
+                    baseAsset,
+                    quoteAsset,
+                  },
+                })
+              }
+            >
+              Market Overview
+            </Button>
+          </Breadcrumb.Item>
+        )}
         <Breadcrumb.Item>{`${type} Deposit`}</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">

@@ -1,6 +1,6 @@
 import Icon, { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useTypedSelector } from '../../../../app/store';
@@ -13,7 +13,7 @@ import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../.
 import { formatCompact, formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
-import { useGetMarketInfoQuery } from '../../operator.api';
+import { useGetMarketBalanceQuery, useGetMarketInfoQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
@@ -24,10 +24,44 @@ export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const { marketsLabelled, lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
-  const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery({
-    baseAsset: state?.baseAsset?.asset_id,
-    quoteAsset: state?.quoteAsset?.asset_id,
-  });
+  const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
+  const { data: marketBalance } = useGetMarketBalanceQuery(
+    {
+      baseAsset: state.baseAsset?.asset_id || '',
+      quoteAsset: state.quoteAsset?.asset_id || '',
+    },
+    {
+      pollingInterval: isBalanceUpdating ? 2000 : 0,
+    }
+  );
+  const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery(
+    {
+      baseAsset: state.baseAsset?.asset_id,
+      quoteAsset: state.quoteAsset?.asset_id,
+    },
+    {
+      pollingInterval: isBalanceUpdating ? 2000 : 0,
+    }
+  );
+
+  // After a withdrawal balances takes time to update, so we can't simply refetch balances right after withdrawal
+  // We check differences between availableBalance and totalBalance and poll balances until it is resolved
+  useEffect(() => {
+    if (
+      marketBalance?.totalBalance?.baseAmount !== marketBalance?.availableBalance?.baseAmount ||
+      marketBalance?.totalBalance?.quoteAmount !== marketBalance?.availableBalance?.quoteAmount
+    ) {
+      setIsBalanceUpdating(true);
+    } else {
+      setIsBalanceUpdating(false);
+    }
+  }, [
+    marketBalance?.availableBalance?.baseAmount,
+    marketBalance?.availableBalance?.quoteAmount,
+    marketBalance?.totalBalance?.baseAmount,
+    marketBalance?.totalBalance?.quoteAmount,
+  ]);
+
   const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
   const showMarketSettingsModal = () => {
     setIsMarketSettingsModalVisible(true);

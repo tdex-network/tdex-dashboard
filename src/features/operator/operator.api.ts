@@ -336,7 +336,7 @@ export const operatorApi = createApi({
           return { error: (error as RpcError).message };
         }
       },
-      providesTags: ['Market'],
+      providesTags: ['Market', 'MarketUTXOs'],
     }),
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
       queryFn: async (arg, { getState }) => {
@@ -836,6 +836,7 @@ export const operatorApi = createApi({
           return { error: (error as RpcError).message };
         }
       },
+      invalidatesTags: ['MarketUTXOs'],
     }),
     // Trades
     listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({

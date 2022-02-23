@@ -152,29 +152,25 @@ export const MarketOverview = (): JSX.Element => {
                 {marketInfo?.strategyType === 0 ? (
                   <Col span={8} className="text-end">
                     <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
-                      isLbtcAssetId(state?.baseAsset?.asset_id, network)
-                        ? Number(
-                            formatSatsToUnit(
-                              marketInfo.price?.basePrice ?? 0,
-                              lbtcUnit,
-                              state?.baseAsset?.asset_id,
-                              network
-                            )
-                          )
-                        : marketInfo.price?.basePrice ?? 0
+                      Number(
+                        formatSatsToUnit(
+                          marketInfo.price?.basePrice ?? 0,
+                          lbtcUnit,
+                          state?.baseAsset?.asset_id,
+                          network
+                        )
+                      )
                     )} ${
                       isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker
                     } for ${formatCompact(
-                      isLbtcAssetId(state?.quoteAsset?.asset_id, network)
-                        ? Number(
-                            formatSatsToUnit(
-                              marketInfo.price?.quotePrice ?? 0,
-                              lbtcUnit,
-                              state?.quoteAsset?.asset_id,
-                              network
-                            )
-                          )
-                        : marketInfo.price?.quotePrice ?? 0
+                      Number(
+                        formatSatsToUnit(
+                          marketInfo.price?.quotePrice ?? 0,
+                          lbtcUnit,
+                          state?.quoteAsset?.asset_id,
+                          network
+                        )
+                      )
                     )} ${
                       isLbtcAssetId(state?.quoteAsset?.asset_id, network)
                         ? lbtcUnit

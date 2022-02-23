@@ -4,7 +4,7 @@ import React from 'react';
 import type { Market } from '../../../../api-spec/generated/js/types_pb';
 import type { RootState } from '../../../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
-import { formatLbtcUnitToSats, isLbtcAssetId } from '../../../../utils';
+import { formatFiatToSats, formatLbtcUnitToSats, isLbtcAssetId } from '../../../../utils';
 import { operatorApi } from '../../operator.api';
 
 interface IFormInputs {
@@ -45,10 +45,10 @@ export const UpdateMarketPriceForm = ({
             price: {
               basePrice: isLbtcAssetId(market?.baseAsset, network)
                 ? Number(formatLbtcUnitToSats(values.basePrice, lbtcUnit))
-                : values.basePrice,
+                : Number(formatFiatToSats(values.basePrice)),
               quotePrice: isLbtcAssetId(market?.quoteAsset, network)
                 ? Number(formatLbtcUnitToSats(values.quotePrice, lbtcUnit))
-                : values.quotePrice,
+                : Number(formatFiatToSats(values.quotePrice)),
             },
           })
         ).unwrap();

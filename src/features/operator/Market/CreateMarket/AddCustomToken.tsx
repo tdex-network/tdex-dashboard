@@ -7,7 +7,7 @@ import { useTypedDispatch } from '../../../../app/store';
 import checkmark from '../../../../assets/images/checkmark.svg';
 import type { Asset } from '../../../../domain/asset';
 import { useGetAssetDataQuery } from '../../../liquid.api';
-import { saveAsset } from '../../../settings/settingsSlice';
+import { setAsset } from '../../../settings/settingsSlice';
 
 interface IFormInputs {
   customAssetId: string;
@@ -48,7 +48,7 @@ export const AddCustomToken = ({
   const onConfirmCustomToken = () => {
     if (!assetData) return;
     const { ticker, asset_id, name, precision } = assetData;
-    dispatch(saveAsset({ ticker, asset_id, name, precision }));
+    dispatch(setAsset({ ticker, asset_id, name, precision }));
     if (activeSelectComponent === 'base') {
       setBaseAsset(assetData);
     } else {

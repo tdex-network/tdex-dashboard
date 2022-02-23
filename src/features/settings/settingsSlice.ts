@@ -151,9 +151,9 @@ export const settingsSlice = createSlice({
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
     },
-    saveAsset: (state, action: PayloadAction<Asset>) => {
+    setAsset: (state, action: PayloadAction<Asset>) => {
       // Save if asset not already saved
-      if (state.assets.some((a) => a.asset_id !== action.payload.asset_id)) {
+      if (!state.assets.map((a) => a.asset_id).includes(action.payload.asset_id)) {
         state.assets = [...state.assets, action.payload];
       }
     },
@@ -225,7 +225,7 @@ export const {
   setProxyHealth,
   resetSettings,
   logout,
-  saveAsset,
+  setAsset,
   setMarketLabelled,
 } = settingsSlice.actions;
 

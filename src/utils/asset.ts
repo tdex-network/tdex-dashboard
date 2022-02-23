@@ -1,8 +1,10 @@
 import type { NetworkString } from 'ldk';
 
+import type { MarketInfo } from '../api-spec/generated/js/operator_pb';
 import type { Asset } from '../domain/asset';
 
 import { LBTC_ASSET, LBTC_TICKER, LCAD_ASSET, LCAD_TICKER, USDT_ASSET, USDT_TICKER } from './constants';
+import { filterUndef } from './snippets';
 
 export const assetIdToTicker = (assetId: string, assets: Asset[]): string => {
   const asset = assets.find((a: Asset) => a.asset_id === assetId);
@@ -26,3 +28,13 @@ export const isLcadTicker = (ticker?: string): boolean => {
 };
 export const isLcadAssetId = (assetId: string, network: NetworkString): boolean =>
   assetId === LCAD_ASSET[network].asset_id;
+
+export const getAllAssetIdsFromMarkets = (marketsList: MarketInfo.AsObject[]): string[] => {
+  return filterUndef(
+    Array.from(
+      new Set(
+        marketsList.flatMap((marketInfo) => [marketInfo.market?.baseAsset, marketInfo.market?.quoteAsset])
+      )
+    )
+  );
+};

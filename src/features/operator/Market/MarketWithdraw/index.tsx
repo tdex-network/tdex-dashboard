@@ -3,7 +3,7 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
@@ -11,7 +11,7 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
-import { HOME_ROUTE } from '../../../../routes/constants';
+import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
 import {
   formatFiatToSats,
   formatLbtcUnitToSats,
@@ -30,6 +30,7 @@ interface IFormInputs {
 }
 
 export const MarketWithdraw = (): JSX.Element => {
+  const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
   const { explorerLiquidAPI, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
@@ -165,6 +166,22 @@ export const MarketWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>
           <Link to={HOME_ROUTE}>Dashboard</Link>
         </Breadcrumb.Item>
+        {selectedMarket && (
+          // We can't use Link to pass market state because of HashRouter limitation
+          <Breadcrumb.Item>
+            <Button
+              type="link"
+              className="dm-sans dm-sans__x"
+              onClick={() =>
+                navigate(MARKET_OVERVIEW_ROUTE, {
+                  state: selectedMarket,
+                })
+              }
+            >
+              Market Overview
+            </Button>
+          </Breadcrumb.Item>
+        )}
         <Breadcrumb.Item>Market Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">

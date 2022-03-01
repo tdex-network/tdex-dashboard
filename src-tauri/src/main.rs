@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use tauri::{CustomMenuItem, Event, Manager, Menu, MenuItem, Submenu};
+use tauri::{CustomMenuItem, RunEvent, Manager, Menu, MenuItem, Submenu};
 
 // the payload type must implement `Serialize`.
 // for global events, it also must implement `Clone`.
@@ -35,10 +35,8 @@ fn main() {
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
-    // TODO: remove Event::CloseRequested when Tauri beta.9 is released
-    // https://tauri.studio/en/docs/api/rust/tauri/enum.event/
     app.run(|app_handle, e| match e {
-        Event::CloseRequested { label, api, .. } => {
+        RunEvent::CloseRequested { label, api, .. } => {
             let app_handle = app_handle.clone();
             let window = app_handle.get_window(&label).unwrap();
             api.prevent_close();

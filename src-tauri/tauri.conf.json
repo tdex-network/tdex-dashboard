@@ -11,7 +11,25 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "fs": {
+        "all": true,
+        "scope": [
+          "$APP/tdex-dashboard",
+          "$APP/tdex-dashboard/tdex-dashboard-*"
+        ]
+      },
+      "shell": {
+        "all": true,
+        "sidecar": true,
+        "scope": [
+          {
+            "name": "bin/grpcproxy",
+            "cmd": "grpcproxy",
+            "sidecar": true
+          }
+        ]
+      }
     },
     "bundle": {
       "active": true,

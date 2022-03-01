@@ -1,7 +1,4 @@
-import { once } from '@tauri-apps/api/event';
-import { exit } from '@tauri-apps/api/process';
 import type { Child } from '@tauri-apps/api/shell';
-import { Command } from '@tauri-apps/api/shell';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { RootState } from './app/store';
@@ -11,6 +8,7 @@ import Shell from './common/Shell';
 import { connectProxy, healthCheckProxy, setProxyHealth } from './features/settings/settingsSlice';
 import { useExponentialInterval } from './hooks/useExponentialInterval';
 import { Routes } from './routes';
+import tauriAPIs from './tauri-apis';
 import { sleep } from './utils';
 
 export const App = (): JSX.Element => {
@@ -38,7 +36,7 @@ export const App = (): JSX.Element => {
 
       if (useProxy) {
         // Register close app event for cleanup
-        await once('quit-event', async () => {
+        await tauriAPIs.event?.once('quit-event', async () => {
           try {
             setIsExiting(true);
             dispatch(setProxyHealth('NOT_SERVING'));
@@ -60,21 +58,22 @@ export const App = (): JSX.Element => {
         // Delete local storage to avoid rehydration issues
         localStorage.removeItem('persist:root');
         await proxyChildProcess.current?.kill();
-        await exit();
+        await tauriAPIs.process?.exit();
       }
     })();
   }, [isExiting, proxyChildProcess, proxyHealth]);
 
   const startProxy = useCallback(async () => {
+    const { Command } = await import('@tauri-apps/api/shell');
     if (!proxyChildProcess.current?.pid) {
-      const command = Command.sidecar('grpcproxy');
-      command.on('close', (data) => {
+      const command = Command.sidecar('bin/grpcproxy');
+      command?.on('close', (data: { code: any; signal: any }) => {
         console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
       });
-      command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
-      command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
-      command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
-      proxyChildProcess.current = await command.spawn();
+      command?.on('error', (error: any) => console.error(`grpcproxy command error: "${error}"`));
+      command?.stdout.on('data', (line: any) => console.log(`grpcproxy command stdout: "${line}"`));
+      command?.stderr.on('data', (line: any) => console.log(`grpcproxy command stderr: "${line}"`));
+      proxyChildProcess.current = (await command?.spawn()) ?? null;
       console.log('Proxy pid:', proxyChildProcess.current?.pid);
     }
   }, []);

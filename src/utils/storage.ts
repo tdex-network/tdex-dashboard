@@ -1,9 +1,9 @@
 import type { Action, Reducer } from '@reduxjs/toolkit';
-import { path } from '@tauri-apps/api';
-import { writeFile, readTextFile, removeFile, readDir, createDir } from '@tauri-apps/api/fs';
 import type { PersistConfig, Storage } from 'redux-persist';
 import { persistReducer } from 'redux-persist';
 import type { PersistPartial } from 'redux-persist/es/persistReducer';
+
+import tauriAPIs from '../tauri-apis';
 
 // getFileNameForKey map redux-persist key identifier to tdex-dashboard filename
 function getFileNameForKey(key: string): string {
@@ -11,29 +11,31 @@ function getFileNameForKey(key: string): string {
 }
 
 // getFilePath uses getFileNameForKey in order to return the full path of a key's file
-async function getFilePath(key: string): Promise<string> {
-  return `${await path.appDir()}${getFileNameForKey(key)}`;
+function getFilePath(key: string): string {
+  return `tdex-dashboard/${getFileNameForKey(key)}`;
 }
 
 // tauriStorage will be used to persist reducers in filesystem
 export const tauriStorage: Storage = {
   async getItem(key: string) {
-    const json = await readTextFile(await getFilePath(key));
-    return JSON.parse(json);
+    const json = await tauriAPIs.fs?.readTextFile(getFilePath(key), { dir: tauriAPIs.fs?.Dir.App });
+    return JSON.parse(json || '');
   },
   async setItem(key: string, value: any) {
     if ('__TAURI__' in window) {
-      const appDir = await path.appDir();
       try {
-        await readDir(appDir);
+        await tauriAPIs.fs?.readDir('tdex-dashboard', { dir: tauriAPIs.fs?.Dir.App });
       } catch (err) {
-        await createDir(appDir);
+        await tauriAPIs.fs?.createDir('tdex-dashboard', { dir: tauriAPIs.fs?.Dir.App, recursive: true });
       }
-      await writeFile({ path: await getFilePath(key), contents: JSON.stringify(value) });
+      await tauriAPIs.fs?.writeFile(
+        { path: getFilePath(key), contents: JSON.stringify(value) },
+        { dir: tauriAPIs.fs?.Dir.App }
+      );
     }
   },
   async removeItem(key: string) {
-    await removeFile(await getFilePath(key));
+    await tauriAPIs.fs?.removeFile(getFilePath(key), { dir: tauriAPIs.fs?.Dir.App });
   },
 };
 

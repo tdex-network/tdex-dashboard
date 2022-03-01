@@ -98,8 +98,18 @@ export const FeeForm = ({
   const resetAll = async () => {
     if (!marketInfo?.fee?.fixed) return;
     form.setFieldsValue({
-      feeAbsoluteBaseInput: String(marketInfo.fee.fixed.baseFee),
-      feeAbsoluteQuoteInput: String(marketInfo.fee.fixed.quoteFee),
+      feeAbsoluteBaseInput: formatSatsToUnit(
+        marketInfo.fee.fixed.baseFee,
+        lbtcUnit,
+        baseAsset.asset_id,
+        network
+      ),
+      feeAbsoluteQuoteInput: formatSatsToUnit(
+        marketInfo.fee.fixed.quoteFee,
+        lbtcUnit,
+        quoteAsset.asset_id,
+        network
+      ),
       feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
     });
   };

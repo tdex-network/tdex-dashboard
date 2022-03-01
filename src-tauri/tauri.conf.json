@@ -15,8 +15,8 @@
       "fs": {
         "all": true,
         "scope": [
-          "$APP/tdex-dashboard",
-          "$APP/tdex-dashboard/tdex-dashboard-*"
+          "$APP",
+          "$APP/tdex-dashboard-*"
         ]
       },
       "shell": {

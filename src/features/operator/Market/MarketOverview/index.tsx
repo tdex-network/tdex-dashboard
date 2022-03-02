@@ -225,9 +225,13 @@ export const MarketOverview = (): JSX.Element => {
                 }
                 topRight={
                   <div className="text-end">
-                    <Button className="mr-2">D</Button>
-                    <Button className="mr-2">W</Button>
-                    <Button>M</Button>
+                    <Button className="mr-2">1D</Button>
+                    <Button className="mr-2">7D</Button>
+                    <Button className="mr-2">1M</Button>
+                    <Button className="mr-2">3M</Button>
+                    <Button className="mr-2">1Y</Button>
+                    <Button className="mr-2">YTD</Button>
+                    <Button>ALL</Button>
                   </div>
                 }
               />

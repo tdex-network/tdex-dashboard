@@ -169,7 +169,7 @@ export const MarketOverview = (): JSX.Element => {
           </Col>
           <Col span={16}>
             <div className="panel panel__grey h-100">
-              <Row>
+              <Row className="mb-2">
                 <Col span={16}>
                   <CurrencyIcon currency={state?.baseAsset?.ticker} />
                   <span className="dm-mono dm-mono__x dm_mono__bold mx-2">

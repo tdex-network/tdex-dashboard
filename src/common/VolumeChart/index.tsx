@@ -78,8 +78,8 @@ export const VolumeChart = ({ topLeft, topRight }: VolumeChartProps): JSX.Elemen
   return (
     <>
       <Row>
-        <Col span={12}>{topLeft}</Col>
-        <Col span={12}>{topRight}</Col>
+        <Col span={4}>{topLeft}</Col>
+        <Col span={20}>{topRight}</Col>
       </Row>
       <ResponsiveContainer width="100%" height={265}>
         <BarChart width={730} height={250} data={data} margin={{ top: 5, right: 5, bottom: -12, left: -12 }}>

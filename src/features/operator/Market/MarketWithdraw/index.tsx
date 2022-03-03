@@ -9,6 +9,7 @@ import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import { InputAmount } from '../../../../common/InputAmount';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
@@ -19,7 +20,6 @@ import {
   isLbtcAssetId,
   isLbtcTicker,
   LBTC_ASSET,
-  unitToFixedDigits,
 } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
@@ -210,42 +210,12 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-sans dm-sans__xx ml-2">{baseTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="balanceBaseAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
-                      'has-error': withdrawMarketError,
-                    })}
-                  >
-                    <Input
-                      type="text"
-                      placeholder="0"
-                      onBlur={(ev) => {
-                        if (ev.target.value === '') form.setFieldsValue({ balanceBaseAmount: '0' });
-                      }}
-                      onFocus={(ev) => {
-                        if (ev.target.value === '0') form.setFieldsValue({ balanceBaseAmount: '' });
-                      }}
-                      onChange={(ev) => {
-                        if (ev.target.value.includes(',')) {
-                          form.setFieldsValue({ balanceBaseAmount: ev.target.value.replace(',', '.') });
-                        }
-                        if (ev.target.value.includes('.')) {
-                          // No more than one dot
-                          if (ev.target.value.split('.').length > 2) {
-                            form.setFieldsValue({ balanceBaseAmount: ev.target.value.slice(0, -1) });
-                          }
-                          // No more than x decimals
-                          if (ev.target.value.split('.')[1].length > unitToFixedDigits(baseTickerFormatted)) {
-                            form.setFieldsValue({ balanceBaseAmount: ev.target.value.slice(0, -1) });
-                          }
-                        }
-                      }}
-                      onKeyPress={(ev) => {
-                        // Only numbers and dot
-                        if (!ev.key.match(/^[0-9.]+$/)) ev.preventDefault();
-                      }}
-                    />
-                  </Form.Item>
+                  <InputAmount
+                    formItemName="balanceBaseAmount"
+                    hasError={!!withdrawMarketError}
+                    setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
+                    unit={baseTickerFormatted}
+                  />
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">
@@ -276,44 +246,12 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="balanceQuoteAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
-                      'has-error': withdrawMarketError,
-                    })}
-                  >
-                    <Input
-                      type="text"
-                      placeholder="0"
-                      onBlur={(ev) => {
-                        if (ev.target.value === '') form.setFieldsValue({ balanceQuoteAmount: '0' });
-                      }}
-                      onFocus={(ev) => {
-                        if (ev.target.value === '0') form.setFieldsValue({ balanceQuoteAmount: '' });
-                      }}
-                      onChange={(ev) => {
-                        if (ev.target.value.includes(',')) {
-                          form.setFieldsValue({ balanceQuoteAmount: ev.target.value.replace(',', '.') });
-                        }
-                        if (ev.target.value.includes('.')) {
-                          // No more than one dot
-                          if (ev.target.value.split('.').length > 2) {
-                            form.setFieldsValue({ balanceQuoteAmount: ev.target.value.slice(0, -1) });
-                          }
-                          // No more than x decimals
-                          if (
-                            ev.target.value.split('.')[1].length > unitToFixedDigits(quoteTickerFormatted)
-                          ) {
-                            form.setFieldsValue({ balanceQuoteAmount: ev.target.value.slice(0, -1) });
-                          }
-                        }
-                      }}
-                      onKeyPress={(ev) => {
-                        // Only numbers and dot
-                        if (!ev.key.match(/^[0-9.]+$/)) ev.preventDefault();
-                      }}
-                    />
-                  </Form.Item>
+                  <InputAmount
+                    formItemName="balanceQuoteAmount"
+                    hasError={!!withdrawMarketError}
+                    setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
+                    unit={quoteTickerFormatted}
+                  />
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">

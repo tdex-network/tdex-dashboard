@@ -15,6 +15,7 @@ import {
   UnlockWalletRequest,
 } from '../../api-spec/generated/js/walletunlocker_pb';
 import type { RootState } from '../../app/store';
+import { sleep } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 
 export const walletUnlockerApi = createApi({
@@ -119,17 +120,25 @@ export const walletUnlockerApi = createApi({
     }),
     isReady: build.query<IsReadyReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletUnlockerClient(state);
+        const metadata = selectMacaroonCreds(state);
         try {
-          const state = getState() as RootState;
-          const client = selectWalletUnlockerClient(state);
-          const metadata = selectMacaroonCreds(state);
           const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
           return {
             data: isReadyReply.toObject(false),
           };
         } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
+          try {
+            await sleep(500);
+            const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
+            return {
+              data: isReadyReply.toObject(false),
+            };
+          } catch (error) {
+            console.error(error);
+            return { error: (error as RpcError).message };
+          }
         }
       },
       providesTags: ['Unlocker'],

@@ -1,11 +1,12 @@
 import './feeForm.less';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Row, Col, Typography, Input, Divider, Form, Button, notification } from 'antd';
+import { Row, Col, Typography, Divider, Form, Button, notification } from 'antd';
 import React from 'react';
 
 import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import { InputAmount } from '../../../../common/InputAmount';
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import {
@@ -62,6 +63,8 @@ export const FeeForm = ({
     baseAsset: baseAsset.asset_id,
     quoteAsset: quoteAsset.asset_id,
   });
+  const baseAssetUnitOrTicker = isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : baseAsset.ticker;
+  const quoteAssetUnitOrTicker = isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker;
 
   const onFinish = async () => {
     try {
@@ -149,25 +152,15 @@ export const FeeForm = ({
         <Row align="middle">
           <Col span={8}>
             <CurrencyIcon currency={baseAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">
-              {isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : baseAsset.ticker}
-            </span>
+            <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
           </Col>
           <Col span={16}>
-            <Form.Item name="feeAbsoluteBaseInput" noStyle>
-              <Input
-                type="number"
-                min="0"
-                step="any"
-                placeholder="0"
-                onBlur={(ev) => {
-                  if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteBaseInput: '0' });
-                }}
-                onFocus={(ev) => {
-                  if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteBaseInput: '' });
-                }}
-              />
-            </Form.Item>
+            <InputAmount
+              assetPrecision={baseAsset.precision}
+              formItemName="feeAbsoluteBaseInput"
+              lbtcUnitOrTicker={baseAssetUnitOrTicker}
+              setInputValue={(value) => form.setFieldsValue({ feeAbsoluteBaseInput: value })}
+            />
           </Col>
         </Row>
         <Divider />
@@ -179,20 +172,12 @@ export const FeeForm = ({
             </span>
           </Col>
           <Col span={16}>
-            <Form.Item name="feeAbsoluteQuoteInput" noStyle>
-              <Input
-                type="number"
-                min="0"
-                step="any"
-                placeholder="0"
-                onBlur={(ev) => {
-                  if (ev.target.value === '') form.setFieldsValue({ feeAbsoluteQuoteInput: '0' });
-                }}
-                onFocus={(ev) => {
-                  if (ev.target.value === '0') form.setFieldsValue({ feeAbsoluteQuoteInput: '' });
-                }}
-              />
-            </Form.Item>
+            <InputAmount
+              assetPrecision={quoteAsset.precision}
+              formItemName="feeAbsoluteQuoteInput"
+              lbtcUnitOrTicker={quoteAssetUnitOrTicker}
+              setInputValue={(value) => form.setFieldsValue({ feeAbsoluteQuoteInput: value })}
+            />
           </Col>
         </Row>
         <Row className="mt-4">
@@ -215,21 +200,13 @@ export const FeeForm = ({
             </span>
           </Col>
           <Col span={10}>
-            <Form.Item name="feeRelativeInput" noStyle>
-              <Input
-                type="number"
-                min="0"
-                step="any"
-                suffix={'%'}
-                placeholder="0"
-                onBlur={(ev) => {
-                  if (ev.target.value === '') form.setFieldsValue({ feeRelativeInput: '0' });
-                }}
-                onFocus={(ev) => {
-                  if (ev.target.value === '0') form.setFieldsValue({ feeRelativeInput: '' });
-                }}
-              />
-            </Form.Item>
+            <InputAmount
+              assetPrecision={2}
+              formItemName="feeRelativeInput"
+              lbtcUnitOrTicker=""
+              setInputValue={(value) => form.setFieldsValue({ feeRelativeInput: value })}
+              suffix="%"
+            />
           </Col>
         </Row>
         <Row align="middle" className="fee-relative-btn-container">

@@ -9,6 +9,7 @@ import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import { InputAmount } from '../../../../common/InputAmount';
 import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
@@ -203,29 +204,19 @@ export const MarketWithdraw = (): JSX.Element => {
             initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
-              <Row>
+              <Row className="align-center">
                 <Col span={12}>
-                  <CurrencyIcon currency={baseTickerFormatted} />
-                  <span className="dm-sans dm-sans__xx ml-2">{selectedMarket.baseAsset?.ticker}</span>
+                  <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
+                  <span className="dm-sans dm-sans__xx ml-2">{baseTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="balanceBaseAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
-                      'has-error': withdrawMarketError,
-                    })}
-                  >
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      onBlur={(ev) => {
-                        if (ev.target.value === '') form.setFieldsValue({ balanceBaseAmount: '0' });
-                      }}
-                      onFocus={(ev) => {
-                        if (ev.target.value === '0') form.setFieldsValue({ balanceBaseAmount: '' });
-                      }}
-                    />
-                  </Form.Item>
+                  <InputAmount
+                    assetPrecision={selectedMarket?.baseAsset?.precision || 8}
+                    formItemName="balanceBaseAmount"
+                    hasError={!!withdrawMarketError}
+                    lbtcUnitOrTicker={baseTickerFormatted}
+                    setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
+                  />
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">
@@ -250,29 +241,19 @@ export const MarketWithdraw = (): JSX.Element => {
               </Row>
             </div>
             <div className="panel panel__grey panel__bottom mb-6">
-              <Row>
+              <Row className="align-center">
                 <Col span={12}>
-                  <CurrencyIcon currency={quoteTickerFormatted} />
+                  <CurrencyIcon currency={selectedMarket?.quoteAsset?.ticker || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="balanceQuoteAmount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
-                      'has-error': withdrawMarketError,
-                    })}
-                  >
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      onBlur={(ev) => {
-                        if (ev.target.value === '') form.setFieldsValue({ balanceQuoteAmount: '0' });
-                      }}
-                      onFocus={(ev) => {
-                        if (ev.target.value === '0') form.setFieldsValue({ balanceQuoteAmount: '' });
-                      }}
-                    />
-                  </Form.Item>
+                  <InputAmount
+                    assetPrecision={selectedMarket?.quoteAsset?.precision || 8}
+                    formItemName="balanceQuoteAmount"
+                    hasError={!!withdrawMarketError}
+                    lbtcUnitOrTicker={quoteTickerFormatted}
+                    setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
+                  />
                 </Col>
               </Row>
               <Row align="middle" className="residual-balance-container">

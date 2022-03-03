@@ -3,6 +3,8 @@ import type { NetworkString } from 'ldk';
 
 import { isLbtcAssetId } from './asset';
 import type { LbtcUnit } from './constants';
+import { LBTC_UNITS } from './constants';
+import { includes } from './snippets';
 
 const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
@@ -104,4 +106,26 @@ export function formatFiatToSats(val: number): string {
 export function formatCompact(amount: number): string {
   const formatter = Intl.NumberFormat('en', { notation: 'compact', maximumSignificantDigits: 21 });
   return formatter.format(amount);
+}
+
+/**
+ * Determine number of decimal places according to unit in case of Lbtc and asset precision in case of others
+ * @param unitOrTicker Either Lbtc unit string or asset ticker
+ * @param precision Asset precision
+ */
+export function lbtcUnitOrTickerToFractionalDigits(unitOrTicker: string, precision: number): number {
+  // Non-Lbtc asset returns asset precision
+  if (!includes(LBTC_UNITS, unitOrTicker)) return precision;
+  switch (unitOrTicker) {
+    case 'L-BTC':
+      return 8;
+    case 'L-mBTC':
+      return 5;
+    case 'L-bits':
+      return 2;
+    case 'L-sats':
+      return 0;
+    default:
+      return 8;
+  }
 }

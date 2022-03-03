@@ -2,21 +2,22 @@ import { Input, Form } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 
-import { unitToFixedDigits } from '../../utils';
+import { lbtcUnitOrTickerToFractionalDigits } from '../../utils';
 
 interface InputAmountProps {
+  assetPrecision: number;
   formItemName: string;
   hasError: boolean;
   setInputValue: (value: string) => void;
-  // LbtcUnit or ticker
-  unit: string;
+  lbtcUnitOrTicker: string;
 }
 
 export const InputAmount = ({
+  assetPrecision,
   formItemName,
   hasError,
   setInputValue,
-  unit,
+  lbtcUnitOrTicker,
 }: InputAmountProps): JSX.Element => {
   return (
     <Form.Item
@@ -44,14 +45,17 @@ export const InputAmount = ({
               setInputValue(ev.target.value.slice(0, -1));
             }
             // No more than x decimals
-            if (ev.target.value.split('.')[1].length > unitToFixedDigits(unit)) {
+            if (
+              ev.target.value.split('.')[1].length >
+              lbtcUnitOrTickerToFractionalDigits(lbtcUnitOrTicker, assetPrecision)
+            ) {
               setInputValue(ev.target.value.slice(0, -1));
             }
           }
         }}
         onKeyPress={(ev) => {
           // No dot if L-sats
-          if (unit === 'L-sats' && !ev.key.match(/^[0-9]+$/)) ev.preventDefault();
+          if (lbtcUnitOrTicker === 'L-sats' && !ev.key.match(/^[0-9]+$/)) ev.preventDefault();
           // Only numbers and dot
           if (!ev.key.match(/^[0-9.]+$/)) ev.preventDefault();
         }}

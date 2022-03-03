@@ -108,9 +108,15 @@ export function formatCompact(amount: number): string {
   return formatter.format(amount);
 }
 
-export function unitToFixedDigits(unit: string): number {
-  if (!includes(LBTC_UNITS, unit)) return 2;
-  switch (unit) {
+/**
+ * Determine number of decimal places according to unit in case of Lbtc and asset precision in case of others
+ * @param unitOrTicker Either Lbtc unit string or asset ticker
+ * @param precision Asset precision
+ */
+export function lbtcUnitOrTickerToFractionalDigits(unitOrTicker: string, precision: number): number {
+  // Non-Lbtc asset returns asset precision
+  if (!includes(LBTC_UNITS, unitOrTicker)) return precision;
+  switch (unitOrTicker) {
     case 'L-BTC':
       return 8;
     case 'L-mBTC':
@@ -120,6 +126,6 @@ export function unitToFixedDigits(unit: string): number {
     case 'L-sats':
       return 0;
     default:
-      return 2;
+      return 8;
   }
 }

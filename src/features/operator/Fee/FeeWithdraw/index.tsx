@@ -86,10 +86,11 @@ export const FeeWithdraw = (): JSX.Element => {
                 </Col>
                 <Col span={12}>
                   <InputAmount
+                    assetPrecision={8}
                     formItemName="amount"
                     hasError={!!withdrawFeeError}
                     setInputValue={(value) => form.setFieldsValue({ amount: value })}
-                    unit={lbtcUnit}
+                    lbtcUnitOrTicker={lbtcUnit}
                   />
                 </Col>
               </Row>

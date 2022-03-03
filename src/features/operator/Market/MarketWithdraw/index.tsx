@@ -211,10 +211,11 @@ export const MarketWithdraw = (): JSX.Element => {
                 </Col>
                 <Col span={12}>
                   <InputAmount
+                    assetPrecision={selectedMarket?.baseAsset?.precision || 8}
                     formItemName="balanceBaseAmount"
                     hasError={!!withdrawMarketError}
+                    lbtcUnitOrTicker={baseTickerFormatted}
                     setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
-                    unit={baseTickerFormatted}
                   />
                 </Col>
               </Row>
@@ -247,10 +248,11 @@ export const MarketWithdraw = (): JSX.Element => {
                 </Col>
                 <Col span={12}>
                   <InputAmount
+                    assetPrecision={selectedMarket?.quoteAsset?.precision || 8}
                     formItemName="balanceQuoteAmount"
                     hasError={!!withdrawMarketError}
+                    lbtcUnitOrTicker={quoteTickerFormatted}
                     setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
-                    unit={quoteTickerFormatted}
                   />
                 </Col>
               </Row>

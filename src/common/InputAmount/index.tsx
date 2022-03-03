@@ -7,28 +7,31 @@ import { lbtcUnitOrTickerToFractionalDigits } from '../../utils';
 interface InputAmountProps {
   assetPrecision: number;
   formItemName: string;
-  hasError: boolean;
-  setInputValue: (value: string) => void;
+  hasError?: boolean;
   lbtcUnitOrTicker: string;
+  setInputValue: (value: string) => void;
+  suffix?: string;
 }
 
 export const InputAmount = ({
   assetPrecision,
   formItemName,
   hasError,
-  setInputValue,
   lbtcUnitOrTicker,
+  setInputValue,
+  suffix,
 }: InputAmountProps): JSX.Element => {
   return (
     <Form.Item
       name={formItemName}
-      className={classNames('balance-input-container d-flex justify-end dm-mono mb-2', {
+      className={classNames('balance-input-container d-flex justify-end dm-mono mb-0', {
         'has-error': hasError,
       })}
     >
       <Input
         type="text"
         placeholder="0"
+        suffix={suffix}
         onBlur={(ev) => {
           if (ev.target.value === '') setInputValue('0');
         }}

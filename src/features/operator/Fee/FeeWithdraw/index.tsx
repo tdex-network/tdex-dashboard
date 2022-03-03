@@ -9,6 +9,7 @@ import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { formatLbtcUnitToSats, formatSatsToUnit, LBTC_ASSET, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
@@ -81,26 +82,15 @@ export const FeeWithdraw = (): JSX.Element => {
               <Row>
                 <Col span={12}>
                   <CurrencyIcon currency={LBTC_TICKER[network]} />
-                  <span className="dm-sans dm-sans__xx ml-2">{LBTC_TICKER[network]}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">{lbtcUnit}</span>
                 </Col>
                 <Col span={12}>
-                  <Form.Item
-                    name="amount"
-                    className={classNames('balance-input-container d-flex justify-end dm-mono', {
-                      'has-error': withdrawFeeError,
-                    })}
-                  >
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      onBlur={(ev) => {
-                        if (ev.target.value === '') form.setFieldsValue({ amount: '0' });
-                      }}
-                      onFocus={(ev) => {
-                        if (ev.target.value === '0') form.setFieldsValue({ amount: '' });
-                      }}
-                    />
-                  </Form.Item>
+                  <InputAmount
+                    formItemName="amount"
+                    hasError={!!withdrawFeeError}
+                    setInputValue={(value) => form.setFieldsValue({ amount: value })}
+                    unit={lbtcUnit}
+                  />
                 </Col>
               </Row>
               <Row className="residual-balance-container">

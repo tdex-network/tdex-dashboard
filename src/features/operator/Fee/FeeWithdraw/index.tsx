@@ -79,7 +79,7 @@ export const FeeWithdraw = (): JSX.Element => {
             initialValues={{ amount: '0' }}
           >
             <div className="panel panel__grey mb-6">
-              <Row>
+              <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={LBTC_TICKER[network]} />
                   <span className="dm-sans dm-sans__xx ml-2">{lbtcUnit}</span>

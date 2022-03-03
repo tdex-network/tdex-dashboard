@@ -204,7 +204,7 @@ export const MarketWithdraw = (): JSX.Element => {
             initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
-              <Row>
+              <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">{baseTickerFormatted}</span>
@@ -240,7 +240,7 @@ export const MarketWithdraw = (): JSX.Element => {
               </Row>
             </div>
             <div className="panel panel__grey panel__bottom mb-6">
-              <Row>
+              <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.quoteAsset?.ticker || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>

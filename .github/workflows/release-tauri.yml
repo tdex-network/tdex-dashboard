@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install Rust latest nightly
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: "stable"
+          toolchain: "1.57.0"
 
       - name: Set up Go 1.17
         uses: actions/setup-go@v2

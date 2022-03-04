@@ -1,21 +1,25 @@
 import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
-import type { Child } from '@tauri-apps/api/shell';
-import { Command } from '@tauri-apps/api/shell';
+import { Child, Command } from '@tauri-apps/api/shell';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { RootState } from './app/store';
 import { useTypedDispatch, useTypedSelector } from './app/store';
 import { ServiceUnavailableModal } from './common/ServiceUnavailableModal';
 import Shell from './common/Shell';
-import { connectProxy, healthCheckProxy, setProxyHealth } from './features/settings/settingsSlice';
+import {
+  connectProxy,
+  healthCheckProxy,
+  setProxyHealth,
+  setProxyPid,
+} from './features/settings/settingsSlice';
 import { useExponentialInterval } from './hooks/useExponentialInterval';
 import { Routes } from './routes';
 import { sleep } from './utils';
 
 export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { useProxy, proxyHealth, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
+  const { useProxy, proxyHealth, proxyPid, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
@@ -54,14 +58,16 @@ export const App = (): JSX.Element => {
   // Exit after cleanup
   useEffect(() => {
     (async () => {
-      if (proxyChildProcess.current?.pid && isExiting && proxyHealth === 'NOT_SERVING') {
+      if (proxyPid && isExiting && proxyHealth === 'NOT_SERVING') {
+        dispatch(setProxyPid(undefined));
         // Need to sleep the time to write in persistent storage
-        await sleep(250);
-        await proxyChildProcess.current?.kill();
+        await sleep(500);
+        const proxyChildProcess = new Child(proxyPid);
+        await proxyChildProcess.kill();
         await exit();
       }
     })();
-  }, [isExiting, proxyChildProcess, proxyHealth]);
+  }, [dispatch, isExiting, proxyHealth, proxyPid]);
 
   const startProxy = useCallback(async () => {
     if (!proxyChildProcess.current?.pid) {
@@ -72,8 +78,11 @@ export const App = (): JSX.Element => {
       command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
       command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
       command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
+      // Set pid in ref to avoid running the function multiple times
       proxyChildProcess.current = await command.spawn();
-      console.log('Proxy pid:', proxyChildProcess.current?.pid);
+      // Persist pid in storage to keep it after app reloads
+      dispatch(setProxyPid(proxyChildProcess.current.pid));
+      console.log('Proxy pid:', proxyChildProcess.current.pid);
     }
   }, []);
 
@@ -106,7 +115,7 @@ export const App = (): JSX.Element => {
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
   useExponentialInterval(() => {
-    if (useProxy && proxyChildProcess.current?.pid && !isExiting) {
+    if (useProxy && proxyPid && !isExiting) {
       (async () => {
         try {
           await dispatch(healthCheckProxy()).unwrap();

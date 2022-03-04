@@ -82,7 +82,7 @@ export const App = (): JSX.Element => {
       proxyChildProcess.current = await command.spawn();
       // Persist pid in storage to keep it after app reloads
       dispatch(setProxyPid(proxyChildProcess.current.pid));
-      console.log('Proxy pid:', proxyChildProcess.current.pid);
+      console.debug('Proxy pid:', proxyChildProcess.current.pid);
     }
   }, [dispatch]);
 

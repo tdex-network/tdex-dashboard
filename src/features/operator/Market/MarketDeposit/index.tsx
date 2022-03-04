@@ -3,21 +3,22 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import type { MarketInfo, FragmenterSplitFundsReply } from '../../../../api-spec/generated/js/operator_pb';
-import { useTypedSelector } from '../../../../app/store';
+import type { AddressWithBlindingKey } from '../../../../api-spec/generated/js/types_pb';
+import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
 import {
   useMarketFragmenterSplitFundsMutation,
-  useGetMarketFragmenterAddressQuery,
   useListDepositsQuery,
-  useGetMarketAddressQuery,
   useClaimMarketDepositsMutation,
   useListMarketAddressesQuery,
   useListMarketFragmenterAddressesQuery,
+  operatorApi,
 } from '../../operator.api';
 
 export const MarketDeposit = (): JSX.Element => {
+  const dispatch = useTypedDispatch();
   const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
   const market = {
     baseAsset: state?.marketInfo?.market?.baseAsset || '',
@@ -26,9 +27,6 @@ export const MarketDeposit = (): JSX.Element => {
   const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const [marketFragmenterSplitFunds] = useMarketFragmenterSplitFundsMutation();
   const [skipGetMarketFragmenterAddress, setSkipGetMarketFragmenterAddress] = useState(true);
-  const { data: marketFragmenterAddress, refetch: refetchMarketFragmenterAddress } =
-    useGetMarketFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetMarketFragmenterAddress });
-  const { data: marketAddress, refetch: refetchMarketAddress } = useGetMarketAddressQuery(market);
   const { data: listMarketAddresses, refetch: refetchListMarketAddresses } =
     useListMarketAddressesQuery(market);
   const { data: listMarketFragmenterAddresses, refetch: refetchListMarketFragmenterAddresses } =
@@ -41,16 +39,27 @@ export const MarketDeposit = (): JSX.Element => {
   });
   const [useFragmenter, setUseFragmenter] = useState(false);
   const [isFragmenting, setIsFragmenting] = useState(false);
-  const [depositAddress, setDepositAddress] = useState<string>(
-    useFragmenter ? marketFragmenterAddress?.[0].address || 'N/A' : marketAddress?.[0].address || 'N/A'
-  );
+  const [marketAddress, setMarketAddress] = useState<string>('');
+  const [marketFragmenterAddress, setMarketFragmenterAddress] = useState<string>('');
+  const [depositAddress, setDepositAddress] = useState<string>('');
+  const [depositAddresses, setDepositAddresses] = useState<AddressWithBlindingKey.AsObject[]>([]);
+
   useEffect(() => {
-    if (!useFragmenter) setDepositAddress(marketAddress?.[0].address || '');
-  }, [marketAddress, useFragmenter]);
+    useFragmenter
+      ? setDepositAddresses(listMarketFragmenterAddresses || [])
+      : setDepositAddresses(listMarketAddresses || []);
+  }, [listMarketAddresses, listMarketFragmenterAddresses, useFragmenter]);
+
   useEffect(() => {
-    if (useFragmenter) setDepositAddress(marketFragmenterAddress?.[0].address || '');
-  }, [marketFragmenterAddress, useFragmenter]);
-  const depositAddresses = useFragmenter ? listMarketFragmenterAddresses || [] : listMarketAddresses || [];
+    if (depositAddress) {
+      if (useFragmenter) {
+        setDepositAddress(marketFragmenterAddress);
+      } else {
+        setDepositAddress(marketAddress);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useFragmenter]);
 
   // Waiting modal
   const initWaitingModalMarketFragmentationLog = ['starting market deposit fragmentation'];
@@ -69,6 +78,35 @@ export const MarketDeposit = (): JSX.Element => {
       setSkipGetMarketFragmenterAddress(false);
     }
   }, [useFragmenter]);
+
+  const getNewAddress = async () => {
+    if (useFragmenter) {
+      try {
+        const marketFragmenterAddress = await dispatch(
+          operatorApi.endpoints.getMarketFragmenterAddress.initiate(
+            { numOfAddresses: 1 },
+            { forceRefetch: true }
+          )
+        ).unwrap();
+        setDepositAddress(marketFragmenterAddress?.[0].address);
+        setMarketFragmenterAddress(marketFragmenterAddress?.[0].address);
+      } catch (err) {
+        console.error(err);
+      }
+      refetchListMarketFragmenterAddresses();
+    } else {
+      try {
+        const marketAddress = await dispatch(
+          operatorApi.endpoints.getMarketAddress.initiate(market, { forceRefetch: true })
+        ).unwrap();
+        setDepositAddress(marketAddress?.[0].address);
+        setMarketAddress(marketAddress?.[0].address);
+      } catch (err) {
+        console.error(err);
+      }
+      refetchListMarketAddresses();
+    }
+  };
 
   const handleFragmentMarketDeposits = async () => {
     setIsWaitingModalVisible(true);
@@ -154,15 +192,7 @@ export const MarketDeposit = (): JSX.Element => {
         isFragmenting={isFragmenting}
         handleDeposit={handleDeposit}
         setUseFragmenter={setUseFragmenter}
-        getNewAddress={() => {
-          if (useFragmenter) {
-            refetchMarketFragmenterAddress();
-            refetchListMarketFragmenterAddresses();
-          } else {
-            refetchMarketAddress();
-            refetchListMarketAddresses();
-          }
-        }}
+        getNewAddress={getNewAddress}
         market={market}
       />
       <WaitingModal

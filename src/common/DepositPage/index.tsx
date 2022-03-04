@@ -2,6 +2,7 @@ import './depositPage.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Checkbox, Col, Row, Typography } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import classNames from 'classnames';
 import QRCode from 'qrcode.react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -75,7 +76,7 @@ export const DepositPage = ({
       </Breadcrumb>
       <Row className="panel">
         <Col span={12} className="pr-10">
-          <Button className="w-100 mb-4" onClick={getNewAddress}>
+          <Button className="w-100 mb-4 btn-animate" onClick={getNewAddress}>
             CREATE NEW DEPOSIT ADDRESS
           </Button>
           <Checkbox onChange={handleOptInFragmentationChange} className="dm-sans dm-sans__x mt-4">
@@ -85,7 +86,11 @@ export const DepositPage = ({
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
               Previous addresses
             </Title>
-            <div className="panel panel__grey scrollbar" style={{ maxHeight: '300px', overflowY: 'scroll' }}>
+            <div
+              className={classNames('panel panel__grey scrollbar', {
+                'deposit-list': depositAddresses.length,
+              })}
+            >
               {depositAddresses.length
                 ? depositAddresses
                     ?.slice()
@@ -114,16 +119,22 @@ export const DepositPage = ({
           </div>
         </Col>
         <Col span={12}>
-          <Row className="panel panel__grey panel__top">
-            <Col span={8} offset={8}>
-              <QRCode className="qr-code" level="H" value={depositAddress} />
-            </Col>
+          <Row className="panel panel__grey panel__top deposit-address-frame">
+            {depositAddress ? (
+              <Col span={8}>
+                <QRCode className="qr-code" level="H" value={depositAddress} />
+              </Col>
+            ) : (
+              <p className="dm-sans dm-sans__x dm-sans__bold">Please generate a new address</p>
+            )}
           </Row>
           <Row className="py-6 deposit-address">
             <Col span={21} offset={1}>
-              <Text className="address" copyable>
-                {depositAddress}
-              </Text>
+              {depositAddress ? (
+                <Text className="address" copyable>
+                  {depositAddress}
+                </Text>
+              ) : null}
             </Col>
           </Row>
           <Row className="panel panel__grey panel__bottom text-center">

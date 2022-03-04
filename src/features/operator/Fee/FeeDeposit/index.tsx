@@ -2,26 +2,23 @@ import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import type { FragmenterSplitFundsReply } from '../../../../api-spec/generated/js/operator_pb';
-import { useTypedSelector } from '../../../../app/store';
+import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
 import {
+  operatorApi,
   useClaimFeeDepositsMutation,
   useFeeFragmenterSplitFundsMutation,
-  useGetFeeAddressQuery,
-  useGetFeeFragmenterAddressQuery,
   useListDepositsQuery,
   useListFeeAddressesQuery,
   useListFeeFragmenterAddressesQuery,
 } from '../../operator.api';
 
 export const FeeDeposit = (): JSX.Element => {
+  const dispatch = useTypedDispatch();
   const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const [skipGetFeeFragmenterAddress, setSkipGetFeeFragmenterAddress] = useState(true);
-  const { data: feeFragmenterAddress, refetch: refetchFeeFragmenterAddress } =
-    useGetFeeFragmenterAddressQuery({ numOfAddresses: 1 }, { skip: skipGetFeeFragmenterAddress });
-  const { data: feeAddress, refetch: refetchFeeAddress } = useGetFeeAddressQuery();
   const { data: listFeeAddresses, refetch: refetchListFeeAddresses } = useListFeeAddressesQuery();
   const { data: listFeeFragmenterAddresses, refetch: refetchListFeeFragmenterAddresses } =
     useListFeeFragmenterAddressesQuery(undefined, {
@@ -32,15 +29,20 @@ export const FeeDeposit = (): JSX.Element => {
   const { data: deposits } = useListDepositsQuery({ accountIndex: 0 });
   const [isFragmenting, setIsFragmenting] = useState(false);
   const [useFragmenter, setUseFragmenter] = useState(false);
-  const [depositAddress, setDepositAddress] = useState<string>(
-    useFragmenter ? feeFragmenterAddress?.[0].address || 'N/A' : feeAddress?.[0].address || 'N/A'
-  );
+  const [feeAddress, setFeeAddress] = useState<string>('');
+  const [feeFragmenterAddress, setFeeFragmenterAddress] = useState<string>('');
+  const [depositAddress, setDepositAddress] = useState<string>('');
+
   useEffect(() => {
-    if (!useFragmenter) setDepositAddress(feeAddress?.[0].address || '');
-  }, [feeAddress, useFragmenter]);
-  useEffect(() => {
-    if (useFragmenter) setDepositAddress(feeFragmenterAddress?.[0].address || '');
-  }, [feeFragmenterAddress, useFragmenter]);
+    if (depositAddress) {
+      if (useFragmenter) {
+        setDepositAddress(feeFragmenterAddress);
+      } else {
+        setDepositAddress(feeAddress);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useFragmenter]);
 
   // Waiting modal
   const initWaitingModalFeeFragmentationLog = ['starting fee deposit fragmentation'];
@@ -60,6 +62,35 @@ export const FeeDeposit = (): JSX.Element => {
   }, [useFragmenter]);
 
   const depositAddresses = useFragmenter ? listFeeFragmenterAddresses || [] : listFeeAddresses || [];
+
+  const getNewAddress = async () => {
+    if (useFragmenter) {
+      try {
+        const feeFragmenterAddress = await dispatch(
+          operatorApi.endpoints.getFeeFragmenterAddress.initiate(
+            { numOfAddresses: 1 },
+            { forceRefetch: true }
+          )
+        ).unwrap();
+        setDepositAddress(feeFragmenterAddress?.[0].address);
+        setFeeFragmenterAddress(feeFragmenterAddress?.[0].address);
+      } catch (err) {
+        console.error(err);
+      }
+      refetchListFeeFragmenterAddresses();
+    } else {
+      try {
+        const feeAddress = await dispatch(
+          operatorApi.endpoints.getFeeAddress.initiate(undefined, { forceRefetch: true })
+        ).unwrap();
+        setDepositAddress(feeAddress?.[0].address);
+        setFeeAddress(feeAddress?.[0].address);
+      } catch (err) {
+        console.error(err);
+      }
+      refetchListFeeAddresses();
+    }
+  };
 
   const handleFragmentFeeDeposits = async () => {
     setIsWaitingModalVisible(true);
@@ -132,15 +163,7 @@ export const FeeDeposit = (): JSX.Element => {
         isFragmenting={isFragmenting}
         handleDeposit={handleDeposit}
         setUseFragmenter={setUseFragmenter}
-        getNewAddress={() => {
-          if (useFragmenter) {
-            refetchFeeFragmenterAddress();
-            refetchListFeeFragmenterAddresses();
-          } else {
-            refetchFeeAddress();
-            refetchListFeeAddresses();
-          }
-        }}
+        getNewAddress={getNewAddress}
       />
       <WaitingModal
         isWaitingModalVisible={isWaitingModalVisible}

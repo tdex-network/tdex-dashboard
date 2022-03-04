@@ -34,6 +34,7 @@ export interface SettingsState {
   tdexdConnectUrl?: string;
   lbtcUnit: LbtcUnit;
   proxyHealth?: ProxyHealthStatus;
+  proxyPid?: number;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -160,6 +161,9 @@ export const settingsSlice = createSlice({
     setMarketLabelled: (state, action: PayloadAction<MarketLabelled>) => {
       state.marketsLabelled = [...(state.marketsLabelled || []), action.payload];
     },
+    setProxyPid: (state, action: PayloadAction<number | undefined>) => {
+      state.proxyPid = action.payload;
+    },
     setBaseUrl: (state, action: PayloadAction<string>) => {
       if (!state.useProxy) {
         state.baseUrl = action.payload;
@@ -223,6 +227,7 @@ export const {
   setMacaroonCredentials,
   setTdexdConnectUrl,
   setProxyHealth,
+  setProxyPid,
   resetSettings,
   logout,
   setAsset,

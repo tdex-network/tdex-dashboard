@@ -14,7 +14,7 @@ import { getTickersFormatted } from './index';
 
 interface WithdrawalRowsProps {
   marketInfo: MarketInfo.AsObject;
-  savedAssets: Asset[];
+  savedAssets: Record<NetworkString, Asset[]>;
   withdrawals?: Withdrawal.AsObject[];
   lbtcUnit: LbtcUnit;
 }
@@ -48,7 +48,7 @@ export const WithdrawalRows = ({
     <>
       {withdrawals?.map((row) => {
         const data = getWithdrawData(row, lbtcUnit, marketInfo, network);
-        const tickers = getTickersFormatted(marketInfo, savedAssets, lbtcUnit);
+        const tickers = getTickersFormatted(marketInfo, savedAssets[network], lbtcUnit);
         return (
           <TxRow
             key={data.txId}

@@ -13,7 +13,7 @@ import { getTickersFormatted } from './index';
 
 interface TradeRowsProps {
   trades?: TradeInfo.AsObject[];
-  savedAssets: Asset[];
+  savedAssets: Record<NetworkString, Asset[]>;
   marketInfo: MarketInfo.AsObject;
   lbtcUnit: LbtcUnit;
 }
@@ -41,7 +41,7 @@ export const TradeRows = ({ trades, savedAssets, marketInfo, lbtcUnit }: TradeRo
     <>
       {trades?.map((row) => {
         const data = getTradeData(row, lbtcUnit, network);
-        const tickers = getTickersFormatted(marketInfo, savedAssets, lbtcUnit);
+        const tickers = getTickersFormatted(marketInfo, savedAssets[network], lbtcUnit);
 
         return (
           <TxRow

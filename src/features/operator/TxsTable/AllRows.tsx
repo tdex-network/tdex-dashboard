@@ -1,3 +1,5 @@
+import type { NetworkString } from 'ldk';
+
 import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
@@ -16,7 +18,7 @@ interface AllRowsProps {
   trades?: TradeInfo.AsObject[];
   deposits?: DepositRow[];
   withdrawals?: Withdrawal.AsObject[];
-  savedAssets: Asset[];
+  savedAssets: Record<NetworkString, Asset[]>;
   marketInfo: MarketInfo.AsObject;
   lbtcUnit: LbtcUnit;
   numItemsToShow: number;
@@ -51,8 +53,8 @@ export const AllRows = ({
           quoteAssetTickerFormatted = '',
           txId = '';
 
-        const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
-        const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
+        const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets[network]);
+        const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets[network]);
         baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
         quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
 

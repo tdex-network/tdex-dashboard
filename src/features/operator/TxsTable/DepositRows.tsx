@@ -53,7 +53,7 @@ interface DepositRowsProps {
   deposits?: DepositRow[];
   lbtcUnit: LbtcUnit;
   marketInfo: MarketInfo.AsObject;
-  savedAssets: Asset[];
+  savedAssets: Record<NetworkString, Asset[]>;
   numItemsToShow: number;
 }
 
@@ -69,7 +69,7 @@ export const DepositRows = ({
     <>
       {deposits?.slice(0, numItemsToShow).map((row) => {
         const data = getDepositData(row, lbtcUnit, marketInfo, network);
-        const tickers = getTickersFormatted(marketInfo, savedAssets, lbtcUnit);
+        const tickers = getTickersFormatted(marketInfo, savedAssets[network], lbtcUnit);
         return (
           <TxRow
             key={data.txId}

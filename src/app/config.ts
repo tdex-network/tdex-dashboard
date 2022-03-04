@@ -1,5 +1,15 @@
 // eslint-disable-next-line import/no-mutable-exports
-let network: any;
+import type { NetworkString } from 'ldk';
+
+// eslint-disable-next-line import/no-mutable-exports
+let network: {
+  chain: NetworkString;
+  explorerLiquidAPI: string;
+  explorerBitcoinAPI: string;
+  explorerLiquidUI: string;
+  explorerBitcoinUI: string;
+  tdexdBaseUrl: string;
+};
 
 if (process.env.NODE_ENV === 'production') {
   network = {

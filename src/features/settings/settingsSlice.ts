@@ -11,7 +11,7 @@ import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
 import type { LbtcUnit } from '../../utils';
-import { featuredAssets, LBTC_UNITS } from '../../utils';
+import { featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
 
 const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
@@ -26,7 +26,7 @@ export interface SettingsState {
   explorerLiquidUI: string;
   explorersLiquidAPI: string[];
   explorersLiquidUI: string[];
-  assets: Asset[];
+  assets: Record<NetworkString, Asset[]>;
   baseUrl: string;
   useProxy: boolean;
   marketsLabelled?: MarketLabelled[];
@@ -120,7 +120,11 @@ export const initialState: SettingsState = {
   ],
   explorerLiquidUI: network.explorerLiquidUI,
   baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
-  assets: featuredAssets[network.chain as NetworkString],
+  assets: {
+    liquid: featuredAssets['liquid'],
+    testnet: featuredAssets['testnet'],
+    regtest: [LBTC_ASSET['regtest']],
+  },
   useProxy: USE_PROXY,
   lbtcUnit: LBTC_UNITS[0],
 };
@@ -147,15 +151,14 @@ export const settingsSlice = createSlice({
     },
     setNetwork: (state, action: PayloadAction<NetworkString>) => {
       state.network = action.payload;
-      state.assets = [...state.assets, ...featuredAssets[action.payload]];
     },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
     },
     setAsset: (state, action: PayloadAction<Asset>) => {
       // Save if asset not already saved
-      if (!state.assets.map((a) => a.asset_id).includes(action.payload.asset_id)) {
-        state.assets = [...state.assets, action.payload];
+      if (!state.assets[state.network].map((a) => a.asset_id).includes(action.payload.asset_id)) {
+        state.assets[state.network] = state.assets[state.network].concat(action.payload);
       }
     },
     setMarketLabelled: (state, action: PayloadAction<MarketLabelled>) => {

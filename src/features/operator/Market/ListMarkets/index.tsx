@@ -15,6 +15,7 @@ export const ListMarkets = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const { data: listMarkets, error: listMarketsError } = useListMarketsQuery();
   const assetRegistry = useTypedSelector(({ settings }) => settings.assets);
+  const network = useTypedSelector(({ settings }) => settings.network);
 
   // Add to store assets in markets
   useEffect(() => {
@@ -22,7 +23,7 @@ export const ListMarkets = (): JSX.Element => {
       try {
         const assets = getAllAssetIdsFromMarkets(listMarkets?.marketsList || []);
         for (const hash of assets) {
-          if (!assetRegistry.map((a) => a.asset_id).includes(hash)) {
+          if (!assetRegistry[network].map((a) => a.asset_id).includes(hash)) {
             const assetData = await dispatch(liquidApi.endpoints.getAssetData.initiate(hash)).unwrap();
             dispatch(setAsset(assetData));
           }
@@ -31,7 +32,7 @@ export const ListMarkets = (): JSX.Element => {
         console.error('Add to store assets in markets error', err);
       }
     })();
-  }, [assetRegistry, dispatch, listMarkets?.marketsList]);
+  }, [assetRegistry, dispatch, listMarkets?.marketsList, network]);
 
   return (
     <div id="list-markets">

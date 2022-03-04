@@ -3,20 +3,21 @@ import { configureStore } from '@reduxjs/toolkit';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import localStorage from 'redux-persist/lib/storage';
 
 import { liquidApi } from '../features/liquid.api';
 import { operatorApi } from '../features/operator/operator.api';
 import { walletApi } from '../features/wallet/wallet.api';
 import { walletUnlockerApi } from '../features/walletUnlocker/walletUnlocker.api';
+import { tauriStorage } from '../utils';
 
 import { rootReducer } from './rootReducer';
 
 // Persist all except API slices in order to persist Settings
 const persistConfig = {
   key: 'root',
-  version: 1,
-  storage,
+  version: 0,
+  storage: '__TAURI__' in window ? tauriStorage : localStorage,
   blacklist: [
     liquidApi.reducerPath,
     operatorApi.reducerPath,

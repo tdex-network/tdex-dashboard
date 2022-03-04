@@ -57,8 +57,6 @@ export const App = (): JSX.Element => {
       if (proxyChildProcess.current?.pid && isExiting && proxyHealth === 'NOT_SERVING') {
         // Need to sleep the time to write in persistent storage
         await sleep(250);
-        // Delete local storage to avoid rehydration issues
-        localStorage.removeItem('persist:root');
         await proxyChildProcess.current?.kill();
         await exit();
       }

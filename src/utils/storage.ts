@@ -37,7 +37,7 @@ export const tauriStorage: Storage = {
   },
 };
 
-function createLocalStorageConfig<S>(
+function createTauriStorageConfig<S>(
   key: string,
   whitelist?: string[],
   blacklist?: string[],
@@ -61,7 +61,7 @@ export function persist<S>(opts: {
   version?: number;
 }): Reducer<S & PersistPartial, Action> {
   return persistReducer<S, Action>(
-    createLocalStorageConfig(opts.key, opts.whitelist, opts.blacklist, opts.version),
+    createTauriStorageConfig(opts.key, opts.whitelist, opts.blacklist, opts.version),
     opts.reducer
   );
 }

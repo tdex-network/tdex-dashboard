@@ -84,7 +84,7 @@ export const App = (): JSX.Element => {
       dispatch(setProxyPid(proxyChildProcess.current.pid));
       console.log('Proxy pid:', proxyChildProcess.current.pid);
     }
-  }, []);
+  }, [dispatch]);
 
   const startAndConnectToProxy = useCallback(async () => {
     if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {

@@ -34,8 +34,10 @@ message MarketWithFee {
 }
 
 message Price {
-  float base_price = 1;
-  float quote_price = 2;
+  float base_price_deprecated = 1;
+  float quote_price_deprecated = 2;
+  double base_price = 3;
+  double quote_price = 4;
 }
 
 message PriceWithFee {

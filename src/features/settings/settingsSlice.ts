@@ -35,6 +35,7 @@ export interface SettingsState {
   lbtcUnit: LbtcUnit;
   proxyHealth?: ProxyHealthStatus;
   proxyPid?: number;
+  currency: string;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -127,6 +128,7 @@ export const initialState: SettingsState = {
   },
   useProxy: USE_PROXY,
   lbtcUnit: LBTC_UNITS[0],
+  currency: 'usd',
 };
 
 export const settingsSlice = createSlice({
@@ -154,6 +156,9 @@ export const settingsSlice = createSlice({
     },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
+    },
+    setCurrency: (state, action: PayloadAction<string>) => {
+      state.currency = action.payload;
     },
     setAsset: (state, action: PayloadAction<Asset>) => {
       // Save if asset not already saved
@@ -226,6 +231,7 @@ export const {
   setExplorerLiquidUI,
   setNetwork,
   setLbtcUnit,
+  setCurrency,
   setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,

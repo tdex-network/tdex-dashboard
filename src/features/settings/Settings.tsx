@@ -31,6 +31,7 @@ import {
   setExplorerLiquidUI,
   setLbtcUnit,
   setNetwork,
+  setCurrency,
 } from './settingsSlice';
 
 const { Text, Title } = Typography;
@@ -39,7 +40,7 @@ const { Option } = Select;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy, network } = useTypedSelector(
+  const { tdexdConnectUrl, lbtcUnit, useProxy, network, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
@@ -210,6 +211,15 @@ export const Settings = (): JSX.Element => {
                 <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Default currency
                 </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Select value={currency} onChange={(currency) => dispatch(setCurrency(currency))}>
+                  <Option value="usd">US Dollar</Option>
+                  <Option value="eur">Euro</Option>
+                  <Option value="cad">Canadian Dollar</Option>
+                </Select>
               </Col>
             </Row>
           </div>

@@ -1316,8 +1316,10 @@ proto.Price.prototype.toObject = function(opt_includeInstance) {
  */
 proto.Price.toObject = function(includeInstance, msg) {
   var f, obj = {
-    basePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 1, 0.0),
-    quotePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0)
+    basePriceDeprecated: jspb.Message.getFloatingPointFieldWithDefault(msg, 1, 0.0),
+    quotePriceDeprecated: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
+    basePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
+    quotePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0)
   };
 
   if (includeInstance) {
@@ -1356,10 +1358,18 @@ proto.Price.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {number} */ (reader.readFloat());
-      msg.setBasePrice(value);
+      msg.setBasePriceDeprecated(value);
       break;
     case 2:
       var value = /** @type {number} */ (reader.readFloat());
+      msg.setQuotePriceDeprecated(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setBasePrice(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readDouble());
       msg.setQuotePrice(value);
       break;
     default:
@@ -1391,17 +1401,31 @@ proto.Price.prototype.serializeBinary = function() {
  */
 proto.Price.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getBasePrice();
+  f = message.getBasePriceDeprecated();
   if (f !== 0.0) {
     writer.writeFloat(
       1,
       f
     );
   }
-  f = message.getQuotePrice();
+  f = message.getQuotePriceDeprecated();
   if (f !== 0.0) {
     writer.writeFloat(
       2,
+      f
+    );
+  }
+  f = message.getBasePrice();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      3,
+      f
+    );
+  }
+  f = message.getQuotePrice();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      4,
       f
     );
   }
@@ -1409,10 +1433,10 @@ proto.Price.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional float base_price = 1;
+ * optional float base_price_deprecated = 1;
  * @return {number}
  */
-proto.Price.prototype.getBasePrice = function() {
+proto.Price.prototype.getBasePriceDeprecated = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 1, 0.0));
 };
 
@@ -1421,16 +1445,16 @@ proto.Price.prototype.getBasePrice = function() {
  * @param {number} value
  * @return {!proto.Price} returns this
  */
-proto.Price.prototype.setBasePrice = function(value) {
+proto.Price.prototype.setBasePriceDeprecated = function(value) {
   return jspb.Message.setProto3FloatField(this, 1, value);
 };
 
 
 /**
- * optional float quote_price = 2;
+ * optional float quote_price_deprecated = 2;
  * @return {number}
  */
-proto.Price.prototype.getQuotePrice = function() {
+proto.Price.prototype.getQuotePriceDeprecated = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 2, 0.0));
 };
 
@@ -1439,8 +1463,44 @@ proto.Price.prototype.getQuotePrice = function() {
  * @param {number} value
  * @return {!proto.Price} returns this
  */
-proto.Price.prototype.setQuotePrice = function(value) {
+proto.Price.prototype.setQuotePriceDeprecated = function(value) {
   return jspb.Message.setProto3FloatField(this, 2, value);
+};
+
+
+/**
+ * optional double base_price = 3;
+ * @return {number}
+ */
+proto.Price.prototype.getBasePrice = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 3, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.Price} returns this
+ */
+proto.Price.prototype.setBasePrice = function(value) {
+  return jspb.Message.setProto3FloatField(this, 3, value);
+};
+
+
+/**
+ * optional double quote_price = 4;
+ * @return {number}
+ */
+proto.Price.prototype.getQuotePrice = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 4, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.Price} returns this
+ */
+proto.Price.prototype.setQuotePrice = function(value) {
+  return jspb.Message.setProto3FloatField(this, 4, value);
 };
 
 

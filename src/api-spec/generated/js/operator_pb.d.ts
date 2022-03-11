@@ -30,6 +30,9 @@ export class GetInfoReply extends jspb.Message {
   clearAccountInfoList(): GetInfoReply;
   addAccountInfo(value?: AccountInfo, index?: number): AccountInfo;
 
+  getNetwork(): string;
+  setNetwork(value: string): GetInfoReply;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetInfoReply.AsObject;
   static toObject(includeInstance: boolean, msg: GetInfoReply): GetInfoReply.AsObject;
@@ -43,6 +46,7 @@ export namespace GetInfoReply {
     rootPath: string,
     masterBlindingKey: string,
     accountInfoList: Array<AccountInfo.AsObject>,
+    network: string,
   }
 }
 
@@ -2034,6 +2038,168 @@ export namespace Page {
   }
 }
 
+export class GetMarketReportRequest extends jspb.Message {
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketReportRequest;
+  hasMarket(): boolean;
+  clearMarket(): GetMarketReportRequest;
+
+  getTimeRange(): TimeRange | undefined;
+  setTimeRange(value?: TimeRange): GetMarketReportRequest;
+  hasTimeRange(): boolean;
+  clearTimeRange(): GetMarketReportRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketReportRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketReportRequest): GetMarketReportRequest.AsObject;
+  static serializeBinaryToWriter(message: GetMarketReportRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketReportRequest;
+  static deserializeBinaryFromReader(message: GetMarketReportRequest, reader: jspb.BinaryReader): GetMarketReportRequest;
+}
+
+export namespace GetMarketReportRequest {
+  export type AsObject = {
+    market?: types_pb.Market.AsObject,
+    timeRange?: TimeRange.AsObject,
+  }
+}
+
+export class GetMarketReportReply extends jspb.Message {
+  getReport(): MarketReport | undefined;
+  setReport(value?: MarketReport): GetMarketReportReply;
+  hasReport(): boolean;
+  clearReport(): GetMarketReportReply;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarketReportReply.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketReportReply): GetMarketReportReply.AsObject;
+  static serializeBinaryToWriter(message: GetMarketReportReply, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketReportReply;
+  static deserializeBinaryFromReader(message: GetMarketReportReply, reader: jspb.BinaryReader): GetMarketReportReply;
+}
+
+export namespace GetMarketReportReply {
+  export type AsObject = {
+    report?: MarketReport.AsObject,
+  }
+}
+
+export class MarketReport extends jspb.Message {
+  getCollectedFees(): MarketCollectedFees | undefined;
+  setCollectedFees(value?: MarketCollectedFees): MarketReport;
+  hasCollectedFees(): boolean;
+  clearCollectedFees(): MarketReport;
+
+  getVolume(): MarketVolume | undefined;
+  setVolume(value?: MarketVolume): MarketReport;
+  hasVolume(): boolean;
+  clearVolume(): MarketReport;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MarketReport.AsObject;
+  static toObject(includeInstance: boolean, msg: MarketReport): MarketReport.AsObject;
+  static serializeBinaryToWriter(message: MarketReport, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MarketReport;
+  static deserializeBinaryFromReader(message: MarketReport, reader: jspb.BinaryReader): MarketReport;
+}
+
+export namespace MarketReport {
+  export type AsObject = {
+    collectedFees?: MarketCollectedFees.AsObject,
+    volume?: MarketVolume.AsObject,
+  }
+}
+
+export class MarketCollectedFees extends jspb.Message {
+  getBaseAmount(): number;
+  setBaseAmount(value: number): MarketCollectedFees;
+
+  getQuoteAmount(): number;
+  setQuoteAmount(value: number): MarketCollectedFees;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MarketCollectedFees.AsObject;
+  static toObject(includeInstance: boolean, msg: MarketCollectedFees): MarketCollectedFees.AsObject;
+  static serializeBinaryToWriter(message: MarketCollectedFees, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MarketCollectedFees;
+  static deserializeBinaryFromReader(message: MarketCollectedFees, reader: jspb.BinaryReader): MarketCollectedFees;
+}
+
+export namespace MarketCollectedFees {
+  export type AsObject = {
+    baseAmount: number,
+    quoteAmount: number,
+  }
+}
+
+export class MarketVolume extends jspb.Message {
+  getBaseVolume(): number;
+  setBaseVolume(value: number): MarketVolume;
+
+  getQuoteVolume(): number;
+  setQuoteVolume(value: number): MarketVolume;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MarketVolume.AsObject;
+  static toObject(includeInstance: boolean, msg: MarketVolume): MarketVolume.AsObject;
+  static serializeBinaryToWriter(message: MarketVolume, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MarketVolume;
+  static deserializeBinaryFromReader(message: MarketVolume, reader: jspb.BinaryReader): MarketVolume;
+}
+
+export namespace MarketVolume {
+  export type AsObject = {
+    baseVolume: number,
+    quoteVolume: number,
+  }
+}
+
+export class TimeRange extends jspb.Message {
+  getPredefinedPeriod(): PredefinedPeriod;
+  setPredefinedPeriod(value: PredefinedPeriod): TimeRange;
+
+  getCustomPeriod(): CustomPeriod | undefined;
+  setCustomPeriod(value?: CustomPeriod): TimeRange;
+  hasCustomPeriod(): boolean;
+  clearCustomPeriod(): TimeRange;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TimeRange.AsObject;
+  static toObject(includeInstance: boolean, msg: TimeRange): TimeRange.AsObject;
+  static serializeBinaryToWriter(message: TimeRange, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TimeRange;
+  static deserializeBinaryFromReader(message: TimeRange, reader: jspb.BinaryReader): TimeRange;
+}
+
+export namespace TimeRange {
+  export type AsObject = {
+    predefinedPeriod: PredefinedPeriod,
+    customPeriod?: CustomPeriod.AsObject,
+  }
+}
+
+export class CustomPeriod extends jspb.Message {
+  getStartDate(): string;
+  setStartDate(value: string): CustomPeriod;
+
+  getEndDate(): string;
+  setEndDate(value: string): CustomPeriod;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CustomPeriod.AsObject;
+  static toObject(includeInstance: boolean, msg: CustomPeriod): CustomPeriod.AsObject;
+  static serializeBinaryToWriter(message: CustomPeriod, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CustomPeriod;
+  static deserializeBinaryFromReader(message: CustomPeriod, reader: jspb.BinaryReader): CustomPeriod;
+}
+
+export namespace CustomPeriod {
+  export type AsObject = {
+    startDate: string,
+    endDate: string,
+  }
+}
+
 export enum StrategyType { 
   PLUGGABLE = 0,
   BALANCED = 1,
@@ -2052,4 +2218,13 @@ export enum ActionType {
   ACCOUNT_LOW_BALANCE = 1,
   ACCOUNT_WITHDRAW = 2,
   ALL_ACTIONS = 3,
+}
+export enum PredefinedPeriod { 
+  NULL = 0,
+  LAST_HOUR = 1,
+  LAST_DAY = 2,
+  LAST_MONTH = 3,
+  LAST_3_MONTHS = 4,
+  YEAR_TO_DATE = 5,
+  ALL = 6,
 }

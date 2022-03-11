@@ -35,6 +35,7 @@ import type {
   WithdrawFeeFragmenterReply,
   GetMarketFragmenterBalanceReply,
   WithdrawMarketFragmenterReply,
+  MarketReport,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -79,11 +80,15 @@ import {
   ListMarketFragmenterAddressesRequest,
   ListTradesRequest,
   GetMarketInfoRequest,
+  GetMarketReportRequest,
+  TimeRange,
+  CustomPeriod,
 } from '../../api-spec/generated/js/operator_pb';
 import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
 import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
 import type { BalanceInfo } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
+import type { Optional } from '../../domain/helpers';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 
 export const operatorApi = createApi({
@@ -313,6 +318,41 @@ export const operatorApi = createApi({
       },
     }),
     // Market
+    getMarketReport: build.query<
+      MarketReport.AsObject | undefined,
+      { market: Market.AsObject; timeRange: TimeRange.AsObject }
+    >({
+      queryFn: async (arg, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const client = selectOperatorClient(state);
+          const metadata = selectMacaroonCreds(state);
+          const { market, timeRange } = arg;
+          if (!market || !timeRange) throw new Error('missing argument');
+          const t = new TimeRange();
+          t.setPredefinedPeriod(timeRange.predefinedPeriod);
+          if (timeRange.customPeriod) {
+            const c = new CustomPeriod();
+            c.setStartDate(timeRange.customPeriod.startDate);
+            c.setEndDate(timeRange.customPeriod.endDate);
+            t.setCustomPeriod(c);
+          }
+          const newMarket = new Market();
+          newMarket.setBaseAsset(market.baseAsset);
+          newMarket.setQuoteAsset(market.quoteAsset);
+          const getMarketReportReply = await client.getMarketReport(
+            new GetMarketReportRequest().setMarket(newMarket).setTimeRange(t),
+            metadata
+          );
+          return {
+            data: getMarketReportReply.toObject(false).report,
+          };
+        } catch (error) {
+          console.error('getMarketReport', error);
+          return { error: (error as RpcError).message };
+        }
+      },
+    }),
     getMarketInfo: build.query<MarketInfo.AsObject | undefined, Market.AsObject>({
       queryFn: async (arg, { getState }) => {
         try {
@@ -647,7 +687,11 @@ export const operatorApi = createApi({
     }),
     updateMarketPrice: build.mutation<
       UpdateMarketPriceReply.AsObject,
-      { market: Market.AsObject; price: Price.AsObject }
+      {
+        market: Market.AsObject;
+        // TODO: remove when basePriceDeprecated and quotePriceDeprecated removed from the interface
+        price: Optional<Price.AsObject, 'basePriceDeprecated' | 'quotePriceDeprecated'>;
+      }
     >({
       queryFn: async (arg, { getState }) => {
         try {
@@ -1123,6 +1167,7 @@ export const {
   useFeeFragmenterSplitFundsMutation,
   useWithdrawFeeFragmenterMutation,
   // Market
+  useGetMarketReportQuery,
   useGetMarketInfoQuery,
   useWithdrawMarketMutation,
   useUpdateMarketPercentageFeeMutation,

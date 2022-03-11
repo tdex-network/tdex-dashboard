@@ -1713,5 +1713,48 @@ export class OperatorClient {
     this.methodDescriptorListWithdrawals);
   }
 
+  methodDescriptorGetMarketReport = new grpcWeb.MethodDescriptor(
+    '/Operator/GetMarketReport',
+    grpcWeb.MethodType.UNARY,
+    operator_pb.GetMarketReportRequest,
+    operator_pb.GetMarketReportReply,
+    (request: operator_pb.GetMarketReportRequest) => {
+      return request.serializeBinary();
+    },
+    operator_pb.GetMarketReportReply.deserializeBinary
+  );
+
+  getMarketReport(
+    request: operator_pb.GetMarketReportRequest,
+    metadata: grpcWeb.Metadata | null): Promise<operator_pb.GetMarketReportReply>;
+
+  getMarketReport(
+    request: operator_pb.GetMarketReportRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketReportReply) => void): grpcWeb.ClientReadableStream<operator_pb.GetMarketReportReply>;
+
+  getMarketReport(
+    request: operator_pb.GetMarketReportRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: operator_pb.GetMarketReportReply) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/Operator/GetMarketReport',
+        request,
+        metadata || {},
+        this.methodDescriptorGetMarketReport,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/Operator/GetMarketReport',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketReport);
+  }
+
 }
 

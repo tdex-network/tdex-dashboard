@@ -1,6 +1,7 @@
 import type { NetworkString } from 'ldk';
 
 import type { Asset } from '../domain/asset';
+import type { CurrencyInterface } from '../features/settings/settingsSlice';
 
 export const defaultPrecision = 8;
 
@@ -86,3 +87,21 @@ export const featuredAssets: Record<NetworkString, Asset[]> = {
 
 export const LBTC_UNITS = ['L-BTC', 'L-mBTC', 'L-bits', 'L-sats'] as const;
 export type LbtcUnit = typeof LBTC_UNITS[number];
+
+export const CURRENCIES: CurrencyInterface[] = [
+  {
+    name: 'US Dollar',
+    symbol: '$',
+    value: 'usd',
+  },
+  {
+    name: 'Euro',
+    symbol: '€',
+    value: 'eur',
+  },
+  {
+    name: 'Canadian Dollar',
+    symbol: '$C',
+    value: 'cad',
+  },
+];

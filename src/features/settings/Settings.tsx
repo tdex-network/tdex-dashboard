@@ -9,12 +9,8 @@ import { configRecord } from '../../app/config';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import {
-  HOME_ROUTE,
-  MARKET_WITHDRAW_FRAGMENTER_ROUTE,
-  ONBOARDING_PAIRING_ROUTE,
-} from '../../routes/constants';
-import { LBTC_UNITS } from '../../utils';
+import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
+import { LBTC_UNITS, CURRENCIES } from '../../utils';
 import { liquidApi } from '../liquid.api';
 import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
 import { walletApi } from '../wallet/wallet.api';
@@ -215,10 +211,20 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col span={12}>
-                <Select value={currency} onChange={(currency) => dispatch(setCurrency(currency))}>
-                  <Option value="usd">US Dollar</Option>
-                  <Option value="eur">Euro</Option>
-                  <Option value="cad">Canadian Dollar</Option>
+                <Select
+                  value={currency.value}
+                  onChange={(currencyValue: string) => {
+                    const selectedCurrency = CURRENCIES.find((currency) => currency.value === currencyValue);
+                    selectedCurrency && dispatch(setCurrency(selectedCurrency));
+                  }}
+                >
+                  {CURRENCIES.map((currency, index) => {
+                    return (
+                      <Option key={index} value={currency.value}>{`${currency.value.toUpperCase()} - ${
+                        currency.name
+                      }`}</Option>
+                    );
+                  })}
                 </Select>
               </Col>
             </Row>

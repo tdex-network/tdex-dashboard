@@ -5,6 +5,7 @@ import type { NetworkString } from 'ldk';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { configRecord } from '../../app/config';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
@@ -17,7 +18,15 @@ import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { disconnectProxy, logout, resetSettings, setLbtcUnit, setNetwork } from './settingsSlice';
+import {
+  disconnectProxy,
+  logout,
+  resetSettings,
+  setExplorerLiquidAPI,
+  setExplorerLiquidUI,
+  setLbtcUnit,
+  setNetwork,
+} from './settingsSlice';
 
 const { Text, Title } = Typography;
 const { Option } = Select;
@@ -208,7 +217,14 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col span={12}>
-                <Select value={network} onChange={(network: NetworkString) => dispatch(setNetwork(network))}>
+                <Select
+                  value={network}
+                  onChange={(network: NetworkString) => {
+                    dispatch(setNetwork(network));
+                    dispatch(setExplorerLiquidAPI(configRecord[network].explorerLiquidAPI));
+                    dispatch(setExplorerLiquidUI(configRecord[network].explorerLiquidUI));
+                  }}
+                >
                   <Option value="liquid">Liquid</Option>
                   <Option value="testnet">Testnet</Option>
                   <Option value="regtest">Regtest</Option>

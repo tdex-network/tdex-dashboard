@@ -9,7 +9,7 @@ import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { LBTC_ASSET, USDT_ASSET } from '../../../../utils';
+import { LBTC_ASSET, USDT_TICKER } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { useGetMarketInfoQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
@@ -21,9 +21,11 @@ const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const navigate = useNavigate();
-  const { network } = useTypedSelector(({ settings }) => settings);
+  const { assets, network } = useTypedSelector(({ settings }) => settings);
   const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET[network]);
-  const [quoteAsset, setQuoteAsset] = useState<Asset>(USDT_ASSET[network]);
+  const [quoteAsset, setQuoteAsset] = useState<Asset>(
+    assets[network].find((a) => a.ticker === USDT_TICKER) || assets[network][0]
+  );
   const { data: marketInfo, error: marketInfoError } = useGetMarketInfoQuery({
     baseAsset: baseAsset?.asset_id,
     quoteAsset: quoteAsset?.asset_id,

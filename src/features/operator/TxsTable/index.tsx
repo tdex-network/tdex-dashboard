@@ -1,6 +1,7 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
+import type { NetworkString } from 'ldk';
 import { groupBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
@@ -55,7 +56,7 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
 interface tableRowsProps {
   lbtcUnit: LbtcUnit;
   mode: ButtonsTableModeProps['mode'];
-  savedAssets: Asset[];
+  savedAssets: Record<NetworkString, Asset[]>;
   marketInfo: MarketInfo.AsObject;
   trades?: TradeInfo.AsObject[];
   deposits?: DepositRow[];

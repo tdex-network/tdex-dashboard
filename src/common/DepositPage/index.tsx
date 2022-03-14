@@ -41,11 +41,12 @@ export const DepositPage = ({
 }: DepositPageProps): JSX.Element => {
   const navigate = useNavigate();
   const assetRegistry = useTypedSelector(({ settings }: RootState) => settings.assets);
+  const network = useTypedSelector(({ settings }) => settings.network);
   const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
     setUseFragmenter(ev.target.checked);
   };
-  const baseAsset = assetRegistry.find((a) => a.asset_id === market?.baseAsset);
-  const quoteAsset = assetRegistry.find((a) => a.asset_id === market?.quoteAsset);
+  const baseAsset = assetRegistry[network].find((a) => a.asset_id === market?.baseAsset);
+  const quoteAsset = assetRegistry[network].find((a) => a.asset_id === market?.quoteAsset);
 
   return (
     <>

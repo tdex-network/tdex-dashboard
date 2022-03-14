@@ -31,8 +31,8 @@ export const MarketPairForm = ({
   const [newMarket] = useNewMarketMutation();
   const [showGenericAssetForm, setShowGenericAssetForm] = useState<boolean>(false);
   const [activeSelectComponent, setActiveSelectComponent] = useState<'base' | 'quote'>('base');
-  const { assets: savedAssets, network } = useTypedSelector(({ settings }) => settings);
-  const selectAssetList = savedAssets.concat([
+  const { assets, network } = useTypedSelector(({ settings }) => settings);
+  const selectAssetList = assets[network].concat([
     { ticker: 'Generic Asset', asset_id: '', name: '', precision: 8 },
   ]);
 

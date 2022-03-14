@@ -18,9 +18,9 @@ export const AssetInfoModal = ({
   isAssetInfoModalVisible,
   handleAssetInfoModalCancel,
 }: AssetInfoModalProps): JSX.Element => {
-  const { assets } = useTypedSelector(({ settings }: RootState) => settings);
-  const baseAsset = assets.find((asset) => asset.asset_id === market?.baseAsset);
-  const quoteAsset = assets.find((asset) => asset.asset_id === market?.quoteAsset);
+  const { assets, network } = useTypedSelector(({ settings }: RootState) => settings);
+  const baseAsset = assets[network].find((asset) => asset.asset_id === market?.baseAsset);
+  const quoteAsset = assets[network].find((asset) => asset.asset_id === market?.quoteAsset);
   return (
     <Modal
       visible={isAssetInfoModalVisible}

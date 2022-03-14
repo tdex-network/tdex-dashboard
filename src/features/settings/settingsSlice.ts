@@ -6,7 +6,7 @@ import type { NetworkString } from 'ldk';
 import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
 import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
 import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
-import { network } from '../../app/config';
+import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { MarketLabelled } from '../../domain/market';
@@ -106,8 +106,8 @@ export const healthCheckProxy = createAsyncThunk<
 });
 
 export const initialState: SettingsState = {
-  network: network.chain,
-  explorerLiquidAPI: network.explorerLiquidAPI,
+  network: config.chain,
+  explorerLiquidAPI: config.explorerLiquidAPI,
   explorersLiquidAPI: [
     'http://localhost:3001',
     'https://blockstream.info/liquidtestnet/api',
@@ -118,8 +118,8 @@ export const initialState: SettingsState = {
     'https://blockstream.info/liquidtestnet',
     'https://blockstream.info/liquid',
   ],
-  explorerLiquidUI: network.explorerLiquidUI,
-  baseUrl: USE_PROXY ? PROXY_URL : network.tdexdBaseUrl,
+  explorerLiquidUI: config.explorerLiquidUI,
+  baseUrl: USE_PROXY ? PROXY_URL : config.tdexdBaseUrl,
   assets: {
     liquid: featuredAssets['liquid'],
     testnet: featuredAssets['testnet'],

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -e
+
+echo ""
+echo "starting tdexd"
+
+TDEX_BASE_ASSET="144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49"
+
+while getopts a: flag; do
+  case "${flag}" in
+  a) TDEX_BASE_ASSET=${OPTARG} ;;
+  *)
+    echo "usage: $0 [-a TDEX_BASE_ASSET]" >&2
+    exit 1
+    ;;
+  esac
+done
+
+echo "TDEX_BASE_ASSET: $TDEX_BASE_ASSET"
+echo ""
+
+mkdir -p tdexd
+
+docker run -it -d --name tdexd \
+  -p 9945:9945 -p 9000:9000 \
+  -v "$(pwd)/tdexd:/home/user/.tdex-daemon" \
+  -e TDEX_CRAWL_INTERVAL=5000 \
+  -e TDEX_CRAWL_LIMIT=5000 \
+  -e TDEX_CRAWL_TOKEN=500 \
+  -e TDEX_NETWORK=testnet \
+  -e TDEX_BASE_ASSET=144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49 \
+  -e TDEX_EXPLORER_ENDPOINT=https://blockstream.info/liquidtestnet/api \
+  -e TDEX_EXPLORER_REQUEST_TIMEOUT=40000 \
+  -e TDEX_NO_MACAROONS=false \
+  -e TDEX_LOG_LEVEL=5 \
+  ghcr.io/tdex-network/tdexd:latest
+
+echo ""
+echo "init wallet"
+
+tdex='docker exec -it tdexd tdex'
+$tdex config init --network "testnet"
+
+mnemonic=$($tdex genseed | grep "\S")
+$tdex init --seed "${mnemonic}" --password secret &>/dev/null
+
+echo ""
+echo "unlocking wallet"
+
+$tdex unlock --password secret &>/dev/null

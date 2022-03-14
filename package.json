@@ -85,6 +85,7 @@
     "tdex:clean": "bash scripts/tdexd-clean",
     "tdex:connect": "docker exec -it tdexd tdexdconnect --out url",
     "tdex:run": "bash scripts/tdexd-run",
+    "tdex:run-testnet": "bash scripts/tdexd-run-testnet",
     "tdex:run-init": "bash scripts/tdexd-run-initialized",
     "test": "craco test"
   },

@@ -1,8 +1,10 @@
 import type { NetworkString } from 'ldk';
 
 import type { MarketInfo } from '../api-spec/generated/js/operator_pb';
+import type { Market } from '../api-spec/generated/js/types_pb';
 import type { Asset } from '../domain/asset';
 
+import type { LbtcUnit } from './constants';
 import { LBTC_ASSET, LBTC_TICKER, LCAD_ASSET, LCAD_TICKER, USDT_ASSET, USDT_TICKER } from './constants';
 import { filterUndef } from './snippets';
 
@@ -37,4 +39,21 @@ export const getAllAssetIdsFromMarkets = (marketsList: MarketInfo.AsObject[]): s
       )
     )
   );
+};
+
+export const getTickers = (
+  market: Market.AsObject = { baseAsset: '', quoteAsset: '' },
+  savedAssets: Asset[],
+  lbtcUnit: LbtcUnit
+): {
+  baseAssetTicker: string;
+  quoteAssetTicker: string;
+  baseAssetTickerFormatted: string;
+  quoteAssetTickerFormatted: string;
+} => {
+  const baseAssetTicker = assetIdToTicker(market?.baseAsset || '', savedAssets);
+  const quoteAssetTicker = assetIdToTicker(market?.quoteAsset || '', savedAssets);
+  const baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
+  const quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
+  return { baseAssetTicker, quoteAssetTicker, baseAssetTickerFormatted, quoteAssetTickerFormatted };
 };

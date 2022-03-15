@@ -9,7 +9,6 @@ import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-sp
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, isLbtcTicker } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { AllRows } from './AllRows';
@@ -28,18 +27,6 @@ interface ButtonsTableModeProps {
 interface TxsTableProps {
   marketInfo: MarketInfo.AsObject;
 }
-
-export const getTickersFormatted = (
-  marketInfo: MarketInfo.AsObject,
-  savedAssets: Asset[],
-  lbtcUnit: LbtcUnit
-): { baseAssetTickerFormatted: string; quoteAssetTickerFormatted: string } => {
-  const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets);
-  const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets);
-  const baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-  const quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
-  return { baseAssetTickerFormatted, quoteAssetTickerFormatted };
-};
 
 const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   const handleTableModeChange = (ev: RadioChangeEvent) => setMode(ev.target.value);

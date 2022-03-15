@@ -6,13 +6,19 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
+import { ActionType } from '../../../../api-spec/generated/js/operator_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../../operator.api';
+import {
+  useCloseMarketMutation,
+  useDropMarketMutation,
+  useListWebhooksQuery,
+  useOpenMarketMutation,
+} from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
 import { UpdateMarketPriceForm } from './UpdateMarketPriceForm';
-import { Webhook } from './Webhook';
+import { WebhookForm } from './WebhookForm';
 
 interface MarketSettingsProps {
   marketInfo?: MarketInfo.AsObject;
@@ -35,6 +41,8 @@ export const MarketSettings = ({
   const [openMarket] = useOpenMarketMutation();
   const [closeMarket] = useCloseMarketMutation();
   const [dropMarket] = useDropMarketMutation();
+  const { data: webhooks } = useListWebhooksQuery({ action: ActionType.ALL_ACTIONS });
+  console.log('webhooks', webhooks);
 
   const handlePauseMarket: SwitchChangeEventHandler = async (isActive) => {
     try {
@@ -139,7 +147,23 @@ export const MarketSettings = ({
           <InfoCircleOutlined className="grey" />
         </Col>
       </Row>
-      <Webhook />
+      <WebhookForm />
+
+      <Divider className="my-4" />
+
+      <Row className="mb-2">
+        <Col span={12}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+            List Notifications
+          </Title>
+          <InfoCircleOutlined className="grey" />
+        </Col>
+      </Row>
+      <ul>
+        {webhooks?.map((webhook) => {
+          return <li key={webhook.endpoint}>{webhook.endpoint}</li>;
+        })}
+      </ul>
 
       <Divider className="my-4" />
 

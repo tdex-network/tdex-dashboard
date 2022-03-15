@@ -1072,11 +1072,8 @@ export const operatorApi = createApi({
           const state = getState() as RootState;
           const client = selectOperatorClient(state);
           const metadata = selectMacaroonCreds(state);
-          const { action } = arg;
-          const listWebhooksReply = await client.listWebhooks(
-            new ListWebhooksRequest().setAction(action),
-            metadata
-          );
+          //const { action } = arg;
+          const listWebhooksReply = await client.listWebhooks(new ListWebhooksRequest(), metadata);
           return {
             data: listWebhooksReply
               .getWebhookInfoList()

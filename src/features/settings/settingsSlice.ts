@@ -23,7 +23,7 @@ export const isProxyHealthStatus = (x: any): x is ProxyHealthStatus => proxyHeal
 export interface CurrencyInterface {
   name: string;
   symbol: string;
-  value: 'eur' | 'usd' | 'cad';
+  value: 'eur' | 'usd' | 'cad' | 'btc';
 }
 
 export interface SettingsState {

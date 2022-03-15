@@ -2,10 +2,11 @@ import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 
 import { liquidApi } from '../features/liquid.api';
+import { ratesApi } from '../features/rates.api';
 import { tdexApi } from '../features/tdex.api';
 import { tauriStorage } from '../utils';
 
@@ -26,7 +27,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare({
       serializableCheck: false,
-    }).concat(liquidApi.middleware, tdexApi.middleware),
+    }).concat(liquidApi.middleware, ratesApi.middleware, tdexApi.middleware),
 });
 
 export const persistor = persistStore(store);

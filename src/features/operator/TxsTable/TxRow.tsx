@@ -14,8 +14,12 @@ export type TxData = TradeInfo.AsObject & DepositRow & Withdrawal.AsObject;
 
 interface TxRowProps {
   mode: TableMode;
-  baseAssetTickerFormatted: string;
-  quoteAssetTickerFormatted: string;
+  tickers: {
+    baseAssetTicker: string;
+    quoteAssetTicker: string;
+    baseAssetTickerFormatted: string;
+    quoteAssetTickerFormatted: string;
+  };
   baseAmountFormatted: string;
   quoteAmountFormatted: string;
   row: TxData;
@@ -24,8 +28,7 @@ interface TxRowProps {
 
 export const TxRow = ({
   mode,
-  baseAssetTickerFormatted,
-  quoteAssetTickerFormatted,
+  tickers,
   baseAmountFormatted,
   quoteAmountFormatted,
   row,
@@ -41,11 +44,11 @@ export const TxRow = ({
   const hasBaseAmount = baseAmountFormatted !== 'N/A' && Number(baseAmountFormatted) !== 0;
   const hasQuoteAmount = quoteAmountFormatted !== 'N/A' && Number(quoteAmountFormatted) !== 0;
   if (hasBaseAmount && hasQuoteAmount) {
-    tickerStr = `${baseAssetTickerFormatted} - ${quoteAssetTickerFormatted}`;
+    tickerStr = `${tickers.baseAssetTickerFormatted} - ${tickers.quoteAssetTickerFormatted}`;
   } else if (hasBaseAmount) {
-    tickerStr = baseAssetTickerFormatted;
+    tickerStr = tickers.baseAssetTickerFormatted;
   } else if (hasQuoteAmount) {
-    tickerStr = quoteAssetTickerFormatted;
+    tickerStr = tickers.quoteAssetTickerFormatted;
   }
 
   return (
@@ -59,10 +62,10 @@ export const TxRow = ({
         {mode === 'trade' && (
           <td>
             <span className="market-icons-translate__small">
-              <CurrencyIcon className="base-icon" currency={baseAssetTickerFormatted} size={16} />
-              <CurrencyIcon className="quote-icon" currency={quoteAssetTickerFormatted} size={16} />
+              <CurrencyIcon className="base-icon" currency={tickers.baseAssetTicker} size={16} />
+              <CurrencyIcon className="quote-icon" currency={tickers.quoteAssetTicker} size={16} />
             </span>
-            {`Swap ${baseAssetTickerFormatted} for ${quoteAssetTickerFormatted}`}
+            {`Swap ${tickers.baseAssetTickerFormatted} for ${tickers.quoteAssetTickerFormatted}`}
           </td>
         )}
         {mode === 'withdraw' && (
@@ -79,8 +82,8 @@ export const TxRow = ({
         )}
         {(mode === 'deposit' || mode === 'trade') && <td>{quoteAmountFormatted}</td>}
         {mode === 'withdraw' && <td>{baseAmountFormatted}</td>}
-        <td>{`${baseAmountFormatted} ${baseAssetTickerFormatted}`}</td>
-        <td>{`${quoteAmountFormatted} ${quoteAssetTickerFormatted}`}</td>
+        <td>{`${baseAmountFormatted} ${tickers.baseAssetTickerFormatted}`}</td>
+        <td>{`${quoteAmountFormatted} ${tickers.quoteAssetTickerFormatted}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />

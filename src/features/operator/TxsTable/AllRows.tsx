@@ -5,7 +5,7 @@ import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { assetIdToTicker, isLbtcTicker } from '../../../utils';
+import { getTickers } from '../../../utils';
 
 import type { DepositRow } from './DepositRows';
 import { getDepositData } from './DepositRows';
@@ -42,6 +42,7 @@ export const AllRows = ({
     if (aTime > bTime) return -1;
     return 0;
   });
+  const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
 
   return (
     <>
@@ -49,14 +50,7 @@ export const AllRows = ({
         const mode = row?.tradeId ? 'trade' : row?.assetId ? 'deposit' : 'withdraw';
         let baseAmountFormatted = '',
           quoteAmountFormatted = '',
-          baseAssetTickerFormatted = '',
-          quoteAssetTickerFormatted = '',
           txId = '';
-
-        const baseAssetTicker = assetIdToTicker(marketInfo.market?.baseAsset || '', savedAssets[network]);
-        const quoteAssetTicker = assetIdToTicker(marketInfo.market?.quoteAsset || '', savedAssets[network]);
-        baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-        quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
 
         if (mode === 'deposit') {
           const data = getDepositData(row, lbtcUnit, marketInfo, network);
@@ -83,8 +77,7 @@ export const AllRows = ({
           <TxRow
             key={txId}
             mode={mode}
-            baseAssetTickerFormatted={baseAssetTickerFormatted}
-            quoteAssetTickerFormatted={quoteAssetTickerFormatted}
+            tickers={tickers}
             baseAmountFormatted={baseAmountFormatted}
             quoteAmountFormatted={quoteAmountFormatted}
             row={row}

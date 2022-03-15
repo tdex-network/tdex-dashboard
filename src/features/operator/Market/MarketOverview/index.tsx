@@ -6,24 +6,22 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
-import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { MarketIcons } from '../../../../common/MarketIcons';
-import { VolumeChart } from '../../../../common/VolumeChart';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
-import { formatCompact, formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketBalanceQuery, useGetMarketInfoQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
+import { VolumePanel } from './VolumePanel';
 
 const { Title } = Typography;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
-  const { marketsLabelled, lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
+  const { marketsLabelled } = useTypedSelector(({ settings }) => settings);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
   const { data: marketBalance } = useGetMarketBalanceQuery(
@@ -78,15 +76,6 @@ export const MarketOverview = (): JSX.Element => {
   const handleAssetInfoModalCancel = () => {
     setIsAssetInfoModalVisible(false);
   };
-
-  const baseAmount =
-    marketInfo?.balance?.baseAmount === undefined
-      ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.baseAmount, lbtcUnit, state?.baseAsset?.asset_id, network);
-  const quoteAmount =
-    marketInfo?.balance?.quoteAmount === undefined
-      ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.quoteAmount, lbtcUnit, state?.quoteAsset?.asset_id, network);
 
   return (
     <>
@@ -168,74 +157,11 @@ export const MarketOverview = (): JSX.Element => {
             )}
           </Col>
           <Col span={16}>
-            <div className="panel panel__grey h-100">
-              <Row className="mb-2">
-                <Col span={16}>
-                  <CurrencyIcon currency={state?.baseAsset?.ticker} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
-                    {isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker}
-                  </span>
-                  <span className="dm-mono dm-mono__xx mr-6">{baseAmount}</span>
-                  <CurrencyIcon currency={state?.quoteAsset?.ticker} />
-                  <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
-                    {isLbtcAssetId(state?.quoteAsset?.asset_id, network)
-                      ? lbtcUnit
-                      : state?.quoteAsset?.ticker}
-                  </span>
-                  <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
-                </Col>
-                {marketInfo?.strategyType === 0 ? (
-                  <Col span={8} className="text-end">
-                    <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
-                      Number(
-                        formatSatsToUnit(
-                          marketInfo.price?.basePrice ?? 0,
-                          lbtcUnit,
-                          state?.baseAsset?.asset_id,
-                          network
-                        )
-                      )
-                    )} ${
-                      isLbtcAssetId(state?.baseAsset?.asset_id, network) ? lbtcUnit : state?.baseAsset?.ticker
-                    } for ${formatCompact(
-                      Number(
-                        formatSatsToUnit(
-                          marketInfo.price?.quotePrice ?? 0,
-                          lbtcUnit,
-                          state?.quoteAsset?.asset_id,
-                          network
-                        )
-                      )
-                    )} ${
-                      isLbtcAssetId(state?.quoteAsset?.asset_id, network)
-                        ? lbtcUnit
-                        : state?.quoteAsset?.ticker
-                    }`}</span>
-                  </Col>
-                ) : null}
-              </Row>
-              <VolumeChart
-                topLeft={
-                  <div className="mb-4">
-                    <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey ml-2 d-inline" level={3}>
-                      Volume
-                    </Title>
-                    <span className="dm-sans dm-sans__xx ml-2">$1.22b</span>
-                  </div>
-                }
-                topRight={
-                  <div className="text-end">
-                    <Button className="mr-2">1D</Button>
-                    <Button className="mr-2">7D</Button>
-                    <Button className="mr-2">1M</Button>
-                    <Button className="mr-2">3M</Button>
-                    <Button className="mr-2">1Y</Button>
-                    <Button className="mr-2">YTD</Button>
-                    <Button>ALL</Button>
-                  </div>
-                }
-              />
-            </div>
+            <VolumePanel
+              marketInfo={marketInfo}
+              baseAsset={state?.baseAsset}
+              quoteAsset={state?.quoteAsset}
+            />
           </Col>
         </Row>
         <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>

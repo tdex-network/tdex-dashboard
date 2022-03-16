@@ -3,7 +3,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
 import type { NetworkString } from 'ldk';
 import { groupBy } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
@@ -65,7 +65,7 @@ const tableRows = ({
 }: tableRowsProps) => {
   switch (mode) {
     case 'all':
-      return (
+      return trades !== undefined && deposits !== undefined && withdrawals !== undefined ? (
         <AllRows
           trades={trades}
           deposits={deposits}
@@ -75,7 +75,7 @@ const tableRows = ({
           lbtcUnit={lbtcUnit}
           numItemsToShow={numAllItemsToShow}
         />
-      );
+      ) : null;
     case 'trade':
       return (
         <TradeRows trades={trades} savedAssets={savedAssets} marketInfo={marketInfo} lbtcUnit={lbtcUnit} />
@@ -213,6 +213,32 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     }
   }, [trades, deposits, withdrawals]);
 
+  const TableRows = useMemo(
+    () =>
+      tableRows({
+        lbtcUnit,
+        mode,
+        savedAssets,
+        marketInfo,
+        trades,
+        deposits,
+        numDepositsToShow,
+        numAllItemsToShow,
+        withdrawals,
+      }),
+    [
+      deposits,
+      lbtcUnit,
+      marketInfo,
+      mode,
+      numAllItemsToShow,
+      numDepositsToShow,
+      savedAssets,
+      trades,
+      withdrawals,
+    ]
+  );
+
   return (
     <>
       <div className="panel panel__grey dm-mono">
@@ -231,19 +257,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
                 <th />
               </tr>
             </thead>
-            <tbody>
-              {tableRows({
-                lbtcUnit,
-                mode,
-                savedAssets,
-                marketInfo,
-                trades,
-                deposits,
-                numDepositsToShow,
-                numAllItemsToShow,
-                withdrawals,
-              })}
-            </tbody>
+            <tbody>{TableRows}</tbody>
           </table>
         ) : (
           <Skeleton active paragraph={{ rows: 5 }} />

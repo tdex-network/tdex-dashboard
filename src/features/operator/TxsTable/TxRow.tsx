@@ -34,7 +34,7 @@ export const TxRow = ({
   row,
   txId,
 }: TxRowProps): JSX.Element => {
-  const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId);
+  const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId, { skip: !txId });
   if (!tx?.status?.confirmed) {
     setTimeout(refetchTx, 1000 * 60);
   }

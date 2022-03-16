@@ -34,11 +34,11 @@ export const TxRow = ({
   row,
   txId,
 }: TxRowProps): JSX.Element => {
-  const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId);
+  const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId, { skip: !txId });
   if (!tx?.status?.confirmed) {
     setTimeout(refetchTx, 1000 * 60);
   }
-  const time = row?.timestampUnix || row?.settleTimeUnix || tx?.status.block_time;
+  const time = row?.timestampUnix || row?.requestTimeUnix || tx?.status.block_time;
 
   let tickerStr;
   const hasBaseAmount = baseAmountFormatted !== 'N/A' && Number(baseAmountFormatted) !== 0;
@@ -80,6 +80,29 @@ export const TxRow = ({
             {`Deposit ${tickerStr}`}
           </td>
         )}
+        <td>
+          {(mode === 'deposit' || mode === 'withdraw') && (
+            <span
+              className={classNames('status', {
+                status__confirmed: tx?.status?.confirmed,
+                status__pending: !tx?.status?.confirmed,
+              })}
+            >
+              {tx?.status?.confirmed ? 'Confirmed' : 'Pending'}
+            </span>
+          )}
+          {mode === 'trade' && (
+            <span
+              className={classNames('status', {
+                status__failed: row.status?.failed,
+                status__success: !row.status?.failed,
+              })}
+            >
+              {row.status?.failed ? 'Failed' : 'Success'}
+            </span>
+          )}
+        </td>
+
         {(mode === 'deposit' || mode === 'trade') && <td>{quoteAmountFormatted}</td>}
         {mode === 'withdraw' && <td>{baseAmountFormatted}</td>}
         <td>{`${baseAmountFormatted} ${tickers.baseAssetTickerFormatted}`}</td>
@@ -98,42 +121,35 @@ export const TxRow = ({
         }}
       >
         <td />
-        <td colSpan={5}>
+        <td colSpan={6}>
           <div className="d-flex details-content-container">
             <div className="d-flex details-content">
-              <span className="dm-mono dm-mono__bold">Status</span>
-              {(mode === 'deposit' || mode === 'withdraw') && (
-                <span
-                  className={classNames('status', {
-                    status__confirmed: tx?.status?.confirmed,
-                    status__pending: !tx?.status?.confirmed,
-                  })}
-                >
-                  {tx?.status?.confirmed ? 'Confirmed' : 'Pending'}
-                </span>
-              )}
-              {mode === 'trade' && (
-                <span
-                  className={classNames('status', {
-                    status__failed: row.status?.failed,
-                    status__success: !row.status?.failed,
-                  })}
-                >
-                  {row.status?.failed ? 'Failed' : 'Success'}
-                </span>
-              )}
-            </div>
-            <div className="d-flex details-content">
-              <span className="dm-mono dm-mono__bold">Transaction Id</span>
-              {mode === 'trade' && (
-                <a href={row.txUrl} target="_blank" rel="noreferrer">
-                  {txId}
-                </a>
-              )}
-              {(mode === 'deposit' || mode === 'withdraw') && (
-                <a href={row.txUrl} target="_blank" rel="noreferrer">
-                  {txId}
-                </a>
+              {!row.status?.failed ? (
+                <>
+                  <span className="dm-mono dm-mono__bold">Transaction Id</span>
+                  {mode === 'trade' && (
+                    <a href={row.txUrl} target="_blank" rel="noreferrer">
+                      {txId}
+                    </a>
+                  )}
+                  {(mode === 'deposit' || mode === 'withdraw') && (
+                    <a href={row.txUrl} target="_blank" rel="noreferrer">
+                      {txId}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  <span className="dm-mono dm-mono__bold">Failure info</span>
+                  <span
+                    className={classNames('status', {
+                      status__confirmed: tx?.status?.confirmed,
+                      status__pending: !tx?.status?.confirmed,
+                    })}
+                  >
+                    {row.failInfo?.failureMessage ?? 'N/A'}
+                  </span>
+                </>
               )}
             </div>
           </div>

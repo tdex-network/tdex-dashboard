@@ -1,4 +1,5 @@
 import type { NetworkString } from 'ldk';
+import { useMemo } from 'react';
 
 import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import type { RootState } from '../../../app/store';
@@ -34,19 +35,23 @@ export const AllRows = ({
   numItemsToShow,
 }: AllRowsProps): JSX.Element => {
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
-  const all = [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[];
+  const all = useMemo(
+    () => [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[],
+    [deposits, trades, withdrawals]
+  );
+
   all.sort((a, b) => {
-    const aTime = a?.timestampUnix ?? a?.settleTimeUnix;
-    const bTime = b?.timestampUnix ?? b?.settleTimeUnix;
+    const aTime = a?.timestampUnix ?? a?.requestTimeUnix;
+    const bTime = b?.timestampUnix ?? b?.requestTimeUnix;
     if (aTime < bTime) return 1;
     if (aTime > bTime) return -1;
     return 0;
   });
   const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
 
-  return (
-    <>
-      {all?.slice(0, numItemsToShow).map((row) => {
+  const TableComponent = useMemo(
+    () =>
+      all?.slice(0, numItemsToShow).map((row, index) => {
         const mode = row?.tradeId ? 'trade' : row?.assetId ? 'deposit' : 'withdraw';
         let baseAmountFormatted = '',
           quoteAmountFormatted = '',
@@ -72,10 +77,9 @@ export const AllRows = ({
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;
         }
-
         return (
           <TxRow
-            key={txId}
+            key={`${txId}_${index}`}
             mode={mode}
             tickers={tickers}
             baseAmountFormatted={baseAmountFormatted}
@@ -84,7 +88,9 @@ export const AllRows = ({
             txId={txId}
           />
         );
-      })}
-    </>
+      }),
+    [all, lbtcUnit, marketInfo, network, numItemsToShow, tickers]
   );
+
+  return <>{TableComponent}</>;
 };

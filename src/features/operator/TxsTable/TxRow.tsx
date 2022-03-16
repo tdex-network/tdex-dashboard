@@ -140,19 +140,15 @@ export const TxRow = ({
                 </>
               ) : (
                 <>
-                  {row.failInfo && (
-                    <>
-                      <span className="dm-mono dm-mono__bold">Failure info</span>
-                      <span
-                        className={classNames('status', {
-                          status__confirmed: tx?.status?.confirmed,
-                          status__pending: !tx?.status?.confirmed,
-                        })}
-                      >
-                        {row.failInfo.failureMessage}
-                      </span>
-                    </>
-                  )}
+                  <span className="dm-mono dm-mono__bold">Failure info</span>
+                  <span
+                    className={classNames('status', {
+                      status__confirmed: tx?.status?.confirmed,
+                      status__pending: !tx?.status?.confirmed,
+                    })}
+                  >
+                    {row.failInfo?.failureMessage ?? 'N/A'}
+                  </span>
                 </>
               )}
             </div>

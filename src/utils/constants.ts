@@ -110,7 +110,7 @@ export const CURRENCIES: CurrencyInterface[] = [
   },
   {
     name: 'Canadian Dollar',
-    symbol: '$',
+    symbol: 'C$',
     value: 'cad',
   },
   {

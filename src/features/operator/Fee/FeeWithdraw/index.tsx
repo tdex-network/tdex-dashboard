@@ -1,8 +1,9 @@
 import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
+import Big from 'big.js';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { RootState } from '../../../../app/store';
@@ -11,7 +12,13 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER } from '../../../../utils';
+import {
+  formatLbtcUnitToSats,
+  fromSatsToUnitOrFractional,
+  LBTC_COINGECKOID,
+  LBTC_TICKER,
+} from '../../../../utils';
+import { useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -22,11 +29,18 @@ interface IFormInputs {
 }
 
 export const FeeWithdraw = (): JSX.Element => {
-  const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
+  const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
+  const [feeWithdrawAmount, setFeeWithdrawAmount] = useState<string>('');
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
+  const {
+    data: prices,
+    isLoading: isLoadingPrices,
+    isError: isErrorPrices,
+  } = useLatestPriceFeedFromCoinGeckoQuery();
+
   const feeAvailableBalanceFormatted =
     feeBalance?.availableBalance === undefined
       ? 'N/A'
@@ -35,6 +49,31 @@ export const FeeWithdraw = (): JSX.Element => {
     feeBalance?.totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
+
+  const feeFiatAmount = useMemo(() => {
+    // display fiat value as 0 in case of api loading or error
+    if (isLoadingPrices || isErrorPrices) {
+      return <>{currency.symbol}0</>;
+    }
+    try {
+      const feeAMNT = Big(feeWithdrawAmount);
+      const feeLSAT = Number(formatLbtcUnitToSats(feeAMNT.toNumber(), lbtcUnit));
+      const feeLBTC = fromSatsToUnitOrFractional(feeLSAT, 8, true, 'L-BTC');
+      const feeRATE = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
+      const feeFIAT =
+        currency.value === 'btc'
+          ? Big(feeLBTC).times(feeRATE).toFixed(8)
+          : Big(feeLBTC).times(feeRATE).toFixed(2);
+      return (
+        <>
+          {currency.symbol}
+          {feeFIAT}
+        </>
+      );
+    } catch (e) {
+      return <>{currency.symbol}0</>;
+    }
+  }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, network, prices]);
 
   const onFinish = async () => {
     try {
@@ -76,6 +115,9 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
+            onValuesChange={(_, values) => {
+              setFeeWithdrawAmount(values['amount']);
+            }}
             initialValues={{ amount: '0' }}
           >
             <div className="panel panel__grey mb-6">
@@ -89,7 +131,10 @@ export const FeeWithdraw = (): JSX.Element => {
                     assetPrecision={8}
                     formItemName="amount"
                     hasError={!!withdrawFeeError}
-                    setInputValue={(value) => form.setFieldsValue({ amount: value })}
+                    setInputValue={(value) => {
+                      console.log({ value });
+                      form.setFieldsValue({ amount: value });
+                    }}
                     lbtcUnitOrTicker={lbtcUnit}
                   />
                 </Col>
@@ -105,6 +150,7 @@ export const FeeWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           amount: feeAvailableBalanceFormatted,
                         });
+                        setFeeWithdrawAmount(feeAvailableBalanceFormatted);
                       }
                     }}
                   >
@@ -113,7 +159,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  0.00 USD
+                  {feeFiatAmount}
                 </Col>
               </Row>
             </div>

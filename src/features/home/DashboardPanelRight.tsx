@@ -60,7 +60,7 @@ export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX
     return (
       <>
         {currency.symbol}
-        {fiatBalance} {currency.value}
+        {fiatBalance}
       </>
     );
   }, [feeBalance, prices, currency, lbtcUnit, isLoadingPrices, isErrorPrices]);

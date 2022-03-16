@@ -102,9 +102,7 @@ export const TxRow = ({
             </span>
           )}
         </td>
-
-        {(mode === 'deposit' || mode === 'trade') && <td>{quoteAmountFormatted}</td>}
-        {mode === 'withdraw' && <td>{baseAmountFormatted}</td>}
+        <td>{baseAmountFormatted}</td>
         <td>{`${baseAmountFormatted} ${tickers.baseAssetTickerFormatted}`}</td>
         <td>{`${quoteAmountFormatted} ${tickers.quoteAssetTickerFormatted}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>

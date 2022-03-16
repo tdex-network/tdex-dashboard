@@ -22,14 +22,21 @@ export const getTradeData = (
   lbtcUnit: LbtcUnit,
   network: NetworkString
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
-  const baseAmountFormatted =
-    row.swapInfo?.amountR === undefined
-      ? 'N/A'
-      : formatSatsToUnit(row.swapInfo?.amountP, lbtcUnit, row.swapInfo?.assetP, network);
-  const quoteAmountFormatted =
-    row.swapInfo?.amountR === undefined
-      ? 'N/A'
-      : formatSatsToUnit(row.swapInfo?.amountR, lbtcUnit, row.swapInfo?.assetR, network);
+  const proposedIsBase = row.marketWithFee?.market?.baseAsset === row.swapInfo?.assetP;
+  const baseAmountFormatted = proposedIsBase
+    ? row.swapInfo?.amountP
+      ? formatSatsToUnit(row.swapInfo?.amountP, lbtcUnit, row.swapInfo?.assetP, network)
+      : 'N/A'
+    : row.swapInfo?.amountR
+    ? formatSatsToUnit(row.swapInfo?.amountR, lbtcUnit, row.swapInfo?.assetR, network)
+    : 'N/A';
+  const quoteAmountFormatted = proposedIsBase
+    ? row.swapInfo?.amountP
+      ? formatSatsToUnit(row.swapInfo?.amountR, lbtcUnit, row.swapInfo?.assetR, network)
+      : 'N/A'
+    : row.swapInfo?.amountR
+    ? formatSatsToUnit(row.swapInfo?.amountP, lbtcUnit, row.swapInfo?.assetP, network)
+    : 'N/A';
   const txId = row.txUrl.substring(row.txUrl.lastIndexOf('/') + 1, row.txUrl.indexOf('#'));
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };

@@ -43,7 +43,7 @@ export const MarketOverview = (): JSX.Element => {
     }
   );
 
-  // After a withdrawal balances takes time to update, so we can't simply refetch balances right after withdrawal
+  // After a withdrawal or a trade, balances takes time to update, so we can't simply refetch balances right after
   // We check differences between availableBalance and totalBalance and poll balances until it is resolved
   useEffect(() => {
     if (

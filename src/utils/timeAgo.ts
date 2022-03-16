@@ -1,4 +1,5 @@
-export const timeAgo = (someDateInThePast: number): string => {
+export const timeAgo = (someDateInThePast?: number): string => {
+  if (!someDateInThePast) return 'N/A';
   let result = '';
   const difference = Date.now() - someDateInThePast * 1000;
 

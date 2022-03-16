@@ -36,8 +36,8 @@ export const AllRows = ({
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
   const all = [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[];
   all.sort((a, b) => {
-    const aTime = a?.timestampUnix ?? a?.settleTimeUnix;
-    const bTime = b?.timestampUnix ?? b?.settleTimeUnix;
+    const aTime = a?.timestampUnix ?? a?.requestTimeUnix;
+    const bTime = b?.timestampUnix ?? b?.requestTimeUnix;
     if (aTime < bTime) return 1;
     if (aTime > bTime) return -1;
     return 0;
@@ -46,7 +46,7 @@ export const AllRows = ({
 
   return (
     <>
-      {all?.slice(0, numItemsToShow).map((row) => {
+      {all?.slice(0, numItemsToShow).map((row, index) => {
         const mode = row?.tradeId ? 'trade' : row?.assetId ? 'deposit' : 'withdraw';
         let baseAmountFormatted = '',
           quoteAmountFormatted = '',
@@ -75,7 +75,7 @@ export const AllRows = ({
 
         return (
           <TxRow
-            key={txId}
+            key={`${txId}_${index}`}
             mode={mode}
             tickers={tickers}
             baseAmountFormatted={baseAmountFormatted}

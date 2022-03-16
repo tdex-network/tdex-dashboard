@@ -38,12 +38,12 @@ export const TradeRows = ({ trades, savedAssets, marketInfo, lbtcUnit }: TradeRo
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
   return (
     <>
-      {trades?.map((row) => {
+      {trades?.map((row, index) => {
         const data = getTradeData(row, lbtcUnit, network);
         const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
         return (
           <TxRow
-            key={data.txId}
+            key={`${data.txId}_${index}`}
             mode="trade"
             tickers={tickers}
             baseAmountFormatted={data.baseAmountFormatted}

@@ -1,7 +1,9 @@
+import type { NetworkString } from 'ldk';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
 import type { IsReadyReply } from '../api-spec/generated/js/walletunlocker_pb';
+import { configRecord } from '../app/config';
 import type { RootState } from '../app/store';
 import { useTypedDispatch, useTypedSelector } from '../app/store';
 import { Home } from '../features/home/Home';
@@ -12,8 +14,15 @@ import { MarketDeposit } from '../features/operator/Market/MarketDeposit';
 import { MarketFragmenterWithdraw } from '../features/operator/Market/MarketFragmenterWithdraw';
 import { MarketOverview } from '../features/operator/Market/MarketOverview';
 import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
+import { useGetInfoQuery } from '../features/operator/operator.api';
 import { Settings } from '../features/settings/Settings';
-import { disconnectProxy, logout } from '../features/settings/settingsSlice';
+import {
+  disconnectProxy,
+  logout,
+  setExplorerLiquidAPI,
+  setExplorerLiquidUI,
+  setNetwork,
+} from '../features/settings/settingsSlice';
 import { OnboardingConfirmMnemonic } from '../features/walletUnlocker/OnboardingConfirmMnemonic';
 import { OnboardingCreateOrRestore } from '../features/walletUnlocker/OnboardingCreateOrRestore';
 import { OnboardingPairing } from '../features/walletUnlocker/OnboardingPairing';
@@ -64,14 +73,26 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
   const dispatch = useTypedDispatch();
   // If tdexdConnectUrl, call IsReady to set data in store
   const { tdexdConnectUrl, proxyHealth, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
-  const { isSuccess, isError } = useIsReadyQuery(undefined, {
+  const { isSuccess: isReadySuccess, isError: isReadyError } = useIsReadyQuery(undefined, {
+    // Skip if no tdexdConnectUrl or if proxy is used but not serving
+    skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
+  });
+  const { data: daemonInfo } = useGetInfoQuery(undefined, {
     // Skip if no tdexdConnectUrl or if proxy is used but not serving
     skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
   });
 
   useEffect(() => {
+    if (daemonInfo?.network && isReadySuccess) {
+      dispatch(setNetwork(daemonInfo.network as NetworkString));
+      dispatch(setExplorerLiquidAPI(configRecord[daemonInfo.network as NetworkString].explorerLiquidAPI));
+      dispatch(setExplorerLiquidUI(configRecord[daemonInfo.network as NetworkString].explorerLiquidUI));
+    }
+  }, [daemonInfo?.network, dispatch, isReadySuccess]);
+
+  useEffect(() => {
     (async () => {
-      if (isError) {
+      if (isReadyError) {
         navigate(ONBOARDING_PAIRING_ROUTE);
         setIsServiceUnavailableModalVisible(true);
         dispatch(logout());
@@ -80,7 +101,7 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
         }
       }
     })();
-  }, [dispatch, isError, navigate, setIsServiceUnavailableModalVisible, useProxy]);
+  }, [dispatch, isReadyError, navigate, setIsServiceUnavailableModalVisible, useProxy]);
 
   return (
     <ReactRouterDomRoutes>
@@ -90,7 +111,7 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
       <Route path={ONBOARDING_RESTORE_MNEMONIC_ROUTE} element={<OnboardingRestoreMnemonic />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
-      {(isSuccess || !tdexdConnectUrl) && (
+      {(isReadySuccess || !tdexdConnectUrl) && (
         <>
           <Route
             path={HOME_ROUTE}

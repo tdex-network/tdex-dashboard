@@ -44,6 +44,7 @@ export const App = (): JSX.Element => {
         // Register close app event for cleanup
         await once('quit-event', async () => {
           try {
+            console.debug('quitting...');
             setIsExiting(true);
             dispatch(setProxyHealth('NOT_SERVING'));
           } catch (err) {

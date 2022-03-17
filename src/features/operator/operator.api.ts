@@ -505,6 +505,8 @@ export const operatorApi = createApi({
           };
         } catch (error) {
           console.error('newMarket', error);
+          console.debug('base asset:', arg.baseAsset);
+          console.debug('quote asset:', arg.quoteAsset);
           return { error: (error as RpcError).message };
         }
       },

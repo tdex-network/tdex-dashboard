@@ -105,12 +105,12 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
 
   return (
     <ReactRouterDomRoutes>
-      {/* Onboarding Routes*/}
       <Route path={ONBOARDING_PAIRING_ROUTE} element={<OnboardingPairing />} />
       <Route path={ONBOARDING_CREATE_OR_RESTORE_ROUTE} element={<OnboardingCreateOrRestore />} />
       <Route path={ONBOARDING_RESTORE_MNEMONIC_ROUTE} element={<OnboardingRestoreMnemonic />} />
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
+      <Route path={SETTINGS_ROUTE} element={<Settings />} />
       {(isReadySuccess || !tdexdConnectUrl) && (
         <>
           <Route
@@ -126,14 +126,6 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
             element={
               <PrivateRoute>
                 <MarketOverview />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={SETTINGS_ROUTE}
-            element={
-              <PrivateRoute>
-                <Settings />
               </PrivateRoute>
             }
           />

@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { PredefinedPeriod } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
@@ -11,7 +12,7 @@ import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
-import { useGetMarketBalanceQuery, useGetMarketInfoQuery } from '../../operator.api';
+import { useGetMarketBalanceQuery, useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
@@ -41,6 +42,13 @@ export const MarketOverview = (): JSX.Element => {
     {
       pollingInterval: isBalanceUpdating ? 2000 : 0,
     }
+  );
+  const { data: marketReport } = useGetMarketReportQuery(
+    {
+      market: marketInfo?.market,
+      timeRange: { predefinedPeriod: PredefinedPeriod.ALL },
+    },
+    { skip: !marketInfo?.market }
   );
 
   // After a withdrawal or a trade, balances takes time to update, so we can't simply refetch balances right after
@@ -135,7 +143,24 @@ export const MarketOverview = (): JSX.Element => {
           </Col>
         </Row>
         <Row className="mb-8" gutter={{ xs: 4, sm: 8, md: 12 }}>
-          <Col span={8}>
+          <Col span={8} className="h-100">
+            <div className="panel panel__grey mb-4">
+              <Row>
+                <Col span={24}>
+                  <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                    Collected Swap Fees
+                  </Title>
+                  <InfoCircleOutlined className="grey" />
+                </Col>
+              </Row>
+              <Row align="middle">
+                <Col span={8}>
+                  <span className="dm-sans dm-sans__xx">{marketReport?.collectedFees?.baseAmount ?? 0}</span>
+                  <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.ticker ?? ''}</span>
+                </Col>
+              </Row>
+            </div>
+
             {/* Render FeeForm only when marketInfo is ready */}
             {/* To ensure AntD form initialValues are correct */}
             {marketInfo ? (

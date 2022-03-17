@@ -138,9 +138,9 @@ export const FeeForm = ({
         feeRelativeInput: Number(feeRelative) / 100,
       }}
       onFinish={onFinish}
-      className={`${className} mb-4`}
+      className={`${className}`}
     >
-      <div className="panel panel__grey h-100">
+      <div className="panel panel__grey">
         <Row>
           <Col span={24}>
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>

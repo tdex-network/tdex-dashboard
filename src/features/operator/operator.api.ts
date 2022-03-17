@@ -320,7 +320,7 @@ export const operatorApi = createApi({
     // Market
     getMarketReport: build.query<
       MarketReport.AsObject | undefined,
-      { market: Market.AsObject; timeRange: TimeRange.AsObject }
+      { market: Market.AsObject | undefined; timeRange: TimeRange.AsObject }
     >({
       queryFn: async (arg, { getState }) => {
         try {

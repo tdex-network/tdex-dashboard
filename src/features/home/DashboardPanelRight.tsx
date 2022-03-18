@@ -44,7 +44,7 @@ export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX
       const lbtcUnitBalance = fromSatsToUnitOrFractional(satsBalance, 8, true, lbtcUnit);
       return (
         <>
-          {lbtcUnitBalance} {lbtcUnit}
+          {lbtcUnitBalance} <span className="dm-mono__xxx">{lbtcUnit}</span>
         </>
       );
     }

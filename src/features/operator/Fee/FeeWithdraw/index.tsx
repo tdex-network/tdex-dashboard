@@ -64,14 +64,9 @@ export const FeeWithdraw = (): JSX.Element => {
         currency.value === 'btc'
           ? Big(feeLBTC).times(feeRATE).toFixed(8)
           : Big(feeLBTC).times(feeRATE).toFixed(2);
-      return (
-        <>
-          {currency.symbol}
-          {feeFIAT}
-        </>
-      );
+      return <>{feeFIAT}</>;
     } catch (e) {
-      return <>{currency.symbol}0</>;
+      return <>0</>;
     }
   }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, network, prices]);
 
@@ -159,7 +154,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  {feeFiatAmount}
+                  {feeFiatAmount} {currency.value.toUpperCase()}
                 </Col>
               </Row>
             </div>

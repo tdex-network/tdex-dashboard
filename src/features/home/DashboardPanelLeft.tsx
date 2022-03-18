@@ -49,7 +49,7 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
       const lbtcUnitBalance = fromSatsToUnitOrFractional(satsBalance, 8, true, lbtcUnit);
       return (
         <>
-          {lbtcUnitBalance} {lbtcUnit}
+          {lbtcUnitBalance} <span className="dm-mono__xxx">{lbtcUnit}</span>
         </>
       );
     }
@@ -76,10 +76,10 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
         Total Earned
       </Title>
       <Row>
-        <Col className="dm-mono dm-mono__xxxxxx" span={12}>
+        <Col className="dm-mono dm-mono__xxxxxx" span={16}>
           {EarnedFees}
         </Col>
-        <Col className="total-earned-change" span={12}>
+        <Col className="total-earned-change" span={8}>
           <div>24h</div>
           <div>+2.85%</div>
         </Col>

@@ -37,8 +37,7 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
 
   const EarnedFees = useMemo(() => {
-    let satsBalance = totalCollectedSwapFees;
-    satsBalance = 120;
+    const satsBalance = totalCollectedSwapFees;
 
     if (satsBalance === undefined) {
       return <>N/A</>;

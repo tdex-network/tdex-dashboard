@@ -128,16 +128,22 @@ export const MarketWithdraw = (): JSX.Element => {
       return '';
     }
 
-    let amount = 0;
+    let amount = Big(0);
     try {
-      amount = Big(balanceBaseAmount).toNumber();
+      amount = Big(balanceBaseAmount);
     } catch {
       // ignore user typos, just leave the amount as 0
     }
     const assetId = selectedMarket.baseAsset?.asset_id || '';
     const assetName = selectedMarket.baseAsset?.ticker || 'unknown';
-    const amountInSats = Number(formatLbtcUnitToSats(amount, lbtcUnit));
-    const amountInFiatOrLBTC = formatSatsToUnit(amountInSats, 'L-BTC', assetId, network);
+
+    let amountInFiatOrLBTC = '';
+    if (isLbtcAssetId(selectedMarket.baseAsset?.asset_id || '', network)) {
+      amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
+      amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
+    } else {
+      amountInFiatOrLBTC = formatSatsToUnit(amount.times(100000000).toNumber(), 'L-BTC', assetId, network);
+    }
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
@@ -204,16 +210,22 @@ export const MarketWithdraw = (): JSX.Element => {
       return '';
     }
 
-    let amount = 0;
+    let amount = Big(0);
     try {
-      amount = Big(balanceQuoteAmount).times(100000000).toNumber();
+      amount = Big(balanceQuoteAmount);
     } catch {
       // ignore user typos, just leave the amount as 0
     }
-    console.log({ amount });
     const assetId = selectedMarket.quoteAsset?.asset_id || '';
     const assetName = selectedMarket.quoteAsset?.ticker || 'unknown';
-    const amountInFiatOrLBTC = formatSatsToUnit(amount, 'L-BTC', assetId, network);
+
+    let amountInFiatOrLBTC = '';
+    if (isLbtcAssetId(selectedMarket.quoteAsset?.asset_id || '', network)) {
+      amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
+      amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
+    } else {
+      amountInFiatOrLBTC = formatSatsToUnit(amount.times(100000000).toNumber(), 'L-BTC', assetId, network);
+    }
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
@@ -263,7 +275,16 @@ export const MarketWithdraw = (): JSX.Element => {
     } else {
       return `${preferredCurrencyAmount.toFixed(2)} ${currency.value.toLocaleUpperCase()}`;
     }
-  }, [balanceQuoteAmount, currency, isLoadingPrices, isErrorPrices, network, prices, selectedMarket]);
+  }, [
+    balanceQuoteAmount,
+    currency,
+    isLoadingPrices,
+    isErrorPrices,
+    lbtcUnit,
+    network,
+    prices,
+    selectedMarket,
+  ]);
 
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id

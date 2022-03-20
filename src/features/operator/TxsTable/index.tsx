@@ -139,7 +139,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     explorerLiquidUI,
     network,
   } = useTypedSelector(({ settings }) => settings);
-  // Get asset data from asset id, including formattedTicker
+  // Get asset data from registry, including formattedTicker
   const baseAsset = getAssetDataFromRegistry(
     marketInfo?.market?.baseAsset ?? '',
     savedAssets[network],

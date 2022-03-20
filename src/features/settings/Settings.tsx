@@ -9,7 +9,11 @@ import { configRecord } from '../../app/config';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
+import {
+  HOME_ROUTE,
+  MARKET_WITHDRAW_FRAGMENTER_ROUTE,
+  ONBOARDING_PAIRING_ROUTE,
+} from '../../routes/constants';
 import { LBTC_UNITS } from '../../utils';
 import { liquidApi } from '../liquid.api';
 import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
@@ -97,6 +101,7 @@ export const Settings = (): JSX.Element => {
                     dispatch(operatorApi.util.resetApiState());
                     dispatch(walletUnlockerApi.util.resetApiState());
                     dispatch(walletApi.util.resetApiState());
+                    navigate(ONBOARDING_PAIRING_ROUTE);
                   }}
                   className="w-100"
                 >
@@ -132,6 +137,7 @@ export const Settings = (): JSX.Element => {
                     dispatch(operatorApi.util.resetApiState());
                     dispatch(walletUnlockerApi.util.resetApiState());
                     dispatch(walletApi.util.resetApiState());
+                    navigate(ONBOARDING_PAIRING_ROUTE);
                   }}
                 >
                   Clear Cache

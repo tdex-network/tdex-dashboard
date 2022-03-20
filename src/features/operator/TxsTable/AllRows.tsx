@@ -1,4 +1,3 @@
-import type { NetworkString } from 'ldk';
 import { useMemo } from 'react';
 
 import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
@@ -6,7 +5,6 @@ import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { getTickers } from '../../../utils';
 
 import type { DepositRow } from './DepositRows';
 import { getDepositData } from './DepositRows';
@@ -19,20 +17,24 @@ interface AllRowsProps {
   trades?: TradeInfo.AsObject[];
   deposits?: DepositRow[];
   withdrawals?: Withdrawal.AsObject[];
-  savedAssets: Record<NetworkString, Asset[]>;
+  assets: Asset[];
   marketInfo: MarketInfo.AsObject;
   lbtcUnit: LbtcUnit;
   numItemsToShow: number;
+  baseAsset?: Asset;
+  quoteAsset?: Asset;
 }
 
 export const AllRows = ({
   trades,
   deposits,
   withdrawals,
-  savedAssets,
+  assets,
   marketInfo,
   lbtcUnit,
   numItemsToShow,
+  baseAsset,
+  quoteAsset,
 }: AllRowsProps): JSX.Element => {
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
   const all = useMemo(
@@ -47,7 +49,6 @@ export const AllRows = ({
     if (aTime > bTime) return -1;
     return 0;
   });
-  const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
 
   const TableComponent = useMemo(
     () =>
@@ -58,7 +59,7 @@ export const AllRows = ({
           txId = '';
 
         if (mode === 'deposit') {
-          const data = getDepositData(row, lbtcUnit, marketInfo, network);
+          const data = getDepositData(row, lbtcUnit, marketInfo, baseAsset, quoteAsset);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;
@@ -72,7 +73,7 @@ export const AllRows = ({
         }
 
         if (mode === 'trade') {
-          const data = getTradeData(row, lbtcUnit, network);
+          const data = getTradeData(row, lbtcUnit, network, assets);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;
@@ -81,7 +82,8 @@ export const AllRows = ({
           <TxRow
             key={`${txId}_${index}`}
             mode={mode}
-            tickers={tickers}
+            baseAsset={baseAsset}
+            quoteAsset={quoteAsset}
             baseAmountFormatted={baseAmountFormatted}
             quoteAmountFormatted={quoteAmountFormatted}
             row={row}
@@ -89,7 +91,7 @@ export const AllRows = ({
           />
         );
       }),
-    [all, lbtcUnit, marketInfo, network, numItemsToShow, tickers]
+    [all, assets, baseAsset, lbtcUnit, marketInfo, network, numItemsToShow, quoteAsset]
   );
 
   return <>{TableComponent}</>;

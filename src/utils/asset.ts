@@ -1,7 +1,6 @@
 import type { NetworkString } from 'ldk';
 
 import type { MarketInfo } from '../api-spec/generated/js/operator_pb';
-import type { Market } from '../api-spec/generated/js/types_pb';
 import type { Asset } from '../domain/asset';
 
 import type { LbtcUnit } from './constants';
@@ -41,19 +40,25 @@ export const getAllAssetIdsFromMarkets = (marketsList: MarketInfo.AsObject[]): s
   );
 };
 
-export const getTickers = (
-  market: Market.AsObject = { baseAsset: '', quoteAsset: '' },
-  savedAssets: Asset[],
+/**
+ * Get asset data from asset id, including formattedTicker
+ * @param assetId
+ * @param assets
+ * @param lbtcUnit
+ */
+export const getAssetDataFromRegistry = (
+  assetId: string,
+  assets: Asset[],
   lbtcUnit: LbtcUnit
-): {
-  baseAssetTicker: string;
-  quoteAssetTicker: string;
-  baseAssetTickerFormatted: string;
-  quoteAssetTickerFormatted: string;
-} => {
-  const baseAssetTicker = assetIdToTicker(market?.baseAsset || '', savedAssets);
-  const quoteAssetTicker = assetIdToTicker(market?.quoteAsset || '', savedAssets);
-  const baseAssetTickerFormatted = isLbtcTicker(baseAssetTicker) ? lbtcUnit : baseAssetTicker;
-  const quoteAssetTickerFormatted = isLbtcTicker(quoteAssetTicker) ? lbtcUnit : quoteAssetTicker;
-  return { baseAssetTicker, quoteAssetTicker, baseAssetTickerFormatted, quoteAssetTickerFormatted };
+): Asset | undefined => {
+  const asset = assets.find((a: Asset) => a.asset_id === assetId);
+  if (!asset) {
+    return undefined;
+  } else {
+    // LBTC unit or asset ticker
+    const formattedTicker = isLbtcTicker(asset?.ticker)
+      ? lbtcUnit
+      : asset?.ticker ?? assetId.substring(0, 4).toUpperCase();
+    return Object.assign({}, asset, { formattedTicker });
+  }
 };

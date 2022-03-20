@@ -1,11 +1,7 @@
-import type { NetworkString } from 'ldk';
-
 import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
-import type { RootState } from '../../../app/store';
-import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { formatSatsToUnit, getTickers } from '../../../utils';
+import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../utils';
 
 import type { TxData } from './TxRow';
 import { TxRow } from './TxRow';
@@ -24,7 +20,8 @@ export const getDepositData = (
   row: DepositRow,
   lbtcUnit: LbtcUnit,
   marketInfo: MarketInfo.AsObject,
-  network: NetworkString
+  baseAsset?: Asset,
+  quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   let baseAmount, quoteAmount;
   if (row?.assetIdSecond && row?.valueSecond) {
@@ -39,11 +36,21 @@ export const getDepositData = (
   const baseAmountFormatted =
     baseAmount === undefined || !marketInfo.market?.baseAsset
       ? 'N/A'
-      : formatSatsToUnit(Number(baseAmount), lbtcUnit, marketInfo.market?.baseAsset, network);
+      : fromSatsToUnitOrFractional(
+          Number(baseAmount),
+          baseAsset?.precision,
+          isLbtcTicker(baseAsset?.ticker),
+          lbtcUnit
+        );
   const quoteAmountFormatted =
     quoteAmount === undefined || !marketInfo.market?.quoteAsset
       ? 'N/A'
-      : formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset, network);
+      : fromSatsToUnitOrFractional(
+          Number(quoteAmount),
+          quoteAsset?.precision,
+          isLbtcTicker(quoteAsset?.ticker),
+          lbtcUnit
+        );
   const txId = row.txId;
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };
@@ -52,32 +59,33 @@ interface DepositRowsProps {
   deposits?: DepositRow[];
   lbtcUnit: LbtcUnit;
   marketInfo: MarketInfo.AsObject;
-  savedAssets: Record<NetworkString, Asset[]>;
   numItemsToShow: number;
+  baseAsset?: Asset;
+  quoteAsset?: Asset;
 }
 
 export const DepositRows = ({
   deposits,
   lbtcUnit,
   marketInfo,
-  savedAssets,
   numItemsToShow,
+  baseAsset,
+  quoteAsset,
 }: DepositRowsProps): JSX.Element => {
-  const { network } = useTypedSelector(({ settings }: RootState) => settings);
-  const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
   return (
     <>
       {deposits?.slice(0, numItemsToShow).map((row) => {
-        const data = getDepositData(row, lbtcUnit, marketInfo, network);
+        const data = getDepositData(row, lbtcUnit, marketInfo, baseAsset, quoteAsset);
         return (
           <TxRow
             key={data.txId}
             mode="deposit"
-            tickers={tickers}
             baseAmountFormatted={data.baseAmountFormatted}
             quoteAmountFormatted={data.quoteAmountFormatted}
             row={row as TxData}
             txId={data.txId}
+            baseAsset={baseAsset}
+            quoteAsset={quoteAsset}
           />
         );
       })}

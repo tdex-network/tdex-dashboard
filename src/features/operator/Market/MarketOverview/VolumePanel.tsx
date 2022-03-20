@@ -6,7 +6,7 @@ import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';
 import type { Asset } from '../../../../domain/asset';
-import { formatCompact, formatSatsToUnit, isLbtcAssetId } from '../../../../utils';
+import { formatCompact, fromSatsToUnitOrFractional, isLbtcAssetId, isLbtcTicker } from '../../../../utils';
 
 interface VolumePanelProps {
   baseAsset: Asset;
@@ -22,11 +22,21 @@ export const VolumePanel = ({ baseAsset, quoteAsset, marketInfo }: VolumePanelPr
   const baseAmount =
     marketInfo?.balance?.baseAmount === undefined
       ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.baseAmount, lbtcUnit, baseAsset?.asset_id, network);
+      : fromSatsToUnitOrFractional(
+          marketInfo?.balance?.baseAmount,
+          baseAsset.precision,
+          isLbtcTicker(baseAsset.ticker),
+          lbtcUnit
+        );
   const quoteAmount =
     marketInfo?.balance?.quoteAmount === undefined
       ? 'N/A'
-      : formatSatsToUnit(marketInfo?.balance?.quoteAmount, lbtcUnit, quoteAsset?.asset_id, network);
+      : fromSatsToUnitOrFractional(
+          marketInfo?.balance?.quoteAmount,
+          quoteAsset.precision,
+          isLbtcTicker(quoteAsset.ticker),
+          lbtcUnit
+        );
 
   return (
     <div className="panel panel__grey h-100">
@@ -51,13 +61,23 @@ export const VolumePanel = ({ baseAsset, quoteAsset, marketInfo }: VolumePanelPr
           <Col span={8} className="text-end">
             <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
               Number(
-                formatSatsToUnit(marketInfo.price?.basePrice ?? 0, lbtcUnit, baseAsset?.asset_id, network)
+                fromSatsToUnitOrFractional(
+                  marketInfo.price?.basePrice ?? 0,
+                  baseAsset.precision,
+                  isLbtcTicker(baseAsset.ticker),
+                  lbtcUnit
+                )
               )
             )} ${
               isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker
             } for ${formatCompact(
               Number(
-                formatSatsToUnit(marketInfo.price?.quotePrice ?? 0, lbtcUnit, quoteAsset?.asset_id, network)
+                fromSatsToUnitOrFractional(
+                  marketInfo.price?.quotePrice ?? 0,
+                  quoteAsset.precision,
+                  isLbtcTicker(quoteAsset.ticker),
+                  lbtcUnit
+                )
               )
             )} ${isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker}`}</span>
           </Col>

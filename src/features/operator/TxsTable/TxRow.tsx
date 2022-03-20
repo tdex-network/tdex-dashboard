@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import type { TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
+import type { Asset } from '../../../domain/asset';
 import { timeAgo } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
@@ -14,25 +15,22 @@ export type TxData = TradeInfo.AsObject & DepositRow & Withdrawal.AsObject;
 
 interface TxRowProps {
   mode: TableMode;
-  tickers: {
-    baseAssetTicker: string;
-    quoteAssetTicker: string;
-    baseAssetTickerFormatted: string;
-    quoteAssetTickerFormatted: string;
-  };
   baseAmountFormatted: string;
   quoteAmountFormatted: string;
   row: TxData;
   txId: string;
+  baseAsset?: Asset;
+  quoteAsset?: Asset;
 }
 
 export const TxRow = ({
   mode,
-  tickers,
   baseAmountFormatted,
   quoteAmountFormatted,
   row,
   txId,
+  baseAsset,
+  quoteAsset,
 }: TxRowProps): JSX.Element => {
   const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId, { skip: !txId });
   if (!tx?.status?.confirmed) {
@@ -44,11 +42,11 @@ export const TxRow = ({
   const hasBaseAmount = baseAmountFormatted !== 'N/A' && Number(baseAmountFormatted) !== 0;
   const hasQuoteAmount = quoteAmountFormatted !== 'N/A' && Number(quoteAmountFormatted) !== 0;
   if (hasBaseAmount && hasQuoteAmount) {
-    tickerStr = `${tickers.baseAssetTickerFormatted} - ${tickers.quoteAssetTickerFormatted}`;
+    tickerStr = `${baseAsset?.ticker} - ${quoteAsset?.ticker}`;
   } else if (hasBaseAmount) {
-    tickerStr = tickers.baseAssetTickerFormatted;
+    tickerStr = baseAsset?.ticker;
   } else if (hasQuoteAmount) {
-    tickerStr = tickers.quoteAssetTickerFormatted;
+    tickerStr = quoteAsset?.ticker;
   }
 
   return (
@@ -62,10 +60,10 @@ export const TxRow = ({
         {mode === 'trade' && (
           <td>
             <span className="market-icons-translate__small">
-              <CurrencyIcon className="base-icon" currency={tickers.baseAssetTicker} size={16} />
-              <CurrencyIcon className="quote-icon" currency={tickers.quoteAssetTicker} size={16} />
+              <CurrencyIcon className="base-icon" currency={baseAsset?.ticker ?? ''} size={16} />
+              <CurrencyIcon className="quote-icon" currency={quoteAsset?.ticker ?? ''} size={16} />
             </span>
-            {`Swap ${tickers.baseAssetTickerFormatted} for ${tickers.quoteAssetTickerFormatted}`}
+            {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
           </td>
         )}
         {mode === 'withdraw' && (
@@ -103,8 +101,8 @@ export const TxRow = ({
           )}
         </td>
         <td>{baseAmountFormatted}</td>
-        <td>{`${baseAmountFormatted} ${tickers.baseAssetTickerFormatted}`}</td>
-        <td>{`${quoteAmountFormatted} ${tickers.quoteAssetTickerFormatted}`}</td>
+        <td>{`${baseAmountFormatted} ${baseAsset?.formattedTicker}`}</td>
+        <td>{`${quoteAmountFormatted} ${quoteAsset?.formattedTicker}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>
         <td>
           <RightOutlined />

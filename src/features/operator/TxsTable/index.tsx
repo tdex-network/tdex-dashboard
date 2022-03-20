@@ -1,7 +1,6 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
-import type { NetworkString } from 'ldk';
 import { groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -9,6 +8,7 @@ import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-sp
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
+import { getAssetDataFromRegistry } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { AllRows } from './AllRows';
@@ -43,13 +43,15 @@ const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
 interface tableRowsProps {
   lbtcUnit: LbtcUnit;
   mode: ButtonsTableModeProps['mode'];
-  savedAssets: Record<NetworkString, Asset[]>;
+  savedAssets: Asset[];
   marketInfo: MarketInfo.AsObject;
   trades?: TradeInfo.AsObject[];
   deposits?: DepositRow[];
   numDepositsToShow: number;
   numAllItemsToShow: number;
   withdrawals?: Withdrawal.AsObject[];
+  baseAsset?: Asset;
+  quoteAsset?: Asset;
 }
 
 const tableRows = ({
@@ -62,6 +64,8 @@ const tableRows = ({
   numDepositsToShow,
   numAllItemsToShow,
   withdrawals,
+  baseAsset,
+  quoteAsset,
 }: tableRowsProps) => {
   switch (mode) {
     case 'all':
@@ -70,24 +74,33 @@ const tableRows = ({
           trades={trades}
           deposits={deposits}
           withdrawals={withdrawals}
-          savedAssets={savedAssets}
+          assets={savedAssets}
           marketInfo={marketInfo}
           lbtcUnit={lbtcUnit}
           numItemsToShow={numAllItemsToShow}
+          baseAsset={baseAsset}
+          quoteAsset={quoteAsset}
         />
       ) : null;
     case 'trade':
       return (
-        <TradeRows trades={trades} savedAssets={savedAssets} marketInfo={marketInfo} lbtcUnit={lbtcUnit} />
+        <TradeRows
+          trades={trades}
+          assets={savedAssets}
+          lbtcUnit={lbtcUnit}
+          baseAsset={baseAsset}
+          quoteAsset={quoteAsset}
+        />
       );
     case 'deposit':
       return (
         <DepositRows
           deposits={deposits}
           marketInfo={marketInfo}
-          savedAssets={savedAssets}
           lbtcUnit={lbtcUnit}
           numItemsToShow={numDepositsToShow}
+          baseAsset={baseAsset}
+          quoteAsset={quoteAsset}
         />
       );
     case 'withdraw':
@@ -95,8 +108,9 @@ const tableRows = ({
         <WithdrawalRows
           withdrawals={withdrawals}
           marketInfo={marketInfo}
-          savedAssets={savedAssets}
           lbtcUnit={lbtcUnit}
+          baseAsset={baseAsset}
+          quoteAsset={quoteAsset}
         />
       );
     default:
@@ -105,10 +119,12 @@ const tableRows = ({
           trades={trades}
           deposits={deposits}
           withdrawals={withdrawals}
-          savedAssets={savedAssets}
+          assets={savedAssets}
           marketInfo={marketInfo}
           lbtcUnit={lbtcUnit}
           numItemsToShow={numAllItemsToShow}
+          baseAsset={baseAsset}
+          quoteAsset={quoteAsset}
         />
       );
   }
@@ -117,7 +133,24 @@ const tableRows = ({
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
   const [mode, setMode] = useState<TableMode>('all');
-  const { assets: savedAssets, lbtcUnit, explorerLiquidUI } = useTypedSelector(({ settings }) => settings);
+  const {
+    assets: savedAssets,
+    lbtcUnit,
+    explorerLiquidUI,
+    network,
+  } = useTypedSelector(({ settings }) => settings);
+  // Get asset data from asset id, including formattedTicker
+  const baseAsset = getAssetDataFromRegistry(
+    marketInfo?.market?.baseAsset ?? '',
+    savedAssets[network],
+    lbtcUnit
+  );
+  const quoteAsset = getAssetDataFromRegistry(
+    marketInfo?.market?.quoteAsset ?? '',
+    savedAssets[network],
+    lbtcUnit
+  );
+  //
   const PAGE_SIZE_FRONTEND = 5;
 
   // All
@@ -218,21 +251,26 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       tableRows({
         lbtcUnit,
         mode,
-        savedAssets,
+        savedAssets: savedAssets[network],
         marketInfo,
         trades,
         deposits,
         numDepositsToShow,
         numAllItemsToShow,
         withdrawals,
+        baseAsset,
+        quoteAsset,
       }),
     [
+      baseAsset,
       deposits,
       lbtcUnit,
       marketInfo,
       mode,
+      network,
       numAllItemsToShow,
       numDepositsToShow,
+      quoteAsset,
       savedAssets,
       trades,
       withdrawals,

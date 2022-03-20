@@ -5,7 +5,7 @@ import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
-import { formatSatsToUnit, getTickers } from '../../../utils';
+import { fromSatoshiToUnitOrFractional } from '../../../utils';
 
 import type { TxData } from './TxRow';
 import { TxRow } from './TxRow';
@@ -24,7 +24,8 @@ export const getDepositData = (
   row: DepositRow,
   lbtcUnit: LbtcUnit,
   marketInfo: MarketInfo.AsObject,
-  network: NetworkString
+  baseAsset?: Asset,
+  quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   let baseAmount, quoteAmount;
   if (row?.assetIdSecond && row?.valueSecond) {
@@ -39,11 +40,19 @@ export const getDepositData = (
   const baseAmountFormatted =
     baseAmount === undefined || !marketInfo.market?.baseAsset
       ? 'N/A'
-      : formatSatsToUnit(Number(baseAmount), lbtcUnit, marketInfo.market?.baseAsset, network);
+      : fromSatoshiToUnitOrFractional(
+          Number(baseAmount),
+          baseAsset?.precision,
+          baseAsset?.unitOrTicker ?? ''
+        );
   const quoteAmountFormatted =
     quoteAmount === undefined || !marketInfo.market?.quoteAsset
       ? 'N/A'
-      : formatSatsToUnit(Number(quoteAmount), lbtcUnit, marketInfo.market?.quoteAsset, network);
+      : fromSatoshiToUnitOrFractional(
+          Number(quoteAmount),
+          quoteAsset?.precision,
+          quoteAsset?.unitOrTicker ?? ''
+        );
   const txId = row.txId;
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };
@@ -64,16 +73,18 @@ export const DepositRows = ({
   numItemsToShow,
 }: DepositRowsProps): JSX.Element => {
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
-  const tickers = getTickers(marketInfo.market, savedAssets[network], lbtcUnit);
+  const baseAsset = savedAssets[network].find((a: Asset) => a.asset_id === marketInfo.market?.baseAsset);
+  const quoteAsset = savedAssets[network].find((a: Asset) => a.asset_id === marketInfo.market?.quoteAsset);
   return (
     <>
       {deposits?.slice(0, numItemsToShow).map((row) => {
-        const data = getDepositData(row, lbtcUnit, marketInfo, network);
+        const data = getDepositData(row, lbtcUnit, marketInfo, baseAsset, quoteAsset);
         return (
           <TxRow
             key={data.txId}
             mode="deposit"
-            tickers={tickers}
+            baseAsset={baseAsset}
+            quoteAsset={quoteAsset}
             baseAmountFormatted={data.baseAmountFormatted}
             quoteAmountFormatted={data.quoteAmountFormatted}
             row={row as TxData}

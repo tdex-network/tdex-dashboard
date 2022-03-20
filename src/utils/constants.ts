@@ -42,18 +42,21 @@ export const USDT_ASSET: Record<NetworkString, Asset> = {
     name: 'Tether USD',
     precision: 8,
     ticker: USDT_TICKER,
+    unitOrTicker: USDT_TICKER,
   },
   testnet: {
     asset_id: 'f3d1ec678811398cd2ae277cbe3849c6f6dbd72c74bc542f7c4b11ff0e820958',
     name: 'Tether USD',
     precision: 8,
     ticker: USDT_TICKER,
+    unitOrTicker: USDT_TICKER,
   },
   regtest: {
     asset_id: 'ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2',
     name: 'Tether USD',
     precision: 8,
     ticker: USDT_TICKER,
+    unitOrTicker: USDT_TICKER,
   },
 };
 
@@ -63,18 +66,21 @@ export const LCAD_ASSET: Record<NetworkString, Asset> = {
     name: 'Liquid CAD',
     precision: 8,
     ticker: LCAD_TICKER,
+    unitOrTicker: LCAD_TICKER,
   },
   testnet: {
     asset_id: 'ac3e0ff248c5051ffd61e00155b7122e5ebc04fd397a0ecbdd4f4e4a56232926',
     name: 'Liquid CAD',
     precision: 8,
     ticker: LCAD_TICKER,
+    unitOrTicker: LCAD_TICKER,
   },
   regtest: {
     asset_id: '1ad48d8c8c6f86b05ffdba5938bacde697f74281ff19eb552815697ad5047f74',
     name: 'Liquid CAD',
     precision: 8,
     ticker: LCAD_TICKER,
+    unitOrTicker: LCAD_TICKER,
   },
 };
 

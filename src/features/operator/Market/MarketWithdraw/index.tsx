@@ -16,7 +16,7 @@ import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants'
 import {
   formatFiatToSats,
   formatLbtcUnitToSats,
-  formatSatsToUnit,
+  fromSatoshiToUnitOrFractional,
   isLbtcAssetId,
   isLbtcTicker,
   LBTC_ASSET,
@@ -117,49 +117,45 @@ export const MarketWithdraw = (): JSX.Element => {
       notification.error({ message: err.message });
     }
   };
+  const baseUnitOrTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
+    ? lbtcUnit
+    : selectedMarket?.baseAsset?.ticker || 'N/A';
+  const quoteUnitOrTickerFormatted = isLbtcTicker(selectedMarket?.quoteAsset?.ticker)
+    ? lbtcUnit
+    : selectedMarket?.quoteAsset?.ticker || 'N/A';
 
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatoshiToUnitOrFractional(
           marketBalance?.availableBalance?.baseAmount,
-          lbtcUnit,
-          selectedMarket.baseAsset?.asset_id,
-          network
+          selectedMarket?.baseAsset?.precision,
+          baseUnitOrTickerFormatted
         );
   const baseTotalAmountFormatted =
     marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatoshiToUnitOrFractional(
           marketBalance?.totalBalance?.baseAmount,
-          lbtcUnit,
-          selectedMarket.baseAsset?.asset_id,
-          network
+          selectedMarket?.baseAsset?.precision,
+          baseUnitOrTickerFormatted
         );
   const quoteAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatoshiToUnitOrFractional(
           marketBalance?.availableBalance?.quoteAmount,
-          lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id,
-          network
+          selectedMarket?.quoteAsset?.precision,
+          quoteUnitOrTickerFormatted
         );
   const quoteTotalAmountFormatted =
     marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatoshiToUnitOrFractional(
           marketBalance?.totalBalance?.quoteAmount,
-          lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id,
-          network
+          selectedMarket?.quoteAsset?.precision,
+          quoteUnitOrTickerFormatted
         );
-  const baseTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
-    ? lbtcUnit
-    : selectedMarket?.baseAsset?.ticker || 'N/A';
-  const quoteTickerFormatted = isLbtcTicker(selectedMarket?.quoteAsset?.ticker)
-    ? lbtcUnit
-    : selectedMarket?.quoteAsset?.ticker || 'N/A';
 
   return (
     <>
@@ -207,14 +203,14 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
-                  <span className="dm-sans dm-sans__xx ml-2">{baseTickerFormatted}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">{baseUnitOrTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
                   <InputAmount
                     assetPrecision={selectedMarket?.baseAsset?.precision || 8}
                     formItemName="balanceBaseAmount"
                     hasError={!!withdrawMarketError}
-                    lbtcUnitOrTicker={baseTickerFormatted}
+                    lbtcUnitOrTicker={baseUnitOrTickerFormatted}
                     setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
                   />
                 </Col>
@@ -232,8 +228,8 @@ export const MarketWithdraw = (): JSX.Element => {
                         });
                       }
                     }}
-                  >{`${baseAvailableAmountFormatted} ${baseTickerFormatted}`}</Button>
-                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${baseTickerFormatted}`}</span>
+                  >{`${baseAvailableAmountFormatted} ${baseUnitOrTickerFormatted}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${baseUnitOrTickerFormatted}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD
@@ -244,14 +240,14 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.quoteAsset?.ticker || ''} />
-                  <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">{quoteUnitOrTickerFormatted}</span>
                 </Col>
                 <Col span={12}>
                   <InputAmount
                     assetPrecision={selectedMarket?.quoteAsset?.precision || 8}
                     formItemName="balanceQuoteAmount"
                     hasError={!!withdrawMarketError}
-                    lbtcUnitOrTicker={quoteTickerFormatted}
+                    lbtcUnitOrTicker={quoteUnitOrTickerFormatted}
                     setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
                   />
                 </Col>
@@ -269,8 +265,8 @@ export const MarketWithdraw = (): JSX.Element => {
                         });
                       }
                     }}
-                  >{`${quoteAvailableAmountFormatted} ${quoteTickerFormatted}`}</Button>
-                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${quoteTickerFormatted}`}</span>
+                  >{`${quoteAvailableAmountFormatted} ${quoteUnitOrTickerFormatted}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${quoteUnitOrTickerFormatted}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD

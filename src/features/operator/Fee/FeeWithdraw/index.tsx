@@ -11,7 +11,7 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatLbtcUnitToSats, formatSatsToUnit, LBTC_ASSET, LBTC_TICKER } from '../../../../utils';
+import { formatLbtcUnitToSats, fromSatoshiToUnitOrFractional, LBTC_TICKER } from '../../../../utils';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -30,11 +30,11 @@ export const FeeWithdraw = (): JSX.Element => {
   const feeAvailableBalanceFormatted =
     feeBalance?.availableBalance === undefined
       ? 'N/A'
-      : formatSatsToUnit(feeBalance?.availableBalance, lbtcUnit, LBTC_ASSET[network].asset_id, network);
+      : fromSatoshiToUnitOrFractional(feeBalance?.availableBalance, 8, lbtcUnit);
   const feeTotalBalanceFormatted =
     feeBalance?.totalBalance === undefined
       ? 'N/A'
-      : formatSatsToUnit(feeBalance?.totalBalance, lbtcUnit, LBTC_ASSET[network].asset_id, network);
+      : fromSatoshiToUnitOrFractional(feeBalance?.totalBalance, 8, lbtcUnit);
 
   const onFinish = async () => {
     try {

@@ -1,9 +1,7 @@
 import Big from 'big.js';
-import type { NetworkString } from 'ldk';
 
-import { isLbtcAssetId } from './asset';
 import type { LbtcUnit } from './constants';
-import { LBTC_UNITS } from './constants';
+import { defaultPrecision, LBTC_UNITS } from './constants';
 import { includes } from './snippets';
 
 const rxLeadingZeros = /^[\s0]{2,}/;
@@ -22,35 +20,21 @@ const removeInsignificant = (str: string) => {
   return str;
 };
 
-export function formatSatsToUnit(
+/**
+ * Takes sats and returns LBTC formatted to favorite unit or asset formatted to fractional value solely based on precision
+ * @param sats
+ * @param precision
+ * @param unitOrTicker the desired LBTC unit or ticker (so we know it is not LBTC asset)
+ */
+export function fromSatoshiToUnitOrFractional(
   sats: number,
-  unit: LbtcUnit,
-  asset: string,
-  network: NetworkString
+  precision = defaultPrecision,
+  unitOrTicker: string
 ): string {
   try {
-    const val = new Big(sats);
-    const exp = val.e;
-    // If asset is not bitcoin format with precision 8
-    if (!isLbtcAssetId(asset, network)) {
-      val.e = exp - 8;
-      return removeInsignificant(val.toFixed(8));
-    }
-    switch (unit) {
-      case 'L-BTC':
-        val.e = exp - 8;
-        return removeInsignificant(val.toFixed(8));
-      case 'L-mBTC':
-        val.e = exp - 5;
-        return removeInsignificant(val.toFixed(5));
-      case 'L-bits':
-        val.e = exp - 2;
-        return removeInsignificant(val.toFixed(2));
-      case 'L-sats':
-        return removeInsignificant(val.toFixed(0));
-      default:
-        return removeInsignificant(val.toFixed(0));
-    }
+    return new Big(sats)
+      .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unitOrTicker)).toNumber()))
+      .toString();
   } catch (err) {
     console.error(err);
     return 'N/A';
@@ -127,5 +111,22 @@ export function lbtcUnitOrTickerToFractionalDigits(unitOrTicker: string, precisi
       return 0;
     default:
       return 8;
+  }
+}
+
+export function unitToExponent(unitOrTicker: string): number {
+  // Non-Lbtc asset returns 0
+  if (!includes(LBTC_UNITS, unitOrTicker)) return 0;
+  switch (unitOrTicker) {
+    case 'L-BTC':
+      return 0;
+    case 'L-mBTC':
+      return 3;
+    case 'L-bits':
+      return 6;
+    case 'L-sats':
+      return 8;
+    default:
+      return 0;
   }
 }

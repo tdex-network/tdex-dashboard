@@ -12,7 +12,7 @@ import type { Asset } from '../../../../domain/asset';
 import {
   formatFiatToSats,
   formatLbtcUnitToSats,
-  formatSatsToUnit,
+  fromSatoshiToUnitOrFractional,
   isLbtcAssetId,
   sleep,
 } from '../../../../utils';
@@ -63,8 +63,6 @@ export const FeeForm = ({
     baseAsset: baseAsset.asset_id,
     quoteAsset: quoteAsset.asset_id,
   });
-  const baseAssetUnitOrTicker = isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : baseAsset.ticker;
-  const quoteAssetUnitOrTicker = isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker;
 
   const onFinish = async () => {
     try {
@@ -101,17 +99,15 @@ export const FeeForm = ({
   const resetAll = async () => {
     if (!marketInfo?.fee?.fixed) return;
     form.setFieldsValue({
-      feeAbsoluteBaseInput: formatSatsToUnit(
+      feeAbsoluteBaseInput: fromSatoshiToUnitOrFractional(
         marketInfo.fee.fixed.baseFee,
-        lbtcUnit,
-        baseAsset.asset_id,
-        network
+        baseAsset.precision,
+        baseAsset.unitOrTicker ?? ''
       ),
-      feeAbsoluteQuoteInput: formatSatsToUnit(
+      feeAbsoluteQuoteInput: fromSatoshiToUnitOrFractional(
         marketInfo.fee.fixed.quoteFee,
-        lbtcUnit,
-        quoteAsset.asset_id,
-        network
+        quoteAsset.precision,
+        quoteAsset.unitOrTicker ?? ''
       ),
       feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
     });
@@ -123,17 +119,15 @@ export const FeeForm = ({
       form={form}
       name="fee_form"
       initialValues={{
-        feeAbsoluteBaseInput: formatSatsToUnit(
+        feeAbsoluteBaseInput: fromSatoshiToUnitOrFractional(
           Number(feeAbsoluteBase),
-          lbtcUnit,
-          baseAsset.asset_id,
-          network
+          baseAsset.precision,
+          baseAsset.unitOrTicker ?? ''
         ),
-        feeAbsoluteQuoteInput: formatSatsToUnit(
+        feeAbsoluteQuoteInput: fromSatoshiToUnitOrFractional(
           Number(feeAbsoluteQuote),
-          lbtcUnit,
-          quoteAsset.asset_id,
-          network
+          quoteAsset.precision,
+          quoteAsset.unitOrTicker ?? ''
         ),
         feeRelativeInput: Number(feeRelative) / 100,
       }}
@@ -152,13 +146,13 @@ export const FeeForm = ({
         <Row align="middle">
           <Col span={8}>
             <CurrencyIcon currency={baseAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
+            <span className="dm-sans dm-sans__xx ml-2">{baseAsset.unitOrTicker ?? ''}</span>
           </Col>
           <Col span={16}>
             <InputAmount
               assetPrecision={baseAsset.precision}
               formItemName="feeAbsoluteBaseInput"
-              lbtcUnitOrTicker={baseAssetUnitOrTicker}
+              lbtcUnitOrTicker={baseAsset.unitOrTicker ?? ''}
               setInputValue={(value) => form.setFieldsValue({ feeAbsoluteBaseInput: value })}
             />
           </Col>
@@ -175,7 +169,7 @@ export const FeeForm = ({
             <InputAmount
               assetPrecision={quoteAsset.precision}
               formItemName="feeAbsoluteQuoteInput"
-              lbtcUnitOrTicker={quoteAssetUnitOrTicker}
+              lbtcUnitOrTicker={quoteAsset.unitOrTicker ?? ''}
               setInputValue={(value) => form.setFieldsValue({ feeAbsoluteQuoteInput: value })}
             />
           </Col>

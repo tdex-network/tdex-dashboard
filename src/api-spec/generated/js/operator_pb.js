@@ -104,6 +104,7 @@ goog.exportSymbol('proto.RemoveWebhookRequest', null, global);
 goog.exportSymbol('proto.StrategyType', null, global);
 goog.exportSymbol('proto.SwapFailInfo', null, global);
 goog.exportSymbol('proto.SwapInfo', null, global);
+goog.exportSymbol('proto.TimeFrame', null, global);
 goog.exportSymbol('proto.TimeRange', null, global);
 goog.exportSymbol('proto.TradeInfo', null, global);
 goog.exportSymbol('proto.TradePrice', null, global);
@@ -2113,7 +2114,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.MarketReport = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.MarketReport.repeatedFields_, null);
 };
 goog.inherits(proto.MarketReport, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -17595,7 +17596,8 @@ proto.GetMarketReportRequest.prototype.toObject = function(opt_includeInstance) 
 proto.GetMarketReportRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    timeRange: (f = msg.getTimeRange()) && proto.TimeRange.toObject(includeInstance, f)
+    timeRange: (f = msg.getTimeRange()) && proto.TimeRange.toObject(includeInstance, f),
+    timeFrame: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -17642,6 +17644,10 @@ proto.GetMarketReportRequest.deserializeBinaryFromReader = function(msg, reader)
       reader.readMessage(value,proto.TimeRange.deserializeBinaryFromReader);
       msg.setTimeRange(value);
       break;
+    case 3:
+      var value = /** @type {!proto.TimeFrame} */ (reader.readEnum());
+      msg.setTimeFrame(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -17685,6 +17691,13 @@ proto.GetMarketReportRequest.serializeBinaryToWriter = function(message, writer)
       2,
       f,
       proto.TimeRange.serializeBinaryToWriter
+    );
+  }
+  f = message.getTimeFrame();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      3,
+      f
     );
   }
 };
@@ -17761,6 +17774,24 @@ proto.GetMarketReportRequest.prototype.clearTimeRange = function() {
  */
 proto.GetMarketReportRequest.prototype.hasTimeRange = function() {
   return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional TimeFrame time_frame = 3;
+ * @return {!proto.TimeFrame}
+ */
+proto.GetMarketReportRequest.prototype.getTimeFrame = function() {
+  return /** @type {!proto.TimeFrame} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {!proto.TimeFrame} value
+ * @return {!proto.GetMarketReportRequest} returns this
+ */
+proto.GetMarketReportRequest.prototype.setTimeFrame = function(value) {
+  return jspb.Message.setProto3EnumField(this, 3, value);
 };
 
 
@@ -17916,6 +17947,13 @@ proto.GetMarketReportReply.prototype.hasReport = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.MarketReport.repeatedFields_ = [3];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -17947,8 +17985,10 @@ proto.MarketReport.prototype.toObject = function(opt_includeInstance) {
  */
 proto.MarketReport.toObject = function(includeInstance, msg) {
   var f, obj = {
-    collectedFees: (f = msg.getCollectedFees()) && proto.MarketCollectedFees.toObject(includeInstance, f),
-    volume: (f = msg.getVolume()) && proto.MarketVolume.toObject(includeInstance, f)
+    totalCollectedFees: (f = msg.getTotalCollectedFees()) && proto.MarketCollectedFees.toObject(includeInstance, f),
+    totalVolume: (f = msg.getTotalVolume()) && proto.MarketVolume.toObject(includeInstance, f),
+    groupedVolumeList: jspb.Message.toObjectList(msg.getGroupedVolumeList(),
+    proto.MarketVolume.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -17988,12 +18028,17 @@ proto.MarketReport.deserializeBinaryFromReader = function(msg, reader) {
     case 1:
       var value = new proto.MarketCollectedFees;
       reader.readMessage(value,proto.MarketCollectedFees.deserializeBinaryFromReader);
-      msg.setCollectedFees(value);
+      msg.setTotalCollectedFees(value);
       break;
     case 2:
       var value = new proto.MarketVolume;
       reader.readMessage(value,proto.MarketVolume.deserializeBinaryFromReader);
-      msg.setVolume(value);
+      msg.setTotalVolume(value);
+      break;
+    case 3:
+      var value = new proto.MarketVolume;
+      reader.readMessage(value,proto.MarketVolume.deserializeBinaryFromReader);
+      msg.addGroupedVolume(value);
       break;
     default:
       reader.skipField();
@@ -18024,7 +18069,7 @@ proto.MarketReport.prototype.serializeBinary = function() {
  */
 proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getCollectedFees();
+  f = message.getTotalCollectedFees();
   if (f != null) {
     writer.writeMessage(
       1,
@@ -18032,10 +18077,18 @@ proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
       proto.MarketCollectedFees.serializeBinaryToWriter
     );
   }
-  f = message.getVolume();
+  f = message.getTotalVolume();
   if (f != null) {
     writer.writeMessage(
       2,
+      f,
+      proto.MarketVolume.serializeBinaryToWriter
+    );
+  }
+  f = message.getGroupedVolumeList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      3,
       f,
       proto.MarketVolume.serializeBinaryToWriter
     );
@@ -18044,10 +18097,10 @@ proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional MarketCollectedFees collected_fees = 1;
+ * optional MarketCollectedFees total_collected_fees = 1;
  * @return {?proto.MarketCollectedFees}
  */
-proto.MarketReport.prototype.getCollectedFees = function() {
+proto.MarketReport.prototype.getTotalCollectedFees = function() {
   return /** @type{?proto.MarketCollectedFees} */ (
     jspb.Message.getWrapperField(this, proto.MarketCollectedFees, 1));
 };
@@ -18057,7 +18110,7 @@ proto.MarketReport.prototype.getCollectedFees = function() {
  * @param {?proto.MarketCollectedFees|undefined} value
  * @return {!proto.MarketReport} returns this
 */
-proto.MarketReport.prototype.setCollectedFees = function(value) {
+proto.MarketReport.prototype.setTotalCollectedFees = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
@@ -18066,8 +18119,8 @@ proto.MarketReport.prototype.setCollectedFees = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.MarketReport} returns this
  */
-proto.MarketReport.prototype.clearCollectedFees = function() {
-  return this.setCollectedFees(undefined);
+proto.MarketReport.prototype.clearTotalCollectedFees = function() {
+  return this.setTotalCollectedFees(undefined);
 };
 
 
@@ -18075,16 +18128,16 @@ proto.MarketReport.prototype.clearCollectedFees = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketReport.prototype.hasCollectedFees = function() {
+proto.MarketReport.prototype.hasTotalCollectedFees = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional MarketVolume volume = 2;
+ * optional MarketVolume total_volume = 2;
  * @return {?proto.MarketVolume}
  */
-proto.MarketReport.prototype.getVolume = function() {
+proto.MarketReport.prototype.getTotalVolume = function() {
   return /** @type{?proto.MarketVolume} */ (
     jspb.Message.getWrapperField(this, proto.MarketVolume, 2));
 };
@@ -18094,7 +18147,7 @@ proto.MarketReport.prototype.getVolume = function() {
  * @param {?proto.MarketVolume|undefined} value
  * @return {!proto.MarketReport} returns this
 */
-proto.MarketReport.prototype.setVolume = function(value) {
+proto.MarketReport.prototype.setTotalVolume = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
@@ -18103,8 +18156,8 @@ proto.MarketReport.prototype.setVolume = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.MarketReport} returns this
  */
-proto.MarketReport.prototype.clearVolume = function() {
-  return this.setVolume(undefined);
+proto.MarketReport.prototype.clearTotalVolume = function() {
+  return this.setTotalVolume(undefined);
 };
 
 
@@ -18112,8 +18165,46 @@ proto.MarketReport.prototype.clearVolume = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketReport.prototype.hasVolume = function() {
+proto.MarketReport.prototype.hasTotalVolume = function() {
   return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * repeated MarketVolume grouped_volume = 3;
+ * @return {!Array<!proto.MarketVolume>}
+ */
+proto.MarketReport.prototype.getGroupedVolumeList = function() {
+  return /** @type{!Array<!proto.MarketVolume>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.MarketVolume, 3));
+};
+
+
+/**
+ * @param {!Array<!proto.MarketVolume>} value
+ * @return {!proto.MarketReport} returns this
+*/
+proto.MarketReport.prototype.setGroupedVolumeList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 3, value);
+};
+
+
+/**
+ * @param {!proto.MarketVolume=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.MarketVolume}
+ */
+proto.MarketReport.prototype.addGroupedVolume = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.MarketVolume, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.MarketReport} returns this
+ */
+proto.MarketReport.prototype.clearGroupedVolumeList = function() {
+  return this.setGroupedVolumeList([]);
 };
 
 
@@ -18150,7 +18241,9 @@ proto.MarketCollectedFees.prototype.toObject = function(opt_includeInstance) {
 proto.MarketCollectedFees.toObject = function(includeInstance, msg) {
   var f, obj = {
     baseAmount: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    quoteAmount: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    quoteAmount: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    startDate: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    endDate: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -18195,6 +18288,14 @@ proto.MarketCollectedFees.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readUint64());
       msg.setQuoteAmount(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStartDate(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setEndDate(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -18238,6 +18339,20 @@ proto.MarketCollectedFees.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getStartDate();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getEndDate();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
 };
 
 
@@ -18277,6 +18392,42 @@ proto.MarketCollectedFees.prototype.setQuoteAmount = function(value) {
 };
 
 
+/**
+ * optional string start_date = 3;
+ * @return {string}
+ */
+proto.MarketCollectedFees.prototype.getStartDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.MarketCollectedFees} returns this
+ */
+proto.MarketCollectedFees.prototype.setStartDate = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string end_date = 4;
+ * @return {string}
+ */
+proto.MarketCollectedFees.prototype.getEndDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.MarketCollectedFees} returns this
+ */
+proto.MarketCollectedFees.prototype.setEndDate = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
 
 
 
@@ -18310,7 +18461,9 @@ proto.MarketVolume.prototype.toObject = function(opt_includeInstance) {
 proto.MarketVolume.toObject = function(includeInstance, msg) {
   var f, obj = {
     baseVolume: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    quoteVolume: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    quoteVolume: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    startDate: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    endDate: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -18355,6 +18508,14 @@ proto.MarketVolume.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readUint64());
       msg.setQuoteVolume(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStartDate(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setEndDate(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -18398,6 +18559,20 @@ proto.MarketVolume.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getStartDate();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getEndDate();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
 };
 
 
@@ -18434,6 +18609,42 @@ proto.MarketVolume.prototype.getQuoteVolume = function() {
  */
 proto.MarketVolume.prototype.setQuoteVolume = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string start_date = 3;
+ * @return {string}
+ */
+proto.MarketVolume.prototype.getStartDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.MarketVolume} returns this
+ */
+proto.MarketVolume.prototype.setStartDate = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string end_date = 4;
+ * @return {string}
+ */
+proto.MarketVolume.prototype.getEndDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.MarketVolume} returns this
+ */
+proto.MarketVolume.prototype.setEndDate = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
@@ -18816,10 +19027,22 @@ proto.PredefinedPeriod = {
   NULL: 0,
   LAST_HOUR: 1,
   LAST_DAY: 2,
-  LAST_MONTH: 3,
-  LAST_3_MONTHS: 4,
-  YEAR_TO_DATE: 5,
-  ALL: 6
+  LAST_WEEK: 3,
+  LAST_MONTH: 4,
+  LAST_THREE_MONTHS: 5,
+  YEAR_TO_DATE: 6,
+  ALL: 7
+};
+
+/**
+ * @enum {number}
+ */
+proto.TimeFrame = {
+  HOUR: 0,
+  FOUR_HOURS: 1,
+  DAY: 2,
+  WEEK: 3,
+  MONTH: 4
 };
 
 goog.object.extend(exports, proto);

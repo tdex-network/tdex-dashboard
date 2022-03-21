@@ -2049,6 +2049,9 @@ export class GetMarketReportRequest extends jspb.Message {
   hasTimeRange(): boolean;
   clearTimeRange(): GetMarketReportRequest;
 
+  getTimeFrame(): TimeFrame;
+  setTimeFrame(value: TimeFrame): GetMarketReportRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetMarketReportRequest.AsObject;
   static toObject(includeInstance: boolean, msg: GetMarketReportRequest): GetMarketReportRequest.AsObject;
@@ -2061,6 +2064,7 @@ export namespace GetMarketReportRequest {
   export type AsObject = {
     market?: types_pb.Market.AsObject,
     timeRange?: TimeRange.AsObject,
+    timeFrame: TimeFrame,
   }
 }
 
@@ -2085,15 +2089,20 @@ export namespace GetMarketReportReply {
 }
 
 export class MarketReport extends jspb.Message {
-  getCollectedFees(): MarketCollectedFees | undefined;
-  setCollectedFees(value?: MarketCollectedFees): MarketReport;
-  hasCollectedFees(): boolean;
-  clearCollectedFees(): MarketReport;
+  getTotalCollectedFees(): MarketCollectedFees | undefined;
+  setTotalCollectedFees(value?: MarketCollectedFees): MarketReport;
+  hasTotalCollectedFees(): boolean;
+  clearTotalCollectedFees(): MarketReport;
 
-  getVolume(): MarketVolume | undefined;
-  setVolume(value?: MarketVolume): MarketReport;
-  hasVolume(): boolean;
-  clearVolume(): MarketReport;
+  getTotalVolume(): MarketVolume | undefined;
+  setTotalVolume(value?: MarketVolume): MarketReport;
+  hasTotalVolume(): boolean;
+  clearTotalVolume(): MarketReport;
+
+  getGroupedVolumeList(): Array<MarketVolume>;
+  setGroupedVolumeList(value: Array<MarketVolume>): MarketReport;
+  clearGroupedVolumeList(): MarketReport;
+  addGroupedVolume(value?: MarketVolume, index?: number): MarketVolume;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MarketReport.AsObject;
@@ -2105,8 +2114,9 @@ export class MarketReport extends jspb.Message {
 
 export namespace MarketReport {
   export type AsObject = {
-    collectedFees?: MarketCollectedFees.AsObject,
-    volume?: MarketVolume.AsObject,
+    totalCollectedFees?: MarketCollectedFees.AsObject,
+    totalVolume?: MarketVolume.AsObject,
+    groupedVolumeList: Array<MarketVolume.AsObject>,
   }
 }
 
@@ -2116,6 +2126,12 @@ export class MarketCollectedFees extends jspb.Message {
 
   getQuoteAmount(): number;
   setQuoteAmount(value: number): MarketCollectedFees;
+
+  getStartDate(): string;
+  setStartDate(value: string): MarketCollectedFees;
+
+  getEndDate(): string;
+  setEndDate(value: string): MarketCollectedFees;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MarketCollectedFees.AsObject;
@@ -2129,6 +2145,8 @@ export namespace MarketCollectedFees {
   export type AsObject = {
     baseAmount: number,
     quoteAmount: number,
+    startDate: string,
+    endDate: string,
   }
 }
 
@@ -2138,6 +2156,12 @@ export class MarketVolume extends jspb.Message {
 
   getQuoteVolume(): number;
   setQuoteVolume(value: number): MarketVolume;
+
+  getStartDate(): string;
+  setStartDate(value: string): MarketVolume;
+
+  getEndDate(): string;
+  setEndDate(value: string): MarketVolume;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MarketVolume.AsObject;
@@ -2151,6 +2175,8 @@ export namespace MarketVolume {
   export type AsObject = {
     baseVolume: number,
     quoteVolume: number,
+    startDate: string,
+    endDate: string,
   }
 }
 
@@ -2223,8 +2249,16 @@ export enum PredefinedPeriod {
   NULL = 0,
   LAST_HOUR = 1,
   LAST_DAY = 2,
-  LAST_MONTH = 3,
-  LAST_3_MONTHS = 4,
-  YEAR_TO_DATE = 5,
-  ALL = 6,
+  LAST_WEEK = 3,
+  LAST_MONTH = 4,
+  LAST_THREE_MONTHS = 5,
+  YEAR_TO_DATE = 6,
+  ALL = 7,
+}
+export enum TimeFrame { 
+  HOUR = 0,
+  FOUR_HOURS = 1,
+  DAY = 2,
+  WEEK = 3,
+  MONTH = 4,
 }

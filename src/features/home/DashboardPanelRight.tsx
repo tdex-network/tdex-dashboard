@@ -5,15 +5,14 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { RootState } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, LBTC_COINGECKOID } from '../../utils';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
 import type { PriceFeedQueryResult } from '../rates.api';
-
-import type { RootState } from '../../app/store';
-import { useTypedSelector } from '../../app/store';
 
 const { Title } = Typography;
 

@@ -68,7 +68,7 @@ export const FeeWithdraw = (): JSX.Element => {
     } catch (e) {
       return <>0</>;
     }
-  }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, network, prices]);
+  }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, prices]);
 
   const onFinish = async () => {
     try {

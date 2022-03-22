@@ -6,14 +6,13 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/tdex/v1/types_pb';
-import { CREATE_MARKET_ROUTE } from '../../routes/constants';
-import type { LbtcUnit } from '../../utils';
-import { fromSatsToUnitOrFractional, LBTC_ASSET, LBTC_COINGECKOID } from '../../utils';
-import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
-import type { PriceFeedQueryResult } from '../rates.api';
-
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
+import { CREATE_MARKET_ROUTE } from '../../routes/constants';
+import type { LbtcUnit } from '../../utils';
+import { fromSatsToUnitOrFractional, LBTC_COINGECKOID } from '../../utils';
+import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import type { PriceFeedQueryResult } from '../rates.api';
 
 const { Title } = Typography;
 
@@ -24,7 +23,7 @@ interface DashboardPanelLeftProps {
 
 export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
-  const { network, currency } = useTypedSelector(({ settings }: RootState) => settings);
+  const { currency } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: listMarkets } = useListMarketsQuery();
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
@@ -62,7 +61,7 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
         {fiatBalance}
       </>
     );
-  }, [network, prices, currency, totalCollectedSwapFees, lbtcUnit, isLoadingPrices, isErrorPrices]);
+  }, [prices, currency, totalCollectedSwapFees, lbtcUnit, isLoadingPrices, isErrorPrices]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

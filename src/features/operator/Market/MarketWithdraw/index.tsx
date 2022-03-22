@@ -136,13 +136,19 @@ export const MarketWithdraw = (): JSX.Element => {
     }
     const assetId = selectedMarket.baseAsset?.asset_id || '';
     const assetTicker = selectedMarket.baseAsset?.ticker || 'unknown';
+    const assetPrecision = selectedMarket.quoteAsset?.precision || 8;
 
     let amountInFiatOrLBTC = '';
     if (isLbtcAssetId(assetId, network)) {
       amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
-      amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
+      amountInFiatOrLBTC = fromSatsToUnitOrFractional(
+        Number(amountInFiatOrLBTC),
+        assetPrecision,
+        true,
+        'L-BTC'
+      );
     } else {
-      amountInFiatOrLBTC = formatSatsToUnit(amount.times(100000000).toNumber(), 'L-BTC', assetId, network);
+      amountInFiatOrLBTC = amount.toString();
     }
 
     let rateMultiplier = 1;
@@ -218,13 +224,19 @@ export const MarketWithdraw = (): JSX.Element => {
     }
     const assetId = selectedMarket.quoteAsset?.asset_id || '';
     const assetTicker = selectedMarket.quoteAsset?.ticker || 'unknown';
+    const assetPrecision = selectedMarket.quoteAsset?.precision || 8;
 
     let amountInFiatOrLBTC = '';
     if (isLbtcAssetId(assetId, network)) {
       amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
-      amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
+      amountInFiatOrLBTC = fromSatsToUnitOrFractional(
+        Number(amountInFiatOrLBTC),
+        assetPrecision,
+        true,
+        'L-BTC'
+      );
     } else {
-      amountInFiatOrLBTC = formatSatsToUnit(amount.times(100000000).toNumber(), 'L-BTC', assetId, network);
+      amountInFiatOrLBTC = amount.toString();
     }
 
     let rateMultiplier = 1;

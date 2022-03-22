@@ -1,7 +1,9 @@
-import { Button, Col, Row, Typography } from 'antd';
+import { Col, Row, Typography, Radio } from 'antd';
+import type { Dispatch, SetStateAction } from 'react';
 import React from 'react';
 
-import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo, MarketReport } from '../../../../api-spec/generated/js/operator_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';
@@ -12,11 +14,25 @@ interface VolumePanelProps {
   baseAsset: Asset;
   quoteAsset: Asset;
   marketInfo?: MarketInfo.AsObject;
+  marketReport?: MarketReport.AsObject;
+  setMarketReportPredefinedPeriod: Dispatch<SetStateAction<PredefinedPeriod>>;
+  setMarketReportTimeFrame: Dispatch<SetStateAction<TimeFrame>>;
+  marketReportTimeFrame: TimeFrame;
+  marketReportPredefinedPeriod: PredefinedPeriod;
 }
 
 const { Title } = Typography;
 
-export const VolumePanel = ({ baseAsset, quoteAsset, marketInfo }: VolumePanelProps): JSX.Element => {
+export const VolumePanel = ({
+  baseAsset,
+  quoteAsset,
+  marketInfo,
+  marketReport,
+  setMarketReportPredefinedPeriod,
+  setMarketReportTimeFrame,
+  marketReportTimeFrame,
+  marketReportPredefinedPeriod,
+}: VolumePanelProps): JSX.Element => {
   const { lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
 
   const baseAmount =
@@ -66,23 +82,85 @@ export const VolumePanel = ({ baseAsset, quoteAsset, marketInfo }: VolumePanelPr
       <VolumeChart
         topLeft={
           <div className="mb-4">
-            <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey ml-2 d-inline" level={3}>
+            <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline" level={3}>
               Volume
             </Title>
+            {/*TODO: Convert to fav currency https://github.com/tdex-network/tdex-dashboard/pull/267*/}
             <span className="dm-sans dm-sans__xx ml-2">$1.22b</span>
           </div>
         }
         topRight={
           <div className="text-end">
-            <Button className="mr-2">1D</Button>
-            <Button className="mr-2">7D</Button>
-            <Button className="mr-2">1M</Button>
-            <Button className="mr-2">3M</Button>
-            <Button className="mr-2">1Y</Button>
-            <Button className="mr-2">YTD</Button>
-            <Button>ALL</Button>
+            <Radio.Group className="radio-green" defaultValue={marketReportPredefinedPeriod}>
+              <Radio.Button
+                value={PredefinedPeriod.LAST_DAY}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_DAY);
+                  setMarketReportTimeFrame(TimeFrame.HOUR);
+                }}
+              >
+                1D
+              </Radio.Button>
+              <Radio.Button
+                value={PredefinedPeriod.LAST_WEEK}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_WEEK);
+                  setMarketReportTimeFrame(TimeFrame.FOUR_HOURS);
+                }}
+              >
+                7D
+              </Radio.Button>
+              <Radio.Button
+                value={PredefinedPeriod.LAST_MONTH}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_MONTH);
+                  setMarketReportTimeFrame(TimeFrame.DAY);
+                }}
+              >
+                1M
+              </Radio.Button>
+              <Radio.Button
+                value={PredefinedPeriod.LAST_THREE_MONTHS}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_THREE_MONTHS);
+                  setMarketReportTimeFrame(TimeFrame.DAY);
+                }}
+              >
+                3M
+              </Radio.Button>
+              <Radio.Button
+                value={''}
+                onClick={() => {
+                  // TODO: https://github.com/tdex-network/tdex-daemon/issues/569
+                  //setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_YEAR);
+                  //setMarketReportTimeFrame(TimeFrame.WEEK);
+                }}
+              >
+                1Y
+              </Radio.Button>
+              <Radio.Button
+                value={PredefinedPeriod.YEAR_TO_DATE}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.YEAR_TO_DATE);
+                  setMarketReportTimeFrame(TimeFrame.WEEK);
+                }}
+              >
+                YTD
+              </Radio.Button>
+              <Radio.Button
+                value={PredefinedPeriod.ALL}
+                onClick={() => {
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.ALL);
+                  setMarketReportTimeFrame(TimeFrame.WEEK);
+                }}
+              >
+                ALL
+              </Radio.Button>
+            </Radio.Group>
           </div>
         }
+        marketReport={marketReport}
+        marketReportTimeFrame={marketReportTimeFrame}
       />
     </div>
   );

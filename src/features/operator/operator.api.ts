@@ -36,6 +36,7 @@ import type {
   GetMarketFragmenterBalanceReply,
   WithdrawMarketFragmenterReply,
   MarketReport,
+  TimeFrame,
 } from '../../api-spec/generated/js/operator_pb';
 import {
   ClaimFeeDepositsRequest,
@@ -320,14 +321,13 @@ export const operatorApi = createApi({
     // Market
     getMarketReport: build.query<
       MarketReport.AsObject | undefined,
-      { market: Market.AsObject; timeRange: TimeRange.AsObject }
+      { market: Market.AsObject | undefined; timeRange: TimeRange.AsObject; timeFrame: TimeFrame }
     >({
-      queryFn: async (arg, { getState }) => {
+      queryFn: async ({ market, timeRange, timeFrame }, { getState }) => {
         try {
           const state = getState() as RootState;
           const client = selectOperatorClient(state);
           const metadata = selectMacaroonCreds(state);
-          const { market, timeRange } = arg;
           if (!market || !timeRange) throw new Error('missing argument');
           const t = new TimeRange();
           t.setPredefinedPeriod(timeRange.predefinedPeriod);
@@ -341,7 +341,7 @@ export const operatorApi = createApi({
           newMarket.setBaseAsset(market.baseAsset);
           newMarket.setQuoteAsset(market.quoteAsset);
           const getMarketReportReply = await client.getMarketReport(
-            new GetMarketReportRequest().setMarket(newMarket).setTimeRange(t),
+            new GetMarketReportRequest().setMarket(newMarket).setTimeRange(t).setTimeFrame(timeFrame),
             metadata
           );
           return {

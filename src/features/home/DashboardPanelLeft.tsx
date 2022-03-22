@@ -36,16 +36,14 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
 
-  const EarnedFees = useMemo(() => {
-    const satsBalance = totalCollectedSwapFees;
-
-    if (satsBalance === undefined) {
+  const TotalCollectedSwapFees = useMemo(() => {
+    if (totalCollectedSwapFees === undefined) {
       return <>N/A</>;
     }
 
     // default to displaying btc balance on error (or user preference)
     if (isErrorPrices || currency.value === 'btc') {
-      const lbtcUnitBalance = fromSatsToUnitOrFractional(satsBalance, 8, true, lbtcUnit);
+      const lbtcUnitBalance = fromSatsToUnitOrFractional(totalCollectedSwapFees, 8, true, lbtcUnit);
       return (
         <>
           {lbtcUnitBalance} <span className="dm-mono__xxx">{lbtcUnit}</span>
@@ -58,7 +56,7 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
       return <></>;
     }
 
-    const lbtcBalance = fromSatsToUnitOrFractional(satsBalance, 8, true, 'L-BTC');
+    const lbtcBalance = fromSatsToUnitOrFractional(totalCollectedSwapFees, 8, true, 'L-BTC');
     const lbtcRateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
     const fiatBalance = Big(lbtcBalance).times(lbtcRateMultiplier).toFixed(2);
     return (
@@ -67,7 +65,7 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
         {fiatBalance}
       </>
     );
-  }, [totalCollectedSwapFees, network, prices, currency, lbtcUnit, isLoadingPrices, isErrorPrices]);
+  }, [network, prices, currency, totalCollectedSwapFees, lbtcUnit, isLoadingPrices, isErrorPrices]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">
@@ -76,7 +74,7 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
       </Title>
       <Row>
         <Col className="dm-mono dm-mono__xxxxxx" span={16}>
-          {EarnedFees}
+          {TotalCollectedSwapFees}
         </Col>
         <Col className="total-earned-change" span={8}>
           <div>24h</div>

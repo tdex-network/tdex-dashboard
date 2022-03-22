@@ -11,7 +11,6 @@ import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, LBTC_COINGECKOID } from '../../utils';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
-import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
 
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -26,13 +25,9 @@ export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX
   const navigate = useNavigate();
   const { currency } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: feeBalance } = useGetFeeBalanceQuery();
-  const {
-    data: prices,
-    isLoading: isLoadingPrices,
-    isError: isErrorPrices,
-  } = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 30000 });
+  const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
 
-  const AccountBalance = useMemo(() => {
+  const FeeAccountBalance = useMemo(() => {
     const satsBalance = feeBalance?.totalBalance;
 
     if (satsBalance === undefined) {
@@ -72,7 +67,7 @@ export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX
           Fee Account Balance
         </Title>
         <Col className="dm-mono dm-mono__xxxxxx" span={24}>
-          {AccountBalance}
+          {FeeAccountBalance}
         </Col>
       </Row>
       <Row gutter={{ xs: 8, sm: 12, md: 16 }}>

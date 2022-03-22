@@ -179,6 +179,8 @@ export const VolumePanel = ({
         }
         marketReport={marketReport}
         marketReportPredefinedPeriod={marketReportPredefinedPeriod}
+        baseAsset={baseAsset}
+        lbtcUnit={lbtcUnit}
       />
     </div>
   );

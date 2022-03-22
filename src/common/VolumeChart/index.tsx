@@ -5,12 +5,17 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 
 import type { MarketReport } from '../../api-spec/generated/js/operator_pb';
 import { PredefinedPeriod } from '../../api-spec/generated/js/operator_pb';
+import type { Asset } from '../../domain/asset';
+import type { LbtcUnit } from '../../utils';
+import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../utils';
 
 interface VolumeChartProps {
   topLeft: JSX.Element;
   topRight: JSX.Element;
   marketReport?: MarketReport.AsObject;
   marketReportPredefinedPeriod: PredefinedPeriod;
+  baseAsset: Asset;
+  lbtcUnit: LbtcUnit;
 }
 
 export const VolumeChart = ({
@@ -18,16 +23,25 @@ export const VolumeChart = ({
   topRight,
   marketReport,
   marketReportPredefinedPeriod,
+  baseAsset,
+  lbtcUnit,
 }: VolumeChartProps): JSX.Element => {
   // Prepare data starting from last element
   const data = useMemo(() => {
-    // TODO: Convert baseVolume to LBTC unit or fractional
-    // Wait for https://github.com/tdex-network/tdex-dashboard/pull/296
     return marketReport?.groupedVolumeList.reduceRight(
-      (acc, curr) => acc.concat({ time: curr.startDate, value: curr.baseVolume }),
-      [] as { time: string; value: number }[]
+      (acc, curr) =>
+        acc.concat({
+          time: curr.startDate,
+          value: fromSatsToUnitOrFractional(
+            curr.baseVolume,
+            baseAsset.precision,
+            isLbtcTicker(baseAsset.ticker),
+            lbtcUnit
+          ),
+        }),
+      [] as { time: string; value: string }[]
     );
-  }, [marketReport?.groupedVolumeList]);
+  }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.groupedVolumeList]);
 
   // Calculate yAxis width
   const yAxis = document.getElementsByClassName('recharts-cartesian-axis recharts-yAxis')[0];

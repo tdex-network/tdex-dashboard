@@ -9,6 +9,7 @@ import { WalletUnlockerClient } from '../../api-spec/generated/js/tdex-daemon/v1
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
+import type { Currency } from '../../domain/currency';
 import type { MarketLabelled } from '../../domain/market';
 import type { LbtcUnit } from '../../utils';
 import { featuredAssets, LBTC_ASSET, LBTC_UNITS, CURRENCIES } from '../../utils';
@@ -19,12 +20,6 @@ const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 const proxyHealthStatus = ['SERVING', 'SERVING_NOT_CONNECTED', 'NOT_SERVING'] as const;
 export type ProxyHealthStatus = typeof proxyHealthStatus[number];
 export const isProxyHealthStatus = (x: any): x is ProxyHealthStatus => proxyHealthStatus.includes(x);
-
-export interface CurrencyInterface {
-  name: string;
-  symbol: string;
-  value: 'eur' | 'usd' | 'cad' | 'btc';
-}
 
 export interface SettingsState {
   network: NetworkString;
@@ -41,7 +36,7 @@ export interface SettingsState {
   lbtcUnit: LbtcUnit;
   proxyHealth?: ProxyHealthStatus;
   proxyPid?: number;
-  currency: CurrencyInterface;
+  currency: Currency;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -163,7 +158,7 @@ export const settingsSlice = createSlice({
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
     },
-    setCurrency: (state, action: PayloadAction<CurrencyInterface>) => {
+    setCurrency: (state, action: PayloadAction<Currency>) => {
       state.currency = action.payload;
     },
     setAsset: (state, action: PayloadAction<Asset>) => {

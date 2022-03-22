@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { CURRENCIES, LBTC_COINGECKOID, USDT_COINGECKOID } from './../utils/constants';
-import type { CurrencyInterface } from './settings/settingsSlice';
+import type { Currency } from '../domain/currency';
 
-export type CoinGeckoPriceResult = Record<string, Record<CurrencyInterface['value'], number>>;
+import { CURRENCIES, LBTC_COINGECKOID, USDT_COINGECKOID } from './../utils/constants';
+
+export type CoinGeckoPriceResult = Record<string, Record<Currency['value'], number>>;
 
 export const ratesApi = createApi({
   reducerPath: 'ratesApi',

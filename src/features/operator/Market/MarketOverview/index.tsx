@@ -179,7 +179,6 @@ export const MarketOverview = (): JSX.Element => {
               marketReport={marketReport}
               setMarketReportPredefinedPeriod={setMarketReportPredefinedPeriod}
               setMarketReportTimeFrame={setMarketReportTimeFrame}
-              marketReportTimeFrame={marketReportTimeFrame}
               marketReportPredefinedPeriod={marketReportPredefinedPeriod}
             />
           </Col>

@@ -17,7 +17,6 @@ interface VolumePanelProps {
   marketReport?: MarketReport.AsObject;
   setMarketReportPredefinedPeriod: Dispatch<SetStateAction<PredefinedPeriod>>;
   setMarketReportTimeFrame: Dispatch<SetStateAction<TimeFrame>>;
-  marketReportTimeFrame: TimeFrame;
   marketReportPredefinedPeriod: PredefinedPeriod;
 }
 
@@ -30,7 +29,6 @@ export const VolumePanel = ({
   marketReport,
   setMarketReportPredefinedPeriod,
   setMarketReportTimeFrame,
-  marketReportTimeFrame,
   marketReportPredefinedPeriod,
 }: VolumePanelProps): JSX.Element => {
   const { lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
@@ -160,7 +158,7 @@ export const VolumePanel = ({
           </div>
         }
         marketReport={marketReport}
-        marketReportTimeFrame={marketReportTimeFrame}
+        marketReportPredefinedPeriod={marketReportPredefinedPeriod}
       />
     </div>
   );

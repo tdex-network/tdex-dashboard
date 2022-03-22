@@ -4,20 +4,20 @@ import { useMemo } from 'react';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import type { MarketReport } from '../../api-spec/generated/js/operator_pb';
-import { TimeFrame } from '../../api-spec/generated/js/operator_pb';
+import { PredefinedPeriod } from '../../api-spec/generated/js/operator_pb';
 
 interface VolumeChartProps {
   topLeft: JSX.Element;
   topRight: JSX.Element;
   marketReport?: MarketReport.AsObject;
-  marketReportTimeFrame: TimeFrame;
+  marketReportPredefinedPeriod: PredefinedPeriod;
 }
 
 export const VolumeChart = ({
   topLeft,
   topRight,
   marketReport,
-  marketReportTimeFrame,
+  marketReportPredefinedPeriod,
 }: VolumeChartProps): JSX.Element => {
   // Prepare data starting from last element
   const data = useMemo(() => {
@@ -46,8 +46,11 @@ export const VolumeChart = ({
             axisLine={false}
             tickLine={false}
             tickFormatter={(time) => {
-              if (marketReportTimeFrame === TimeFrame.HOUR) {
-                return dayjs(time).format('HH');
+              if (
+                marketReportPredefinedPeriod === PredefinedPeriod.LAST_DAY ||
+                marketReportPredefinedPeriod === PredefinedPeriod.LAST_WEEK
+              ) {
+                return `${dayjs(time).format('HH')}h`;
               } else {
                 return dayjs(time).format('DD/MM');
               }

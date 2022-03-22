@@ -1,5 +1,4 @@
 import './dashboardPanelRight.less';
-
 import Icon from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
 import Big from 'big.js';
@@ -11,6 +10,7 @@ import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, LBTC_COINGECKOID } from '../../utils';
 import { useGetFeeBalanceQuery } from '../operator/operator.api';
+import type { PriceFeedQueryResult } from '../rates.api';
 
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -19,9 +19,10 @@ const { Title } = Typography;
 
 interface DashboardPanelRightProps {
   lbtcUnit: LbtcUnit;
+  priceFeed: PriceFeedQueryResult;
 }
 
-export const DashboardPanelRight = ({ lbtcUnit }: DashboardPanelRightProps): JSX.Element => {
+export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRightProps): JSX.Element => {
   const navigate = useNavigate();
   const { currency } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: feeBalance } = useGetFeeBalanceQuery();

@@ -10,6 +10,7 @@ import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, LBTC_ASSET, LBTC_COINGECKOID } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import type { PriceFeedQueryResult } from '../rates.api';
 
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -18,6 +19,7 @@ const { Title } = Typography;
 
 interface DashboardPanelLeftProps {
   lbtcUnit: LbtcUnit;
+  priceFeed: PriceFeedQueryResult;
 }
 
 export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {

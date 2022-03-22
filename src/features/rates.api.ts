@@ -6,6 +6,12 @@ import { CURRENCIES, LBTC_COINGECKOID, USDT_COINGECKOID } from './../utils/const
 
 export type CoinGeckoPriceResult = Record<string, Record<Currency['value'], number>>;
 
+export interface PriceFeedQueryResult {
+  data?: CoinGeckoPriceResult;
+  isLoading: boolean;
+  isError: boolean;
+}
+
 export const ratesApi = createApi({
   reducerPath: 'ratesApi',
   baseQuery: fetchBaseQuery({

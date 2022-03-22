@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import Big from 'big.js';
 
 import type { Currency } from '../domain/currency';
 
@@ -31,5 +32,27 @@ export const ratesApi = createApi({
     }),
   }),
 });
+
+// COINGECKO does not have a ticker for LCAD
+// We have to manually calculate the rates
+export const calculateLCAD = (prices: CoinGeckoPriceResult): Record<Currency['value'], number> => {
+  const BTC_CAD_RATE = prices?.[LBTC_COINGECKOID]?.['cad'] || 1;
+  const CAD_BTC_RATE = Big(1).div(BTC_CAD_RATE);
+
+  // CAD -> USD
+  const USD_CAD_RATE = prices?.[USDT_COINGECKOID]?.['cad'] || 1;
+  const CAD_USD_RATE = Big(1).div(USD_CAD_RATE);
+
+  // CAD -> EUR == CAD -> USD -> EUR
+  const USD_EUR_RATE = prices?.[USDT_COINGECKOID]?.['eur'] || 1;
+  const CAD_EUR_RATE = CAD_USD_RATE.times(USD_EUR_RATE);
+
+  return {
+    usd: CAD_USD_RATE.toNumber(),
+    cad: 1,
+    eur: CAD_EUR_RATE.toNumber(),
+    btc: CAD_BTC_RATE.toNumber(),
+  };
+};
 
 export const { useLatestPriceFeedFromCoinGeckoQuery } = ratesApi;

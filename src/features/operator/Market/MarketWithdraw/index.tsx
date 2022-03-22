@@ -27,7 +27,7 @@ import {
   USDT_COINGECKOID,
 >>>>>>> 55c3dd2 (Fiat conversion for MarketWithdraw Screen)
 } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, calculateLCAD } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -124,7 +124,7 @@ export const MarketWithdraw = (): JSX.Element => {
 
   const baseToPreferredCurrency = React.useMemo(() => {
     // Wait for prices to load (or error out) before displaying conversions
-    if (isLoadingPrices || isErrorPrices) {
+    if (isLoadingPrices || isErrorPrices || prices === undefined) {
       return '';
     }
 
@@ -153,43 +153,15 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetTicker.includes('L-BTC')) {
+    if (assetTicker === 'L-BTC' || assetTicker === 'tL-BTC') {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else if (assetTicker === 'USDt') {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else if (assetTicker === 'LCAD') {
-      // COINGECKO does not have a ticker for LCAD
-      // We have to manually calculate the rates
-
-      // CAD -> BTC
-      const BTC_CAD_RATE = prices?.[LBTC_COINGECKOID]?.['cad'] || 1;
-      const CAD_BTC_RATE = Big(1).div(BTC_CAD_RATE);
-
-      // CAD -> USD
-      const USD_CAD_RATE = prices?.[USDT_COINGECKOID]?.['cad'] || 1;
-      const CAD_USD_RATE = Big(1).div(USD_CAD_RATE);
-
-      // CAD -> EUR == CAD -> USD -> EUR
-      const USD_EUR_RATE = prices?.[USDT_COINGECKOID]?.['eur'] || 1;
-      const CAD_EUR_RATE = CAD_USD_RATE.times(USD_EUR_RATE);
-
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC);
-      switch (currency.value) {
-        case 'usd':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_USD_RATE);
-          break;
-        case 'btc':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_BTC_RATE);
-          break;
-        case 'eur':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_EUR_RATE);
-          break;
-        case 'cad':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(1);
-          break;
-      }
+      rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
+      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else {
       return '';
     }
@@ -212,7 +184,7 @@ export const MarketWithdraw = (): JSX.Element => {
 
   const quoteToPreferredCurrency = React.useMemo(() => {
     // Wait for prices to load (or error out) before displaying conversions
-    if (isLoadingPrices || isErrorPrices) {
+    if (isLoadingPrices || isErrorPrices || prices === undefined) {
       return '';
     }
 
@@ -241,43 +213,15 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetTicker.includes('L-BTC')) {
+    if (assetTicker === 'L-BTC' || assetTicker === 'tL-BTC') {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else if (assetTicker === 'USDt') {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else if (assetTicker === 'LCAD') {
-      // COINGECKO does not have a ticker for LCAD
-      // We have to manually calculate the rates
-
-      // CAD -> BTC
-      const BTC_CAD_RATE = prices?.[LBTC_COINGECKOID]?.['cad'] || 1;
-      const CAD_BTC_RATE = Big(1).div(BTC_CAD_RATE);
-
-      // CAD -> USD
-      const USD_CAD_RATE = prices?.[USDT_COINGECKOID]?.['cad'] || 1;
-      const CAD_USD_RATE = Big(1).div(USD_CAD_RATE);
-
-      // CAD -> EUR == CAD -> USD -> EUR
-      const USD_EUR_RATE = prices?.[USDT_COINGECKOID]?.['eur'] || 1;
-      const CAD_EUR_RATE = CAD_USD_RATE.times(USD_EUR_RATE);
-
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC);
-      switch (currency.value) {
-        case 'usd':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_USD_RATE);
-          break;
-        case 'btc':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_BTC_RATE);
-          break;
-        case 'eur':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(CAD_EUR_RATE);
-          break;
-        case 'cad':
-          preferredCurrencyAmount = preferredCurrencyAmount.times(1);
-          break;
-      }
+      rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
+      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else {
       return '';
     }

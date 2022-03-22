@@ -1,80 +1,38 @@
 import { Col, Row } from 'antd';
 import dayjs from 'dayjs';
-import { BarChart, XAxis, Tooltip, Bar, YAxis, ResponsiveContainer } from 'recharts';
+import { useMemo } from 'react';
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const data = [
-  {
-    time: '2021-01-09',
-    value: 4000,
-  },
-  {
-    time: '2021-02-03',
-    value: 3000,
-  },
-  {
-    time: '2021-02-16',
-    value: 2000,
-  },
-  {
-    time: '2021-03-09',
-    value: 2780,
-  },
-  {
-    time: '2021-05-21',
-    value: 1890,
-  },
-  {
-    time: '2021-05-01',
-    value: 2390,
-  },
-  {
-    time: '2021-05-23',
-    value: 234,
-  },
-  {
-    time: '2021-05-27',
-    value: 567,
-  },
-  {
-    time: '2021-06-03',
-    value: 1000,
-  },
-  {
-    time: '2021-06-12',
-    value: 1267,
-  },
-  {
-    time: '2021-06-23',
-    value: 2009,
-  },
-  {
-    time: '2021-06-24',
-    value: 2089,
-  },
-  {
-    time: '2021-06-28',
-    value: 3001,
-  },
-  {
-    time: '2021-07-01',
-    value: 3589,
-  },
-  {
-    time: '2021-07-06',
-    value: 3678,
-  },
-  {
-    time: '2021-07-14',
-    value: 3890,
-  },
-];
+import type { MarketReport } from '../../api-spec/generated/js/operator_pb';
+import { PredefinedPeriod } from '../../api-spec/generated/js/operator_pb';
 
 interface VolumeChartProps {
   topLeft: JSX.Element;
   topRight: JSX.Element;
+  marketReport?: MarketReport.AsObject;
+  marketReportPredefinedPeriod: PredefinedPeriod;
 }
 
-export const VolumeChart = ({ topLeft, topRight }: VolumeChartProps): JSX.Element => {
+export const VolumeChart = ({
+  topLeft,
+  topRight,
+  marketReport,
+  marketReportPredefinedPeriod,
+}: VolumeChartProps): JSX.Element => {
+  // Prepare data starting from last element
+  const data = useMemo(() => {
+    // TODO: Convert baseVolume to LBTC unit or fractional
+    // Wait for https://github.com/tdex-network/tdex-dashboard/pull/296
+    return marketReport?.groupedVolumeList.reduceRight(
+      (acc, curr) => acc.concat({ time: curr.startDate, value: curr.baseVolume }),
+      [] as { time: string; value: number }[]
+    );
+  }, [marketReport?.groupedVolumeList]);
+
+  // Calculate yAxis width
+  const yAxis = document.getElementsByClassName('recharts-cartesian-axis recharts-yAxis')[0];
+  const yAxisWidth = (yAxis as SVGGraphicsElement)?.getBBox().width;
+
   return (
     <>
       <Row>
@@ -82,17 +40,26 @@ export const VolumeChart = ({ topLeft, topRight }: VolumeChartProps): JSX.Elemen
         <Col span={20}>{topRight}</Col>
       </Row>
       <ResponsiveContainer width="100%" height={265}>
-        <BarChart width={730} height={250} data={data} margin={{ top: 5, right: 5, bottom: -12, left: -12 }}>
+        <BarChart width={730} height={250} data={data} margin={{ top: 5, bottom: -12 }}>
           <XAxis
             dataKey="time"
             axisLine={false}
             tickLine={false}
-            tickFormatter={(time) => dayjs(time).format('DD')}
-            minTickGap={1}
+            tickFormatter={(time) => {
+              if (
+                marketReportPredefinedPeriod === PredefinedPeriod.LAST_DAY ||
+                marketReportPredefinedPeriod === PredefinedPeriod.LAST_WEEK
+              ) {
+                return `${dayjs(time).format('HH')}h`;
+              } else {
+                return dayjs(time).format('DD/MM');
+              }
+            }}
+            minTickGap={10}
             tickMargin={1}
             tickSize={1}
           />
-          <YAxis />
+          <YAxis width={yAxisWidth} />
           <Tooltip />
           <Bar dataKey="value" fill="#44a13c" />
         </BarChart>

@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
@@ -11,7 +12,7 @@ import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
-import { useGetMarketBalanceQuery, useGetMarketInfoQuery } from '../../operator.api';
+import { useGetMarketBalanceQuery, useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
@@ -42,6 +43,20 @@ export const MarketOverview = (): JSX.Element => {
       pollingInterval: isBalanceUpdating ? 2000 : 0,
     }
   );
+
+  // Market report
+  const [marketReportPredefinedPeriod, setMarketReportPredefinedPeriod] = useState<PredefinedPeriod>(
+    PredefinedPeriod.LAST_MONTH
+  );
+  const [marketReportTimeFrame, setMarketReportTimeFrame] = useState<TimeFrame>(TimeFrame.DAY);
+  const { data: marketReport } = useGetMarketReportQuery({
+    market: {
+      baseAsset: state.baseAsset?.asset_id,
+      quoteAsset: state.quoteAsset?.asset_id,
+    },
+    timeRange: { predefinedPeriod: marketReportPredefinedPeriod },
+    timeFrame: marketReportTimeFrame,
+  });
 
   // After a withdrawal or a trade, balances takes time to update, so we can't simply refetch balances right after
   // We check differences between availableBalance and totalBalance and poll balances until it is resolved
@@ -161,6 +176,10 @@ export const MarketOverview = (): JSX.Element => {
               marketInfo={marketInfo}
               baseAsset={state?.baseAsset}
               quoteAsset={state?.quoteAsset}
+              marketReport={marketReport}
+              setMarketReportPredefinedPeriod={setMarketReportPredefinedPeriod}
+              setMarketReportTimeFrame={setMarketReportTimeFrame}
+              marketReportPredefinedPeriod={marketReportPredefinedPeriod}
             />
           </Col>
         </Row>

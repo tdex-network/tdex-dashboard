@@ -10,7 +10,6 @@ import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, LBTC_ASSET, LBTC_COINGECKOID } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
-import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
 
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -21,15 +20,11 @@ interface DashboardPanelLeftProps {
   lbtcUnit: LbtcUnit;
 }
 
-export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.Element => {
+export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
   const { network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: listMarkets } = useListMarketsQuery();
-  const {
-    data: prices,
-    isLoading: isLoadingPrices,
-    isError: isErrorPrices,
-  } = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 30000 });
+  const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //

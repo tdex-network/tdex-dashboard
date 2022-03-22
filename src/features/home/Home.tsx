@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../app/store';
 import { ServiceUnavailableModal } from '../../common/ServiceUnavailableModal';
 import { ListMarkets } from '../operator/Market/ListMarkets';
+import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
 import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
 
@@ -22,6 +23,7 @@ export const Home = (): JSX.Element => {
     // Skip if proxy is used but not serving
     skip: proxyHealth && proxyHealth !== 'SERVING',
   });
+  const priceFeed = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 30000 });
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
@@ -66,10 +68,10 @@ export const Home = (): JSX.Element => {
       </Title>
       <Row gutter={{ xs: 4, sm: 8, md: 12 }} className="mb-8">
         <Col span={12}>
-          <DashboardPanelLeft lbtcUnit={lbtcUnit} />
+          <DashboardPanelLeft lbtcUnit={lbtcUnit} priceFeed={priceFeed} />
         </Col>
         <Col span={12}>
-          <DashboardPanelRight lbtcUnit={lbtcUnit} />
+          <DashboardPanelRight lbtcUnit={lbtcUnit} priceFeed={priceFeed} />
         </Col>
       </Row>
       <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>

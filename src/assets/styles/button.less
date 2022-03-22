@@ -95,6 +95,12 @@ a.ant-btn {
 
 // Radio buttons
 .ant-radio-group {
+  &.radio-green {
+    .ant-radio-button-wrapper {
+      background: @btn-default-bg !important;
+      color: @primary-color;
+    }
+  }
   .ant-radio-button-wrapper {
     height: 38px;
     font-weight: bold;
@@ -111,6 +117,9 @@ a.ant-btn {
     }
     &:hover, &:focus, &:checked {
       box-shadow: 0 0 0 1px @primary-color inset !important;
+    }
+    &:focus-within {
+      box-shadow: none;
     }
     &.ant-radio-button-wrapper-checked {
       box-shadow: 0 0 0 1px @primary-color inset !important;

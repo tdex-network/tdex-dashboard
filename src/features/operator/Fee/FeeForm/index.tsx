@@ -12,8 +12,9 @@ import type { Asset } from '../../../../domain/asset';
 import {
   formatFiatToSats,
   formatLbtcUnitToSats,
-  formatSatsToUnit,
+  fromSatsToUnitOrFractional,
   isLbtcAssetId,
+  isLbtcTicker,
   sleep,
 } from '../../../../utils';
 import {
@@ -101,17 +102,17 @@ export const FeeForm = ({
   const resetAll = async () => {
     if (!marketInfo?.fee?.fixed) return;
     form.setFieldsValue({
-      feeAbsoluteBaseInput: formatSatsToUnit(
+      feeAbsoluteBaseInput: fromSatsToUnitOrFractional(
         marketInfo.fee.fixed.baseFee,
-        lbtcUnit,
-        baseAsset.asset_id,
-        network
+        baseAsset.precision,
+        isLbtcTicker(baseAsset.ticker),
+        lbtcUnit
       ),
-      feeAbsoluteQuoteInput: formatSatsToUnit(
+      feeAbsoluteQuoteInput: fromSatsToUnitOrFractional(
         marketInfo.fee.fixed.quoteFee,
-        lbtcUnit,
-        quoteAsset.asset_id,
-        network
+        quoteAsset.precision,
+        isLbtcTicker(quoteAsset.ticker),
+        lbtcUnit
       ),
       feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
     });
@@ -123,17 +124,17 @@ export const FeeForm = ({
       form={form}
       name="fee_form"
       initialValues={{
-        feeAbsoluteBaseInput: formatSatsToUnit(
+        feeAbsoluteBaseInput: fromSatsToUnitOrFractional(
           Number(feeAbsoluteBase),
-          lbtcUnit,
-          baseAsset.asset_id,
-          network
+          baseAsset.precision,
+          isLbtcTicker(baseAsset.ticker),
+          lbtcUnit
         ),
-        feeAbsoluteQuoteInput: formatSatsToUnit(
+        feeAbsoluteQuoteInput: fromSatsToUnitOrFractional(
           Number(feeAbsoluteQuote),
-          lbtcUnit,
-          quoteAsset.asset_id,
-          network
+          quoteAsset.precision,
+          isLbtcTicker(quoteAsset.ticker),
+          lbtcUnit
         ),
         feeRelativeInput: Number(feeRelative) / 100,
       }}

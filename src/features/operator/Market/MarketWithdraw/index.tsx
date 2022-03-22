@@ -16,7 +16,7 @@ import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants'
 import {
   formatFiatToSats,
   formatLbtcUnitToSats,
-  formatSatsToUnit,
+  fromSatsToUnitOrFractional,
   isLbtcAssetId,
   isLbtcTicker,
   LBTC_ASSET,
@@ -121,38 +121,38 @@ export const MarketWithdraw = (): JSX.Element => {
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatsToUnitOrFractional(
           marketBalance?.availableBalance?.baseAmount,
-          lbtcUnit,
-          selectedMarket.baseAsset?.asset_id,
-          network
+          selectedMarket?.baseAsset?.precision,
+          isLbtcTicker(selectedMarket?.baseAsset?.ticker),
+          lbtcUnit
         );
   const baseTotalAmountFormatted =
     marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatsToUnitOrFractional(
           marketBalance?.totalBalance?.baseAmount,
-          lbtcUnit,
-          selectedMarket.baseAsset?.asset_id,
-          network
+          selectedMarket?.baseAsset?.precision,
+          isLbtcTicker(selectedMarket?.baseAsset?.ticker),
+          lbtcUnit
         );
   const quoteAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatsToUnitOrFractional(
           marketBalance?.availableBalance?.quoteAmount,
-          lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id,
-          network
+          selectedMarket?.quoteAsset?.precision,
+          isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
+          lbtcUnit
         );
   const quoteTotalAmountFormatted =
     marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
       ? 'N/A'
-      : formatSatsToUnit(
+      : fromSatsToUnitOrFractional(
           marketBalance?.totalBalance?.quoteAmount,
-          lbtcUnit,
-          selectedMarket.quoteAsset?.asset_id,
-          network
+          selectedMarket?.quoteAsset?.precision,
+          isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
+          lbtcUnit
         );
   const baseTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
     ? lbtcUnit

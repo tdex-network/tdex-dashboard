@@ -135,10 +135,10 @@ export const MarketWithdraw = (): JSX.Element => {
       // ignore user typos, just leave the amount as 0
     }
     const assetId = selectedMarket.baseAsset?.asset_id || '';
-    const assetName = selectedMarket.baseAsset?.ticker || 'unknown';
+    const assetTicker = selectedMarket.baseAsset?.ticker || 'unknown';
 
     let amountInFiatOrLBTC = '';
-    if (isLbtcAssetId(selectedMarket.baseAsset?.asset_id || '', network)) {
+    if (isLbtcAssetId(assetId, network)) {
       amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
       amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
     } else {
@@ -147,13 +147,13 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetName.includes('L-BTC')) {
+    if (assetTicker.includes('L-BTC')) {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetName === 'USDt') {
+    } else if (assetTicker === 'USDt') {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetName === 'LCAD') {
+    } else if (assetTicker === 'LCAD') {
       // COINGECKO does not have a ticker for LCAD
       // We have to manually calculate the rates
 
@@ -217,10 +217,10 @@ export const MarketWithdraw = (): JSX.Element => {
       // ignore user typos, just leave the amount as 0
     }
     const assetId = selectedMarket.quoteAsset?.asset_id || '';
-    const assetName = selectedMarket.quoteAsset?.ticker || 'unknown';
+    const assetTicker = selectedMarket.quoteAsset?.ticker || 'unknown';
 
     let amountInFiatOrLBTC = '';
-    if (isLbtcAssetId(selectedMarket.quoteAsset?.asset_id || '', network)) {
+    if (isLbtcAssetId(assetId, network)) {
       amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
       amountInFiatOrLBTC = formatSatsToUnit(Number(amountInFiatOrLBTC), 'L-BTC', assetId, network);
     } else {
@@ -229,13 +229,13 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetName.includes('L-BTC')) {
+    if (assetTicker.includes('L-BTC')) {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetName === 'USDt') {
+    } else if (assetTicker === 'USDt') {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetName === 'LCAD') {
+    } else if (assetTicker === 'LCAD') {
       // COINGECKO does not have a ticker for LCAD
       // We have to manually calculate the rates
 

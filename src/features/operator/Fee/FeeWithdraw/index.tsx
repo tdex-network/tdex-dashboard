@@ -56,8 +56,8 @@ export const FeeWithdraw = (): JSX.Element => {
       return <>{currency.symbol}0</>;
     }
     try {
-      const feeAMNT = Number(feeWithdrawAmount);
-      const feeLSAT = Number(formatLbtcUnitToSats(feeAMNT, lbtcUnit));
+      const feeAMNT = Big(feeWithdrawAmount);
+      const feeLSAT = Number(formatLbtcUnitToSats(feeAMNT.toNumber(), lbtcUnit));
       const feeLBTC = fromSatsToUnitOrFractional(feeLSAT, 8, true, 'L-BTC');
       const feeRATE = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       const feeFIAT =

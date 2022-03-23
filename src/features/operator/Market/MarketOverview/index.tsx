@@ -162,10 +162,18 @@ export const MarketOverview = (): JSX.Element => {
               </Row>
               <Row align="middle">
                 <Col span={8}>
-                  <span className="dm-sans dm-sans__xx">
-                    {marketReport?.totalCollectedFees?.baseAmount ?? 0}
-                  </span>
-                  <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.ticker ?? ''}</span>
+                  <div>
+                    <span className="dm-mono dm-mono__xx">
+                      {marketReport?.totalCollectedFees?.baseAmount ?? 0}
+                    </span>
+                    <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.ticker ?? ''}</span>
+                  </div>
+                  <div>
+                    <span className="dm-mono dm-mono__xx">
+                      {marketReport?.totalCollectedFees?.quoteAmount ?? 0}
+                    </span>
+                    <span className="dm-sans dm-sans__x ml-2">{state?.quoteAsset?.ticker ?? ''}</span>
+                  </div>
                 </Col>
               </Row>
             </div>

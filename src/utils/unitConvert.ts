@@ -37,11 +37,23 @@ export function fromSatsToUnitOrFractional(
     const unit = isLbtc ? lbtcUnit : undefined;
     return new Big(sats)
       .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
-      .toString();
+      .toFixed();
   } catch (err) {
     console.error(err);
     return 'N/A';
   }
+}
+
+/**
+ * Takes liquid bitcoin amount in certain unit and convert it to another unit
+ * @param amount
+ * @param lbtcUnitFrom
+ * @param lbtcUnitTo
+ */
+export function fromUnitToUnit(amount: number, lbtcUnitFrom: LbtcUnit, lbtcUnitTo: LbtcUnit): string {
+  return new Big(amount)
+    .div(new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber()))
+    .toFixed();
 }
 
 /**

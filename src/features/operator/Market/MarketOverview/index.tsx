@@ -150,7 +150,26 @@ export const MarketOverview = (): JSX.Element => {
           </Col>
         </Row>
         <Row className="mb-8" gutter={{ xs: 4, sm: 8, md: 12 }}>
-          <Col span={8}>
+          <Col span={8} className="h-100">
+            <div className="panel panel__grey mb-4">
+              <Row>
+                <Col span={24}>
+                  <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                    Collected Swap Fees
+                  </Title>
+                  <InfoCircleOutlined className="grey" />
+                </Col>
+              </Row>
+              <Row align="middle">
+                <Col span={8}>
+                  <span className="dm-sans dm-sans__xx">
+                    {marketReport?.totalCollectedFees?.baseAmount ?? 0}
+                  </span>
+                  <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.ticker ?? ''}</span>
+                </Col>
+              </Row>
+            </div>
+
             {/* Render FeeForm only when marketInfo is ready */}
             {/* To ensure AntD form initialValues are correct */}
             {marketInfo ? (

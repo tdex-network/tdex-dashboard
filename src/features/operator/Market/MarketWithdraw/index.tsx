@@ -20,12 +20,12 @@ import {
   fromSatsToUnitOrFractional,
   getAssetDataFromRegistry,
   isLbtcTicker,
-<<<<<<< HEAD
-=======
   LBTC_ASSET,
   LBTC_COINGECKOID,
+  LBTC_TICKER,
+  LCAD_TICKER,
   USDT_COINGECKOID,
->>>>>>> 55c3dd2 (Fiat conversion for MarketWithdraw Screen)
+  USDT_TICKER,
 } from '../../../../utils';
 import { useLatestPriceFeedFromCoinGeckoQuery, calculateLCAD } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
@@ -40,13 +40,9 @@ interface IFormInputs {
 export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
-<<<<<<< HEAD
-  const { explorerLiquidAPI, network, lbtcUnit, assets } = useTypedSelector(
+  const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
-=======
-  const { explorerLiquidAPI, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
->>>>>>> 55c3dd2 (Fiat conversion for MarketWithdraw Screen)
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [selectedMarket, setSelectedMarket] = useState<{ baseAsset?: Asset; quoteAsset?: Asset }>({
     baseAsset: state?.baseAsset,
@@ -64,7 +60,6 @@ export const MarketWithdraw = (): JSX.Element => {
     isLoading: isLoadingPrices,
     isError: isErrorPrices,
   } = useLatestPriceFeedFromCoinGeckoQuery();
-  const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
   const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
   const [balanceBaseAmount, setBalanceBaseAmount] = useState<string>('');
   const [balanceQuoteAmount, setBalanceQuoteAmount] = useState<string>('');
@@ -136,7 +131,7 @@ export const MarketWithdraw = (): JSX.Element => {
     }
     const assetId = selectedMarket.baseAsset?.asset_id || '';
     const assetTicker = selectedMarket.baseAsset?.ticker || 'unknown';
-    const assetPrecision = selectedMarket.quoteAsset?.precision || 8;
+    const assetPrecision = selectedMarket.baseAsset?.precision || 8;
 
     let amountInFiatOrLBTC = '';
     if (isLbtcAssetId(assetId, network)) {
@@ -153,13 +148,13 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetTicker === 'L-BTC' || assetTicker === 'tL-BTC') {
+    if (assetTicker === LBTC_TICKER[network]) {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === 'USDt') {
+    } else if (assetTicker === USDT_TICKER) {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === 'LCAD') {
+    } else if (assetTicker === LCAD_TICKER) {
       rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else {
@@ -213,13 +208,13 @@ export const MarketWithdraw = (): JSX.Element => {
 
     let rateMultiplier = 1;
     let preferredCurrencyAmount = Big(1);
-    if (assetTicker === 'L-BTC' || assetTicker === 'tL-BTC') {
+    if (assetTicker === LBTC_TICKER[network]) {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === 'USDt') {
+    } else if (assetTicker === USDT_TICKER) {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === 'LCAD') {
+    } else if (assetTicker === LCAD_TICKER) {
       rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
       preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
     } else {

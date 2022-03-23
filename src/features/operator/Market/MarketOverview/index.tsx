@@ -10,6 +10,7 @@ import { ReactComponent as depositIcon } from '../../../../assets/images/deposit
 import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
+import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketBalanceQuery, useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
@@ -23,6 +24,7 @@ const { Title } = Typography;
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
+  const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
   const { data: marketBalance } = useGetMarketBalanceQuery(
@@ -161,16 +163,26 @@ export const MarketOverview = (): JSX.Element => {
                 </Col>
               </Row>
               <Row align="middle">
-                <Col span={8}>
+                <Col>
                   <div>
                     <span className="dm-mono dm-mono__xx">
-                      {marketReport?.totalCollectedFees?.baseAmount ?? 0}
+                      {fromSatsToUnitOrFractional(
+                        marketReport?.totalCollectedFees?.baseAmount ?? 0,
+                        state?.baseAsset?.precision,
+                        isLbtcTicker(state?.baseAsset?.ticker),
+                        lbtcUnit
+                      )}
                     </span>
                     <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.formattedTicker ?? ''}</span>
                   </div>
                   <div>
                     <span className="dm-mono dm-mono__xx">
-                      {marketReport?.totalCollectedFees?.quoteAmount ?? 0}
+                      {fromSatsToUnitOrFractional(
+                        marketReport?.totalCollectedFees?.quoteAmount ?? 0,
+                        state?.quoteAsset?.precision,
+                        isLbtcTicker(state?.quoteAsset?.ticker),
+                        lbtcUnit
+                      )}
                     </span>
                     <span className="dm-sans dm-sans__x ml-2">
                       {state?.quoteAsset?.formattedTicker ?? ''}

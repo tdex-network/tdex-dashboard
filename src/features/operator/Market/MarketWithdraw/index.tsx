@@ -17,9 +17,8 @@ import {
   formatFiatToSats,
   formatLbtcUnitToSats,
   fromSatsToUnitOrFractional,
-  isLbtcAssetId,
+  getAssetDataFromRegistry,
   isLbtcTicker,
-  LBTC_ASSET,
 } from '../../../../utils';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
@@ -33,7 +32,9 @@ interface IFormInputs {
 export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
-  const { explorerLiquidAPI, network } = useTypedSelector(({ settings }: RootState) => settings);
+  const { explorerLiquidAPI, network, lbtcUnit, assets } = useTypedSelector(
+    ({ settings }: RootState) => settings
+  );
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [selectedMarket, setSelectedMarket] = useState<{ baseAsset?: Asset; quoteAsset?: Asset }>({
     baseAsset: state?.baseAsset,
@@ -46,37 +47,20 @@ export const MarketWithdraw = (): JSX.Element => {
     baseAsset: selectedMarket.baseAsset?.asset_id || '',
     quoteAsset: selectedMarket.quoteAsset?.asset_id || '',
   });
-  const { lbtcUnit } = useTypedSelector(({ settings }) => settings);
   const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
 
   useEffect(() => {
-    (async () => {
-      if (listMarkets) {
-        const fetchPromises = [];
-        for (const { market } of listMarkets.marketsList) {
-          fetchPromises.push([
-            fetch(`${explorerLiquidAPI}/asset/${market?.baseAsset}`).then((response) => response.json()),
-            fetch(`${explorerLiquidAPI}/asset/${market?.quoteAsset}`).then((response) => response.json()),
-          ]);
-        }
-        const marketListTmp = (await Promise.all(fetchPromises.map((pair) => Promise.all(pair)))) as [
-          Asset?,
-          Asset?
-        ][];
-        // Add L-BTC ticker since it's not returned by chain asset data
-        setMarketList(
-          marketListTmp.map((market) =>
-            market.map((asset) => {
-              if (isLbtcAssetId(asset?.asset_id || '', network)) {
-                return LBTC_ASSET[network];
-              }
-              return asset;
-            })
-          ) as [Asset?, Asset?][]
-        );
+    if (listMarkets) {
+      for (const { market } of listMarkets.marketsList) {
+        const newMarket: [Asset?, Asset?] = [
+          getAssetDataFromRegistry(market?.baseAsset ?? '', assets[network], lbtcUnit),
+          getAssetDataFromRegistry(market?.quoteAsset ?? '', assets[network], lbtcUnit),
+        ];
+        setMarketList([...marketList, newMarket]);
       }
-    })();
-  }, [explorerLiquidAPI, listMarkets, network]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assets, explorerLiquidAPI, lbtcUnit, listMarkets, network]);
 
   const onFinish = async () => {
     try {
@@ -154,12 +138,6 @@ export const MarketWithdraw = (): JSX.Element => {
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit
         );
-  const baseTickerFormatted = isLbtcTicker(selectedMarket?.baseAsset?.ticker)
-    ? lbtcUnit
-    : selectedMarket?.baseAsset?.ticker || 'N/A';
-  const quoteTickerFormatted = isLbtcTicker(selectedMarket?.quoteAsset?.ticker)
-    ? lbtcUnit
-    : selectedMarket?.quoteAsset?.ticker || 'N/A';
 
   return (
     <>
@@ -207,14 +185,16 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
-                  <span className="dm-sans dm-sans__xx ml-2">{baseTickerFormatted}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">
+                    {selectedMarket?.baseAsset?.formattedTicker}
+                  </span>
                 </Col>
                 <Col span={12}>
                   <InputAmount
-                    assetPrecision={selectedMarket?.baseAsset?.precision || 8}
+                    assetPrecision={selectedMarket?.baseAsset?.precision ?? 8}
                     formItemName="balanceBaseAmount"
                     hasError={!!withdrawMarketError}
-                    lbtcUnitOrTicker={baseTickerFormatted}
+                    lbtcUnitOrTicker={selectedMarket?.baseAsset?.formattedTicker ?? ''}
                     setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
                   />
                 </Col>
@@ -232,8 +212,8 @@ export const MarketWithdraw = (): JSX.Element => {
                         });
                       }
                     }}
-                  >{`${baseAvailableAmountFormatted} ${baseTickerFormatted}`}</Button>
-                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${baseTickerFormatted}`}</span>
+                  >{`${baseAvailableAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD
@@ -244,14 +224,16 @@ export const MarketWithdraw = (): JSX.Element => {
               <Row className="align-center">
                 <Col span={12}>
                   <CurrencyIcon currency={selectedMarket?.quoteAsset?.ticker || ''} />
-                  <span className="dm-sans dm-sans__xx ml-2">{quoteTickerFormatted}</span>
+                  <span className="dm-sans dm-sans__xx ml-2">
+                    {selectedMarket?.quoteAsset?.formattedTicker}
+                  </span>
                 </Col>
                 <Col span={12}>
                   <InputAmount
-                    assetPrecision={selectedMarket?.quoteAsset?.precision || 8}
+                    assetPrecision={selectedMarket?.quoteAsset?.precision ?? 8}
                     formItemName="balanceQuoteAmount"
                     hasError={!!withdrawMarketError}
-                    lbtcUnitOrTicker={quoteTickerFormatted}
+                    lbtcUnitOrTicker={selectedMarket?.quoteAsset?.formattedTicker ?? ''}
                     setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
                   />
                 </Col>
@@ -269,8 +251,8 @@ export const MarketWithdraw = (): JSX.Element => {
                         });
                       }
                     }}
-                  >{`${quoteAvailableAmountFormatted} ${quoteTickerFormatted}`}</Button>
-                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${quoteTickerFormatted}`}</span>
+                  >{`${quoteAvailableAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</Button>
+                  <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
                   0.00 USD

@@ -22,7 +22,7 @@ const { Title } = Typography;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
-  const { marketsLabelled } = useTypedSelector(({ settings }) => settings);
+  const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
   const { data: marketBalance } = useGetMarketBalanceQuery(
@@ -166,13 +166,15 @@ export const MarketOverview = (): JSX.Element => {
                     <span className="dm-mono dm-mono__xx">
                       {marketReport?.totalCollectedFees?.baseAmount ?? 0}
                     </span>
-                    <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.ticker ?? ''}</span>
+                    <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.formattedTicker ?? ''}</span>
                   </div>
                   <div>
                     <span className="dm-mono dm-mono__xx">
                       {marketReport?.totalCollectedFees?.quoteAmount ?? 0}
                     </span>
-                    <span className="dm-sans dm-sans__x ml-2">{state?.quoteAsset?.ticker ?? ''}</span>
+                    <span className="dm-sans dm-sans__x ml-2">
+                      {state?.quoteAsset?.formattedTicker ?? ''}
+                    </span>
                   </div>
                 </Col>
               </Row>

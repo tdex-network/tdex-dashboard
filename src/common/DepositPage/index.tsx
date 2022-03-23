@@ -13,6 +13,7 @@ import { useTypedSelector } from '../../app/store';
 import alertOctogon from '../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../routes/constants';
+import { getAssetDataFromRegistry } from '../../utils';
 
 const { Text, Title } = Typography;
 
@@ -41,12 +42,11 @@ export const DepositPage = ({
 }: DepositPageProps): JSX.Element => {
   const navigate = useNavigate();
   const assetRegistry = useTypedSelector(({ settings }: RootState) => settings.assets);
+  const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
   const network = useTypedSelector(({ settings }) => settings.network);
   const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
     setUseFragmenter(ev.target.checked);
   };
-  const baseAsset = assetRegistry[network].find((a) => a.asset_id === market?.baseAsset);
-  const quoteAsset = assetRegistry[network].find((a) => a.asset_id === market?.quoteAsset);
 
   return (
     <>
@@ -60,14 +60,24 @@ export const DepositPage = ({
             <Button
               type="link"
               className="dm-sans dm-sans__x"
-              onClick={() =>
+              onClick={() => {
+                const baseAsset = getAssetDataFromRegistry(
+                  market?.baseAsset || '',
+                  assetRegistry[network],
+                  lbtcUnit
+                );
+                const quoteAsset = getAssetDataFromRegistry(
+                  market?.quoteAsset || '',
+                  assetRegistry[network],
+                  lbtcUnit
+                );
                 navigate(MARKET_OVERVIEW_ROUTE, {
                   state: {
                     baseAsset,
                     quoteAsset,
                   },
-                })
-              }
+                });
+              }}
             >
               Market Overview
             </Button>

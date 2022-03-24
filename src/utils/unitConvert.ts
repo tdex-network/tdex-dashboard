@@ -38,9 +38,12 @@ export function fromSatsToUnitOrFractional(
 ): string {
   try {
     const unit = isLbtc ? lbtcUnit : undefined;
-    return new Big(sats)
-      .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
-      .toFixed();
+    const decimalPlaces = lbtcUnitOrTickerToFractionalDigits(isLbtc ? lbtcUnit ?? '' : '', precision);
+    return removeInsignificant(
+      new Big(sats)
+        .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
+        .toFixed(decimalPlaces)
+    );
   } catch (err) {
     console.error(err);
     return 'N/A';
@@ -54,9 +57,13 @@ export function fromSatsToUnitOrFractional(
  * @param lbtcUnitTo
  */
 export function fromUnitToUnit(amount: number, lbtcUnitFrom: LbtcUnit, lbtcUnitTo: LbtcUnit): string {
-  return new Big(amount)
-    .div(new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber()))
-    .toFixed();
+  return removeInsignificant(
+    new Big(amount)
+      .div(
+        new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber())
+      )
+      .toFixed(lbtcUnitOrTickerToFractionalDigits(lbtcUnitTo, 8))
+  );
 }
 
 /**

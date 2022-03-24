@@ -15,6 +15,7 @@ import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
 import {
+  defaultPrecision,
   formatFiatToSats,
   formatLbtcUnitToSats,
   fromSatsToUnitOrFractional,
@@ -131,7 +132,7 @@ export const MarketWithdraw = (): JSX.Element => {
     }
     const assetId = selectedMarket.baseAsset?.asset_id || '';
     const assetTicker = selectedMarket.baseAsset?.ticker || 'unknown';
-    const assetPrecision = selectedMarket.baseAsset?.precision || 8;
+    const assetPrecision = selectedMarket.baseAsset?.precision ?? defaultPrecision;
 
     let amountInFiatOrLBTC = '';
     if (isLbtcAssetId(assetId, network)) {
@@ -191,7 +192,7 @@ export const MarketWithdraw = (): JSX.Element => {
     }
     const assetId = selectedMarket.quoteAsset?.asset_id || '';
     const assetTicker = selectedMarket.quoteAsset?.ticker || 'unknown';
-    const assetPrecision = selectedMarket.quoteAsset?.precision || 8;
+    const assetPrecision = selectedMarket.quoteAsset?.precision ?? defaultPrecision;
 
     let amountInFiatOrLBTC = '';
     if (isLbtcAssetId(assetId, network)) {

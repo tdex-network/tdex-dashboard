@@ -4,6 +4,9 @@ import type { LbtcUnit } from './constants';
 import { defaultPrecision, LBTC_UNITS } from './constants';
 import { includes } from './snippets';
 
+/**
+ * Remove leading and trailing zeros
+ */
 const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
 const removeInsignificant = (str: string) => {

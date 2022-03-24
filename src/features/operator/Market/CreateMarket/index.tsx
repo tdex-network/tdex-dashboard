@@ -77,7 +77,7 @@ export const CreateMarket = (): JSX.Element => {
             <FeeForm
               baseAsset={baseAsset}
               quoteAsset={quoteAsset}
-              className={clx({ disabled: step < 2 })}
+              className={clx({ disabled: step < 2 }, 'mb-4')}
               incrementStep={incrementStep}
             />
             <div className={clx('panel panel__grey mb-4', { disabled: step < 3 })}>

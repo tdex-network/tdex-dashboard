@@ -1,38 +1,19 @@
 import { Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
 import checkmark from '../../../../assets/images/checkmark.svg';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
+import type { Asset } from '../../../../domain/asset';
 import { MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
-import { useGetAssetDataQuery } from '../../../liquid.api';
 
 interface MarketListItemProps {
-  marketInfo: MarketInfo.AsObject;
+  baseAsset: Asset;
+  quoteAsset: Asset;
+  isTradable: boolean;
 }
 
-export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element => {
+export const MarketListItem = ({ isTradable, baseAsset, quoteAsset }: MarketListItemProps): JSX.Element => {
   const navigate = useNavigate();
-  const { tradable } = marketInfo;
-  const { data: baseAssetFromQuery, error: baseAssetError } = useGetAssetDataQuery(
-    marketInfo.market?.baseAsset || ''
-  );
-  const { data: quoteAssetFromQuery, error: quoteAssetError } = useGetAssetDataQuery(
-    marketInfo.market?.quoteAsset || ''
-  );
-  // Last resort if GetAssetData fails
-  const baseAsset = baseAssetError
-    ? {
-        asset_id: marketInfo.market?.baseAsset,
-        ticker: marketInfo.market?.baseAsset?.substring(0, 4).toUpperCase(),
-      }
-    : baseAssetFromQuery;
-  const quoteAsset = quoteAssetError
-    ? {
-        asset_id: marketInfo.market?.quoteAsset,
-        ticker: marketInfo.market?.quoteAsset?.substring(0, 4).toUpperCase(),
-      }
-    : quoteAssetFromQuery;
 
   const handleClickMarketDetails = () => {
     navigate(MARKET_OVERVIEW_ROUTE, { state: { baseAsset, quoteAsset } });
@@ -52,7 +33,7 @@ export const MarketListItem = ({ marketInfo }: MarketListItemProps): JSX.Element
         </Col>
         <Col span={8}>
           <span className="">
-            {tradable ? (
+            {isTradable ? (
               <span className="status__open">
                 <span className="mr-1">Open</span>
                 <img className="checkmark" src={checkmark} alt="checkmark" />

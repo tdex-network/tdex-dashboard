@@ -9,12 +9,7 @@ import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { ListWebhooks } from '../../Webhook/ListWebhooks';
-import {
-  useCloseMarketMutation,
-  useDropMarketMutation,
-  useListWebhooksQuery,
-  useOpenMarketMutation,
-} from '../../operator.api';
+import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
 import { UpdateMarketPriceForm } from './UpdateMarketPriceForm';

@@ -1045,6 +1045,7 @@ export const operatorApi = createApi({
           return { error: (error as RpcError).message };
         }
       },
+      invalidatesTags: ['Webhook'],
     }),
     removeWebhook: build.mutation<RemoveWebhookReply, { id: string }>({
       queryFn: async (arg, { getState }) => {
@@ -1065,18 +1066,15 @@ export const operatorApi = createApi({
           return { error: (error as RpcError).message };
         }
       },
+      invalidatesTags: ['Webhook'],
     }),
-    listWebhooks: build.query<WebhookInfo.AsObject[], { action: ActionType }>({
+    listWebhooks: build.query<WebhookInfo.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
         try {
           const state = getState() as RootState;
           const client = selectOperatorClient(state);
           const metadata = selectMacaroonCreds(state);
-          const { action } = arg;
-          const listWebhooksReply = await client.listWebhooks(
-            new ListWebhooksRequest().setAction(action),
-            metadata
-          );
+          const listWebhooksReply = await client.listWebhooks(new ListWebhooksRequest(), metadata);
           return {
             data: listWebhooksReply
               .getWebhookInfoList()

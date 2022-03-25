@@ -41,8 +41,6 @@ export const MarketSettings = ({
   const [openMarket] = useOpenMarketMutation();
   const [closeMarket] = useCloseMarketMutation();
   const [dropMarket] = useDropMarketMutation();
-  const { data: webhooks } = useListWebhooksQuery();
-  console.log('webhooks', webhooks);
 
   const handlePauseMarket: SwitchChangeEventHandler = async (isActive) => {
     try {

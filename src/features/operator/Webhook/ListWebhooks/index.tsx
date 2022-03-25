@@ -1,28 +1,42 @@
-import { useListWebhooksQuery } from '../../operator.api';
+import './listWebhooks.less';
+import { DeleteOutlined, SafetyOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import classNames from 'classnames';
+import { useEffect } from 'react';
+
+import { useListWebhooksQuery, useRemoveWebhookMutation } from '../../operator.api';
 
 export const ListWebhooks = (): JSX.Element => {
-  const { data: listWebhookInfo, error: listWebhooksError } = useListWebhooksQuery({ action: 0 });
+  const { data: listWebhooks, error: listWebhooksError } = useListWebhooksQuery();
+  const [removeWebhook] = useRemoveWebhookMutation();
+
+  useEffect(() => {
+    console.error('ListWebhooks', listWebhooksError);
+  }, [listWebhooksError]);
+
+  const onDelete = async (endpointId: string) => {
+    try {
+      await removeWebhook({ id: endpointId });
+    } catch (err) {
+      console.error('removeWebhook', err);
+    }
+  };
+
   return (
-    <>
-      {listWebhookInfo?.length
-        ? listWebhookInfo?.map(({ id, endpoint, isSecured }, index) => (
-            <div key={index} className="mb-4">
-              <p>
-                <span className="font-bold">Id: </span>
-                {id}
-              </p>
-              <p>
-                <span className="font-bold">endpoint: </span>
-                {endpoint}
-              </p>
-              <p>
-                <span className="font-bold">isSecured: </span>
-                {isSecured}
-              </p>
+    <div className="list-webhooks">
+      {listWebhooks?.length
+        ? listWebhooks?.map(({ id, endpoint, isSecured }) => (
+            <div key={id} className="endpoint mb-4">
+              <span> {endpoint}</span>
+              <div>
+                <span className={classNames({ 'secured-active': isSecured }, 'secured')}>
+                  <SafetyOutlined />
+                </span>
+                <Button type="primary" icon={<DeleteOutlined />} onClick={() => onDelete(id)} />
+              </div>
             </div>
           ))
         : 'No webhooks'}
-      {listWebhooksError && <p>{listWebhooksError}</p>}
-    </>
+    </div>
   );
 };

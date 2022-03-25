@@ -6,9 +6,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
-import { ActionType } from '../../../../api-spec/generated/js/operator_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
+import { ListWebhooks } from '../../Webhook/ListWebhooks';
 import {
   useCloseMarketMutation,
   useDropMarketMutation,
@@ -41,7 +41,7 @@ export const MarketSettings = ({
   const [openMarket] = useOpenMarketMutation();
   const [closeMarket] = useCloseMarketMutation();
   const [dropMarket] = useDropMarketMutation();
-  const { data: webhooks } = useListWebhooksQuery({ action: ActionType.ALL_ACTIONS });
+  const { data: webhooks } = useListWebhooksQuery();
   console.log('webhooks', webhooks);
 
   const handlePauseMarket: SwitchChangeEventHandler = async (isActive) => {
@@ -159,11 +159,7 @@ export const MarketSettings = ({
           <InfoCircleOutlined className="grey" />
         </Col>
       </Row>
-      <ul>
-        {webhooks?.map((webhook) => {
-          return <li key={webhook.endpoint}>{webhook.endpoint}</li>;
-        })}
-      </ul>
+      <ListWebhooks />
 
       <Divider className="my-4" />
 

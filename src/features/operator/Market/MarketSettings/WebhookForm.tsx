@@ -1,5 +1,4 @@
 import { Button, Form, Input, Radio } from 'antd';
-import React from 'react';
 
 import { ActionType } from '../../../../api-spec/generated/js/operator_pb';
 import { useAddWebhookMutation } from '../../operator.api';
@@ -32,12 +31,13 @@ export const WebhookForm = (): JSX.Element => {
       layout="vertical"
       form={form}
       name="webhook_form"
-      initialValues={{ notificationType: 0 }}
+      initialValues={{ notificationType: 3 }}
       onFinish={onFinish}
       wrapperCol={{ span: 24 }}
     >
       <Form.Item name="notificationType">
         <Radio.Group className="ghost">
+          <Radio.Button value={ActionType.ALL_ACTIONS}>Any</Radio.Button>
           <Radio.Button value={ActionType.TRADE_SETTLED}>Trade</Radio.Button>
           <Radio.Button value={ActionType.ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
           <Radio.Button value={ActionType.ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>

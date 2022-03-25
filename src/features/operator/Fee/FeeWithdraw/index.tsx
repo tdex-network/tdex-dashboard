@@ -31,7 +31,7 @@ interface IFormInputs {
 export const FeeWithdraw = (): JSX.Element => {
   const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
-  const [feeWithdrawAmount, setFeeWithdrawAmount] = useState<string>('');
+  const [feeWithdrawAmount, setFeeWithdrawAmount] = useState<string>('0');
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
@@ -52,8 +52,10 @@ export const FeeWithdraw = (): JSX.Element => {
 
   const feeFiatAmount = useMemo(() => {
     // display fiat value as 0 in case of api loading or error
+    const feeCODE = currency.value === 'btc' ? 'L-BTC' : currency.value.toUpperCase();
+
     if (isLoadingPrices || isErrorPrices) {
-      return <>{currency.symbol}0</>;
+      return <></>;
     }
     try {
       const feeAMNT = Big(feeWithdrawAmount);
@@ -64,9 +66,14 @@ export const FeeWithdraw = (): JSX.Element => {
         currency.value === 'btc'
           ? Big(feeLBTC).times(feeRATE).toFixed(8)
           : Big(feeLBTC).times(feeRATE).toFixed(2);
-      return <>{feeFIAT}</>;
+
+      return (
+        <>
+          {feeFIAT} {feeCODE}
+        </>
+      );
     } catch (e) {
-      return <>0</>;
+      return <></>;
     }
   }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, prices]);
 
@@ -153,7 +160,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  {feeFiatAmount} {currency.value.toUpperCase()}
+                  {feeFiatAmount}
                 </Col>
               </Row>
             </div>

@@ -118,125 +118,59 @@ export const MarketWithdraw = (): JSX.Element => {
     }
   };
 
-  const baseToPreferredCurrency = React.useMemo(() => {
-    // Wait for prices to load (or error out) before displaying conversions
-    if (isLoadingPrices || isErrorPrices || prices === undefined) {
-      return '';
-    }
-
-    let amount = Big(0);
+  const convertAssetAmountToCurrency = (asset: Asset | undefined, amount: string) => {
+    let assetAmount = Big(0);
     try {
-      amount = Big(balanceBaseAmount);
+      assetAmount = Big(amount);
     } catch {
       // ignore user typos, just leave the amount as 0
     }
-    const assetId = selectedMarket.baseAsset?.asset_id || '';
-    const assetTicker = selectedMarket.baseAsset?.ticker || 'unknown';
-    const assetPrecision = selectedMarket.baseAsset?.precision ?? defaultPrecision;
 
-    let amountInFiatOrLBTC = '';
+    const assetId = asset?.asset_id || '';
+    const assetTicker = asset?.ticker || 'unknown';
+    const assetPrecision = asset?.precision ?? defaultPrecision;
+
+    let currencyAmount = Big(1);
     if (isLbtcAssetId(assetId, network)) {
-      amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
-      amountInFiatOrLBTC = fromSatsToUnitOrFractional(
-        Number(amountInFiatOrLBTC),
-        assetPrecision,
-        true,
-        'L-BTC'
+      currencyAmount = Big(
+        fromSatsToUnitOrFractional(
+          Number(formatLbtcUnitToSats(assetAmount.toNumber(), lbtcUnit)),
+          assetPrecision,
+          true,
+          'L-BTC'
+        )
       );
     } else {
-      amountInFiatOrLBTC = amount.toString();
+      currencyAmount = assetAmount;
     }
 
     let rateMultiplier = 1;
-    let preferredCurrencyAmount = Big(1);
     if (assetTicker === LBTC_TICKER[network]) {
       rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
+      currencyAmount = Big(currencyAmount).times(rateMultiplier);
     } else if (assetTicker === USDT_TICKER) {
       rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
+      currencyAmount = Big(currencyAmount).times(rateMultiplier);
     } else if (assetTicker === LCAD_TICKER) {
       rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
+      currencyAmount = Big(currencyAmount).times(rateMultiplier);
     } else {
       return '';
     }
 
     if (currency.value === 'btc') {
-      return `${preferredCurrencyAmount.toFixed(8)} ${currency.value.toLocaleUpperCase()}`;
+      return `${currencyAmount.toFixed(8)} L-BTC`;
     } else {
-      return `${preferredCurrencyAmount.toFixed(2)} ${currency.value.toLocaleUpperCase()}`;
+      return `${currencyAmount.toFixed(2)} ${currency.value.toLocaleUpperCase()}`;
     }
-  }, [
-    balanceBaseAmount,
-    currency,
-    lbtcUnit,
-    isLoadingPrices,
-    isErrorPrices,
-    network,
-    prices,
-    selectedMarket,
-  ]);
+  };
 
-  const quoteToPreferredCurrency = React.useMemo(() => {
-    // Wait for prices to load (or error out) before displaying conversions
-    if (isLoadingPrices || isErrorPrices || prices === undefined) {
-      return '';
-    }
+  const baseToPreferredCurrency = convertAssetAmountToCurrency(selectedMarket?.baseAsset, balanceBaseAmount);
 
-    let amount = Big(0);
-    try {
-      amount = Big(balanceQuoteAmount);
-    } catch {
-      // ignore user typos, just leave the amount as 0
-    }
-    const assetId = selectedMarket.quoteAsset?.asset_id || '';
-    const assetTicker = selectedMarket.quoteAsset?.ticker || 'unknown';
-    const assetPrecision = selectedMarket.quoteAsset?.precision ?? defaultPrecision;
-
-    let amountInFiatOrLBTC = '';
-    if (isLbtcAssetId(assetId, network)) {
-      amountInFiatOrLBTC = formatLbtcUnitToSats(amount.toNumber(), lbtcUnit);
-      amountInFiatOrLBTC = fromSatsToUnitOrFractional(
-        Number(amountInFiatOrLBTC),
-        assetPrecision,
-        true,
-        'L-BTC'
-      );
-    } else {
-      amountInFiatOrLBTC = amount.toString();
-    }
-
-    let rateMultiplier = 1;
-    let preferredCurrencyAmount = Big(1);
-    if (assetTicker === LBTC_TICKER[network]) {
-      rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === USDT_TICKER) {
-      rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else if (assetTicker === LCAD_TICKER) {
-      rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
-      preferredCurrencyAmount = Big(amountInFiatOrLBTC).times(rateMultiplier);
-    } else {
-      return '';
-    }
-
-    if (currency.value === 'btc') {
-      return `${preferredCurrencyAmount.toFixed(8)} ${currency.value.toLocaleUpperCase()}`;
-    } else {
-      return `${preferredCurrencyAmount.toFixed(2)} ${currency.value.toLocaleUpperCase()}`;
-    }
-  }, [
-    balanceQuoteAmount,
-    currency,
-    isLoadingPrices,
-    isErrorPrices,
-    lbtcUnit,
-    network,
-    prices,
-    selectedMarket,
-  ]);
+  const quoteToPreferredCurrency = convertAssetAmountToCurrency(
+    selectedMarket?.quoteAsset,
+    balanceQuoteAmount
+  );
 
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
@@ -357,7 +291,7 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  {baseToPreferredCurrency}
+                  {!isLoadingPrices && !isErrorPrices && baseToPreferredCurrency}
                 </Col>
               </Row>
             </div>
@@ -397,7 +331,7 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  {quoteToPreferredCurrency}
+                  {!isLoadingPrices && !isErrorPrices && quoteToPreferredCurrency}
                 </Col>
               </Row>
             </div>

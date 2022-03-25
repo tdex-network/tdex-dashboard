@@ -35,7 +35,9 @@ export const ratesApi = createApi({
 
 // COINGECKO does not have a ticker for LCAD
 // We have to manually calculate the rates
-export const calculateLCAD = (prices: CoinGeckoPriceResult): Record<Currency['value'], number> => {
+export const calculateLCAD = (
+  prices: CoinGeckoPriceResult | undefined
+): Record<Currency['value'], number> => {
   const BTC_CAD_RATE = prices?.[LBTC_COINGECKOID]?.['cad'] || 1;
   const CAD_BTC_RATE = Big(1).div(BTC_CAD_RATE);
 

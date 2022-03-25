@@ -57,6 +57,11 @@ export function fromSatsToUnitOrFractional(
  * @param lbtcUnitTo
  */
 export function fromUnitToUnit(amount: number, lbtcUnitFrom: LbtcUnit, lbtcUnitTo: LbtcUnit): string {
+  const amountStr = removeInsignificant(new Big(amount).toFixed());
+  const decimalPlaces = amountStr.includes('.') ? amountStr.split('.')[1].length : 0;
+  if (decimalPlaces > lbtcUnitOrTickerToFractionalDigits(lbtcUnitFrom, 8)) {
+    throw new Error('Invalid amount: too many decimal places');
+  }
   return removeInsignificant(
     new Big(amount)
       .div(

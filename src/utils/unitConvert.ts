@@ -36,14 +36,15 @@ export function fromSatsToUnitOrFractional(
   isLbtc: boolean,
   lbtcUnit?: LbtcUnit
 ): string {
+  // Check that sats is not a float
+  if (Number(sats) === sats && sats % 1 !== 0) {
+    throw new Error('Amount should be specified in satoshis');
+  }
   try {
     const unit = isLbtc ? lbtcUnit : undefined;
-    const decimalPlaces = lbtcUnitOrTickerToFractionalDigits(isLbtc ? lbtcUnit ?? '' : '', precision);
-    return removeInsignificant(
-      new Big(sats)
-        .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
-        .toFixed(decimalPlaces)
-    );
+    return new Big(sats)
+      .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
+      .toFixed();
   } catch (err) {
     console.error(err);
     return 'N/A';
@@ -62,13 +63,9 @@ export function fromUnitToUnit(amount: number, lbtcUnitFrom: LbtcUnit, lbtcUnitT
   if (decimalPlaces > lbtcUnitOrTickerToFractionalDigits(lbtcUnitFrom, 8)) {
     throw new Error('Invalid amount: too many decimal places');
   }
-  return removeInsignificant(
-    new Big(amount)
-      .div(
-        new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber())
-      )
-      .toFixed(lbtcUnitOrTickerToFractionalDigits(lbtcUnitTo, 8))
-  );
+  return new Big(amount)
+    .div(new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber()))
+    .toFixed();
 }
 
 /**

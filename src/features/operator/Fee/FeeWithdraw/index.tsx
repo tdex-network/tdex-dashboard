@@ -31,7 +31,7 @@ interface IFormInputs {
 export const FeeWithdraw = (): JSX.Element => {
   const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
-  const [feeWithdrawAmount, setFeeWithdrawAmount] = useState<string>('0');
+  const [feeWithdrawInputValue, setFeeWithdrawInputValue] = useState<string>('0');
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
@@ -58,7 +58,7 @@ export const FeeWithdraw = (): JSX.Element => {
       return <></>;
     }
     try {
-      const feeAMNT = Big(feeWithdrawAmount);
+      const feeAMNT = Big(feeWithdrawInputValue);
       const feeLSAT = Number(formatLbtcUnitToSats(feeAMNT.toNumber(), lbtcUnit));
       const feeLBTC = fromSatsToUnitOrFractional(feeLSAT, 8, true, 'L-BTC');
       const feeRATE = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
@@ -75,7 +75,7 @@ export const FeeWithdraw = (): JSX.Element => {
     } catch (e) {
       return <></>;
     }
-  }, [feeWithdrawAmount, currency, isLoadingPrices, isErrorPrices, lbtcUnit, prices]);
+  }, [feeWithdrawInputValue, currency, isLoadingPrices, isErrorPrices, lbtcUnit, prices]);
 
   const onFinish = async () => {
     try {
@@ -118,7 +118,7 @@ export const FeeWithdraw = (): JSX.Element => {
             validateTrigger="onBlur"
             onFinish={onFinish}
             onValuesChange={(_, values) => {
-              setFeeWithdrawAmount(values['amount']);
+              setFeeWithdrawInputValue(values['amount']);
             }}
             initialValues={{ amount: '0' }}
           >
@@ -151,7 +151,7 @@ export const FeeWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           amount: feeAvailableBalanceFormatted,
                         });
-                        setFeeWithdrawAmount(feeAvailableBalanceFormatted);
+                        setFeeWithdrawInputValue(feeAvailableBalanceFormatted);
                       }
                     }}
                   >

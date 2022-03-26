@@ -11,7 +11,9 @@ export const ListWebhooks = (): JSX.Element => {
   const [removeWebhook] = useRemoveWebhookMutation();
 
   useEffect(() => {
-    console.error('ListWebhooks', listWebhooksError);
+    if (listWebhooksError) {
+      console.error('ListWebhooks', listWebhooksError);
+    }
   }, [listWebhooksError]);
 
   const onDelete = async (endpointId: string) => {

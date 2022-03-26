@@ -1,5 +1,5 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { RpcError, ClientReadableStream } from 'grpc-web';
+import type { ClientReadableStream } from 'grpc-web';
 
 import type {
   InitWalletReply,
@@ -15,7 +15,7 @@ import {
   UnlockWalletRequest,
 } from '../../api-spec/generated/js/walletunlocker_pb';
 import type { RootState } from '../../app/store';
-import { sleep } from '../../utils';
+import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 
 export const walletUnlockerApi = createApi({
@@ -25,16 +25,13 @@ export const walletUnlockerApi = createApi({
   endpoints: (build) => ({
     genSeed: build.query<string[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectWalletUnlockerClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectWalletUnlockerClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const genSeedReply = await client.genSeed(new GenSeedRequest(), metadata);
           return { data: genSeedReply.getSeedMnemonicList() };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     initWallet: build.mutation<
@@ -45,12 +42,11 @@ export const walletUnlockerApi = createApi({
         mnemonic: string[];
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const { isRestore, password, mnemonic } = arg;
-          const state = getState() as RootState;
-          const client = selectWalletUnlockerClient(state);
-          const clientReadableStream = await client.initWallet(
+      queryFn: async ({ isRestore, password, mnemonic }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletUnlockerClient(state);
+        return retryRtkRequest(async () => {
+          const clientReadableStream = client.initWallet(
             new InitWalletRequest()
               .setRestore(isRestore)
               .setWalletPassword(password)
@@ -59,10 +55,7 @@ export const walletUnlockerApi = createApi({
           return {
             data: clientReadableStream,
           };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Unlocker'],
     }),
@@ -72,12 +65,11 @@ export const walletUnlockerApi = createApi({
         password: string | Uint8Array;
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const { password } = arg;
-          const state = getState() as RootState;
-          const client = selectWalletUnlockerClient(state);
-          const metadata = selectMacaroonCreds(state);
+      queryFn: async ({ password }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletUnlockerClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const unlockWalletReply = await client.unlockWallet(
             new UnlockWalletRequest().setWalletPassword(password),
             metadata
@@ -85,10 +77,7 @@ export const walletUnlockerApi = createApi({
           return {
             data: unlockWalletReply.toObject(false),
           };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Unlocker'],
     }),
@@ -99,22 +88,17 @@ export const walletUnlockerApi = createApi({
         newPassword: string | Uint8Array;
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectWalletUnlockerClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { currentPassword, newPassword } = arg;
-          return {
-            data: await client.changePassword(
-              new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
-              metadata
-            ),
-          };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+      queryFn: async ({ currentPassword, newPassword }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletUnlockerClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const changePasswordReply = await client.changePassword(
+            new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
+            metadata
+          );
+          return { data: changePasswordReply };
+        });
       },
       invalidatesTags: ['Unlocker'],
     }),
@@ -123,23 +107,12 @@ export const walletUnlockerApi = createApi({
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
         const metadata = selectMacaroonCreds(state);
-        try {
+        return retryRtkRequest(async () => {
           const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
           return {
             data: isReadyReply.toObject(false),
           };
-        } catch (error) {
-          try {
-            await sleep(500);
-            const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
-            return {
-              data: isReadyReply.toObject(false),
-            };
-          } catch (error) {
-            console.error(error);
-            return { error: (error as RpcError).message };
-          }
-        }
+        });
       },
       providesTags: ['Unlocker'],
     }),

@@ -1,6 +1,5 @@
 import { fakeBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import type { RpcError } from 'grpc-web';
 
 import type {
   SendToManyReply,
@@ -14,6 +13,7 @@ import {
   WalletBalanceRequest,
 } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
+import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';
 
 export const walletApi = createApi({
@@ -22,28 +22,22 @@ export const walletApi = createApi({
   endpoints: (build) => ({
     walletAddress: build.query<WalletAddressReply, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectWalletClient(state);
-          const metadata = selectMacaroonCreds(state);
-          return { data: await client.walletAddress(new WalletAddressRequest(), metadata) };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+        const state = getState() as RootState;
+        const client = selectWalletClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => ({
+          data: await client.walletAddress(new WalletAddressRequest(), metadata),
+        }));
       },
     }),
     walletBalance: build.query<WalletBalanceReply, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectWalletClient(state);
-          const metadata = selectMacaroonCreds(state);
-          return { data: await client.walletBalance(new WalletBalanceRequest(), metadata) };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+        const state = getState() as RootState;
+        const client = selectWalletClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => ({
+          data: await client.walletBalance(new WalletBalanceRequest(), metadata),
+        }));
       },
     }),
     sendToMany: build.mutation<
@@ -54,25 +48,16 @@ export const walletApi = createApi({
         txOut: TxOut[];
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectWalletClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { isPush, millisatPerByte, txOut } = arg;
-          return {
-            data: await client.sendToMany(
-              new SendToManyRequest()
-                .setPush(isPush)
-                .setMillisatPerByte(millisatPerByte)
-                .setOutputsList(txOut),
-              metadata
-            ),
-          };
-        } catch (error) {
-          console.error(error);
-          return { error: (error as RpcError).message };
-        }
+      queryFn: async ({ isPush, millisatPerByte, txOut }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => ({
+          data: await client.sendToMany(
+            new SendToManyRequest().setPush(isPush).setMillisatPerByte(millisatPerByte).setOutputsList(txOut),
+            metadata
+          ),
+        }));
       },
     }),
   }),

@@ -21,6 +21,7 @@ export const WebhookForm = (): JSX.Element => {
         endpoint: values.notificationUrlInput,
         secret: values.notificationSecretInput,
       });
+      form.resetFields();
     } catch (err) {
       console.error(err);
     }

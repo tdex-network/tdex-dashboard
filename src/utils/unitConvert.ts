@@ -4,6 +4,9 @@ import type { LbtcUnit } from './constants';
 import { defaultPrecision, LBTC_UNITS } from './constants';
 import { includes } from './snippets';
 
+/**
+ * Remove leading and trailing zeros
+ */
 const rxLeadingZeros = /^[\s0]{2,}/;
 const rxEndingZeros = /[\s0]+$/;
 const removeInsignificant = (str: string) => {
@@ -33,15 +36,36 @@ export function fromSatsToUnitOrFractional(
   isLbtc: boolean,
   lbtcUnit?: LbtcUnit
 ): string {
+  // Check that sats is not a float
+  if (Number(sats) === sats && sats % 1 !== 0) {
+    throw new Error('Amount should be specified in satoshis');
+  }
   try {
     const unit = isLbtc ? lbtcUnit : undefined;
     return new Big(sats)
       .div(new Big(10).pow(new Big(precision).minus(unitToExponent(unit)).toNumber()))
-      .toString();
+      .toFixed();
   } catch (err) {
     console.error(err);
     return 'N/A';
   }
+}
+
+/**
+ * Takes liquid bitcoin amount in certain unit and convert it to another unit
+ * @param amount
+ * @param lbtcUnitFrom
+ * @param lbtcUnitTo
+ */
+export function fromUnitToUnit(amount: number, lbtcUnitFrom: LbtcUnit, lbtcUnitTo: LbtcUnit): string {
+  const amountStr = new Big(amount).toFixed();
+  const decimalPlaces = amountStr.includes('.') ? amountStr.split('.')[1].length : 0;
+  if (decimalPlaces > lbtcUnitOrTickerToFractionalDigits(lbtcUnitFrom, 8)) {
+    throw new Error('Invalid amount: too many decimal places');
+  }
+  return new Big(amount)
+    .div(new Big(10).pow(new Big(unitToExponent(lbtcUnitFrom)).minus(unitToExponent(lbtcUnitTo)).toNumber()))
+    .toFixed();
 }
 
 /**

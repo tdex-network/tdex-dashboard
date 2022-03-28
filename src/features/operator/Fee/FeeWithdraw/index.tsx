@@ -17,8 +17,9 @@ import {
   fromSatsToUnitOrFractional,
   LBTC_COINGECKOID,
   LBTC_TICKER,
+  LBTC_ASSET
 } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAssetToCurrency } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -50,32 +51,14 @@ export const FeeWithdraw = (): JSX.Element => {
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
 
-  const feeFiatAmount = useMemo(() => {
-    // display fiat value as 0 in case of api loading or error
-    const feeCODE = currency.value === 'btc' ? 'L-BTC' : currency.value.toUpperCase();
-
-    if (isLoadingPrices || isErrorPrices) {
-      return <></>;
-    }
-    try {
-      const feeAMNT = Big(feeWithdrawInputValue);
-      const feeLSAT = Number(formatLbtcUnitToSats(feeAMNT.toNumber(), lbtcUnit));
-      const feeLBTC = fromSatsToUnitOrFractional(feeLSAT, 8, true, 'L-BTC');
-      const feeRATE = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
-      const feeFIAT =
-        currency.value === 'btc'
-          ? Big(feeLBTC).times(feeRATE).toFixed(8)
-          : Big(feeLBTC).times(feeRATE).toFixed(2);
-
-      return (
-        <>
-          {feeFIAT} {feeCODE}
-        </>
-      );
-    } catch (e) {
-      return <></>;
-    }
-  }, [feeWithdrawInputValue, currency, isLoadingPrices, isErrorPrices, lbtcUnit, prices]);
+  const feeFiatAmount = convertAssetToCurrency({
+    asset: LBTC_ASSET[network],
+    amount: feeWithdrawInputValue,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices
+  });
 
   const onFinish = async () => {
     try {
@@ -160,7 +143,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  {feeFiatAmount}
+                  {isLoadingPrices && isErrorPrices && feeFiatAmount}
                 </Col>
               </Row>
             </div>

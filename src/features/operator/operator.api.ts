@@ -1,6 +1,6 @@
 import { fakeBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import type { Metadata, RpcError, ClientReadableStream } from 'grpc-web';
+import type { Metadata, ClientReadableStream } from 'grpc-web';
 
 import type {
   GetInfoReply,
@@ -90,6 +90,7 @@ import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_p
 import type { BalanceInfo } from '../../api-spec/generated/js/wallet_pb';
 import type { RootState } from '../../app/store';
 import type { Optional } from '../../domain/helpers';
+import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 
 export const operatorApi = createApi({
@@ -100,10 +101,10 @@ export const operatorApi = createApi({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const feeAddressReply: GetFeeAddressReply = await client.getFeeAddress(
             new GetFeeAddressRequest(),
             metadata
@@ -111,18 +112,15 @@ export const operatorApi = createApi({
           return {
             data: feeAddressReply.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('getFeeAddress', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     listFeeAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const listFeeAddressesReply = await client.listFeeAddresses(
             new ListFeeAddressesRequest(),
             metadata
@@ -132,53 +130,42 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('listFeeAddresses', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const feeBalanceReply = await client.getFeeBalance(new GetFeeBalanceRequest(), metadata);
           return {
             data: feeBalanceReply.toObject(false),
           };
-        } catch (error) {
-          console.error('getFeeBalance', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['FeeUTXOs'],
     }),
     claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { outpointsList: TxOutpoint.AsObject[] }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { outpointsList } = arg;
+      queryFn: async ({ outpointsList }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const arr = outpointsList.map(({ hash, index }) => {
             const txOutpoint = new TxOutpoint();
             txOutpoint.setHash(hash);
             txOutpoint.setIndex(index);
             return txOutpoint;
           });
-
           return {
             data: await client.claimFeeDeposits(
               new ClaimFeeDepositsRequest().setOutpointsList(arr),
               metadata
             ),
           };
-        } catch (error) {
-          console.error('claimFeeDeposits', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
@@ -191,12 +178,11 @@ export const operatorApi = createApi({
         asset: string;
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { amount, millisatsPerByte, address, asset } = arg;
+      queryFn: async ({ amount, millisatsPerByte, address, asset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: await client.withdrawFee(
               new WithdrawFeeRequest()
@@ -207,20 +193,16 @@ export const operatorApi = createApi({
               metadata
             ),
           };
-        } catch (error) {
-          console.error('withdrawFee', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
     getFeeFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { numOfAddresses } = arg;
+      queryFn: async ({ numOfAddresses }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (
               await client.getFeeFragmenterAddress(
@@ -231,56 +213,46 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('getFeeFragmenterAddress', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     listFeeFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (await client.listFeeFragmenterAddresses(new ListFeeFragmenterAddressesRequest(), metadata))
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('listFeeFragmenterAddresses', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     getFeeFragmenterBalance: build.query<Map<string, BalanceInfo>, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (
               await client.getFeeFragmenterBalance(new GetFeeFragmenterBalanceRequest(), metadata)
             ).getBalanceMap(),
           };
-        } catch (error) {
-          console.error('getFeeFragmenterBalance', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     feeFragmenterSplitFunds: build.mutation<
       ClientReadableStream<FragmenterSplitFundsReply>,
       { maxFragments: number; millisatsPerByte: number }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { maxFragments, millisatsPerByte } = arg;
+      queryFn: async ({ maxFragments, millisatsPerByte }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: await client.feeFragmenterSplitFunds(
               new FeeFragmenterSplitFundsRequest()
@@ -289,10 +261,7 @@ export const operatorApi = createApi({
               metadata as Metadata | undefined
             ),
           };
-        } catch (error) {
-          console.error('feeFragmenterSplitFunds', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
@@ -300,22 +269,18 @@ export const operatorApi = createApi({
       WithdrawFeeFragmenterReply,
       { address: string; millisatsPerByte: number }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { address, millisatsPerByte } = arg;
+      queryFn: async ({ address, millisatsPerByte }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: await client.withdrawFeeFragmenter(
               new WithdrawFeeFragmenterRequest().setAddress(address).setMillisatsPerByte(millisatsPerByte),
               metadata
             ),
           };
-        } catch (error) {
-          console.error('withdrawFeeFragmenter', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     // Market
@@ -324,10 +289,10 @@ export const operatorApi = createApi({
       { market: Market.AsObject | undefined; timeRange: TimeRange.AsObject; timeFrame: TimeFrame }
     >({
       queryFn: async ({ market, timeRange, timeFrame }, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           if (!market || !timeRange) throw new Error('missing argument');
           const t = new TimeRange();
           t.setPredefinedPeriod(timeRange.predefinedPeriod);
@@ -347,19 +312,15 @@ export const operatorApi = createApi({
           return {
             data: getMarketReportReply.toObject(false).report,
           };
-        } catch (error) {
-          console.error('getMarketReport', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     getMarketInfo: build.query<MarketInfo.AsObject | undefined, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           if (!baseAsset || !quoteAsset) throw new Error('missing argument');
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -371,20 +332,16 @@ export const operatorApi = createApi({
           return {
             data: getMarketInfoReply.toObject(false).info,
           };
-        } catch (error) {
-          console.error('getMarketInfo', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Market', 'MarketUTXOs'],
     }),
     getMarketAddress: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           if (!baseAsset || !quoteAsset) throw new Error('missing argument');
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -398,19 +355,15 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('getMarketAddress', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     listMarketAddresses: build.query<AddressWithBlindingKey.AsObject[], Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
@@ -423,20 +376,16 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('listMarketAddresses', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Market'],
     }),
     getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
@@ -447,10 +396,7 @@ export const operatorApi = createApi({
           return {
             data: getMarketBalanceReply.toObject(false),
           };
-        } catch (error) {
-          console.error('getMarketBalance', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['MarketUTXOs'],
     }),
@@ -458,17 +404,15 @@ export const operatorApi = createApi({
       ClaimMarketDepositsReply.AsObject,
       { market: Market.AsObject; outpointsList: TxOutpoint.AsObject[] }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { outpointsList, market } = arg;
+      queryFn: async ({ outpointsList, market }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          //
           const arr = outpointsList.map(({ hash, index }) => {
             const txOutpoint = new TxOutpoint();
             txOutpoint.setHash(hash);
@@ -482,20 +426,16 @@ export const operatorApi = createApi({
           return {
             data: claimMarketDepositsReply.toObject(false),
           };
-        } catch (error) {
-          console.error('claimMarketDeposits', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
     newMarket: build.mutation<NewMarketReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
@@ -503,22 +443,16 @@ export const operatorApi = createApi({
           return {
             data: newMarketReply.toObject(false),
           };
-        } catch (error) {
-          console.error('newMarket', error);
-          console.debug('base asset:', arg.baseAsset);
-          console.debug('quote asset:', arg.quoteAsset);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
     openMarket: build.mutation<OpenMarketReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
@@ -529,20 +463,16 @@ export const operatorApi = createApi({
           return {
             data: openMarketReply.toObject(false),
           };
-        } catch (error) {
-          console.error('openMarket', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
     closeMarket: build.mutation<CloseMarketReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
@@ -553,20 +483,16 @@ export const operatorApi = createApi({
           return {
             data: closeMarketReply.toObject(false),
           };
-        } catch (error) {
-          console.error('closeMarket', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
     dropMarket: build.mutation<DropMarketReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
@@ -577,10 +503,7 @@ export const operatorApi = createApi({
           return {
             data: dropMarketReply.toObject(false),
           };
-        } catch (error) {
-          console.error('dropMarket', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
@@ -593,12 +516,11 @@ export const operatorApi = createApi({
         millisatsPerByte: number;
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, balance, address, millisatsPerByte } = arg;
+      queryFn: async ({ market, balance, address, millisatsPerByte }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -620,10 +542,7 @@ export const operatorApi = createApi({
           return {
             data: withdrawMarketReply.toObject(false),
           };
-        } catch (error) {
-          console.error('withdrawMarket', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
@@ -631,12 +550,11 @@ export const operatorApi = createApi({
       UpdateMarketFeeReply.AsObject,
       { market: Market.AsObject; basisPoint: number }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, basisPoint } = arg;
+      queryFn: async ({ market, basisPoint }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -648,10 +566,7 @@ export const operatorApi = createApi({
           return {
             data: updateMarketFeeReply.toObject(false),
           };
-        } catch (error) {
-          console.error('updateMarketPercentageFee', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
@@ -659,12 +574,11 @@ export const operatorApi = createApi({
       UpdateMarketFeeReply.AsObject,
       { market: Market.AsObject; fixedFee: Fixed.AsObject }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, fixedFee } = arg;
+      queryFn: async ({ market, fixedFee }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -680,10 +594,7 @@ export const operatorApi = createApi({
           return {
             data: updateMarketFeeReply.toObject(false),
           };
-        } catch (error) {
-          console.error('updateMarketFixedFee', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
@@ -695,12 +606,11 @@ export const operatorApi = createApi({
         price: Optional<Price.AsObject, 'basePriceDeprecated' | 'quotePriceDeprecated'>;
       }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, price } = arg;
+      queryFn: async ({ market, price }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -718,10 +628,7 @@ export const operatorApi = createApi({
           return {
             data: updateMarketPriceReply.toObject(false),
           };
-        } catch (error) {
-          console.error('updateMarketPrice', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
@@ -729,12 +636,11 @@ export const operatorApi = createApi({
       UpdateMarketStrategyReply.AsObject,
       { market: Market.AsObject; strategyType: StrategyType; meta?: string }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, strategyType, meta } = arg;
+      queryFn: async ({ market, strategyType, meta }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -749,37 +655,30 @@ export const operatorApi = createApi({
           return {
             data: updateMarketStrategyReply.toObject(false),
           };
-        } catch (error) {
-          console.error('updateMarketStrategy', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Market'],
     }),
     listMarkets: build.query<ListMarketsReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const listMarketsReply = await client.listMarkets(new ListMarketsRequest(), metadata);
           return {
             data: listMarketsReply.toObject(false),
           };
-        } catch (error) {
-          console.error('listMarkets', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Market'],
     }),
     getMarketFragmenterAddress: build.query<AddressWithBlindingKey.AsObject[], { numOfAddresses: number }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { numOfAddresses } = arg;
+      queryFn: async ({ numOfAddresses }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (
               await client.getMarketFragmenterAddress(
@@ -790,18 +689,15 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('getMarketFragmenterAddress', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     listMarketFragmenterAddresses: build.query<AddressWithBlindingKey.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (
               await client.listMarketFragmenterAddresses(new ListMarketFragmenterAddressesRequest(), metadata)
@@ -809,39 +705,32 @@ export const operatorApi = createApi({
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
-        } catch (error) {
-          console.error('listMarketFragmenterAddresses', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     getMarketFragmenterBalance: build.query<GetMarketFragmenterBalanceReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: (
               await client.getMarketFragmenterBalance(new GetMarketFragmenterBalanceRequest(), metadata)
             ).toObject(false),
           };
-        } catch (error) {
-          console.error('getMarketFragmenterBalance', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
     }),
     marketFragmenterSplitFunds: build.mutation<
       ClientReadableStream<FragmenterSplitFundsReply>,
       { market: Market.AsObject; millisatsPerByte: number }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, millisatsPerByte } = arg;
+      queryFn: async ({ market, millisatsPerByte }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { baseAsset, quoteAsset } = market;
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
@@ -854,10 +743,7 @@ export const operatorApi = createApi({
               metadata as Metadata | undefined
             ),
           };
-        } catch (error) {
-          console.error('marketFragmenterSplitFunds', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
@@ -865,33 +751,28 @@ export const operatorApi = createApi({
       WithdrawMarketFragmenterReply,
       { address: string; millisatsPerByte: number }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { address, millisatsPerByte } = arg;
+      queryFn: async ({ address, millisatsPerByte }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: await client.withdrawMarketFragmenter(
               new WithdrawMarketFragmenterRequest().setAddress(address).setMillisatsPerByte(millisatsPerByte),
               metadata
             ),
           };
-        } catch (error) {
-          console.error('withdrawMarketFragmenter', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
     // Trades
     listTrades: build.query<TradeInfo.AsObject[], { market: Market.AsObject; page: Page.AsObject }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { market, page } = arg;
+      queryFn: async ({ market, page }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { pageNumber, pageSize } = page;
           const newPage = new Page();
           newPage.setPageNumber(pageNumber);
@@ -907,20 +788,16 @@ export const operatorApi = createApi({
           return {
             data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
           };
-        } catch (error) {
-          console.error('listTrades', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Trade'],
     }),
     getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { baseAsset, quoteAsset } = arg;
+      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
@@ -931,19 +808,17 @@ export const operatorApi = createApi({
           return {
             data: getMarketCollectedSwapFeesReply.toObject(false),
           };
-        } catch (error) {
-          console.error('getMarketCollectedSwapFees', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Trade'],
     }),
+    // TODO: fix wrong calculation
     totalCollectedSwapFees: build.query<number, Market.AsObject[] | undefined>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           if (!arg) return { data: 0 };
           let totalCollectedSwapFees = 0;
           const markets = arg.map(({ baseAsset, quoteAsset }) => {
@@ -977,37 +852,30 @@ export const operatorApi = createApi({
             });
           }
           return { data: totalCollectedSwapFees };
-        } catch (error) {
-          console.error('totalCollectedSwapFees', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Trade'],
     }),
     // Utxos
     reloadUtxos: build.mutation<ReloadUtxosReply, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           return {
             data: await client.reloadUtxos(new ReloadUtxosRequest(), metadata),
           };
-        } catch (error) {
-          console.error('reloadUtxos', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
     listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { page, accountIndex } = arg;
+      queryFn: async ({ page, accountIndex }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const listUtxosReply = await client.listUtxos(
             new ListUtxosRequest().setAccountIndex(accountIndex).setPage(page),
             metadata
@@ -1015,10 +883,7 @@ export const operatorApi = createApi({
           return {
             data: listUtxosReply.toObject(false),
           };
-        } catch (error) {
-          console.error('listUtxos', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
@@ -1027,12 +892,11 @@ export const operatorApi = createApi({
       AddWebhookReply.AsObject,
       { action: ActionType; endpoint: string; secret: string }
     >({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { action, endpoint, secret } = arg;
+      queryFn: async ({ action, endpoint, secret }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const addWebhookReply = await client.addWebhook(
             new AddWebhookRequest().setAction(action).setEndpoint(endpoint).setSecret(secret),
             metadata
@@ -1040,20 +904,16 @@ export const operatorApi = createApi({
           return {
             data: addWebhookReply.toObject(false),
           };
-        } catch (error) {
-          console.error('addWebhook', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Webhook'],
     }),
     removeWebhook: build.mutation<RemoveWebhookReply, { id: string }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { id } = arg;
+      queryFn: async ({ id }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const removeWebhookReply = await client.removeWebhook(
             new RemoveWebhookRequest().setId(id),
             metadata
@@ -1061,55 +921,45 @@ export const operatorApi = createApi({
           return {
             data: removeWebhookReply,
           };
-        } catch (error) {
-          console.error('removeWebhook', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       invalidatesTags: ['Webhook'],
     }),
     listWebhooks: build.query<WebhookInfo.AsObject[], void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const listWebhooksReply = await client.listWebhooks(new ListWebhooksRequest(), metadata);
           return {
             data: listWebhooksReply
               .getWebhookInfoList()
               .map((webhookInfo: WebhookInfo) => webhookInfo.toObject(false)),
           };
-        } catch (error) {
-          console.error('listWebhooks', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Webhook'],
     }),
     //
     getInfo: build.query<GetInfoReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const info = await client.getInfo(new GetInfoRequest(), metadata);
           return { data: info.toObject(false) };
-        } catch (error) {
-          console.error('getInfo', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Market', 'Fee', 'Trade'],
     }),
     listDeposits: build.query<Deposit.AsObject[], { accountIndex: number }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { accountIndex } = arg;
+      queryFn: async ({ accountIndex }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const listDepositsReply = await client.listDeposits(
             new ListDepositsRequest().setAccountIndex(accountIndex),
             metadata
@@ -1117,20 +967,16 @@ export const operatorApi = createApi({
           return {
             data: listDepositsReply.getDepositsList().map((deposit) => deposit.toObject(false)),
           };
-        } catch (error) {
-          console.error('listDeposits', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
     listWithdrawals: build.query<Withdrawal.AsObject[], { accountIndex: number; page: Page.AsObject }>({
-      queryFn: async (arg, { getState }) => {
-        try {
-          const state = getState() as RootState;
-          const client = selectOperatorClient(state);
-          const metadata = selectMacaroonCreds(state);
-          const { accountIndex, page } = arg;
+      queryFn: async ({ accountIndex, page }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectOperatorClient(state);
+        const metadata = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
           const { pageNumber, pageSize } = page;
           const newPage = new Page();
           newPage.setPageNumber(pageNumber);
@@ -1144,10 +990,7 @@ export const operatorApi = createApi({
               .getWithdrawalsList()
               .map((withdrawal: Withdrawal) => withdrawal.toObject(false)),
           };
-        } catch (error) {
-          console.error('listWithdrawals', error);
-          return { error: (error as RpcError).message };
-        }
+        });
       },
       providesTags: ['Market', 'Fee'],
     }),

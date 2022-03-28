@@ -1,6 +1,7 @@
 export * from './asset';
 export * from './connect';
 export * from './constants';
+export * from './rtk';
 export * from './sleep';
 export * from './snippets';
 export * from './storage';

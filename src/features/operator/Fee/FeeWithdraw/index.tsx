@@ -51,7 +51,7 @@ export const FeeWithdraw = (): JSX.Element => {
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
 
-  const feeFiatAmount = convertAssetToCurrency({
+  const feeTicker = convertAssetToCurrency({
     asset: LBTC_ASSET[network],
     amount: feeWithdrawInputValue,
     network: network,
@@ -143,7 +143,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  {isLoadingPrices && isErrorPrices && feeFiatAmount}
+                  {isLoadingPrices && isErrorPrices && feeTicker}
                 </Col>
               </Row>
             </div>

@@ -28,7 +28,7 @@ import {
   USDT_COINGECKOID,
   USDT_TICKER,
 } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery, calculateLCAD } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, calculateLCAD, convertAssetToCurrency } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -118,59 +118,23 @@ export const MarketWithdraw = (): JSX.Element => {
     }
   };
 
-  const convertAssetAmountToCurrency = (asset: Asset | undefined, amount: string) => {
-    let assetAmount = Big(0);
-    try {
-      assetAmount = Big(amount);
-    } catch {
-      // ignore user typos, just leave the amount as 0
-    }
+  const baseToPreferredCurrency = convertAssetToCurrency({
+    asset: selectedMarket?.baseAsset,
+    amount: balanceBaseAmount,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices
+  });
 
-    const assetId = asset?.asset_id || '';
-    const assetTicker = asset?.ticker || 'unknown';
-    const assetPrecision = asset?.precision ?? defaultPrecision;
-
-    let currencyAmount = Big(1);
-    if (isLbtcAssetId(assetId, network)) {
-      currencyAmount = Big(
-        fromSatsToUnitOrFractional(
-          Number(formatLbtcUnitToSats(assetAmount.toNumber(), lbtcUnit)),
-          assetPrecision,
-          true,
-          'L-BTC'
-        )
-      );
-    } else {
-      currencyAmount = assetAmount;
-    }
-
-    let rateMultiplier = 1;
-    if (assetTicker === LBTC_TICKER[network]) {
-      rateMultiplier = prices?.[LBTC_COINGECKOID]?.[currency.value] || 1;
-      currencyAmount = Big(currencyAmount).times(rateMultiplier);
-    } else if (assetTicker === USDT_TICKER) {
-      rateMultiplier = prices?.[USDT_COINGECKOID]?.[currency.value] || 1;
-      currencyAmount = Big(currencyAmount).times(rateMultiplier);
-    } else if (assetTicker === LCAD_TICKER) {
-      rateMultiplier = calculateLCAD(prices)[currency.value] || 1;
-      currencyAmount = Big(currencyAmount).times(rateMultiplier);
-    } else {
-      return '';
-    }
-
-    if (currency.value === 'btc') {
-      return `${currencyAmount.toFixed(8)} L-BTC`;
-    } else {
-      return `${currencyAmount.toFixed(2)} ${currency.value.toLocaleUpperCase()}`;
-    }
-  };
-
-  const baseToPreferredCurrency = convertAssetAmountToCurrency(selectedMarket?.baseAsset, balanceBaseAmount);
-
-  const quoteToPreferredCurrency = convertAssetAmountToCurrency(
-    selectedMarket?.quoteAsset,
-    balanceQuoteAmount
-  );
+  const quoteToPreferredCurrency = convertAssetToCurrency({
+    asset: selectedMarket?.quoteAsset,
+    amount: balanceQuoteAmount,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices
+  });
 
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id

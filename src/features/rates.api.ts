@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Big from 'big.js';
 
 import type { Currency } from '../domain/currency';
+import type { LbtcUnit } from '../utils';
+import type { NetworkString } from 'ldk';
 
 import { CURRENCIES, LBTC_COINGECKOID, USDT_COINGECKOID } from './../utils/constants';
 
@@ -35,9 +37,7 @@ export const ratesApi = createApi({
 
 // COINGECKO does not have a ticker for LCAD
 // We have to manually calculate the rates
-export const calculateLCAD = (
-  prices: CoinGeckoPriceResult | undefined
-): Record<Currency['value'], number> => {
+export const calculateLCAD = (prices?: CoinGeckoPriceResult): Record<Currency['value'], number> => {
   const BTC_CAD_RATE = prices?.[LBTC_COINGECKOID]?.['cad'] || 1;
   const CAD_BTC_RATE = Big(1).div(BTC_CAD_RATE);
 
@@ -55,6 +55,64 @@ export const calculateLCAD = (
     eur: CAD_EUR_RATE.toNumber(),
     btc: CAD_BTC_RATE.toNumber(),
   };
+};
+
+const convertAssetToCurrency = ({
+  asset?: Asset, 
+  amount: string, 
+  network: NetworkString, 
+  preferredCurrency: Currency, 
+  preferredLbtcUnit: LbtcUnit, 
+  prices?: CoinGeckoPriceResult, 
+}) => {
+  let assetAmount = Big(0);
+  try {
+    assetAmount = Big(amount);
+  } catch {
+    // ignore user typos, just leave the amount as 0
+  }
+
+  if (asset === undefined || prices === undefined){
+    return '';
+  }
+
+  const assetId = asset?.asset_id || '';
+  const assetTicker = asset?.ticker || 'unknown';
+  const assetPrecision = asset?.precision ?? defaultPrecision;
+
+  let currencyAmount = Big(1);
+  if (isLbtcAssetId(assetId, network)) {
+    currencyAmount = Big(
+      fromSatsToUnitOrFractional(
+        Number(formatLbtcUnitToSats(assetAmount.toNumber(), preferredLbtcUnit)),
+        assetPrecision,
+        true,
+        'L-BTC'
+      )
+    );
+  } else {
+    currencyAmount = assetAmount;
+  }
+
+  let rateMultiplier = 1;
+  if (assetTicker === LBTC_TICKER[network]) {
+    rateMultiplier = prices?.[LBTC_COINGECKOID]?.[preferredCurrency.value] || 1;
+    currencyAmount = Big(currencyAmount).times(rateMultiplier);
+  } else if (assetTicker === USDT_TICKER) {
+    rateMultiplier = prices?.[USDT_COINGECKOID]?.[preferredCurrency.value] || 1;
+    currencyAmount = Big(currencyAmount).times(rateMultiplier);
+  } else if (assetTicker === LCAD_TICKER) {
+    rateMultiplier = calculateLCAD(prices)[preferredCurrency.value] || 1;
+    currencyAmount = Big(currencyAmount).times(rateMultiplier);
+  } else {
+    return '';
+  }
+
+  if (preferredCurrency.value === 'btc') {
+    return `${currencyAmount.toFixed(8)} L-BTC`;
+  } else {
+    return `${currencyAmount.toFixed(2)} ${preferredCurrency.value.toLocaleUpperCase()}`;
+  }
 };
 
 export const { useLatestPriceFeedFromCoinGeckoQuery } = ratesApi;

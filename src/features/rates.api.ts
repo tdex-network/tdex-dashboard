@@ -1,8 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Big from 'big.js';
+import type { BigSource } from 'big.js';
 import type { NetworkString } from 'ldk';
 
+import type { Asset } from '../domain/asset';
 import type { Currency } from '../domain/currency';
+import type { LbtcUnit } from '../utils';
 import {
   isLbtcAssetId,
   fromUnitToUnit,
@@ -64,18 +67,25 @@ export const calculateLCAD = (prices?: CoinGeckoPriceResult): Record<Currency['v
   };
 };
 
-// TODO: Create interface for convertAssetToCurrency
-/*
-  asset?: Asset, 
-  amount: string, 
-  network: NetworkString, 
-  preferredCurrency: Currency, 
-  preferredLbtcUnit: LbtcUnit, 
-  prices?: CoinGeckoPriceResult,
-  useSymbol: boolean = false  
-*/
-export const convertAssetToCurrency = (args: any): string => {
-  const { asset, amount, network, preferredCurrency, preferredLbtcUnit, prices, useSymbol = false } = args;
+interface CurrencyConversionParams {
+  asset?: Asset;
+  amount: BigSource;
+  network: NetworkString;
+  preferredCurrency: Currency;
+  preferredLbtcUnit: LbtcUnit;
+  prices?: CoinGeckoPriceResult;
+  useSymbol?: boolean;
+}
+
+export const convertAssetToCurrency = ({
+  asset,
+  amount,
+  network,
+  preferredCurrency,
+  preferredLbtcUnit,
+  prices,
+  useSymbol = false,
+}: CurrencyConversionParams): string => {
   let assetAmount = Big(0);
   try {
     assetAmount = Big(amount);

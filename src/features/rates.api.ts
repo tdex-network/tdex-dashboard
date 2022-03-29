@@ -4,6 +4,7 @@ import type { NetworkString } from 'ldk';
 
 import type { Currency } from '../domain/currency';
 import {
+  defaultPrecision,
   isLbtcAssetId,
   fromSatsToUnitOrFractional,
   formatLbtcUnitToSats,

@@ -1,7 +1,7 @@
 import { Modal, Typography, Divider } from 'antd';
 import React from 'react';
 
-import type { MarketInfo } from '../../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
 import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 

@@ -71,7 +71,7 @@
   },
   "scripts": {
     "build": "npx craco build",
-    "build:proto": "buf generate",
+    "build:proto": "buf generate buf.build/tdex-network/tdex-protobuf && buf generate buf.build/tdex-network/tdex-daemon",
     "bundle-analyzer": "open http://localhost:8888",
     "eject": "react-scripts eject",
     "eslint": "eslint './src/**/*.{ts,tsx}'",

@@ -112,7 +112,8 @@ export const convertAssetToCurrency = (args: any): string => {
   }
 
   if (preferredCurrency.value === 'btc') {
-    return `${currencyAmount.toFixed(8)} L-BTC`;
+    const preferredLbtcAmount = fromUnitToUnit(Number(currencyAmount.toFixed(8)), 'L-BTC', preferredLbtcUnit);
+    return `${preferredLbtcAmount} ${preferredLbtcUnit}`;
   } else {
     return `${currencyAmount.toFixed(2)} ${preferredCurrency.value.toLocaleUpperCase()}`;
   }

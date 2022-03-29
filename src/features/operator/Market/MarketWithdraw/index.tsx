@@ -1,7 +1,6 @@
 import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
-import Big from 'big.js';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -15,20 +14,13 @@ import { SelectMarket } from '../../../../common/SelectMarket';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../../../routes/constants';
 import {
-  defaultPrecision,
   formatFiatToSats,
   formatLbtcUnitToSats,
   fromSatsToUnitOrFractional,
   getAssetDataFromRegistry,
   isLbtcTicker,
-  LBTC_ASSET,
-  LBTC_COINGECKOID,
-  LBTC_TICKER,
-  LCAD_TICKER,
-  USDT_COINGECKOID,
-  USDT_TICKER,
 } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery, calculateLCAD, convertAssetToCurrency } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAssetToCurrency } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -124,7 +116,7 @@ export const MarketWithdraw = (): JSX.Element => {
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
-    prices: prices
+    prices: prices,
   });
 
   const quoteToPreferredCurrency = convertAssetToCurrency({
@@ -133,7 +125,7 @@ export const MarketWithdraw = (): JSX.Element => {
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
-    prices: prices
+    prices: prices,
   });
 
   const baseAvailableAmountFormatted =

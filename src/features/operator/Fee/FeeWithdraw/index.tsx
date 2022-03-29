@@ -1,9 +1,8 @@
 import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
-import Big from 'big.js';
 import classNames from 'classnames';
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { RootState } from '../../../../app/store';
@@ -12,13 +11,7 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import {
-  formatLbtcUnitToSats,
-  fromSatsToUnitOrFractional,
-  LBTC_COINGECKOID,
-  LBTC_TICKER,
-  LBTC_ASSET
-} from '../../../../utils';
+import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER, LBTC_ASSET } from '../../../../utils';
 import { useLatestPriceFeedFromCoinGeckoQuery, convertAssetToCurrency } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
@@ -57,7 +50,7 @@ export const FeeWithdraw = (): JSX.Element => {
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
-    prices: prices
+    prices: prices,
   });
 
   const onFinish = async () => {

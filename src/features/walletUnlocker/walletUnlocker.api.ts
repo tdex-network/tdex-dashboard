@@ -6,14 +6,14 @@ import type {
   ChangePasswordReply,
   UnlockWalletReply,
   IsReadyReply,
-} from '../../api-spec/generated/js/walletunlocker_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
 import {
   ChangePasswordRequest,
   GenSeedRequest,
   InitWalletRequest,
   IsReadyRequest,
   UnlockWalletRequest,
-} from '../../api-spec/generated/js/walletunlocker_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
 import type { RootState } from '../../app/store';
 import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';

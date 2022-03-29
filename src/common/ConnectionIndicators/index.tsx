@@ -2,7 +2,7 @@ import './connectionIndicator.less';
 import { Tooltip } from 'antd';
 import classNames from 'classnames';
 
-import type { IsReadyReply } from '../../api-spec/generated/js/walletunlocker_pb';
+import type { IsReadyReply } from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 

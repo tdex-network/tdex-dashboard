@@ -3,9 +3,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { Metadata } from 'grpc-web';
 import type { NetworkString } from 'ldk';
 
-import { OperatorClient } from '../../api-spec/generated/js/OperatorServiceClientPb';
-import { WalletClient } from '../../api-spec/generated/js/WalletServiceClientPb';
-import { WalletUnlockerClient } from '../../api-spec/generated/js/WalletunlockerServiceClientPb';
+import { OperatorClient } from '../../api-spec/generated/js/tdex-daemon/v1/OperatorServiceClientPb';
+import { WalletClient } from '../../api-spec/generated/js/tdex-daemon/v1/WalletServiceClientPb';
+import { WalletUnlockerClient } from '../../api-spec/generated/js/tdex-daemon/v1/WalletunlockerServiceClientPb';
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';

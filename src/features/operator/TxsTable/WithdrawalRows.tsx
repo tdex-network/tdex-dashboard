@@ -1,7 +1,7 @@
 import type { NetworkString } from 'ldk';
 import React from 'react';
 
-import type { Withdrawal, MarketInfo } from '../../../api-spec/generated/js/operator_pb';
+import type { Withdrawal, MarketInfo } from '../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';

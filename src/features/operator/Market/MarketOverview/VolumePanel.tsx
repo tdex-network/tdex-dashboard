@@ -2,8 +2,8 @@ import { Col, Row, Typography, Radio } from 'antd';
 import type { Dispatch, SetStateAction } from 'react';
 import React from 'react';
 
-import type { MarketInfo, MarketReport } from '../../../../api-spec/generated/js/operator_pb';
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/generated/js/operator_pb';
+import type { MarketInfo, MarketReport } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';

@@ -6,12 +6,12 @@ import type {
   WalletAddressReply,
   WalletBalanceReply,
   TxOut,
-} from '../../api-spec/generated/js/wallet_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/wallet_pb';
 import {
   SendToManyRequest,
   WalletAddressRequest,
   WalletBalanceRequest,
-} from '../../api-spec/generated/js/wallet_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/wallet_pb';
 import type { RootState } from '../../app/store';
 import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';

@@ -1,4 +1,4 @@
-// source: operator.proto
+// source: tdex-daemon/v1/operator.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -21,114 +21,115 @@ var global = (function() {
   return Function('return this')();
 }.call(null));
 
-var types_pb = require('./types_pb.js');
-goog.object.extend(proto, types_pb);
-var wallet_pb = require('./wallet_pb.js');
-goog.object.extend(proto, wallet_pb);
-goog.exportSymbol('proto.AccountInfo', null, global);
-goog.exportSymbol('proto.ActionType', null, global);
-goog.exportSymbol('proto.AddWebhookReply', null, global);
-goog.exportSymbol('proto.AddWebhookRequest', null, global);
-goog.exportSymbol('proto.ClaimFeeDepositsReply', null, global);
-goog.exportSymbol('proto.ClaimFeeDepositsRequest', null, global);
-goog.exportSymbol('proto.ClaimMarketDepositsReply', null, global);
-goog.exportSymbol('proto.ClaimMarketDepositsRequest', null, global);
-goog.exportSymbol('proto.CloseMarketReply', null, global);
-goog.exportSymbol('proto.CloseMarketRequest', null, global);
-goog.exportSymbol('proto.CustomPeriod', null, global);
-goog.exportSymbol('proto.Deposit', null, global);
-goog.exportSymbol('proto.DropMarketReply', null, global);
-goog.exportSymbol('proto.DropMarketRequest', null, global);
-goog.exportSymbol('proto.FeeFragmenterSplitFundsRequest', null, global);
-goog.exportSymbol('proto.FeeInfo', null, global);
-goog.exportSymbol('proto.FragmenterSplitFundsReply', null, global);
-goog.exportSymbol('proto.GetFeeAddressReply', null, global);
-goog.exportSymbol('proto.GetFeeAddressRequest', null, global);
-goog.exportSymbol('proto.GetFeeBalanceReply', null, global);
-goog.exportSymbol('proto.GetFeeBalanceRequest', null, global);
-goog.exportSymbol('proto.GetFeeFragmenterAddressReply', null, global);
-goog.exportSymbol('proto.GetFeeFragmenterAddressRequest', null, global);
-goog.exportSymbol('proto.GetFeeFragmenterBalanceReply', null, global);
-goog.exportSymbol('proto.GetFeeFragmenterBalanceRequest', null, global);
-goog.exportSymbol('proto.GetInfoReply', null, global);
-goog.exportSymbol('proto.GetInfoRequest', null, global);
-goog.exportSymbol('proto.GetMarketAddressReply', null, global);
-goog.exportSymbol('proto.GetMarketAddressRequest', null, global);
-goog.exportSymbol('proto.GetMarketBalanceReply', null, global);
-goog.exportSymbol('proto.GetMarketBalanceRequest', null, global);
-goog.exportSymbol('proto.GetMarketCollectedSwapFeesReply', null, global);
-goog.exportSymbol('proto.GetMarketCollectedSwapFeesRequest', null, global);
-goog.exportSymbol('proto.GetMarketFragmenterAddressReply', null, global);
-goog.exportSymbol('proto.GetMarketFragmenterAddressRequest', null, global);
-goog.exportSymbol('proto.GetMarketFragmenterBalanceReply', null, global);
-goog.exportSymbol('proto.GetMarketFragmenterBalanceRequest', null, global);
-goog.exportSymbol('proto.GetMarketInfoReply', null, global);
-goog.exportSymbol('proto.GetMarketInfoRequest', null, global);
-goog.exportSymbol('proto.GetMarketReportReply', null, global);
-goog.exportSymbol('proto.GetMarketReportRequest', null, global);
-goog.exportSymbol('proto.ListDepositsReply', null, global);
-goog.exportSymbol('proto.ListDepositsRequest', null, global);
-goog.exportSymbol('proto.ListFeeAddressesReply', null, global);
-goog.exportSymbol('proto.ListFeeAddressesRequest', null, global);
-goog.exportSymbol('proto.ListFeeFragmenterAddressesReply', null, global);
-goog.exportSymbol('proto.ListFeeFragmenterAddressesRequest', null, global);
-goog.exportSymbol('proto.ListMarketAddressesReply', null, global);
-goog.exportSymbol('proto.ListMarketAddressesRequest', null, global);
-goog.exportSymbol('proto.ListMarketFragmenterAddressesReply', null, global);
-goog.exportSymbol('proto.ListMarketFragmenterAddressesRequest', null, global);
-goog.exportSymbol('proto.ListMarketsReply', null, global);
-goog.exportSymbol('proto.ListMarketsRequest', null, global);
-goog.exportSymbol('proto.ListTradesReply', null, global);
-goog.exportSymbol('proto.ListTradesRequest', null, global);
-goog.exportSymbol('proto.ListUtxosReply', null, global);
-goog.exportSymbol('proto.ListUtxosRequest', null, global);
-goog.exportSymbol('proto.ListWebhooksReply', null, global);
-goog.exportSymbol('proto.ListWebhooksRequest', null, global);
-goog.exportSymbol('proto.ListWithdrawalsReply', null, global);
-goog.exportSymbol('proto.ListWithdrawalsRequest', null, global);
-goog.exportSymbol('proto.MarketCollectedFees', null, global);
-goog.exportSymbol('proto.MarketFragmenterSplitFundsRequest', null, global);
-goog.exportSymbol('proto.MarketInfo', null, global);
-goog.exportSymbol('proto.MarketReport', null, global);
-goog.exportSymbol('proto.MarketVolume', null, global);
-goog.exportSymbol('proto.NewMarketReply', null, global);
-goog.exportSymbol('proto.NewMarketRequest', null, global);
-goog.exportSymbol('proto.OpenMarketReply', null, global);
-goog.exportSymbol('proto.OpenMarketRequest', null, global);
-goog.exportSymbol('proto.Page', null, global);
-goog.exportSymbol('proto.PredefinedPeriod', null, global);
-goog.exportSymbol('proto.ReloadUtxosReply', null, global);
-goog.exportSymbol('proto.ReloadUtxosRequest', null, global);
-goog.exportSymbol('proto.RemoveWebhookReply', null, global);
-goog.exportSymbol('proto.RemoveWebhookRequest', null, global);
-goog.exportSymbol('proto.StrategyType', null, global);
-goog.exportSymbol('proto.SwapFailInfo', null, global);
-goog.exportSymbol('proto.SwapInfo', null, global);
-goog.exportSymbol('proto.TimeFrame', null, global);
-goog.exportSymbol('proto.TimeRange', null, global);
-goog.exportSymbol('proto.TradeInfo', null, global);
-goog.exportSymbol('proto.TradePrice', null, global);
-goog.exportSymbol('proto.TradeStatus', null, global);
-goog.exportSymbol('proto.TradeStatusInfo', null, global);
-goog.exportSymbol('proto.TxOutpoint', null, global);
-goog.exportSymbol('proto.UpdateMarketFeeReply', null, global);
-goog.exportSymbol('proto.UpdateMarketFixedFeeRequest', null, global);
-goog.exportSymbol('proto.UpdateMarketPercentageFeeRequest', null, global);
-goog.exportSymbol('proto.UpdateMarketPriceReply', null, global);
-goog.exportSymbol('proto.UpdateMarketPriceRequest', null, global);
-goog.exportSymbol('proto.UpdateMarketStrategyReply', null, global);
-goog.exportSymbol('proto.UpdateMarketStrategyRequest', null, global);
-goog.exportSymbol('proto.UtxoInfo', null, global);
-goog.exportSymbol('proto.WebhookInfo', null, global);
-goog.exportSymbol('proto.WithdrawFeeFragmenterReply', null, global);
-goog.exportSymbol('proto.WithdrawFeeFragmenterRequest', null, global);
-goog.exportSymbol('proto.WithdrawFeeReply', null, global);
-goog.exportSymbol('proto.WithdrawFeeRequest', null, global);
-goog.exportSymbol('proto.WithdrawMarketFragmenterReply', null, global);
-goog.exportSymbol('proto.WithdrawMarketFragmenterRequest', null, global);
-goog.exportSymbol('proto.WithdrawMarketReply', null, global);
-goog.exportSymbol('proto.WithdrawMarketRequest', null, global);
-goog.exportSymbol('proto.Withdrawal', null, global);
+var tdex$daemon_v1_wallet_pb = require('../../tdex-daemon/v1/wallet_pb.js');
+goog.object.extend(proto, tdex$daemon_v1_wallet_pb);
+var tdex_v1_types_pb = require('../../tdex/v1/types_pb.js');
+goog.object.extend(proto, tdex_v1_types_pb);
+goog.exportSymbol('proto.tdex.daemon.v1.AccountInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ActionType', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.AddWebhookReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.AddWebhookRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.BuildInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ClaimFeeDepositsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ClaimFeeDepositsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ClaimMarketDepositsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ClaimMarketDepositsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.CloseMarketReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.CloseMarketRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.CustomPeriod', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.Deposit', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.DropMarketReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.DropMarketRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.FeeInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.FragmenterSplitFundsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeAddressReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeAddressRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeBalanceReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeBalanceRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeFragmenterAddressReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetInfoReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetInfoRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketAddressReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketAddressRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketBalanceReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketBalanceRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketFragmenterAddressReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketInfoReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketInfoRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketReportReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.GetMarketReportRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListDepositsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListDepositsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListFeeAddressesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListFeeAddressesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketAddressesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketAddressesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListMarketsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListTradesReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListTradesRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListUtxosReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListUtxosRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListWebhooksReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListWebhooksRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListWithdrawalsReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ListWithdrawalsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.MarketCollectedFees', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.MarketInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.MarketReport', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.MarketVolume', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.NewMarketReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.NewMarketRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.OpenMarketReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.OpenMarketRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.Page', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.PredefinedPeriod', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ReloadUtxosReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.ReloadUtxosRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.RemoveWebhookReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.RemoveWebhookRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.StrategyType', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.SwapFailInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.SwapInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TimeFrame', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TimeRange', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TradeInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TradePrice', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TradeStatus', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TradeStatusInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.TxOutpoint', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketFeeReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketPriceReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketPriceRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketStrategyReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UpdateMarketStrategyRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.UtxoInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WebhookInfo', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawFeeFragmenterReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawFeeReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawFeeRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawMarketFragmenterReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawMarketReply', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.WithdrawMarketRequest', null, global);
+goog.exportSymbol('proto.tdex.daemon.v1.Withdrawal', null, global);
 /**
  * Generated by JsPbCodeGenerator.
  * @param {Array=} opt_data Optional initial data array, typically from a
@@ -139,16 +140,16 @@ goog.exportSymbol('proto.Withdrawal', null, global);
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetInfoRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetInfoRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetInfoRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetInfoRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetInfoRequest.displayName = 'proto.GetInfoRequest';
+  proto.tdex.daemon.v1.GetInfoRequest.displayName = 'proto.tdex.daemon.v1.GetInfoRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -160,16 +161,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetInfoReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetInfoReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetInfoReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetInfoReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetInfoReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetInfoReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetInfoReply.displayName = 'proto.GetInfoReply';
+  proto.tdex.daemon.v1.GetInfoReply.displayName = 'proto.tdex.daemon.v1.GetInfoReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -181,16 +182,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeAddressRequest = function(opt_data) {
+proto.tdex.daemon.v1.BuildInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeAddressRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.BuildInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeAddressRequest.displayName = 'proto.GetFeeAddressRequest';
+  proto.tdex.daemon.v1.BuildInfo.displayName = 'proto.tdex.daemon.v1.BuildInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -202,16 +203,37 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeAddressReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetFeeAddressReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetFeeAddressRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.tdex.daemon.v1.GetFeeAddressRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  /**
+   * @public
+   * @override
+   */
+  proto.tdex.daemon.v1.GetFeeAddressRequest.displayName = 'proto.tdex.daemon.v1.GetFeeAddressRequest';
+}
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.tdex.daemon.v1.GetFeeAddressReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetFeeAddressReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetFeeAddressReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeAddressReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeAddressReply.displayName = 'proto.GetFeeAddressReply';
+  proto.tdex.daemon.v1.GetFeeAddressReply.displayName = 'proto.tdex.daemon.v1.GetFeeAddressReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -223,16 +245,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListFeeAddressesRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListFeeAddressesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListFeeAddressesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListFeeAddressesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListFeeAddressesRequest.displayName = 'proto.ListFeeAddressesRequest';
+  proto.tdex.daemon.v1.ListFeeAddressesRequest.displayName = 'proto.tdex.daemon.v1.ListFeeAddressesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -244,16 +266,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListFeeAddressesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListFeeAddressesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListFeeAddressesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListFeeAddressesReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListFeeAddressesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListFeeAddressesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListFeeAddressesReply.displayName = 'proto.ListFeeAddressesReply';
+  proto.tdex.daemon.v1.ListFeeAddressesReply.displayName = 'proto.tdex.daemon.v1.ListFeeAddressesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -265,16 +287,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeBalanceRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetFeeBalanceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeBalanceRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeBalanceRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeBalanceRequest.displayName = 'proto.GetFeeBalanceRequest';
+  proto.tdex.daemon.v1.GetFeeBalanceRequest.displayName = 'proto.tdex.daemon.v1.GetFeeBalanceRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -286,16 +308,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeBalanceReply = function(opt_data) {
+proto.tdex.daemon.v1.GetFeeBalanceReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeBalanceReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeBalanceReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeBalanceReply.displayName = 'proto.GetFeeBalanceReply';
+  proto.tdex.daemon.v1.GetFeeBalanceReply.displayName = 'proto.tdex.daemon.v1.GetFeeBalanceReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -307,16 +329,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ClaimFeeDepositsRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ClaimFeeDepositsRequest.repeatedFields_, null);
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ClaimFeeDepositsRequest.repeatedFields_, null);
 };
-goog.inherits(proto.ClaimFeeDepositsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ClaimFeeDepositsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ClaimFeeDepositsRequest.displayName = 'proto.ClaimFeeDepositsRequest';
+  proto.tdex.daemon.v1.ClaimFeeDepositsRequest.displayName = 'proto.tdex.daemon.v1.ClaimFeeDepositsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -328,16 +350,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ClaimFeeDepositsReply = function(opt_data) {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ClaimFeeDepositsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ClaimFeeDepositsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ClaimFeeDepositsReply.displayName = 'proto.ClaimFeeDepositsReply';
+  proto.tdex.daemon.v1.ClaimFeeDepositsReply.displayName = 'proto.tdex.daemon.v1.ClaimFeeDepositsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -349,16 +371,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawFeeRequest = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawFeeRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawFeeRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawFeeRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawFeeRequest.displayName = 'proto.WithdrawFeeRequest';
+  proto.tdex.daemon.v1.WithdrawFeeRequest.displayName = 'proto.tdex.daemon.v1.WithdrawFeeRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -370,16 +392,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawFeeReply = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawFeeReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawFeeReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawFeeReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawFeeReply.displayName = 'proto.WithdrawFeeReply';
+  proto.tdex.daemon.v1.WithdrawFeeReply.displayName = 'proto.tdex.daemon.v1.WithdrawFeeReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -391,16 +413,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.NewMarketRequest = function(opt_data) {
+proto.tdex.daemon.v1.NewMarketRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.NewMarketRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.NewMarketRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.NewMarketRequest.displayName = 'proto.NewMarketRequest';
+  proto.tdex.daemon.v1.NewMarketRequest.displayName = 'proto.tdex.daemon.v1.NewMarketRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -412,16 +434,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.NewMarketReply = function(opt_data) {
+proto.tdex.daemon.v1.NewMarketReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.NewMarketReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.NewMarketReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.NewMarketReply.displayName = 'proto.NewMarketReply';
+  proto.tdex.daemon.v1.NewMarketReply.displayName = 'proto.tdex.daemon.v1.NewMarketReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -433,16 +455,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketInfoRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketInfoRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketInfoRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketInfoRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketInfoRequest.displayName = 'proto.GetMarketInfoRequest';
+  proto.tdex.daemon.v1.GetMarketInfoRequest.displayName = 'proto.tdex.daemon.v1.GetMarketInfoRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -454,16 +476,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketInfoReply = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketInfoReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketInfoReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketInfoReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketInfoReply.displayName = 'proto.GetMarketInfoReply';
+  proto.tdex.daemon.v1.GetMarketInfoReply.displayName = 'proto.tdex.daemon.v1.GetMarketInfoReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -475,16 +497,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketAddressRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketAddressRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketAddressRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketAddressRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketAddressRequest.displayName = 'proto.GetMarketAddressRequest';
+  proto.tdex.daemon.v1.GetMarketAddressRequest.displayName = 'proto.tdex.daemon.v1.GetMarketAddressRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -496,16 +518,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketAddressReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetMarketAddressReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetMarketAddressReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetMarketAddressReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetMarketAddressReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketAddressReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketAddressReply.displayName = 'proto.GetMarketAddressReply';
+  proto.tdex.daemon.v1.GetMarketAddressReply.displayName = 'proto.tdex.daemon.v1.GetMarketAddressReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -517,16 +539,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketAddressesRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListMarketAddressesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketAddressesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketAddressesRequest.displayName = 'proto.ListMarketAddressesRequest';
+  proto.tdex.daemon.v1.ListMarketAddressesRequest.displayName = 'proto.tdex.daemon.v1.ListMarketAddressesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -538,16 +560,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketAddressesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListMarketAddressesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListMarketAddressesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListMarketAddressesReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListMarketAddressesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketAddressesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketAddressesReply.displayName = 'proto.ListMarketAddressesReply';
+  proto.tdex.daemon.v1.ListMarketAddressesReply.displayName = 'proto.tdex.daemon.v1.ListMarketAddressesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -559,16 +581,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketBalanceRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketBalanceRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketBalanceRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketBalanceRequest.displayName = 'proto.GetMarketBalanceRequest';
+  proto.tdex.daemon.v1.GetMarketBalanceRequest.displayName = 'proto.tdex.daemon.v1.GetMarketBalanceRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -580,16 +602,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketBalanceReply = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketBalanceReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketBalanceReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketBalanceReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketBalanceReply.displayName = 'proto.GetMarketBalanceReply';
+  proto.tdex.daemon.v1.GetMarketBalanceReply.displayName = 'proto.tdex.daemon.v1.GetMarketBalanceReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -601,16 +623,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ClaimMarketDepositsRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ClaimMarketDepositsRequest.repeatedFields_, null);
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ClaimMarketDepositsRequest.repeatedFields_, null);
 };
-goog.inherits(proto.ClaimMarketDepositsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ClaimMarketDepositsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ClaimMarketDepositsRequest.displayName = 'proto.ClaimMarketDepositsRequest';
+  proto.tdex.daemon.v1.ClaimMarketDepositsRequest.displayName = 'proto.tdex.daemon.v1.ClaimMarketDepositsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -622,16 +644,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ClaimMarketDepositsReply = function(opt_data) {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ClaimMarketDepositsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ClaimMarketDepositsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ClaimMarketDepositsReply.displayName = 'proto.ClaimMarketDepositsReply';
+  proto.tdex.daemon.v1.ClaimMarketDepositsReply.displayName = 'proto.tdex.daemon.v1.ClaimMarketDepositsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -643,16 +665,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.OpenMarketRequest = function(opt_data) {
+proto.tdex.daemon.v1.OpenMarketRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.OpenMarketRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.OpenMarketRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.OpenMarketRequest.displayName = 'proto.OpenMarketRequest';
+  proto.tdex.daemon.v1.OpenMarketRequest.displayName = 'proto.tdex.daemon.v1.OpenMarketRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -664,16 +686,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.OpenMarketReply = function(opt_data) {
+proto.tdex.daemon.v1.OpenMarketReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.OpenMarketReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.OpenMarketReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.OpenMarketReply.displayName = 'proto.OpenMarketReply';
+  proto.tdex.daemon.v1.OpenMarketReply.displayName = 'proto.tdex.daemon.v1.OpenMarketReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -685,16 +707,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.CloseMarketRequest = function(opt_data) {
+proto.tdex.daemon.v1.CloseMarketRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.CloseMarketRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.CloseMarketRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.CloseMarketRequest.displayName = 'proto.CloseMarketRequest';
+  proto.tdex.daemon.v1.CloseMarketRequest.displayName = 'proto.tdex.daemon.v1.CloseMarketRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -706,16 +728,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.CloseMarketReply = function(opt_data) {
+proto.tdex.daemon.v1.CloseMarketReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.CloseMarketReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.CloseMarketReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.CloseMarketReply.displayName = 'proto.CloseMarketReply';
+  proto.tdex.daemon.v1.CloseMarketReply.displayName = 'proto.tdex.daemon.v1.CloseMarketReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -727,16 +749,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketsRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListMarketsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListMarketsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketsRequest.displayName = 'proto.ListMarketsRequest';
+  proto.tdex.daemon.v1.ListMarketsRequest.displayName = 'proto.tdex.daemon.v1.ListMarketsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -748,16 +770,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketsReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListMarketsReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListMarketsReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListMarketsReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListMarketsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketsReply.displayName = 'proto.ListMarketsReply';
+  proto.tdex.daemon.v1.ListMarketsReply.displayName = 'proto.tdex.daemon.v1.ListMarketsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -769,16 +791,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.DropMarketRequest = function(opt_data) {
+proto.tdex.daemon.v1.DropMarketRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.DropMarketRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.DropMarketRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.DropMarketRequest.displayName = 'proto.DropMarketRequest';
+  proto.tdex.daemon.v1.DropMarketRequest.displayName = 'proto.tdex.daemon.v1.DropMarketRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -790,16 +812,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.DropMarketReply = function(opt_data) {
+proto.tdex.daemon.v1.DropMarketReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.DropMarketReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.DropMarketReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.DropMarketReply.displayName = 'proto.DropMarketReply';
+  proto.tdex.daemon.v1.DropMarketReply.displayName = 'proto.tdex.daemon.v1.DropMarketReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -811,16 +833,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketCollectedSwapFeesRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketCollectedSwapFeesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketCollectedSwapFeesRequest.displayName = 'proto.GetMarketCollectedSwapFeesRequest';
+  proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.displayName = 'proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -832,16 +854,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketCollectedSwapFeesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetMarketCollectedSwapFeesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetMarketCollectedSwapFeesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketCollectedSwapFeesReply.displayName = 'proto.GetMarketCollectedSwapFeesReply';
+  proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.displayName = 'proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -853,16 +875,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawMarketRequest = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawMarketRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawMarketRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawMarketRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawMarketRequest.displayName = 'proto.WithdrawMarketRequest';
+  proto.tdex.daemon.v1.WithdrawMarketRequest.displayName = 'proto.tdex.daemon.v1.WithdrawMarketRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -874,16 +896,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawMarketReply = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawMarketReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawMarketReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawMarketReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawMarketReply.displayName = 'proto.WithdrawMarketReply';
+  proto.tdex.daemon.v1.WithdrawMarketReply.displayName = 'proto.tdex.daemon.v1.WithdrawMarketReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -895,16 +917,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketPercentageFeeRequest = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketPercentageFeeRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketPercentageFeeRequest.displayName = 'proto.UpdateMarketPercentageFeeRequest';
+  proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.displayName = 'proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -916,16 +938,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketFixedFeeRequest = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketFixedFeeRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketFixedFeeRequest.displayName = 'proto.UpdateMarketFixedFeeRequest';
+  proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.displayName = 'proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -937,16 +959,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketFeeReply = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketFeeReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketFeeReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketFeeReply.displayName = 'proto.UpdateMarketFeeReply';
+  proto.tdex.daemon.v1.UpdateMarketFeeReply.displayName = 'proto.tdex.daemon.v1.UpdateMarketFeeReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -958,16 +980,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketPriceRequest = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketPriceRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketPriceRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketPriceRequest.displayName = 'proto.UpdateMarketPriceRequest';
+  proto.tdex.daemon.v1.UpdateMarketPriceRequest.displayName = 'proto.tdex.daemon.v1.UpdateMarketPriceRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -979,16 +1001,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketPriceReply = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketPriceReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketPriceReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketPriceReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketPriceReply.displayName = 'proto.UpdateMarketPriceReply';
+  proto.tdex.daemon.v1.UpdateMarketPriceReply.displayName = 'proto.tdex.daemon.v1.UpdateMarketPriceReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1000,16 +1022,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketStrategyRequest = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketStrategyRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketStrategyRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketStrategyRequest.displayName = 'proto.UpdateMarketStrategyRequest';
+  proto.tdex.daemon.v1.UpdateMarketStrategyRequest.displayName = 'proto.tdex.daemon.v1.UpdateMarketStrategyRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1021,16 +1043,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UpdateMarketStrategyReply = function(opt_data) {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UpdateMarketStrategyReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UpdateMarketStrategyReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UpdateMarketStrategyReply.displayName = 'proto.UpdateMarketStrategyReply';
+  proto.tdex.daemon.v1.UpdateMarketStrategyReply.displayName = 'proto.tdex.daemon.v1.UpdateMarketStrategyReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1042,16 +1064,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeFragmenterAddressRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeFragmenterAddressRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeFragmenterAddressRequest.displayName = 'proto.GetFeeFragmenterAddressRequest';
+  proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.displayName = 'proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1063,16 +1085,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeFragmenterAddressReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetFeeFragmenterAddressReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetFeeFragmenterAddressReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeFragmenterAddressReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeFragmenterAddressReply.displayName = 'proto.GetFeeFragmenterAddressReply';
+  proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.displayName = 'proto.tdex.daemon.v1.GetFeeFragmenterAddressReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1084,16 +1106,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListFeeFragmenterAddressesRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListFeeFragmenterAddressesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListFeeFragmenterAddressesRequest.displayName = 'proto.ListFeeFragmenterAddressesRequest';
+  proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.displayName = 'proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1105,16 +1127,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListFeeFragmenterAddressesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListFeeFragmenterAddressesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListFeeFragmenterAddressesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListFeeFragmenterAddressesReply.displayName = 'proto.ListFeeFragmenterAddressesReply';
+  proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.displayName = 'proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1126,16 +1148,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeFragmenterBalanceRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeFragmenterBalanceRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeFragmenterBalanceRequest.displayName = 'proto.GetFeeFragmenterBalanceRequest';
+  proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.displayName = 'proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1147,16 +1169,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetFeeFragmenterBalanceReply = function(opt_data) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetFeeFragmenterBalanceReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetFeeFragmenterBalanceReply.displayName = 'proto.GetFeeFragmenterBalanceReply';
+  proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.displayName = 'proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1168,16 +1190,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.FeeFragmenterSplitFundsRequest = function(opt_data) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.FeeFragmenterSplitFundsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.FeeFragmenterSplitFundsRequest.displayName = 'proto.FeeFragmenterSplitFundsRequest';
+  proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.displayName = 'proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1189,16 +1211,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.FragmenterSplitFundsReply = function(opt_data) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.FragmenterSplitFundsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.FragmenterSplitFundsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.FragmenterSplitFundsReply.displayName = 'proto.FragmenterSplitFundsReply';
+  proto.tdex.daemon.v1.FragmenterSplitFundsReply.displayName = 'proto.tdex.daemon.v1.FragmenterSplitFundsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1210,16 +1232,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawFeeFragmenterRequest = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawFeeFragmenterRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawFeeFragmenterRequest.displayName = 'proto.WithdrawFeeFragmenterRequest';
+  proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.displayName = 'proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1231,16 +1253,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawFeeFragmenterReply = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawFeeFragmenterReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawFeeFragmenterReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawFeeFragmenterReply.displayName = 'proto.WithdrawFeeFragmenterReply';
+  proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.displayName = 'proto.tdex.daemon.v1.WithdrawFeeFragmenterReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1252,16 +1274,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketFragmenterAddressRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketFragmenterAddressRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketFragmenterAddressRequest.displayName = 'proto.GetMarketFragmenterAddressRequest';
+  proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.displayName = 'proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1273,16 +1295,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketFragmenterAddressReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.GetMarketFragmenterAddressReply.repeatedFields_, null);
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.repeatedFields_, null);
 };
-goog.inherits(proto.GetMarketFragmenterAddressReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketFragmenterAddressReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketFragmenterAddressReply.displayName = 'proto.GetMarketFragmenterAddressReply';
+  proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.displayName = 'proto.tdex.daemon.v1.GetMarketFragmenterAddressReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1294,16 +1316,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketFragmenterAddressesRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListMarketFragmenterAddressesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketFragmenterAddressesRequest.displayName = 'proto.ListMarketFragmenterAddressesRequest';
+  proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.displayName = 'proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1315,16 +1337,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListMarketFragmenterAddressesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListMarketFragmenterAddressesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListMarketFragmenterAddressesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListMarketFragmenterAddressesReply.displayName = 'proto.ListMarketFragmenterAddressesReply';
+  proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.displayName = 'proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1336,16 +1358,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketFragmenterBalanceRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketFragmenterBalanceRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketFragmenterBalanceRequest.displayName = 'proto.GetMarketFragmenterBalanceRequest';
+  proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.displayName = 'proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1357,16 +1379,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketFragmenterBalanceReply = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketFragmenterBalanceReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketFragmenterBalanceReply.displayName = 'proto.GetMarketFragmenterBalanceReply';
+  proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.displayName = 'proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1378,16 +1400,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.MarketFragmenterSplitFundsRequest = function(opt_data) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.MarketFragmenterSplitFundsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.MarketFragmenterSplitFundsRequest.displayName = 'proto.MarketFragmenterSplitFundsRequest';
+  proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.displayName = 'proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1399,16 +1421,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawMarketFragmenterRequest = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawMarketFragmenterRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawMarketFragmenterRequest.displayName = 'proto.WithdrawMarketFragmenterRequest';
+  proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.displayName = 'proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1420,16 +1442,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WithdrawMarketFragmenterReply = function(opt_data) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WithdrawMarketFragmenterReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WithdrawMarketFragmenterReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WithdrawMarketFragmenterReply.displayName = 'proto.WithdrawMarketFragmenterReply';
+  proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.displayName = 'proto.tdex.daemon.v1.WithdrawMarketFragmenterReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1441,16 +1463,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListTradesRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListTradesRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListTradesRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListTradesRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListTradesRequest.displayName = 'proto.ListTradesRequest';
+  proto.tdex.daemon.v1.ListTradesRequest.displayName = 'proto.tdex.daemon.v1.ListTradesRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1462,16 +1484,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListTradesReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListTradesReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListTradesReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListTradesReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListTradesReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListTradesReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListTradesReply.displayName = 'proto.ListTradesReply';
+  proto.tdex.daemon.v1.ListTradesReply.displayName = 'proto.tdex.daemon.v1.ListTradesReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1483,16 +1505,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ReloadUtxosRequest = function(opt_data) {
+proto.tdex.daemon.v1.ReloadUtxosRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ReloadUtxosRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ReloadUtxosRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ReloadUtxosRequest.displayName = 'proto.ReloadUtxosRequest';
+  proto.tdex.daemon.v1.ReloadUtxosRequest.displayName = 'proto.tdex.daemon.v1.ReloadUtxosRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1504,16 +1526,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ReloadUtxosReply = function(opt_data) {
+proto.tdex.daemon.v1.ReloadUtxosReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ReloadUtxosReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ReloadUtxosReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ReloadUtxosReply.displayName = 'proto.ReloadUtxosReply';
+  proto.tdex.daemon.v1.ReloadUtxosReply.displayName = 'proto.tdex.daemon.v1.ReloadUtxosReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1525,16 +1547,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListUtxosRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListUtxosRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListUtxosRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListUtxosRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListUtxosRequest.displayName = 'proto.ListUtxosRequest';
+  proto.tdex.daemon.v1.ListUtxosRequest.displayName = 'proto.tdex.daemon.v1.ListUtxosRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1546,16 +1568,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListUtxosReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListUtxosReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListUtxosReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListUtxosReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListUtxosReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListUtxosReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListUtxosReply.displayName = 'proto.ListUtxosReply';
+  proto.tdex.daemon.v1.ListUtxosReply.displayName = 'proto.tdex.daemon.v1.ListUtxosReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1567,16 +1589,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.AddWebhookRequest = function(opt_data) {
+proto.tdex.daemon.v1.AddWebhookRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.AddWebhookRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.AddWebhookRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.AddWebhookRequest.displayName = 'proto.AddWebhookRequest';
+  proto.tdex.daemon.v1.AddWebhookRequest.displayName = 'proto.tdex.daemon.v1.AddWebhookRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1588,16 +1610,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.AddWebhookReply = function(opt_data) {
+proto.tdex.daemon.v1.AddWebhookReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.AddWebhookReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.AddWebhookReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.AddWebhookReply.displayName = 'proto.AddWebhookReply';
+  proto.tdex.daemon.v1.AddWebhookReply.displayName = 'proto.tdex.daemon.v1.AddWebhookReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1609,16 +1631,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.RemoveWebhookRequest = function(opt_data) {
+proto.tdex.daemon.v1.RemoveWebhookRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.RemoveWebhookRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.RemoveWebhookRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.RemoveWebhookRequest.displayName = 'proto.RemoveWebhookRequest';
+  proto.tdex.daemon.v1.RemoveWebhookRequest.displayName = 'proto.tdex.daemon.v1.RemoveWebhookRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1630,16 +1652,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.RemoveWebhookReply = function(opt_data) {
+proto.tdex.daemon.v1.RemoveWebhookReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.RemoveWebhookReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.RemoveWebhookReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.RemoveWebhookReply.displayName = 'proto.RemoveWebhookReply';
+  proto.tdex.daemon.v1.RemoveWebhookReply.displayName = 'proto.tdex.daemon.v1.RemoveWebhookReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1651,16 +1673,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListWebhooksRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListWebhooksRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListWebhooksRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListWebhooksRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListWebhooksRequest.displayName = 'proto.ListWebhooksRequest';
+  proto.tdex.daemon.v1.ListWebhooksRequest.displayName = 'proto.tdex.daemon.v1.ListWebhooksRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1672,16 +1694,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListWebhooksReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListWebhooksReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListWebhooksReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListWebhooksReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListWebhooksReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListWebhooksReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListWebhooksReply.displayName = 'proto.ListWebhooksReply';
+  proto.tdex.daemon.v1.ListWebhooksReply.displayName = 'proto.tdex.daemon.v1.ListWebhooksReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1693,16 +1715,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListDepositsRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListDepositsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListDepositsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListDepositsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListDepositsRequest.displayName = 'proto.ListDepositsRequest';
+  proto.tdex.daemon.v1.ListDepositsRequest.displayName = 'proto.tdex.daemon.v1.ListDepositsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1714,16 +1736,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListDepositsReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListDepositsReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListDepositsReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListDepositsReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListDepositsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListDepositsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListDepositsReply.displayName = 'proto.ListDepositsReply';
+  proto.tdex.daemon.v1.ListDepositsReply.displayName = 'proto.tdex.daemon.v1.ListDepositsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1735,16 +1757,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListWithdrawalsRequest = function(opt_data) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.ListWithdrawalsRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListWithdrawalsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListWithdrawalsRequest.displayName = 'proto.ListWithdrawalsRequest';
+  proto.tdex.daemon.v1.ListWithdrawalsRequest.displayName = 'proto.tdex.daemon.v1.ListWithdrawalsRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1756,16 +1778,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.ListWithdrawalsReply = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.ListWithdrawalsReply.repeatedFields_, null);
+proto.tdex.daemon.v1.ListWithdrawalsReply = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.ListWithdrawalsReply.repeatedFields_, null);
 };
-goog.inherits(proto.ListWithdrawalsReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.ListWithdrawalsReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.ListWithdrawalsReply.displayName = 'proto.ListWithdrawalsReply';
+  proto.tdex.daemon.v1.ListWithdrawalsReply.displayName = 'proto.tdex.daemon.v1.ListWithdrawalsReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1777,16 +1799,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.AccountInfo = function(opt_data) {
+proto.tdex.daemon.v1.AccountInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.AccountInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.AccountInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.AccountInfo.displayName = 'proto.AccountInfo';
+  proto.tdex.daemon.v1.AccountInfo.displayName = 'proto.tdex.daemon.v1.AccountInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1798,16 +1820,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.MarketInfo = function(opt_data) {
+proto.tdex.daemon.v1.MarketInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.MarketInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.MarketInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.MarketInfo.displayName = 'proto.MarketInfo';
+  proto.tdex.daemon.v1.MarketInfo.displayName = 'proto.tdex.daemon.v1.MarketInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1819,16 +1841,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.UtxoInfo = function(opt_data) {
+proto.tdex.daemon.v1.UtxoInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.UtxoInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.UtxoInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.UtxoInfo.displayName = 'proto.UtxoInfo';
+  proto.tdex.daemon.v1.UtxoInfo.displayName = 'proto.tdex.daemon.v1.UtxoInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1840,16 +1862,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.TradeStatusInfo = function(opt_data) {
+proto.tdex.daemon.v1.TradeStatusInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.TradeStatusInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.TradeStatusInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.TradeStatusInfo.displayName = 'proto.TradeStatusInfo';
+  proto.tdex.daemon.v1.TradeStatusInfo.displayName = 'proto.tdex.daemon.v1.TradeStatusInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1861,16 +1883,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.SwapInfo = function(opt_data) {
+proto.tdex.daemon.v1.SwapInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.SwapInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.SwapInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.SwapInfo.displayName = 'proto.SwapInfo';
+  proto.tdex.daemon.v1.SwapInfo.displayName = 'proto.tdex.daemon.v1.SwapInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1882,16 +1904,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.SwapFailInfo = function(opt_data) {
+proto.tdex.daemon.v1.SwapFailInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.SwapFailInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.SwapFailInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.SwapFailInfo.displayName = 'proto.SwapFailInfo';
+  proto.tdex.daemon.v1.SwapFailInfo.displayName = 'proto.tdex.daemon.v1.SwapFailInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1903,16 +1925,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.TradeInfo = function(opt_data) {
+proto.tdex.daemon.v1.TradeInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.TradeInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.TradeInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.TradeInfo.displayName = 'proto.TradeInfo';
+  proto.tdex.daemon.v1.TradeInfo.displayName = 'proto.tdex.daemon.v1.TradeInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1924,16 +1946,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.FeeInfo = function(opt_data) {
+proto.tdex.daemon.v1.FeeInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.FeeInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.FeeInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.FeeInfo.displayName = 'proto.FeeInfo';
+  proto.tdex.daemon.v1.FeeInfo.displayName = 'proto.tdex.daemon.v1.FeeInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1945,16 +1967,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.TxOutpoint = function(opt_data) {
+proto.tdex.daemon.v1.TxOutpoint = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.TxOutpoint, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.TxOutpoint, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.TxOutpoint.displayName = 'proto.TxOutpoint';
+  proto.tdex.daemon.v1.TxOutpoint.displayName = 'proto.tdex.daemon.v1.TxOutpoint';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1966,16 +1988,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.TradePrice = function(opt_data) {
+proto.tdex.daemon.v1.TradePrice = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.TradePrice, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.TradePrice, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.TradePrice.displayName = 'proto.TradePrice';
+  proto.tdex.daemon.v1.TradePrice.displayName = 'proto.tdex.daemon.v1.TradePrice';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -1987,16 +2009,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.WebhookInfo = function(opt_data) {
+proto.tdex.daemon.v1.WebhookInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.WebhookInfo, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.WebhookInfo, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.WebhookInfo.displayName = 'proto.WebhookInfo';
+  proto.tdex.daemon.v1.WebhookInfo.displayName = 'proto.tdex.daemon.v1.WebhookInfo';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2008,16 +2030,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.Deposit = function(opt_data) {
+proto.tdex.daemon.v1.Deposit = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.Deposit, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.Deposit, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.Deposit.displayName = 'proto.Deposit';
+  proto.tdex.daemon.v1.Deposit.displayName = 'proto.tdex.daemon.v1.Deposit';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2029,16 +2051,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.Withdrawal = function(opt_data) {
+proto.tdex.daemon.v1.Withdrawal = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.Withdrawal, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.Withdrawal, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.Withdrawal.displayName = 'proto.Withdrawal';
+  proto.tdex.daemon.v1.Withdrawal.displayName = 'proto.tdex.daemon.v1.Withdrawal';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2050,16 +2072,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.Page = function(opt_data) {
+proto.tdex.daemon.v1.Page = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.Page, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.Page, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.Page.displayName = 'proto.Page';
+  proto.tdex.daemon.v1.Page.displayName = 'proto.tdex.daemon.v1.Page';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2071,16 +2093,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketReportRequest = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketReportRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketReportRequest, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketReportRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketReportRequest.displayName = 'proto.GetMarketReportRequest';
+  proto.tdex.daemon.v1.GetMarketReportRequest.displayName = 'proto.tdex.daemon.v1.GetMarketReportRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2092,16 +2114,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.GetMarketReportReply = function(opt_data) {
+proto.tdex.daemon.v1.GetMarketReportReply = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.GetMarketReportReply, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.GetMarketReportReply, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.GetMarketReportReply.displayName = 'proto.GetMarketReportReply';
+  proto.tdex.daemon.v1.GetMarketReportReply.displayName = 'proto.tdex.daemon.v1.GetMarketReportReply';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2113,16 +2135,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.MarketReport = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.MarketReport.repeatedFields_, null);
+proto.tdex.daemon.v1.MarketReport = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.tdex.daemon.v1.MarketReport.repeatedFields_, null);
 };
-goog.inherits(proto.MarketReport, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.MarketReport, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.MarketReport.displayName = 'proto.MarketReport';
+  proto.tdex.daemon.v1.MarketReport.displayName = 'proto.tdex.daemon.v1.MarketReport';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2134,16 +2156,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.MarketCollectedFees = function(opt_data) {
+proto.tdex.daemon.v1.MarketCollectedFees = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.MarketCollectedFees, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.MarketCollectedFees, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.MarketCollectedFees.displayName = 'proto.MarketCollectedFees';
+  proto.tdex.daemon.v1.MarketCollectedFees.displayName = 'proto.tdex.daemon.v1.MarketCollectedFees';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2155,16 +2177,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.MarketVolume = function(opt_data) {
+proto.tdex.daemon.v1.MarketVolume = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.MarketVolume, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.MarketVolume, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.MarketVolume.displayName = 'proto.MarketVolume';
+  proto.tdex.daemon.v1.MarketVolume.displayName = 'proto.tdex.daemon.v1.MarketVolume';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2176,16 +2198,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.TimeRange = function(opt_data) {
+proto.tdex.daemon.v1.TimeRange = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.TimeRange, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.TimeRange, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.TimeRange.displayName = 'proto.TimeRange';
+  proto.tdex.daemon.v1.TimeRange.displayName = 'proto.tdex.daemon.v1.TimeRange';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -2197,16 +2219,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.CustomPeriod = function(opt_data) {
+proto.tdex.daemon.v1.CustomPeriod = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.CustomPeriod, jspb.Message);
+goog.inherits(proto.tdex.daemon.v1.CustomPeriod, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.CustomPeriod.displayName = 'proto.CustomPeriod';
+  proto.tdex.daemon.v1.CustomPeriod.displayName = 'proto.tdex.daemon.v1.CustomPeriod';
 }
 
 
@@ -2224,8 +2246,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetInfoRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetInfoRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetInfoRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetInfoRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2234,11 +2256,11 @@ proto.GetInfoRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetInfoRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetInfoRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetInfoRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetInfoRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -2254,23 +2276,23 @@ proto.GetInfoRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetInfoRequest}
+ * @return {!proto.tdex.daemon.v1.GetInfoRequest}
  */
-proto.GetInfoRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetInfoRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetInfoRequest;
-  return proto.GetInfoRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetInfoRequest;
+  return proto.tdex.daemon.v1.GetInfoRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetInfoRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetInfoRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetInfoRequest}
+ * @return {!proto.tdex.daemon.v1.GetInfoRequest}
  */
-proto.GetInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2290,9 +2312,9 @@ proto.GetInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetInfoRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetInfoRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetInfoRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetInfoRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2300,11 +2322,11 @@ proto.GetInfoRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetInfoRequest} message
+ * @param {!proto.tdex.daemon.v1.GetInfoRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetInfoRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetInfoRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -2315,7 +2337,7 @@ proto.GetInfoRequest.serializeBinaryToWriter = function(message, writer) {
  * @private {!Array<number>}
  * @const
  */
-proto.GetInfoReply.repeatedFields_ = [3];
+proto.tdex.daemon.v1.GetInfoReply.repeatedFields_ = [3];
 
 
 
@@ -2332,8 +2354,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetInfoReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetInfoReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetInfoReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetInfoReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -2342,17 +2364,20 @@ proto.GetInfoReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetInfoReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetInfoReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetInfoReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetInfoReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     rootPath: jspb.Message.getFieldWithDefault(msg, 1, ""),
     masterBlindingKey: jspb.Message.getFieldWithDefault(msg, 2, ""),
     accountInfoList: jspb.Message.toObjectList(msg.getAccountInfoList(),
-    proto.AccountInfo.toObject, includeInstance),
-    network: jspb.Message.getFieldWithDefault(msg, 4, "")
+    proto.tdex.daemon.v1.AccountInfo.toObject, includeInstance),
+    network: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    buildData: (f = msg.getBuildData()) && proto.tdex.daemon.v1.BuildInfo.toObject(includeInstance, f),
+    fixedBaseAsset: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    fixedQuoteAsset: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -2366,23 +2391,23 @@ proto.GetInfoReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetInfoReply}
+ * @return {!proto.tdex.daemon.v1.GetInfoReply}
  */
-proto.GetInfoReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetInfoReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetInfoReply;
-  return proto.GetInfoReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetInfoReply;
+  return proto.tdex.daemon.v1.GetInfoReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetInfoReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetInfoReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetInfoReply}
+ * @return {!proto.tdex.daemon.v1.GetInfoReply}
  */
-proto.GetInfoReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetInfoReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2398,13 +2423,26 @@ proto.GetInfoReply.deserializeBinaryFromReader = function(msg, reader) {
       msg.setMasterBlindingKey(value);
       break;
     case 3:
-      var value = new proto.AccountInfo;
-      reader.readMessage(value,proto.AccountInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.AccountInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.AccountInfo.deserializeBinaryFromReader);
       msg.addAccountInfo(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setNetwork(value);
+      break;
+    case 5:
+      var value = new proto.tdex.daemon.v1.BuildInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.BuildInfo.deserializeBinaryFromReader);
+      msg.setBuildData(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFixedBaseAsset(value);
+      break;
+    case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFixedQuoteAsset(value);
       break;
     default:
       reader.skipField();
@@ -2419,9 +2457,9 @@ proto.GetInfoReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetInfoReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetInfoReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetInfoReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetInfoReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2429,11 +2467,11 @@ proto.GetInfoReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetInfoReply} message
+ * @param {!proto.tdex.daemon.v1.GetInfoReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetInfoReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetInfoReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getRootPath();
   if (f.length > 0) {
@@ -2454,13 +2492,35 @@ proto.GetInfoReply.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       3,
       f,
-      proto.AccountInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.AccountInfo.serializeBinaryToWriter
     );
   }
   f = message.getNetwork();
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getBuildData();
+  if (f != null) {
+    writer.writeMessage(
+      5,
+      f,
+      proto.tdex.daemon.v1.BuildInfo.serializeBinaryToWriter
+    );
+  }
+  f = message.getFixedBaseAsset();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getFixedQuoteAsset();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
       f
     );
   }
@@ -2471,16 +2531,16 @@ proto.GetInfoReply.serializeBinaryToWriter = function(message, writer) {
  * optional string root_path = 1;
  * @return {string}
  */
-proto.GetInfoReply.prototype.getRootPath = function() {
+proto.tdex.daemon.v1.GetInfoReply.prototype.getRootPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.GetInfoReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
  */
-proto.GetInfoReply.prototype.setRootPath = function(value) {
+proto.tdex.daemon.v1.GetInfoReply.prototype.setRootPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2489,54 +2549,54 @@ proto.GetInfoReply.prototype.setRootPath = function(value) {
  * optional string master_blinding_key = 2;
  * @return {string}
  */
-proto.GetInfoReply.prototype.getMasterBlindingKey = function() {
+proto.tdex.daemon.v1.GetInfoReply.prototype.getMasterBlindingKey = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.GetInfoReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
  */
-proto.GetInfoReply.prototype.setMasterBlindingKey = function(value) {
+proto.tdex.daemon.v1.GetInfoReply.prototype.setMasterBlindingKey = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
  * repeated AccountInfo account_info = 3;
- * @return {!Array<!proto.AccountInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.AccountInfo>}
  */
-proto.GetInfoReply.prototype.getAccountInfoList = function() {
-  return /** @type{!Array<!proto.AccountInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.AccountInfo, 3));
+proto.tdex.daemon.v1.GetInfoReply.prototype.getAccountInfoList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.AccountInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.AccountInfo, 3));
 };
 
 
 /**
- * @param {!Array<!proto.AccountInfo>} value
- * @return {!proto.GetInfoReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.AccountInfo>} value
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
 */
-proto.GetInfoReply.prototype.setAccountInfoList = function(value) {
+proto.tdex.daemon.v1.GetInfoReply.prototype.setAccountInfoList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 3, value);
 };
 
 
 /**
- * @param {!proto.AccountInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.AccountInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AccountInfo}
+ * @return {!proto.tdex.daemon.v1.AccountInfo}
  */
-proto.GetInfoReply.prototype.addAccountInfo = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.AccountInfo, opt_index);
+proto.tdex.daemon.v1.GetInfoReply.prototype.addAccountInfo = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.tdex.daemon.v1.AccountInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetInfoReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
  */
-proto.GetInfoReply.prototype.clearAccountInfoList = function() {
+proto.tdex.daemon.v1.GetInfoReply.prototype.clearAccountInfoList = function() {
   return this.setAccountInfoList([]);
 };
 
@@ -2545,17 +2605,90 @@ proto.GetInfoReply.prototype.clearAccountInfoList = function() {
  * optional string network = 4;
  * @return {string}
  */
-proto.GetInfoReply.prototype.getNetwork = function() {
+proto.tdex.daemon.v1.GetInfoReply.prototype.getNetwork = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.GetInfoReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
  */
-proto.GetInfoReply.prototype.setNetwork = function(value) {
+proto.tdex.daemon.v1.GetInfoReply.prototype.setNetwork = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional BuildInfo build_data = 5;
+ * @return {?proto.tdex.daemon.v1.BuildInfo}
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.getBuildData = function() {
+  return /** @type{?proto.tdex.daemon.v1.BuildInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.BuildInfo, 5));
+};
+
+
+/**
+ * @param {?proto.tdex.daemon.v1.BuildInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
+*/
+proto.tdex.daemon.v1.GetInfoReply.prototype.setBuildData = function(value) {
+  return jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.clearBuildData = function() {
+  return this.setBuildData(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.hasBuildData = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional string fixed_base_asset = 6;
+ * @return {string}
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.getFixedBaseAsset = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.setFixedBaseAsset = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional string fixed_quote_asset = 7;
+ * @return {string}
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.getFixedQuoteAsset = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tdex.daemon.v1.GetInfoReply} returns this
+ */
+proto.tdex.daemon.v1.GetInfoReply.prototype.setFixedQuoteAsset = function(value) {
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
@@ -2575,8 +2708,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeAddressRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeAddressRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.BuildInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.BuildInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -2585,11 +2718,201 @@ proto.GetFeeAddressRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeAddressRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.BuildInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeAddressRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.BuildInfo.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    version: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    commit: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    date: jspb.Message.getFieldWithDefault(msg, 3, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.tdex.daemon.v1.BuildInfo}
+ */
+proto.tdex.daemon.v1.BuildInfo.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.tdex.daemon.v1.BuildInfo;
+  return proto.tdex.daemon.v1.BuildInfo.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.tdex.daemon.v1.BuildInfo} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.tdex.daemon.v1.BuildInfo}
+ */
+proto.tdex.daemon.v1.BuildInfo.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setVersion(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCommit(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDate(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.tdex.daemon.v1.BuildInfo.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.tdex.daemon.v1.BuildInfo} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.tdex.daemon.v1.BuildInfo.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getCommit();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getDate();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string version = 1;
+ * @return {string}
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.getVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tdex.daemon.v1.BuildInfo} returns this
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.setVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string commit = 2;
+ * @return {string}
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.getCommit = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tdex.daemon.v1.BuildInfo} returns this
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.setCommit = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string date = 3;
+ * @return {string}
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.getDate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tdex.daemon.v1.BuildInfo} returns this
+ */
+proto.tdex.daemon.v1.BuildInfo.prototype.setDate = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * Optional fields that are not set will be set to undefined.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
+ * @param {boolean=} opt_includeInstance Deprecated. whether to include the
+ *     JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.tdex.daemon.v1.GetFeeAddressRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeAddressRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Deprecated. Whether to include
+ *     the JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.tdex.daemon.v1.GetFeeAddressRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     numOfAddresses: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -2605,23 +2928,23 @@ proto.GetFeeAddressRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressRequest}
  */
-proto.GetFeeAddressRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeAddressRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeAddressRequest;
-  return proto.GetFeeAddressRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeAddressRequest;
+  return proto.tdex.daemon.v1.GetFeeAddressRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeAddressRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressRequest}
  */
-proto.GetFeeAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2645,9 +2968,9 @@ proto.GetFeeAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeAddressRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeAddressRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeAddressRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeAddressRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2655,11 +2978,11 @@ proto.GetFeeAddressRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeAddressRequest} message
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeAddressRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeAddressRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getNumOfAddresses();
   if (f !== 0) {
@@ -2675,16 +2998,16 @@ proto.GetFeeAddressRequest.serializeBinaryToWriter = function(message, writer) {
  * optional int64 num_of_addresses = 1;
  * @return {number}
  */
-proto.GetFeeAddressRequest.prototype.getNumOfAddresses = function() {
+proto.tdex.daemon.v1.GetFeeAddressRequest.prototype.getNumOfAddresses = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetFeeAddressRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressRequest} returns this
  */
-proto.GetFeeAddressRequest.prototype.setNumOfAddresses = function(value) {
+proto.tdex.daemon.v1.GetFeeAddressRequest.prototype.setNumOfAddresses = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -2695,7 +3018,7 @@ proto.GetFeeAddressRequest.prototype.setNumOfAddresses = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.GetFeeAddressReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.GetFeeAddressReply.repeatedFields_ = [1];
 
 
 
@@ -2712,8 +3035,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeAddressReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeAddressReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeAddressReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -2722,14 +3045,14 @@ proto.GetFeeAddressReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeAddressReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeAddressReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeAddressReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -2743,23 +3066,23 @@ proto.GetFeeAddressReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressReply}
  */
-proto.GetFeeAddressReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeAddressReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeAddressReply;
-  return proto.GetFeeAddressReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeAddressReply;
+  return proto.tdex.daemon.v1.GetFeeAddressReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeAddressReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressReply}
  */
-proto.GetFeeAddressReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeAddressReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2767,8 +3090,8 @@ proto.GetFeeAddressReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -2784,9 +3107,9 @@ proto.GetFeeAddressReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeAddressReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeAddressReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeAddressReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2794,57 +3117,57 @@ proto.GetFeeAddressReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeAddressReply} message
+ * @param {!proto.tdex.daemon.v1.GetFeeAddressReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeAddressReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeAddressReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.GetFeeAddressReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.GetFeeAddressReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressReply} returns this
 */
-proto.GetFeeAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.GetFeeAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetFeeAddressReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeAddressReply} returns this
  */
-proto.GetFeeAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.GetFeeAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -2865,8 +3188,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListFeeAddressesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListFeeAddressesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListFeeAddressesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListFeeAddressesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2875,11 +3198,11 @@ proto.ListFeeAddressesRequest.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListFeeAddressesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeAddressesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListFeeAddressesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -2895,23 +3218,23 @@ proto.ListFeeAddressesRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListFeeAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesRequest}
  */
-proto.ListFeeAddressesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListFeeAddressesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListFeeAddressesRequest;
-  return proto.ListFeeAddressesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListFeeAddressesRequest;
+  return proto.tdex.daemon.v1.ListFeeAddressesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListFeeAddressesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListFeeAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesRequest}
  */
-proto.ListFeeAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListFeeAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2931,9 +3254,9 @@ proto.ListFeeAddressesRequest.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListFeeAddressesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListFeeAddressesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListFeeAddressesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListFeeAddressesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2941,11 +3264,11 @@ proto.ListFeeAddressesRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListFeeAddressesRequest} message
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeAddressesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListFeeAddressesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -2956,7 +3279,7 @@ proto.ListFeeAddressesRequest.serializeBinaryToWriter = function(message, writer
  * @private {!Array<number>}
  * @const
  */
-proto.ListFeeAddressesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListFeeAddressesReply.repeatedFields_ = [1];
 
 
 
@@ -2973,8 +3296,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListFeeAddressesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListFeeAddressesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListFeeAddressesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -2983,14 +3306,14 @@ proto.ListFeeAddressesReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListFeeAddressesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeAddressesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListFeeAddressesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -3004,23 +3327,23 @@ proto.ListFeeAddressesReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListFeeAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesReply}
  */
-proto.ListFeeAddressesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListFeeAddressesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListFeeAddressesReply;
-  return proto.ListFeeAddressesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListFeeAddressesReply;
+  return proto.tdex.daemon.v1.ListFeeAddressesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListFeeAddressesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListFeeAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesReply}
  */
-proto.ListFeeAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListFeeAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3028,8 +3351,8 @@ proto.ListFeeAddressesReply.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -3045,9 +3368,9 @@ proto.ListFeeAddressesReply.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListFeeAddressesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListFeeAddressesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListFeeAddressesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3055,57 +3378,57 @@ proto.ListFeeAddressesReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListFeeAddressesReply} message
+ * @param {!proto.tdex.daemon.v1.ListFeeAddressesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeAddressesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListFeeAddressesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.ListFeeAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.ListFeeAddressesReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesReply} returns this
 */
-proto.ListFeeAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.ListFeeAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListFeeAddressesReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListFeeAddressesReply} returns this
  */
-proto.ListFeeAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.ListFeeAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -3126,8 +3449,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeBalanceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeBalanceRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeBalanceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeBalanceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -3136,11 +3459,11 @@ proto.GetFeeBalanceRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeBalanceRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeBalanceRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeBalanceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -3156,23 +3479,23 @@ proto.GetFeeBalanceRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceRequest}
  */
-proto.GetFeeBalanceRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeBalanceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeBalanceRequest;
-  return proto.GetFeeBalanceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeBalanceRequest;
+  return proto.tdex.daemon.v1.GetFeeBalanceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeBalanceRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceRequest}
  */
-proto.GetFeeBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3192,9 +3515,9 @@ proto.GetFeeBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeBalanceRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeBalanceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeBalanceRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeBalanceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3202,11 +3525,11 @@ proto.GetFeeBalanceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeBalanceRequest} message
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeBalanceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeBalanceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -3227,8 +3550,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeBalanceReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeBalanceReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeBalanceReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -3237,11 +3560,11 @@ proto.GetFeeBalanceReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeBalanceReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeBalanceReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     availableBalance: jspb.Message.getFieldWithDefault(msg, 1, 0),
     totalBalance: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -3258,23 +3581,23 @@ proto.GetFeeBalanceReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceReply}
  */
-proto.GetFeeBalanceReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeBalanceReply;
-  return proto.GetFeeBalanceReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeBalanceReply;
+  return proto.tdex.daemon.v1.GetFeeBalanceReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeBalanceReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceReply}
  */
-proto.GetFeeBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3302,9 +3625,9 @@ proto.GetFeeBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeBalanceReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeBalanceReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeBalanceReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3312,11 +3635,11 @@ proto.GetFeeBalanceReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeBalanceReply} message
+ * @param {!proto.tdex.daemon.v1.GetFeeBalanceReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeBalanceReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAvailableBalance();
   if (f !== 0) {
@@ -3339,16 +3662,16 @@ proto.GetFeeBalanceReply.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 available_balance = 1;
  * @return {number}
  */
-proto.GetFeeBalanceReply.prototype.getAvailableBalance = function() {
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.getAvailableBalance = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetFeeBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceReply} returns this
  */
-proto.GetFeeBalanceReply.prototype.setAvailableBalance = function(value) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.setAvailableBalance = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -3357,16 +3680,16 @@ proto.GetFeeBalanceReply.prototype.setAvailableBalance = function(value) {
  * optional uint64 total_balance = 2;
  * @return {number}
  */
-proto.GetFeeBalanceReply.prototype.getTotalBalance = function() {
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.getTotalBalance = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetFeeBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeBalanceReply} returns this
  */
-proto.GetFeeBalanceReply.prototype.setTotalBalance = function(value) {
+proto.tdex.daemon.v1.GetFeeBalanceReply.prototype.setTotalBalance = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -3377,7 +3700,7 @@ proto.GetFeeBalanceReply.prototype.setTotalBalance = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.ClaimFeeDepositsRequest.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.repeatedFields_ = [1];
 
 
 
@@ -3394,8 +3717,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ClaimFeeDepositsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ClaimFeeDepositsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ClaimFeeDepositsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -3404,14 +3727,14 @@ proto.ClaimFeeDepositsRequest.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ClaimFeeDepositsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimFeeDepositsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     outpointsList: jspb.Message.toObjectList(msg.getOutpointsList(),
-    proto.TxOutpoint.toObject, includeInstance)
+    proto.tdex.daemon.v1.TxOutpoint.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -3425,23 +3748,23 @@ proto.ClaimFeeDepositsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ClaimFeeDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest}
  */
-proto.ClaimFeeDepositsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ClaimFeeDepositsRequest;
-  return proto.ClaimFeeDepositsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ClaimFeeDepositsRequest;
+  return proto.tdex.daemon.v1.ClaimFeeDepositsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ClaimFeeDepositsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ClaimFeeDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest}
  */
-proto.ClaimFeeDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3449,8 +3772,8 @@ proto.ClaimFeeDepositsRequest.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.TxOutpoint;
-      reader.readMessage(value,proto.TxOutpoint.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TxOutpoint;
+      reader.readMessage(value,proto.tdex.daemon.v1.TxOutpoint.deserializeBinaryFromReader);
       msg.addOutpoints(value);
       break;
     default:
@@ -3466,9 +3789,9 @@ proto.ClaimFeeDepositsRequest.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ClaimFeeDepositsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ClaimFeeDepositsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ClaimFeeDepositsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3476,18 +3799,18 @@ proto.ClaimFeeDepositsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ClaimFeeDepositsRequest} message
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimFeeDepositsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOutpointsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.TxOutpoint.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TxOutpoint.serializeBinaryToWriter
     );
   }
 };
@@ -3495,38 +3818,38 @@ proto.ClaimFeeDepositsRequest.serializeBinaryToWriter = function(message, writer
 
 /**
  * repeated TxOutpoint outpoints = 1;
- * @return {!Array<!proto.TxOutpoint>}
+ * @return {!Array<!proto.tdex.daemon.v1.TxOutpoint>}
  */
-proto.ClaimFeeDepositsRequest.prototype.getOutpointsList = function() {
-  return /** @type{!Array<!proto.TxOutpoint>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.TxOutpoint, 1));
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.getOutpointsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.TxOutpoint>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.TxOutpoint, 1));
 };
 
 
 /**
- * @param {!Array<!proto.TxOutpoint>} value
- * @return {!proto.ClaimFeeDepositsRequest} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.TxOutpoint>} value
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest} returns this
 */
-proto.ClaimFeeDepositsRequest.prototype.setOutpointsList = function(value) {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.setOutpointsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.TxOutpoint=} opt_value
+ * @param {!proto.tdex.daemon.v1.TxOutpoint=} opt_value
  * @param {number=} opt_index
- * @return {!proto.TxOutpoint}
+ * @return {!proto.tdex.daemon.v1.TxOutpoint}
  */
-proto.ClaimFeeDepositsRequest.prototype.addOutpoints = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.TxOutpoint, opt_index);
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.addOutpoints = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.TxOutpoint, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ClaimFeeDepositsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsRequest} returns this
  */
-proto.ClaimFeeDepositsRequest.prototype.clearOutpointsList = function() {
+proto.tdex.daemon.v1.ClaimFeeDepositsRequest.prototype.clearOutpointsList = function() {
   return this.setOutpointsList([]);
 };
 
@@ -3547,8 +3870,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ClaimFeeDepositsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ClaimFeeDepositsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ClaimFeeDepositsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -3557,11 +3880,11 @@ proto.ClaimFeeDepositsReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ClaimFeeDepositsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimFeeDepositsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -3577,23 +3900,23 @@ proto.ClaimFeeDepositsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ClaimFeeDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsReply}
  */
-proto.ClaimFeeDepositsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ClaimFeeDepositsReply;
-  return proto.ClaimFeeDepositsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ClaimFeeDepositsReply;
+  return proto.tdex.daemon.v1.ClaimFeeDepositsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ClaimFeeDepositsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ClaimFeeDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ClaimFeeDepositsReply}
  */
-proto.ClaimFeeDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3613,9 +3936,9 @@ proto.ClaimFeeDepositsReply.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ClaimFeeDepositsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ClaimFeeDepositsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ClaimFeeDepositsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3623,11 +3946,11 @@ proto.ClaimFeeDepositsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ClaimFeeDepositsReply} message
+ * @param {!proto.tdex.daemon.v1.ClaimFeeDepositsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimFeeDepositsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ClaimFeeDepositsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -3648,8 +3971,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawFeeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawFeeRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawFeeRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -3658,11 +3981,11 @@ proto.WithdrawFeeRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawFeeRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     amount: jspb.Message.getFieldWithDefault(msg, 1, 0),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -3681,23 +4004,23 @@ proto.WithdrawFeeRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawFeeRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest}
  */
-proto.WithdrawFeeRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawFeeRequest;
-  return proto.WithdrawFeeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawFeeRequest;
+  return proto.tdex.daemon.v1.WithdrawFeeRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawFeeRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawFeeRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest}
  */
-proto.WithdrawFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3733,9 +4056,9 @@ proto.WithdrawFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawFeeRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawFeeRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawFeeRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3743,11 +4066,11 @@ proto.WithdrawFeeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawFeeRequest} message
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAmount();
   if (f !== 0) {
@@ -3784,16 +4107,16 @@ proto.WithdrawFeeRequest.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 amount = 1;
  * @return {number}
  */
-proto.WithdrawFeeRequest.prototype.getAmount = function() {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.getAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.WithdrawFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest} returns this
  */
-proto.WithdrawFeeRequest.prototype.setAmount = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.setAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -3802,16 +4125,16 @@ proto.WithdrawFeeRequest.prototype.setAmount = function(value) {
  * optional uint64 millisats_per_byte = 2;
  * @return {number}
  */
-proto.WithdrawFeeRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.WithdrawFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest} returns this
  */
-proto.WithdrawFeeRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -3820,16 +4143,16 @@ proto.WithdrawFeeRequest.prototype.setMillisatsPerByte = function(value) {
  * optional string address = 3;
  * @return {string}
  */
-proto.WithdrawFeeRequest.prototype.getAddress = function() {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest} returns this
  */
-proto.WithdrawFeeRequest.prototype.setAddress = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -3838,16 +4161,16 @@ proto.WithdrawFeeRequest.prototype.setAddress = function(value) {
  * optional string asset = 4;
  * @return {string}
  */
-proto.WithdrawFeeRequest.prototype.getAsset = function() {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.getAsset = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeRequest} returns this
  */
-proto.WithdrawFeeRequest.prototype.setAsset = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeRequest.prototype.setAsset = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -3868,8 +4191,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawFeeReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawFeeReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawFeeReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawFeeReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -3878,11 +4201,11 @@ proto.WithdrawFeeReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawFeeReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawFeeReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     txid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -3898,23 +4221,23 @@ proto.WithdrawFeeReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawFeeReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeReply}
  */
-proto.WithdrawFeeReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawFeeReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawFeeReply;
-  return proto.WithdrawFeeReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawFeeReply;
+  return proto.tdex.daemon.v1.WithdrawFeeReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawFeeReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawFeeReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeReply}
  */
-proto.WithdrawFeeReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawFeeReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3938,9 +4261,9 @@ proto.WithdrawFeeReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawFeeReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawFeeReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawFeeReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawFeeReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3948,11 +4271,11 @@ proto.WithdrawFeeReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawFeeReply} message
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawFeeReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxid();
   if (f.length > 0) {
@@ -3968,16 +4291,16 @@ proto.WithdrawFeeReply.serializeBinaryToWriter = function(message, writer) {
  * optional string txid = 1;
  * @return {string}
  */
-proto.WithdrawFeeReply.prototype.getTxid = function() {
+proto.tdex.daemon.v1.WithdrawFeeReply.prototype.getTxid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawFeeReply} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeReply} returns this
  */
-proto.WithdrawFeeReply.prototype.setTxid = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeReply.prototype.setTxid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -3998,8 +4321,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.NewMarketRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.NewMarketRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.NewMarketRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.NewMarketRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4008,13 +4331,13 @@ proto.NewMarketRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.NewMarketRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.NewMarketRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.NewMarketRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.NewMarketRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4028,23 +4351,23 @@ proto.NewMarketRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.NewMarketRequest}
+ * @return {!proto.tdex.daemon.v1.NewMarketRequest}
  */
-proto.NewMarketRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.NewMarketRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.NewMarketRequest;
-  return proto.NewMarketRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.NewMarketRequest;
+  return proto.tdex.daemon.v1.NewMarketRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.NewMarketRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.NewMarketRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.NewMarketRequest}
+ * @return {!proto.tdex.daemon.v1.NewMarketRequest}
  */
-proto.NewMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.NewMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4052,8 +4375,8 @@ proto.NewMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -4069,9 +4392,9 @@ proto.NewMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.NewMarketRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.NewMarketRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.NewMarketRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.NewMarketRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4079,47 +4402,47 @@ proto.NewMarketRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.NewMarketRequest} message
+ * @param {!proto.tdex.daemon.v1.NewMarketRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.NewMarketRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.NewMarketRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.NewMarketRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.NewMarketRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.NewMarketRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.NewMarketRequest} returns this
 */
-proto.NewMarketRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.NewMarketRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.NewMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.NewMarketRequest} returns this
  */
-proto.NewMarketRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.NewMarketRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -4128,7 +4451,7 @@ proto.NewMarketRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.NewMarketRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.NewMarketRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -4149,8 +4472,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.NewMarketReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.NewMarketReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.NewMarketReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.NewMarketReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -4159,11 +4482,11 @@ proto.NewMarketReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.NewMarketReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.NewMarketReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.NewMarketReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.NewMarketReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -4179,23 +4502,23 @@ proto.NewMarketReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.NewMarketReply}
+ * @return {!proto.tdex.daemon.v1.NewMarketReply}
  */
-proto.NewMarketReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.NewMarketReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.NewMarketReply;
-  return proto.NewMarketReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.NewMarketReply;
+  return proto.tdex.daemon.v1.NewMarketReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.NewMarketReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.NewMarketReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.NewMarketReply}
+ * @return {!proto.tdex.daemon.v1.NewMarketReply}
  */
-proto.NewMarketReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.NewMarketReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4215,9 +4538,9 @@ proto.NewMarketReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.NewMarketReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.NewMarketReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.NewMarketReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.NewMarketReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4225,11 +4548,11 @@ proto.NewMarketReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.NewMarketReply} message
+ * @param {!proto.tdex.daemon.v1.NewMarketReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.NewMarketReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.NewMarketReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -4250,8 +4573,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketInfoRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketInfoRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketInfoRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4260,13 +4583,13 @@ proto.GetMarketInfoRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketInfoRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketInfoRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketInfoRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4280,23 +4603,23 @@ proto.GetMarketInfoRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketInfoRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoRequest}
  */
-proto.GetMarketInfoRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketInfoRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketInfoRequest;
-  return proto.GetMarketInfoRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketInfoRequest;
+  return proto.tdex.daemon.v1.GetMarketInfoRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketInfoRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketInfoRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoRequest}
  */
-proto.GetMarketInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4304,8 +4627,8 @@ proto.GetMarketInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -4321,9 +4644,9 @@ proto.GetMarketInfoRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketInfoRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketInfoRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketInfoRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4331,47 +4654,47 @@ proto.GetMarketInfoRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketInfoRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketInfoRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketInfoRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.GetMarketInfoRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.GetMarketInfoRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoRequest} returns this
 */
-proto.GetMarketInfoRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketInfoRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoRequest} returns this
  */
-proto.GetMarketInfoRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -4380,7 +4703,7 @@ proto.GetMarketInfoRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketInfoRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.GetMarketInfoRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -4401,8 +4724,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketInfoReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketInfoReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketInfoReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -4411,13 +4734,13 @@ proto.GetMarketInfoReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketInfoReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketInfoReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketInfoReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    info: (f = msg.getInfo()) && proto.MarketInfo.toObject(includeInstance, f)
+    info: (f = msg.getInfo()) && proto.tdex.daemon.v1.MarketInfo.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4431,23 +4754,23 @@ proto.GetMarketInfoReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketInfoReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoReply}
  */
-proto.GetMarketInfoReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketInfoReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketInfoReply;
-  return proto.GetMarketInfoReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketInfoReply;
+  return proto.tdex.daemon.v1.GetMarketInfoReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketInfoReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketInfoReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoReply}
  */
-proto.GetMarketInfoReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketInfoReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4455,8 +4778,8 @@ proto.GetMarketInfoReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.MarketInfo;
-      reader.readMessage(value,proto.MarketInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketInfo.deserializeBinaryFromReader);
       msg.setInfo(value);
       break;
     default:
@@ -4472,9 +4795,9 @@ proto.GetMarketInfoReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketInfoReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketInfoReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketInfoReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4482,18 +4805,18 @@ proto.GetMarketInfoReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketInfoReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketInfoReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketInfoReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketInfoReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getInfo();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.MarketInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketInfo.serializeBinaryToWriter
     );
   }
 };
@@ -4501,28 +4824,28 @@ proto.GetMarketInfoReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional MarketInfo info = 1;
- * @return {?proto.MarketInfo}
+ * @return {?proto.tdex.daemon.v1.MarketInfo}
  */
-proto.GetMarketInfoReply.prototype.getInfo = function() {
-  return /** @type{?proto.MarketInfo} */ (
-    jspb.Message.getWrapperField(this, proto.MarketInfo, 1));
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.getInfo = function() {
+  return /** @type{?proto.tdex.daemon.v1.MarketInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.MarketInfo, 1));
 };
 
 
 /**
- * @param {?proto.MarketInfo|undefined} value
- * @return {!proto.GetMarketInfoReply} returns this
+ * @param {?proto.tdex.daemon.v1.MarketInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoReply} returns this
 */
-proto.GetMarketInfoReply.prototype.setInfo = function(value) {
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.setInfo = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketInfoReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketInfoReply} returns this
  */
-proto.GetMarketInfoReply.prototype.clearInfo = function() {
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.clearInfo = function() {
   return this.setInfo(undefined);
 };
 
@@ -4531,7 +4854,7 @@ proto.GetMarketInfoReply.prototype.clearInfo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketInfoReply.prototype.hasInfo = function() {
+proto.tdex.daemon.v1.GetMarketInfoReply.prototype.hasInfo = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -4552,8 +4875,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketAddressRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketAddressRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketAddressRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4562,13 +4885,13 @@ proto.GetMarketAddressRequest.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketAddressRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketAddressRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
     numOfAddresses: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
@@ -4583,23 +4906,23 @@ proto.GetMarketAddressRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressRequest}
  */
-proto.GetMarketAddressRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketAddressRequest;
-  return proto.GetMarketAddressRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketAddressRequest;
+  return proto.tdex.daemon.v1.GetMarketAddressRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketAddressRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressRequest}
  */
-proto.GetMarketAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4607,8 +4930,8 @@ proto.GetMarketAddressRequest.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
@@ -4628,9 +4951,9 @@ proto.GetMarketAddressRequest.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketAddressRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketAddressRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketAddressRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4638,18 +4961,18 @@ proto.GetMarketAddressRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketAddressRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketAddressRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getNumOfAddresses();
@@ -4663,29 +4986,29 @@ proto.GetMarketAddressRequest.serializeBinaryToWriter = function(message, writer
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.GetMarketAddressRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.GetMarketAddressRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressRequest} returns this
 */
-proto.GetMarketAddressRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketAddressRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressRequest} returns this
  */
-proto.GetMarketAddressRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -4694,7 +5017,7 @@ proto.GetMarketAddressRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketAddressRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -4703,16 +5026,16 @@ proto.GetMarketAddressRequest.prototype.hasMarket = function() {
  * optional int64 num_of_addresses = 2;
  * @return {number}
  */
-proto.GetMarketAddressRequest.prototype.getNumOfAddresses = function() {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.getNumOfAddresses = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetMarketAddressRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressRequest} returns this
  */
-proto.GetMarketAddressRequest.prototype.setNumOfAddresses = function(value) {
+proto.tdex.daemon.v1.GetMarketAddressRequest.prototype.setNumOfAddresses = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -4723,7 +5046,7 @@ proto.GetMarketAddressRequest.prototype.setNumOfAddresses = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.GetMarketAddressReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.GetMarketAddressReply.repeatedFields_ = [1];
 
 
 
@@ -4740,8 +5063,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketAddressReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketAddressReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketAddressReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -4750,14 +5073,14 @@ proto.GetMarketAddressReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketAddressReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketAddressReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketAddressReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -4771,23 +5094,23 @@ proto.GetMarketAddressReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressReply}
  */
-proto.GetMarketAddressReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketAddressReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketAddressReply;
-  return proto.GetMarketAddressReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketAddressReply;
+  return proto.tdex.daemon.v1.GetMarketAddressReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketAddressReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressReply}
  */
-proto.GetMarketAddressReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketAddressReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4795,8 +5118,8 @@ proto.GetMarketAddressReply.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -4812,9 +5135,9 @@ proto.GetMarketAddressReply.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketAddressReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketAddressReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketAddressReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4822,57 +5145,57 @@ proto.GetMarketAddressReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketAddressReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketAddressReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketAddressReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketAddressReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.GetMarketAddressReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.GetMarketAddressReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressReply} returns this
 */
-proto.GetMarketAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.GetMarketAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetMarketAddressReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketAddressReply} returns this
  */
-proto.GetMarketAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.GetMarketAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -4893,8 +5216,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketAddressesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketAddressesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketAddressesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4903,13 +5226,13 @@ proto.ListMarketAddressesRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketAddressesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketAddressesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -4923,23 +5246,23 @@ proto.ListMarketAddressesRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesRequest}
  */
-proto.ListMarketAddressesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketAddressesRequest;
-  return proto.ListMarketAddressesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketAddressesRequest;
+  return proto.tdex.daemon.v1.ListMarketAddressesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketAddressesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesRequest}
  */
-proto.ListMarketAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4947,8 +5270,8 @@ proto.ListMarketAddressesRequest.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -4964,9 +5287,9 @@ proto.ListMarketAddressesRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketAddressesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketAddressesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketAddressesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4974,47 +5297,47 @@ proto.ListMarketAddressesRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketAddressesRequest} message
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketAddressesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.ListMarketAddressesRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.ListMarketAddressesRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesRequest} returns this
 */
-proto.ListMarketAddressesRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListMarketAddressesRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesRequest} returns this
  */
-proto.ListMarketAddressesRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -5023,7 +5346,7 @@ proto.ListMarketAddressesRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListMarketAddressesRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.ListMarketAddressesRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -5034,7 +5357,7 @@ proto.ListMarketAddressesRequest.prototype.hasMarket = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ListMarketAddressesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListMarketAddressesReply.repeatedFields_ = [1];
 
 
 
@@ -5051,8 +5374,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketAddressesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketAddressesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketAddressesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -5061,14 +5384,14 @@ proto.ListMarketAddressesReply.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketAddressesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketAddressesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketAddressesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -5082,23 +5405,23 @@ proto.ListMarketAddressesReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesReply}
  */
-proto.ListMarketAddressesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketAddressesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketAddressesReply;
-  return proto.ListMarketAddressesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketAddressesReply;
+  return proto.tdex.daemon.v1.ListMarketAddressesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketAddressesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesReply}
  */
-proto.ListMarketAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5106,8 +5429,8 @@ proto.ListMarketAddressesReply.deserializeBinaryFromReader = function(msg, reade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -5123,9 +5446,9 @@ proto.ListMarketAddressesReply.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketAddressesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketAddressesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketAddressesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5133,57 +5456,57 @@ proto.ListMarketAddressesReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketAddressesReply} message
+ * @param {!proto.tdex.daemon.v1.ListMarketAddressesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketAddressesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketAddressesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.ListMarketAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.ListMarketAddressesReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesReply} returns this
 */
-proto.ListMarketAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.ListMarketAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListMarketAddressesReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListMarketAddressesReply} returns this
  */
-proto.ListMarketAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.ListMarketAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -5204,8 +5527,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketBalanceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketBalanceRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketBalanceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5214,13 +5537,13 @@ proto.GetMarketBalanceRequest.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketBalanceRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketBalanceRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5234,23 +5557,23 @@ proto.GetMarketBalanceRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceRequest}
  */
-proto.GetMarketBalanceRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketBalanceRequest;
-  return proto.GetMarketBalanceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketBalanceRequest;
+  return proto.tdex.daemon.v1.GetMarketBalanceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketBalanceRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceRequest}
  */
-proto.GetMarketBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5258,8 +5581,8 @@ proto.GetMarketBalanceRequest.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -5275,9 +5598,9 @@ proto.GetMarketBalanceRequest.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketBalanceRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketBalanceRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketBalanceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5285,47 +5608,47 @@ proto.GetMarketBalanceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketBalanceRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketBalanceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.GetMarketBalanceRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.GetMarketBalanceRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceRequest} returns this
 */
-proto.GetMarketBalanceRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketBalanceRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceRequest} returns this
  */
-proto.GetMarketBalanceRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -5334,7 +5657,7 @@ proto.GetMarketBalanceRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketBalanceRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.GetMarketBalanceRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -5355,8 +5678,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketBalanceReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketBalanceReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketBalanceReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -5365,14 +5688,14 @@ proto.GetMarketBalanceReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketBalanceReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketBalanceReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    availableBalance: (f = msg.getAvailableBalance()) && types_pb.Balance.toObject(includeInstance, f),
-    totalBalance: (f = msg.getTotalBalance()) && types_pb.Balance.toObject(includeInstance, f)
+    availableBalance: (f = msg.getAvailableBalance()) && tdex_v1_types_pb.Balance.toObject(includeInstance, f),
+    totalBalance: (f = msg.getTotalBalance()) && tdex_v1_types_pb.Balance.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5386,23 +5709,23 @@ proto.GetMarketBalanceReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply}
  */
-proto.GetMarketBalanceReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketBalanceReply;
-  return proto.GetMarketBalanceReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketBalanceReply;
+  return proto.tdex.daemon.v1.GetMarketBalanceReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketBalanceReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply}
  */
-proto.GetMarketBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5410,13 +5733,13 @@ proto.GetMarketBalanceReply.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Balance;
-      reader.readMessage(value,types_pb.Balance.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Balance;
+      reader.readMessage(value,tdex_v1_types_pb.Balance.deserializeBinaryFromReader);
       msg.setAvailableBalance(value);
       break;
     case 2:
-      var value = new types_pb.Balance;
-      reader.readMessage(value,types_pb.Balance.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Balance;
+      reader.readMessage(value,tdex_v1_types_pb.Balance.deserializeBinaryFromReader);
       msg.setTotalBalance(value);
       break;
     default:
@@ -5432,9 +5755,9 @@ proto.GetMarketBalanceReply.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketBalanceReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketBalanceReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketBalanceReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5442,18 +5765,18 @@ proto.GetMarketBalanceReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketBalanceReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketBalanceReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketBalanceReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAvailableBalance();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Balance.serializeBinaryToWriter
+      tdex_v1_types_pb.Balance.serializeBinaryToWriter
     );
   }
   f = message.getTotalBalance();
@@ -5461,36 +5784,36 @@ proto.GetMarketBalanceReply.serializeBinaryToWriter = function(message, writer) 
     writer.writeMessage(
       2,
       f,
-      types_pb.Balance.serializeBinaryToWriter
+      tdex_v1_types_pb.Balance.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Balance available_balance = 1;
- * @return {?proto.Balance}
+ * optional tdex.v1.Balance available_balance = 1;
+ * @return {?proto.tdex.v1.Balance}
  */
-proto.GetMarketBalanceReply.prototype.getAvailableBalance = function() {
-  return /** @type{?proto.Balance} */ (
-    jspb.Message.getWrapperField(this, types_pb.Balance, 1));
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.getAvailableBalance = function() {
+  return /** @type{?proto.tdex.v1.Balance} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Balance, 1));
 };
 
 
 /**
- * @param {?proto.Balance|undefined} value
- * @return {!proto.GetMarketBalanceReply} returns this
+ * @param {?proto.tdex.v1.Balance|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply} returns this
 */
-proto.GetMarketBalanceReply.prototype.setAvailableBalance = function(value) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.setAvailableBalance = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply} returns this
  */
-proto.GetMarketBalanceReply.prototype.clearAvailableBalance = function() {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.clearAvailableBalance = function() {
   return this.setAvailableBalance(undefined);
 };
 
@@ -5499,35 +5822,35 @@ proto.GetMarketBalanceReply.prototype.clearAvailableBalance = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketBalanceReply.prototype.hasAvailableBalance = function() {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.hasAvailableBalance = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional Balance total_balance = 2;
- * @return {?proto.Balance}
+ * optional tdex.v1.Balance total_balance = 2;
+ * @return {?proto.tdex.v1.Balance}
  */
-proto.GetMarketBalanceReply.prototype.getTotalBalance = function() {
-  return /** @type{?proto.Balance} */ (
-    jspb.Message.getWrapperField(this, types_pb.Balance, 2));
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.getTotalBalance = function() {
+  return /** @type{?proto.tdex.v1.Balance} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Balance, 2));
 };
 
 
 /**
- * @param {?proto.Balance|undefined} value
- * @return {!proto.GetMarketBalanceReply} returns this
+ * @param {?proto.tdex.v1.Balance|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply} returns this
 */
-proto.GetMarketBalanceReply.prototype.setTotalBalance = function(value) {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.setTotalBalance = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketBalanceReply} returns this
  */
-proto.GetMarketBalanceReply.prototype.clearTotalBalance = function() {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.clearTotalBalance = function() {
   return this.setTotalBalance(undefined);
 };
 
@@ -5536,7 +5859,7 @@ proto.GetMarketBalanceReply.prototype.clearTotalBalance = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketBalanceReply.prototype.hasTotalBalance = function() {
+proto.tdex.daemon.v1.GetMarketBalanceReply.prototype.hasTotalBalance = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -5547,7 +5870,7 @@ proto.GetMarketBalanceReply.prototype.hasTotalBalance = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ClaimMarketDepositsRequest.repeatedFields_ = [2];
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.repeatedFields_ = [2];
 
 
 
@@ -5564,8 +5887,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ClaimMarketDepositsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ClaimMarketDepositsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ClaimMarketDepositsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5574,15 +5897,15 @@ proto.ClaimMarketDepositsRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ClaimMarketDepositsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimMarketDepositsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
     outpointsList: jspb.Message.toObjectList(msg.getOutpointsList(),
-    proto.TxOutpoint.toObject, includeInstance)
+    proto.tdex.daemon.v1.TxOutpoint.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -5596,23 +5919,23 @@ proto.ClaimMarketDepositsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ClaimMarketDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest}
  */
-proto.ClaimMarketDepositsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ClaimMarketDepositsRequest;
-  return proto.ClaimMarketDepositsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ClaimMarketDepositsRequest;
+  return proto.tdex.daemon.v1.ClaimMarketDepositsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ClaimMarketDepositsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ClaimMarketDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest}
  */
-proto.ClaimMarketDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5620,13 +5943,13 @@ proto.ClaimMarketDepositsRequest.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new proto.TxOutpoint;
-      reader.readMessage(value,proto.TxOutpoint.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TxOutpoint;
+      reader.readMessage(value,proto.tdex.daemon.v1.TxOutpoint.deserializeBinaryFromReader);
       msg.addOutpoints(value);
       break;
     default:
@@ -5642,9 +5965,9 @@ proto.ClaimMarketDepositsRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ClaimMarketDepositsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ClaimMarketDepositsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ClaimMarketDepositsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5652,18 +5975,18 @@ proto.ClaimMarketDepositsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ClaimMarketDepositsRequest} message
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimMarketDepositsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getOutpointsList();
@@ -5671,36 +5994,36 @@ proto.ClaimMarketDepositsRequest.serializeBinaryToWriter = function(message, wri
     writer.writeRepeatedMessage(
       2,
       f,
-      proto.TxOutpoint.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TxOutpoint.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.ClaimMarketDepositsRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.ClaimMarketDepositsRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} returns this
 */
-proto.ClaimMarketDepositsRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ClaimMarketDepositsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} returns this
  */
-proto.ClaimMarketDepositsRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -5709,45 +6032,45 @@ proto.ClaimMarketDepositsRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ClaimMarketDepositsRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * repeated TxOutpoint outpoints = 2;
- * @return {!Array<!proto.TxOutpoint>}
+ * @return {!Array<!proto.tdex.daemon.v1.TxOutpoint>}
  */
-proto.ClaimMarketDepositsRequest.prototype.getOutpointsList = function() {
-  return /** @type{!Array<!proto.TxOutpoint>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.TxOutpoint, 2));
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.getOutpointsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.TxOutpoint>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.TxOutpoint, 2));
 };
 
 
 /**
- * @param {!Array<!proto.TxOutpoint>} value
- * @return {!proto.ClaimMarketDepositsRequest} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.TxOutpoint>} value
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} returns this
 */
-proto.ClaimMarketDepositsRequest.prototype.setOutpointsList = function(value) {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.setOutpointsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {!proto.TxOutpoint=} opt_value
+ * @param {!proto.tdex.daemon.v1.TxOutpoint=} opt_value
  * @param {number=} opt_index
- * @return {!proto.TxOutpoint}
+ * @return {!proto.tdex.daemon.v1.TxOutpoint}
  */
-proto.ClaimMarketDepositsRequest.prototype.addOutpoints = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.TxOutpoint, opt_index);
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.addOutpoints = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.tdex.daemon.v1.TxOutpoint, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ClaimMarketDepositsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsRequest} returns this
  */
-proto.ClaimMarketDepositsRequest.prototype.clearOutpointsList = function() {
+proto.tdex.daemon.v1.ClaimMarketDepositsRequest.prototype.clearOutpointsList = function() {
   return this.setOutpointsList([]);
 };
 
@@ -5768,8 +6091,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ClaimMarketDepositsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ClaimMarketDepositsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ClaimMarketDepositsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -5778,11 +6101,11 @@ proto.ClaimMarketDepositsReply.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ClaimMarketDepositsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimMarketDepositsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -5798,23 +6121,23 @@ proto.ClaimMarketDepositsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ClaimMarketDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsReply}
  */
-proto.ClaimMarketDepositsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ClaimMarketDepositsReply;
-  return proto.ClaimMarketDepositsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ClaimMarketDepositsReply;
+  return proto.tdex.daemon.v1.ClaimMarketDepositsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ClaimMarketDepositsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ClaimMarketDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ClaimMarketDepositsReply}
  */
-proto.ClaimMarketDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5834,9 +6157,9 @@ proto.ClaimMarketDepositsReply.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ClaimMarketDepositsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ClaimMarketDepositsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ClaimMarketDepositsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5844,11 +6167,11 @@ proto.ClaimMarketDepositsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ClaimMarketDepositsReply} message
+ * @param {!proto.tdex.daemon.v1.ClaimMarketDepositsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ClaimMarketDepositsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ClaimMarketDepositsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -5869,8 +6192,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.OpenMarketRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.OpenMarketRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.OpenMarketRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5879,13 +6202,13 @@ proto.OpenMarketRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.OpenMarketRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.OpenMarketRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.OpenMarketRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.OpenMarketRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5899,23 +6222,23 @@ proto.OpenMarketRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.OpenMarketRequest}
+ * @return {!proto.tdex.daemon.v1.OpenMarketRequest}
  */
-proto.OpenMarketRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.OpenMarketRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.OpenMarketRequest;
-  return proto.OpenMarketRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.OpenMarketRequest;
+  return proto.tdex.daemon.v1.OpenMarketRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.OpenMarketRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.OpenMarketRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.OpenMarketRequest}
+ * @return {!proto.tdex.daemon.v1.OpenMarketRequest}
  */
-proto.OpenMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.OpenMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5923,8 +6246,8 @@ proto.OpenMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -5940,9 +6263,9 @@ proto.OpenMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.OpenMarketRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.OpenMarketRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.OpenMarketRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5950,47 +6273,47 @@ proto.OpenMarketRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.OpenMarketRequest} message
+ * @param {!proto.tdex.daemon.v1.OpenMarketRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.OpenMarketRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.OpenMarketRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.OpenMarketRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.OpenMarketRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.OpenMarketRequest} returns this
 */
-proto.OpenMarketRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.OpenMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.OpenMarketRequest} returns this
  */
-proto.OpenMarketRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -5999,7 +6322,7 @@ proto.OpenMarketRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.OpenMarketRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.OpenMarketRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -6020,8 +6343,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.OpenMarketReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.OpenMarketReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.OpenMarketReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.OpenMarketReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -6030,11 +6353,11 @@ proto.OpenMarketReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.OpenMarketReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.OpenMarketReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.OpenMarketReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.OpenMarketReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -6050,23 +6373,23 @@ proto.OpenMarketReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.OpenMarketReply}
+ * @return {!proto.tdex.daemon.v1.OpenMarketReply}
  */
-proto.OpenMarketReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.OpenMarketReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.OpenMarketReply;
-  return proto.OpenMarketReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.OpenMarketReply;
+  return proto.tdex.daemon.v1.OpenMarketReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.OpenMarketReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.OpenMarketReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.OpenMarketReply}
+ * @return {!proto.tdex.daemon.v1.OpenMarketReply}
  */
-proto.OpenMarketReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.OpenMarketReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6086,9 +6409,9 @@ proto.OpenMarketReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.OpenMarketReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.OpenMarketReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.OpenMarketReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.OpenMarketReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6096,11 +6419,11 @@ proto.OpenMarketReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.OpenMarketReply} message
+ * @param {!proto.tdex.daemon.v1.OpenMarketReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.OpenMarketReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.OpenMarketReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -6121,8 +6444,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.CloseMarketRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.CloseMarketRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.CloseMarketRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6131,13 +6454,13 @@ proto.CloseMarketRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.CloseMarketRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.CloseMarketRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CloseMarketRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.CloseMarketRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -6151,23 +6474,23 @@ proto.CloseMarketRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.CloseMarketRequest}
+ * @return {!proto.tdex.daemon.v1.CloseMarketRequest}
  */
-proto.CloseMarketRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.CloseMarketRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.CloseMarketRequest;
-  return proto.CloseMarketRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.CloseMarketRequest;
+  return proto.tdex.daemon.v1.CloseMarketRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.CloseMarketRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.CloseMarketRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.CloseMarketRequest}
+ * @return {!proto.tdex.daemon.v1.CloseMarketRequest}
  */
-proto.CloseMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.CloseMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6175,8 +6498,8 @@ proto.CloseMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -6192,9 +6515,9 @@ proto.CloseMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.CloseMarketRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.CloseMarketRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.CloseMarketRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6202,47 +6525,47 @@ proto.CloseMarketRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.CloseMarketRequest} message
+ * @param {!proto.tdex.daemon.v1.CloseMarketRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CloseMarketRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.CloseMarketRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.CloseMarketRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.CloseMarketRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.CloseMarketRequest} returns this
 */
-proto.CloseMarketRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.CloseMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.CloseMarketRequest} returns this
  */
-proto.CloseMarketRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -6251,7 +6574,7 @@ proto.CloseMarketRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.CloseMarketRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.CloseMarketRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -6272,8 +6595,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.CloseMarketReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.CloseMarketReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.CloseMarketReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.CloseMarketReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -6282,11 +6605,11 @@ proto.CloseMarketReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.CloseMarketReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.CloseMarketReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CloseMarketReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.CloseMarketReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -6302,23 +6625,23 @@ proto.CloseMarketReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.CloseMarketReply}
+ * @return {!proto.tdex.daemon.v1.CloseMarketReply}
  */
-proto.CloseMarketReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.CloseMarketReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.CloseMarketReply;
-  return proto.CloseMarketReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.CloseMarketReply;
+  return proto.tdex.daemon.v1.CloseMarketReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.CloseMarketReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.CloseMarketReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.CloseMarketReply}
+ * @return {!proto.tdex.daemon.v1.CloseMarketReply}
  */
-proto.CloseMarketReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.CloseMarketReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6338,9 +6661,9 @@ proto.CloseMarketReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.CloseMarketReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.CloseMarketReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.CloseMarketReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.CloseMarketReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6348,11 +6671,11 @@ proto.CloseMarketReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.CloseMarketReply} message
+ * @param {!proto.tdex.daemon.v1.CloseMarketReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CloseMarketReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.CloseMarketReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -6373,8 +6696,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6383,11 +6706,11 @@ proto.ListMarketsRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -6403,23 +6726,23 @@ proto.ListMarketsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketsRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketsRequest}
  */
-proto.ListMarketsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketsRequest;
-  return proto.ListMarketsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketsRequest;
+  return proto.tdex.daemon.v1.ListMarketsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketsRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketsRequest}
  */
-proto.ListMarketsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6439,9 +6762,9 @@ proto.ListMarketsRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6449,11 +6772,11 @@ proto.ListMarketsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketsRequest} message
+ * @param {!proto.tdex.daemon.v1.ListMarketsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -6464,7 +6787,7 @@ proto.ListMarketsRequest.serializeBinaryToWriter = function(message, writer) {
  * @private {!Array<number>}
  * @const
  */
-proto.ListMarketsReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListMarketsReply.repeatedFields_ = [1];
 
 
 
@@ -6481,8 +6804,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -6491,14 +6814,14 @@ proto.ListMarketsReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     marketsList: jspb.Message.toObjectList(msg.getMarketsList(),
-    proto.MarketInfo.toObject, includeInstance)
+    proto.tdex.daemon.v1.MarketInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -6512,23 +6835,23 @@ proto.ListMarketsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketsReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketsReply}
  */
-proto.ListMarketsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketsReply;
-  return proto.ListMarketsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketsReply;
+  return proto.tdex.daemon.v1.ListMarketsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketsReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketsReply}
  */
-proto.ListMarketsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6536,8 +6859,8 @@ proto.ListMarketsReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.MarketInfo;
-      reader.readMessage(value,proto.MarketInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketInfo.deserializeBinaryFromReader);
       msg.addMarkets(value);
       break;
     default:
@@ -6553,9 +6876,9 @@ proto.ListMarketsReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6563,18 +6886,18 @@ proto.ListMarketsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketsReply} message
+ * @param {!proto.tdex.daemon.v1.ListMarketsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarketsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.MarketInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketInfo.serializeBinaryToWriter
     );
   }
 };
@@ -6582,38 +6905,38 @@ proto.ListMarketsReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated MarketInfo markets = 1;
- * @return {!Array<!proto.MarketInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.MarketInfo>}
  */
-proto.ListMarketsReply.prototype.getMarketsList = function() {
-  return /** @type{!Array<!proto.MarketInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.MarketInfo, 1));
+proto.tdex.daemon.v1.ListMarketsReply.prototype.getMarketsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.MarketInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.MarketInfo, 1));
 };
 
 
 /**
- * @param {!Array<!proto.MarketInfo>} value
- * @return {!proto.ListMarketsReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.MarketInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListMarketsReply} returns this
 */
-proto.ListMarketsReply.prototype.setMarketsList = function(value) {
+proto.tdex.daemon.v1.ListMarketsReply.prototype.setMarketsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.MarketInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.MarketInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.MarketInfo}
+ * @return {!proto.tdex.daemon.v1.MarketInfo}
  */
-proto.ListMarketsReply.prototype.addMarkets = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.MarketInfo, opt_index);
+proto.tdex.daemon.v1.ListMarketsReply.prototype.addMarkets = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.MarketInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListMarketsReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListMarketsReply} returns this
  */
-proto.ListMarketsReply.prototype.clearMarketsList = function() {
+proto.tdex.daemon.v1.ListMarketsReply.prototype.clearMarketsList = function() {
   return this.setMarketsList([]);
 };
 
@@ -6634,8 +6957,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.DropMarketRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.DropMarketRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.DropMarketRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.DropMarketRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6644,13 +6967,13 @@ proto.DropMarketRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.DropMarketRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.DropMarketRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.DropMarketRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.DropMarketRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -6664,23 +6987,23 @@ proto.DropMarketRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.DropMarketRequest}
+ * @return {!proto.tdex.daemon.v1.DropMarketRequest}
  */
-proto.DropMarketRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.DropMarketRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.DropMarketRequest;
-  return proto.DropMarketRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.DropMarketRequest;
+  return proto.tdex.daemon.v1.DropMarketRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.DropMarketRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.DropMarketRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.DropMarketRequest}
+ * @return {!proto.tdex.daemon.v1.DropMarketRequest}
  */
-proto.DropMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.DropMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6688,8 +7011,8 @@ proto.DropMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     default:
@@ -6705,9 +7028,9 @@ proto.DropMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.DropMarketRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.DropMarketRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.DropMarketRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.DropMarketRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6715,47 +7038,47 @@ proto.DropMarketRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.DropMarketRequest} message
+ * @param {!proto.tdex.daemon.v1.DropMarketRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.DropMarketRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.DropMarketRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.DropMarketRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.DropMarketRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.DropMarketRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.DropMarketRequest} returns this
 */
-proto.DropMarketRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.DropMarketRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.DropMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.DropMarketRequest} returns this
  */
-proto.DropMarketRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.DropMarketRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -6764,7 +7087,7 @@ proto.DropMarketRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.DropMarketRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.DropMarketRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -6785,8 +7108,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.DropMarketReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.DropMarketReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.DropMarketReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.DropMarketReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -6795,11 +7118,11 @@ proto.DropMarketReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.DropMarketReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.DropMarketReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.DropMarketReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.DropMarketReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -6815,23 +7138,23 @@ proto.DropMarketReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.DropMarketReply}
+ * @return {!proto.tdex.daemon.v1.DropMarketReply}
  */
-proto.DropMarketReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.DropMarketReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.DropMarketReply;
-  return proto.DropMarketReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.DropMarketReply;
+  return proto.tdex.daemon.v1.DropMarketReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.DropMarketReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.DropMarketReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.DropMarketReply}
+ * @return {!proto.tdex.daemon.v1.DropMarketReply}
  */
-proto.DropMarketReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.DropMarketReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6851,9 +7174,9 @@ proto.DropMarketReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.DropMarketReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.DropMarketReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.DropMarketReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.DropMarketReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6861,11 +7184,11 @@ proto.DropMarketReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.DropMarketReply} message
+ * @param {!proto.tdex.daemon.v1.DropMarketReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.DropMarketReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.DropMarketReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -6886,8 +7209,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketCollectedSwapFeesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6896,14 +7219,14 @@ proto.GetMarketCollectedSwapFeesRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketCollectedSwapFeesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketCollectedSwapFeesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    page: (f = msg.getPage()) && proto.Page.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    page: (f = msg.getPage()) && proto.tdex.daemon.v1.Page.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -6917,23 +7240,23 @@ proto.GetMarketCollectedSwapFeesRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketCollectedSwapFeesRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest}
  */
-proto.GetMarketCollectedSwapFeesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketCollectedSwapFeesRequest;
-  return proto.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest;
+  return proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketCollectedSwapFeesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketCollectedSwapFeesRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest}
  */
-proto.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6941,13 +7264,13 @@ proto.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new proto.Page;
-      reader.readMessage(value,proto.Page.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Page;
+      reader.readMessage(value,proto.tdex.daemon.v1.Page.deserializeBinaryFromReader);
       msg.setPage(value);
       break;
     default:
@@ -6963,9 +7286,9 @@ proto.GetMarketCollectedSwapFeesRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketCollectedSwapFeesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6973,18 +7296,18 @@ proto.GetMarketCollectedSwapFeesRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketCollectedSwapFeesRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketCollectedSwapFeesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getPage();
@@ -6992,36 +7315,36 @@ proto.GetMarketCollectedSwapFeesRequest.serializeBinaryToWriter = function(messa
     writer.writeMessage(
       2,
       f,
-      proto.Page.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Page.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.GetMarketCollectedSwapFeesRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} returns this
 */
-proto.GetMarketCollectedSwapFeesRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketCollectedSwapFeesRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} returns this
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -7030,35 +7353,35 @@ proto.GetMarketCollectedSwapFeesRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional Page page = 2;
- * @return {?proto.Page}
+ * @return {?proto.tdex.daemon.v1.Page}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.getPage = function() {
-  return /** @type{?proto.Page} */ (
-    jspb.Message.getWrapperField(this, proto.Page, 2));
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.getPage = function() {
+  return /** @type{?proto.tdex.daemon.v1.Page} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.Page, 2));
 };
 
 
 /**
- * @param {?proto.Page|undefined} value
- * @return {!proto.GetMarketCollectedSwapFeesRequest} returns this
+ * @param {?proto.tdex.daemon.v1.Page|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} returns this
 */
-proto.GetMarketCollectedSwapFeesRequest.prototype.setPage = function(value) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.setPage = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketCollectedSwapFeesRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest} returns this
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.clearPage = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.clearPage = function() {
   return this.setPage(undefined);
 };
 
@@ -7067,7 +7390,7 @@ proto.GetMarketCollectedSwapFeesRequest.prototype.clearPage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketCollectedSwapFeesRequest.prototype.hasPage = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesRequest.prototype.hasPage = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -7078,7 +7401,7 @@ proto.GetMarketCollectedSwapFeesRequest.prototype.hasPage = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.GetMarketCollectedSwapFeesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.repeatedFields_ = [1];
 
 
 
@@ -7095,8 +7418,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketCollectedSwapFeesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -7105,14 +7428,14 @@ proto.GetMarketCollectedSwapFeesReply.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketCollectedSwapFeesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketCollectedSwapFeesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     collectedFeesList: jspb.Message.toObjectList(msg.getCollectedFeesList(),
-    proto.FeeInfo.toObject, includeInstance),
+    proto.tdex.daemon.v1.FeeInfo.toObject, includeInstance),
     totalCollectedFeesPerAssetMap: (f = msg.getTotalCollectedFeesPerAssetMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
@@ -7127,23 +7450,23 @@ proto.GetMarketCollectedSwapFeesReply.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketCollectedSwapFeesReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply}
  */
-proto.GetMarketCollectedSwapFeesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketCollectedSwapFeesReply;
-  return proto.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply;
+  return proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketCollectedSwapFeesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketCollectedSwapFeesReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply}
  */
-proto.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7151,8 +7474,8 @@ proto.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader = function(msg
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.FeeInfo;
-      reader.readMessage(value,proto.FeeInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.FeeInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.FeeInfo.deserializeBinaryFromReader);
       msg.addCollectedFees(value);
       break;
     case 2:
@@ -7174,9 +7497,9 @@ proto.GetMarketCollectedSwapFeesReply.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketCollectedSwapFeesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7184,18 +7507,18 @@ proto.GetMarketCollectedSwapFeesReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketCollectedSwapFeesReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketCollectedSwapFeesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getCollectedFeesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.FeeInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.FeeInfo.serializeBinaryToWriter
     );
   }
   f = message.getTotalCollectedFeesPerAssetMap(true);
@@ -7207,38 +7530,38 @@ proto.GetMarketCollectedSwapFeesReply.serializeBinaryToWriter = function(message
 
 /**
  * repeated FeeInfo collected_fees = 1;
- * @return {!Array<!proto.FeeInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.FeeInfo>}
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.getCollectedFeesList = function() {
-  return /** @type{!Array<!proto.FeeInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.FeeInfo, 1));
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.getCollectedFeesList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.FeeInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.FeeInfo, 1));
 };
 
 
 /**
- * @param {!Array<!proto.FeeInfo>} value
- * @return {!proto.GetMarketCollectedSwapFeesReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.FeeInfo>} value
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} returns this
 */
-proto.GetMarketCollectedSwapFeesReply.prototype.setCollectedFeesList = function(value) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.setCollectedFeesList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.FeeInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.FeeInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.FeeInfo}
+ * @return {!proto.tdex.daemon.v1.FeeInfo}
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.addCollectedFees = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.FeeInfo, opt_index);
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.addCollectedFees = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.FeeInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetMarketCollectedSwapFeesReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} returns this
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.clearCollectedFeesList = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.clearCollectedFeesList = function() {
   return this.setCollectedFeesList([]);
 };
 
@@ -7249,7 +7572,7 @@ proto.GetMarketCollectedSwapFeesReply.prototype.clearCollectedFeesList = functio
  * empty, instead returning `undefined`
  * @return {!jspb.Map<string,number>}
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.getTotalCollectedFeesPerAssetMap = function(opt_noLazyCreate) {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.getTotalCollectedFeesPerAssetMap = function(opt_noLazyCreate) {
   return /** @type {!jspb.Map<string,number>} */ (
       jspb.Message.getMapField(this, 2, opt_noLazyCreate,
       null));
@@ -7258,9 +7581,9 @@ proto.GetMarketCollectedSwapFeesReply.prototype.getTotalCollectedFeesPerAssetMap
 
 /**
  * Clears values from the map. The map will be non-null.
- * @return {!proto.GetMarketCollectedSwapFeesReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply} returns this
  */
-proto.GetMarketCollectedSwapFeesReply.prototype.clearTotalCollectedFeesPerAssetMap = function() {
+proto.tdex.daemon.v1.GetMarketCollectedSwapFeesReply.prototype.clearTotalCollectedFeesPerAssetMap = function() {
   this.getTotalCollectedFeesPerAssetMap().clear();
   return this;};
 
@@ -7281,8 +7604,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawMarketRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawMarketRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawMarketRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -7291,14 +7614,14 @@ proto.WithdrawMarketRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawMarketRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    balanceToWithdraw: (f = msg.getBalanceToWithdraw()) && types_pb.Balance.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    balanceToWithdraw: (f = msg.getBalanceToWithdraw()) && tdex_v1_types_pb.Balance.toObject(includeInstance, f),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 3, 0),
     address: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
@@ -7314,23 +7637,23 @@ proto.WithdrawMarketRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawMarketRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest}
  */
-proto.WithdrawMarketRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawMarketRequest;
-  return proto.WithdrawMarketRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawMarketRequest;
+  return proto.tdex.daemon.v1.WithdrawMarketRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawMarketRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawMarketRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest}
  */
-proto.WithdrawMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7338,13 +7661,13 @@ proto.WithdrawMarketRequest.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new types_pb.Balance;
-      reader.readMessage(value,types_pb.Balance.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Balance;
+      reader.readMessage(value,tdex_v1_types_pb.Balance.deserializeBinaryFromReader);
       msg.setBalanceToWithdraw(value);
       break;
     case 3:
@@ -7368,9 +7691,9 @@ proto.WithdrawMarketRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawMarketRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawMarketRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawMarketRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7378,18 +7701,18 @@ proto.WithdrawMarketRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawMarketRequest} message
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getBalanceToWithdraw();
@@ -7397,7 +7720,7 @@ proto.WithdrawMarketRequest.serializeBinaryToWriter = function(message, writer) 
     writer.writeMessage(
       2,
       f,
-      types_pb.Balance.serializeBinaryToWriter
+      tdex_v1_types_pb.Balance.serializeBinaryToWriter
     );
   }
   f = message.getMillisatsPerByte();
@@ -7418,29 +7741,29 @@ proto.WithdrawMarketRequest.serializeBinaryToWriter = function(message, writer) 
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.WithdrawMarketRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
 */
-proto.WithdrawMarketRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
  */
-proto.WithdrawMarketRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -7449,35 +7772,35 @@ proto.WithdrawMarketRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.WithdrawMarketRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional Balance balance_to_withdraw = 2;
- * @return {?proto.Balance}
+ * optional tdex.v1.Balance balance_to_withdraw = 2;
+ * @return {?proto.tdex.v1.Balance}
  */
-proto.WithdrawMarketRequest.prototype.getBalanceToWithdraw = function() {
-  return /** @type{?proto.Balance} */ (
-    jspb.Message.getWrapperField(this, types_pb.Balance, 2));
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.getBalanceToWithdraw = function() {
+  return /** @type{?proto.tdex.v1.Balance} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Balance, 2));
 };
 
 
 /**
- * @param {?proto.Balance|undefined} value
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @param {?proto.tdex.v1.Balance|undefined} value
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
 */
-proto.WithdrawMarketRequest.prototype.setBalanceToWithdraw = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.setBalanceToWithdraw = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
  */
-proto.WithdrawMarketRequest.prototype.clearBalanceToWithdraw = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.clearBalanceToWithdraw = function() {
   return this.setBalanceToWithdraw(undefined);
 };
 
@@ -7486,7 +7809,7 @@ proto.WithdrawMarketRequest.prototype.clearBalanceToWithdraw = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.WithdrawMarketRequest.prototype.hasBalanceToWithdraw = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.hasBalanceToWithdraw = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -7495,16 +7818,16 @@ proto.WithdrawMarketRequest.prototype.hasBalanceToWithdraw = function() {
  * optional int64 millisats_per_byte = 3;
  * @return {number}
  */
-proto.WithdrawMarketRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
  */
-proto.WithdrawMarketRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -7513,16 +7836,16 @@ proto.WithdrawMarketRequest.prototype.setMillisatsPerByte = function(value) {
  * optional string address = 4;
  * @return {string}
  */
-proto.WithdrawMarketRequest.prototype.getAddress = function() {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawMarketRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketRequest} returns this
  */
-proto.WithdrawMarketRequest.prototype.setAddress = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketRequest.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -7543,8 +7866,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawMarketReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawMarketReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawMarketReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawMarketReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -7553,11 +7876,11 @@ proto.WithdrawMarketReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawMarketReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawMarketReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     txid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -7573,23 +7896,23 @@ proto.WithdrawMarketReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawMarketReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketReply}
  */
-proto.WithdrawMarketReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawMarketReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawMarketReply;
-  return proto.WithdrawMarketReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawMarketReply;
+  return proto.tdex.daemon.v1.WithdrawMarketReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawMarketReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawMarketReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketReply}
  */
-proto.WithdrawMarketReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawMarketReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7613,9 +7936,9 @@ proto.WithdrawMarketReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawMarketReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawMarketReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawMarketReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawMarketReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7623,11 +7946,11 @@ proto.WithdrawMarketReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawMarketReply} message
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawMarketReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxid();
   if (f.length > 0) {
@@ -7643,16 +7966,16 @@ proto.WithdrawMarketReply.serializeBinaryToWriter = function(message, writer) {
  * optional string txid = 1;
  * @return {string}
  */
-proto.WithdrawMarketReply.prototype.getTxid = function() {
+proto.tdex.daemon.v1.WithdrawMarketReply.prototype.getTxid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawMarketReply} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketReply} returns this
  */
-proto.WithdrawMarketReply.prototype.setTxid = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketReply.prototype.setTxid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -7673,8 +7996,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketPercentageFeeRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -7683,13 +8006,13 @@ proto.UpdateMarketPercentageFeeRequest.prototype.toObject = function(opt_include
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketPercentageFeeRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPercentageFeeRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
     basisPoint: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
@@ -7704,23 +8027,23 @@ proto.UpdateMarketPercentageFeeRequest.toObject = function(includeInstance, msg)
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketPercentageFeeRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest}
  */
-proto.UpdateMarketPercentageFeeRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketPercentageFeeRequest;
-  return proto.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest;
+  return proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketPercentageFeeRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketPercentageFeeRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest}
  */
-proto.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7728,8 +8051,8 @@ proto.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader = function(ms
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
@@ -7749,9 +8072,9 @@ proto.UpdateMarketPercentageFeeRequest.deserializeBinaryFromReader = function(ms
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketPercentageFeeRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7759,18 +8082,18 @@ proto.UpdateMarketPercentageFeeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketPercentageFeeRequest} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPercentageFeeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getBasisPoint();
@@ -7784,29 +8107,29 @@ proto.UpdateMarketPercentageFeeRequest.serializeBinaryToWriter = function(messag
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.UpdateMarketPercentageFeeRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} returns this
 */
-proto.UpdateMarketPercentageFeeRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketPercentageFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} returns this
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -7815,7 +8138,7 @@ proto.UpdateMarketPercentageFeeRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -7824,16 +8147,16 @@ proto.UpdateMarketPercentageFeeRequest.prototype.hasMarket = function() {
  * optional int64 basis_point = 2;
  * @return {number}
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.getBasisPoint = function() {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.getBasisPoint = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.UpdateMarketPercentageFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest} returns this
  */
-proto.UpdateMarketPercentageFeeRequest.prototype.setBasisPoint = function(value) {
+proto.tdex.daemon.v1.UpdateMarketPercentageFeeRequest.prototype.setBasisPoint = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -7854,8 +8177,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketFixedFeeRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -7864,14 +8187,14 @@ proto.UpdateMarketFixedFeeRequest.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketFixedFeeRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketFixedFeeRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    fixed: (f = msg.getFixed()) && types_pb.Fixed.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    fixed: (f = msg.getFixed()) && tdex_v1_types_pb.Fixed.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -7885,23 +8208,23 @@ proto.UpdateMarketFixedFeeRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketFixedFeeRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest}
  */
-proto.UpdateMarketFixedFeeRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketFixedFeeRequest;
-  return proto.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest;
+  return proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketFixedFeeRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketFixedFeeRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest}
  */
-proto.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7909,13 +8232,13 @@ proto.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader = function(msg, re
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new types_pb.Fixed;
-      reader.readMessage(value,types_pb.Fixed.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Fixed;
+      reader.readMessage(value,tdex_v1_types_pb.Fixed.deserializeBinaryFromReader);
       msg.setFixed(value);
       break;
     default:
@@ -7931,9 +8254,9 @@ proto.UpdateMarketFixedFeeRequest.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketFixedFeeRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7941,18 +8264,18 @@ proto.UpdateMarketFixedFeeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketFixedFeeRequest} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketFixedFeeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getFixed();
@@ -7960,36 +8283,36 @@ proto.UpdateMarketFixedFeeRequest.serializeBinaryToWriter = function(message, wr
     writer.writeMessage(
       2,
       f,
-      types_pb.Fixed.serializeBinaryToWriter
+      tdex_v1_types_pb.Fixed.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.UpdateMarketFixedFeeRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} returns this
 */
-proto.UpdateMarketFixedFeeRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketFixedFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} returns this
  */
-proto.UpdateMarketFixedFeeRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -7998,35 +8321,35 @@ proto.UpdateMarketFixedFeeRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional Fixed fixed = 2;
- * @return {?proto.Fixed}
+ * optional tdex.v1.Fixed fixed = 2;
+ * @return {?proto.tdex.v1.Fixed}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.getFixed = function() {
-  return /** @type{?proto.Fixed} */ (
-    jspb.Message.getWrapperField(this, types_pb.Fixed, 2));
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.getFixed = function() {
+  return /** @type{?proto.tdex.v1.Fixed} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Fixed, 2));
 };
 
 
 /**
- * @param {?proto.Fixed|undefined} value
- * @return {!proto.UpdateMarketFixedFeeRequest} returns this
+ * @param {?proto.tdex.v1.Fixed|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} returns this
 */
-proto.UpdateMarketFixedFeeRequest.prototype.setFixed = function(value) {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.setFixed = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketFixedFeeRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest} returns this
  */
-proto.UpdateMarketFixedFeeRequest.prototype.clearFixed = function() {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.clearFixed = function() {
   return this.setFixed(undefined);
 };
 
@@ -8035,7 +8358,7 @@ proto.UpdateMarketFixedFeeRequest.prototype.clearFixed = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketFixedFeeRequest.prototype.hasFixed = function() {
+proto.tdex.daemon.v1.UpdateMarketFixedFeeRequest.prototype.hasFixed = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -8056,8 +8379,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketFeeReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketFeeReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketFeeReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -8066,13 +8389,13 @@ proto.UpdateMarketFeeReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketFeeReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFeeReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketFeeReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    marketWithFee: (f = msg.getMarketWithFee()) && types_pb.MarketWithFee.toObject(includeInstance, f)
+    marketWithFee: (f = msg.getMarketWithFee()) && tdex_v1_types_pb.MarketWithFee.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -8086,23 +8409,23 @@ proto.UpdateMarketFeeReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketFeeReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFeeReply}
  */
-proto.UpdateMarketFeeReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketFeeReply;
-  return proto.UpdateMarketFeeReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketFeeReply;
+  return proto.tdex.daemon.v1.UpdateMarketFeeReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketFeeReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFeeReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketFeeReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFeeReply}
  */
-proto.UpdateMarketFeeReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8110,8 +8433,8 @@ proto.UpdateMarketFeeReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.MarketWithFee;
-      reader.readMessage(value,types_pb.MarketWithFee.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.MarketWithFee;
+      reader.readMessage(value,tdex_v1_types_pb.MarketWithFee.deserializeBinaryFromReader);
       msg.setMarketWithFee(value);
       break;
     default:
@@ -8127,9 +8450,9 @@ proto.UpdateMarketFeeReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketFeeReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketFeeReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketFeeReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8137,47 +8460,47 @@ proto.UpdateMarketFeeReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketFeeReply} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketFeeReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketFeeReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarketWithFee();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.MarketWithFee.serializeBinaryToWriter
+      tdex_v1_types_pb.MarketWithFee.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional MarketWithFee market_with_fee = 1;
- * @return {?proto.MarketWithFee}
+ * optional tdex.v1.MarketWithFee market_with_fee = 1;
+ * @return {?proto.tdex.v1.MarketWithFee}
  */
-proto.UpdateMarketFeeReply.prototype.getMarketWithFee = function() {
-  return /** @type{?proto.MarketWithFee} */ (
-    jspb.Message.getWrapperField(this, types_pb.MarketWithFee, 1));
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.getMarketWithFee = function() {
+  return /** @type{?proto.tdex.v1.MarketWithFee} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.MarketWithFee, 1));
 };
 
 
 /**
- * @param {?proto.MarketWithFee|undefined} value
- * @return {!proto.UpdateMarketFeeReply} returns this
+ * @param {?proto.tdex.v1.MarketWithFee|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFeeReply} returns this
 */
-proto.UpdateMarketFeeReply.prototype.setMarketWithFee = function(value) {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.setMarketWithFee = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketFeeReply} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketFeeReply} returns this
  */
-proto.UpdateMarketFeeReply.prototype.clearMarketWithFee = function() {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.clearMarketWithFee = function() {
   return this.setMarketWithFee(undefined);
 };
 
@@ -8186,7 +8509,7 @@ proto.UpdateMarketFeeReply.prototype.clearMarketWithFee = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketFeeReply.prototype.hasMarketWithFee = function() {
+proto.tdex.daemon.v1.UpdateMarketFeeReply.prototype.hasMarketWithFee = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -8207,8 +8530,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketPriceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketPriceRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketPriceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8217,14 +8540,14 @@ proto.UpdateMarketPriceRequest.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketPriceRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPriceRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    price: (f = msg.getPrice()) && types_pb.Price.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    price: (f = msg.getPrice()) && tdex_v1_types_pb.Price.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -8238,23 +8561,23 @@ proto.UpdateMarketPriceRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketPriceRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest}
  */
-proto.UpdateMarketPriceRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketPriceRequest;
-  return proto.UpdateMarketPriceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketPriceRequest;
+  return proto.tdex.daemon.v1.UpdateMarketPriceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketPriceRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketPriceRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest}
  */
-proto.UpdateMarketPriceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8262,13 +8585,13 @@ proto.UpdateMarketPriceRequest.deserializeBinaryFromReader = function(msg, reade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new types_pb.Price;
-      reader.readMessage(value,types_pb.Price.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Price;
+      reader.readMessage(value,tdex_v1_types_pb.Price.deserializeBinaryFromReader);
       msg.setPrice(value);
       break;
     default:
@@ -8284,9 +8607,9 @@ proto.UpdateMarketPriceRequest.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketPriceRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketPriceRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketPriceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8294,18 +8617,18 @@ proto.UpdateMarketPriceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketPriceRequest} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPriceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getPrice();
@@ -8313,36 +8636,36 @@ proto.UpdateMarketPriceRequest.serializeBinaryToWriter = function(message, write
     writer.writeMessage(
       2,
       f,
-      types_pb.Price.serializeBinaryToWriter
+      tdex_v1_types_pb.Price.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.UpdateMarketPriceRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.UpdateMarketPriceRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} returns this
 */
-proto.UpdateMarketPriceRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketPriceRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} returns this
  */
-proto.UpdateMarketPriceRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -8351,35 +8674,35 @@ proto.UpdateMarketPriceRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketPriceRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional Price price = 2;
- * @return {?proto.Price}
+ * optional tdex.v1.Price price = 2;
+ * @return {?proto.tdex.v1.Price}
  */
-proto.UpdateMarketPriceRequest.prototype.getPrice = function() {
-  return /** @type{?proto.Price} */ (
-    jspb.Message.getWrapperField(this, types_pb.Price, 2));
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.getPrice = function() {
+  return /** @type{?proto.tdex.v1.Price} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Price, 2));
 };
 
 
 /**
- * @param {?proto.Price|undefined} value
- * @return {!proto.UpdateMarketPriceRequest} returns this
+ * @param {?proto.tdex.v1.Price|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} returns this
 */
-proto.UpdateMarketPriceRequest.prototype.setPrice = function(value) {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.setPrice = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketPriceRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceRequest} returns this
  */
-proto.UpdateMarketPriceRequest.prototype.clearPrice = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.clearPrice = function() {
   return this.setPrice(undefined);
 };
 
@@ -8388,7 +8711,7 @@ proto.UpdateMarketPriceRequest.prototype.clearPrice = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketPriceRequest.prototype.hasPrice = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceRequest.prototype.hasPrice = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -8409,8 +8732,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketPriceReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketPriceReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketPriceReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketPriceReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -8419,11 +8742,11 @@ proto.UpdateMarketPriceReply.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketPriceReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPriceReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketPriceReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -8439,23 +8762,23 @@ proto.UpdateMarketPriceReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketPriceReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceReply}
  */
-proto.UpdateMarketPriceReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketPriceReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketPriceReply;
-  return proto.UpdateMarketPriceReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketPriceReply;
+  return proto.tdex.daemon.v1.UpdateMarketPriceReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketPriceReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketPriceReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketPriceReply}
  */
-proto.UpdateMarketPriceReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketPriceReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8475,9 +8798,9 @@ proto.UpdateMarketPriceReply.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketPriceReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketPriceReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketPriceReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketPriceReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8485,11 +8808,11 @@ proto.UpdateMarketPriceReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketPriceReply} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketPriceReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketPriceReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketPriceReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -8510,8 +8833,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketStrategyRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketStrategyRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketStrategyRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8520,13 +8843,13 @@ proto.UpdateMarketStrategyRequest.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketStrategyRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketStrategyRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
     strategyType: jspb.Message.getFieldWithDefault(msg, 2, 0),
     metadata: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
@@ -8542,23 +8865,23 @@ proto.UpdateMarketStrategyRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketStrategyRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest}
  */
-proto.UpdateMarketStrategyRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketStrategyRequest;
-  return proto.UpdateMarketStrategyRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketStrategyRequest;
+  return proto.tdex.daemon.v1.UpdateMarketStrategyRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketStrategyRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketStrategyRequest}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest}
  */
-proto.UpdateMarketStrategyRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8566,12 +8889,12 @@ proto.UpdateMarketStrategyRequest.deserializeBinaryFromReader = function(msg, re
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = /** @type {!proto.StrategyType} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.StrategyType} */ (reader.readEnum());
       msg.setStrategyType(value);
       break;
     case 3:
@@ -8591,9 +8914,9 @@ proto.UpdateMarketStrategyRequest.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketStrategyRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketStrategyRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketStrategyRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8601,18 +8924,18 @@ proto.UpdateMarketStrategyRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketStrategyRequest} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketStrategyRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getStrategyType();
@@ -8633,29 +8956,29 @@ proto.UpdateMarketStrategyRequest.serializeBinaryToWriter = function(message, wr
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.UpdateMarketStrategyRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.UpdateMarketStrategyRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} returns this
 */
-proto.UpdateMarketStrategyRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UpdateMarketStrategyRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} returns this
  */
-proto.UpdateMarketStrategyRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -8664,25 +8987,25 @@ proto.UpdateMarketStrategyRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UpdateMarketStrategyRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional StrategyType strategy_type = 2;
- * @return {!proto.StrategyType}
+ * @return {!proto.tdex.daemon.v1.StrategyType}
  */
-proto.UpdateMarketStrategyRequest.prototype.getStrategyType = function() {
-  return /** @type {!proto.StrategyType} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.getStrategyType = function() {
+  return /** @type {!proto.tdex.daemon.v1.StrategyType} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {!proto.StrategyType} value
- * @return {!proto.UpdateMarketStrategyRequest} returns this
+ * @param {!proto.tdex.daemon.v1.StrategyType} value
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} returns this
  */
-proto.UpdateMarketStrategyRequest.prototype.setStrategyType = function(value) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.setStrategyType = function(value) {
   return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
@@ -8691,16 +9014,16 @@ proto.UpdateMarketStrategyRequest.prototype.setStrategyType = function(value) {
  * optional string metadata = 3;
  * @return {string}
  */
-proto.UpdateMarketStrategyRequest.prototype.getMetadata = function() {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.getMetadata = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.UpdateMarketStrategyRequest} returns this
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyRequest} returns this
  */
-proto.UpdateMarketStrategyRequest.prototype.setMetadata = function(value) {
+proto.tdex.daemon.v1.UpdateMarketStrategyRequest.prototype.setMetadata = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -8721,8 +9044,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UpdateMarketStrategyReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.UpdateMarketStrategyReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UpdateMarketStrategyReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -8731,11 +9054,11 @@ proto.UpdateMarketStrategyReply.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UpdateMarketStrategyReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketStrategyReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -8751,23 +9074,23 @@ proto.UpdateMarketStrategyReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UpdateMarketStrategyReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyReply}
  */
-proto.UpdateMarketStrategyReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UpdateMarketStrategyReply;
-  return proto.UpdateMarketStrategyReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UpdateMarketStrategyReply;
+  return proto.tdex.daemon.v1.UpdateMarketStrategyReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UpdateMarketStrategyReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UpdateMarketStrategyReply}
+ * @return {!proto.tdex.daemon.v1.UpdateMarketStrategyReply}
  */
-proto.UpdateMarketStrategyReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8787,9 +9110,9 @@ proto.UpdateMarketStrategyReply.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UpdateMarketStrategyReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UpdateMarketStrategyReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UpdateMarketStrategyReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8797,11 +9120,11 @@ proto.UpdateMarketStrategyReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UpdateMarketStrategyReply} message
+ * @param {!proto.tdex.daemon.v1.UpdateMarketStrategyReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UpdateMarketStrategyReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UpdateMarketStrategyReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -8822,8 +9145,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeFragmenterAddressRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeFragmenterAddressRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8832,11 +9155,11 @@ proto.GetFeeFragmenterAddressRequest.prototype.toObject = function(opt_includeIn
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeFragmenterAddressRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterAddressRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     numOfAddresses: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -8852,23 +9175,23 @@ proto.GetFeeFragmenterAddressRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeFragmenterAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest}
  */
-proto.GetFeeFragmenterAddressRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeFragmenterAddressRequest;
-  return proto.GetFeeFragmenterAddressRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest;
+  return proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeFragmenterAddressRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeFragmenterAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest}
  */
-proto.GetFeeFragmenterAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8892,9 +9215,9 @@ proto.GetFeeFragmenterAddressRequest.deserializeBinaryFromReader = function(msg,
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeFragmenterAddressRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeFragmenterAddressRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8902,11 +9225,11 @@ proto.GetFeeFragmenterAddressRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeFragmenterAddressRequest} message
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterAddressRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getNumOfAddresses();
   if (f !== 0) {
@@ -8922,16 +9245,16 @@ proto.GetFeeFragmenterAddressRequest.serializeBinaryToWriter = function(message,
  * optional int64 num_of_addresses = 1;
  * @return {number}
  */
-proto.GetFeeFragmenterAddressRequest.prototype.getNumOfAddresses = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.prototype.getNumOfAddresses = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetFeeFragmenterAddressRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest} returns this
  */
-proto.GetFeeFragmenterAddressRequest.prototype.setNumOfAddresses = function(value) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressRequest.prototype.setNumOfAddresses = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -8942,7 +9265,7 @@ proto.GetFeeFragmenterAddressRequest.prototype.setNumOfAddresses = function(valu
  * @private {!Array<number>}
  * @const
  */
-proto.GetFeeFragmenterAddressReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.repeatedFields_ = [1];
 
 
 
@@ -8959,8 +9282,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeFragmenterAddressReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeFragmenterAddressReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -8969,14 +9292,14 @@ proto.GetFeeFragmenterAddressReply.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeFragmenterAddressReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterAddressReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -8990,23 +9313,23 @@ proto.GetFeeFragmenterAddressReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeFragmenterAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply}
  */
-proto.GetFeeFragmenterAddressReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeFragmenterAddressReply;
-  return proto.GetFeeFragmenterAddressReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeFragmenterAddressReply;
+  return proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeFragmenterAddressReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeFragmenterAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply}
  */
-proto.GetFeeFragmenterAddressReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9014,8 +9337,8 @@ proto.GetFeeFragmenterAddressReply.deserializeBinaryFromReader = function(msg, r
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -9031,9 +9354,9 @@ proto.GetFeeFragmenterAddressReply.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeFragmenterAddressReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeFragmenterAddressReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9041,57 +9364,57 @@ proto.GetFeeFragmenterAddressReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeFragmenterAddressReply} message
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterAddressReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.GetFeeFragmenterAddressReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.GetFeeFragmenterAddressReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply} returns this
 */
-proto.GetFeeFragmenterAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.GetFeeFragmenterAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetFeeFragmenterAddressReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterAddressReply} returns this
  */
-proto.GetFeeFragmenterAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -9112,8 +9435,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListFeeFragmenterAddressesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListFeeFragmenterAddressesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -9122,11 +9445,11 @@ proto.ListFeeFragmenterAddressesRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListFeeFragmenterAddressesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeFragmenterAddressesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -9142,23 +9465,23 @@ proto.ListFeeFragmenterAddressesRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListFeeFragmenterAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest}
  */
-proto.ListFeeFragmenterAddressesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListFeeFragmenterAddressesRequest;
-  return proto.ListFeeFragmenterAddressesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest;
+  return proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListFeeFragmenterAddressesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListFeeFragmenterAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest}
  */
-proto.ListFeeFragmenterAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9178,9 +9501,9 @@ proto.ListFeeFragmenterAddressesRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListFeeFragmenterAddressesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListFeeFragmenterAddressesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9188,11 +9511,11 @@ proto.ListFeeFragmenterAddressesRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListFeeFragmenterAddressesRequest} message
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeFragmenterAddressesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -9203,7 +9526,7 @@ proto.ListFeeFragmenterAddressesRequest.serializeBinaryToWriter = function(messa
  * @private {!Array<number>}
  * @const
  */
-proto.ListFeeFragmenterAddressesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.repeatedFields_ = [1];
 
 
 
@@ -9220,8 +9543,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListFeeFragmenterAddressesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListFeeFragmenterAddressesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -9230,14 +9553,14 @@ proto.ListFeeFragmenterAddressesReply.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListFeeFragmenterAddressesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeFragmenterAddressesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -9251,23 +9574,23 @@ proto.ListFeeFragmenterAddressesReply.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListFeeFragmenterAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply}
  */
-proto.ListFeeFragmenterAddressesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListFeeFragmenterAddressesReply;
-  return proto.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply;
+  return proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListFeeFragmenterAddressesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListFeeFragmenterAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply}
  */
-proto.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9275,8 +9598,8 @@ proto.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader = function(msg
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -9292,9 +9615,9 @@ proto.ListFeeFragmenterAddressesReply.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListFeeFragmenterAddressesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListFeeFragmenterAddressesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9302,57 +9625,57 @@ proto.ListFeeFragmenterAddressesReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListFeeFragmenterAddressesReply} message
+ * @param {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListFeeFragmenterAddressesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.ListFeeFragmenterAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.ListFeeFragmenterAddressesReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply} returns this
 */
-proto.ListFeeFragmenterAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.ListFeeFragmenterAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListFeeFragmenterAddressesReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply} returns this
  */
-proto.ListFeeFragmenterAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.ListFeeFragmenterAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -9373,8 +9696,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeFragmenterBalanceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeFragmenterBalanceRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -9383,11 +9706,11 @@ proto.GetFeeFragmenterBalanceRequest.prototype.toObject = function(opt_includeIn
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeFragmenterBalanceRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterBalanceRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -9403,23 +9726,23 @@ proto.GetFeeFragmenterBalanceRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeFragmenterBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest}
  */
-proto.GetFeeFragmenterBalanceRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeFragmenterBalanceRequest;
-  return proto.GetFeeFragmenterBalanceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest;
+  return proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeFragmenterBalanceRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeFragmenterBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest}
  */
-proto.GetFeeFragmenterBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9439,9 +9762,9 @@ proto.GetFeeFragmenterBalanceRequest.deserializeBinaryFromReader = function(msg,
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeFragmenterBalanceRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeFragmenterBalanceRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9449,11 +9772,11 @@ proto.GetFeeFragmenterBalanceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeFragmenterBalanceRequest} message
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterBalanceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -9474,8 +9797,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetFeeFragmenterBalanceReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetFeeFragmenterBalanceReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -9484,13 +9807,13 @@ proto.GetFeeFragmenterBalanceReply.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetFeeFragmenterBalanceReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterBalanceReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    balanceMap: (f = msg.getBalanceMap()) ? f.toObject(includeInstance, proto.BalanceInfo.toObject) : []
+    balanceMap: (f = msg.getBalanceMap()) ? f.toObject(includeInstance, proto.tdex.daemon.v1.BalanceInfo.toObject) : []
   };
 
   if (includeInstance) {
@@ -9504,23 +9827,23 @@ proto.GetFeeFragmenterBalanceReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetFeeFragmenterBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply}
  */
-proto.GetFeeFragmenterBalanceReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetFeeFragmenterBalanceReply;
-  return proto.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply;
+  return proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetFeeFragmenterBalanceReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetFeeFragmenterBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply}
  */
-proto.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9530,7 +9853,7 @@ proto.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, r
     case 1:
       var value = msg.getBalanceMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readMessage, proto.BalanceInfo.deserializeBinaryFromReader, "", new proto.BalanceInfo());
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readMessage, proto.tdex.daemon.v1.BalanceInfo.deserializeBinaryFromReader, "", new proto.tdex.daemon.v1.BalanceInfo());
          });
       break;
     default:
@@ -9546,9 +9869,9 @@ proto.GetFeeFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetFeeFragmenterBalanceReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetFeeFragmenterBalanceReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9556,15 +9879,15 @@ proto.GetFeeFragmenterBalanceReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetFeeFragmenterBalanceReply} message
+ * @param {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetFeeFragmenterBalanceReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBalanceMap(true);
   if (f && f.getLength() > 0) {
-    f.serializeBinary(1, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.BalanceInfo.serializeBinaryToWriter);
+    f.serializeBinary(1, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.tdex.daemon.v1.BalanceInfo.serializeBinaryToWriter);
   }
 };
 
@@ -9573,20 +9896,20 @@ proto.GetFeeFragmenterBalanceReply.serializeBinaryToWriter = function(message, w
  * map<string, BalanceInfo> balance = 1;
  * @param {boolean=} opt_noLazyCreate Do not create the map if
  * empty, instead returning `undefined`
- * @return {!jspb.Map<string,!proto.BalanceInfo>}
+ * @return {!jspb.Map<string,!proto.tdex.daemon.v1.BalanceInfo>}
  */
-proto.GetFeeFragmenterBalanceReply.prototype.getBalanceMap = function(opt_noLazyCreate) {
-  return /** @type {!jspb.Map<string,!proto.BalanceInfo>} */ (
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.prototype.getBalanceMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,!proto.tdex.daemon.v1.BalanceInfo>} */ (
       jspb.Message.getMapField(this, 1, opt_noLazyCreate,
-      proto.BalanceInfo));
+      proto.tdex.daemon.v1.BalanceInfo));
 };
 
 
 /**
  * Clears values from the map. The map will be non-null.
- * @return {!proto.GetFeeFragmenterBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply} returns this
  */
-proto.GetFeeFragmenterBalanceReply.prototype.clearBalanceMap = function() {
+proto.tdex.daemon.v1.GetFeeFragmenterBalanceReply.prototype.clearBalanceMap = function() {
   this.getBalanceMap().clear();
   return this;};
 
@@ -9607,8 +9930,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.FeeFragmenterSplitFundsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -9617,11 +9940,11 @@ proto.FeeFragmenterSplitFundsRequest.prototype.toObject = function(opt_includeIn
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.FeeFragmenterSplitFundsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FeeFragmenterSplitFundsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     maxFragments: jspb.Message.getFieldWithDefault(msg, 1, 0),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -9638,23 +9961,23 @@ proto.FeeFragmenterSplitFundsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.FeeFragmenterSplitFundsRequest}
+ * @return {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest}
  */
-proto.FeeFragmenterSplitFundsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.FeeFragmenterSplitFundsRequest;
-  return proto.FeeFragmenterSplitFundsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest;
+  return proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.FeeFragmenterSplitFundsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.FeeFragmenterSplitFundsRequest}
+ * @return {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest}
  */
-proto.FeeFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9682,9 +10005,9 @@ proto.FeeFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(msg,
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.FeeFragmenterSplitFundsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9692,11 +10015,11 @@ proto.FeeFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.FeeFragmenterSplitFundsRequest} message
+ * @param {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FeeFragmenterSplitFundsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMaxFragments();
   if (f !== 0) {
@@ -9719,16 +10042,16 @@ proto.FeeFragmenterSplitFundsRequest.serializeBinaryToWriter = function(message,
  * optional uint32 max_fragments = 1;
  * @return {number}
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.getMaxFragments = function() {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.getMaxFragments = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeFragmenterSplitFundsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest} returns this
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.setMaxFragments = function(value) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.setMaxFragments = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -9737,16 +10060,16 @@ proto.FeeFragmenterSplitFundsRequest.prototype.setMaxFragments = function(value)
  * optional uint64 millisats_per_byte = 2;
  * @return {number}
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeFragmenterSplitFundsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest} returns this
  */
-proto.FeeFragmenterSplitFundsRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.FeeFragmenterSplitFundsRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -9767,8 +10090,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.FragmenterSplitFundsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.FragmenterSplitFundsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.FragmenterSplitFundsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -9777,11 +10100,11 @@ proto.FragmenterSplitFundsReply.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.FragmenterSplitFundsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.FragmenterSplitFundsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FragmenterSplitFundsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     message: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -9797,23 +10120,23 @@ proto.FragmenterSplitFundsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.FragmenterSplitFundsReply}
+ * @return {!proto.tdex.daemon.v1.FragmenterSplitFundsReply}
  */
-proto.FragmenterSplitFundsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.FragmenterSplitFundsReply;
-  return proto.FragmenterSplitFundsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.FragmenterSplitFundsReply;
+  return proto.tdex.daemon.v1.FragmenterSplitFundsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.FragmenterSplitFundsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.FragmenterSplitFundsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.FragmenterSplitFundsReply}
+ * @return {!proto.tdex.daemon.v1.FragmenterSplitFundsReply}
  */
-proto.FragmenterSplitFundsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9837,9 +10160,9 @@ proto.FragmenterSplitFundsReply.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.FragmenterSplitFundsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.FragmenterSplitFundsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.FragmenterSplitFundsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9847,11 +10170,11 @@ proto.FragmenterSplitFundsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.FragmenterSplitFundsReply} message
+ * @param {!proto.tdex.daemon.v1.FragmenterSplitFundsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FragmenterSplitFundsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMessage();
   if (f.length > 0) {
@@ -9867,16 +10190,16 @@ proto.FragmenterSplitFundsReply.serializeBinaryToWriter = function(message, writ
  * optional string message = 1;
  * @return {string}
  */
-proto.FragmenterSplitFundsReply.prototype.getMessage = function() {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.prototype.getMessage = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.FragmenterSplitFundsReply} returns this
+ * @return {!proto.tdex.daemon.v1.FragmenterSplitFundsReply} returns this
  */
-proto.FragmenterSplitFundsReply.prototype.setMessage = function(value) {
+proto.tdex.daemon.v1.FragmenterSplitFundsReply.prototype.setMessage = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -9897,8 +10220,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawFeeFragmenterRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawFeeFragmenterRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -9907,11 +10230,11 @@ proto.WithdrawFeeFragmenterRequest.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawFeeFragmenterRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeFragmenterRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -9928,23 +10251,23 @@ proto.WithdrawFeeFragmenterRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawFeeFragmenterRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest}
  */
-proto.WithdrawFeeFragmenterRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawFeeFragmenterRequest;
-  return proto.WithdrawFeeFragmenterRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest;
+  return proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawFeeFragmenterRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawFeeFragmenterRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest}
  */
-proto.WithdrawFeeFragmenterRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9972,9 +10295,9 @@ proto.WithdrawFeeFragmenterRequest.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawFeeFragmenterRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawFeeFragmenterRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9982,11 +10305,11 @@ proto.WithdrawFeeFragmenterRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawFeeFragmenterRequest} message
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeFragmenterRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
   if (f.length > 0) {
@@ -10009,16 +10332,16 @@ proto.WithdrawFeeFragmenterRequest.serializeBinaryToWriter = function(message, w
  * optional string address = 1;
  * @return {string}
  */
-proto.WithdrawFeeFragmenterRequest.prototype.getAddress = function() {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawFeeFragmenterRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest} returns this
  */
-proto.WithdrawFeeFragmenterRequest.prototype.setAddress = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -10027,16 +10350,16 @@ proto.WithdrawFeeFragmenterRequest.prototype.setAddress = function(value) {
  * optional uint64 millisats_per_byte = 2;
  * @return {number}
  */
-proto.WithdrawFeeFragmenterRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.WithdrawFeeFragmenterRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest} returns this
  */
-proto.WithdrawFeeFragmenterRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -10057,8 +10380,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawFeeFragmenterReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawFeeFragmenterReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -10067,11 +10390,11 @@ proto.WithdrawFeeFragmenterReply.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawFeeFragmenterReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeFragmenterReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     txid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -10087,23 +10410,23 @@ proto.WithdrawFeeFragmenterReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawFeeFragmenterReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply}
  */
-proto.WithdrawFeeFragmenterReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawFeeFragmenterReply;
-  return proto.WithdrawFeeFragmenterReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawFeeFragmenterReply;
+  return proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawFeeFragmenterReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawFeeFragmenterReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply}
  */
-proto.WithdrawFeeFragmenterReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10127,9 +10450,9 @@ proto.WithdrawFeeFragmenterReply.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawFeeFragmenterReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawFeeFragmenterReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10137,11 +10460,11 @@ proto.WithdrawFeeFragmenterReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawFeeFragmenterReply} message
+ * @param {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawFeeFragmenterReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxid();
   if (f.length > 0) {
@@ -10157,16 +10480,16 @@ proto.WithdrawFeeFragmenterReply.serializeBinaryToWriter = function(message, wri
  * optional string txid = 1;
  * @return {string}
  */
-proto.WithdrawFeeFragmenterReply.prototype.getTxid = function() {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.prototype.getTxid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawFeeFragmenterReply} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawFeeFragmenterReply} returns this
  */
-proto.WithdrawFeeFragmenterReply.prototype.setTxid = function(value) {
+proto.tdex.daemon.v1.WithdrawFeeFragmenterReply.prototype.setTxid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -10187,8 +10510,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketFragmenterAddressRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketFragmenterAddressRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -10197,11 +10520,11 @@ proto.GetMarketFragmenterAddressRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketFragmenterAddressRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterAddressRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     numOfAddresses: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -10217,23 +10540,23 @@ proto.GetMarketFragmenterAddressRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketFragmenterAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest}
  */
-proto.GetMarketFragmenterAddressRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketFragmenterAddressRequest;
-  return proto.GetMarketFragmenterAddressRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest;
+  return proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketFragmenterAddressRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketFragmenterAddressRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest}
  */
-proto.GetMarketFragmenterAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10257,9 +10580,9 @@ proto.GetMarketFragmenterAddressRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketFragmenterAddressRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketFragmenterAddressRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10267,11 +10590,11 @@ proto.GetMarketFragmenterAddressRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketFragmenterAddressRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterAddressRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getNumOfAddresses();
   if (f !== 0) {
@@ -10287,16 +10610,16 @@ proto.GetMarketFragmenterAddressRequest.serializeBinaryToWriter = function(messa
  * optional int64 num_of_addresses = 1;
  * @return {number}
  */
-proto.GetMarketFragmenterAddressRequest.prototype.getNumOfAddresses = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.prototype.getNumOfAddresses = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.GetMarketFragmenterAddressRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest} returns this
  */
-proto.GetMarketFragmenterAddressRequest.prototype.setNumOfAddresses = function(value) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressRequest.prototype.setNumOfAddresses = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -10307,7 +10630,7 @@ proto.GetMarketFragmenterAddressRequest.prototype.setNumOfAddresses = function(v
  * @private {!Array<number>}
  * @const
  */
-proto.GetMarketFragmenterAddressReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.repeatedFields_ = [1];
 
 
 
@@ -10324,8 +10647,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketFragmenterAddressReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketFragmenterAddressReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -10334,14 +10657,14 @@ proto.GetMarketFragmenterAddressReply.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketFragmenterAddressReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterAddressReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -10355,23 +10678,23 @@ proto.GetMarketFragmenterAddressReply.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketFragmenterAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply}
  */
-proto.GetMarketFragmenterAddressReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketFragmenterAddressReply;
-  return proto.GetMarketFragmenterAddressReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketFragmenterAddressReply;
+  return proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketFragmenterAddressReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketFragmenterAddressReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply}
  */
-proto.GetMarketFragmenterAddressReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10379,8 +10702,8 @@ proto.GetMarketFragmenterAddressReply.deserializeBinaryFromReader = function(msg
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -10396,9 +10719,9 @@ proto.GetMarketFragmenterAddressReply.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketFragmenterAddressReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketFragmenterAddressReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10406,57 +10729,57 @@ proto.GetMarketFragmenterAddressReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketFragmenterAddressReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterAddressReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.GetMarketFragmenterAddressReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.GetMarketFragmenterAddressReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply} returns this
 */
-proto.GetMarketFragmenterAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.GetMarketFragmenterAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.GetMarketFragmenterAddressReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterAddressReply} returns this
  */
-proto.GetMarketFragmenterAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterAddressReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -10477,8 +10800,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketFragmenterAddressesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketFragmenterAddressesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -10487,11 +10810,11 @@ proto.ListMarketFragmenterAddressesRequest.prototype.toObject = function(opt_inc
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketFragmenterAddressesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketFragmenterAddressesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -10507,23 +10830,23 @@ proto.ListMarketFragmenterAddressesRequest.toObject = function(includeInstance, 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketFragmenterAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest}
  */
-proto.ListMarketFragmenterAddressesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketFragmenterAddressesRequest;
-  return proto.ListMarketFragmenterAddressesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest;
+  return proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketFragmenterAddressesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketFragmenterAddressesRequest}
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest}
  */
-proto.ListMarketFragmenterAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10543,9 +10866,9 @@ proto.ListMarketFragmenterAddressesRequest.deserializeBinaryFromReader = functio
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketFragmenterAddressesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketFragmenterAddressesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10553,11 +10876,11 @@ proto.ListMarketFragmenterAddressesRequest.prototype.serializeBinary = function(
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketFragmenterAddressesRequest} message
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketFragmenterAddressesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -10568,7 +10891,7 @@ proto.ListMarketFragmenterAddressesRequest.serializeBinaryToWriter = function(me
  * @private {!Array<number>}
  * @const
  */
-proto.ListMarketFragmenterAddressesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.repeatedFields_ = [1];
 
 
 
@@ -10585,8 +10908,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListMarketFragmenterAddressesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListMarketFragmenterAddressesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -10595,14 +10918,14 @@ proto.ListMarketFragmenterAddressesReply.prototype.toObject = function(opt_inclu
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListMarketFragmenterAddressesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketFragmenterAddressesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressWithBlindingKeyList: jspb.Message.toObjectList(msg.getAddressWithBlindingKeyList(),
-    types_pb.AddressWithBlindingKey.toObject, includeInstance)
+    tdex_v1_types_pb.AddressWithBlindingKey.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -10616,23 +10939,23 @@ proto.ListMarketFragmenterAddressesReply.toObject = function(includeInstance, ms
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListMarketFragmenterAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply}
  */
-proto.ListMarketFragmenterAddressesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListMarketFragmenterAddressesReply;
-  return proto.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply;
+  return proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListMarketFragmenterAddressesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListMarketFragmenterAddressesReply}
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply}
  */
-proto.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10640,8 +10963,8 @@ proto.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader = function(
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.AddressWithBlindingKey;
-      reader.readMessage(value,types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.AddressWithBlindingKey;
+      reader.readMessage(value,tdex_v1_types_pb.AddressWithBlindingKey.deserializeBinaryFromReader);
       msg.addAddressWithBlindingKey(value);
       break;
     default:
@@ -10657,9 +10980,9 @@ proto.ListMarketFragmenterAddressesReply.deserializeBinaryFromReader = function(
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListMarketFragmenterAddressesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListMarketFragmenterAddressesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10667,57 +10990,57 @@ proto.ListMarketFragmenterAddressesReply.prototype.serializeBinary = function() 
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListMarketFragmenterAddressesReply} message
+ * @param {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListMarketFragmenterAddressesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddressWithBlindingKeyList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      types_pb.AddressWithBlindingKey.serializeBinaryToWriter
+      tdex_v1_types_pb.AddressWithBlindingKey.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated AddressWithBlindingKey address_with_blinding_key = 1;
- * @return {!Array<!proto.AddressWithBlindingKey>}
+ * repeated tdex.v1.AddressWithBlindingKey address_with_blinding_key = 1;
+ * @return {!Array<!proto.tdex.v1.AddressWithBlindingKey>}
  */
-proto.ListMarketFragmenterAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
-  return /** @type{!Array<!proto.AddressWithBlindingKey>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_pb.AddressWithBlindingKey, 1));
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.getAddressWithBlindingKeyList = function() {
+  return /** @type{!Array<!proto.tdex.v1.AddressWithBlindingKey>} */ (
+    jspb.Message.getRepeatedWrapperField(this, tdex_v1_types_pb.AddressWithBlindingKey, 1));
 };
 
 
 /**
- * @param {!Array<!proto.AddressWithBlindingKey>} value
- * @return {!proto.ListMarketFragmenterAddressesReply} returns this
+ * @param {!Array<!proto.tdex.v1.AddressWithBlindingKey>} value
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply} returns this
 */
-proto.ListMarketFragmenterAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.setAddressWithBlindingKeyList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.AddressWithBlindingKey=} opt_value
+ * @param {!proto.tdex.v1.AddressWithBlindingKey=} opt_value
  * @param {number=} opt_index
- * @return {!proto.AddressWithBlindingKey}
+ * @return {!proto.tdex.v1.AddressWithBlindingKey}
  */
-proto.ListMarketFragmenterAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.AddressWithBlindingKey, opt_index);
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.addAddressWithBlindingKey = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.v1.AddressWithBlindingKey, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListMarketFragmenterAddressesReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply} returns this
  */
-proto.ListMarketFragmenterAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
+proto.tdex.daemon.v1.ListMarketFragmenterAddressesReply.prototype.clearAddressWithBlindingKeyList = function() {
   return this.setAddressWithBlindingKeyList([]);
 };
 
@@ -10738,8 +11061,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketFragmenterBalanceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketFragmenterBalanceRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -10748,11 +11071,11 @@ proto.GetMarketFragmenterBalanceRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketFragmenterBalanceRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterBalanceRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -10768,23 +11091,23 @@ proto.GetMarketFragmenterBalanceRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketFragmenterBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest}
  */
-proto.GetMarketFragmenterBalanceRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketFragmenterBalanceRequest;
-  return proto.GetMarketFragmenterBalanceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest;
+  return proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketFragmenterBalanceRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketFragmenterBalanceRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest}
  */
-proto.GetMarketFragmenterBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10804,9 +11127,9 @@ proto.GetMarketFragmenterBalanceRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketFragmenterBalanceRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketFragmenterBalanceRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10814,11 +11137,11 @@ proto.GetMarketFragmenterBalanceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketFragmenterBalanceRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterBalanceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -10839,8 +11162,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketFragmenterBalanceReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketFragmenterBalanceReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -10849,13 +11172,13 @@ proto.GetMarketFragmenterBalanceReply.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketFragmenterBalanceReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterBalanceReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    balanceMap: (f = msg.getBalanceMap()) ? f.toObject(includeInstance, proto.BalanceInfo.toObject) : []
+    balanceMap: (f = msg.getBalanceMap()) ? f.toObject(includeInstance, proto.tdex.daemon.v1.BalanceInfo.toObject) : []
   };
 
   if (includeInstance) {
@@ -10869,23 +11192,23 @@ proto.GetMarketFragmenterBalanceReply.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketFragmenterBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply}
  */
-proto.GetMarketFragmenterBalanceReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketFragmenterBalanceReply;
-  return proto.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply;
+  return proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketFragmenterBalanceReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketFragmenterBalanceReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply}
  */
-proto.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -10895,7 +11218,7 @@ proto.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader = function(msg
     case 1:
       var value = msg.getBalanceMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readMessage, proto.BalanceInfo.deserializeBinaryFromReader, "", new proto.BalanceInfo());
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readMessage, proto.tdex.daemon.v1.BalanceInfo.deserializeBinaryFromReader, "", new proto.tdex.daemon.v1.BalanceInfo());
          });
       break;
     default:
@@ -10911,9 +11234,9 @@ proto.GetMarketFragmenterBalanceReply.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketFragmenterBalanceReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketFragmenterBalanceReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -10921,15 +11244,15 @@ proto.GetMarketFragmenterBalanceReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketFragmenterBalanceReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketFragmenterBalanceReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBalanceMap(true);
   if (f && f.getLength() > 0) {
-    f.serializeBinary(1, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.BalanceInfo.serializeBinaryToWriter);
+    f.serializeBinary(1, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.tdex.daemon.v1.BalanceInfo.serializeBinaryToWriter);
   }
 };
 
@@ -10938,20 +11261,20 @@ proto.GetMarketFragmenterBalanceReply.serializeBinaryToWriter = function(message
  * map<string, BalanceInfo> balance = 1;
  * @param {boolean=} opt_noLazyCreate Do not create the map if
  * empty, instead returning `undefined`
- * @return {!jspb.Map<string,!proto.BalanceInfo>}
+ * @return {!jspb.Map<string,!proto.tdex.daemon.v1.BalanceInfo>}
  */
-proto.GetMarketFragmenterBalanceReply.prototype.getBalanceMap = function(opt_noLazyCreate) {
-  return /** @type {!jspb.Map<string,!proto.BalanceInfo>} */ (
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.prototype.getBalanceMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,!proto.tdex.daemon.v1.BalanceInfo>} */ (
       jspb.Message.getMapField(this, 1, opt_noLazyCreate,
-      proto.BalanceInfo));
+      proto.tdex.daemon.v1.BalanceInfo));
 };
 
 
 /**
  * Clears values from the map. The map will be non-null.
- * @return {!proto.GetMarketFragmenterBalanceReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply} returns this
  */
-proto.GetMarketFragmenterBalanceReply.prototype.clearBalanceMap = function() {
+proto.tdex.daemon.v1.GetMarketFragmenterBalanceReply.prototype.clearBalanceMap = function() {
   this.getBalanceMap().clear();
   return this;};
 
@@ -10972,8 +11295,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.MarketFragmenterSplitFundsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -10982,13 +11305,13 @@ proto.MarketFragmenterSplitFundsRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.MarketFragmenterSplitFundsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketFragmenterSplitFundsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
@@ -11003,23 +11326,23 @@ proto.MarketFragmenterSplitFundsRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.MarketFragmenterSplitFundsRequest}
+ * @return {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest}
  */
-proto.MarketFragmenterSplitFundsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.MarketFragmenterSplitFundsRequest;
-  return proto.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest;
+  return proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.MarketFragmenterSplitFundsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.MarketFragmenterSplitFundsRequest}
+ * @return {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest}
  */
-proto.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11027,8 +11350,8 @@ proto.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
@@ -11048,9 +11371,9 @@ proto.MarketFragmenterSplitFundsRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.MarketFragmenterSplitFundsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11058,18 +11381,18 @@ proto.MarketFragmenterSplitFundsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.MarketFragmenterSplitFundsRequest} message
+ * @param {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketFragmenterSplitFundsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getMillisatsPerByte();
@@ -11083,29 +11406,29 @@ proto.MarketFragmenterSplitFundsRequest.serializeBinaryToWriter = function(messa
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.MarketFragmenterSplitFundsRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} returns this
 */
-proto.MarketFragmenterSplitFundsRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketFragmenterSplitFundsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} returns this
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -11114,7 +11437,7 @@ proto.MarketFragmenterSplitFundsRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -11123,16 +11446,16 @@ proto.MarketFragmenterSplitFundsRequest.prototype.hasMarket = function() {
  * optional uint64 millisats_per_byte = 2;
  * @return {number}
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketFragmenterSplitFundsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest} returns this
  */
-proto.MarketFragmenterSplitFundsRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.MarketFragmenterSplitFundsRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -11153,8 +11476,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawMarketFragmenterRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawMarketFragmenterRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -11163,11 +11486,11 @@ proto.WithdrawMarketFragmenterRequest.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawMarketFragmenterRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketFragmenterRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     millisatsPerByte: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -11184,23 +11507,23 @@ proto.WithdrawMarketFragmenterRequest.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawMarketFragmenterRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest}
  */
-proto.WithdrawMarketFragmenterRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawMarketFragmenterRequest;
-  return proto.WithdrawMarketFragmenterRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest;
+  return proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawMarketFragmenterRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawMarketFragmenterRequest}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest}
  */
-proto.WithdrawMarketFragmenterRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11228,9 +11551,9 @@ proto.WithdrawMarketFragmenterRequest.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawMarketFragmenterRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawMarketFragmenterRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11238,11 +11561,11 @@ proto.WithdrawMarketFragmenterRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawMarketFragmenterRequest} message
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketFragmenterRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
   if (f.length > 0) {
@@ -11265,16 +11588,16 @@ proto.WithdrawMarketFragmenterRequest.serializeBinaryToWriter = function(message
  * optional string address = 1;
  * @return {string}
  */
-proto.WithdrawMarketFragmenterRequest.prototype.getAddress = function() {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawMarketFragmenterRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest} returns this
  */
-proto.WithdrawMarketFragmenterRequest.prototype.setAddress = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -11283,16 +11606,16 @@ proto.WithdrawMarketFragmenterRequest.prototype.setAddress = function(value) {
  * optional uint64 millisats_per_byte = 2;
  * @return {number}
  */
-proto.WithdrawMarketFragmenterRequest.prototype.getMillisatsPerByte = function() {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.getMillisatsPerByte = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.WithdrawMarketFragmenterRequest} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest} returns this
  */
-proto.WithdrawMarketFragmenterRequest.prototype.setMillisatsPerByte = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterRequest.prototype.setMillisatsPerByte = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -11313,8 +11636,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WithdrawMarketFragmenterReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.WithdrawMarketFragmenterReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -11323,11 +11646,11 @@ proto.WithdrawMarketFragmenterReply.prototype.toObject = function(opt_includeIns
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WithdrawMarketFragmenterReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketFragmenterReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     txid: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -11343,23 +11666,23 @@ proto.WithdrawMarketFragmenterReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WithdrawMarketFragmenterReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply}
  */
-proto.WithdrawMarketFragmenterReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WithdrawMarketFragmenterReply;
-  return proto.WithdrawMarketFragmenterReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WithdrawMarketFragmenterReply;
+  return proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WithdrawMarketFragmenterReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WithdrawMarketFragmenterReply}
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply}
  */
-proto.WithdrawMarketFragmenterReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11383,9 +11706,9 @@ proto.WithdrawMarketFragmenterReply.deserializeBinaryFromReader = function(msg, 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WithdrawMarketFragmenterReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WithdrawMarketFragmenterReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11393,11 +11716,11 @@ proto.WithdrawMarketFragmenterReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WithdrawMarketFragmenterReply} message
+ * @param {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WithdrawMarketFragmenterReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxid();
   if (f.length > 0) {
@@ -11413,16 +11736,16 @@ proto.WithdrawMarketFragmenterReply.serializeBinaryToWriter = function(message, 
  * optional string txid = 1;
  * @return {string}
  */
-proto.WithdrawMarketFragmenterReply.prototype.getTxid = function() {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.prototype.getTxid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WithdrawMarketFragmenterReply} returns this
+ * @return {!proto.tdex.daemon.v1.WithdrawMarketFragmenterReply} returns this
  */
-proto.WithdrawMarketFragmenterReply.prototype.setTxid = function(value) {
+proto.tdex.daemon.v1.WithdrawMarketFragmenterReply.prototype.setTxid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -11443,8 +11766,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListTradesRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListTradesRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListTradesRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListTradesRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -11453,14 +11776,14 @@ proto.ListTradesRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListTradesRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListTradesRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListTradesRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListTradesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    page: (f = msg.getPage()) && proto.Page.toObject(includeInstance, f)
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    page: (f = msg.getPage()) && proto.tdex.daemon.v1.Page.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -11474,23 +11797,23 @@ proto.ListTradesRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListTradesRequest}
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest}
  */
-proto.ListTradesRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListTradesRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListTradesRequest;
-  return proto.ListTradesRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListTradesRequest;
+  return proto.tdex.daemon.v1.ListTradesRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListTradesRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListTradesRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListTradesRequest}
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest}
  */
-proto.ListTradesRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListTradesRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11498,13 +11821,13 @@ proto.ListTradesRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new proto.Page;
-      reader.readMessage(value,proto.Page.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Page;
+      reader.readMessage(value,proto.tdex.daemon.v1.Page.deserializeBinaryFromReader);
       msg.setPage(value);
       break;
     default:
@@ -11520,9 +11843,9 @@ proto.ListTradesRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListTradesRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListTradesRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListTradesRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11530,18 +11853,18 @@ proto.ListTradesRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListTradesRequest} message
+ * @param {!proto.tdex.daemon.v1.ListTradesRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListTradesRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListTradesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getPage();
@@ -11549,36 +11872,36 @@ proto.ListTradesRequest.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.Page.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Page.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.ListTradesRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.ListTradesRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.ListTradesRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest} returns this
 */
-proto.ListTradesRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListTradesRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest} returns this
  */
-proto.ListTradesRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -11587,35 +11910,35 @@ proto.ListTradesRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListTradesRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional Page page = 2;
- * @return {?proto.Page}
+ * @return {?proto.tdex.daemon.v1.Page}
  */
-proto.ListTradesRequest.prototype.getPage = function() {
-  return /** @type{?proto.Page} */ (
-    jspb.Message.getWrapperField(this, proto.Page, 2));
+proto.tdex.daemon.v1.ListTradesRequest.prototype.getPage = function() {
+  return /** @type{?proto.tdex.daemon.v1.Page} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.Page, 2));
 };
 
 
 /**
- * @param {?proto.Page|undefined} value
- * @return {!proto.ListTradesRequest} returns this
+ * @param {?proto.tdex.daemon.v1.Page|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest} returns this
 */
-proto.ListTradesRequest.prototype.setPage = function(value) {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.setPage = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListTradesRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListTradesRequest} returns this
  */
-proto.ListTradesRequest.prototype.clearPage = function() {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.clearPage = function() {
   return this.setPage(undefined);
 };
 
@@ -11624,7 +11947,7 @@ proto.ListTradesRequest.prototype.clearPage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListTradesRequest.prototype.hasPage = function() {
+proto.tdex.daemon.v1.ListTradesRequest.prototype.hasPage = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -11635,7 +11958,7 @@ proto.ListTradesRequest.prototype.hasPage = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ListTradesReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListTradesReply.repeatedFields_ = [1];
 
 
 
@@ -11652,8 +11975,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListTradesReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListTradesReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListTradesReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListTradesReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -11662,14 +11985,14 @@ proto.ListTradesReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListTradesReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListTradesReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListTradesReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListTradesReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     tradesList: jspb.Message.toObjectList(msg.getTradesList(),
-    proto.TradeInfo.toObject, includeInstance)
+    proto.tdex.daemon.v1.TradeInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -11683,23 +12006,23 @@ proto.ListTradesReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListTradesReply}
+ * @return {!proto.tdex.daemon.v1.ListTradesReply}
  */
-proto.ListTradesReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListTradesReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListTradesReply;
-  return proto.ListTradesReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListTradesReply;
+  return proto.tdex.daemon.v1.ListTradesReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListTradesReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListTradesReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListTradesReply}
+ * @return {!proto.tdex.daemon.v1.ListTradesReply}
  */
-proto.ListTradesReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListTradesReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11707,8 +12030,8 @@ proto.ListTradesReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.TradeInfo;
-      reader.readMessage(value,proto.TradeInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TradeInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.TradeInfo.deserializeBinaryFromReader);
       msg.addTrades(value);
       break;
     default:
@@ -11724,9 +12047,9 @@ proto.ListTradesReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListTradesReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListTradesReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListTradesReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListTradesReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11734,18 +12057,18 @@ proto.ListTradesReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListTradesReply} message
+ * @param {!proto.tdex.daemon.v1.ListTradesReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListTradesReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListTradesReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTradesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.TradeInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TradeInfo.serializeBinaryToWriter
     );
   }
 };
@@ -11753,38 +12076,38 @@ proto.ListTradesReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated TradeInfo trades = 1;
- * @return {!Array<!proto.TradeInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.TradeInfo>}
  */
-proto.ListTradesReply.prototype.getTradesList = function() {
-  return /** @type{!Array<!proto.TradeInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.TradeInfo, 1));
+proto.tdex.daemon.v1.ListTradesReply.prototype.getTradesList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.TradeInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.TradeInfo, 1));
 };
 
 
 /**
- * @param {!Array<!proto.TradeInfo>} value
- * @return {!proto.ListTradesReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.TradeInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListTradesReply} returns this
 */
-proto.ListTradesReply.prototype.setTradesList = function(value) {
+proto.tdex.daemon.v1.ListTradesReply.prototype.setTradesList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.TradeInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.TradeInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.TradeInfo}
+ * @return {!proto.tdex.daemon.v1.TradeInfo}
  */
-proto.ListTradesReply.prototype.addTrades = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.TradeInfo, opt_index);
+proto.tdex.daemon.v1.ListTradesReply.prototype.addTrades = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.TradeInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListTradesReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListTradesReply} returns this
  */
-proto.ListTradesReply.prototype.clearTradesList = function() {
+proto.tdex.daemon.v1.ListTradesReply.prototype.clearTradesList = function() {
   return this.setTradesList([]);
 };
 
@@ -11805,8 +12128,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ReloadUtxosRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ReloadUtxosRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ReloadUtxosRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ReloadUtxosRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -11815,11 +12138,11 @@ proto.ReloadUtxosRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ReloadUtxosRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ReloadUtxosRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ReloadUtxosRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -11835,23 +12158,23 @@ proto.ReloadUtxosRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ReloadUtxosRequest}
+ * @return {!proto.tdex.daemon.v1.ReloadUtxosRequest}
  */
-proto.ReloadUtxosRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ReloadUtxosRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ReloadUtxosRequest;
-  return proto.ReloadUtxosRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ReloadUtxosRequest;
+  return proto.tdex.daemon.v1.ReloadUtxosRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ReloadUtxosRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ReloadUtxosRequest}
+ * @return {!proto.tdex.daemon.v1.ReloadUtxosRequest}
  */
-proto.ReloadUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ReloadUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11871,9 +12194,9 @@ proto.ReloadUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ReloadUtxosRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ReloadUtxosRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ReloadUtxosRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ReloadUtxosRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11881,11 +12204,11 @@ proto.ReloadUtxosRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ReloadUtxosRequest} message
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ReloadUtxosRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ReloadUtxosRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -11906,8 +12229,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ReloadUtxosReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ReloadUtxosReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ReloadUtxosReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ReloadUtxosReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -11916,11 +12239,11 @@ proto.ReloadUtxosReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ReloadUtxosReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ReloadUtxosReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ReloadUtxosReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -11936,23 +12259,23 @@ proto.ReloadUtxosReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ReloadUtxosReply}
+ * @return {!proto.tdex.daemon.v1.ReloadUtxosReply}
  */
-proto.ReloadUtxosReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ReloadUtxosReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ReloadUtxosReply;
-  return proto.ReloadUtxosReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ReloadUtxosReply;
+  return proto.tdex.daemon.v1.ReloadUtxosReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ReloadUtxosReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ReloadUtxosReply}
+ * @return {!proto.tdex.daemon.v1.ReloadUtxosReply}
  */
-proto.ReloadUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ReloadUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -11972,9 +12295,9 @@ proto.ReloadUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ReloadUtxosReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ReloadUtxosReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ReloadUtxosReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ReloadUtxosReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -11982,11 +12305,11 @@ proto.ReloadUtxosReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ReloadUtxosReply} message
+ * @param {!proto.tdex.daemon.v1.ReloadUtxosReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ReloadUtxosReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ReloadUtxosReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -12007,8 +12330,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListUtxosRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListUtxosRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListUtxosRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -12017,14 +12340,14 @@ proto.ListUtxosRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListUtxosRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListUtxosRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListUtxosRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListUtxosRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    page: (f = msg.getPage()) && proto.Page.toObject(includeInstance, f)
+    page: (f = msg.getPage()) && proto.tdex.daemon.v1.Page.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -12038,23 +12361,23 @@ proto.ListUtxosRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListUtxosRequest}
+ * @return {!proto.tdex.daemon.v1.ListUtxosRequest}
  */
-proto.ListUtxosRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListUtxosRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListUtxosRequest;
-  return proto.ListUtxosRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListUtxosRequest;
+  return proto.tdex.daemon.v1.ListUtxosRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListUtxosRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListUtxosRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListUtxosRequest}
+ * @return {!proto.tdex.daemon.v1.ListUtxosRequest}
  */
-proto.ListUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12066,8 +12389,8 @@ proto.ListUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAccountIndex(value);
       break;
     case 2:
-      var value = new proto.Page;
-      reader.readMessage(value,proto.Page.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Page;
+      reader.readMessage(value,proto.tdex.daemon.v1.Page.deserializeBinaryFromReader);
       msg.setPage(value);
       break;
     default:
@@ -12083,9 +12406,9 @@ proto.ListUtxosRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListUtxosRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListUtxosRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListUtxosRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12093,11 +12416,11 @@ proto.ListUtxosRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListUtxosRequest} message
+ * @param {!proto.tdex.daemon.v1.ListUtxosRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListUtxosRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListUtxosRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -12111,7 +12434,7 @@ proto.ListUtxosRequest.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.Page.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Page.serializeBinaryToWriter
     );
   }
 };
@@ -12121,44 +12444,44 @@ proto.ListUtxosRequest.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 account_index = 1;
  * @return {number}
  */
-proto.ListUtxosRequest.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.ListUtxosRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListUtxosRequest} returns this
  */
-proto.ListUtxosRequest.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
  * optional Page page = 2;
- * @return {?proto.Page}
+ * @return {?proto.tdex.daemon.v1.Page}
  */
-proto.ListUtxosRequest.prototype.getPage = function() {
-  return /** @type{?proto.Page} */ (
-    jspb.Message.getWrapperField(this, proto.Page, 2));
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.getPage = function() {
+  return /** @type{?proto.tdex.daemon.v1.Page} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.Page, 2));
 };
 
 
 /**
- * @param {?proto.Page|undefined} value
- * @return {!proto.ListUtxosRequest} returns this
+ * @param {?proto.tdex.daemon.v1.Page|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListUtxosRequest} returns this
 */
-proto.ListUtxosRequest.prototype.setPage = function(value) {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.setPage = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListUtxosRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListUtxosRequest} returns this
  */
-proto.ListUtxosRequest.prototype.clearPage = function() {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.clearPage = function() {
   return this.setPage(undefined);
 };
 
@@ -12167,7 +12490,7 @@ proto.ListUtxosRequest.prototype.clearPage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListUtxosRequest.prototype.hasPage = function() {
+proto.tdex.daemon.v1.ListUtxosRequest.prototype.hasPage = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -12178,7 +12501,7 @@ proto.ListUtxosRequest.prototype.hasPage = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ListUtxosReply.repeatedFields_ = [1,2,3];
+proto.tdex.daemon.v1.ListUtxosReply.repeatedFields_ = [1,2,3];
 
 
 
@@ -12195,8 +12518,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListUtxosReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListUtxosReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListUtxosReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListUtxosReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -12205,18 +12528,18 @@ proto.ListUtxosReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListUtxosReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListUtxosReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListUtxosReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListUtxosReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     unspentsList: jspb.Message.toObjectList(msg.getUnspentsList(),
-    proto.UtxoInfo.toObject, includeInstance),
+    proto.tdex.daemon.v1.UtxoInfo.toObject, includeInstance),
     spentsList: jspb.Message.toObjectList(msg.getSpentsList(),
-    proto.UtxoInfo.toObject, includeInstance),
+    proto.tdex.daemon.v1.UtxoInfo.toObject, includeInstance),
     locksList: jspb.Message.toObjectList(msg.getLocksList(),
-    proto.UtxoInfo.toObject, includeInstance)
+    proto.tdex.daemon.v1.UtxoInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -12230,23 +12553,23 @@ proto.ListUtxosReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListUtxosReply}
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply}
  */
-proto.ListUtxosReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListUtxosReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListUtxosReply;
-  return proto.ListUtxosReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListUtxosReply;
+  return proto.tdex.daemon.v1.ListUtxosReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListUtxosReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListUtxosReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListUtxosReply}
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply}
  */
-proto.ListUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12254,18 +12577,18 @@ proto.ListUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.UtxoInfo;
-      reader.readMessage(value,proto.UtxoInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.UtxoInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader);
       msg.addUnspents(value);
       break;
     case 2:
-      var value = new proto.UtxoInfo;
-      reader.readMessage(value,proto.UtxoInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.UtxoInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader);
       msg.addSpents(value);
       break;
     case 3:
-      var value = new proto.UtxoInfo;
-      reader.readMessage(value,proto.UtxoInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.UtxoInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader);
       msg.addLocks(value);
       break;
     default:
@@ -12281,9 +12604,9 @@ proto.ListUtxosReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListUtxosReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListUtxosReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListUtxosReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12291,18 +12614,18 @@ proto.ListUtxosReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListUtxosReply} message
+ * @param {!proto.tdex.daemon.v1.ListUtxosReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListUtxosReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListUtxosReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUnspentsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.UtxoInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter
     );
   }
   f = message.getSpentsList();
@@ -12310,7 +12633,7 @@ proto.ListUtxosReply.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       2,
       f,
-      proto.UtxoInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter
     );
   }
   f = message.getLocksList();
@@ -12318,7 +12641,7 @@ proto.ListUtxosReply.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       3,
       f,
-      proto.UtxoInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter
     );
   }
 };
@@ -12326,114 +12649,114 @@ proto.ListUtxosReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated UtxoInfo unspents = 1;
- * @return {!Array<!proto.UtxoInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.UtxoInfo>}
  */
-proto.ListUtxosReply.prototype.getUnspentsList = function() {
-  return /** @type{!Array<!proto.UtxoInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.UtxoInfo, 1));
+proto.tdex.daemon.v1.ListUtxosReply.prototype.getUnspentsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.UtxoInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.UtxoInfo, 1));
 };
 
 
 /**
- * @param {!Array<!proto.UtxoInfo>} value
- * @return {!proto.ListUtxosReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.UtxoInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
 */
-proto.ListUtxosReply.prototype.setUnspentsList = function(value) {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.setUnspentsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.UtxoInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.UtxoInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.UtxoInfo}
+ * @return {!proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.ListUtxosReply.prototype.addUnspents = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.UtxoInfo, opt_index);
+proto.tdex.daemon.v1.ListUtxosReply.prototype.addUnspents = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.UtxoInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListUtxosReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
  */
-proto.ListUtxosReply.prototype.clearUnspentsList = function() {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.clearUnspentsList = function() {
   return this.setUnspentsList([]);
 };
 
 
 /**
  * repeated UtxoInfo spents = 2;
- * @return {!Array<!proto.UtxoInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.UtxoInfo>}
  */
-proto.ListUtxosReply.prototype.getSpentsList = function() {
-  return /** @type{!Array<!proto.UtxoInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.UtxoInfo, 2));
+proto.tdex.daemon.v1.ListUtxosReply.prototype.getSpentsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.UtxoInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.UtxoInfo, 2));
 };
 
 
 /**
- * @param {!Array<!proto.UtxoInfo>} value
- * @return {!proto.ListUtxosReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.UtxoInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
 */
-proto.ListUtxosReply.prototype.setSpentsList = function(value) {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.setSpentsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {!proto.UtxoInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.UtxoInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.UtxoInfo}
+ * @return {!proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.ListUtxosReply.prototype.addSpents = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.UtxoInfo, opt_index);
+proto.tdex.daemon.v1.ListUtxosReply.prototype.addSpents = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.tdex.daemon.v1.UtxoInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListUtxosReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
  */
-proto.ListUtxosReply.prototype.clearSpentsList = function() {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.clearSpentsList = function() {
   return this.setSpentsList([]);
 };
 
 
 /**
  * repeated UtxoInfo locks = 3;
- * @return {!Array<!proto.UtxoInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.UtxoInfo>}
  */
-proto.ListUtxosReply.prototype.getLocksList = function() {
-  return /** @type{!Array<!proto.UtxoInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.UtxoInfo, 3));
+proto.tdex.daemon.v1.ListUtxosReply.prototype.getLocksList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.UtxoInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.UtxoInfo, 3));
 };
 
 
 /**
- * @param {!Array<!proto.UtxoInfo>} value
- * @return {!proto.ListUtxosReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.UtxoInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
 */
-proto.ListUtxosReply.prototype.setLocksList = function(value) {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.setLocksList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 3, value);
 };
 
 
 /**
- * @param {!proto.UtxoInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.UtxoInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.UtxoInfo}
+ * @return {!proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.ListUtxosReply.prototype.addLocks = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.UtxoInfo, opt_index);
+proto.tdex.daemon.v1.ListUtxosReply.prototype.addLocks = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.tdex.daemon.v1.UtxoInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListUtxosReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListUtxosReply} returns this
  */
-proto.ListUtxosReply.prototype.clearLocksList = function() {
+proto.tdex.daemon.v1.ListUtxosReply.prototype.clearLocksList = function() {
   return this.setLocksList([]);
 };
 
@@ -12454,8 +12777,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.AddWebhookRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.AddWebhookRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.AddWebhookRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -12464,11 +12787,11 @@ proto.AddWebhookRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.AddWebhookRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.AddWebhookRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AddWebhookRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.AddWebhookRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     endpoint: jspb.Message.getFieldWithDefault(msg, 1, ""),
     action: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -12486,23 +12809,23 @@ proto.AddWebhookRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.AddWebhookRequest}
+ * @return {!proto.tdex.daemon.v1.AddWebhookRequest}
  */
-proto.AddWebhookRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.AddWebhookRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.AddWebhookRequest;
-  return proto.AddWebhookRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.AddWebhookRequest;
+  return proto.tdex.daemon.v1.AddWebhookRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.AddWebhookRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.AddWebhookRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.AddWebhookRequest}
+ * @return {!proto.tdex.daemon.v1.AddWebhookRequest}
  */
-proto.AddWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.AddWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12514,7 +12837,7 @@ proto.AddWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
       msg.setEndpoint(value);
       break;
     case 2:
-      var value = /** @type {!proto.ActionType} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.ActionType} */ (reader.readEnum());
       msg.setAction(value);
       break;
     case 3:
@@ -12534,9 +12857,9 @@ proto.AddWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.AddWebhookRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.AddWebhookRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.AddWebhookRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12544,11 +12867,11 @@ proto.AddWebhookRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.AddWebhookRequest} message
+ * @param {!proto.tdex.daemon.v1.AddWebhookRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AddWebhookRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.AddWebhookRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getEndpoint();
   if (f.length > 0) {
@@ -12578,34 +12901,34 @@ proto.AddWebhookRequest.serializeBinaryToWriter = function(message, writer) {
  * optional string endpoint = 1;
  * @return {string}
  */
-proto.AddWebhookRequest.prototype.getEndpoint = function() {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.getEndpoint = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.AddWebhookRequest} returns this
+ * @return {!proto.tdex.daemon.v1.AddWebhookRequest} returns this
  */
-proto.AddWebhookRequest.prototype.setEndpoint = function(value) {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.setEndpoint = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
  * optional ActionType action = 2;
- * @return {!proto.ActionType}
+ * @return {!proto.tdex.daemon.v1.ActionType}
  */
-proto.AddWebhookRequest.prototype.getAction = function() {
-  return /** @type {!proto.ActionType} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.getAction = function() {
+  return /** @type {!proto.tdex.daemon.v1.ActionType} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {!proto.ActionType} value
- * @return {!proto.AddWebhookRequest} returns this
+ * @param {!proto.tdex.daemon.v1.ActionType} value
+ * @return {!proto.tdex.daemon.v1.AddWebhookRequest} returns this
  */
-proto.AddWebhookRequest.prototype.setAction = function(value) {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.setAction = function(value) {
   return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
@@ -12614,16 +12937,16 @@ proto.AddWebhookRequest.prototype.setAction = function(value) {
  * optional string secret = 3;
  * @return {string}
  */
-proto.AddWebhookRequest.prototype.getSecret = function() {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.getSecret = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.AddWebhookRequest} returns this
+ * @return {!proto.tdex.daemon.v1.AddWebhookRequest} returns this
  */
-proto.AddWebhookRequest.prototype.setSecret = function(value) {
+proto.tdex.daemon.v1.AddWebhookRequest.prototype.setSecret = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -12644,8 +12967,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.AddWebhookReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.AddWebhookReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.AddWebhookReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.AddWebhookReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -12654,11 +12977,11 @@ proto.AddWebhookReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.AddWebhookReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.AddWebhookReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AddWebhookReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.AddWebhookReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -12674,23 +12997,23 @@ proto.AddWebhookReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.AddWebhookReply}
+ * @return {!proto.tdex.daemon.v1.AddWebhookReply}
  */
-proto.AddWebhookReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.AddWebhookReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.AddWebhookReply;
-  return proto.AddWebhookReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.AddWebhookReply;
+  return proto.tdex.daemon.v1.AddWebhookReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.AddWebhookReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.AddWebhookReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.AddWebhookReply}
+ * @return {!proto.tdex.daemon.v1.AddWebhookReply}
  */
-proto.AddWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.AddWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12714,9 +13037,9 @@ proto.AddWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.AddWebhookReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.AddWebhookReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.AddWebhookReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.AddWebhookReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12724,11 +13047,11 @@ proto.AddWebhookReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.AddWebhookReply} message
+ * @param {!proto.tdex.daemon.v1.AddWebhookReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AddWebhookReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.AddWebhookReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getId();
   if (f.length > 0) {
@@ -12744,16 +13067,16 @@ proto.AddWebhookReply.serializeBinaryToWriter = function(message, writer) {
  * optional string id = 1;
  * @return {string}
  */
-proto.AddWebhookReply.prototype.getId = function() {
+proto.tdex.daemon.v1.AddWebhookReply.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.AddWebhookReply} returns this
+ * @return {!proto.tdex.daemon.v1.AddWebhookReply} returns this
  */
-proto.AddWebhookReply.prototype.setId = function(value) {
+proto.tdex.daemon.v1.AddWebhookReply.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -12774,8 +13097,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.RemoveWebhookRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.RemoveWebhookRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.RemoveWebhookRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.RemoveWebhookRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -12784,11 +13107,11 @@ proto.RemoveWebhookRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.RemoveWebhookRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.RemoveWebhookRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.RemoveWebhookRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -12804,23 +13127,23 @@ proto.RemoveWebhookRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.RemoveWebhookRequest}
+ * @return {!proto.tdex.daemon.v1.RemoveWebhookRequest}
  */
-proto.RemoveWebhookRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.RemoveWebhookRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.RemoveWebhookRequest;
-  return proto.RemoveWebhookRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.RemoveWebhookRequest;
+  return proto.tdex.daemon.v1.RemoveWebhookRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.RemoveWebhookRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.RemoveWebhookRequest}
+ * @return {!proto.tdex.daemon.v1.RemoveWebhookRequest}
  */
-proto.RemoveWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.RemoveWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12844,9 +13167,9 @@ proto.RemoveWebhookRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.RemoveWebhookRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.RemoveWebhookRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.RemoveWebhookRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.RemoveWebhookRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12854,11 +13177,11 @@ proto.RemoveWebhookRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.RemoveWebhookRequest} message
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.RemoveWebhookRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.RemoveWebhookRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getId();
   if (f.length > 0) {
@@ -12874,16 +13197,16 @@ proto.RemoveWebhookRequest.serializeBinaryToWriter = function(message, writer) {
  * optional string id = 1;
  * @return {string}
  */
-proto.RemoveWebhookRequest.prototype.getId = function() {
+proto.tdex.daemon.v1.RemoveWebhookRequest.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.RemoveWebhookRequest} returns this
+ * @return {!proto.tdex.daemon.v1.RemoveWebhookRequest} returns this
  */
-proto.RemoveWebhookRequest.prototype.setId = function(value) {
+proto.tdex.daemon.v1.RemoveWebhookRequest.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -12904,8 +13227,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.RemoveWebhookReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.RemoveWebhookReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.RemoveWebhookReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.RemoveWebhookReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -12914,11 +13237,11 @@ proto.RemoveWebhookReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.RemoveWebhookReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.RemoveWebhookReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.RemoveWebhookReply.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -12934,23 +13257,23 @@ proto.RemoveWebhookReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.RemoveWebhookReply}
+ * @return {!proto.tdex.daemon.v1.RemoveWebhookReply}
  */
-proto.RemoveWebhookReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.RemoveWebhookReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.RemoveWebhookReply;
-  return proto.RemoveWebhookReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.RemoveWebhookReply;
+  return proto.tdex.daemon.v1.RemoveWebhookReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.RemoveWebhookReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.RemoveWebhookReply}
+ * @return {!proto.tdex.daemon.v1.RemoveWebhookReply}
  */
-proto.RemoveWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.RemoveWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -12970,9 +13293,9 @@ proto.RemoveWebhookReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.RemoveWebhookReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.RemoveWebhookReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.RemoveWebhookReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.RemoveWebhookReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -12980,11 +13303,11 @@ proto.RemoveWebhookReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.RemoveWebhookReply} message
+ * @param {!proto.tdex.daemon.v1.RemoveWebhookReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.RemoveWebhookReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.RemoveWebhookReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -13005,8 +13328,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListWebhooksRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListWebhooksRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListWebhooksRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListWebhooksRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -13015,11 +13338,11 @@ proto.ListWebhooksRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListWebhooksRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListWebhooksRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWebhooksRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListWebhooksRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     action: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -13035,23 +13358,23 @@ proto.ListWebhooksRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListWebhooksRequest}
+ * @return {!proto.tdex.daemon.v1.ListWebhooksRequest}
  */
-proto.ListWebhooksRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListWebhooksRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListWebhooksRequest;
-  return proto.ListWebhooksRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListWebhooksRequest;
+  return proto.tdex.daemon.v1.ListWebhooksRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListWebhooksRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListWebhooksRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListWebhooksRequest}
+ * @return {!proto.tdex.daemon.v1.ListWebhooksRequest}
  */
-proto.ListWebhooksRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListWebhooksRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13059,7 +13382,7 @@ proto.ListWebhooksRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!proto.ActionType} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.ActionType} */ (reader.readEnum());
       msg.setAction(value);
       break;
     default:
@@ -13075,9 +13398,9 @@ proto.ListWebhooksRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListWebhooksRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListWebhooksRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListWebhooksRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListWebhooksRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13085,11 +13408,11 @@ proto.ListWebhooksRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListWebhooksRequest} message
+ * @param {!proto.tdex.daemon.v1.ListWebhooksRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWebhooksRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListWebhooksRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAction();
   if (f !== 0.0) {
@@ -13103,18 +13426,18 @@ proto.ListWebhooksRequest.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional ActionType action = 1;
- * @return {!proto.ActionType}
+ * @return {!proto.tdex.daemon.v1.ActionType}
  */
-proto.ListWebhooksRequest.prototype.getAction = function() {
-  return /** @type {!proto.ActionType} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.tdex.daemon.v1.ListWebhooksRequest.prototype.getAction = function() {
+  return /** @type {!proto.tdex.daemon.v1.ActionType} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * @param {!proto.ActionType} value
- * @return {!proto.ListWebhooksRequest} returns this
+ * @param {!proto.tdex.daemon.v1.ActionType} value
+ * @return {!proto.tdex.daemon.v1.ListWebhooksRequest} returns this
  */
-proto.ListWebhooksRequest.prototype.setAction = function(value) {
+proto.tdex.daemon.v1.ListWebhooksRequest.prototype.setAction = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
@@ -13125,7 +13448,7 @@ proto.ListWebhooksRequest.prototype.setAction = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.ListWebhooksReply.repeatedFields_ = [1];
+proto.tdex.daemon.v1.ListWebhooksReply.repeatedFields_ = [1];
 
 
 
@@ -13142,8 +13465,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListWebhooksReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListWebhooksReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListWebhooksReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -13152,14 +13475,14 @@ proto.ListWebhooksReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListWebhooksReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListWebhooksReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWebhooksReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListWebhooksReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     webhookInfoList: jspb.Message.toObjectList(msg.getWebhookInfoList(),
-    proto.WebhookInfo.toObject, includeInstance)
+    proto.tdex.daemon.v1.WebhookInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -13173,23 +13496,23 @@ proto.ListWebhooksReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListWebhooksReply}
+ * @return {!proto.tdex.daemon.v1.ListWebhooksReply}
  */
-proto.ListWebhooksReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListWebhooksReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListWebhooksReply;
-  return proto.ListWebhooksReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListWebhooksReply;
+  return proto.tdex.daemon.v1.ListWebhooksReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListWebhooksReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListWebhooksReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListWebhooksReply}
+ * @return {!proto.tdex.daemon.v1.ListWebhooksReply}
  */
-proto.ListWebhooksReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListWebhooksReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13197,8 +13520,8 @@ proto.ListWebhooksReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.WebhookInfo;
-      reader.readMessage(value,proto.WebhookInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.WebhookInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.WebhookInfo.deserializeBinaryFromReader);
       msg.addWebhookInfo(value);
       break;
     default:
@@ -13214,9 +13537,9 @@ proto.ListWebhooksReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListWebhooksReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListWebhooksReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListWebhooksReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13224,18 +13547,18 @@ proto.ListWebhooksReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListWebhooksReply} message
+ * @param {!proto.tdex.daemon.v1.ListWebhooksReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWebhooksReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListWebhooksReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getWebhookInfoList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.WebhookInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.WebhookInfo.serializeBinaryToWriter
     );
   }
 };
@@ -13243,38 +13566,38 @@ proto.ListWebhooksReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated WebhookInfo webhook_info = 1;
- * @return {!Array<!proto.WebhookInfo>}
+ * @return {!Array<!proto.tdex.daemon.v1.WebhookInfo>}
  */
-proto.ListWebhooksReply.prototype.getWebhookInfoList = function() {
-  return /** @type{!Array<!proto.WebhookInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.WebhookInfo, 1));
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.getWebhookInfoList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.WebhookInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.WebhookInfo, 1));
 };
 
 
 /**
- * @param {!Array<!proto.WebhookInfo>} value
- * @return {!proto.ListWebhooksReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.WebhookInfo>} value
+ * @return {!proto.tdex.daemon.v1.ListWebhooksReply} returns this
 */
-proto.ListWebhooksReply.prototype.setWebhookInfoList = function(value) {
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.setWebhookInfoList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.WebhookInfo=} opt_value
+ * @param {!proto.tdex.daemon.v1.WebhookInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.WebhookInfo}
+ * @return {!proto.tdex.daemon.v1.WebhookInfo}
  */
-proto.ListWebhooksReply.prototype.addWebhookInfo = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.WebhookInfo, opt_index);
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.addWebhookInfo = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.tdex.daemon.v1.WebhookInfo, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListWebhooksReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListWebhooksReply} returns this
  */
-proto.ListWebhooksReply.prototype.clearWebhookInfoList = function() {
+proto.tdex.daemon.v1.ListWebhooksReply.prototype.clearWebhookInfoList = function() {
   return this.setWebhookInfoList([]);
 };
 
@@ -13295,8 +13618,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListDepositsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListDepositsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListDepositsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -13305,14 +13628,14 @@ proto.ListDepositsRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListDepositsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListDepositsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListDepositsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListDepositsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    page: (f = msg.getPage()) && proto.Page.toObject(includeInstance, f)
+    page: (f = msg.getPage()) && proto.tdex.daemon.v1.Page.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -13326,23 +13649,23 @@ proto.ListDepositsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ListDepositsRequest}
  */
-proto.ListDepositsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListDepositsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListDepositsRequest;
-  return proto.ListDepositsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListDepositsRequest;
+  return proto.tdex.daemon.v1.ListDepositsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListDepositsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListDepositsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListDepositsRequest}
+ * @return {!proto.tdex.daemon.v1.ListDepositsRequest}
  */
-proto.ListDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13354,8 +13677,8 @@ proto.ListDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAccountIndex(value);
       break;
     case 2:
-      var value = new proto.Page;
-      reader.readMessage(value,proto.Page.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Page;
+      reader.readMessage(value,proto.tdex.daemon.v1.Page.deserializeBinaryFromReader);
       msg.setPage(value);
       break;
     default:
@@ -13371,9 +13694,9 @@ proto.ListDepositsRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListDepositsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListDepositsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListDepositsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13381,11 +13704,11 @@ proto.ListDepositsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListDepositsRequest} message
+ * @param {!proto.tdex.daemon.v1.ListDepositsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListDepositsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListDepositsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -13399,7 +13722,7 @@ proto.ListDepositsRequest.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.Page.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Page.serializeBinaryToWriter
     );
   }
 };
@@ -13409,44 +13732,44 @@ proto.ListDepositsRequest.serializeBinaryToWriter = function(message, writer) {
  * optional int64 account_index = 1;
  * @return {number}
  */
-proto.ListDepositsRequest.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.ListDepositsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListDepositsRequest} returns this
  */
-proto.ListDepositsRequest.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
  * optional Page page = 2;
- * @return {?proto.Page}
+ * @return {?proto.tdex.daemon.v1.Page}
  */
-proto.ListDepositsRequest.prototype.getPage = function() {
-  return /** @type{?proto.Page} */ (
-    jspb.Message.getWrapperField(this, proto.Page, 2));
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.getPage = function() {
+  return /** @type{?proto.tdex.daemon.v1.Page} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.Page, 2));
 };
 
 
 /**
- * @param {?proto.Page|undefined} value
- * @return {!proto.ListDepositsRequest} returns this
+ * @param {?proto.tdex.daemon.v1.Page|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListDepositsRequest} returns this
 */
-proto.ListDepositsRequest.prototype.setPage = function(value) {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.setPage = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListDepositsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListDepositsRequest} returns this
  */
-proto.ListDepositsRequest.prototype.clearPage = function() {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.clearPage = function() {
   return this.setPage(undefined);
 };
 
@@ -13455,7 +13778,7 @@ proto.ListDepositsRequest.prototype.clearPage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListDepositsRequest.prototype.hasPage = function() {
+proto.tdex.daemon.v1.ListDepositsRequest.prototype.hasPage = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -13466,7 +13789,7 @@ proto.ListDepositsRequest.prototype.hasPage = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ListDepositsReply.repeatedFields_ = [2];
+proto.tdex.daemon.v1.ListDepositsReply.repeatedFields_ = [2];
 
 
 
@@ -13483,8 +13806,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListDepositsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListDepositsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListDepositsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListDepositsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -13493,15 +13816,15 @@ proto.ListDepositsReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListDepositsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListDepositsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListDepositsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListDepositsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
     depositsList: jspb.Message.toObjectList(msg.getDepositsList(),
-    proto.Deposit.toObject, includeInstance)
+    proto.tdex.daemon.v1.Deposit.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -13515,23 +13838,23 @@ proto.ListDepositsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ListDepositsReply}
  */
-proto.ListDepositsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListDepositsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListDepositsReply;
-  return proto.ListDepositsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListDepositsReply;
+  return proto.tdex.daemon.v1.ListDepositsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListDepositsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListDepositsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListDepositsReply}
+ * @return {!proto.tdex.daemon.v1.ListDepositsReply}
  */
-proto.ListDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13543,8 +13866,8 @@ proto.ListDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAccountIndex(value);
       break;
     case 2:
-      var value = new proto.Deposit;
-      reader.readMessage(value,proto.Deposit.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Deposit;
+      reader.readMessage(value,proto.tdex.daemon.v1.Deposit.deserializeBinaryFromReader);
       msg.addDeposits(value);
       break;
     default:
@@ -13560,9 +13883,9 @@ proto.ListDepositsReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListDepositsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListDepositsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListDepositsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListDepositsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13570,11 +13893,11 @@ proto.ListDepositsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListDepositsReply} message
+ * @param {!proto.tdex.daemon.v1.ListDepositsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListDepositsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListDepositsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -13588,7 +13911,7 @@ proto.ListDepositsReply.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       2,
       f,
-      proto.Deposit.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Deposit.serializeBinaryToWriter
     );
   }
 };
@@ -13598,54 +13921,54 @@ proto.ListDepositsReply.serializeBinaryToWriter = function(message, writer) {
  * optional int64 account_index = 1;
  * @return {number}
  */
-proto.ListDepositsReply.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.ListDepositsReply.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.ListDepositsReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListDepositsReply} returns this
  */
-proto.ListDepositsReply.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.ListDepositsReply.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
  * repeated Deposit deposits = 2;
- * @return {!Array<!proto.Deposit>}
+ * @return {!Array<!proto.tdex.daemon.v1.Deposit>}
  */
-proto.ListDepositsReply.prototype.getDepositsList = function() {
-  return /** @type{!Array<!proto.Deposit>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.Deposit, 2));
+proto.tdex.daemon.v1.ListDepositsReply.prototype.getDepositsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.Deposit>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.Deposit, 2));
 };
 
 
 /**
- * @param {!Array<!proto.Deposit>} value
- * @return {!proto.ListDepositsReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.Deposit>} value
+ * @return {!proto.tdex.daemon.v1.ListDepositsReply} returns this
 */
-proto.ListDepositsReply.prototype.setDepositsList = function(value) {
+proto.tdex.daemon.v1.ListDepositsReply.prototype.setDepositsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {!proto.Deposit=} opt_value
+ * @param {!proto.tdex.daemon.v1.Deposit=} opt_value
  * @param {number=} opt_index
- * @return {!proto.Deposit}
+ * @return {!proto.tdex.daemon.v1.Deposit}
  */
-proto.ListDepositsReply.prototype.addDeposits = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.Deposit, opt_index);
+proto.tdex.daemon.v1.ListDepositsReply.prototype.addDeposits = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.tdex.daemon.v1.Deposit, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListDepositsReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListDepositsReply} returns this
  */
-proto.ListDepositsReply.prototype.clearDepositsList = function() {
+proto.tdex.daemon.v1.ListDepositsReply.prototype.clearDepositsList = function() {
   return this.setDepositsList([]);
 };
 
@@ -13666,8 +13989,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListWithdrawalsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListWithdrawalsRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListWithdrawalsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -13676,14 +13999,14 @@ proto.ListWithdrawalsRequest.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListWithdrawalsRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWithdrawalsRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    page: (f = msg.getPage()) && proto.Page.toObject(includeInstance, f)
+    page: (f = msg.getPage()) && proto.tdex.daemon.v1.Page.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -13697,23 +14020,23 @@ proto.ListWithdrawalsRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListWithdrawalsRequest}
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsRequest}
  */
-proto.ListWithdrawalsRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListWithdrawalsRequest;
-  return proto.ListWithdrawalsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListWithdrawalsRequest;
+  return proto.tdex.daemon.v1.ListWithdrawalsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListWithdrawalsRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListWithdrawalsRequest}
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsRequest}
  */
-proto.ListWithdrawalsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13725,8 +14048,8 @@ proto.ListWithdrawalsRequest.deserializeBinaryFromReader = function(msg, reader)
       msg.setAccountIndex(value);
       break;
     case 2:
-      var value = new proto.Page;
-      reader.readMessage(value,proto.Page.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Page;
+      reader.readMessage(value,proto.tdex.daemon.v1.Page.deserializeBinaryFromReader);
       msg.setPage(value);
       break;
     default:
@@ -13742,9 +14065,9 @@ proto.ListWithdrawalsRequest.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListWithdrawalsRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListWithdrawalsRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListWithdrawalsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13752,11 +14075,11 @@ proto.ListWithdrawalsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListWithdrawalsRequest} message
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWithdrawalsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -13770,7 +14093,7 @@ proto.ListWithdrawalsRequest.serializeBinaryToWriter = function(message, writer)
     writer.writeMessage(
       2,
       f,
-      proto.Page.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Page.serializeBinaryToWriter
     );
   }
 };
@@ -13780,44 +14103,44 @@ proto.ListWithdrawalsRequest.serializeBinaryToWriter = function(message, writer)
  * optional int64 account_index = 1;
  * @return {number}
  */
-proto.ListWithdrawalsRequest.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.ListWithdrawalsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsRequest} returns this
  */
-proto.ListWithdrawalsRequest.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
  * optional Page page = 2;
- * @return {?proto.Page}
+ * @return {?proto.tdex.daemon.v1.Page}
  */
-proto.ListWithdrawalsRequest.prototype.getPage = function() {
-  return /** @type{?proto.Page} */ (
-    jspb.Message.getWrapperField(this, proto.Page, 2));
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.getPage = function() {
+  return /** @type{?proto.tdex.daemon.v1.Page} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.Page, 2));
 };
 
 
 /**
- * @param {?proto.Page|undefined} value
- * @return {!proto.ListWithdrawalsRequest} returns this
+ * @param {?proto.tdex.daemon.v1.Page|undefined} value
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsRequest} returns this
 */
-proto.ListWithdrawalsRequest.prototype.setPage = function(value) {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.setPage = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.ListWithdrawalsRequest} returns this
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsRequest} returns this
  */
-proto.ListWithdrawalsRequest.prototype.clearPage = function() {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.clearPage = function() {
   return this.setPage(undefined);
 };
 
@@ -13826,7 +14149,7 @@ proto.ListWithdrawalsRequest.prototype.clearPage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.ListWithdrawalsRequest.prototype.hasPage = function() {
+proto.tdex.daemon.v1.ListWithdrawalsRequest.prototype.hasPage = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -13837,7 +14160,7 @@ proto.ListWithdrawalsRequest.prototype.hasPage = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.ListWithdrawalsReply.repeatedFields_ = [2];
+proto.tdex.daemon.v1.ListWithdrawalsReply.repeatedFields_ = [2];
 
 
 
@@ -13854,8 +14177,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.ListWithdrawalsReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.ListWithdrawalsReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.ListWithdrawalsReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -13864,15 +14187,15 @@ proto.ListWithdrawalsReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.ListWithdrawalsReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWithdrawalsReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
     withdrawalsList: jspb.Message.toObjectList(msg.getWithdrawalsList(),
-    proto.Withdrawal.toObject, includeInstance)
+    proto.tdex.daemon.v1.Withdrawal.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -13886,23 +14209,23 @@ proto.ListWithdrawalsReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.ListWithdrawalsReply}
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsReply}
  */
-proto.ListWithdrawalsReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.ListWithdrawalsReply;
-  return proto.ListWithdrawalsReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.ListWithdrawalsReply;
+  return proto.tdex.daemon.v1.ListWithdrawalsReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.ListWithdrawalsReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.ListWithdrawalsReply}
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsReply}
  */
-proto.ListWithdrawalsReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -13914,8 +14237,8 @@ proto.ListWithdrawalsReply.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAccountIndex(value);
       break;
     case 2:
-      var value = new proto.Withdrawal;
-      reader.readMessage(value,proto.Withdrawal.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.Withdrawal;
+      reader.readMessage(value,proto.tdex.daemon.v1.Withdrawal.deserializeBinaryFromReader);
       msg.addWithdrawals(value);
       break;
     default:
@@ -13931,9 +14254,9 @@ proto.ListWithdrawalsReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.ListWithdrawalsReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.ListWithdrawalsReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.ListWithdrawalsReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -13941,11 +14264,11 @@ proto.ListWithdrawalsReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.ListWithdrawalsReply} message
+ * @param {!proto.tdex.daemon.v1.ListWithdrawalsReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.ListWithdrawalsReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -13959,7 +14282,7 @@ proto.ListWithdrawalsReply.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       2,
       f,
-      proto.Withdrawal.serializeBinaryToWriter
+      proto.tdex.daemon.v1.Withdrawal.serializeBinaryToWriter
     );
   }
 };
@@ -13969,54 +14292,54 @@ proto.ListWithdrawalsReply.serializeBinaryToWriter = function(message, writer) {
  * optional int64 account_index = 1;
  * @return {number}
  */
-proto.ListWithdrawalsReply.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.ListWithdrawalsReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsReply} returns this
  */
-proto.ListWithdrawalsReply.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
  * repeated Withdrawal withdrawals = 2;
- * @return {!Array<!proto.Withdrawal>}
+ * @return {!Array<!proto.tdex.daemon.v1.Withdrawal>}
  */
-proto.ListWithdrawalsReply.prototype.getWithdrawalsList = function() {
-  return /** @type{!Array<!proto.Withdrawal>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.Withdrawal, 2));
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.getWithdrawalsList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.Withdrawal>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.Withdrawal, 2));
 };
 
 
 /**
- * @param {!Array<!proto.Withdrawal>} value
- * @return {!proto.ListWithdrawalsReply} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.Withdrawal>} value
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsReply} returns this
 */
-proto.ListWithdrawalsReply.prototype.setWithdrawalsList = function(value) {
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.setWithdrawalsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {!proto.Withdrawal=} opt_value
+ * @param {!proto.tdex.daemon.v1.Withdrawal=} opt_value
  * @param {number=} opt_index
- * @return {!proto.Withdrawal}
+ * @return {!proto.tdex.daemon.v1.Withdrawal}
  */
-proto.ListWithdrawalsReply.prototype.addWithdrawals = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.Withdrawal, opt_index);
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.addWithdrawals = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.tdex.daemon.v1.Withdrawal, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.ListWithdrawalsReply} returns this
+ * @return {!proto.tdex.daemon.v1.ListWithdrawalsReply} returns this
  */
-proto.ListWithdrawalsReply.prototype.clearWithdrawalsList = function() {
+proto.tdex.daemon.v1.ListWithdrawalsReply.prototype.clearWithdrawalsList = function() {
   return this.setWithdrawalsList([]);
 };
 
@@ -14037,8 +14360,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.AccountInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.AccountInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.AccountInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.AccountInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -14047,11 +14370,11 @@ proto.AccountInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.AccountInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.AccountInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AccountInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.AccountInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     accountIndex: jspb.Message.getFieldWithDefault(msg, 1, 0),
     derivationPath: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -14071,23 +14394,23 @@ proto.AccountInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.AccountInfo}
+ * @return {!proto.tdex.daemon.v1.AccountInfo}
  */
-proto.AccountInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.AccountInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.AccountInfo;
-  return proto.AccountInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.AccountInfo;
+  return proto.tdex.daemon.v1.AccountInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.AccountInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.AccountInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.AccountInfo}
+ * @return {!proto.tdex.daemon.v1.AccountInfo}
  */
-proto.AccountInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.AccountInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -14127,9 +14450,9 @@ proto.AccountInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.AccountInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.AccountInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.AccountInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -14137,11 +14460,11 @@ proto.AccountInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.AccountInfo} message
+ * @param {!proto.tdex.daemon.v1.AccountInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.AccountInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.AccountInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccountIndex();
   if (f !== 0) {
@@ -14185,16 +14508,16 @@ proto.AccountInfo.serializeBinaryToWriter = function(message, writer) {
  * optional uint32 account_index = 1;
  * @return {number}
  */
-proto.AccountInfo.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.AccountInfo} returns this
+ * @return {!proto.tdex.daemon.v1.AccountInfo} returns this
  */
-proto.AccountInfo.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.AccountInfo.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -14203,16 +14526,16 @@ proto.AccountInfo.prototype.setAccountIndex = function(value) {
  * optional string derivation_path = 2;
  * @return {string}
  */
-proto.AccountInfo.prototype.getDerivationPath = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.getDerivationPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.AccountInfo} returns this
+ * @return {!proto.tdex.daemon.v1.AccountInfo} returns this
  */
-proto.AccountInfo.prototype.setDerivationPath = function(value) {
+proto.tdex.daemon.v1.AccountInfo.prototype.setDerivationPath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -14221,16 +14544,16 @@ proto.AccountInfo.prototype.setDerivationPath = function(value) {
  * optional string xpub = 3;
  * @return {string}
  */
-proto.AccountInfo.prototype.getXpub = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.getXpub = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.AccountInfo} returns this
+ * @return {!proto.tdex.daemon.v1.AccountInfo} returns this
  */
-proto.AccountInfo.prototype.setXpub = function(value) {
+proto.tdex.daemon.v1.AccountInfo.prototype.setXpub = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -14239,16 +14562,16 @@ proto.AccountInfo.prototype.setXpub = function(value) {
  * optional uint32 last_external_derived = 4;
  * @return {number}
  */
-proto.AccountInfo.prototype.getLastExternalDerived = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.getLastExternalDerived = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.AccountInfo} returns this
+ * @return {!proto.tdex.daemon.v1.AccountInfo} returns this
  */
-proto.AccountInfo.prototype.setLastExternalDerived = function(value) {
+proto.tdex.daemon.v1.AccountInfo.prototype.setLastExternalDerived = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -14257,16 +14580,16 @@ proto.AccountInfo.prototype.setLastExternalDerived = function(value) {
  * optional uint32 last_internal_derived = 5;
  * @return {number}
  */
-proto.AccountInfo.prototype.getLastInternalDerived = function() {
+proto.tdex.daemon.v1.AccountInfo.prototype.getLastInternalDerived = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.AccountInfo} returns this
+ * @return {!proto.tdex.daemon.v1.AccountInfo} returns this
  */
-proto.AccountInfo.prototype.setLastInternalDerived = function(value) {
+proto.tdex.daemon.v1.AccountInfo.prototype.setLastInternalDerived = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
 };
 
@@ -14287,8 +14610,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.MarketInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.MarketInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.MarketInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.MarketInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -14297,19 +14620,19 @@ proto.MarketInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.MarketInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.MarketInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.MarketInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    fee: (f = msg.getFee()) && types_pb.Fee.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    fee: (f = msg.getFee()) && tdex_v1_types_pb.Fee.toObject(includeInstance, f),
     tradable: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
     strategyType: jspb.Message.getFieldWithDefault(msg, 4, 0),
     accountIndex: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    price: (f = msg.getPrice()) && types_pb.Price.toObject(includeInstance, f),
-    balance: (f = msg.getBalance()) && types_pb.Balance.toObject(includeInstance, f)
+    price: (f = msg.getPrice()) && tdex_v1_types_pb.Price.toObject(includeInstance, f),
+    balance: (f = msg.getBalance()) && tdex_v1_types_pb.Balance.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -14323,23 +14646,23 @@ proto.MarketInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.MarketInfo}
+ * @return {!proto.tdex.daemon.v1.MarketInfo}
  */
-proto.MarketInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.MarketInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.MarketInfo;
-  return proto.MarketInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.MarketInfo;
+  return proto.tdex.daemon.v1.MarketInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.MarketInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.MarketInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.MarketInfo}
+ * @return {!proto.tdex.daemon.v1.MarketInfo}
  */
-proto.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -14347,13 +14670,13 @@ proto.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new types_pb.Fee;
-      reader.readMessage(value,types_pb.Fee.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Fee;
+      reader.readMessage(value,tdex_v1_types_pb.Fee.deserializeBinaryFromReader);
       msg.setFee(value);
       break;
     case 3:
@@ -14361,7 +14684,7 @@ proto.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTradable(value);
       break;
     case 4:
-      var value = /** @type {!proto.StrategyType} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.StrategyType} */ (reader.readEnum());
       msg.setStrategyType(value);
       break;
     case 5:
@@ -14369,13 +14692,13 @@ proto.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAccountIndex(value);
       break;
     case 6:
-      var value = new types_pb.Price;
-      reader.readMessage(value,types_pb.Price.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Price;
+      reader.readMessage(value,tdex_v1_types_pb.Price.deserializeBinaryFromReader);
       msg.setPrice(value);
       break;
     case 7:
-      var value = new types_pb.Balance;
-      reader.readMessage(value,types_pb.Balance.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Balance;
+      reader.readMessage(value,tdex_v1_types_pb.Balance.deserializeBinaryFromReader);
       msg.setBalance(value);
       break;
     default:
@@ -14391,9 +14714,9 @@ proto.MarketInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.MarketInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.MarketInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.MarketInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -14401,18 +14724,18 @@ proto.MarketInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.MarketInfo} message
+ * @param {!proto.tdex.daemon.v1.MarketInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.MarketInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getFee();
@@ -14420,7 +14743,7 @@ proto.MarketInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      types_pb.Fee.serializeBinaryToWriter
+      tdex_v1_types_pb.Fee.serializeBinaryToWriter
     );
   }
   f = message.getTradable();
@@ -14449,7 +14772,7 @@ proto.MarketInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       6,
       f,
-      types_pb.Price.serializeBinaryToWriter
+      tdex_v1_types_pb.Price.serializeBinaryToWriter
     );
   }
   f = message.getBalance();
@@ -14457,36 +14780,36 @@ proto.MarketInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       7,
       f,
-      types_pb.Balance.serializeBinaryToWriter
+      tdex_v1_types_pb.Balance.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.MarketInfo.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.MarketInfo.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.MarketInfo} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
 */
-proto.MarketInfo.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -14495,35 +14818,35 @@ proto.MarketInfo.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketInfo.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional Fee fee = 2;
- * @return {?proto.Fee}
+ * optional tdex.v1.Fee fee = 2;
+ * @return {?proto.tdex.v1.Fee}
  */
-proto.MarketInfo.prototype.getFee = function() {
-  return /** @type{?proto.Fee} */ (
-    jspb.Message.getWrapperField(this, types_pb.Fee, 2));
+proto.tdex.daemon.v1.MarketInfo.prototype.getFee = function() {
+  return /** @type{?proto.tdex.v1.Fee} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Fee, 2));
 };
 
 
 /**
- * @param {?proto.Fee|undefined} value
- * @return {!proto.MarketInfo} returns this
+ * @param {?proto.tdex.v1.Fee|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
 */
-proto.MarketInfo.prototype.setFee = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setFee = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.clearFee = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.clearFee = function() {
   return this.setFee(undefined);
 };
 
@@ -14532,7 +14855,7 @@ proto.MarketInfo.prototype.clearFee = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketInfo.prototype.hasFee = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.hasFee = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -14541,34 +14864,34 @@ proto.MarketInfo.prototype.hasFee = function() {
  * optional bool tradable = 3;
  * @return {boolean}
  */
-proto.MarketInfo.prototype.getTradable = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.getTradable = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
 };
 
 
 /**
  * @param {boolean} value
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.setTradable = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setTradable = function(value) {
   return jspb.Message.setProto3BooleanField(this, 3, value);
 };
 
 
 /**
  * optional StrategyType strategy_type = 4;
- * @return {!proto.StrategyType}
+ * @return {!proto.tdex.daemon.v1.StrategyType}
  */
-proto.MarketInfo.prototype.getStrategyType = function() {
-  return /** @type {!proto.StrategyType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+proto.tdex.daemon.v1.MarketInfo.prototype.getStrategyType = function() {
+  return /** @type {!proto.tdex.daemon.v1.StrategyType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
- * @param {!proto.StrategyType} value
- * @return {!proto.MarketInfo} returns this
+ * @param {!proto.tdex.daemon.v1.StrategyType} value
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.setStrategyType = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setStrategyType = function(value) {
   return jspb.Message.setProto3EnumField(this, 4, value);
 };
 
@@ -14577,44 +14900,44 @@ proto.MarketInfo.prototype.setStrategyType = function(value) {
  * optional uint64 account_index = 5;
  * @return {number}
  */
-proto.MarketInfo.prototype.getAccountIndex = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.getAccountIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.setAccountIndex = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setAccountIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
 /**
- * optional Price price = 6;
- * @return {?proto.Price}
+ * optional tdex.v1.Price price = 6;
+ * @return {?proto.tdex.v1.Price}
  */
-proto.MarketInfo.prototype.getPrice = function() {
-  return /** @type{?proto.Price} */ (
-    jspb.Message.getWrapperField(this, types_pb.Price, 6));
+proto.tdex.daemon.v1.MarketInfo.prototype.getPrice = function() {
+  return /** @type{?proto.tdex.v1.Price} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Price, 6));
 };
 
 
 /**
- * @param {?proto.Price|undefined} value
- * @return {!proto.MarketInfo} returns this
+ * @param {?proto.tdex.v1.Price|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
 */
-proto.MarketInfo.prototype.setPrice = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setPrice = function(value) {
   return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.clearPrice = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.clearPrice = function() {
   return this.setPrice(undefined);
 };
 
@@ -14623,35 +14946,35 @@ proto.MarketInfo.prototype.clearPrice = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketInfo.prototype.hasPrice = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.hasPrice = function() {
   return jspb.Message.getField(this, 6) != null;
 };
 
 
 /**
- * optional Balance balance = 7;
- * @return {?proto.Balance}
+ * optional tdex.v1.Balance balance = 7;
+ * @return {?proto.tdex.v1.Balance}
  */
-proto.MarketInfo.prototype.getBalance = function() {
-  return /** @type{?proto.Balance} */ (
-    jspb.Message.getWrapperField(this, types_pb.Balance, 7));
+proto.tdex.daemon.v1.MarketInfo.prototype.getBalance = function() {
+  return /** @type{?proto.tdex.v1.Balance} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Balance, 7));
 };
 
 
 /**
- * @param {?proto.Balance|undefined} value
- * @return {!proto.MarketInfo} returns this
+ * @param {?proto.tdex.v1.Balance|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
 */
-proto.MarketInfo.prototype.setBalance = function(value) {
+proto.tdex.daemon.v1.MarketInfo.prototype.setBalance = function(value) {
   return jspb.Message.setWrapperField(this, 7, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketInfo} returns this
+ * @return {!proto.tdex.daemon.v1.MarketInfo} returns this
  */
-proto.MarketInfo.prototype.clearBalance = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.clearBalance = function() {
   return this.setBalance(undefined);
 };
 
@@ -14660,7 +14983,7 @@ proto.MarketInfo.prototype.clearBalance = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketInfo.prototype.hasBalance = function() {
+proto.tdex.daemon.v1.MarketInfo.prototype.hasBalance = function() {
   return jspb.Message.getField(this, 7) != null;
 };
 
@@ -14681,8 +15004,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.UtxoInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.UtxoInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.UtxoInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.UtxoInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -14691,13 +15014,13 @@ proto.UtxoInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.UtxoInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.UtxoInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UtxoInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.UtxoInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    outpoint: (f = msg.getOutpoint()) && proto.TxOutpoint.toObject(includeInstance, f),
+    outpoint: (f = msg.getOutpoint()) && proto.tdex.daemon.v1.TxOutpoint.toObject(includeInstance, f),
     value: jspb.Message.getFieldWithDefault(msg, 2, 0),
     asset: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
@@ -14713,23 +15036,23 @@ proto.UtxoInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.UtxoInfo}
+ * @return {!proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.UtxoInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.UtxoInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.UtxoInfo;
-  return proto.UtxoInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.UtxoInfo;
+  return proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.UtxoInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.UtxoInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.UtxoInfo}
+ * @return {!proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.UtxoInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -14737,8 +15060,8 @@ proto.UtxoInfo.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.TxOutpoint;
-      reader.readMessage(value,proto.TxOutpoint.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TxOutpoint;
+      reader.readMessage(value,proto.tdex.daemon.v1.TxOutpoint.deserializeBinaryFromReader);
       msg.setOutpoint(value);
       break;
     case 2:
@@ -14762,9 +15085,9 @@ proto.UtxoInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.UtxoInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.UtxoInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.UtxoInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -14772,18 +15095,18 @@ proto.UtxoInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.UtxoInfo} message
+ * @param {!proto.tdex.daemon.v1.UtxoInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.UtxoInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOutpoint();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.TxOutpoint.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TxOutpoint.serializeBinaryToWriter
     );
   }
   f = message.getValue();
@@ -14805,28 +15128,28 @@ proto.UtxoInfo.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional TxOutpoint outpoint = 1;
- * @return {?proto.TxOutpoint}
+ * @return {?proto.tdex.daemon.v1.TxOutpoint}
  */
-proto.UtxoInfo.prototype.getOutpoint = function() {
-  return /** @type{?proto.TxOutpoint} */ (
-    jspb.Message.getWrapperField(this, proto.TxOutpoint, 1));
+proto.tdex.daemon.v1.UtxoInfo.prototype.getOutpoint = function() {
+  return /** @type{?proto.tdex.daemon.v1.TxOutpoint} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.TxOutpoint, 1));
 };
 
 
 /**
- * @param {?proto.TxOutpoint|undefined} value
- * @return {!proto.UtxoInfo} returns this
+ * @param {?proto.tdex.daemon.v1.TxOutpoint|undefined} value
+ * @return {!proto.tdex.daemon.v1.UtxoInfo} returns this
 */
-proto.UtxoInfo.prototype.setOutpoint = function(value) {
+proto.tdex.daemon.v1.UtxoInfo.prototype.setOutpoint = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.UtxoInfo} returns this
+ * @return {!proto.tdex.daemon.v1.UtxoInfo} returns this
  */
-proto.UtxoInfo.prototype.clearOutpoint = function() {
+proto.tdex.daemon.v1.UtxoInfo.prototype.clearOutpoint = function() {
   return this.setOutpoint(undefined);
 };
 
@@ -14835,7 +15158,7 @@ proto.UtxoInfo.prototype.clearOutpoint = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.UtxoInfo.prototype.hasOutpoint = function() {
+proto.tdex.daemon.v1.UtxoInfo.prototype.hasOutpoint = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -14844,16 +15167,16 @@ proto.UtxoInfo.prototype.hasOutpoint = function() {
  * optional uint64 value = 2;
  * @return {number}
  */
-proto.UtxoInfo.prototype.getValue = function() {
+proto.tdex.daemon.v1.UtxoInfo.prototype.getValue = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.UtxoInfo} returns this
+ * @return {!proto.tdex.daemon.v1.UtxoInfo} returns this
  */
-proto.UtxoInfo.prototype.setValue = function(value) {
+proto.tdex.daemon.v1.UtxoInfo.prototype.setValue = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -14862,16 +15185,16 @@ proto.UtxoInfo.prototype.setValue = function(value) {
  * optional string asset = 3;
  * @return {string}
  */
-proto.UtxoInfo.prototype.getAsset = function() {
+proto.tdex.daemon.v1.UtxoInfo.prototype.getAsset = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.UtxoInfo} returns this
+ * @return {!proto.tdex.daemon.v1.UtxoInfo} returns this
  */
-proto.UtxoInfo.prototype.setAsset = function(value) {
+proto.tdex.daemon.v1.UtxoInfo.prototype.setAsset = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -14892,8 +15215,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.TradeStatusInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.TradeStatusInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.TradeStatusInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -14902,11 +15225,11 @@ proto.TradeStatusInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.TradeStatusInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.TradeStatusInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradeStatusInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.TradeStatusInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     status: jspb.Message.getFieldWithDefault(msg, 1, 0),
     failed: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
@@ -14923,23 +15246,23 @@ proto.TradeStatusInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.TradeStatusInfo}
+ * @return {!proto.tdex.daemon.v1.TradeStatusInfo}
  */
-proto.TradeStatusInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.TradeStatusInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.TradeStatusInfo;
-  return proto.TradeStatusInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.TradeStatusInfo;
+  return proto.tdex.daemon.v1.TradeStatusInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.TradeStatusInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.TradeStatusInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.TradeStatusInfo}
+ * @return {!proto.tdex.daemon.v1.TradeStatusInfo}
  */
-proto.TradeStatusInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.TradeStatusInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -14947,7 +15270,7 @@ proto.TradeStatusInfo.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!proto.TradeStatus} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.TradeStatus} */ (reader.readEnum());
       msg.setStatus(value);
       break;
     case 2:
@@ -14967,9 +15290,9 @@ proto.TradeStatusInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.TradeStatusInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.TradeStatusInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.TradeStatusInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -14977,11 +15300,11 @@ proto.TradeStatusInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.TradeStatusInfo} message
+ * @param {!proto.tdex.daemon.v1.TradeStatusInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradeStatusInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.TradeStatusInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getStatus();
   if (f !== 0.0) {
@@ -15002,18 +15325,18 @@ proto.TradeStatusInfo.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional TradeStatus status = 1;
- * @return {!proto.TradeStatus}
+ * @return {!proto.tdex.daemon.v1.TradeStatus}
  */
-proto.TradeStatusInfo.prototype.getStatus = function() {
-  return /** @type {!proto.TradeStatus} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.getStatus = function() {
+  return /** @type {!proto.tdex.daemon.v1.TradeStatus} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * @param {!proto.TradeStatus} value
- * @return {!proto.TradeStatusInfo} returns this
+ * @param {!proto.tdex.daemon.v1.TradeStatus} value
+ * @return {!proto.tdex.daemon.v1.TradeStatusInfo} returns this
  */
-proto.TradeStatusInfo.prototype.setStatus = function(value) {
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.setStatus = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
@@ -15022,16 +15345,16 @@ proto.TradeStatusInfo.prototype.setStatus = function(value) {
  * optional bool failed = 2;
  * @return {boolean}
  */
-proto.TradeStatusInfo.prototype.getFailed = function() {
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.getFailed = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
 };
 
 
 /**
  * @param {boolean} value
- * @return {!proto.TradeStatusInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeStatusInfo} returns this
  */
-proto.TradeStatusInfo.prototype.setFailed = function(value) {
+proto.tdex.daemon.v1.TradeStatusInfo.prototype.setFailed = function(value) {
   return jspb.Message.setProto3BooleanField(this, 2, value);
 };
 
@@ -15052,8 +15375,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.SwapInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.SwapInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.SwapInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.SwapInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -15062,11 +15385,11 @@ proto.SwapInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.SwapInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.SwapInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.SwapInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.SwapInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     amountP: jspb.Message.getFieldWithDefault(msg, 1, 0),
     assetP: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -15085,23 +15408,23 @@ proto.SwapInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.SwapInfo}
+ * @return {!proto.tdex.daemon.v1.SwapInfo}
  */
-proto.SwapInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.SwapInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.SwapInfo;
-  return proto.SwapInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.SwapInfo;
+  return proto.tdex.daemon.v1.SwapInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.SwapInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.SwapInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.SwapInfo}
+ * @return {!proto.tdex.daemon.v1.SwapInfo}
  */
-proto.SwapInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.SwapInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -15137,9 +15460,9 @@ proto.SwapInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.SwapInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.SwapInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.SwapInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.SwapInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -15147,11 +15470,11 @@ proto.SwapInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.SwapInfo} message
+ * @param {!proto.tdex.daemon.v1.SwapInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.SwapInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.SwapInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAmountP();
   if (f !== 0) {
@@ -15188,16 +15511,16 @@ proto.SwapInfo.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 amount_p = 1;
  * @return {number}
  */
-proto.SwapInfo.prototype.getAmountP = function() {
+proto.tdex.daemon.v1.SwapInfo.prototype.getAmountP = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.SwapInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapInfo} returns this
  */
-proto.SwapInfo.prototype.setAmountP = function(value) {
+proto.tdex.daemon.v1.SwapInfo.prototype.setAmountP = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -15206,16 +15529,16 @@ proto.SwapInfo.prototype.setAmountP = function(value) {
  * optional string asset_p = 2;
  * @return {string}
  */
-proto.SwapInfo.prototype.getAssetP = function() {
+proto.tdex.daemon.v1.SwapInfo.prototype.getAssetP = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.SwapInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapInfo} returns this
  */
-proto.SwapInfo.prototype.setAssetP = function(value) {
+proto.tdex.daemon.v1.SwapInfo.prototype.setAssetP = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -15224,16 +15547,16 @@ proto.SwapInfo.prototype.setAssetP = function(value) {
  * optional uint64 amount_r = 3;
  * @return {number}
  */
-proto.SwapInfo.prototype.getAmountR = function() {
+proto.tdex.daemon.v1.SwapInfo.prototype.getAmountR = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.SwapInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapInfo} returns this
  */
-proto.SwapInfo.prototype.setAmountR = function(value) {
+proto.tdex.daemon.v1.SwapInfo.prototype.setAmountR = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -15242,16 +15565,16 @@ proto.SwapInfo.prototype.setAmountR = function(value) {
  * optional string asset_r = 4;
  * @return {string}
  */
-proto.SwapInfo.prototype.getAssetR = function() {
+proto.tdex.daemon.v1.SwapInfo.prototype.getAssetR = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.SwapInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapInfo} returns this
  */
-proto.SwapInfo.prototype.setAssetR = function(value) {
+proto.tdex.daemon.v1.SwapInfo.prototype.setAssetR = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -15272,8 +15595,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.SwapFailInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.SwapFailInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.SwapFailInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.SwapFailInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -15282,11 +15605,11 @@ proto.SwapFailInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.SwapFailInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.SwapFailInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.SwapFailInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.SwapFailInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     failureCode: jspb.Message.getFieldWithDefault(msg, 1, 0),
     failureMessage: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -15303,23 +15626,23 @@ proto.SwapFailInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.SwapFailInfo}
+ * @return {!proto.tdex.daemon.v1.SwapFailInfo}
  */
-proto.SwapFailInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.SwapFailInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.SwapFailInfo;
-  return proto.SwapFailInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.SwapFailInfo;
+  return proto.tdex.daemon.v1.SwapFailInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.SwapFailInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.SwapFailInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.SwapFailInfo}
+ * @return {!proto.tdex.daemon.v1.SwapFailInfo}
  */
-proto.SwapFailInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.SwapFailInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -15347,9 +15670,9 @@ proto.SwapFailInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.SwapFailInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.SwapFailInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.SwapFailInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.SwapFailInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -15357,11 +15680,11 @@ proto.SwapFailInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.SwapFailInfo} message
+ * @param {!proto.tdex.daemon.v1.SwapFailInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.SwapFailInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.SwapFailInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getFailureCode();
   if (f !== 0) {
@@ -15384,16 +15707,16 @@ proto.SwapFailInfo.serializeBinaryToWriter = function(message, writer) {
  * optional uint32 failure_code = 1;
  * @return {number}
  */
-proto.SwapFailInfo.prototype.getFailureCode = function() {
+proto.tdex.daemon.v1.SwapFailInfo.prototype.getFailureCode = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.SwapFailInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapFailInfo} returns this
  */
-proto.SwapFailInfo.prototype.setFailureCode = function(value) {
+proto.tdex.daemon.v1.SwapFailInfo.prototype.setFailureCode = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -15402,16 +15725,16 @@ proto.SwapFailInfo.prototype.setFailureCode = function(value) {
  * optional string failure_message = 2;
  * @return {string}
  */
-proto.SwapFailInfo.prototype.getFailureMessage = function() {
+proto.tdex.daemon.v1.SwapFailInfo.prototype.getFailureMessage = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.SwapFailInfo} returns this
+ * @return {!proto.tdex.daemon.v1.SwapFailInfo} returns this
  */
-proto.SwapFailInfo.prototype.setFailureMessage = function(value) {
+proto.tdex.daemon.v1.SwapFailInfo.prototype.setFailureMessage = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -15432,8 +15755,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.TradeInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.TradeInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.TradeInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.TradeInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -15442,18 +15765,18 @@ proto.TradeInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.TradeInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.TradeInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradeInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.TradeInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     tradeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    status: (f = msg.getStatus()) && proto.TradeStatusInfo.toObject(includeInstance, f),
-    swapInfo: (f = msg.getSwapInfo()) && proto.SwapInfo.toObject(includeInstance, f),
-    failInfo: (f = msg.getFailInfo()) && proto.SwapFailInfo.toObject(includeInstance, f),
-    marketWithFee: (f = msg.getMarketWithFee()) && types_pb.MarketWithFee.toObject(includeInstance, f),
-    price: (f = msg.getPrice()) && proto.TradePrice.toObject(includeInstance, f),
+    status: (f = msg.getStatus()) && proto.tdex.daemon.v1.TradeStatusInfo.toObject(includeInstance, f),
+    swapInfo: (f = msg.getSwapInfo()) && proto.tdex.daemon.v1.SwapInfo.toObject(includeInstance, f),
+    failInfo: (f = msg.getFailInfo()) && proto.tdex.daemon.v1.SwapFailInfo.toObject(includeInstance, f),
+    marketWithFee: (f = msg.getMarketWithFee()) && tdex_v1_types_pb.MarketWithFee.toObject(includeInstance, f),
+    price: (f = msg.getPrice()) && proto.tdex.daemon.v1.TradePrice.toObject(includeInstance, f),
     txUrl: jspb.Message.getFieldWithDefault(msg, 7, ""),
     requestTimeUnix: jspb.Message.getFieldWithDefault(msg, 8, 0),
     acceptTimeUnix: jspb.Message.getFieldWithDefault(msg, 9, 0),
@@ -15478,23 +15801,23 @@ proto.TradeInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.TradeInfo}
+ * @return {!proto.tdex.daemon.v1.TradeInfo}
  */
-proto.TradeInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.TradeInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.TradeInfo;
-  return proto.TradeInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.TradeInfo;
+  return proto.tdex.daemon.v1.TradeInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.TradeInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.TradeInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.TradeInfo}
+ * @return {!proto.tdex.daemon.v1.TradeInfo}
  */
-proto.TradeInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.TradeInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -15506,28 +15829,28 @@ proto.TradeInfo.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTradeId(value);
       break;
     case 2:
-      var value = new proto.TradeStatusInfo;
-      reader.readMessage(value,proto.TradeStatusInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TradeStatusInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.TradeStatusInfo.deserializeBinaryFromReader);
       msg.setStatus(value);
       break;
     case 3:
-      var value = new proto.SwapInfo;
-      reader.readMessage(value,proto.SwapInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.SwapInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.SwapInfo.deserializeBinaryFromReader);
       msg.setSwapInfo(value);
       break;
     case 4:
-      var value = new proto.SwapFailInfo;
-      reader.readMessage(value,proto.SwapFailInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.SwapFailInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.SwapFailInfo.deserializeBinaryFromReader);
       msg.setFailInfo(value);
       break;
     case 5:
-      var value = new types_pb.MarketWithFee;
-      reader.readMessage(value,types_pb.MarketWithFee.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.MarketWithFee;
+      reader.readMessage(value,tdex_v1_types_pb.MarketWithFee.deserializeBinaryFromReader);
       msg.setMarketWithFee(value);
       break;
     case 6:
-      var value = new proto.TradePrice;
-      reader.readMessage(value,proto.TradePrice.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TradePrice;
+      reader.readMessage(value,proto.tdex.daemon.v1.TradePrice.deserializeBinaryFromReader);
       msg.setPrice(value);
       break;
     case 7:
@@ -15587,9 +15910,9 @@ proto.TradeInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.TradeInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.TradeInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.TradeInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -15597,11 +15920,11 @@ proto.TradeInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.TradeInfo} message
+ * @param {!proto.tdex.daemon.v1.TradeInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.TradeInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTradeId();
   if (f.length > 0) {
@@ -15615,7 +15938,7 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.TradeStatusInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TradeStatusInfo.serializeBinaryToWriter
     );
   }
   f = message.getSwapInfo();
@@ -15623,7 +15946,7 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       3,
       f,
-      proto.SwapInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.SwapInfo.serializeBinaryToWriter
     );
   }
   f = message.getFailInfo();
@@ -15631,7 +15954,7 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       4,
       f,
-      proto.SwapFailInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.SwapFailInfo.serializeBinaryToWriter
     );
   }
   f = message.getMarketWithFee();
@@ -15639,7 +15962,7 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       5,
       f,
-      types_pb.MarketWithFee.serializeBinaryToWriter
+      tdex_v1_types_pb.MarketWithFee.serializeBinaryToWriter
     );
   }
   f = message.getPrice();
@@ -15647,7 +15970,7 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       6,
       f,
-      proto.TradePrice.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TradePrice.serializeBinaryToWriter
     );
   }
   f = message.getTxUrl();
@@ -15734,44 +16057,44 @@ proto.TradeInfo.serializeBinaryToWriter = function(message, writer) {
  * optional string trade_id = 1;
  * @return {string}
  */
-proto.TradeInfo.prototype.getTradeId = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getTradeId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setTradeId = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setTradeId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
  * optional TradeStatusInfo status = 2;
- * @return {?proto.TradeStatusInfo}
+ * @return {?proto.tdex.daemon.v1.TradeStatusInfo}
  */
-proto.TradeInfo.prototype.getStatus = function() {
-  return /** @type{?proto.TradeStatusInfo} */ (
-    jspb.Message.getWrapperField(this, proto.TradeStatusInfo, 2));
+proto.tdex.daemon.v1.TradeInfo.prototype.getStatus = function() {
+  return /** @type{?proto.tdex.daemon.v1.TradeStatusInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.TradeStatusInfo, 2));
 };
 
 
 /**
- * @param {?proto.TradeStatusInfo|undefined} value
- * @return {!proto.TradeInfo} returns this
+ * @param {?proto.tdex.daemon.v1.TradeStatusInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
 */
-proto.TradeInfo.prototype.setStatus = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setStatus = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.clearStatus = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.clearStatus = function() {
   return this.setStatus(undefined);
 };
 
@@ -15780,35 +16103,35 @@ proto.TradeInfo.prototype.clearStatus = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TradeInfo.prototype.hasStatus = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.hasStatus = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
  * optional SwapInfo swap_info = 3;
- * @return {?proto.SwapInfo}
+ * @return {?proto.tdex.daemon.v1.SwapInfo}
  */
-proto.TradeInfo.prototype.getSwapInfo = function() {
-  return /** @type{?proto.SwapInfo} */ (
-    jspb.Message.getWrapperField(this, proto.SwapInfo, 3));
+proto.tdex.daemon.v1.TradeInfo.prototype.getSwapInfo = function() {
+  return /** @type{?proto.tdex.daemon.v1.SwapInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.SwapInfo, 3));
 };
 
 
 /**
- * @param {?proto.SwapInfo|undefined} value
- * @return {!proto.TradeInfo} returns this
+ * @param {?proto.tdex.daemon.v1.SwapInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
 */
-proto.TradeInfo.prototype.setSwapInfo = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setSwapInfo = function(value) {
   return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.clearSwapInfo = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.clearSwapInfo = function() {
   return this.setSwapInfo(undefined);
 };
 
@@ -15817,35 +16140,35 @@ proto.TradeInfo.prototype.clearSwapInfo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TradeInfo.prototype.hasSwapInfo = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.hasSwapInfo = function() {
   return jspb.Message.getField(this, 3) != null;
 };
 
 
 /**
  * optional SwapFailInfo fail_info = 4;
- * @return {?proto.SwapFailInfo}
+ * @return {?proto.tdex.daemon.v1.SwapFailInfo}
  */
-proto.TradeInfo.prototype.getFailInfo = function() {
-  return /** @type{?proto.SwapFailInfo} */ (
-    jspb.Message.getWrapperField(this, proto.SwapFailInfo, 4));
+proto.tdex.daemon.v1.TradeInfo.prototype.getFailInfo = function() {
+  return /** @type{?proto.tdex.daemon.v1.SwapFailInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.SwapFailInfo, 4));
 };
 
 
 /**
- * @param {?proto.SwapFailInfo|undefined} value
- * @return {!proto.TradeInfo} returns this
+ * @param {?proto.tdex.daemon.v1.SwapFailInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
 */
-proto.TradeInfo.prototype.setFailInfo = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setFailInfo = function(value) {
   return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.clearFailInfo = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.clearFailInfo = function() {
   return this.setFailInfo(undefined);
 };
 
@@ -15854,35 +16177,35 @@ proto.TradeInfo.prototype.clearFailInfo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TradeInfo.prototype.hasFailInfo = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.hasFailInfo = function() {
   return jspb.Message.getField(this, 4) != null;
 };
 
 
 /**
- * optional MarketWithFee market_with_fee = 5;
- * @return {?proto.MarketWithFee}
+ * optional tdex.v1.MarketWithFee market_with_fee = 5;
+ * @return {?proto.tdex.v1.MarketWithFee}
  */
-proto.TradeInfo.prototype.getMarketWithFee = function() {
-  return /** @type{?proto.MarketWithFee} */ (
-    jspb.Message.getWrapperField(this, types_pb.MarketWithFee, 5));
+proto.tdex.daemon.v1.TradeInfo.prototype.getMarketWithFee = function() {
+  return /** @type{?proto.tdex.v1.MarketWithFee} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.MarketWithFee, 5));
 };
 
 
 /**
- * @param {?proto.MarketWithFee|undefined} value
- * @return {!proto.TradeInfo} returns this
+ * @param {?proto.tdex.v1.MarketWithFee|undefined} value
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
 */
-proto.TradeInfo.prototype.setMarketWithFee = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setMarketWithFee = function(value) {
   return jspb.Message.setWrapperField(this, 5, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.clearMarketWithFee = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.clearMarketWithFee = function() {
   return this.setMarketWithFee(undefined);
 };
 
@@ -15891,35 +16214,35 @@ proto.TradeInfo.prototype.clearMarketWithFee = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TradeInfo.prototype.hasMarketWithFee = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.hasMarketWithFee = function() {
   return jspb.Message.getField(this, 5) != null;
 };
 
 
 /**
  * optional TradePrice price = 6;
- * @return {?proto.TradePrice}
+ * @return {?proto.tdex.daemon.v1.TradePrice}
  */
-proto.TradeInfo.prototype.getPrice = function() {
-  return /** @type{?proto.TradePrice} */ (
-    jspb.Message.getWrapperField(this, proto.TradePrice, 6));
+proto.tdex.daemon.v1.TradeInfo.prototype.getPrice = function() {
+  return /** @type{?proto.tdex.daemon.v1.TradePrice} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.TradePrice, 6));
 };
 
 
 /**
- * @param {?proto.TradePrice|undefined} value
- * @return {!proto.TradeInfo} returns this
+ * @param {?proto.tdex.daemon.v1.TradePrice|undefined} value
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
 */
-proto.TradeInfo.prototype.setPrice = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setPrice = function(value) {
   return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.clearPrice = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.clearPrice = function() {
   return this.setPrice(undefined);
 };
 
@@ -15928,7 +16251,7 @@ proto.TradeInfo.prototype.clearPrice = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TradeInfo.prototype.hasPrice = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.hasPrice = function() {
   return jspb.Message.getField(this, 6) != null;
 };
 
@@ -15937,16 +16260,16 @@ proto.TradeInfo.prototype.hasPrice = function() {
  * optional string tx_url = 7;
  * @return {string}
  */
-proto.TradeInfo.prototype.getTxUrl = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getTxUrl = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setTxUrl = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setTxUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -15955,16 +16278,16 @@ proto.TradeInfo.prototype.setTxUrl = function(value) {
  * optional uint64 request_time_unix = 8;
  * @return {number}
  */
-proto.TradeInfo.prototype.getRequestTimeUnix = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getRequestTimeUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setRequestTimeUnix = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setRequestTimeUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 8, value);
 };
 
@@ -15973,16 +16296,16 @@ proto.TradeInfo.prototype.setRequestTimeUnix = function(value) {
  * optional uint64 accept_time_unix = 9;
  * @return {number}
  */
-proto.TradeInfo.prototype.getAcceptTimeUnix = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getAcceptTimeUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setAcceptTimeUnix = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setAcceptTimeUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 9, value);
 };
 
@@ -15991,16 +16314,16 @@ proto.TradeInfo.prototype.setAcceptTimeUnix = function(value) {
  * optional uint64 complete_time_unix = 10;
  * @return {number}
  */
-proto.TradeInfo.prototype.getCompleteTimeUnix = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getCompleteTimeUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setCompleteTimeUnix = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setCompleteTimeUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 10, value);
 };
 
@@ -16009,16 +16332,16 @@ proto.TradeInfo.prototype.setCompleteTimeUnix = function(value) {
  * optional uint64 settle_time_unix = 11;
  * @return {number}
  */
-proto.TradeInfo.prototype.getSettleTimeUnix = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getSettleTimeUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setSettleTimeUnix = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setSettleTimeUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 11, value);
 };
 
@@ -16027,16 +16350,16 @@ proto.TradeInfo.prototype.setSettleTimeUnix = function(value) {
  * optional uint64 expiry_time_unix = 12;
  * @return {number}
  */
-proto.TradeInfo.prototype.getExpiryTimeUnix = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getExpiryTimeUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setExpiryTimeUnix = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setExpiryTimeUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 12, value);
 };
 
@@ -16045,16 +16368,16 @@ proto.TradeInfo.prototype.setExpiryTimeUnix = function(value) {
  * optional string request_time_utc = 13;
  * @return {string}
  */
-proto.TradeInfo.prototype.getRequestTimeUtc = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getRequestTimeUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setRequestTimeUtc = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setRequestTimeUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 13, value);
 };
 
@@ -16063,16 +16386,16 @@ proto.TradeInfo.prototype.setRequestTimeUtc = function(value) {
  * optional string accept_time_utc = 14;
  * @return {string}
  */
-proto.TradeInfo.prototype.getAcceptTimeUtc = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getAcceptTimeUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setAcceptTimeUtc = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setAcceptTimeUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 14, value);
 };
 
@@ -16081,16 +16404,16 @@ proto.TradeInfo.prototype.setAcceptTimeUtc = function(value) {
  * optional string complete_time_utc = 15;
  * @return {string}
  */
-proto.TradeInfo.prototype.getCompleteTimeUtc = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getCompleteTimeUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setCompleteTimeUtc = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setCompleteTimeUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 15, value);
 };
 
@@ -16099,16 +16422,16 @@ proto.TradeInfo.prototype.setCompleteTimeUtc = function(value) {
  * optional string settle_time_utc = 16;
  * @return {string}
  */
-proto.TradeInfo.prototype.getSettleTimeUtc = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getSettleTimeUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 16, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setSettleTimeUtc = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setSettleTimeUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 16, value);
 };
 
@@ -16117,16 +16440,16 @@ proto.TradeInfo.prototype.setSettleTimeUtc = function(value) {
  * optional string expiry_time_utc = 17;
  * @return {string}
  */
-proto.TradeInfo.prototype.getExpiryTimeUtc = function() {
+proto.tdex.daemon.v1.TradeInfo.prototype.getExpiryTimeUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 17, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TradeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.TradeInfo} returns this
  */
-proto.TradeInfo.prototype.setExpiryTimeUtc = function(value) {
+proto.tdex.daemon.v1.TradeInfo.prototype.setExpiryTimeUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 17, value);
 };
 
@@ -16147,8 +16470,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.FeeInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.FeeInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.FeeInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.FeeInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -16157,11 +16480,11 @@ proto.FeeInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.FeeInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.FeeInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FeeInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.FeeInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     tradeId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     basisPoint: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -16182,23 +16505,23 @@ proto.FeeInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.FeeInfo}
+ * @return {!proto.tdex.daemon.v1.FeeInfo}
  */
-proto.FeeInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.FeeInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.FeeInfo;
-  return proto.FeeInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.FeeInfo;
+  return proto.tdex.daemon.v1.FeeInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.FeeInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.FeeInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.FeeInfo}
+ * @return {!proto.tdex.daemon.v1.FeeInfo}
  */
-proto.FeeInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.FeeInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -16242,9 +16565,9 @@ proto.FeeInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.FeeInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.FeeInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.FeeInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -16252,11 +16575,11 @@ proto.FeeInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.FeeInfo} message
+ * @param {!proto.tdex.daemon.v1.FeeInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.FeeInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.FeeInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTradeId();
   if (f.length > 0) {
@@ -16307,16 +16630,16 @@ proto.FeeInfo.serializeBinaryToWriter = function(message, writer) {
  * optional string trade_id = 1;
  * @return {string}
  */
-proto.FeeInfo.prototype.getTradeId = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getTradeId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setTradeId = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setTradeId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -16325,16 +16648,16 @@ proto.FeeInfo.prototype.setTradeId = function(value) {
  * optional int64 basis_point = 2;
  * @return {number}
  */
-proto.FeeInfo.prototype.getBasisPoint = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getBasisPoint = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setBasisPoint = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setBasisPoint = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -16343,16 +16666,16 @@ proto.FeeInfo.prototype.setBasisPoint = function(value) {
  * optional string asset = 3;
  * @return {string}
  */
-proto.FeeInfo.prototype.getAsset = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getAsset = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setAsset = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setAsset = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -16361,16 +16684,16 @@ proto.FeeInfo.prototype.setAsset = function(value) {
  * optional uint64 percentage_fee_amount = 4;
  * @return {number}
  */
-proto.FeeInfo.prototype.getPercentageFeeAmount = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getPercentageFeeAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setPercentageFeeAmount = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setPercentageFeeAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -16379,16 +16702,16 @@ proto.FeeInfo.prototype.setPercentageFeeAmount = function(value) {
  * optional uint64 fixed_fee_amount = 5;
  * @return {number}
  */
-proto.FeeInfo.prototype.getFixedFeeAmount = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getFixedFeeAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setFixedFeeAmount = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setFixedFeeAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
 };
 
@@ -16397,16 +16720,16 @@ proto.FeeInfo.prototype.setFixedFeeAmount = function(value) {
  * optional float market_price = 6;
  * @return {number}
  */
-proto.FeeInfo.prototype.getMarketPrice = function() {
+proto.tdex.daemon.v1.FeeInfo.prototype.getMarketPrice = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 6, 0.0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.FeeInfo} returns this
+ * @return {!proto.tdex.daemon.v1.FeeInfo} returns this
  */
-proto.FeeInfo.prototype.setMarketPrice = function(value) {
+proto.tdex.daemon.v1.FeeInfo.prototype.setMarketPrice = function(value) {
   return jspb.Message.setProto3FloatField(this, 6, value);
 };
 
@@ -16427,8 +16750,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.TxOutpoint.prototype.toObject = function(opt_includeInstance) {
-  return proto.TxOutpoint.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.TxOutpoint.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.TxOutpoint.toObject(opt_includeInstance, this);
 };
 
 
@@ -16437,11 +16760,11 @@ proto.TxOutpoint.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.TxOutpoint} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.TxOutpoint} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TxOutpoint.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.TxOutpoint.toObject = function(includeInstance, msg) {
   var f, obj = {
     hash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     index: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -16458,23 +16781,23 @@ proto.TxOutpoint.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.TxOutpoint}
+ * @return {!proto.tdex.daemon.v1.TxOutpoint}
  */
-proto.TxOutpoint.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.TxOutpoint.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.TxOutpoint;
-  return proto.TxOutpoint.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.TxOutpoint;
+  return proto.tdex.daemon.v1.TxOutpoint.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.TxOutpoint} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.TxOutpoint} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.TxOutpoint}
+ * @return {!proto.tdex.daemon.v1.TxOutpoint}
  */
-proto.TxOutpoint.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.TxOutpoint.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -16502,9 +16825,9 @@ proto.TxOutpoint.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.TxOutpoint.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.TxOutpoint.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.TxOutpoint.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.TxOutpoint.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -16512,11 +16835,11 @@ proto.TxOutpoint.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.TxOutpoint} message
+ * @param {!proto.tdex.daemon.v1.TxOutpoint} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TxOutpoint.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.TxOutpoint.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHash();
   if (f.length > 0) {
@@ -16539,16 +16862,16 @@ proto.TxOutpoint.serializeBinaryToWriter = function(message, writer) {
  * optional string hash = 1;
  * @return {string}
  */
-proto.TxOutpoint.prototype.getHash = function() {
+proto.tdex.daemon.v1.TxOutpoint.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.TxOutpoint} returns this
+ * @return {!proto.tdex.daemon.v1.TxOutpoint} returns this
  */
-proto.TxOutpoint.prototype.setHash = function(value) {
+proto.tdex.daemon.v1.TxOutpoint.prototype.setHash = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -16557,16 +16880,16 @@ proto.TxOutpoint.prototype.setHash = function(value) {
  * optional int32 index = 2;
  * @return {number}
  */
-proto.TxOutpoint.prototype.getIndex = function() {
+proto.tdex.daemon.v1.TxOutpoint.prototype.getIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TxOutpoint} returns this
+ * @return {!proto.tdex.daemon.v1.TxOutpoint} returns this
  */
-proto.TxOutpoint.prototype.setIndex = function(value) {
+proto.tdex.daemon.v1.TxOutpoint.prototype.setIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -16587,8 +16910,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.TradePrice.prototype.toObject = function(opt_includeInstance) {
-  return proto.TradePrice.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.TradePrice.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.TradePrice.toObject(opt_includeInstance, this);
 };
 
 
@@ -16597,11 +16920,11 @@ proto.TradePrice.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.TradePrice} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.TradePrice} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradePrice.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.TradePrice.toObject = function(includeInstance, msg) {
   var f, obj = {
     basePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 1, 0.0),
     quotePrice: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0)
@@ -16618,23 +16941,23 @@ proto.TradePrice.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.TradePrice}
+ * @return {!proto.tdex.daemon.v1.TradePrice}
  */
-proto.TradePrice.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.TradePrice.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.TradePrice;
-  return proto.TradePrice.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.TradePrice;
+  return proto.tdex.daemon.v1.TradePrice.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.TradePrice} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.TradePrice} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.TradePrice}
+ * @return {!proto.tdex.daemon.v1.TradePrice}
  */
-proto.TradePrice.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.TradePrice.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -16662,9 +16985,9 @@ proto.TradePrice.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.TradePrice.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.TradePrice.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.TradePrice.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.TradePrice.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -16672,11 +16995,11 @@ proto.TradePrice.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.TradePrice} message
+ * @param {!proto.tdex.daemon.v1.TradePrice} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TradePrice.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.TradePrice.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBasePrice();
   if (f !== 0.0) {
@@ -16699,16 +17022,16 @@ proto.TradePrice.serializeBinaryToWriter = function(message, writer) {
  * optional double base_price = 1;
  * @return {number}
  */
-proto.TradePrice.prototype.getBasePrice = function() {
+proto.tdex.daemon.v1.TradePrice.prototype.getBasePrice = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 1, 0.0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradePrice} returns this
+ * @return {!proto.tdex.daemon.v1.TradePrice} returns this
  */
-proto.TradePrice.prototype.setBasePrice = function(value) {
+proto.tdex.daemon.v1.TradePrice.prototype.setBasePrice = function(value) {
   return jspb.Message.setProto3FloatField(this, 1, value);
 };
 
@@ -16717,16 +17040,16 @@ proto.TradePrice.prototype.setBasePrice = function(value) {
  * optional double quote_price = 2;
  * @return {number}
  */
-proto.TradePrice.prototype.getQuotePrice = function() {
+proto.tdex.daemon.v1.TradePrice.prototype.getQuotePrice = function() {
   return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 2, 0.0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.TradePrice} returns this
+ * @return {!proto.tdex.daemon.v1.TradePrice} returns this
  */
-proto.TradePrice.prototype.setQuotePrice = function(value) {
+proto.tdex.daemon.v1.TradePrice.prototype.setQuotePrice = function(value) {
   return jspb.Message.setProto3FloatField(this, 2, value);
 };
 
@@ -16747,8 +17070,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.WebhookInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.WebhookInfo.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.WebhookInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.WebhookInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -16757,11 +17080,11 @@ proto.WebhookInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.WebhookInfo} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.WebhookInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WebhookInfo.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.WebhookInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     endpoint: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -16779,23 +17102,23 @@ proto.WebhookInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.WebhookInfo}
+ * @return {!proto.tdex.daemon.v1.WebhookInfo}
  */
-proto.WebhookInfo.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.WebhookInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.WebhookInfo;
-  return proto.WebhookInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.WebhookInfo;
+  return proto.tdex.daemon.v1.WebhookInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.WebhookInfo} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.WebhookInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.WebhookInfo}
+ * @return {!proto.tdex.daemon.v1.WebhookInfo}
  */
-proto.WebhookInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.WebhookInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -16827,9 +17150,9 @@ proto.WebhookInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.WebhookInfo.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.WebhookInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.WebhookInfo.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.WebhookInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -16837,11 +17160,11 @@ proto.WebhookInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.WebhookInfo} message
+ * @param {!proto.tdex.daemon.v1.WebhookInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.WebhookInfo.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.WebhookInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getId();
   if (f.length > 0) {
@@ -16871,16 +17194,16 @@ proto.WebhookInfo.serializeBinaryToWriter = function(message, writer) {
  * optional string id = 1;
  * @return {string}
  */
-proto.WebhookInfo.prototype.getId = function() {
+proto.tdex.daemon.v1.WebhookInfo.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WebhookInfo} returns this
+ * @return {!proto.tdex.daemon.v1.WebhookInfo} returns this
  */
-proto.WebhookInfo.prototype.setId = function(value) {
+proto.tdex.daemon.v1.WebhookInfo.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -16889,16 +17212,16 @@ proto.WebhookInfo.prototype.setId = function(value) {
  * optional string endpoint = 2;
  * @return {string}
  */
-proto.WebhookInfo.prototype.getEndpoint = function() {
+proto.tdex.daemon.v1.WebhookInfo.prototype.getEndpoint = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.WebhookInfo} returns this
+ * @return {!proto.tdex.daemon.v1.WebhookInfo} returns this
  */
-proto.WebhookInfo.prototype.setEndpoint = function(value) {
+proto.tdex.daemon.v1.WebhookInfo.prototype.setEndpoint = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -16907,16 +17230,16 @@ proto.WebhookInfo.prototype.setEndpoint = function(value) {
  * optional bool is_secured = 3;
  * @return {boolean}
  */
-proto.WebhookInfo.prototype.getIsSecured = function() {
+proto.tdex.daemon.v1.WebhookInfo.prototype.getIsSecured = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
 };
 
 
 /**
  * @param {boolean} value
- * @return {!proto.WebhookInfo} returns this
+ * @return {!proto.tdex.daemon.v1.WebhookInfo} returns this
  */
-proto.WebhookInfo.prototype.setIsSecured = function(value) {
+proto.tdex.daemon.v1.WebhookInfo.prototype.setIsSecured = function(value) {
   return jspb.Message.setProto3BooleanField(this, 3, value);
 };
 
@@ -16937,8 +17260,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.Deposit.prototype.toObject = function(opt_includeInstance) {
-  return proto.Deposit.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.Deposit.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.Deposit.toObject(opt_includeInstance, this);
 };
 
 
@@ -16947,13 +17270,13 @@ proto.Deposit.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.Deposit} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.Deposit} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Deposit.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.Deposit.toObject = function(includeInstance, msg) {
   var f, obj = {
-    utxo: (f = msg.getUtxo()) && proto.UtxoInfo.toObject(includeInstance, f),
+    utxo: (f = msg.getUtxo()) && proto.tdex.daemon.v1.UtxoInfo.toObject(includeInstance, f),
     timestampUnix: jspb.Message.getFieldWithDefault(msg, 2, 0),
     timestampUtc: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
@@ -16969,23 +17292,23 @@ proto.Deposit.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.Deposit}
+ * @return {!proto.tdex.daemon.v1.Deposit}
  */
-proto.Deposit.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.Deposit.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.Deposit;
-  return proto.Deposit.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.Deposit;
+  return proto.tdex.daemon.v1.Deposit.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.Deposit} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.Deposit} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.Deposit}
+ * @return {!proto.tdex.daemon.v1.Deposit}
  */
-proto.Deposit.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.Deposit.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -16993,8 +17316,8 @@ proto.Deposit.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.UtxoInfo;
-      reader.readMessage(value,proto.UtxoInfo.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.UtxoInfo;
+      reader.readMessage(value,proto.tdex.daemon.v1.UtxoInfo.deserializeBinaryFromReader);
       msg.setUtxo(value);
       break;
     case 2:
@@ -17018,9 +17341,9 @@ proto.Deposit.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.Deposit.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.Deposit.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.Deposit.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.Deposit.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -17028,18 +17351,18 @@ proto.Deposit.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.Deposit} message
+ * @param {!proto.tdex.daemon.v1.Deposit} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Deposit.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.Deposit.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUtxo();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.UtxoInfo.serializeBinaryToWriter
+      proto.tdex.daemon.v1.UtxoInfo.serializeBinaryToWriter
     );
   }
   f = message.getTimestampUnix();
@@ -17061,28 +17384,28 @@ proto.Deposit.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional UtxoInfo utxo = 1;
- * @return {?proto.UtxoInfo}
+ * @return {?proto.tdex.daemon.v1.UtxoInfo}
  */
-proto.Deposit.prototype.getUtxo = function() {
-  return /** @type{?proto.UtxoInfo} */ (
-    jspb.Message.getWrapperField(this, proto.UtxoInfo, 1));
+proto.tdex.daemon.v1.Deposit.prototype.getUtxo = function() {
+  return /** @type{?proto.tdex.daemon.v1.UtxoInfo} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.UtxoInfo, 1));
 };
 
 
 /**
- * @param {?proto.UtxoInfo|undefined} value
- * @return {!proto.Deposit} returns this
+ * @param {?proto.tdex.daemon.v1.UtxoInfo|undefined} value
+ * @return {!proto.tdex.daemon.v1.Deposit} returns this
 */
-proto.Deposit.prototype.setUtxo = function(value) {
+proto.tdex.daemon.v1.Deposit.prototype.setUtxo = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.Deposit} returns this
+ * @return {!proto.tdex.daemon.v1.Deposit} returns this
  */
-proto.Deposit.prototype.clearUtxo = function() {
+proto.tdex.daemon.v1.Deposit.prototype.clearUtxo = function() {
   return this.setUtxo(undefined);
 };
 
@@ -17091,7 +17414,7 @@ proto.Deposit.prototype.clearUtxo = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.Deposit.prototype.hasUtxo = function() {
+proto.tdex.daemon.v1.Deposit.prototype.hasUtxo = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -17100,16 +17423,16 @@ proto.Deposit.prototype.hasUtxo = function() {
  * optional uint64 timestamp_unix = 2;
  * @return {number}
  */
-proto.Deposit.prototype.getTimestampUnix = function() {
+proto.tdex.daemon.v1.Deposit.prototype.getTimestampUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.Deposit} returns this
+ * @return {!proto.tdex.daemon.v1.Deposit} returns this
  */
-proto.Deposit.prototype.setTimestampUnix = function(value) {
+proto.tdex.daemon.v1.Deposit.prototype.setTimestampUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -17118,16 +17441,16 @@ proto.Deposit.prototype.setTimestampUnix = function(value) {
  * optional string timestamp_utc = 5;
  * @return {string}
  */
-proto.Deposit.prototype.getTimestampUtc = function() {
+proto.tdex.daemon.v1.Deposit.prototype.getTimestampUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.Deposit} returns this
+ * @return {!proto.tdex.daemon.v1.Deposit} returns this
  */
-proto.Deposit.prototype.setTimestampUtc = function(value) {
+proto.tdex.daemon.v1.Deposit.prototype.setTimestampUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -17148,8 +17471,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.Withdrawal.prototype.toObject = function(opt_includeInstance) {
-  return proto.Withdrawal.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.Withdrawal.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.Withdrawal.toObject(opt_includeInstance, this);
 };
 
 
@@ -17158,14 +17481,14 @@ proto.Withdrawal.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.Withdrawal} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.Withdrawal} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Withdrawal.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.Withdrawal.toObject = function(includeInstance, msg) {
   var f, obj = {
     txId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    balance: (f = msg.getBalance()) && types_pb.Balance.toObject(includeInstance, f),
+    balance: (f = msg.getBalance()) && tdex_v1_types_pb.Balance.toObject(includeInstance, f),
     address: jspb.Message.getFieldWithDefault(msg, 3, ""),
     timestampUnix: jspb.Message.getFieldWithDefault(msg, 4, 0),
     timestampUtc: jspb.Message.getFieldWithDefault(msg, 5, "")
@@ -17182,23 +17505,23 @@ proto.Withdrawal.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.Withdrawal}
+ * @return {!proto.tdex.daemon.v1.Withdrawal}
  */
-proto.Withdrawal.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.Withdrawal.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.Withdrawal;
-  return proto.Withdrawal.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.Withdrawal;
+  return proto.tdex.daemon.v1.Withdrawal.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.Withdrawal} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.Withdrawal} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.Withdrawal}
+ * @return {!proto.tdex.daemon.v1.Withdrawal}
  */
-proto.Withdrawal.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.Withdrawal.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -17210,8 +17533,8 @@ proto.Withdrawal.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTxId(value);
       break;
     case 2:
-      var value = new types_pb.Balance;
-      reader.readMessage(value,types_pb.Balance.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Balance;
+      reader.readMessage(value,tdex_v1_types_pb.Balance.deserializeBinaryFromReader);
       msg.setBalance(value);
       break;
     case 3:
@@ -17239,9 +17562,9 @@ proto.Withdrawal.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.Withdrawal.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.Withdrawal.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.Withdrawal.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -17249,11 +17572,11 @@ proto.Withdrawal.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.Withdrawal} message
+ * @param {!proto.tdex.daemon.v1.Withdrawal} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Withdrawal.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.Withdrawal.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxId();
   if (f.length > 0) {
@@ -17267,7 +17590,7 @@ proto.Withdrawal.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      types_pb.Balance.serializeBinaryToWriter
+      tdex_v1_types_pb.Balance.serializeBinaryToWriter
     );
   }
   f = message.getAddress();
@@ -17298,44 +17621,44 @@ proto.Withdrawal.serializeBinaryToWriter = function(message, writer) {
  * optional string tx_id = 1;
  * @return {string}
  */
-proto.Withdrawal.prototype.getTxId = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.getTxId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.Withdrawal} returns this
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
  */
-proto.Withdrawal.prototype.setTxId = function(value) {
+proto.tdex.daemon.v1.Withdrawal.prototype.setTxId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional Balance balance = 2;
- * @return {?proto.Balance}
+ * optional tdex.v1.Balance balance = 2;
+ * @return {?proto.tdex.v1.Balance}
  */
-proto.Withdrawal.prototype.getBalance = function() {
-  return /** @type{?proto.Balance} */ (
-    jspb.Message.getWrapperField(this, types_pb.Balance, 2));
+proto.tdex.daemon.v1.Withdrawal.prototype.getBalance = function() {
+  return /** @type{?proto.tdex.v1.Balance} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Balance, 2));
 };
 
 
 /**
- * @param {?proto.Balance|undefined} value
- * @return {!proto.Withdrawal} returns this
+ * @param {?proto.tdex.v1.Balance|undefined} value
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
 */
-proto.Withdrawal.prototype.setBalance = function(value) {
+proto.tdex.daemon.v1.Withdrawal.prototype.setBalance = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.Withdrawal} returns this
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
  */
-proto.Withdrawal.prototype.clearBalance = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.clearBalance = function() {
   return this.setBalance(undefined);
 };
 
@@ -17344,7 +17667,7 @@ proto.Withdrawal.prototype.clearBalance = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.Withdrawal.prototype.hasBalance = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.hasBalance = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -17353,16 +17676,16 @@ proto.Withdrawal.prototype.hasBalance = function() {
  * optional string address = 3;
  * @return {string}
  */
-proto.Withdrawal.prototype.getAddress = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.Withdrawal} returns this
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
  */
-proto.Withdrawal.prototype.setAddress = function(value) {
+proto.tdex.daemon.v1.Withdrawal.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -17371,16 +17694,16 @@ proto.Withdrawal.prototype.setAddress = function(value) {
  * optional uint64 timestamp_unix = 4;
  * @return {number}
  */
-proto.Withdrawal.prototype.getTimestampUnix = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.getTimestampUnix = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.Withdrawal} returns this
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
  */
-proto.Withdrawal.prototype.setTimestampUnix = function(value) {
+proto.tdex.daemon.v1.Withdrawal.prototype.setTimestampUnix = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -17389,16 +17712,16 @@ proto.Withdrawal.prototype.setTimestampUnix = function(value) {
  * optional string timestamp_utc = 5;
  * @return {string}
  */
-proto.Withdrawal.prototype.getTimestampUtc = function() {
+proto.tdex.daemon.v1.Withdrawal.prototype.getTimestampUtc = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.Withdrawal} returns this
+ * @return {!proto.tdex.daemon.v1.Withdrawal} returns this
  */
-proto.Withdrawal.prototype.setTimestampUtc = function(value) {
+proto.tdex.daemon.v1.Withdrawal.prototype.setTimestampUtc = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -17419,8 +17742,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.Page.prototype.toObject = function(opt_includeInstance) {
-  return proto.Page.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.Page.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.Page.toObject(opt_includeInstance, this);
 };
 
 
@@ -17429,11 +17752,11 @@ proto.Page.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.Page} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.Page} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Page.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.Page.toObject = function(includeInstance, msg) {
   var f, obj = {
     pageNumber: jspb.Message.getFieldWithDefault(msg, 1, 0),
     pageSize: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -17450,23 +17773,23 @@ proto.Page.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.Page}
+ * @return {!proto.tdex.daemon.v1.Page}
  */
-proto.Page.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.Page.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.Page;
-  return proto.Page.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.Page;
+  return proto.tdex.daemon.v1.Page.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.Page} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.Page} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.Page}
+ * @return {!proto.tdex.daemon.v1.Page}
  */
-proto.Page.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.Page.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -17494,9 +17817,9 @@ proto.Page.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.Page.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.Page.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.Page.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.Page.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -17504,11 +17827,11 @@ proto.Page.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.Page} message
+ * @param {!proto.tdex.daemon.v1.Page} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.Page.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.Page.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPageNumber();
   if (f !== 0) {
@@ -17531,16 +17854,16 @@ proto.Page.serializeBinaryToWriter = function(message, writer) {
  * optional int64 page_number = 1;
  * @return {number}
  */
-proto.Page.prototype.getPageNumber = function() {
+proto.tdex.daemon.v1.Page.prototype.getPageNumber = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.Page} returns this
+ * @return {!proto.tdex.daemon.v1.Page} returns this
  */
-proto.Page.prototype.setPageNumber = function(value) {
+proto.tdex.daemon.v1.Page.prototype.setPageNumber = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -17549,16 +17872,16 @@ proto.Page.prototype.setPageNumber = function(value) {
  * optional int64 page_size = 2;
  * @return {number}
  */
-proto.Page.prototype.getPageSize = function() {
+proto.tdex.daemon.v1.Page.prototype.getPageSize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.Page} returns this
+ * @return {!proto.tdex.daemon.v1.Page} returns this
  */
-proto.Page.prototype.setPageSize = function(value) {
+proto.tdex.daemon.v1.Page.prototype.setPageSize = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -17579,8 +17902,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketReportRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketReportRequest.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketReportRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -17589,14 +17912,14 @@ proto.GetMarketReportRequest.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketReportRequest} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketReportRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketReportRequest.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketReportRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    market: (f = msg.getMarket()) && types_pb.Market.toObject(includeInstance, f),
-    timeRange: (f = msg.getTimeRange()) && proto.TimeRange.toObject(includeInstance, f),
+    market: (f = msg.getMarket()) && tdex_v1_types_pb.Market.toObject(includeInstance, f),
+    timeRange: (f = msg.getTimeRange()) && proto.tdex.daemon.v1.TimeRange.toObject(includeInstance, f),
     timeFrame: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
@@ -17611,23 +17934,23 @@ proto.GetMarketReportRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketReportRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest}
  */
-proto.GetMarketReportRequest.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketReportRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketReportRequest;
-  return proto.GetMarketReportRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketReportRequest;
+  return proto.tdex.daemon.v1.GetMarketReportRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketReportRequest} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketReportRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketReportRequest}
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest}
  */
-proto.GetMarketReportRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketReportRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -17635,17 +17958,17 @@ proto.GetMarketReportRequest.deserializeBinaryFromReader = function(msg, reader)
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_pb.Market;
-      reader.readMessage(value,types_pb.Market.deserializeBinaryFromReader);
+      var value = new tdex_v1_types_pb.Market;
+      reader.readMessage(value,tdex_v1_types_pb.Market.deserializeBinaryFromReader);
       msg.setMarket(value);
       break;
     case 2:
-      var value = new proto.TimeRange;
-      reader.readMessage(value,proto.TimeRange.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.TimeRange;
+      reader.readMessage(value,proto.tdex.daemon.v1.TimeRange.deserializeBinaryFromReader);
       msg.setTimeRange(value);
       break;
     case 3:
-      var value = /** @type {!proto.TimeFrame} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.TimeFrame} */ (reader.readEnum());
       msg.setTimeFrame(value);
       break;
     default:
@@ -17661,9 +17984,9 @@ proto.GetMarketReportRequest.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketReportRequest.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketReportRequest.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketReportRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -17671,18 +17994,18 @@ proto.GetMarketReportRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketReportRequest} message
+ * @param {!proto.tdex.daemon.v1.GetMarketReportRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketReportRequest.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketReportRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMarket();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      types_pb.Market.serializeBinaryToWriter
+      tdex_v1_types_pb.Market.serializeBinaryToWriter
     );
   }
   f = message.getTimeRange();
@@ -17690,7 +18013,7 @@ proto.GetMarketReportRequest.serializeBinaryToWriter = function(message, writer)
     writer.writeMessage(
       2,
       f,
-      proto.TimeRange.serializeBinaryToWriter
+      proto.tdex.daemon.v1.TimeRange.serializeBinaryToWriter
     );
   }
   f = message.getTimeFrame();
@@ -17704,29 +18027,29 @@ proto.GetMarketReportRequest.serializeBinaryToWriter = function(message, writer)
 
 
 /**
- * optional Market market = 1;
- * @return {?proto.Market}
+ * optional tdex.v1.Market market = 1;
+ * @return {?proto.tdex.v1.Market}
  */
-proto.GetMarketReportRequest.prototype.getMarket = function() {
-  return /** @type{?proto.Market} */ (
-    jspb.Message.getWrapperField(this, types_pb.Market, 1));
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.getMarket = function() {
+  return /** @type{?proto.tdex.v1.Market} */ (
+    jspb.Message.getWrapperField(this, tdex_v1_types_pb.Market, 1));
 };
 
 
 /**
- * @param {?proto.Market|undefined} value
- * @return {!proto.GetMarketReportRequest} returns this
+ * @param {?proto.tdex.v1.Market|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest} returns this
 */
-proto.GetMarketReportRequest.prototype.setMarket = function(value) {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.setMarket = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketReportRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest} returns this
  */
-proto.GetMarketReportRequest.prototype.clearMarket = function() {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.clearMarket = function() {
   return this.setMarket(undefined);
 };
 
@@ -17735,35 +18058,35 @@ proto.GetMarketReportRequest.prototype.clearMarket = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketReportRequest.prototype.hasMarket = function() {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.hasMarket = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional TimeRange time_range = 2;
- * @return {?proto.TimeRange}
+ * @return {?proto.tdex.daemon.v1.TimeRange}
  */
-proto.GetMarketReportRequest.prototype.getTimeRange = function() {
-  return /** @type{?proto.TimeRange} */ (
-    jspb.Message.getWrapperField(this, proto.TimeRange, 2));
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.getTimeRange = function() {
+  return /** @type{?proto.tdex.daemon.v1.TimeRange} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.TimeRange, 2));
 };
 
 
 /**
- * @param {?proto.TimeRange|undefined} value
- * @return {!proto.GetMarketReportRequest} returns this
+ * @param {?proto.tdex.daemon.v1.TimeRange|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest} returns this
 */
-proto.GetMarketReportRequest.prototype.setTimeRange = function(value) {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.setTimeRange = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketReportRequest} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest} returns this
  */
-proto.GetMarketReportRequest.prototype.clearTimeRange = function() {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.clearTimeRange = function() {
   return this.setTimeRange(undefined);
 };
 
@@ -17772,25 +18095,25 @@ proto.GetMarketReportRequest.prototype.clearTimeRange = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketReportRequest.prototype.hasTimeRange = function() {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.hasTimeRange = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
  * optional TimeFrame time_frame = 3;
- * @return {!proto.TimeFrame}
+ * @return {!proto.tdex.daemon.v1.TimeFrame}
  */
-proto.GetMarketReportRequest.prototype.getTimeFrame = function() {
-  return /** @type {!proto.TimeFrame} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.getTimeFrame = function() {
+  return /** @type {!proto.tdex.daemon.v1.TimeFrame} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
- * @param {!proto.TimeFrame} value
- * @return {!proto.GetMarketReportRequest} returns this
+ * @param {!proto.tdex.daemon.v1.TimeFrame} value
+ * @return {!proto.tdex.daemon.v1.GetMarketReportRequest} returns this
  */
-proto.GetMarketReportRequest.prototype.setTimeFrame = function(value) {
+proto.tdex.daemon.v1.GetMarketReportRequest.prototype.setTimeFrame = function(value) {
   return jspb.Message.setProto3EnumField(this, 3, value);
 };
 
@@ -17811,8 +18134,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.GetMarketReportReply.prototype.toObject = function(opt_includeInstance) {
-  return proto.GetMarketReportReply.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.GetMarketReportReply.toObject(opt_includeInstance, this);
 };
 
 
@@ -17821,13 +18144,13 @@ proto.GetMarketReportReply.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.GetMarketReportReply} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.GetMarketReportReply} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketReportReply.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.GetMarketReportReply.toObject = function(includeInstance, msg) {
   var f, obj = {
-    report: (f = msg.getReport()) && proto.MarketReport.toObject(includeInstance, f)
+    report: (f = msg.getReport()) && proto.tdex.daemon.v1.MarketReport.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -17841,23 +18164,23 @@ proto.GetMarketReportReply.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.GetMarketReportReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketReportReply}
  */
-proto.GetMarketReportReply.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.GetMarketReportReply.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.GetMarketReportReply;
-  return proto.GetMarketReportReply.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.GetMarketReportReply;
+  return proto.tdex.daemon.v1.GetMarketReportReply.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.GetMarketReportReply} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.GetMarketReportReply} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.GetMarketReportReply}
+ * @return {!proto.tdex.daemon.v1.GetMarketReportReply}
  */
-proto.GetMarketReportReply.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.GetMarketReportReply.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -17865,8 +18188,8 @@ proto.GetMarketReportReply.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.MarketReport;
-      reader.readMessage(value,proto.MarketReport.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketReport;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketReport.deserializeBinaryFromReader);
       msg.setReport(value);
       break;
     default:
@@ -17882,9 +18205,9 @@ proto.GetMarketReportReply.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.GetMarketReportReply.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.GetMarketReportReply.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.GetMarketReportReply.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -17892,18 +18215,18 @@ proto.GetMarketReportReply.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.GetMarketReportReply} message
+ * @param {!proto.tdex.daemon.v1.GetMarketReportReply} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.GetMarketReportReply.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.GetMarketReportReply.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getReport();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.MarketReport.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketReport.serializeBinaryToWriter
     );
   }
 };
@@ -17911,28 +18234,28 @@ proto.GetMarketReportReply.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional MarketReport report = 1;
- * @return {?proto.MarketReport}
+ * @return {?proto.tdex.daemon.v1.MarketReport}
  */
-proto.GetMarketReportReply.prototype.getReport = function() {
-  return /** @type{?proto.MarketReport} */ (
-    jspb.Message.getWrapperField(this, proto.MarketReport, 1));
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.getReport = function() {
+  return /** @type{?proto.tdex.daemon.v1.MarketReport} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.MarketReport, 1));
 };
 
 
 /**
- * @param {?proto.MarketReport|undefined} value
- * @return {!proto.GetMarketReportReply} returns this
+ * @param {?proto.tdex.daemon.v1.MarketReport|undefined} value
+ * @return {!proto.tdex.daemon.v1.GetMarketReportReply} returns this
 */
-proto.GetMarketReportReply.prototype.setReport = function(value) {
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.setReport = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.GetMarketReportReply} returns this
+ * @return {!proto.tdex.daemon.v1.GetMarketReportReply} returns this
  */
-proto.GetMarketReportReply.prototype.clearReport = function() {
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.clearReport = function() {
   return this.setReport(undefined);
 };
 
@@ -17941,7 +18264,7 @@ proto.GetMarketReportReply.prototype.clearReport = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.GetMarketReportReply.prototype.hasReport = function() {
+proto.tdex.daemon.v1.GetMarketReportReply.prototype.hasReport = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -17952,7 +18275,7 @@ proto.GetMarketReportReply.prototype.hasReport = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.MarketReport.repeatedFields_ = [3];
+proto.tdex.daemon.v1.MarketReport.repeatedFields_ = [3];
 
 
 
@@ -17969,8 +18292,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.MarketReport.prototype.toObject = function(opt_includeInstance) {
-  return proto.MarketReport.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.MarketReport.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.MarketReport.toObject(opt_includeInstance, this);
 };
 
 
@@ -17979,16 +18302,16 @@ proto.MarketReport.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.MarketReport} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.MarketReport} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketReport.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.MarketReport.toObject = function(includeInstance, msg) {
   var f, obj = {
-    totalCollectedFees: (f = msg.getTotalCollectedFees()) && proto.MarketCollectedFees.toObject(includeInstance, f),
-    totalVolume: (f = msg.getTotalVolume()) && proto.MarketVolume.toObject(includeInstance, f),
+    totalCollectedFees: (f = msg.getTotalCollectedFees()) && proto.tdex.daemon.v1.MarketCollectedFees.toObject(includeInstance, f),
+    totalVolume: (f = msg.getTotalVolume()) && proto.tdex.daemon.v1.MarketVolume.toObject(includeInstance, f),
     groupedVolumeList: jspb.Message.toObjectList(msg.getGroupedVolumeList(),
-    proto.MarketVolume.toObject, includeInstance)
+    proto.tdex.daemon.v1.MarketVolume.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -18002,23 +18325,23 @@ proto.MarketReport.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.MarketReport}
+ * @return {!proto.tdex.daemon.v1.MarketReport}
  */
-proto.MarketReport.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.MarketReport.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.MarketReport;
-  return proto.MarketReport.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.MarketReport;
+  return proto.tdex.daemon.v1.MarketReport.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.MarketReport} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.MarketReport} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.MarketReport}
+ * @return {!proto.tdex.daemon.v1.MarketReport}
  */
-proto.MarketReport.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.MarketReport.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -18026,18 +18349,18 @@ proto.MarketReport.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.MarketCollectedFees;
-      reader.readMessage(value,proto.MarketCollectedFees.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketCollectedFees;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketCollectedFees.deserializeBinaryFromReader);
       msg.setTotalCollectedFees(value);
       break;
     case 2:
-      var value = new proto.MarketVolume;
-      reader.readMessage(value,proto.MarketVolume.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketVolume;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketVolume.deserializeBinaryFromReader);
       msg.setTotalVolume(value);
       break;
     case 3:
-      var value = new proto.MarketVolume;
-      reader.readMessage(value,proto.MarketVolume.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.MarketVolume;
+      reader.readMessage(value,proto.tdex.daemon.v1.MarketVolume.deserializeBinaryFromReader);
       msg.addGroupedVolume(value);
       break;
     default:
@@ -18053,9 +18376,9 @@ proto.MarketReport.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.MarketReport.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.MarketReport.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.MarketReport.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -18063,18 +18386,18 @@ proto.MarketReport.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.MarketReport} message
+ * @param {!proto.tdex.daemon.v1.MarketReport} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.MarketReport.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTotalCollectedFees();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.MarketCollectedFees.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketCollectedFees.serializeBinaryToWriter
     );
   }
   f = message.getTotalVolume();
@@ -18082,7 +18405,7 @@ proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.MarketVolume.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketVolume.serializeBinaryToWriter
     );
   }
   f = message.getGroupedVolumeList();
@@ -18090,7 +18413,7 @@ proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       3,
       f,
-      proto.MarketVolume.serializeBinaryToWriter
+      proto.tdex.daemon.v1.MarketVolume.serializeBinaryToWriter
     );
   }
 };
@@ -18098,28 +18421,28 @@ proto.MarketReport.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional MarketCollectedFees total_collected_fees = 1;
- * @return {?proto.MarketCollectedFees}
+ * @return {?proto.tdex.daemon.v1.MarketCollectedFees}
  */
-proto.MarketReport.prototype.getTotalCollectedFees = function() {
-  return /** @type{?proto.MarketCollectedFees} */ (
-    jspb.Message.getWrapperField(this, proto.MarketCollectedFees, 1));
+proto.tdex.daemon.v1.MarketReport.prototype.getTotalCollectedFees = function() {
+  return /** @type{?proto.tdex.daemon.v1.MarketCollectedFees} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.MarketCollectedFees, 1));
 };
 
 
 /**
- * @param {?proto.MarketCollectedFees|undefined} value
- * @return {!proto.MarketReport} returns this
+ * @param {?proto.tdex.daemon.v1.MarketCollectedFees|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
 */
-proto.MarketReport.prototype.setTotalCollectedFees = function(value) {
+proto.tdex.daemon.v1.MarketReport.prototype.setTotalCollectedFees = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketReport} returns this
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
  */
-proto.MarketReport.prototype.clearTotalCollectedFees = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.clearTotalCollectedFees = function() {
   return this.setTotalCollectedFees(undefined);
 };
 
@@ -18128,35 +18451,35 @@ proto.MarketReport.prototype.clearTotalCollectedFees = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketReport.prototype.hasTotalCollectedFees = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.hasTotalCollectedFees = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional MarketVolume total_volume = 2;
- * @return {?proto.MarketVolume}
+ * @return {?proto.tdex.daemon.v1.MarketVolume}
  */
-proto.MarketReport.prototype.getTotalVolume = function() {
-  return /** @type{?proto.MarketVolume} */ (
-    jspb.Message.getWrapperField(this, proto.MarketVolume, 2));
+proto.tdex.daemon.v1.MarketReport.prototype.getTotalVolume = function() {
+  return /** @type{?proto.tdex.daemon.v1.MarketVolume} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.MarketVolume, 2));
 };
 
 
 /**
- * @param {?proto.MarketVolume|undefined} value
- * @return {!proto.MarketReport} returns this
+ * @param {?proto.tdex.daemon.v1.MarketVolume|undefined} value
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
 */
-proto.MarketReport.prototype.setTotalVolume = function(value) {
+proto.tdex.daemon.v1.MarketReport.prototype.setTotalVolume = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.MarketReport} returns this
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
  */
-proto.MarketReport.prototype.clearTotalVolume = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.clearTotalVolume = function() {
   return this.setTotalVolume(undefined);
 };
 
@@ -18165,45 +18488,45 @@ proto.MarketReport.prototype.clearTotalVolume = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.MarketReport.prototype.hasTotalVolume = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.hasTotalVolume = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
  * repeated MarketVolume grouped_volume = 3;
- * @return {!Array<!proto.MarketVolume>}
+ * @return {!Array<!proto.tdex.daemon.v1.MarketVolume>}
  */
-proto.MarketReport.prototype.getGroupedVolumeList = function() {
-  return /** @type{!Array<!proto.MarketVolume>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.MarketVolume, 3));
+proto.tdex.daemon.v1.MarketReport.prototype.getGroupedVolumeList = function() {
+  return /** @type{!Array<!proto.tdex.daemon.v1.MarketVolume>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.tdex.daemon.v1.MarketVolume, 3));
 };
 
 
 /**
- * @param {!Array<!proto.MarketVolume>} value
- * @return {!proto.MarketReport} returns this
+ * @param {!Array<!proto.tdex.daemon.v1.MarketVolume>} value
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
 */
-proto.MarketReport.prototype.setGroupedVolumeList = function(value) {
+proto.tdex.daemon.v1.MarketReport.prototype.setGroupedVolumeList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 3, value);
 };
 
 
 /**
- * @param {!proto.MarketVolume=} opt_value
+ * @param {!proto.tdex.daemon.v1.MarketVolume=} opt_value
  * @param {number=} opt_index
- * @return {!proto.MarketVolume}
+ * @return {!proto.tdex.daemon.v1.MarketVolume}
  */
-proto.MarketReport.prototype.addGroupedVolume = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.MarketVolume, opt_index);
+proto.tdex.daemon.v1.MarketReport.prototype.addGroupedVolume = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.tdex.daemon.v1.MarketVolume, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
- * @return {!proto.MarketReport} returns this
+ * @return {!proto.tdex.daemon.v1.MarketReport} returns this
  */
-proto.MarketReport.prototype.clearGroupedVolumeList = function() {
+proto.tdex.daemon.v1.MarketReport.prototype.clearGroupedVolumeList = function() {
   return this.setGroupedVolumeList([]);
 };
 
@@ -18224,8 +18547,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.MarketCollectedFees.prototype.toObject = function(opt_includeInstance) {
-  return proto.MarketCollectedFees.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.MarketCollectedFees.toObject(opt_includeInstance, this);
 };
 
 
@@ -18234,11 +18557,11 @@ proto.MarketCollectedFees.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.MarketCollectedFees} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.MarketCollectedFees} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketCollectedFees.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.MarketCollectedFees.toObject = function(includeInstance, msg) {
   var f, obj = {
     baseAmount: jspb.Message.getFieldWithDefault(msg, 1, 0),
     quoteAmount: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -18257,23 +18580,23 @@ proto.MarketCollectedFees.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.MarketCollectedFees}
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees}
  */
-proto.MarketCollectedFees.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.MarketCollectedFees.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.MarketCollectedFees;
-  return proto.MarketCollectedFees.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.MarketCollectedFees;
+  return proto.tdex.daemon.v1.MarketCollectedFees.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.MarketCollectedFees} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.MarketCollectedFees} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.MarketCollectedFees}
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees}
  */
-proto.MarketCollectedFees.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.MarketCollectedFees.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -18309,9 +18632,9 @@ proto.MarketCollectedFees.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.MarketCollectedFees.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.MarketCollectedFees.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.MarketCollectedFees.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -18319,11 +18642,11 @@ proto.MarketCollectedFees.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.MarketCollectedFees} message
+ * @param {!proto.tdex.daemon.v1.MarketCollectedFees} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketCollectedFees.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.MarketCollectedFees.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBaseAmount();
   if (f !== 0) {
@@ -18360,16 +18683,16 @@ proto.MarketCollectedFees.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 base_amount = 1;
  * @return {number}
  */
-proto.MarketCollectedFees.prototype.getBaseAmount = function() {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.getBaseAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketCollectedFees} returns this
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees} returns this
  */
-proto.MarketCollectedFees.prototype.setBaseAmount = function(value) {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.setBaseAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -18378,16 +18701,16 @@ proto.MarketCollectedFees.prototype.setBaseAmount = function(value) {
  * optional uint64 quote_amount = 2;
  * @return {number}
  */
-proto.MarketCollectedFees.prototype.getQuoteAmount = function() {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.getQuoteAmount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketCollectedFees} returns this
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees} returns this
  */
-proto.MarketCollectedFees.prototype.setQuoteAmount = function(value) {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.setQuoteAmount = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -18396,16 +18719,16 @@ proto.MarketCollectedFees.prototype.setQuoteAmount = function(value) {
  * optional string start_date = 3;
  * @return {string}
  */
-proto.MarketCollectedFees.prototype.getStartDate = function() {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.getStartDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.MarketCollectedFees} returns this
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees} returns this
  */
-proto.MarketCollectedFees.prototype.setStartDate = function(value) {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.setStartDate = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -18414,16 +18737,16 @@ proto.MarketCollectedFees.prototype.setStartDate = function(value) {
  * optional string end_date = 4;
  * @return {string}
  */
-proto.MarketCollectedFees.prototype.getEndDate = function() {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.getEndDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.MarketCollectedFees} returns this
+ * @return {!proto.tdex.daemon.v1.MarketCollectedFees} returns this
  */
-proto.MarketCollectedFees.prototype.setEndDate = function(value) {
+proto.tdex.daemon.v1.MarketCollectedFees.prototype.setEndDate = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -18444,8 +18767,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.MarketVolume.prototype.toObject = function(opt_includeInstance) {
-  return proto.MarketVolume.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.MarketVolume.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.MarketVolume.toObject(opt_includeInstance, this);
 };
 
 
@@ -18454,11 +18777,11 @@ proto.MarketVolume.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.MarketVolume} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.MarketVolume} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketVolume.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.MarketVolume.toObject = function(includeInstance, msg) {
   var f, obj = {
     baseVolume: jspb.Message.getFieldWithDefault(msg, 1, 0),
     quoteVolume: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -18477,23 +18800,23 @@ proto.MarketVolume.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.MarketVolume}
+ * @return {!proto.tdex.daemon.v1.MarketVolume}
  */
-proto.MarketVolume.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.MarketVolume.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.MarketVolume;
-  return proto.MarketVolume.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.MarketVolume;
+  return proto.tdex.daemon.v1.MarketVolume.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.MarketVolume} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.MarketVolume} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.MarketVolume}
+ * @return {!proto.tdex.daemon.v1.MarketVolume}
  */
-proto.MarketVolume.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.MarketVolume.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -18529,9 +18852,9 @@ proto.MarketVolume.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.MarketVolume.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.MarketVolume.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.MarketVolume.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.MarketVolume.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -18539,11 +18862,11 @@ proto.MarketVolume.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.MarketVolume} message
+ * @param {!proto.tdex.daemon.v1.MarketVolume} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.MarketVolume.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.MarketVolume.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBaseVolume();
   if (f !== 0) {
@@ -18580,16 +18903,16 @@ proto.MarketVolume.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 base_volume = 1;
  * @return {number}
  */
-proto.MarketVolume.prototype.getBaseVolume = function() {
+proto.tdex.daemon.v1.MarketVolume.prototype.getBaseVolume = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketVolume} returns this
+ * @return {!proto.tdex.daemon.v1.MarketVolume} returns this
  */
-proto.MarketVolume.prototype.setBaseVolume = function(value) {
+proto.tdex.daemon.v1.MarketVolume.prototype.setBaseVolume = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -18598,16 +18921,16 @@ proto.MarketVolume.prototype.setBaseVolume = function(value) {
  * optional uint64 quote_volume = 2;
  * @return {number}
  */
-proto.MarketVolume.prototype.getQuoteVolume = function() {
+proto.tdex.daemon.v1.MarketVolume.prototype.getQuoteVolume = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.MarketVolume} returns this
+ * @return {!proto.tdex.daemon.v1.MarketVolume} returns this
  */
-proto.MarketVolume.prototype.setQuoteVolume = function(value) {
+proto.tdex.daemon.v1.MarketVolume.prototype.setQuoteVolume = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -18616,16 +18939,16 @@ proto.MarketVolume.prototype.setQuoteVolume = function(value) {
  * optional string start_date = 3;
  * @return {string}
  */
-proto.MarketVolume.prototype.getStartDate = function() {
+proto.tdex.daemon.v1.MarketVolume.prototype.getStartDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.MarketVolume} returns this
+ * @return {!proto.tdex.daemon.v1.MarketVolume} returns this
  */
-proto.MarketVolume.prototype.setStartDate = function(value) {
+proto.tdex.daemon.v1.MarketVolume.prototype.setStartDate = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -18634,16 +18957,16 @@ proto.MarketVolume.prototype.setStartDate = function(value) {
  * optional string end_date = 4;
  * @return {string}
  */
-proto.MarketVolume.prototype.getEndDate = function() {
+proto.tdex.daemon.v1.MarketVolume.prototype.getEndDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.MarketVolume} returns this
+ * @return {!proto.tdex.daemon.v1.MarketVolume} returns this
  */
-proto.MarketVolume.prototype.setEndDate = function(value) {
+proto.tdex.daemon.v1.MarketVolume.prototype.setEndDate = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -18664,8 +18987,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.TimeRange.prototype.toObject = function(opt_includeInstance) {
-  return proto.TimeRange.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.TimeRange.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.TimeRange.toObject(opt_includeInstance, this);
 };
 
 
@@ -18674,14 +18997,14 @@ proto.TimeRange.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.TimeRange} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.TimeRange} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TimeRange.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.TimeRange.toObject = function(includeInstance, msg) {
   var f, obj = {
     predefinedPeriod: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    customPeriod: (f = msg.getCustomPeriod()) && proto.CustomPeriod.toObject(includeInstance, f)
+    customPeriod: (f = msg.getCustomPeriod()) && proto.tdex.daemon.v1.CustomPeriod.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -18695,23 +19018,23 @@ proto.TimeRange.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.TimeRange}
+ * @return {!proto.tdex.daemon.v1.TimeRange}
  */
-proto.TimeRange.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.TimeRange.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.TimeRange;
-  return proto.TimeRange.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.TimeRange;
+  return proto.tdex.daemon.v1.TimeRange.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.TimeRange} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.TimeRange} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.TimeRange}
+ * @return {!proto.tdex.daemon.v1.TimeRange}
  */
-proto.TimeRange.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.TimeRange.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -18719,12 +19042,12 @@ proto.TimeRange.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!proto.PredefinedPeriod} */ (reader.readEnum());
+      var value = /** @type {!proto.tdex.daemon.v1.PredefinedPeriod} */ (reader.readEnum());
       msg.setPredefinedPeriod(value);
       break;
     case 2:
-      var value = new proto.CustomPeriod;
-      reader.readMessage(value,proto.CustomPeriod.deserializeBinaryFromReader);
+      var value = new proto.tdex.daemon.v1.CustomPeriod;
+      reader.readMessage(value,proto.tdex.daemon.v1.CustomPeriod.deserializeBinaryFromReader);
       msg.setCustomPeriod(value);
       break;
     default:
@@ -18740,9 +19063,9 @@ proto.TimeRange.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.TimeRange.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.TimeRange.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.TimeRange.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.TimeRange.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -18750,11 +19073,11 @@ proto.TimeRange.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.TimeRange} message
+ * @param {!proto.tdex.daemon.v1.TimeRange} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.TimeRange.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.TimeRange.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPredefinedPeriod();
   if (f !== 0.0) {
@@ -18768,7 +19091,7 @@ proto.TimeRange.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.CustomPeriod.serializeBinaryToWriter
+      proto.tdex.daemon.v1.CustomPeriod.serializeBinaryToWriter
     );
   }
 };
@@ -18776,46 +19099,46 @@ proto.TimeRange.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional PredefinedPeriod predefined_period = 1;
- * @return {!proto.PredefinedPeriod}
+ * @return {!proto.tdex.daemon.v1.PredefinedPeriod}
  */
-proto.TimeRange.prototype.getPredefinedPeriod = function() {
-  return /** @type {!proto.PredefinedPeriod} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.tdex.daemon.v1.TimeRange.prototype.getPredefinedPeriod = function() {
+  return /** @type {!proto.tdex.daemon.v1.PredefinedPeriod} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * @param {!proto.PredefinedPeriod} value
- * @return {!proto.TimeRange} returns this
+ * @param {!proto.tdex.daemon.v1.PredefinedPeriod} value
+ * @return {!proto.tdex.daemon.v1.TimeRange} returns this
  */
-proto.TimeRange.prototype.setPredefinedPeriod = function(value) {
+proto.tdex.daemon.v1.TimeRange.prototype.setPredefinedPeriod = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
 
 /**
  * optional CustomPeriod custom_period = 2;
- * @return {?proto.CustomPeriod}
+ * @return {?proto.tdex.daemon.v1.CustomPeriod}
  */
-proto.TimeRange.prototype.getCustomPeriod = function() {
-  return /** @type{?proto.CustomPeriod} */ (
-    jspb.Message.getWrapperField(this, proto.CustomPeriod, 2));
+proto.tdex.daemon.v1.TimeRange.prototype.getCustomPeriod = function() {
+  return /** @type{?proto.tdex.daemon.v1.CustomPeriod} */ (
+    jspb.Message.getWrapperField(this, proto.tdex.daemon.v1.CustomPeriod, 2));
 };
 
 
 /**
- * @param {?proto.CustomPeriod|undefined} value
- * @return {!proto.TimeRange} returns this
+ * @param {?proto.tdex.daemon.v1.CustomPeriod|undefined} value
+ * @return {!proto.tdex.daemon.v1.TimeRange} returns this
 */
-proto.TimeRange.prototype.setCustomPeriod = function(value) {
+proto.tdex.daemon.v1.TimeRange.prototype.setCustomPeriod = function(value) {
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.TimeRange} returns this
+ * @return {!proto.tdex.daemon.v1.TimeRange} returns this
  */
-proto.TimeRange.prototype.clearCustomPeriod = function() {
+proto.tdex.daemon.v1.TimeRange.prototype.clearCustomPeriod = function() {
   return this.setCustomPeriod(undefined);
 };
 
@@ -18824,7 +19147,7 @@ proto.TimeRange.prototype.clearCustomPeriod = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.TimeRange.prototype.hasCustomPeriod = function() {
+proto.tdex.daemon.v1.TimeRange.prototype.hasCustomPeriod = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -18845,8 +19168,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.CustomPeriod.prototype.toObject = function(opt_includeInstance) {
-  return proto.CustomPeriod.toObject(opt_includeInstance, this);
+proto.tdex.daemon.v1.CustomPeriod.prototype.toObject = function(opt_includeInstance) {
+  return proto.tdex.daemon.v1.CustomPeriod.toObject(opt_includeInstance, this);
 };
 
 
@@ -18855,11 +19178,11 @@ proto.CustomPeriod.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.CustomPeriod} msg The msg instance to transform.
+ * @param {!proto.tdex.daemon.v1.CustomPeriod} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CustomPeriod.toObject = function(includeInstance, msg) {
+proto.tdex.daemon.v1.CustomPeriod.toObject = function(includeInstance, msg) {
   var f, obj = {
     startDate: jspb.Message.getFieldWithDefault(msg, 1, ""),
     endDate: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -18876,23 +19199,23 @@ proto.CustomPeriod.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.CustomPeriod}
+ * @return {!proto.tdex.daemon.v1.CustomPeriod}
  */
-proto.CustomPeriod.deserializeBinary = function(bytes) {
+proto.tdex.daemon.v1.CustomPeriod.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.CustomPeriod;
-  return proto.CustomPeriod.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.tdex.daemon.v1.CustomPeriod;
+  return proto.tdex.daemon.v1.CustomPeriod.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.CustomPeriod} msg The message object to deserialize into.
+ * @param {!proto.tdex.daemon.v1.CustomPeriod} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.CustomPeriod}
+ * @return {!proto.tdex.daemon.v1.CustomPeriod}
  */
-proto.CustomPeriod.deserializeBinaryFromReader = function(msg, reader) {
+proto.tdex.daemon.v1.CustomPeriod.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -18920,9 +19243,9 @@ proto.CustomPeriod.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.CustomPeriod.prototype.serializeBinary = function() {
+proto.tdex.daemon.v1.CustomPeriod.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.CustomPeriod.serializeBinaryToWriter(this, writer);
+  proto.tdex.daemon.v1.CustomPeriod.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -18930,11 +19253,11 @@ proto.CustomPeriod.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.CustomPeriod} message
+ * @param {!proto.tdex.daemon.v1.CustomPeriod} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.CustomPeriod.serializeBinaryToWriter = function(message, writer) {
+proto.tdex.daemon.v1.CustomPeriod.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getStartDate();
   if (f.length > 0) {
@@ -18957,16 +19280,16 @@ proto.CustomPeriod.serializeBinaryToWriter = function(message, writer) {
  * optional string start_date = 1;
  * @return {string}
  */
-proto.CustomPeriod.prototype.getStartDate = function() {
+proto.tdex.daemon.v1.CustomPeriod.prototype.getStartDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.CustomPeriod} returns this
+ * @return {!proto.tdex.daemon.v1.CustomPeriod} returns this
  */
-proto.CustomPeriod.prototype.setStartDate = function(value) {
+proto.tdex.daemon.v1.CustomPeriod.prototype.setStartDate = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -18975,16 +19298,16 @@ proto.CustomPeriod.prototype.setStartDate = function(value) {
  * optional string end_date = 2;
  * @return {string}
  */
-proto.CustomPeriod.prototype.getEndDate = function() {
+proto.tdex.daemon.v1.CustomPeriod.prototype.getEndDate = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.CustomPeriod} returns this
+ * @return {!proto.tdex.daemon.v1.CustomPeriod} returns this
  */
-proto.CustomPeriod.prototype.setEndDate = function(value) {
+proto.tdex.daemon.v1.CustomPeriod.prototype.setEndDate = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -18992,7 +19315,7 @@ proto.CustomPeriod.prototype.setEndDate = function(value) {
 /**
  * @enum {number}
  */
-proto.StrategyType = {
+proto.tdex.daemon.v1.StrategyType = {
   PLUGGABLE: 0,
   BALANCED: 1,
   UNBALANCED: 2
@@ -19001,7 +19324,7 @@ proto.StrategyType = {
 /**
  * @enum {number}
  */
-proto.TradeStatus = {
+proto.tdex.daemon.v1.TradeStatus = {
   UNDEFINED: 0,
   REQUEST: 1,
   ACCEPT: 2,
@@ -19013,7 +19336,7 @@ proto.TradeStatus = {
 /**
  * @enum {number}
  */
-proto.ActionType = {
+proto.tdex.daemon.v1.ActionType = {
   TRADE_SETTLED: 0,
   ACCOUNT_LOW_BALANCE: 1,
   ACCOUNT_WITHDRAW: 2,
@@ -19023,7 +19346,7 @@ proto.ActionType = {
 /**
  * @enum {number}
  */
-proto.PredefinedPeriod = {
+proto.tdex.daemon.v1.PredefinedPeriod = {
   NULL: 0,
   LAST_HOUR: 1,
   LAST_DAY: 2,
@@ -19031,13 +19354,14 @@ proto.PredefinedPeriod = {
   LAST_MONTH: 4,
   LAST_THREE_MONTHS: 5,
   YEAR_TO_DATE: 6,
-  ALL: 7
+  ALL: 7,
+  LAST_YEAR: 8
 };
 
 /**
  * @enum {number}
  */
-proto.TimeFrame = {
+proto.tdex.daemon.v1.TimeFrame = {
   HOUR: 0,
   FOUR_HOURS: 1,
   DAY: 2,
@@ -19045,4 +19369,4 @@ proto.TimeFrame = {
   MONTH: 4
 };
 
-goog.object.extend(exports, proto);
+goog.object.extend(exports, proto.tdex.daemon.v1);

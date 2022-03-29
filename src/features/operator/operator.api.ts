@@ -37,7 +37,7 @@ import type {
   WithdrawMarketFragmenterReply,
   MarketReport,
   TimeFrame,
-} from '../../api-spec/generated/js/operator_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
 import {
   ClaimFeeDepositsRequest,
   GetFeeAddressRequest,
@@ -84,10 +84,10 @@ import {
   GetMarketReportRequest,
   TimeRange,
   CustomPeriod,
-} from '../../api-spec/generated/js/operator_pb';
-import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/types_pb';
-import type { AddressWithBlindingKey } from '../../api-spec/generated/js/types_pb';
-import type { BalanceInfo } from '../../api-spec/generated/js/wallet_pb';
+} from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { BalanceInfo } from '../../api-spec/generated/js/tdex-daemon/v1/wallet_pb';
+import { Market, Fixed, Price, Balance } from '../../api-spec/generated/js/tdex/v1/types_pb';
+import type { AddressWithBlindingKey } from '../../api-spec/generated/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import type { Optional } from '../../domain/helpers';
 import { retryRtkRequest } from '../../utils';

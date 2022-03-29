@@ -1,7 +1,7 @@
 import Icon, { RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 
-import type { TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
+import type { TradeInfo, Withdrawal } from '../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';

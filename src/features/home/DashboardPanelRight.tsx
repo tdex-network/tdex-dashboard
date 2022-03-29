@@ -1,7 +1,6 @@
 import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
-import Big from 'big.js';
 import { useNavigate } from 'react-router-dom';
 
 import type { RootState } from '../../app/store';
@@ -31,7 +30,7 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
     feeBalance &&
     convertAssetToCurrency({
       asset: LBTC_ASSET[network],
-      amount: Big(fromUnitToUnit(feeBalance.totalBalance, 'L-sats', lbtcUnit)),
+      amount: fromUnitToUnit(feeBalance.totalBalance, 'L-sats', lbtcUnit),
       network: network,
       preferredCurrency: currency,
       preferredLbtcUnit: lbtcUnit,

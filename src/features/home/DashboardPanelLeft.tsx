@@ -1,7 +1,6 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import Big from 'big.js';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/tdex/v1/types_pb';
@@ -36,7 +35,7 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
     totalCollectedSwapFees &&
     convertAssetToCurrency({
       asset: LBTC_ASSET[network],
-      amount: Big(totalCollectedSwapFees),
+      amount: totalCollectedSwapFees,
       network: network,
       preferredCurrency: currency,
       preferredLbtcUnit: lbtcUnit,

@@ -23,7 +23,7 @@ export const Home = (): JSX.Element => {
     // Skip if proxy is used but not serving
     skip: proxyHealth && proxyHealth !== 'SERVING',
   });
-  const priceFeed = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 30000 });
+  const priceFeed = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 60000 });
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);

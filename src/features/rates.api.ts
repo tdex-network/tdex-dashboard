@@ -1,11 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Big from 'big.js';
-
-import type { Currency } from '../domain/currency';
-import type { LbtcUnit } from '../utils';
 import type { NetworkString } from 'ldk';
 
-import { CURRENCIES, LBTC_COINGECKOID, USDT_COINGECKOID } from './../utils/constants';
+import type { Currency } from '../domain/currency';
+import {
+  isLbtcAssetId,
+  fromSatsToUnitOrFractional,
+  formatLbtcUnitToSats,
+  LBTC_TICKER,
+  USDT_TICKER,
+  LCAD_TICKER,
+  CURRENCIES,
+  LBTC_COINGECKOID,
+  USDT_COINGECKOID,
+} from '../utils';
 
 export type CoinGeckoPriceResult = Record<string, Record<Currency['value'], number>>;
 
@@ -57,14 +65,17 @@ export const calculateLCAD = (prices?: CoinGeckoPriceResult): Record<Currency['v
   };
 };
 
-const convertAssetToCurrency = ({
+// TODO: Create interface for convertAssetToCurrency
+/*
   asset?: Asset, 
   amount: string, 
   network: NetworkString, 
   preferredCurrency: Currency, 
   preferredLbtcUnit: LbtcUnit, 
   prices?: CoinGeckoPriceResult, 
-}) => {
+*/
+export const convertAssetToCurrency = (args: any): string => {
+  const { asset, amount, network, preferredCurrency, preferredLbtcUnit, prices } = args;
   let assetAmount = Big(0);
   try {
     assetAmount = Big(amount);
@@ -72,7 +83,7 @@ const convertAssetToCurrency = ({
     // ignore user typos, just leave the amount as 0
   }
 
-  if (asset === undefined || prices === undefined){
+  if (asset === undefined || prices === undefined) {
     return '';
   }
 
@@ -95,14 +106,15 @@ const convertAssetToCurrency = ({
   }
 
   let rateMultiplier = 1;
-  if (assetTicker === LBTC_TICKER[network]) {
+  if (assetTicker === LBTC_TICKER[network as NetworkString]) {
     rateMultiplier = prices?.[LBTC_COINGECKOID]?.[preferredCurrency.value] || 1;
     currencyAmount = Big(currencyAmount).times(rateMultiplier);
   } else if (assetTicker === USDT_TICKER) {
     rateMultiplier = prices?.[USDT_COINGECKOID]?.[preferredCurrency.value] || 1;
     currencyAmount = Big(currencyAmount).times(rateMultiplier);
   } else if (assetTicker === LCAD_TICKER) {
-    rateMultiplier = calculateLCAD(prices)[preferredCurrency.value] || 1;
+    rateMultiplier =
+      calculateLCAD(prices as CoinGeckoPriceResult)[preferredCurrency.value as Currency['value']] || 1;
     currencyAmount = Big(currencyAmount).times(rateMultiplier);
   } else {
     return '';

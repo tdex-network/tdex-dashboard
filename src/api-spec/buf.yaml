@@ -1,5 +1,4 @@
 version: v1
-name: buf.build/tdex-network/tdex-daemon
 breaking:
   use:
     - FILE

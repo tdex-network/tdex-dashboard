@@ -4,10 +4,8 @@ import type { NetworkString } from 'ldk';
 
 import type { Currency } from '../domain/currency';
 import {
-  defaultPrecision,
   isLbtcAssetId,
-  fromSatsToUnitOrFractional,
-  formatLbtcUnitToSats,
+  fromUnitToUnit,
   LBTC_TICKER,
   USDT_TICKER,
   LCAD_TICKER,
@@ -90,18 +88,10 @@ export const convertAssetToCurrency = (args: any): string => {
 
   const assetId = asset?.asset_id || '';
   const assetTicker = asset?.ticker || 'unknown';
-  const assetPrecision = asset?.precision ?? defaultPrecision;
 
   let currencyAmount = Big(1);
   if (isLbtcAssetId(assetId, network)) {
-    currencyAmount = Big(
-      fromSatsToUnitOrFractional(
-        Number(formatLbtcUnitToSats(assetAmount.toNumber(), preferredLbtcUnit)),
-        assetPrecision,
-        true,
-        'L-BTC'
-      )
-    );
+    currencyAmount = Big(fromUnitToUnit(assetAmount.toNumber(), preferredLbtcUnit, 'L-BTC'));
   } else {
     currencyAmount = assetAmount;
   }

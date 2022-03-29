@@ -71,10 +71,11 @@ export const calculateLCAD = (prices?: CoinGeckoPriceResult): Record<Currency['v
   network: NetworkString, 
   preferredCurrency: Currency, 
   preferredLbtcUnit: LbtcUnit, 
-  prices?: CoinGeckoPriceResult, 
+  prices?: CoinGeckoPriceResult,
+  useSymbol: boolean = false  
 */
 export const convertAssetToCurrency = (args: any): string => {
-  const { asset, amount, network, preferredCurrency, preferredLbtcUnit, prices } = args;
+  const { asset, amount, network, preferredCurrency, preferredLbtcUnit, prices, useSymbol = false } = args;
   let assetAmount = Big(0);
   try {
     assetAmount = Big(amount);
@@ -115,7 +116,11 @@ export const convertAssetToCurrency = (args: any): string => {
     const preferredLbtcAmount = fromUnitToUnit(Number(currencyAmount.toFixed(8)), 'L-BTC', preferredLbtcUnit);
     return `${preferredLbtcAmount} ${preferredLbtcUnit}`;
   } else {
-    return `${currencyAmount.toFixed(2)} ${preferredCurrency.value.toLocaleUpperCase()}`;
+    if (useSymbol) {
+      return `${preferredCurrency.symbol}${currencyAmount.toFixed(2)}`;
+    } else {
+      return `${currencyAmount.toFixed(2)} ${preferredCurrency.value.toLocaleUpperCase()}`;
+    }
   }
 };
 

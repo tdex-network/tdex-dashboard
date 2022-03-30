@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use tauri::{CustomMenuItem, Event, Manager, Menu, MenuItem, Submenu};
+use tauri::{AboutMetadata, CustomMenuItem, RunEvent, WindowEvent, Manager, Menu, MenuItem, Submenu};
 
 // the payload type must implement `Serialize`.
 // for global events, it also must implement `Clone`.
@@ -16,7 +16,10 @@ fn main() {
     let menu = Menu::new().add_submenu(Submenu::new(
         "TdexDashboard",
         Menu::new()
-            .add_native_item(MenuItem::About("TdexDashboard".to_string()))
+            .add_native_item(MenuItem::About(
+                "TdexDashboard".to_string(),
+                AboutMetadata::new(),
+            ))
             .add_item(CustomMenuItem::new("quit", "Quit")),
     ));
 
@@ -35,22 +38,28 @@ fn main() {
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
-    // TODO: remove Event::CloseRequested when Tauri beta.9 is released
-    // https://tauri.studio/en/docs/api/rust/tauri/enum.event/
     app.run(|app_handle, e| match e {
-        Event::CloseRequested { label, api, .. } => {
-            let app_handle = app_handle.clone();
-            let window = app_handle.get_window(&label).unwrap();
-            api.prevent_close();
-            window
-                .emit(
-                    "quit-event",
-                    Payload {
-                        message: "quitting".into(),
-                    },
-                )
-                .unwrap();
+        // Triggered when a window is trying to close
+        RunEvent::WindowEvent { label, event, .. } => {
+            match event {
+                WindowEvent::CloseRequested { api, .. } => {
+                    let app_handle = app_handle.clone();
+                    let window = app_handle.get_window(&label).unwrap();
+                    // use the exposed close api, and prevent the event loop to close
+                    api.prevent_close();
+                    window
+                        .emit(
+                            "quit-event",
+                            Payload {
+                                message: "quitting".into(),
+                            },
+                        )
+                        .unwrap();
+                }
+                _ => {}
+            }
         }
         _ => {}
     })
+
 }

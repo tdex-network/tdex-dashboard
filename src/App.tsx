@@ -1,5 +1,6 @@
 import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
+import type { ChildProcess } from '@tauri-apps/api/shell';
 import { Child, Command } from '@tauri-apps/api/shell';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -72,15 +73,15 @@ export const App = (): JSX.Element => {
 
   const startProxy = useCallback(async () => {
     if (!proxyChildProcess.current?.pid) {
-      const command = Command.sidecar('grpcproxy');
-      command.on('close', (data) => {
+      const command = Command.sidecar('bin/grpcproxy');
+      command.on('close', (data: ChildProcess) => {
         console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
       });
       command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
       command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
       command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
       // Set pid in ref to avoid running the function multiple times
-      proxyChildProcess.current = await command.spawn();
+      proxyChildProcess.current = (await command.spawn()) ?? null;
       // Persist pid in storage to keep it after app reloads
       dispatch(setProxyPid(proxyChildProcess.current.pid));
       console.debug('Proxy pid:', proxyChildProcess.current.pid);

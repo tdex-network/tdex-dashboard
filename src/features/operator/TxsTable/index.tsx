@@ -4,12 +4,7 @@ import { Button, Col, Radio, Row, Skeleton } from 'antd';
 import { groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import type {
-  Deposit,
-  MarketInfo,
-  TradeInfo,
-  Withdrawal,
-} from '../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { Deposit, MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';

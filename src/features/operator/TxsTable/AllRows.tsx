@@ -1,10 +1,6 @@
 import { useMemo } from 'react';
 
-import type {
-  MarketInfo,
-  TradeInfo,
-  Withdrawal,
-} from '../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo, TradeInfo, Withdrawal } from '../../../api-spec/generated/js/operator_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';

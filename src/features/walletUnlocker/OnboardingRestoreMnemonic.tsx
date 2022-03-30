@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { InitWalletReply } from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { AnimatedEllipsis } from '../../common/AnimatedEllipsis';
@@ -15,7 +15,8 @@ import {
   ONBOARDING_CREATE_OR_RESTORE_ROUTE,
   ONBOARDING_PAIRING_ROUTE,
 } from '../../routes/constants';
-import { sleep, encodeBase64UrlMacaroon } from '../../utils';
+import { sleep } from '../../utils';
+import { encodeBase64UrlMacaroon } from '../../utils/connect';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';

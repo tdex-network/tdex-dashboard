@@ -1,7 +1,7 @@
 import * as jspb from 'google-protobuf'
 
-import * as tdex$daemon_v1_wallet_pb from '../../tdex-daemon/v1/wallet_pb';
-import * as tdex_v1_types_pb from '../../tdex/v1/types_pb';
+import * as types_pb from './types_pb';
+import * as wallet_pb from './wallet_pb';
 
 
 export class GetInfoRequest extends jspb.Message {
@@ -33,17 +33,6 @@ export class GetInfoReply extends jspb.Message {
   getNetwork(): string;
   setNetwork(value: string): GetInfoReply;
 
-  getBuildData(): BuildInfo | undefined;
-  setBuildData(value?: BuildInfo): GetInfoReply;
-  hasBuildData(): boolean;
-  clearBuildData(): GetInfoReply;
-
-  getFixedBaseAsset(): string;
-  setFixedBaseAsset(value: string): GetInfoReply;
-
-  getFixedQuoteAsset(): string;
-  setFixedQuoteAsset(value: string): GetInfoReply;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetInfoReply.AsObject;
   static toObject(includeInstance: boolean, msg: GetInfoReply): GetInfoReply.AsObject;
@@ -58,35 +47,6 @@ export namespace GetInfoReply {
     masterBlindingKey: string,
     accountInfoList: Array<AccountInfo.AsObject>,
     network: string,
-    buildData?: BuildInfo.AsObject,
-    fixedBaseAsset: string,
-    fixedQuoteAsset: string,
-  }
-}
-
-export class BuildInfo extends jspb.Message {
-  getVersion(): string;
-  setVersion(value: string): BuildInfo;
-
-  getCommit(): string;
-  setCommit(value: string): BuildInfo;
-
-  getDate(): string;
-  setDate(value: string): BuildInfo;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BuildInfo.AsObject;
-  static toObject(includeInstance: boolean, msg: BuildInfo): BuildInfo.AsObject;
-  static serializeBinaryToWriter(message: BuildInfo, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BuildInfo;
-  static deserializeBinaryFromReader(message: BuildInfo, reader: jspb.BinaryReader): BuildInfo;
-}
-
-export namespace BuildInfo {
-  export type AsObject = {
-    version: string,
-    commit: string,
-    date: string,
   }
 }
 
@@ -109,10 +69,10 @@ export namespace GetFeeAddressRequest {
 }
 
 export class GetFeeAddressReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): GetFeeAddressReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): GetFeeAddressReply;
   clearAddressWithBlindingKeyList(): GetFeeAddressReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetFeeAddressReply.AsObject;
@@ -124,7 +84,7 @@ export class GetFeeAddressReply extends jspb.Message {
 
 export namespace GetFeeAddressReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -143,10 +103,10 @@ export namespace ListFeeAddressesRequest {
 }
 
 export class ListFeeAddressesReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): ListFeeAddressesReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): ListFeeAddressesReply;
   clearAddressWithBlindingKeyList(): ListFeeAddressesReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListFeeAddressesReply.AsObject;
@@ -158,7 +118,7 @@ export class ListFeeAddressesReply extends jspb.Message {
 
 export namespace ListFeeAddressesReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -281,8 +241,8 @@ export namespace WithdrawFeeReply {
 }
 
 export class NewMarketRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): NewMarketRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): NewMarketRequest;
   hasMarket(): boolean;
   clearMarket(): NewMarketRequest;
 
@@ -296,7 +256,7 @@ export class NewMarketRequest extends jspb.Message {
 
 export namespace NewMarketRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
@@ -315,8 +275,8 @@ export namespace NewMarketReply {
 }
 
 export class GetMarketInfoRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): GetMarketInfoRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketInfoRequest;
   hasMarket(): boolean;
   clearMarket(): GetMarketInfoRequest;
 
@@ -330,7 +290,7 @@ export class GetMarketInfoRequest extends jspb.Message {
 
 export namespace GetMarketInfoRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
@@ -355,8 +315,8 @@ export namespace GetMarketInfoReply {
 }
 
 export class GetMarketAddressRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): GetMarketAddressRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketAddressRequest;
   hasMarket(): boolean;
   clearMarket(): GetMarketAddressRequest;
 
@@ -373,16 +333,16 @@ export class GetMarketAddressRequest extends jspb.Message {
 
 export namespace GetMarketAddressRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     numOfAddresses: number,
   }
 }
 
 export class GetMarketAddressReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): GetMarketAddressReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): GetMarketAddressReply;
   clearAddressWithBlindingKeyList(): GetMarketAddressReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetMarketAddressReply.AsObject;
@@ -394,13 +354,13 @@ export class GetMarketAddressReply extends jspb.Message {
 
 export namespace GetMarketAddressReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
 export class ListMarketAddressesRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): ListMarketAddressesRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): ListMarketAddressesRequest;
   hasMarket(): boolean;
   clearMarket(): ListMarketAddressesRequest;
 
@@ -414,15 +374,15 @@ export class ListMarketAddressesRequest extends jspb.Message {
 
 export namespace ListMarketAddressesRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
 export class ListMarketAddressesReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): ListMarketAddressesReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): ListMarketAddressesReply;
   clearAddressWithBlindingKeyList(): ListMarketAddressesReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListMarketAddressesReply.AsObject;
@@ -434,13 +394,13 @@ export class ListMarketAddressesReply extends jspb.Message {
 
 export namespace ListMarketAddressesReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
 export class GetMarketBalanceRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): GetMarketBalanceRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketBalanceRequest;
   hasMarket(): boolean;
   clearMarket(): GetMarketBalanceRequest;
 
@@ -454,18 +414,18 @@ export class GetMarketBalanceRequest extends jspb.Message {
 
 export namespace GetMarketBalanceRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
 export class GetMarketBalanceReply extends jspb.Message {
-  getAvailableBalance(): tdex_v1_types_pb.Balance | undefined;
-  setAvailableBalance(value?: tdex_v1_types_pb.Balance): GetMarketBalanceReply;
+  getAvailableBalance(): types_pb.Balance | undefined;
+  setAvailableBalance(value?: types_pb.Balance): GetMarketBalanceReply;
   hasAvailableBalance(): boolean;
   clearAvailableBalance(): GetMarketBalanceReply;
 
-  getTotalBalance(): tdex_v1_types_pb.Balance | undefined;
-  setTotalBalance(value?: tdex_v1_types_pb.Balance): GetMarketBalanceReply;
+  getTotalBalance(): types_pb.Balance | undefined;
+  setTotalBalance(value?: types_pb.Balance): GetMarketBalanceReply;
   hasTotalBalance(): boolean;
   clearTotalBalance(): GetMarketBalanceReply;
 
@@ -479,14 +439,14 @@ export class GetMarketBalanceReply extends jspb.Message {
 
 export namespace GetMarketBalanceReply {
   export type AsObject = {
-    availableBalance?: tdex_v1_types_pb.Balance.AsObject,
-    totalBalance?: tdex_v1_types_pb.Balance.AsObject,
+    availableBalance?: types_pb.Balance.AsObject,
+    totalBalance?: types_pb.Balance.AsObject,
   }
 }
 
 export class ClaimMarketDepositsRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): ClaimMarketDepositsRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): ClaimMarketDepositsRequest;
   hasMarket(): boolean;
   clearMarket(): ClaimMarketDepositsRequest;
 
@@ -505,7 +465,7 @@ export class ClaimMarketDepositsRequest extends jspb.Message {
 
 export namespace ClaimMarketDepositsRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     outpointsList: Array<TxOutpoint.AsObject>,
   }
 }
@@ -525,8 +485,8 @@ export namespace ClaimMarketDepositsReply {
 }
 
 export class OpenMarketRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): OpenMarketRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): OpenMarketRequest;
   hasMarket(): boolean;
   clearMarket(): OpenMarketRequest;
 
@@ -540,7 +500,7 @@ export class OpenMarketRequest extends jspb.Message {
 
 export namespace OpenMarketRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
@@ -559,8 +519,8 @@ export namespace OpenMarketReply {
 }
 
 export class CloseMarketRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): CloseMarketRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): CloseMarketRequest;
   hasMarket(): boolean;
   clearMarket(): CloseMarketRequest;
 
@@ -574,7 +534,7 @@ export class CloseMarketRequest extends jspb.Message {
 
 export namespace CloseMarketRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
@@ -627,8 +587,8 @@ export namespace ListMarketsReply {
 }
 
 export class DropMarketRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): DropMarketRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): DropMarketRequest;
   hasMarket(): boolean;
   clearMarket(): DropMarketRequest;
 
@@ -642,7 +602,7 @@ export class DropMarketRequest extends jspb.Message {
 
 export namespace DropMarketRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
   }
 }
 
@@ -661,8 +621,8 @@ export namespace DropMarketReply {
 }
 
 export class GetMarketCollectedSwapFeesRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): GetMarketCollectedSwapFeesRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketCollectedSwapFeesRequest;
   hasMarket(): boolean;
   clearMarket(): GetMarketCollectedSwapFeesRequest;
 
@@ -681,7 +641,7 @@ export class GetMarketCollectedSwapFeesRequest extends jspb.Message {
 
 export namespace GetMarketCollectedSwapFeesRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     page?: Page.AsObject,
   }
 }
@@ -711,13 +671,13 @@ export namespace GetMarketCollectedSwapFeesReply {
 }
 
 export class WithdrawMarketRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): WithdrawMarketRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): WithdrawMarketRequest;
   hasMarket(): boolean;
   clearMarket(): WithdrawMarketRequest;
 
-  getBalanceToWithdraw(): tdex_v1_types_pb.Balance | undefined;
-  setBalanceToWithdraw(value?: tdex_v1_types_pb.Balance): WithdrawMarketRequest;
+  getBalanceToWithdraw(): types_pb.Balance | undefined;
+  setBalanceToWithdraw(value?: types_pb.Balance): WithdrawMarketRequest;
   hasBalanceToWithdraw(): boolean;
   clearBalanceToWithdraw(): WithdrawMarketRequest;
 
@@ -737,8 +697,8 @@ export class WithdrawMarketRequest extends jspb.Message {
 
 export namespace WithdrawMarketRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
-    balanceToWithdraw?: tdex_v1_types_pb.Balance.AsObject,
+    market?: types_pb.Market.AsObject,
+    balanceToWithdraw?: types_pb.Balance.AsObject,
     millisatsPerByte: number,
     address: string,
   }
@@ -763,8 +723,8 @@ export namespace WithdrawMarketReply {
 }
 
 export class UpdateMarketPercentageFeeRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): UpdateMarketPercentageFeeRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): UpdateMarketPercentageFeeRequest;
   hasMarket(): boolean;
   clearMarket(): UpdateMarketPercentageFeeRequest;
 
@@ -781,19 +741,19 @@ export class UpdateMarketPercentageFeeRequest extends jspb.Message {
 
 export namespace UpdateMarketPercentageFeeRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     basisPoint: number,
   }
 }
 
 export class UpdateMarketFixedFeeRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): UpdateMarketFixedFeeRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): UpdateMarketFixedFeeRequest;
   hasMarket(): boolean;
   clearMarket(): UpdateMarketFixedFeeRequest;
 
-  getFixed(): tdex_v1_types_pb.Fixed | undefined;
-  setFixed(value?: tdex_v1_types_pb.Fixed): UpdateMarketFixedFeeRequest;
+  getFixed(): types_pb.Fixed | undefined;
+  setFixed(value?: types_pb.Fixed): UpdateMarketFixedFeeRequest;
   hasFixed(): boolean;
   clearFixed(): UpdateMarketFixedFeeRequest;
 
@@ -807,14 +767,14 @@ export class UpdateMarketFixedFeeRequest extends jspb.Message {
 
 export namespace UpdateMarketFixedFeeRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
-    fixed?: tdex_v1_types_pb.Fixed.AsObject,
+    market?: types_pb.Market.AsObject,
+    fixed?: types_pb.Fixed.AsObject,
   }
 }
 
 export class UpdateMarketFeeReply extends jspb.Message {
-  getMarketWithFee(): tdex_v1_types_pb.MarketWithFee | undefined;
-  setMarketWithFee(value?: tdex_v1_types_pb.MarketWithFee): UpdateMarketFeeReply;
+  getMarketWithFee(): types_pb.MarketWithFee | undefined;
+  setMarketWithFee(value?: types_pb.MarketWithFee): UpdateMarketFeeReply;
   hasMarketWithFee(): boolean;
   clearMarketWithFee(): UpdateMarketFeeReply;
 
@@ -828,18 +788,18 @@ export class UpdateMarketFeeReply extends jspb.Message {
 
 export namespace UpdateMarketFeeReply {
   export type AsObject = {
-    marketWithFee?: tdex_v1_types_pb.MarketWithFee.AsObject,
+    marketWithFee?: types_pb.MarketWithFee.AsObject,
   }
 }
 
 export class UpdateMarketPriceRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): UpdateMarketPriceRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): UpdateMarketPriceRequest;
   hasMarket(): boolean;
   clearMarket(): UpdateMarketPriceRequest;
 
-  getPrice(): tdex_v1_types_pb.Price | undefined;
-  setPrice(value?: tdex_v1_types_pb.Price): UpdateMarketPriceRequest;
+  getPrice(): types_pb.Price | undefined;
+  setPrice(value?: types_pb.Price): UpdateMarketPriceRequest;
   hasPrice(): boolean;
   clearPrice(): UpdateMarketPriceRequest;
 
@@ -853,8 +813,8 @@ export class UpdateMarketPriceRequest extends jspb.Message {
 
 export namespace UpdateMarketPriceRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
-    price?: tdex_v1_types_pb.Price.AsObject,
+    market?: types_pb.Market.AsObject,
+    price?: types_pb.Price.AsObject,
   }
 }
 
@@ -873,8 +833,8 @@ export namespace UpdateMarketPriceReply {
 }
 
 export class UpdateMarketStrategyRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): UpdateMarketStrategyRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): UpdateMarketStrategyRequest;
   hasMarket(): boolean;
   clearMarket(): UpdateMarketStrategyRequest;
 
@@ -894,7 +854,7 @@ export class UpdateMarketStrategyRequest extends jspb.Message {
 
 export namespace UpdateMarketStrategyRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     strategyType: StrategyType,
     metadata: string,
   }
@@ -933,10 +893,10 @@ export namespace GetFeeFragmenterAddressRequest {
 }
 
 export class GetFeeFragmenterAddressReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): GetFeeFragmenterAddressReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): GetFeeFragmenterAddressReply;
   clearAddressWithBlindingKeyList(): GetFeeFragmenterAddressReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetFeeFragmenterAddressReply.AsObject;
@@ -948,7 +908,7 @@ export class GetFeeFragmenterAddressReply extends jspb.Message {
 
 export namespace GetFeeFragmenterAddressReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -967,10 +927,10 @@ export namespace ListFeeFragmenterAddressesRequest {
 }
 
 export class ListFeeFragmenterAddressesReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): ListFeeFragmenterAddressesReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): ListFeeFragmenterAddressesReply;
   clearAddressWithBlindingKeyList(): ListFeeFragmenterAddressesReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListFeeFragmenterAddressesReply.AsObject;
@@ -982,7 +942,7 @@ export class ListFeeFragmenterAddressesReply extends jspb.Message {
 
 export namespace ListFeeFragmenterAddressesReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -1001,7 +961,7 @@ export namespace GetFeeFragmenterBalanceRequest {
 }
 
 export class GetFeeFragmenterBalanceReply extends jspb.Message {
-  getBalanceMap(): jspb.Map<string, tdex$daemon_v1_wallet_pb.BalanceInfo>;
+  getBalanceMap(): jspb.Map<string, wallet_pb.BalanceInfo>;
   clearBalanceMap(): GetFeeFragmenterBalanceReply;
 
   serializeBinary(): Uint8Array;
@@ -1014,7 +974,7 @@ export class GetFeeFragmenterBalanceReply extends jspb.Message {
 
 export namespace GetFeeFragmenterBalanceReply {
   export type AsObject = {
-    balanceMap: Array<[string, tdex$daemon_v1_wallet_pb.BalanceInfo.AsObject]>,
+    balanceMap: Array<[string, wallet_pb.BalanceInfo.AsObject]>,
   }
 }
 
@@ -1117,10 +1077,10 @@ export namespace GetMarketFragmenterAddressRequest {
 }
 
 export class GetMarketFragmenterAddressReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): GetMarketFragmenterAddressReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): GetMarketFragmenterAddressReply;
   clearAddressWithBlindingKeyList(): GetMarketFragmenterAddressReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetMarketFragmenterAddressReply.AsObject;
@@ -1132,7 +1092,7 @@ export class GetMarketFragmenterAddressReply extends jspb.Message {
 
 export namespace GetMarketFragmenterAddressReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -1151,10 +1111,10 @@ export namespace ListMarketFragmenterAddressesRequest {
 }
 
 export class ListMarketFragmenterAddressesReply extends jspb.Message {
-  getAddressWithBlindingKeyList(): Array<tdex_v1_types_pb.AddressWithBlindingKey>;
-  setAddressWithBlindingKeyList(value: Array<tdex_v1_types_pb.AddressWithBlindingKey>): ListMarketFragmenterAddressesReply;
+  getAddressWithBlindingKeyList(): Array<types_pb.AddressWithBlindingKey>;
+  setAddressWithBlindingKeyList(value: Array<types_pb.AddressWithBlindingKey>): ListMarketFragmenterAddressesReply;
   clearAddressWithBlindingKeyList(): ListMarketFragmenterAddressesReply;
-  addAddressWithBlindingKey(value?: tdex_v1_types_pb.AddressWithBlindingKey, index?: number): tdex_v1_types_pb.AddressWithBlindingKey;
+  addAddressWithBlindingKey(value?: types_pb.AddressWithBlindingKey, index?: number): types_pb.AddressWithBlindingKey;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListMarketFragmenterAddressesReply.AsObject;
@@ -1166,7 +1126,7 @@ export class ListMarketFragmenterAddressesReply extends jspb.Message {
 
 export namespace ListMarketFragmenterAddressesReply {
   export type AsObject = {
-    addressWithBlindingKeyList: Array<tdex_v1_types_pb.AddressWithBlindingKey.AsObject>,
+    addressWithBlindingKeyList: Array<types_pb.AddressWithBlindingKey.AsObject>,
   }
 }
 
@@ -1185,7 +1145,7 @@ export namespace GetMarketFragmenterBalanceRequest {
 }
 
 export class GetMarketFragmenterBalanceReply extends jspb.Message {
-  getBalanceMap(): jspb.Map<string, tdex$daemon_v1_wallet_pb.BalanceInfo>;
+  getBalanceMap(): jspb.Map<string, wallet_pb.BalanceInfo>;
   clearBalanceMap(): GetMarketFragmenterBalanceReply;
 
   serializeBinary(): Uint8Array;
@@ -1198,13 +1158,13 @@ export class GetMarketFragmenterBalanceReply extends jspb.Message {
 
 export namespace GetMarketFragmenterBalanceReply {
   export type AsObject = {
-    balanceMap: Array<[string, tdex$daemon_v1_wallet_pb.BalanceInfo.AsObject]>,
+    balanceMap: Array<[string, wallet_pb.BalanceInfo.AsObject]>,
   }
 }
 
 export class MarketFragmenterSplitFundsRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): MarketFragmenterSplitFundsRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): MarketFragmenterSplitFundsRequest;
   hasMarket(): boolean;
   clearMarket(): MarketFragmenterSplitFundsRequest;
 
@@ -1221,7 +1181,7 @@ export class MarketFragmenterSplitFundsRequest extends jspb.Message {
 
 export namespace MarketFragmenterSplitFundsRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     millisatsPerByte: number,
   }
 }
@@ -1267,8 +1227,8 @@ export namespace WithdrawMarketFragmenterReply {
 }
 
 export class ListTradesRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): ListTradesRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): ListTradesRequest;
   hasMarket(): boolean;
   clearMarket(): ListTradesRequest;
 
@@ -1287,7 +1247,7 @@ export class ListTradesRequest extends jspb.Message {
 
 export namespace ListTradesRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     page?: Page.AsObject,
   }
 }
@@ -1641,13 +1601,13 @@ export namespace AccountInfo {
 }
 
 export class MarketInfo extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): MarketInfo;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): MarketInfo;
   hasMarket(): boolean;
   clearMarket(): MarketInfo;
 
-  getFee(): tdex_v1_types_pb.Fee | undefined;
-  setFee(value?: tdex_v1_types_pb.Fee): MarketInfo;
+  getFee(): types_pb.Fee | undefined;
+  setFee(value?: types_pb.Fee): MarketInfo;
   hasFee(): boolean;
   clearFee(): MarketInfo;
 
@@ -1660,13 +1620,13 @@ export class MarketInfo extends jspb.Message {
   getAccountIndex(): number;
   setAccountIndex(value: number): MarketInfo;
 
-  getPrice(): tdex_v1_types_pb.Price | undefined;
-  setPrice(value?: tdex_v1_types_pb.Price): MarketInfo;
+  getPrice(): types_pb.Price | undefined;
+  setPrice(value?: types_pb.Price): MarketInfo;
   hasPrice(): boolean;
   clearPrice(): MarketInfo;
 
-  getBalance(): tdex_v1_types_pb.Balance | undefined;
-  setBalance(value?: tdex_v1_types_pb.Balance): MarketInfo;
+  getBalance(): types_pb.Balance | undefined;
+  setBalance(value?: types_pb.Balance): MarketInfo;
   hasBalance(): boolean;
   clearBalance(): MarketInfo;
 
@@ -1680,13 +1640,13 @@ export class MarketInfo extends jspb.Message {
 
 export namespace MarketInfo {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
-    fee?: tdex_v1_types_pb.Fee.AsObject,
+    market?: types_pb.Market.AsObject,
+    fee?: types_pb.Fee.AsObject,
     tradable: boolean,
     strategyType: StrategyType,
     accountIndex: number,
-    price?: tdex_v1_types_pb.Price.AsObject,
-    balance?: tdex_v1_types_pb.Balance.AsObject,
+    price?: types_pb.Price.AsObject,
+    balance?: types_pb.Balance.AsObject,
   }
 }
 
@@ -1811,8 +1771,8 @@ export class TradeInfo extends jspb.Message {
   hasFailInfo(): boolean;
   clearFailInfo(): TradeInfo;
 
-  getMarketWithFee(): tdex_v1_types_pb.MarketWithFee | undefined;
-  setMarketWithFee(value?: tdex_v1_types_pb.MarketWithFee): TradeInfo;
+  getMarketWithFee(): types_pb.MarketWithFee | undefined;
+  setMarketWithFee(value?: types_pb.MarketWithFee): TradeInfo;
   hasMarketWithFee(): boolean;
   clearMarketWithFee(): TradeInfo;
 
@@ -1868,7 +1828,7 @@ export namespace TradeInfo {
     status?: TradeStatusInfo.AsObject,
     swapInfo?: SwapInfo.AsObject,
     failInfo?: SwapFailInfo.AsObject,
-    marketWithFee?: tdex_v1_types_pb.MarketWithFee.AsObject,
+    marketWithFee?: types_pb.MarketWithFee.AsObject,
     price?: TradePrice.AsObject,
     txUrl: string,
     requestTimeUnix: number,
@@ -2024,8 +1984,8 @@ export class Withdrawal extends jspb.Message {
   getTxId(): string;
   setTxId(value: string): Withdrawal;
 
-  getBalance(): tdex_v1_types_pb.Balance | undefined;
-  setBalance(value?: tdex_v1_types_pb.Balance): Withdrawal;
+  getBalance(): types_pb.Balance | undefined;
+  setBalance(value?: types_pb.Balance): Withdrawal;
   hasBalance(): boolean;
   clearBalance(): Withdrawal;
 
@@ -2049,7 +2009,7 @@ export class Withdrawal extends jspb.Message {
 export namespace Withdrawal {
   export type AsObject = {
     txId: string,
-    balance?: tdex_v1_types_pb.Balance.AsObject,
+    balance?: types_pb.Balance.AsObject,
     address: string,
     timestampUnix: number,
     timestampUtc: string,
@@ -2079,8 +2039,8 @@ export namespace Page {
 }
 
 export class GetMarketReportRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): GetMarketReportRequest;
+  getMarket(): types_pb.Market | undefined;
+  setMarket(value?: types_pb.Market): GetMarketReportRequest;
   hasMarket(): boolean;
   clearMarket(): GetMarketReportRequest;
 
@@ -2102,7 +2062,7 @@ export class GetMarketReportRequest extends jspb.Message {
 
 export namespace GetMarketReportRequest {
   export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
+    market?: types_pb.Market.AsObject,
     timeRange?: TimeRange.AsObject,
     timeFrame: TimeFrame,
   }
@@ -2294,7 +2254,6 @@ export enum PredefinedPeriod {
   LAST_THREE_MONTHS = 5,
   YEAR_TO_DATE = 6,
   ALL = 7,
-  LAST_YEAR = 8,
 }
 export enum TimeFrame { 
   HOUR = 0,

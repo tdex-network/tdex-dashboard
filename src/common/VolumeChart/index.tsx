@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import type { MarketReport } from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
-import { PredefinedPeriod } from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { MarketReport } from '../../api-spec/generated/js/operator_pb';
+import { PredefinedPeriod } from '../../api-spec/generated/js/operator_pb';
 import type { Asset } from '../../domain/asset';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../utils';

@@ -1,4 +1,4 @@
-import type { MarketInfo } from '../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo } from '../../../api-spec/generated/js/operator_pb';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../utils';

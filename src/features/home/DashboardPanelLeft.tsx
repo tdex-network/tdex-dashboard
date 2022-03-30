@@ -4,7 +4,7 @@ import { Button, Col, Divider, Row, Typography } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { Market } from '../../api-spec/generated/js/tdex/v1/types_pb';
+import type { Market } from '../../api-spec/generated/js/types_pb';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional } from '../../utils';

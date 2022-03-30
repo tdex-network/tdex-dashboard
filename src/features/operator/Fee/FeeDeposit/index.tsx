@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import type { FragmenterSplitFundsReply } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { FragmenterSplitFundsReply } from '../../../../api-spec/generated/js/operator_pb';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';

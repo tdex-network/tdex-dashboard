@@ -5,7 +5,7 @@ import { Breadcrumb, Button, Col, notification, Row, Space, Typography } from 'a
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import type { InitWalletReply } from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletReply } from '../../api-spec/generated/js/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import {

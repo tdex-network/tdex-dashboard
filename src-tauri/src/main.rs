@@ -7,13 +7,6 @@ use tauri::{
   AboutMetadata, CustomMenuItem, Manager, Menu, MenuItem, RunEvent, Submenu, WindowEvent,
 };
 
-// the payload type must implement `Serialize`.
-// for global events, it also must implement `Clone`.
-#[derive(Clone, serde::Serialize)]
-struct Payload {
-  message: String,
-}
-
 fn main() {
   let menu = Menu::new().add_submenu(Submenu::new(
     "TdexDashboard",
@@ -32,15 +25,7 @@ fn main() {
       match event.menu_item_id() {
         "quit" => {
           // emit event to JS and quit from there after cleanup
-          event
-            .window()
-            .emit(
-              "quit-event",
-              Payload {
-                message: "quitting".into(),
-              },
-            )
-            .unwrap();
+          event.window().emit("quit-event", {}).unwrap();
         }
         _ => {}
       }
@@ -57,14 +42,7 @@ fn main() {
           let window = app_handle.get_window(&label).unwrap();
           // use the exposed close api, and prevent the event loop to close
           api.prevent_close();
-          window
-            .emit(
-              "quit-event",
-              Payload {
-                message: "quitting".into(),
-              },
-            )
-            .unwrap();
+          window.emit("quit-event", {}).unwrap();
         }
         _ => {}
       }

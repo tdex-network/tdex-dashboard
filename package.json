@@ -90,5 +90,5 @@
     "tdex:run-testnet": "bash scripts/tdexd-run-testnet",
     "test": "craco test"
   },
-  "version": "0.1.21"
+  "version": "0.1.22"
 }

@@ -1,7 +1,8 @@
 {
   "build": {
     "beforeBuildCommand": "yarn build",
-    "beforeDevCommand": "yarn start",
+    "//": "https://github.com/tauri-apps/tauri/issues/2794",
+    "beforeDevCommand": "kill -9 $(lsof -i :3003 -t) &>/dev/null || true && yarn start",
     "devPath": "http://localhost:3003",
     "distDir": "../build"
   },

@@ -22,6 +22,7 @@ import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
+import { FixedAssets } from './FixedAssets';
 import {
   disconnectProxy,
   logout,
@@ -285,6 +286,18 @@ export const Settings = (): JSX.Element => {
               </Col>
             </Row>
           </div>
+          {/**/}
+          <div className="mb-4">
+            <Row>
+              <Col span={24}>
+                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                  Daemon fixed Assets
+                </Title>
+              </Col>
+            </Row>
+            <FixedAssets />
+          </div>
+          {/**/}
         </div>
       </div>
     </>

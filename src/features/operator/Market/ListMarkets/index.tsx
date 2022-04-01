@@ -3,6 +3,7 @@ import './listMarkets.less';
 import { useEffect } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
+import type { Asset } from '../../../../domain/asset';
 import { getAllAssetIdsFromMarkets, getAssetDataFromRegistry } from '../../../../utils';
 import { liquidApi } from '../../../liquid.api';
 import { setAsset } from '../../../settings/settingsSlice';
@@ -40,7 +41,7 @@ export const ListMarkets = (): JSX.Element => {
 
   return (
     <div id="list-markets">
-      {listMarkets?.marketsList.length && network === daemonInfo?.network ? (
+      {listMarkets?.marketsList.length ? (
         listMarkets?.marketsList.map((marketInfo, index) => {
           const baseAsset = getAssetDataFromRegistry(
             marketInfo.market?.baseAsset || '',
@@ -52,14 +53,14 @@ export const ListMarkets = (): JSX.Element => {
             assetRegistry[network],
             lbtcUnit
           );
-          return baseAsset && quoteAsset ? (
+          return (
             <MarketListItem
-              baseAsset={baseAsset}
-              quoteAsset={quoteAsset}
+              baseAsset={baseAsset as Asset}
+              quoteAsset={quoteAsset as Asset}
               isTradable={marketInfo.tradable}
               key={index}
             />
-          ) : null;
+          );
         })
       ) : (
         <MarketListEmpty />

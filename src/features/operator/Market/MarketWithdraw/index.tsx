@@ -20,7 +20,7 @@ import {
   getAssetDataFromRegistry,
   isLbtcTicker,
 } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery, convertAssetToCurrency } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -110,7 +110,7 @@ export const MarketWithdraw = (): JSX.Element => {
     }
   };
 
-  const baseToPreferredCurrency = convertAssetToCurrency({
+  const baseToFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: selectedMarket?.baseAsset,
     amount: balanceBaseAmount,
     network: network,
@@ -119,7 +119,7 @@ export const MarketWithdraw = (): JSX.Element => {
     prices: prices,
   });
 
-  const quoteToPreferredCurrency = convertAssetToCurrency({
+  const quoteToFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: selectedMarket?.quoteAsset,
     amount: balanceQuoteAmount,
     network: network,
@@ -247,7 +247,10 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  {!isLoadingPrices && !isErrorPrices && baseToPreferredCurrency}
+                  <span>{!isLoadingPrices && !isErrorPrices && baseToFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>
@@ -287,7 +290,10 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  {!isLoadingPrices && !isErrorPrices && quoteToPreferredCurrency}
+                  <span>{!isLoadingPrices && !isErrorPrices && quoteToFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>

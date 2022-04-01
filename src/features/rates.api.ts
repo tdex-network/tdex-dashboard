@@ -69,23 +69,25 @@ export const calculateLCAD = (prices?: CoinGeckoPriceResult): Record<Currency['v
 
 interface CurrencyConversionParams {
   asset?: Asset;
-  amount: BigSource;
+  amount?: BigSource;
   network: NetworkString;
   preferredCurrency: Currency;
   preferredLbtcUnit: LbtcUnit;
   prices?: CoinGeckoPriceResult;
-  useSymbol?: boolean;
 }
 
-export const convertAssetToCurrency = ({
+export const convertAmountToFavoriteCurrency = ({
   asset,
   amount,
   network,
   preferredCurrency,
   preferredLbtcUnit,
   prices,
-  useSymbol = false,
-}: CurrencyConversionParams): string => {
+}: CurrencyConversionParams): string | undefined => {
+  if (asset === undefined || prices === undefined || amount === undefined) {
+    return undefined;
+  }
+
   let assetAmount = Big(0);
   try {
     assetAmount = Big(amount);
@@ -93,14 +95,10 @@ export const convertAssetToCurrency = ({
     // ignore user typos, just leave the amount as 0
   }
 
-  if (asset === undefined || prices === undefined) {
-    return '';
-  }
-
   const assetId = asset?.asset_id || '';
   const assetTicker = asset?.ticker || 'unknown';
 
-  let currencyAmount = Big(1);
+  let currencyAmount: Big;
   if (isLbtcAssetId(assetId, network)) {
     currencyAmount = Big(fromUnitToUnit(assetAmount.toNumber(), preferredLbtcUnit, 'L-BTC'));
   } else {
@@ -124,13 +122,9 @@ export const convertAssetToCurrency = ({
 
   if (preferredCurrency.value === 'btc') {
     const preferredLbtcAmount = fromUnitToUnit(Number(currencyAmount.toFixed(8)), 'L-BTC', preferredLbtcUnit);
-    return `${preferredLbtcAmount} ${preferredLbtcUnit}`;
+    return `${preferredLbtcAmount}`;
   } else {
-    if (useSymbol) {
-      return `${preferredCurrency.symbol}${currencyAmount.toFixed(2)}`;
-    } else {
-      return `${currencyAmount.toFixed(2)} ${preferredCurrency.value.toLocaleUpperCase()}`;
-    }
+    return `${currencyAmount.toFixed(2)}`;
   }
 };
 

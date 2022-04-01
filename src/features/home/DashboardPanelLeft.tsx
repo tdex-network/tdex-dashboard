@@ -11,7 +11,7 @@ import type { LbtcUnit } from '../../utils';
 import { LBTC_ASSET } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 import type { PriceFeedQueryResult } from '../rates.api';
-import { convertAssetToCurrency } from '../rates.api';
+import { convertAmountToFavoriteCurrency } from '../rates.api';
 
 const { Title } = Typography;
 
@@ -31,17 +31,14 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
 
-  const TotalCollectedSwapFees =
-    totalCollectedSwapFees &&
-    convertAssetToCurrency({
-      asset: LBTC_ASSET[network],
-      amount: totalCollectedSwapFees,
-      network: network,
-      preferredCurrency: currency,
-      preferredLbtcUnit: lbtcUnit,
-      prices: prices,
-      useSymbol: true,
-    });
+  const totalCollectedSwapFeesAsFavoriteCurrency = convertAmountToFavoriteCurrency({
+    asset: LBTC_ASSET[network],
+    amount: totalCollectedSwapFees,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices,
+  });
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">
@@ -50,7 +47,17 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
       </Title>
       <Row>
         <Col className="dm-mono dm-mono__xxxxxx" span={16}>
-          {!isLoadingPrices && !isErrorPrices && TotalCollectedSwapFees}
+          {!isLoadingPrices && !isErrorPrices && totalCollectedSwapFeesAsFavoriteCurrency ? (
+            <>
+              {currency.symbol}
+              {totalCollectedSwapFeesAsFavoriteCurrency}
+            </>
+          ) : (
+            'N/A'
+          )}
+          {currency.value === 'btc' && totalCollectedSwapFeesAsFavoriteCurrency && (
+            <span className="dm-sans dm-sans__xxxx ml-3">{lbtcUnit}</span>
+          )}
         </Col>
         <Col className="total-earned-change" span={8}>
           <div>24h</div>

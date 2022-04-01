@@ -12,7 +12,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER, LBTC_ASSET } from '../../../../utils';
-import { useLatestPriceFeedFromCoinGeckoQuery, convertAssetToCurrency } from '../../../rates.api';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -44,7 +44,7 @@ export const FeeWithdraw = (): JSX.Element => {
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
 
-  const feeTicker = convertAssetToCurrency({
+  const feeTickerAsFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: LBTC_ASSET[network],
     amount: feeWithdrawInputValue,
     network: network,
@@ -136,7 +136,10 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  {!isLoadingPrices && !isErrorPrices && feeTicker}
+                  <span>{!isLoadingPrices && !isErrorPrices && feeTickerAsFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>

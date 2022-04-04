@@ -1,4 +1,3 @@
-import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { ClientReadableStream } from 'grpc-web';
 
 import type {
@@ -17,11 +16,9 @@ import {
 import type { RootState } from '../../app/store';
 import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
+import { tdexApi } from '../tdex.api';
 
-export const walletUnlockerApi = createApi({
-  reducerPath: 'walletUnlockerService',
-  baseQuery: fakeBaseQuery<string>(),
-  tagTypes: ['Unlocker'],
+const walletUnlockerApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     genSeed: build.query<string[], void>({
       queryFn: async (arg, { getState }) => {
@@ -57,7 +54,7 @@ export const walletUnlockerApi = createApi({
           };
         });
       },
-      invalidatesTags: ['Unlocker'],
+      invalidatesTags: ['isReady'],
     }),
     unlockWallet: build.mutation<
       UnlockWalletReply.AsObject,
@@ -79,7 +76,7 @@ export const walletUnlockerApi = createApi({
           };
         });
       },
-      invalidatesTags: ['Unlocker'],
+      invalidatesTags: ['isReady'],
     }),
     changePassword: build.mutation<
       ChangePasswordReply,
@@ -100,7 +97,7 @@ export const walletUnlockerApi = createApi({
           return { data: changePasswordReply };
         });
       },
-      invalidatesTags: ['Unlocker'],
+      invalidatesTags: ['isReady'],
     }),
     isReady: build.query<IsReadyReply.AsObject, void>({
       queryFn: async (arg, { getState }) => {
@@ -114,11 +111,12 @@ export const walletUnlockerApi = createApi({
           };
         });
       },
-      providesTags: ['Unlocker'],
+      providesTags: ['isReady'],
     }),
   }),
 });
 
+export default walletUnlockerApi;
 export const {
   useGenSeedQuery,
   useInitWalletMutation,

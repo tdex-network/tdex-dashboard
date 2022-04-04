@@ -50,8 +50,8 @@ import {
 const PrivateRoute = ({ children }: any) => {
   const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
   const isDaemonInitialized = useTypedSelector(
-    ({ walletUnlockerService }: RootState) =>
-      (walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject)?.initialized
+    ({ tdexService }: RootState) =>
+      (tdexService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject)?.initialized
   );
   if (isDaemonInitialized && tdexdConnectUrl) {
     return children;

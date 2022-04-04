@@ -9,11 +9,11 @@ import { useTypedSelector } from '../../app/store';
 export const ConnectionIndicators = (): JSX.Element => {
   const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const daemonState = useTypedSelector(
-    ({ walletUnlockerService }: RootState) =>
-      walletUnlockerService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject | undefined
+    ({ tdexService }: RootState) =>
+      tdexService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject | undefined
   );
   const daemonError = useTypedSelector(
-    ({ walletUnlockerService }: RootState) => walletUnlockerService.queries['isReady(undefined)']?.error
+    ({ tdexService }: RootState) => tdexService.queries['isReady(undefined)']?.error
   );
   const tooltipDaemonElement = daemonState ? (
     <div>

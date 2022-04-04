@@ -1,6 +1,3 @@
-import { fakeBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { createApi } from '@reduxjs/toolkit/query/react';
-
 import type {
   SendToManyReply,
   WalletAddressReply,
@@ -15,10 +12,9 @@ import {
 import type { RootState } from '../../app/store';
 import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';
+import { tdexApi } from '../tdex.api';
 
-export const walletApi = createApi({
-  reducerPath: 'walletService',
-  baseQuery: fakeBaseQuery<string>(),
+const walletApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     walletAddress: build.query<WalletAddressReply, void>({
       queryFn: async (arg, { getState }) => {
@@ -63,4 +59,5 @@ export const walletApi = createApi({
   }),
 });
 
+export default walletApi;
 export const { useWalletAddressQuery, useWalletBalanceQuery, useSendToManyMutation } = walletApi;

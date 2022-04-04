@@ -5,7 +5,7 @@ import type { Market } from '../../../../api-spec/generated/js/tdex/v1/types_pb'
 import type { RootState } from '../../../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { formatFiatToSats, formatLbtcUnitToSats, isLbtcAssetId } from '../../../../utils';
-import { operatorApi } from '../../operator.api';
+import operatorApi from '../../operator.api';
 
 interface IFormInputs {
   basePrice: number;

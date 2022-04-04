@@ -6,8 +6,7 @@ import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
-import {
-  operatorApi,
+import operatorApi, {
   useClaimFeeDepositsMutation,
   useFeeFragmenterSplitFundsMutation,
   useListDepositsQuery,

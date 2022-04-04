@@ -5,18 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_CREATE_OR_RESTORE_ROUTE } from '../../routes/constants';
-import {
-  decodeCert,
-  decodeBase64UrlMacaroon,
-  downloadCert,
-  extractHostCertMacaroon,
-} from '../../utils/connect';
-import { liquidApi } from '../liquid.api';
-import { operatorApi } from '../operator/operator.api';
+import { decodeCert, decodeBase64UrlMacaroon, downloadCert, extractHostCertMacaroon } from '../../utils';
+import liquidApi from '../liquid.api';
+import operatorApi from '../operator/operator.api';
 import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
-import { walletApi } from '../wallet/wallet.api';
+import walletApi from '../wallet/wallet.api';
 
-import { walletUnlockerApi } from './walletUnlocker.api';
+import walletUnlockerApi from './walletUnlocker.api';
 
 const { Title } = Typography;
 

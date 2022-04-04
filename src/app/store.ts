@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 
-import { liquidApi } from '../features/liquid.api';
-import { operatorApi } from '../features/operator/operator.api';
-import { walletApi } from '../features/wallet/wallet.api';
-import { walletUnlockerApi } from '../features/walletUnlocker/walletUnlocker.api';
+import liquidApi from '../features/liquid.api';
+import { tdexApi } from '../features/tdex.api';
 import { tauriStorage } from '../utils';
 
 import { rootReducer } from './rootReducer';
@@ -18,12 +16,7 @@ const persistConfig = {
   key: 'root',
   version: 0,
   storage: '__TAURI__' in window ? tauriStorage : localStorage,
-  blacklist: [
-    liquidApi.reducerPath,
-    operatorApi.reducerPath,
-    walletUnlockerApi.reducerPath,
-    walletApi.reducerPath,
-  ],
+  blacklist: [liquidApi.reducerPath, tdexApi.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,12 +26,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare({
       serializableCheck: false,
-    }).concat(
-      liquidApi.middleware,
-      operatorApi.middleware,
-      walletUnlockerApi.middleware,
-      walletApi.middleware
-    ),
+    }).concat(liquidApi.middleware, tdexApi.middleware),
 });
 
 export const persistor = persistStore(store);

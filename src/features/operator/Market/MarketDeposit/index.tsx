@@ -11,13 +11,12 @@ import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
-import {
+import operatorApi, {
   useMarketFragmenterSplitFundsMutation,
   useListDepositsQuery,
   useClaimMarketDepositsMutation,
   useListMarketAddressesQuery,
   useListMarketFragmenterAddressesQuery,
-  operatorApi,
 } from '../../operator.api';
 
 export const MarketDeposit = (): JSX.Element => {

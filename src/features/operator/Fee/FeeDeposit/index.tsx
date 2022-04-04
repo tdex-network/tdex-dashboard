@@ -6,8 +6,7 @@ import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
-import { tdexApi } from '../../../tdex.api';
-import {
+import operatorApi, {
   useClaimFeeDepositsMutation,
   useFeeFragmenterSplitFundsMutation,
   useListDepositsQuery,
@@ -67,7 +66,7 @@ export const FeeDeposit = (): JSX.Element => {
     if (useFragmenter) {
       try {
         const feeFragmenterAddress = await dispatch(
-          (tdexApi.endpoints as any).getFeeFragmenterAddress.initiate(
+          operatorApi.endpoints.getFeeFragmenterAddress.initiate(
             { numOfAddresses: 1 },
             { forceRefetch: true }
           )
@@ -81,7 +80,7 @@ export const FeeDeposit = (): JSX.Element => {
     } else {
       try {
         const feeAddress = await dispatch(
-          (tdexApi.endpoints as any).getFeeAddress.initiate(undefined, { forceRefetch: true })
+          operatorApi.endpoints.getFeeAddress.initiate(undefined, { forceRefetch: true })
         ).unwrap();
         setDepositAddress(feeAddress?.[0].address);
         setFeeAddress(feeAddress?.[0].address);

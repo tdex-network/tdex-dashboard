@@ -1,6 +1,6 @@
 import './marketWithdraw.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -24,8 +24,8 @@ import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency }
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
-  balanceBaseAmount: string;
-  balanceQuoteAmount: string;
+  baseAmount: string;
+  quoteAmount: string;
   address: string;
   millisatPerByte: number;
 }
@@ -54,8 +54,10 @@ export const MarketWithdraw = (): JSX.Element => {
     isError: isErrorPrices,
   } = useLatestPriceFeedFromCoinGeckoQuery();
   const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
-  const [balanceBaseAmount, setBalanceBaseAmount] = useState<string>('');
-  const [balanceQuoteAmount, setBalanceQuoteAmount] = useState<string>('');
+  const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
+  const [baseAmount, setBaseAmount] = useState<number>(0);
+  const [quoteAmount, setQuoteAmount] = useState<number>(0);
+  const [address, setAddress] = useState<string>();
 
   useEffect(() => {
     if (listMarkets) {
@@ -70,15 +72,15 @@ export const MarketWithdraw = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assets, explorerLiquidAPI, lbtcUnit, listMarkets, network]);
 
-  const onFinish = async () => {
+  const withdraw = async () => {
     try {
+      if ((!baseAmount && !quoteAmount) || !address) return;
       const selectedAssetMarket = marketList.find(
         ([baseAsset, quoteAsset]) =>
           baseAsset?.ticker === selectedMarket.baseAsset?.ticker &&
           quoteAsset?.ticker === selectedMarket.quoteAsset?.ticker
       );
       if (!selectedAssetMarket?.[0] || !selectedAssetMarket?.[1]) throw new Error('Market selection error');
-      const values = await form.validateFields();
       const res = await withdrawMarket({
         market: {
           baseAsset: selectedAssetMarket?.[0].asset_id,
@@ -87,18 +89,21 @@ export const MarketWithdraw = (): JSX.Element => {
         // Expect lbtc amount to be in favorite user unit
         balance: {
           baseAmount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
-            ? Number(formatLbtcUnitToSats(Number(values.balanceBaseAmount), lbtcUnit))
-            : Number(formatFiatToSats(Number(values.balanceBaseAmount))),
+            ? Number(formatLbtcUnitToSats(baseAmount, lbtcUnit))
+            : Number(formatFiatToSats(baseAmount)),
           quoteAmount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
-            ? Number(formatLbtcUnitToSats(Number(values.balanceQuoteAmount), lbtcUnit))
-            : Number(formatFiatToSats(Number(values.balanceQuoteAmount))),
+            ? Number(formatLbtcUnitToSats(quoteAmount, lbtcUnit))
+            : Number(formatFiatToSats(quoteAmount)),
         },
-        address: values.address,
+        address: address,
         millisatsPerByte: 100,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
       form.resetFields();
+      setBaseAmount(0);
+      setQuoteAmount(0);
+      setAddress('');
       // Refetch after some time, waiting available balance to equal total balance
       setTimeout(() => refetchMarketBalance(), 1000);
       setTimeout(() => refetchMarketBalance(), 5000);
@@ -112,7 +117,7 @@ export const MarketWithdraw = (): JSX.Element => {
 
   const baseToFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: selectedMarket?.baseAsset,
-    amount: balanceBaseAmount,
+    amount: baseAmount,
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
@@ -121,7 +126,7 @@ export const MarketWithdraw = (): JSX.Element => {
 
   const quoteToFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: selectedMarket?.quoteAsset,
-    amount: balanceQuoteAmount,
+    amount: quoteAmount,
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
@@ -204,11 +209,7 @@ export const MarketWithdraw = (): JSX.Element => {
             name="withdraw_market_form"
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
-            onFinish={onFinish}
-            onValuesChange={(_, values) => {
-              setBalanceBaseAmount(values['balanceBaseAmount']);
-              setBalanceQuoteAmount(values['balanceQuoteAmount']);
-            }}
+            onFinish={() => setIsConfirmWithdrawModalVisible(true)}
             initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
@@ -222,10 +223,10 @@ export const MarketWithdraw = (): JSX.Element => {
                 <Col span={12}>
                   <InputAmount
                     assetPrecision={selectedMarket?.baseAsset?.precision ?? 8}
-                    formItemName="balanceBaseAmount"
+                    formItemName="baseAmount"
                     hasError={!!withdrawMarketError}
                     lbtcUnitOrTicker={selectedMarket?.baseAsset?.formattedTicker ?? ''}
-                    setInputValue={(value) => form.setFieldsValue({ balanceBaseAmount: value })}
+                    setInputValue={(value) => setBaseAmount(Number(value))}
                   />
                 </Col>
               </Row>
@@ -238,9 +239,9 @@ export const MarketWithdraw = (): JSX.Element => {
                     onClick={() => {
                       if (baseAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceBaseAmount: baseAvailableAmountFormatted,
+                          baseAmount: baseAvailableAmountFormatted,
                         });
-                        setBalanceBaseAmount(baseAvailableAmountFormatted);
+                        setBaseAmount(Number(baseAvailableAmountFormatted));
                       }
                     }}
                   >{`${baseAvailableAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</Button>
@@ -265,10 +266,10 @@ export const MarketWithdraw = (): JSX.Element => {
                 <Col span={12}>
                   <InputAmount
                     assetPrecision={selectedMarket?.quoteAsset?.precision ?? 8}
-                    formItemName="balanceQuoteAmount"
+                    formItemName="quoteAmount"
                     hasError={!!withdrawMarketError}
                     lbtcUnitOrTicker={selectedMarket?.quoteAsset?.formattedTicker ?? ''}
-                    setInputValue={(value) => form.setFieldsValue({ balanceQuoteAmount: value })}
+                    setInputValue={(value) => setQuoteAmount(Number(value))}
                   />
                 </Col>
               </Row>
@@ -281,9 +282,9 @@ export const MarketWithdraw = (): JSX.Element => {
                     onClick={() => {
                       if (quoteAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
-                          balanceQuoteAmount: quoteAvailableAmountFormatted,
+                          quoteAmount: quoteAvailableAmountFormatted,
                         });
-                        setBalanceQuoteAmount(quoteAvailableAmountFormatted);
+                        setQuoteAmount(Number(quoteAvailableAmountFormatted));
                       }
                     }}
                   >{`${quoteAvailableAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</Button>
@@ -299,17 +300,56 @@ export const MarketWithdraw = (): JSX.Element => {
             </div>
 
             <Form.Item name="address" className={classNames({ 'has-error': withdrawMarketError })}>
-              <Input placeholder="Paste address here or scan QR code" className="input__big" />
+              <Input
+                placeholder="Paste address here or scan QR code"
+                className="input__big"
+                onChange={(ev) => setAddress(ev.target.value)}
+              />
             </Form.Item>
 
             <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
-              <Button htmlType="submit" loading={withdrawMarketIsLoading} className="w-100">
+              <Button
+                htmlType="submit"
+                loading={withdrawMarketIsLoading}
+                className="w-100"
+                disabled={
+                  (baseAmount === 0 && quoteAmount === 0) ||
+                  baseAmount > Number(baseAvailableAmountFormatted) ||
+                  quoteAmount > Number(quoteAvailableAmountFormatted) ||
+                  !address
+                }
+              >
                 WITHDRAW
               </Button>
             </Form.Item>
           </Form>
         </Col>
       </Row>
+      <Modal
+        title="Withdrawal Confirmation"
+        visible={isConfirmWithdrawModalVisible}
+        onOk={async () => {
+          await withdraw();
+          setIsConfirmWithdrawModalVisible(false);
+        }}
+        onCancel={() => setIsConfirmWithdrawModalVisible(false)}
+      >
+        <p>
+          Are you sure you want to withdraw
+          {baseAmount ? (
+            <span className="mx-2">
+              {`${baseAmount} ${selectedMarket?.baseAsset?.formattedTicker ?? ''}`}
+            </span>
+          ) : null}
+          {baseAmount && quoteAmount ? `and` : null}
+          {quoteAmount ? (
+            <span className="mx-2">{`${quoteAmount} ${
+              selectedMarket?.quoteAsset?.formattedTicker ?? ''
+            }`}</span>
+          ) : null}
+          to address <span className="address">{address}</span> ?
+        </p>
+      </Modal>
     </>
   );
 };

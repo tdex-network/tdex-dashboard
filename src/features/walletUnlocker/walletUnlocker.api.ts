@@ -76,7 +76,7 @@ const walletUnlockerApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['isReady'],
+      invalidatesTags: ['isReady', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
     }),
     changePassword: build.mutation<
       ChangePasswordReply,

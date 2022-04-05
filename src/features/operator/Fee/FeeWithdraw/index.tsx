@@ -2,7 +2,7 @@ import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { RootState } from '../../../../app/store';
@@ -11,7 +11,8 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER } from '../../../../utils';
+import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER, LBTC_ASSET } from '../../../../utils';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -22,11 +23,18 @@ interface IFormInputs {
 }
 
 export const FeeWithdraw = (): JSX.Element => {
-  const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
+  const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
+  const [feeWithdrawInputValue, setFeeWithdrawInputValue] = useState<string>('0');
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
+  const {
+    data: prices,
+    isLoading: isLoadingPrices,
+    isError: isErrorPrices,
+  } = useLatestPriceFeedFromCoinGeckoQuery();
+
   const feeAvailableBalanceFormatted =
     feeBalance?.availableBalance === undefined
       ? 'N/A'
@@ -35,6 +43,15 @@ export const FeeWithdraw = (): JSX.Element => {
     feeBalance?.totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
+
+  const feeTickerAsFavoriteCurrency = convertAmountToFavoriteCurrency({
+    asset: LBTC_ASSET[network],
+    amount: feeWithdrawInputValue,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices,
+  });
 
   const onFinish = async () => {
     try {
@@ -76,6 +93,9 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
+            onValuesChange={(_, values) => {
+              setFeeWithdrawInputValue(values['amount']);
+            }}
             initialValues={{ amount: '0' }}
           >
             <div className="panel panel__grey mb-6">
@@ -89,7 +109,9 @@ export const FeeWithdraw = (): JSX.Element => {
                     assetPrecision={8}
                     formItemName="amount"
                     hasError={!!withdrawFeeError}
-                    setInputValue={(value) => form.setFieldsValue({ amount: value })}
+                    setInputValue={(value) => {
+                      form.setFieldsValue({ amount: value });
+                    }}
                     lbtcUnitOrTicker={lbtcUnit}
                   />
                 </Col>
@@ -105,6 +127,7 @@ export const FeeWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           amount: feeAvailableBalanceFormatted,
                         });
+                        setFeeWithdrawInputValue(feeAvailableBalanceFormatted);
                       }
                     }}
                   >
@@ -113,7 +136,10 @@ export const FeeWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
-                  0.00 USD
+                  <span>{!isLoadingPrices && !isErrorPrices && feeTickerAsFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>

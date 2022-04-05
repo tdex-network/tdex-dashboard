@@ -20,6 +20,7 @@ import {
   getAssetDataFromRegistry,
   isLbtcTicker,
 } from '../../../../utils';
+import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -32,7 +33,7 @@ interface IFormInputs {
 export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
-  const { explorerLiquidAPI, network, lbtcUnit, assets } = useTypedSelector(
+  const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
@@ -47,7 +48,14 @@ export const MarketWithdraw = (): JSX.Element => {
     baseAsset: selectedMarket.baseAsset?.asset_id || '',
     quoteAsset: selectedMarket.quoteAsset?.asset_id || '',
   });
+  const {
+    data: prices,
+    isLoading: isLoadingPrices,
+    isError: isErrorPrices,
+  } = useLatestPriceFeedFromCoinGeckoQuery();
   const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
+  const [balanceBaseAmount, setBalanceBaseAmount] = useState<string>('');
+  const [balanceQuoteAmount, setBalanceQuoteAmount] = useState<string>('');
 
   useEffect(() => {
     if (listMarkets) {
@@ -101,6 +109,24 @@ export const MarketWithdraw = (): JSX.Element => {
       notification.error({ message: err.message });
     }
   };
+
+  const baseToFavoriteCurrency = convertAmountToFavoriteCurrency({
+    asset: selectedMarket?.baseAsset,
+    amount: balanceBaseAmount,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices,
+  });
+
+  const quoteToFavoriteCurrency = convertAmountToFavoriteCurrency({
+    asset: selectedMarket?.quoteAsset,
+    amount: balanceQuoteAmount,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices,
+  });
 
   const baseAvailableAmountFormatted =
     marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
@@ -179,6 +205,10 @@ export const MarketWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={onFinish}
+            onValuesChange={(_, values) => {
+              setBalanceBaseAmount(values['balanceBaseAmount']);
+              setBalanceQuoteAmount(values['balanceQuoteAmount']);
+            }}
             initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
@@ -210,13 +240,17 @@ export const MarketWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           balanceBaseAmount: baseAvailableAmountFormatted,
                         });
+                        setBalanceBaseAmount(baseAvailableAmountFormatted);
                       }
                     }}
                   >{`${baseAvailableAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</Button>
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${baseTotalAmountFormatted} ${selectedMarket?.baseAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  0.00 USD
+                  <span>{!isLoadingPrices && !isErrorPrices && baseToFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>
@@ -249,13 +283,17 @@ export const MarketWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           balanceQuoteAmount: quoteAvailableAmountFormatted,
                         });
+                        setBalanceQuoteAmount(quoteAvailableAmountFormatted);
                       }
                     }}
                   >{`${quoteAvailableAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</Button>
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  0.00 USD
+                  <span>{!isLoadingPrices && !isErrorPrices && quoteToFavoriteCurrency}</span>
+                  <span className="ml-2">
+                    {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
+                  </span>
                 </Col>
               </Row>
             </div>

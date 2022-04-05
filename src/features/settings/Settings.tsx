@@ -14,7 +14,7 @@ import {
   MARKET_WITHDRAW_FRAGMENTER_ROUTE,
   ONBOARDING_PAIRING_ROUTE,
 } from '../../routes/constants';
-import { LBTC_UNITS } from '../../utils';
+import { LBTC_UNITS, CURRENCIES } from '../../utils';
 import { liquidApi } from '../liquid.api';
 import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
 import { walletApi } from '../wallet/wallet.api';
@@ -31,6 +31,7 @@ import {
   setExplorerLiquidUI,
   setLbtcUnit,
   setNetwork,
+  setCurrency,
 } from './settingsSlice';
 
 const { Text, Title } = Typography;
@@ -39,7 +40,7 @@ const { Option } = Select;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy, network } = useTypedSelector(
+  const { tdexdConnectUrl, lbtcUnit, useProxy, network, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
@@ -210,6 +211,25 @@ export const Settings = (): JSX.Element => {
                 <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                   Default currency
                 </Title>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Select
+                  value={currency.value}
+                  onChange={(currencyValue: string) => {
+                    const selectedCurrency = CURRENCIES.find((currency) => currency.value === currencyValue);
+                    selectedCurrency && dispatch(setCurrency(selectedCurrency));
+                  }}
+                >
+                  {CURRENCIES.map((currency, index) => {
+                    return (
+                      <Option key={index} value={currency.value}>{`${currency.value.toUpperCase()} - ${
+                        currency.name
+                      }`}</Option>
+                    );
+                  })}
+                </Select>
               </Col>
             </Row>
           </div>

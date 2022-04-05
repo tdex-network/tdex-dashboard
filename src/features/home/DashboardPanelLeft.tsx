@@ -1,29 +1,44 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/generated/js/tdex/v1/types_pb';
+import type { RootState } from '../../app/store';
+import { useTypedSelector } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
-import { fromSatsToUnitOrFractional } from '../../utils';
+import { LBTC_ASSET } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import type { PriceFeedQueryResult } from '../rates.api';
+import { convertAmountToFavoriteCurrency } from '../rates.api';
 
 const { Title } = Typography;
 
 interface DashboardPanelLeftProps {
   lbtcUnit: LbtcUnit;
+  priceFeed: PriceFeedQueryResult;
 }
 
-export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.Element => {
+export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
+  const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: listMarkets } = useListMarketsQuery();
+  const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   //
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery(markets);
+
+  const totalCollectedSwapFeesAsFavoriteCurrency = convertAmountToFavoriteCurrency({
+    asset: LBTC_ASSET[network],
+    amount: totalCollectedSwapFees,
+    network: network,
+    preferredCurrency: currency,
+    preferredLbtcUnit: lbtcUnit,
+    prices: prices,
+  });
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">
@@ -31,12 +46,20 @@ export const DashboardPanelLeft = ({ lbtcUnit }: DashboardPanelLeftProps): JSX.E
         Total Earned
       </Title>
       <Row>
-        <Col className="dm-mono dm-mono__xxxxxx" span={12}>
-          {totalCollectedSwapFees === undefined
-            ? 'N/A'
-            : fromSatsToUnitOrFractional(totalCollectedSwapFees, 8, true, lbtcUnit)}
+        <Col className="dm-mono dm-mono__xxxxxx" span={16}>
+          {!isLoadingPrices && !isErrorPrices && totalCollectedSwapFeesAsFavoriteCurrency ? (
+            <>
+              {currency.symbol}
+              {totalCollectedSwapFeesAsFavoriteCurrency}
+            </>
+          ) : (
+            'N/A'
+          )}
+          {currency.value === 'btc' && totalCollectedSwapFeesAsFavoriteCurrency && (
+            <span className="dm-sans dm-sans__xxxx ml-3">{lbtcUnit}</span>
+          )}
         </Col>
-        <Col className="total-earned-change" span={12}>
+        <Col className="total-earned-change" span={8}>
           <div>24h</div>
           <div>+2.85%</div>
         </Col>

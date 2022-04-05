@@ -9,9 +9,10 @@ import { WalletUnlockerClient } from '../../api-spec/generated/js/tdex-daemon/v1
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
+import type { Currency } from '../../domain/currency';
 import type { MarketLabelled } from '../../domain/market';
 import type { LbtcUnit } from '../../utils';
-import { featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
+import { featuredAssets, LBTC_ASSET, LBTC_UNITS, CURRENCIES } from '../../utils';
 
 const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
@@ -35,6 +36,7 @@ export interface SettingsState {
   lbtcUnit: LbtcUnit;
   proxyHealth?: ProxyHealthStatus;
   proxyPid?: number;
+  currency: Currency;
 }
 
 export const connectProxy = createAsyncThunk<void, void, { state: RootState }>(
@@ -127,6 +129,7 @@ export const initialState: SettingsState = {
   },
   useProxy: USE_PROXY,
   lbtcUnit: LBTC_UNITS[0],
+  currency: CURRENCIES[0],
 };
 
 export const settingsSlice = createSlice({
@@ -154,6 +157,9 @@ export const settingsSlice = createSlice({
     },
     setLbtcUnit: (state, action: PayloadAction<LbtcUnit>) => {
       state.lbtcUnit = action.payload;
+    },
+    setCurrency: (state, action: PayloadAction<Currency>) => {
+      state.currency = action.payload;
     },
     setAsset: (state, action: PayloadAction<Asset>) => {
       // Save if asset not already saved
@@ -226,6 +232,7 @@ export const {
   setExplorerLiquidUI,
   setNetwork,
   setLbtcUnit,
+  setCurrency,
   setBaseUrl,
   setMacaroonCredentials,
   setTdexdConnectUrl,

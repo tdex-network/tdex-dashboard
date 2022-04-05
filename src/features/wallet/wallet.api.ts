@@ -14,7 +14,7 @@ import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
-const walletApi = tdexApi.injectEndpoints({
+export const walletApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     walletAddress: build.query<WalletAddressReply, void>({
       queryFn: async (arg, { getState }) => {
@@ -59,5 +59,4 @@ const walletApi = tdexApi.injectEndpoints({
   }),
 });
 
-export default walletApi;
 export const { useWalletAddressQuery, useWalletBalanceQuery, useSendToManyMutation } = walletApi;

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 
-import liquidApi from '../features/liquid.api';
+import { liquidApi } from '../features/liquid.api';
 import { tdexApi } from '../features/tdex.api';
 import { tauriStorage } from '../utils';
 

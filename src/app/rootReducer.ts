@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import liquidApi from '../features/liquid.api';
+import { liquidApi } from '../features/liquid.api';
 import { settingsSlice } from '../features/settings/settingsSlice';
 import { tdexApi } from '../features/tdex.api';
 

@@ -15,10 +15,10 @@ import {
   ONBOARDING_PAIRING_ROUTE,
 } from '../../routes/constants';
 import { LBTC_UNITS } from '../../utils';
-import liquidApi from '../liquid.api';
-import operatorApi, { useReloadUtxosMutation } from '../operator/operator.api';
-import walletApi from '../wallet/wallet.api';
-import walletUnlockerApi from '../walletUnlocker/walletUnlocker.api';
+import { liquidApi } from '../liquid.api';
+import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
+import { walletApi } from '../wallet/wallet.api';
+import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';

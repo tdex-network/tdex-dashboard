@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { getAllAssetIdsFromMarkets, getAssetDataFromRegistry } from '../../../../utils';
-import liquidApi from '../../../liquid.api';
+import { liquidApi } from '../../../liquid.api';
 import { setAsset } from '../../../settings/settingsSlice';
 import { useGetInfoQuery, useListMarketsQuery } from '../../operator.api';
 

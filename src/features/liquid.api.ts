@@ -15,7 +15,7 @@ const dynamicBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryE
   return rawBaseQuery(args, WebApi, extraOptions);
 };
 
-const liquidApi = createApi({
+export const liquidApi = createApi({
   reducerPath: 'liquidApi',
   baseQuery: dynamicBaseQuery,
   endpoints: (build) => ({
@@ -55,7 +55,6 @@ const liquidApi = createApi({
   }),
 });
 
-export default liquidApi;
 export const {
   useGetUtxosByAddressQuery,
   useGetAssetDataQuery,

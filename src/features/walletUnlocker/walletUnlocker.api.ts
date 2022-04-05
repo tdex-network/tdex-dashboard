@@ -18,7 +18,7 @@ import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
-const walletUnlockerApi = tdexApi.injectEndpoints({
+export const walletUnlockerApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     genSeed: build.query<string[], void>({
       queryFn: async (arg, { getState }) => {
@@ -116,7 +116,6 @@ const walletUnlockerApi = tdexApi.injectEndpoints({
   }),
 });
 
-export default walletUnlockerApi;
 export const {
   useGenSeedQuery,
   useInitWalletMutation,

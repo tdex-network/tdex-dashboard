@@ -92,7 +92,7 @@ import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
-const operatorApi = tdexApi.injectEndpoints({
+export const operatorApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     // Fee
     getFeeAddress: build.query<AddressWithBlindingKey.AsObject[], void>({
@@ -993,7 +993,6 @@ const operatorApi = tdexApi.injectEndpoints({
   }),
 });
 
-export default operatorApi;
 export const {
   // Fee
   useGetFeeAddressQuery,

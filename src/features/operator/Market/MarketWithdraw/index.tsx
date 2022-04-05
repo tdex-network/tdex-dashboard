@@ -210,7 +210,6 @@ export const MarketWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={() => setIsConfirmWithdrawModalVisible(true)}
-            initialValues={{ balanceBaseAmount: '0', balanceQuoteAmount: '0' }}
           >
             <div className="base-amount-container panel panel__grey panel__top">
               <Row className="align-center">
@@ -226,7 +225,10 @@ export const MarketWithdraw = (): JSX.Element => {
                     formItemName="baseAmount"
                     hasError={!!withdrawMarketError}
                     lbtcUnitOrTicker={selectedMarket?.baseAsset?.formattedTicker ?? ''}
-                    setInputValue={(value) => setBaseAmount(Number(value))}
+                    setInputValue={(value) => {
+                      form.setFieldsValue({ baseAmount: value });
+                      setBaseAmount(Number(value));
+                    }}
                   />
                 </Col>
               </Row>
@@ -269,7 +271,10 @@ export const MarketWithdraw = (): JSX.Element => {
                     formItemName="quoteAmount"
                     hasError={!!withdrawMarketError}
                     lbtcUnitOrTicker={selectedMarket?.quoteAsset?.formattedTicker ?? ''}
-                    setInputValue={(value) => setQuoteAmount(Number(value))}
+                    setInputValue={(value) => {
+                      form.setFieldsValue({ quoteAmount: value });
+                      setQuoteAmount(Number(value));
+                    }}
                   />
                 </Col>
               </Row>

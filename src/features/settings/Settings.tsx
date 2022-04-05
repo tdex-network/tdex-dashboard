@@ -300,7 +300,7 @@ export const Settings = (): JSX.Element => {
             </Row>
             <Row>
               <Col span={24}>
-                <Text copyable className="address">
+                <Text copyable className="address break-all">
                   {tdexdConnectUrl || 'Not found'}
                 </Text>
               </Col>

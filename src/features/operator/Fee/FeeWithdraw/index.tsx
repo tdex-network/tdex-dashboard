@@ -97,7 +97,6 @@ export const FeeWithdraw = (): JSX.Element => {
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
             onFinish={() => setIsConfirmWithdrawModalVisible(true)}
-            initialValues={{ amount: '0' }}
           >
             <div className="panel panel__grey mb-6">
               <Row className="align-center">
@@ -110,7 +109,10 @@ export const FeeWithdraw = (): JSX.Element => {
                     assetPrecision={8}
                     formItemName="amount"
                     hasError={!!withdrawFeeError}
-                    setInputValue={(value) => setUnitAmount(Number(value))}
+                    setInputValue={(value) => {
+                      form.setFieldsValue({ amount: value });
+                      setUnitAmount(Number(value));
+                    }}
                     lbtcUnitOrTicker={lbtcUnit}
                   />
                 </Col>

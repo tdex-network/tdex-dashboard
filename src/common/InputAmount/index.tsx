@@ -49,6 +49,7 @@ export const InputAmount = ({
             ev.target.value.split('.')[1].length >
               lbtcUnitOrTickerToFractionalDigits(lbtcUnitOrTicker, assetPrecision)
           ) {
+            console.log('ev.target.value', ev.target.value);
             // No more than x decimals
             setInputValue(ev.target.value.slice(0, -1));
           } else {

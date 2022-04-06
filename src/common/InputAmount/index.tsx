@@ -41,19 +41,18 @@ export const InputAmount = ({
         onChange={(ev) => {
           if (ev.target.value.includes(',')) {
             setInputValue(ev.target.value.replace(',', '.'));
-          }
-          if (ev.target.value.includes('.')) {
+          } else if (ev.target.value.includes('.') && ev.target.value.split('.').length > 2) {
             // No more than one dot
-            if (ev.target.value.split('.').length > 2) {
-              setInputValue(ev.target.value.slice(0, -1));
-            }
-            // No more than x decimals
-            if (
-              ev.target.value.split('.')[1].length >
+            setInputValue(ev.target.value.slice(0, -1));
+          } else if (
+            ev.target.value.includes('.') &&
+            ev.target.value.split('.')[1].length >
               lbtcUnitOrTickerToFractionalDigits(lbtcUnitOrTicker, assetPrecision)
-            ) {
-              setInputValue(ev.target.value.slice(0, -1));
-            }
+          ) {
+            // No more than x decimals
+            setInputValue(ev.target.value.slice(0, -1));
+          } else {
+            setInputValue(ev.target.value);
           }
         }}
         onKeyPress={(ev) => {

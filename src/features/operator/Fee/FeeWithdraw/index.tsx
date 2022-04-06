@@ -1,6 +1,6 @@
 import './feeWithdraw.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,6 @@ interface IFormInputs {
 export const FeeWithdraw = (): JSX.Element => {
   const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
-  const [feeWithdrawInputValue, setFeeWithdrawInputValue] = useState<string>('0');
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
   const { data: feeBalance, refetch: refetchFeeBalance } = useGetFeeBalanceQuery();
@@ -43,28 +42,33 @@ export const FeeWithdraw = (): JSX.Element => {
     feeBalance?.totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
+  const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
+  const [unitAmount, setUnitAmount] = useState<number>(0);
+  const [address, setAddress] = useState<string>();
 
   const feeTickerAsFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: LBTC_ASSET[network],
-    amount: feeWithdrawInputValue,
+    amount: unitAmount,
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,
     prices: prices,
   });
 
-  const onFinish = async () => {
+  const withdraw = async () => {
     try {
-      const values = await form.validateFields();
+      if (!unitAmount || !address) return;
       const res = await withdrawFee({
-        amount: Number(formatLbtcUnitToSats(Number(values.amount), lbtcUnit)),
+        amount: Number(formatLbtcUnitToSats(unitAmount, lbtcUnit)),
         millisatsPerByte: 100,
-        address: values.address,
-        asset: values.asset,
+        address: address,
+        asset: LBTC_ASSET[network].asset_id,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
       form.resetFields();
+      setUnitAmount(0);
+      setAddress('');
       // Refetch after some time, waiting available balance to equal total balance
       setTimeout(() => refetchFeeBalance(), 1000);
       setTimeout(() => refetchFeeBalance(), 5000);
@@ -92,11 +96,7 @@ export const FeeWithdraw = (): JSX.Element => {
             name="withdraw_fee_form"
             wrapperCol={{ span: 24 }}
             validateTrigger="onBlur"
-            onFinish={onFinish}
-            onValuesChange={(_, values) => {
-              setFeeWithdrawInputValue(values['amount']);
-            }}
-            initialValues={{ amount: '0' }}
+            onFinish={() => setIsConfirmWithdrawModalVisible(true)}
           >
             <div className="panel panel__grey mb-6">
               <Row className="align-center">
@@ -111,6 +111,7 @@ export const FeeWithdraw = (): JSX.Element => {
                     hasError={!!withdrawFeeError}
                     setInputValue={(value) => {
                       form.setFieldsValue({ amount: value });
+                      setUnitAmount(Number(value));
                     }}
                     lbtcUnitOrTicker={lbtcUnit}
                   />
@@ -127,7 +128,7 @@ export const FeeWithdraw = (): JSX.Element => {
                         form.setFieldsValue({
                           amount: feeAvailableBalanceFormatted,
                         });
-                        setFeeWithdrawInputValue(feeAvailableBalanceFormatted);
+                        setUnitAmount(Number(feeAvailableBalanceFormatted));
                       }
                     }}
                   >
@@ -145,17 +146,40 @@ export const FeeWithdraw = (): JSX.Element => {
             </div>
 
             <Form.Item name="address" className={classNames({ 'has-error': withdrawFeeError })}>
-              <Input placeholder="Paste address here or scan QR code" className="input__big" />
+              <Input
+                placeholder="Paste address here or scan QR code"
+                className="input__big"
+                onChange={(ev) => setAddress(ev.target.value)}
+              />
             </Form.Item>
 
             <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
-              <Button htmlType="submit" loading={withdrawFeeIsLoading} className="w-100">
+              <Button
+                htmlType="submit"
+                loading={withdrawFeeIsLoading}
+                className="w-100"
+                disabled={unitAmount === 0 || unitAmount > Number(feeAvailableBalanceFormatted) || !address}
+              >
                 WITHDRAW
               </Button>
             </Form.Item>
           </Form>
         </Col>
       </Row>
+      <Modal
+        title="Withdrawal Confirmation"
+        visible={isConfirmWithdrawModalVisible}
+        onOk={async () => {
+          await withdraw();
+          setIsConfirmWithdrawModalVisible(false);
+        }}
+        onCancel={() => setIsConfirmWithdrawModalVisible(false)}
+      >
+        <p>
+          Are you sure you want to withdraw {unitAmount} {lbtcUnit} to address
+          <span className="address ml-1">{address}</span> ?
+        </p>
+      </Modal>
     </>
   );
 };

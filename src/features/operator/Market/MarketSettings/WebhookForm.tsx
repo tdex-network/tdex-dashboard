@@ -1,6 +1,6 @@
 import { Button, Form, Input, Radio } from 'antd';
 
-import { ActionType } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import { ActionType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import { useAddWebhookMutation } from '../../operator.api';
 
 interface IFormInputs {

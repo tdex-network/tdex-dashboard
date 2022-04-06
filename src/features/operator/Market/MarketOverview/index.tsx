@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';

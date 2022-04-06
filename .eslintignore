@@ -1,4 +1,4 @@
 build
 node_modules
-src/api-spec/generated/js
+src/api-spec/protobuf/gen/js
 src/serviceWorker.ts

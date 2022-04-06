@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom';
 import type {
   MarketInfo,
   FragmenterSplitFundsReply,
-} from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
-import type { AddressWithBlindingKey } from '../../../../api-spec/generated/js/tdex/v1/types_pb';
+} from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { AddressWithBlindingKey } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';

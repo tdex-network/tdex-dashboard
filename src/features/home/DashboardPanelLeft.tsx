@@ -3,7 +3,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import type { Market } from '../../api-spec/generated/js/tdex/v1/types_pb';
+import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';

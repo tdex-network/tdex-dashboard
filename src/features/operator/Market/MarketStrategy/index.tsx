@@ -2,8 +2,8 @@ import type { RadioChangeEvent } from 'antd';
 import { Col, notification, Row, Radio } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import type { MarketInfo } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
-import { StrategyType } from '../../../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import { useUpdateMarketStrategyMutation } from '../../operator.api';
 
 interface MarketStrategyProps {

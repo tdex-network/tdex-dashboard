@@ -35,7 +35,7 @@ import type {
   WithdrawFeeReply,
   WithdrawMarketFragmenterReply,
   WithdrawMarketReply,
-} from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import {
   AddWebhookRequest,
   ClaimFeeDepositsRequest,
@@ -82,10 +82,10 @@ import {
   WithdrawFeeRequest,
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
-} from '../../api-spec/generated/js/tdex-daemon/v1/operator_pb';
-import type { BalanceInfo } from '../../api-spec/generated/js/tdex-daemon/v1/wallet_pb';
-import type { AddressWithBlindingKey } from '../../api-spec/generated/js/tdex/v1/types_pb';
-import { Balance, Fixed, Market, Price } from '../../api-spec/generated/js/tdex/v1/types_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { BalanceInfo } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb';
+import type { AddressWithBlindingKey } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import type { Optional } from '../../domain/helpers';
 import { retryRtkRequest } from '../../utils';

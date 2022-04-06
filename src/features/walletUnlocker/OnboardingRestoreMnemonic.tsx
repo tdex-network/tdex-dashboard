@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { InitWalletReply } from '../../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletReply } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { AnimatedEllipsis } from '../../common/AnimatedEllipsis';

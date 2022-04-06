@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification } from 'antd';
 import React from 'react';
 
-import type { Market } from '../../../../api-spec/generated/js/tdex/v1/types_pb';
+import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { formatFiatToSats, formatLbtcUnitToSats, isLbtcAssetId } from '../../../../utils';

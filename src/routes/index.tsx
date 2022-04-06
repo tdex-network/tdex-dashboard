@@ -2,7 +2,7 @@ import type { NetworkString } from 'ldk';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
-import type { IsReadyReply } from '../api-spec/generated/js/tdex-daemon/v1/walletunlocker_pb';
+import type { IsReadyReply } from '../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import { configRecord } from '../app/config';
 import type { RootState } from '../app/store';
 import { useTypedDispatch, useTypedSelector } from '../app/store';

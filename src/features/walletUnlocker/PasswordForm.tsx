@@ -13,9 +13,10 @@ interface IFormInputs {
 
 interface PasswordFormProps {
   mnemonic: string[];
+  seedHasBeenSaved: boolean;
 }
 
-export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
+export const PasswordForm = ({ mnemonic, seedHasBeenSaved }: PasswordFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [hasMatchingError, setHasMatchingError] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ export const PasswordForm = ({ mnemonic }: PasswordFormProps): JSX.Element => {
       </Form.Item>
       {hasMatchingError && <p className="error">{hasMatchingError}</p>}
       <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
-        <Button htmlType="submit" className="w-100">
+        <Button htmlType="submit" className="w-100" disabled={!seedHasBeenSaved}>
           Go To Mnemonic
         </Button>
       </Form.Item>

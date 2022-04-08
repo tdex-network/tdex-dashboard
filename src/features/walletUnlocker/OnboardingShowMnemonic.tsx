@@ -2,7 +2,7 @@ import './onboardingShowMnemonic.less';
 import Icon from '@ant-design/icons';
 import { Col, Row, Typography, Checkbox, Spin, Breadcrumb } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
@@ -13,10 +13,11 @@ import { useGenSeedQuery } from './walletUnlocker.api';
 
 export const OnboardingShowMnemonic = (): JSX.Element => {
   const { data: seedMnemonicList, error: genSeedError } = useGenSeedQuery();
+  const [seedHasBeenSaved, setSeedHasBeenSaved] = useState<boolean>(false);
   const { Title } = Typography;
 
   const onCheckboxChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
+    setSeedHasBeenSaved(e.target.checked);
   };
 
   return (
@@ -47,7 +48,7 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
           <SeedMnemonicList seed={seedMnemonicList} />
           <Row justify="center">
             <Col>
-              <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__x">
+              <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__x" value={seedHasBeenSaved}>
                 I’ve saved my Secret Phrase
               </Checkbox>
             </Col>
@@ -59,7 +60,7 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
               </Title>
             </Col>
           </Row>
-          <PasswordForm mnemonic={seedMnemonicList || []} />
+          <PasswordForm mnemonic={seedMnemonicList || []} seedHasBeenSaved={seedHasBeenSaved} />
           {genSeedError && <p className="error">{genSeedError}</p>}
         </div>
       </div>

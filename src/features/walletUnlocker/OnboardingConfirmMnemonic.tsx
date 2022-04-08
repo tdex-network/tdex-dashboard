@@ -14,8 +14,7 @@ import {
   ONBOARDING_PAIRING_ROUTE,
   ONBOARDING_SHOW_MNEMONIC_ROUTE,
 } from '../../routes/constants';
-import { sleep } from '../../utils';
-import { encodeBase64UrlMacaroon } from '../../utils/connect';
+import { sleep, encodeBase64UrlMacaroon } from '../../utils';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';

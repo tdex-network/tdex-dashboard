@@ -6,24 +6,25 @@
 
 // GENERATED CODE -- DO NOT EDIT!
 
+
 /* eslint-disable */
 // @ts-nocheck
 
+
 import * as grpcWeb from 'grpc-web';
 
-import * as tdex$daemon_v1_operator_pb from './operator_pb';
+import * as tdex$daemon_v1_operator_pb from '../../tdex-daemon/v1/operator_pb';
+
 
 export class OperatorClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
-  credentials_: null | { [index: string]: string };
-  options_: null | { [index: string]: any };
+  credentials_: null | { [index: string]: string; };
+  options_: null | { [index: string]: any; };
 
-  constructor(
-    hostname: string,
-    credentials?: null | { [index: string]: string },
-    options?: null | { [index: string]: any }
-  ) {
+  constructor (hostname: string,
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: any; }) {
     if (!options) options = {};
     if (!credentials) credentials = {};
     options['format'] = 'text';
@@ -47,35 +48,34 @@ export class OperatorClient {
 
   getInfo(
     request: tdex$daemon_v1_operator_pb.GetInfoRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetInfoReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetInfoReply>;
 
   getInfo(
     request: tdex$daemon_v1_operator_pb.GetInfoRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetInfoReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetInfoReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetInfoReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetInfoReply>;
 
   getInfo(
     request: tdex$daemon_v1_operator_pb.GetInfoRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetInfoReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetInfoReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetInfo',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetInfo',
         request,
         metadata || {},
         this.methodDescriptorGetInfo,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetInfo',
-      request,
-      metadata || {},
-      this.methodDescriptorGetInfo
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetInfo',
+    request,
+    metadata || {},
+    this.methodDescriptorGetInfo);
   }
 
   methodDescriptorGetFeeAddress = new grpcWeb.MethodDescriptor(
@@ -91,35 +91,34 @@ export class OperatorClient {
 
   getFeeAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeAddressRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetFeeAddressReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetFeeAddressReply>;
 
   getFeeAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetFeeAddressReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeAddressReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeAddressReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeAddressReply>;
 
   getFeeAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetFeeAddressReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeAddress',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetFeeAddress',
         request,
         metadata || {},
         this.methodDescriptorGetFeeAddress,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeAddress',
-      request,
-      metadata || {},
-      this.methodDescriptorGetFeeAddress
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetFeeAddress',
+    request,
+    metadata || {},
+    this.methodDescriptorGetFeeAddress);
   }
 
   methodDescriptorListFeeAddresses = new grpcWeb.MethodDescriptor(
@@ -135,35 +134,34 @@ export class OperatorClient {
 
   listFeeAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeAddressesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListFeeAddressesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListFeeAddressesReply>;
 
   listFeeAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListFeeAddressesReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListFeeAddressesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListFeeAddressesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListFeeAddressesReply>;
 
   listFeeAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListFeeAddressesReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListFeeAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListFeeAddresses',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListFeeAddresses',
         request,
         metadata || {},
         this.methodDescriptorListFeeAddresses,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListFeeAddresses',
-      request,
-      metadata || {},
-      this.methodDescriptorListFeeAddresses
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListFeeAddresses',
+    request,
+    metadata || {},
+    this.methodDescriptorListFeeAddresses);
   }
 
   methodDescriptorGetFeeBalance = new grpcWeb.MethodDescriptor(
@@ -179,35 +177,34 @@ export class OperatorClient {
 
   getFeeBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeBalanceRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetFeeBalanceReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetFeeBalanceReply>;
 
   getFeeBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetFeeBalanceReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeBalanceReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeBalanceReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeBalanceReply>;
 
   getFeeBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetFeeBalanceReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeBalance',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetFeeBalance',
         request,
         metadata || {},
         this.methodDescriptorGetFeeBalance,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeBalance',
-      request,
-      metadata || {},
-      this.methodDescriptorGetFeeBalance
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetFeeBalance',
+    request,
+    metadata || {},
+    this.methodDescriptorGetFeeBalance);
   }
 
   methodDescriptorClaimFeeDeposits = new grpcWeb.MethodDescriptor(
@@ -223,35 +220,34 @@ export class OperatorClient {
 
   claimFeeDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimFeeDepositsRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply>;
 
   claimFeeDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimFeeDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply>;
 
   claimFeeDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimFeeDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ClaimFeeDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ClaimFeeDeposits',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ClaimFeeDeposits',
         request,
         metadata || {},
         this.methodDescriptorClaimFeeDeposits,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ClaimFeeDeposits',
-      request,
-      metadata || {},
-      this.methodDescriptorClaimFeeDeposits
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ClaimFeeDeposits',
+    request,
+    metadata || {},
+    this.methodDescriptorClaimFeeDeposits);
   }
 
   methodDescriptorWithdrawFee = new grpcWeb.MethodDescriptor(
@@ -267,35 +263,34 @@ export class OperatorClient {
 
   withdrawFee(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.WithdrawFeeReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.WithdrawFeeReply>;
 
   withdrawFee(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.WithdrawFeeReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawFeeReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawFeeReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawFeeReply>;
 
   withdrawFee(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.WithdrawFeeReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawFee',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/WithdrawFee',
         request,
         metadata || {},
         this.methodDescriptorWithdrawFee,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawFee',
-      request,
-      metadata || {},
-      this.methodDescriptorWithdrawFee
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/WithdrawFee',
+    request,
+    metadata || {},
+    this.methodDescriptorWithdrawFee);
   }
 
   methodDescriptorNewMarket = new grpcWeb.MethodDescriptor(
@@ -311,35 +306,34 @@ export class OperatorClient {
 
   newMarket(
     request: tdex$daemon_v1_operator_pb.NewMarketRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.NewMarketReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.NewMarketReply>;
 
   newMarket(
     request: tdex$daemon_v1_operator_pb.NewMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.NewMarketReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.NewMarketReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.NewMarketReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.NewMarketReply>;
 
   newMarket(
     request: tdex$daemon_v1_operator_pb.NewMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.NewMarketReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.NewMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/NewMarket',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/NewMarket',
         request,
         metadata || {},
         this.methodDescriptorNewMarket,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/NewMarket',
-      request,
-      metadata || {},
-      this.methodDescriptorNewMarket
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/NewMarket',
+    request,
+    metadata || {},
+    this.methodDescriptorNewMarket);
   }
 
   methodDescriptorGetMarketInfo = new grpcWeb.MethodDescriptor(
@@ -355,35 +349,34 @@ export class OperatorClient {
 
   getMarketInfo(
     request: tdex$daemon_v1_operator_pb.GetMarketInfoRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketInfoReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketInfoReply>;
 
   getMarketInfo(
     request: tdex$daemon_v1_operator_pb.GetMarketInfoRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketInfoReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketInfoReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketInfoReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketInfoReply>;
 
   getMarketInfo(
     request: tdex$daemon_v1_operator_pb.GetMarketInfoRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketInfoReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketInfoReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketInfo',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketInfo',
         request,
         metadata || {},
         this.methodDescriptorGetMarketInfo,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketInfo',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketInfo
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketInfo',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketInfo);
   }
 
   methodDescriptorGetMarketAddress = new grpcWeb.MethodDescriptor(
@@ -399,35 +392,34 @@ export class OperatorClient {
 
   getMarketAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketAddressRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketAddressReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketAddressReply>;
 
   getMarketAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketAddressReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketAddressReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketAddressReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketAddressReply>;
 
   getMarketAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketAddressReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketAddress',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketAddress',
         request,
         metadata || {},
         this.methodDescriptorGetMarketAddress,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketAddress',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketAddress
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketAddress',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketAddress);
   }
 
   methodDescriptorListMarketAddresses = new grpcWeb.MethodDescriptor(
@@ -443,35 +435,34 @@ export class OperatorClient {
 
   listMarketAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketAddressesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListMarketAddressesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListMarketAddressesReply>;
 
   listMarketAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListMarketAddressesReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketAddressesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketAddressesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketAddressesReply>;
 
   listMarketAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListMarketAddressesReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListMarketAddresses',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListMarketAddresses',
         request,
         metadata || {},
         this.methodDescriptorListMarketAddresses,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListMarketAddresses',
-      request,
-      metadata || {},
-      this.methodDescriptorListMarketAddresses
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListMarketAddresses',
+    request,
+    metadata || {},
+    this.methodDescriptorListMarketAddresses);
   }
 
   methodDescriptorGetMarketBalance = new grpcWeb.MethodDescriptor(
@@ -487,35 +478,34 @@ export class OperatorClient {
 
   getMarketBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketBalanceRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketBalanceReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketBalanceReply>;
 
   getMarketBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketBalanceReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketBalanceReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketBalanceReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketBalanceReply>;
 
   getMarketBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketBalanceReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketBalance',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketBalance',
         request,
         metadata || {},
         this.methodDescriptorGetMarketBalance,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketBalance',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketBalance
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketBalance',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketBalance);
   }
 
   methodDescriptorClaimMarketDeposits = new grpcWeb.MethodDescriptor(
@@ -531,35 +521,34 @@ export class OperatorClient {
 
   claimMarketDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimMarketDepositsRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply>;
 
   claimMarketDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimMarketDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply>;
 
   claimMarketDeposits(
     request: tdex$daemon_v1_operator_pb.ClaimMarketDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ClaimMarketDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ClaimMarketDeposits',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ClaimMarketDeposits',
         request,
         metadata || {},
         this.methodDescriptorClaimMarketDeposits,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ClaimMarketDeposits',
-      request,
-      metadata || {},
-      this.methodDescriptorClaimMarketDeposits
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ClaimMarketDeposits',
+    request,
+    metadata || {},
+    this.methodDescriptorClaimMarketDeposits);
   }
 
   methodDescriptorOpenMarket = new grpcWeb.MethodDescriptor(
@@ -575,35 +564,34 @@ export class OperatorClient {
 
   openMarket(
     request: tdex$daemon_v1_operator_pb.OpenMarketRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.OpenMarketReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.OpenMarketReply>;
 
   openMarket(
     request: tdex$daemon_v1_operator_pb.OpenMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.OpenMarketReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.OpenMarketReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.OpenMarketReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.OpenMarketReply>;
 
   openMarket(
     request: tdex$daemon_v1_operator_pb.OpenMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.OpenMarketReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.OpenMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/OpenMarket',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/OpenMarket',
         request,
         metadata || {},
         this.methodDescriptorOpenMarket,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/OpenMarket',
-      request,
-      metadata || {},
-      this.methodDescriptorOpenMarket
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/OpenMarket',
+    request,
+    metadata || {},
+    this.methodDescriptorOpenMarket);
   }
 
   methodDescriptorCloseMarket = new grpcWeb.MethodDescriptor(
@@ -619,35 +607,34 @@ export class OperatorClient {
 
   closeMarket(
     request: tdex$daemon_v1_operator_pb.CloseMarketRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.CloseMarketReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.CloseMarketReply>;
 
   closeMarket(
     request: tdex$daemon_v1_operator_pb.CloseMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.CloseMarketReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.CloseMarketReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.CloseMarketReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.CloseMarketReply>;
 
   closeMarket(
     request: tdex$daemon_v1_operator_pb.CloseMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.CloseMarketReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.CloseMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/CloseMarket',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/CloseMarket',
         request,
         metadata || {},
         this.methodDescriptorCloseMarket,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/CloseMarket',
-      request,
-      metadata || {},
-      this.methodDescriptorCloseMarket
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/CloseMarket',
+    request,
+    metadata || {},
+    this.methodDescriptorCloseMarket);
   }
 
   methodDescriptorDropMarket = new grpcWeb.MethodDescriptor(
@@ -663,35 +650,34 @@ export class OperatorClient {
 
   dropMarket(
     request: tdex$daemon_v1_operator_pb.DropMarketRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.DropMarketReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.DropMarketReply>;
 
   dropMarket(
     request: tdex$daemon_v1_operator_pb.DropMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.DropMarketReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.DropMarketReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.DropMarketReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.DropMarketReply>;
 
   dropMarket(
     request: tdex$daemon_v1_operator_pb.DropMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.DropMarketReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.DropMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/DropMarket',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/DropMarket',
         request,
         metadata || {},
         this.methodDescriptorDropMarket,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/DropMarket',
-      request,
-      metadata || {},
-      this.methodDescriptorDropMarket
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/DropMarket',
+    request,
+    metadata || {},
+    this.methodDescriptorDropMarket);
   }
 
   methodDescriptorGetMarketCollectedSwapFees = new grpcWeb.MethodDescriptor(
@@ -707,41 +693,34 @@ export class OperatorClient {
 
   getMarketCollectedSwapFees(
     request: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply>;
 
   getMarketCollectedSwapFees(
     request: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply>;
 
   getMarketCollectedSwapFees(
     request: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketCollectedSwapFeesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketCollectedSwapFees',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketCollectedSwapFees',
         request,
         metadata || {},
         this.methodDescriptorGetMarketCollectedSwapFees,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketCollectedSwapFees',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketCollectedSwapFees
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketCollectedSwapFees',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketCollectedSwapFees);
   }
 
   methodDescriptorWithdrawMarket = new grpcWeb.MethodDescriptor(
@@ -757,35 +736,34 @@ export class OperatorClient {
 
   withdrawMarket(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.WithdrawMarketReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.WithdrawMarketReply>;
 
   withdrawMarket(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.WithdrawMarketReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawMarketReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawMarketReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawMarketReply>;
 
   withdrawMarket(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.WithdrawMarketReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawMarketReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawMarket',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/WithdrawMarket',
         request,
         metadata || {},
         this.methodDescriptorWithdrawMarket,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawMarket',
-      request,
-      metadata || {},
-      this.methodDescriptorWithdrawMarket
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/WithdrawMarket',
+    request,
+    metadata || {},
+    this.methodDescriptorWithdrawMarket);
   }
 
   methodDescriptorUpdateMarketPercentageFee = new grpcWeb.MethodDescriptor(
@@ -801,35 +779,34 @@ export class OperatorClient {
 
   updateMarketPercentageFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPercentageFeeRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
 
   updateMarketPercentageFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPercentageFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
 
   updateMarketPercentageFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPercentageFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketPercentageFee',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/UpdateMarketPercentageFee',
         request,
         metadata || {},
         this.methodDescriptorUpdateMarketPercentageFee,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketPercentageFee',
-      request,
-      metadata || {},
-      this.methodDescriptorUpdateMarketPercentageFee
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/UpdateMarketPercentageFee',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateMarketPercentageFee);
   }
 
   methodDescriptorUpdateMarketFixedFee = new grpcWeb.MethodDescriptor(
@@ -845,35 +822,34 @@ export class OperatorClient {
 
   updateMarketFixedFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketFixedFeeRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
 
   updateMarketFixedFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketFixedFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketFeeReply>;
 
   updateMarketFixedFee(
     request: tdex$daemon_v1_operator_pb.UpdateMarketFixedFeeRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketFeeReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketFixedFee',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/UpdateMarketFixedFee',
         request,
         metadata || {},
         this.methodDescriptorUpdateMarketFixedFee,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketFixedFee',
-      request,
-      metadata || {},
-      this.methodDescriptorUpdateMarketFixedFee
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/UpdateMarketFixedFee',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateMarketFixedFee);
   }
 
   methodDescriptorUpdateMarketPrice = new grpcWeb.MethodDescriptor(
@@ -889,35 +865,34 @@ export class OperatorClient {
 
   updateMarketPrice(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPriceRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.UpdateMarketPriceReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.UpdateMarketPriceReply>;
 
   updateMarketPrice(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPriceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketPriceReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketPriceReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketPriceReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketPriceReply>;
 
   updateMarketPrice(
     request: tdex$daemon_v1_operator_pb.UpdateMarketPriceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketPriceReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketPriceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketPrice',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/UpdateMarketPrice',
         request,
         metadata || {},
         this.methodDescriptorUpdateMarketPrice,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketPrice',
-      request,
-      metadata || {},
-      this.methodDescriptorUpdateMarketPrice
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/UpdateMarketPrice',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateMarketPrice);
   }
 
   methodDescriptorUpdateMarketStrategy = new grpcWeb.MethodDescriptor(
@@ -933,35 +908,34 @@ export class OperatorClient {
 
   updateMarketStrategy(
     request: tdex$daemon_v1_operator_pb.UpdateMarketStrategyRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply>;
 
   updateMarketStrategy(
     request: tdex$daemon_v1_operator_pb.UpdateMarketStrategyRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply>;
 
   updateMarketStrategy(
     request: tdex$daemon_v1_operator_pb.UpdateMarketStrategyRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.UpdateMarketStrategyReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketStrategy',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/UpdateMarketStrategy',
         request,
         metadata || {},
         this.methodDescriptorUpdateMarketStrategy,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/UpdateMarketStrategy',
-      request,
-      metadata || {},
-      this.methodDescriptorUpdateMarketStrategy
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/UpdateMarketStrategy',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateMarketStrategy);
   }
 
   methodDescriptorGetFeeFragmenterAddress = new grpcWeb.MethodDescriptor(
@@ -977,41 +951,34 @@ export class OperatorClient {
 
   getFeeFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply>;
 
   getFeeFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply>;
 
   getFeeFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeFragmenterAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeFragmenterAddress',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetFeeFragmenterAddress',
         request,
         metadata || {},
         this.methodDescriptorGetFeeFragmenterAddress,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeFragmenterAddress',
-      request,
-      metadata || {},
-      this.methodDescriptorGetFeeFragmenterAddress
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetFeeFragmenterAddress',
+    request,
+    metadata || {},
+    this.methodDescriptorGetFeeFragmenterAddress);
   }
 
   methodDescriptorListFeeFragmenterAddresses = new grpcWeb.MethodDescriptor(
@@ -1027,41 +994,34 @@ export class OperatorClient {
 
   listFeeFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply>;
 
   listFeeFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply>;
 
   listFeeFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListFeeFragmenterAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListFeeFragmenterAddresses',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListFeeFragmenterAddresses',
         request,
         metadata || {},
         this.methodDescriptorListFeeFragmenterAddresses,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListFeeFragmenterAddresses',
-      request,
-      metadata || {},
-      this.methodDescriptorListFeeFragmenterAddresses
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListFeeFragmenterAddresses',
+    request,
+    metadata || {},
+    this.methodDescriptorListFeeFragmenterAddresses);
   }
 
   methodDescriptorGetFeeFragmenterBalance = new grpcWeb.MethodDescriptor(
@@ -1077,41 +1037,34 @@ export class OperatorClient {
 
   getFeeFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply>;
 
   getFeeFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply>;
 
   getFeeFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetFeeFragmenterBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeFragmenterBalance',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetFeeFragmenterBalance',
         request,
         metadata || {},
         this.methodDescriptorGetFeeFragmenterBalance,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetFeeFragmenterBalance',
-      request,
-      metadata || {},
-      this.methodDescriptorGetFeeFragmenterBalance
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetFeeFragmenterBalance',
+    request,
+    metadata || {},
+    this.methodDescriptorGetFeeFragmenterBalance);
   }
 
   methodDescriptorFeeFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
@@ -1127,14 +1080,13 @@ export class OperatorClient {
 
   feeFragmenterSplitFunds(
     request: tdex$daemon_v1_operator_pb.FeeFragmenterSplitFundsRequest,
-    metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.FragmenterSplitFundsReply> {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.FragmenterSplitFundsReply> {
     return this.client_.serverStreaming(
-      this.hostname_ + '/tdex.daemon.v1.Operator/FeeFragmenterSplitFunds',
+      this.hostname_ +
+        '/tdex.daemon.v1.Operator/FeeFragmenterSplitFunds',
       request,
       metadata || {},
-      this.methodDescriptorFeeFragmenterSplitFunds
-    );
+      this.methodDescriptorFeeFragmenterSplitFunds);
   }
 
   methodDescriptorWithdrawFeeFragmenter = new grpcWeb.MethodDescriptor(
@@ -1150,38 +1102,34 @@ export class OperatorClient {
 
   withdrawFeeFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply>;
 
   withdrawFeeFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply>;
 
   withdrawFeeFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawFeeFragmenterReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawFeeFragmenter',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/WithdrawFeeFragmenter',
         request,
         metadata || {},
         this.methodDescriptorWithdrawFeeFragmenter,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawFeeFragmenter',
-      request,
-      metadata || {},
-      this.methodDescriptorWithdrawFeeFragmenter
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/WithdrawFeeFragmenter',
+    request,
+    metadata || {},
+    this.methodDescriptorWithdrawFeeFragmenter);
   }
 
   methodDescriptorGetMarketFragmenterAddress = new grpcWeb.MethodDescriptor(
@@ -1197,41 +1145,34 @@ export class OperatorClient {
 
   getMarketFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply>;
 
   getMarketFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply>;
 
   getMarketFragmenterAddress(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketFragmenterAddressReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketFragmenterAddress',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketFragmenterAddress',
         request,
         metadata || {},
         this.methodDescriptorGetMarketFragmenterAddress,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketFragmenterAddress',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketFragmenterAddress
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketFragmenterAddress',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketFragmenterAddress);
   }
 
   methodDescriptorListMarketFragmenterAddresses = new grpcWeb.MethodDescriptor(
@@ -1247,41 +1188,34 @@ export class OperatorClient {
 
   listMarketFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply>;
 
   listMarketFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply>;
 
   listMarketFragmenterAddresses(
     request: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketFragmenterAddressesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListMarketFragmenterAddresses',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListMarketFragmenterAddresses',
         request,
         metadata || {},
         this.methodDescriptorListMarketFragmenterAddresses,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListMarketFragmenterAddresses',
-      request,
-      metadata || {},
-      this.methodDescriptorListMarketFragmenterAddresses
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListMarketFragmenterAddresses',
+    request,
+    metadata || {},
+    this.methodDescriptorListMarketFragmenterAddresses);
   }
 
   methodDescriptorGetMarketFragmenterBalance = new grpcWeb.MethodDescriptor(
@@ -1297,41 +1231,34 @@ export class OperatorClient {
 
   getMarketFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply>;
 
   getMarketFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply>;
 
   getMarketFragmenterBalance(
     request: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketFragmenterBalanceReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketFragmenterBalance',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketFragmenterBalance',
         request,
         metadata || {},
         this.methodDescriptorGetMarketFragmenterBalance,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketFragmenterBalance',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketFragmenterBalance
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketFragmenterBalance',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketFragmenterBalance);
   }
 
   methodDescriptorMarketFragmenterSplitFunds = new grpcWeb.MethodDescriptor(
@@ -1347,14 +1274,13 @@ export class OperatorClient {
 
   marketFragmenterSplitFunds(
     request: tdex$daemon_v1_operator_pb.MarketFragmenterSplitFundsRequest,
-    metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.FragmenterSplitFundsReply> {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.FragmenterSplitFundsReply> {
     return this.client_.serverStreaming(
-      this.hostname_ + '/tdex.daemon.v1.Operator/MarketFragmenterSplitFunds',
+      this.hostname_ +
+        '/tdex.daemon.v1.Operator/MarketFragmenterSplitFunds',
       request,
       metadata || {},
-      this.methodDescriptorMarketFragmenterSplitFunds
-    );
+      this.methodDescriptorMarketFragmenterSplitFunds);
   }
 
   methodDescriptorWithdrawMarketFragmenter = new grpcWeb.MethodDescriptor(
@@ -1370,41 +1296,34 @@ export class OperatorClient {
 
   withdrawMarketFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply>;
 
   withdrawMarketFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply
-    ) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply>;
 
   withdrawMarketFragmenter(
     request: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (
-      err: grpcWeb.RpcError,
-      response: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply
-    ) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.WithdrawMarketFragmenterReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawMarketFragmenter',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/WithdrawMarketFragmenter',
         request,
         metadata || {},
         this.methodDescriptorWithdrawMarketFragmenter,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/WithdrawMarketFragmenter',
-      request,
-      metadata || {},
-      this.methodDescriptorWithdrawMarketFragmenter
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/WithdrawMarketFragmenter',
+    request,
+    metadata || {},
+    this.methodDescriptorWithdrawMarketFragmenter);
   }
 
   methodDescriptorListMarkets = new grpcWeb.MethodDescriptor(
@@ -1420,35 +1339,34 @@ export class OperatorClient {
 
   listMarkets(
     request: tdex$daemon_v1_operator_pb.ListMarketsRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListMarketsReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListMarketsReply>;
 
   listMarkets(
     request: tdex$daemon_v1_operator_pb.ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListMarketsReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketsReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketsReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListMarketsReply>;
 
   listMarkets(
     request: tdex$daemon_v1_operator_pb.ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListMarketsReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListMarketsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListMarkets',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListMarkets',
         request,
         metadata || {},
         this.methodDescriptorListMarkets,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListMarkets',
-      request,
-      metadata || {},
-      this.methodDescriptorListMarkets
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListMarkets',
+    request,
+    metadata || {},
+    this.methodDescriptorListMarkets);
   }
 
   methodDescriptorListTrades = new grpcWeb.MethodDescriptor(
@@ -1464,35 +1382,34 @@ export class OperatorClient {
 
   listTrades(
     request: tdex$daemon_v1_operator_pb.ListTradesRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListTradesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListTradesReply>;
 
   listTrades(
     request: tdex$daemon_v1_operator_pb.ListTradesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListTradesReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListTradesReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListTradesReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListTradesReply>;
 
   listTrades(
     request: tdex$daemon_v1_operator_pb.ListTradesRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListTradesReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListTradesReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListTrades',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListTrades',
         request,
         metadata || {},
         this.methodDescriptorListTrades,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListTrades',
-      request,
-      metadata || {},
-      this.methodDescriptorListTrades
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListTrades',
+    request,
+    metadata || {},
+    this.methodDescriptorListTrades);
   }
 
   methodDescriptorReloadUtxos = new grpcWeb.MethodDescriptor(
@@ -1508,35 +1425,34 @@ export class OperatorClient {
 
   reloadUtxos(
     request: tdex$daemon_v1_operator_pb.ReloadUtxosRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ReloadUtxosReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ReloadUtxosReply>;
 
   reloadUtxos(
     request: tdex$daemon_v1_operator_pb.ReloadUtxosRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ReloadUtxosReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ReloadUtxosReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ReloadUtxosReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ReloadUtxosReply>;
 
   reloadUtxos(
     request: tdex$daemon_v1_operator_pb.ReloadUtxosRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ReloadUtxosReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ReloadUtxosReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ReloadUtxos',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ReloadUtxos',
         request,
         metadata || {},
         this.methodDescriptorReloadUtxos,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ReloadUtxos',
-      request,
-      metadata || {},
-      this.methodDescriptorReloadUtxos
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ReloadUtxos',
+    request,
+    metadata || {},
+    this.methodDescriptorReloadUtxos);
   }
 
   methodDescriptorListUtxos = new grpcWeb.MethodDescriptor(
@@ -1552,35 +1468,34 @@ export class OperatorClient {
 
   listUtxos(
     request: tdex$daemon_v1_operator_pb.ListUtxosRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListUtxosReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListUtxosReply>;
 
   listUtxos(
     request: tdex$daemon_v1_operator_pb.ListUtxosRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListUtxosReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListUtxosReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListUtxosReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListUtxosReply>;
 
   listUtxos(
     request: tdex$daemon_v1_operator_pb.ListUtxosRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListUtxosReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListUtxosReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListUtxos',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListUtxos',
         request,
         metadata || {},
         this.methodDescriptorListUtxos,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListUtxos',
-      request,
-      metadata || {},
-      this.methodDescriptorListUtxos
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListUtxos',
+    request,
+    metadata || {},
+    this.methodDescriptorListUtxos);
   }
 
   methodDescriptorAddWebhook = new grpcWeb.MethodDescriptor(
@@ -1596,35 +1511,34 @@ export class OperatorClient {
 
   addWebhook(
     request: tdex$daemon_v1_operator_pb.AddWebhookRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.AddWebhookReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.AddWebhookReply>;
 
   addWebhook(
     request: tdex$daemon_v1_operator_pb.AddWebhookRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.AddWebhookReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.AddWebhookReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.AddWebhookReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.AddWebhookReply>;
 
   addWebhook(
     request: tdex$daemon_v1_operator_pb.AddWebhookRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.AddWebhookReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.AddWebhookReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/AddWebhook',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/AddWebhook',
         request,
         metadata || {},
         this.methodDescriptorAddWebhook,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/AddWebhook',
-      request,
-      metadata || {},
-      this.methodDescriptorAddWebhook
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/AddWebhook',
+    request,
+    metadata || {},
+    this.methodDescriptorAddWebhook);
   }
 
   methodDescriptorRemoveWebhook = new grpcWeb.MethodDescriptor(
@@ -1640,35 +1554,34 @@ export class OperatorClient {
 
   removeWebhook(
     request: tdex$daemon_v1_operator_pb.RemoveWebhookRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.RemoveWebhookReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.RemoveWebhookReply>;
 
   removeWebhook(
     request: tdex$daemon_v1_operator_pb.RemoveWebhookRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.RemoveWebhookReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.RemoveWebhookReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.RemoveWebhookReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.RemoveWebhookReply>;
 
   removeWebhook(
     request: tdex$daemon_v1_operator_pb.RemoveWebhookRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.RemoveWebhookReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.RemoveWebhookReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/RemoveWebhook',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/RemoveWebhook',
         request,
         metadata || {},
         this.methodDescriptorRemoveWebhook,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/RemoveWebhook',
-      request,
-      metadata || {},
-      this.methodDescriptorRemoveWebhook
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/RemoveWebhook',
+    request,
+    metadata || {},
+    this.methodDescriptorRemoveWebhook);
   }
 
   methodDescriptorListWebhooks = new grpcWeb.MethodDescriptor(
@@ -1684,35 +1597,34 @@ export class OperatorClient {
 
   listWebhooks(
     request: tdex$daemon_v1_operator_pb.ListWebhooksRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListWebhooksReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListWebhooksReply>;
 
   listWebhooks(
     request: tdex$daemon_v1_operator_pb.ListWebhooksRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListWebhooksReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListWebhooksReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListWebhooksReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListWebhooksReply>;
 
   listWebhooks(
     request: tdex$daemon_v1_operator_pb.ListWebhooksRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListWebhooksReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListWebhooksReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListWebhooks',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListWebhooks',
         request,
         metadata || {},
         this.methodDescriptorListWebhooks,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListWebhooks',
-      request,
-      metadata || {},
-      this.methodDescriptorListWebhooks
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListWebhooks',
+    request,
+    metadata || {},
+    this.methodDescriptorListWebhooks);
   }
 
   methodDescriptorListDeposits = new grpcWeb.MethodDescriptor(
@@ -1728,35 +1640,34 @@ export class OperatorClient {
 
   listDeposits(
     request: tdex$daemon_v1_operator_pb.ListDepositsRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListDepositsReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListDepositsReply>;
 
   listDeposits(
     request: tdex$daemon_v1_operator_pb.ListDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListDepositsReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListDepositsReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListDepositsReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListDepositsReply>;
 
   listDeposits(
     request: tdex$daemon_v1_operator_pb.ListDepositsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListDepositsReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListDepositsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListDeposits',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListDeposits',
         request,
         metadata || {},
         this.methodDescriptorListDeposits,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListDeposits',
-      request,
-      metadata || {},
-      this.methodDescriptorListDeposits
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListDeposits',
+    request,
+    metadata || {},
+    this.methodDescriptorListDeposits);
   }
 
   methodDescriptorListWithdrawals = new grpcWeb.MethodDescriptor(
@@ -1772,35 +1683,34 @@ export class OperatorClient {
 
   listWithdrawals(
     request: tdex$daemon_v1_operator_pb.ListWithdrawalsRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.ListWithdrawalsReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.ListWithdrawalsReply>;
 
   listWithdrawals(
     request: tdex$daemon_v1_operator_pb.ListWithdrawalsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListWithdrawalsReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListWithdrawalsReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListWithdrawalsReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.ListWithdrawalsReply>;
 
   listWithdrawals(
     request: tdex$daemon_v1_operator_pb.ListWithdrawalsRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.ListWithdrawalsReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.ListWithdrawalsReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/ListWithdrawals',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/ListWithdrawals',
         request,
         metadata || {},
         this.methodDescriptorListWithdrawals,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/ListWithdrawals',
-      request,
-      metadata || {},
-      this.methodDescriptorListWithdrawals
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/ListWithdrawals',
+    request,
+    metadata || {},
+    this.methodDescriptorListWithdrawals);
   }
 
   methodDescriptorGetMarketReport = new grpcWeb.MethodDescriptor(
@@ -1816,34 +1726,35 @@ export class OperatorClient {
 
   getMarketReport(
     request: tdex$daemon_v1_operator_pb.GetMarketReportRequest,
-    metadata: grpcWeb.Metadata | null
-  ): Promise<tdex$daemon_v1_operator_pb.GetMarketReportReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_operator_pb.GetMarketReportReply>;
 
   getMarketReport(
     request: tdex$daemon_v1_operator_pb.GetMarketReportRequest,
     metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketReportReply) => void
-  ): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketReportReply>;
+    callback: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketReportReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_operator_pb.GetMarketReportReply>;
 
   getMarketReport(
     request: tdex$daemon_v1_operator_pb.GetMarketReportRequest,
     metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError, response: tdex$daemon_v1_operator_pb.GetMarketReportReply) => void
-  ) {
+    callback?: (err: grpcWeb.RpcError,
+               response: tdex$daemon_v1_operator_pb.GetMarketReportReply) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
-        this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketReport',
+        this.hostname_ +
+          '/tdex.daemon.v1.Operator/GetMarketReport',
         request,
         metadata || {},
         this.methodDescriptorGetMarketReport,
-        callback
-      );
+        callback);
     }
     return this.client_.unaryCall(
-      this.hostname_ + '/tdex.daemon.v1.Operator/GetMarketReport',
-      request,
-      metadata || {},
-      this.methodDescriptorGetMarketReport
-    );
+    this.hostname_ +
+      '/tdex.daemon.v1.Operator/GetMarketReport',
+    request,
+    metadata || {},
+    this.methodDescriptorGetMarketReport);
   }
+
 }
+

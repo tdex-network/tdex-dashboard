@@ -97,25 +97,28 @@ export const featuredAssets: Record<NetworkString, Asset[]> = {
 export const LBTC_UNITS = ['L-BTC', 'L-mBTC', 'L-bits', 'L-sats'] as const;
 export type LbtcUnit = typeof LBTC_UNITS[number];
 
-export const CURRENCIES: Currency[] = [
-  {
-    name: 'US Dollar',
-    symbol: '$',
-    value: 'usd',
-  },
-  {
-    name: 'Euro',
-    symbol: '€',
-    value: 'eur',
-  },
-  {
-    name: 'Canadian Dollar',
-    symbol: 'C$',
-    value: 'cad',
-  },
-  {
-    name: 'Bitcoin',
-    symbol: '',
-    value: 'btc',
-  },
-];
+export const BTC_CURRENCY: Currency = {
+  name: 'Bitcoin',
+  symbol: '',
+  value: 'btc',
+};
+
+export const CAD_CURRENCY: Currency = {
+  name: 'Canadian Dollar',
+  symbol: 'C$',
+  value: 'cad',
+};
+
+export const EURO_CURRENCY: Currency = {
+  name: 'Euro',
+  symbol: '€',
+  value: 'eur',
+};
+
+export const USD_CURRENCY: Currency = {
+  name: 'US Dollar',
+  symbol: '$',
+  value: 'usd',
+};
+
+export const CURRENCIES: Currency[] = [USD_CURRENCY, EURO_CURRENCY, CAD_CURRENCY, BTC_CURRENCY];

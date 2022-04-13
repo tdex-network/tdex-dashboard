@@ -88,7 +88,15 @@ import type { AddressWithBlindingKey } from '../../api-spec/protobuf/gen/js/tdex
 import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import type { Optional } from '../../domain/helpers';
-import { retryRtkRequest } from '../../utils';
+import {
+  retryRtkRequest,
+  getAssetDataFromRegistry,
+  fromSatsToUnitOrFractional,
+  isLbtcTicker,
+  BTC_CURRENCY,
+} from '../../utils';
+import { convertAmountToFavoriteCurrency } from '../rates.api';
+import type { CoinGeckoPriceResult } from '../rates.api';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
@@ -808,23 +816,30 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Trade'],
     }),
-    // TODO: fix wrong calculation
-    totalCollectedSwapFees: build.query<number, Market.AsObject[] | undefined>({
-      queryFn: async (arg, { getState }) => {
+    totalCollectedSwapFees: build.query<
+      number,
+      { markets?: Market.AsObject[]; prices?: CoinGeckoPriceResult }
+    >({
+      queryFn: async ({ markets, prices }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
+        const network = state.settings.network;
+        const assets = state.settings.assets;
         return retryRtkRequest(async () => {
-          if (!arg) return { data: 0 };
+          if (!markets || !prices) return { data: 0 };
           let totalCollectedSwapFees = 0;
-          const markets = arg.map(({ baseAsset, quoteAsset }) => {
+
+          // turns bare markets array into a Google JS ProtoBuff Markets Object
+          const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
             const newMarket = new Market();
             newMarket.setBaseAsset(baseAsset);
             newMarket.setQuoteAsset(quoteAsset);
             return newMarket;
           });
+
           const results = await Promise.all(
-            markets.map((market) =>
+            marketsJSPB.map((market) =>
               client
                 .getMarketCollectedSwapFees(
                   new GetMarketCollectedSwapFeesRequest().setMarket(market),
@@ -836,14 +851,47 @@ export const operatorApi = tdexApi.injectEndpoints({
                 }))
             )
           );
+
           for (const r of results) {
             // eslint-disable-next-line
             r.market.forEach((marketId) => {
               const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
                 .getTotalCollectedFeesPerAssetMap()
                 .get(marketId);
-              if (marketIdCollectedSwapFees) {
-                totalCollectedSwapFees += marketIdCollectedSwapFees;
+
+              // Get Asset Data using the asset marketId
+              const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
+
+              if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
+                // No point in calculating asset conversion
+                // for unknown asset and
+                // for undefined marketIdCollectedSwapFees
+                return;
+              }
+
+              // Keeps marketIdCollectedSwapFees as sats if it's btc
+              // 100000000 lbtc/sats-representation = 100000000 L-sats
+              // Otherwise this makes sure to get the amount with fiat precision
+              // 100000000 usdt/sats-representation = 1 usdt
+              const currentAmount = fromSatsToUnitOrFractional(
+                marketIdCollectedSwapFees,
+                currentAsset.precision,
+                isLbtcTicker(currentAsset.ticker),
+                'L-sats'
+              );
+
+              // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
+              const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
+                asset: currentAsset,
+                amount: currentAmount,
+                network: network,
+                preferredCurrency: BTC_CURRENCY,
+                preferredLbtcUnit: 'L-sats',
+                prices: prices,
+              });
+
+              if (marketIdCollectedSwapFeesInSats) {
+                totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);
               }
             });
           }

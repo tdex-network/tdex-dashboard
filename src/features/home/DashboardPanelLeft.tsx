@@ -1,6 +1,7 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
@@ -28,24 +29,28 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
-
-  // totalCollectedSwapFees always comes in satoshi units
-  const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery({
+  const { data: totalCollectedSwapFeesSats } = useTotalCollectedSwapFeesQuery({
     markets: markets,
     prices: prices,
   });
+  const [totalCollectedSwapFeesAsFavoriteCurrency, setTotalCollectedSwapFeesAsFavoriteCurrency] =
+    useState<string>();
 
-  const totalCollectedSwapFeesInLbtcUnit =
-    totalCollectedSwapFees && fromUnitToUnit(totalCollectedSwapFees, 'L-sats', lbtcUnit);
-
-  const totalCollectedSwapFeesAsFavoriteCurrency = convertAmountToFavoriteCurrency({
-    asset: LBTC_ASSET[network],
-    amount: totalCollectedSwapFeesInLbtcUnit,
-    network: network,
-    preferredCurrency: currency,
-    preferredLbtcUnit: lbtcUnit,
-    prices: prices,
-  });
+  useEffect(() => {
+    if (totalCollectedSwapFeesSats !== undefined) {
+      const totalCollectedSwapFeesInLbtcUnit = fromUnitToUnit(totalCollectedSwapFeesSats, 'L-sats', lbtcUnit);
+      setTotalCollectedSwapFeesAsFavoriteCurrency(
+        convertAmountToFavoriteCurrency({
+          asset: LBTC_ASSET[network],
+          amount: totalCollectedSwapFeesInLbtcUnit,
+          network: network,
+          preferredCurrency: currency,
+          preferredLbtcUnit: lbtcUnit,
+          prices: prices,
+        })
+      );
+    }
+  }, [currency, lbtcUnit, network, prices, totalCollectedSwapFeesSats]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

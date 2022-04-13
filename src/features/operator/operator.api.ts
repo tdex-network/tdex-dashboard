@@ -816,7 +816,6 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Trade'],
     }),
-    // TODO: fix wrong calculation
     totalCollectedSwapFees: build.query<
       number,
       { markets?: Market.AsObject[]; prices?: CoinGeckoPriceResult }
@@ -831,6 +830,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           if (!markets || !prices) return { data: 0 };
           let totalCollectedSwapFees = 0;
 
+          // turns bare markets array into a Google JS ProtoBuff Markets Object
           const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
             const newMarket = new Market();
             newMarket.setBaseAsset(baseAsset);

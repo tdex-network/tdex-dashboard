@@ -8,7 +8,7 @@ import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
-import { LBTC_ASSET } from '../../utils';
+import { LBTC_ASSET, fromUnitToUnit } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
 import type { PriceFeedQueryResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
@@ -22,23 +22,25 @@ interface DashboardPanelLeftProps {
 
 export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
-  const { currency, network, assets } = useTypedSelector(({ settings }: RootState) => settings);
+  const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: listMarkets } = useListMarketsQuery();
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
-  //
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
+
+  // totalCollectedSwapFees always comes in satoshi units
   const { data: totalCollectedSwapFees } = useTotalCollectedSwapFeesQuery({
     markets: markets,
     prices: prices,
-    assets: assets,
-    network: network,
   });
+
+  const totalCollectedSwapFeesInLbtcUnit =
+    totalCollectedSwapFees && fromUnitToUnit(totalCollectedSwapFees, 'L-sats', lbtcUnit);
 
   const totalCollectedSwapFeesAsFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: LBTC_ASSET[network],
-    amount: totalCollectedSwapFees,
+    amount: totalCollectedSwapFeesInLbtcUnit,
     network: network,
     preferredCurrency: currency,
     preferredLbtcUnit: lbtcUnit,

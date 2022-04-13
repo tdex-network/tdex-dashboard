@@ -96,6 +96,7 @@ import {
   BTC_CURRENCY,
 } from '../../utils';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
+import type { CoinGeckoPriceResult } from '../rates.api';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
@@ -818,23 +819,25 @@ export const operatorApi = tdexApi.injectEndpoints({
     // TODO: fix wrong calculation
     totalCollectedSwapFees: build.query<
       number,
-      { markets: Market.AsObject[] | undefined; prices: any; assets: any; network: any }
+      { markets?: Market.AsObject[]; prices?: CoinGeckoPriceResult }
     >({
-      queryFn: async ({ markets, prices, assets, network }, { getState }) => {
+      queryFn: async ({ markets, prices }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
+        const network = state.settings.network;
+        const assets = state.settings.assets;
         return retryRtkRequest(async () => {
-          if (!markets) return { data: 0 };
+          if (!markets || !prices) return { data: 0 };
           let totalCollectedSwapFees = 0;
-          console.log({ markets });
+
           const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
             const newMarket = new Market();
             newMarket.setBaseAsset(baseAsset);
             newMarket.setQuoteAsset(quoteAsset);
             return newMarket;
           });
-          console.log({ marketsJSPB });
+
           const results = await Promise.all(
             marketsJSPB.map((market) =>
               client
@@ -848,7 +851,7 @@ export const operatorApi = tdexApi.injectEndpoints({
                 }))
             )
           );
-          console.log({ results, assets });
+
           for (const r of results) {
             // eslint-disable-next-line
             r.market.forEach((marketId) => {
@@ -858,7 +861,6 @@ export const operatorApi = tdexApi.injectEndpoints({
 
               // Get Asset Data using the asset marketId
               const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
-              console.log({ currentAsset });
 
               if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
                 // No point in calculating asset conversion
@@ -866,8 +868,6 @@ export const operatorApi = tdexApi.injectEndpoints({
                 // for undefined marketIdCollectedSwapFees
                 return;
               }
-
-              console.log({ marketIdCollectedSwapFees });
 
               // Keeps marketIdCollectedSwapFees as sats if it's btc
               // 100000000 lbtc/sats-representation = 100000000 L-sats
@@ -879,7 +879,6 @@ export const operatorApi = tdexApi.injectEndpoints({
                 isLbtcTicker(currentAsset.ticker),
                 'L-sats'
               );
-              console.log({ currentAmount });
 
               // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
               const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
@@ -890,8 +889,6 @@ export const operatorApi = tdexApi.injectEndpoints({
                 preferredLbtcUnit: 'L-sats',
                 prices: prices,
               });
-
-              console.log({ marketIdCollectedSwapFeesInSats });
 
               if (marketIdCollectedSwapFeesInSats) {
                 totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);

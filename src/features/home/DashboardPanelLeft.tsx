@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
-import { useTypedSelector } from '../../app/store';
+import { useTypedSelector, useTypedDispatch } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { LBTC_ASSET, fromUnitToUnit } from '../../utils';
 import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import { setCollectedFeeForDate } from '../operator/operatorSlice';
 import type { PriceFeedQueryResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
 
@@ -23,7 +24,9 @@ interface DashboardPanelLeftProps {
 
 export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
   const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
+  const { collectedFeesPerDay } = useTypedSelector(({ operator }: RootState) => operator);
   const { data: listMarkets } = useListMarketsQuery();
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const activeMarkets = listMarkets?.marketsList.filter((m) => m.tradable).length || 0;
@@ -49,6 +52,17 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
           prices: prices,
         })
       );
+
+      // update latest collectedFee for the day
+      const payload = {
+        date: new Date().toLocaleString(['en-US', 'en'], {
+          month: 'numeric',
+          day: 'numeric',
+          year: 'numeric',
+        }),
+        collectedFees: totalCollectedSwapFeesSats,
+      };
+      dispatch(setCollectedFeeForDate(payload));
     }
   }, [currency, lbtcUnit, network, prices, totalCollectedSwapFeesSats]);
 

@@ -1,6 +1,7 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
+import { before } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,6 +39,54 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
   });
   const [totalCollectedSwapFeesAsFavoriteCurrency, setTotalCollectedSwapFeesAsFavoriteCurrency] =
     useState<string>();
+  const [swapFeesPercentageChange, setSwapFeesPercentageChange] = useState<number>(0);
+
+  console.log({ collectedFeesPerDay });
+
+  useEffect(() => {
+    const milliseconds24hrs = 2 * 24 * 60 * 60 * 1000;
+
+    const todayKey = new Date().toLocaleString(['en-US', 'en'], {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
+    const yesterdayKey = new Date(new Date().getTime() - milliseconds24hrs).toLocaleString(['en-US', 'en'], {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
+    const beforeYesterdayKey = new Date(new Date().getTime() - milliseconds24hrs * 2).toLocaleString(
+      ['en-US', 'en'],
+      {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+      }
+    );
+
+    const todayFees = collectedFeesPerDay[todayKey];
+    const yesterdayFees = collectedFeesPerDay[yesterdayKey];
+    const beforeYesterdayFees = collectedFeesPerDay[beforeYesterdayKey];
+
+    // Prefer the day before yesterday for more accuracy
+    // TODAY 05:00AM / YESTERDAY 11:59PM ( about 5 hours )
+    // TODAY 05:00AM / BEFORE_YESTERDAY 11:59PM ( about 29 hours )
+
+    let changeInFees = undefined;
+
+    if (todayFees && beforeYesterdayFees) {
+      changeInFees = (todayFees / beforeYesterdayFees - 1) * 100;
+    } else if (todayFees && yesterdayFees) {
+      changeInFees = (todayFees / yesterdayFees - 1) * 100;
+    } else {
+      changeInFees = 0;
+    }
+
+    setSwapFeesPercentageChange(Number(changeInFees.toFixed(2)));
+  }, [collectedFeesPerDay]);
 
   useEffect(() => {
     if (totalCollectedSwapFeesSats !== undefined) {
@@ -87,7 +136,7 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
         </Col>
         <Col className="total-earned-change" span={8}>
           <div>24h</div>
-          <div>+2.85%</div>
+          <div>+{swapFeesPercentageChange}%</div>
         </Col>
       </Row>
       <Divider style={{ margin: '12px 0 40px 0' }} />

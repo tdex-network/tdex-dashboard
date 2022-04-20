@@ -17,6 +17,7 @@ import {
 import { LBTC_UNITS, CURRENCIES } from '../../utils';
 import { liquidApi } from '../liquid.api';
 import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
+import { resetOperator } from '../operator/operatorSlice';
 import { walletApi } from '../wallet/wallet.api';
 import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
 
@@ -98,6 +99,7 @@ export const Settings = (): JSX.Element => {
                       }
                     }
                     dispatch(logout());
+                    dispatch(resetOperator());
                     // Reset the APIs state completely
                     dispatch(liquidApi.util.resetApiState());
                     dispatch(operatorApi.util.resetApiState());
@@ -134,11 +136,13 @@ export const Settings = (): JSX.Element => {
                       }
                     }
                     dispatch(resetSettings());
+                    dispatch(resetOperator());
                     // Reset the APIs state completely
                     dispatch(liquidApi.util.resetApiState());
                     dispatch(operatorApi.util.resetApiState());
                     dispatch(walletUnlockerApi.util.resetApiState());
                     dispatch(walletApi.util.resetApiState());
+
                     navigate(ONBOARDING_PAIRING_ROUTE);
                   }}
                 >

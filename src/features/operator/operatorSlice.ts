@@ -1,9 +1,19 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-export const initialState: any = {
-  collectedFeesPerDay: {
-    '0/0/0': 0,
-  },
+type collectedFeesRecord = Record<string, number>;
+
+export type CollectedFeesPayload = {
+  date: string;
+  collectedFees: number;
+};
+
+export interface OperatorState {
+  collectedFeesPerDay: collectedFeesRecord;
+}
+
+export const initialState: OperatorState = {
+  collectedFeesPerDay: { '0/0/0': 0 } as collectedFeesRecord,
 };
 
 export const operatorSlice = createSlice({
@@ -11,7 +21,7 @@ export const operatorSlice = createSlice({
   initialState,
   reducers: {
     resetOperator: () => initialState,
-    setCollectedFeeForDate: (state, action) => {
+    setCollectedFeeForDate: (state, action: PayloadAction<CollectedFeesPayload>) => {
       const { collectedFees, date } = action.payload;
       state.collectedFeesPerDay[date] = collectedFees;
     },

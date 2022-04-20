@@ -1,7 +1,6 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
-import { before } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,8 +39,6 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
   const [totalCollectedSwapFeesAsFavoriteCurrency, setTotalCollectedSwapFeesAsFavoriteCurrency] =
     useState<string>();
   const [swapFeesPercentageChange, setSwapFeesPercentageChange] = useState<number>(0);
-
-  console.log({ collectedFeesPerDay });
 
   useEffect(() => {
     const milliseconds24hrs = 2 * 24 * 60 * 60 * 1000;

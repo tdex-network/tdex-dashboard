@@ -110,7 +110,7 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
       };
       dispatch(setCollectedFeeForDate(payload));
     }
-  }, [currency, lbtcUnit, network, prices, totalCollectedSwapFeesSats]);
+  }, [currency, dispatch, lbtcUnit, network, prices, totalCollectedSwapFeesSats]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

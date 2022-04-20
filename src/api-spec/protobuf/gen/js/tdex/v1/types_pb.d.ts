@@ -145,12 +145,6 @@ export namespace MarketWithFee {
 }
 
 export class Price extends jspb.Message {
-  getBasePriceDeprecated(): number;
-  setBasePriceDeprecated(value: number): Price;
-
-  getQuotePriceDeprecated(): number;
-  setQuotePriceDeprecated(value: number): Price;
-
   getBasePrice(): number;
   setBasePrice(value: number): Price;
 
@@ -167,44 +161,42 @@ export class Price extends jspb.Message {
 
 export namespace Price {
   export type AsObject = {
-    basePriceDeprecated: number,
-    quotePriceDeprecated: number,
     basePrice: number,
     quotePrice: number,
   }
 }
 
-export class PriceWithFee extends jspb.Message {
+export class Preview extends jspb.Message {
   getPrice(): Price | undefined;
-  setPrice(value?: Price): PriceWithFee;
+  setPrice(value?: Price): Preview;
   hasPrice(): boolean;
-  clearPrice(): PriceWithFee;
+  clearPrice(): Preview;
 
   getFee(): Fee | undefined;
-  setFee(value?: Fee): PriceWithFee;
+  setFee(value?: Fee): Preview;
   hasFee(): boolean;
-  clearFee(): PriceWithFee;
+  clearFee(): Preview;
 
   getAmount(): number;
-  setAmount(value: number): PriceWithFee;
+  setAmount(value: number): Preview;
 
   getAsset(): string;
-  setAsset(value: string): PriceWithFee;
+  setAsset(value: string): Preview;
 
   getBalance(): Balance | undefined;
-  setBalance(value?: Balance): PriceWithFee;
+  setBalance(value?: Balance): Preview;
   hasBalance(): boolean;
-  clearBalance(): PriceWithFee;
+  clearBalance(): Preview;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PriceWithFee.AsObject;
-  static toObject(includeInstance: boolean, msg: PriceWithFee): PriceWithFee.AsObject;
-  static serializeBinaryToWriter(message: PriceWithFee, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PriceWithFee;
-  static deserializeBinaryFromReader(message: PriceWithFee, reader: jspb.BinaryReader): PriceWithFee;
+  toObject(includeInstance?: boolean): Preview.AsObject;
+  static toObject(includeInstance: boolean, msg: Preview): Preview.AsObject;
+  static serializeBinaryToWriter(message: Preview, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Preview;
+  static deserializeBinaryFromReader(message: Preview, reader: jspb.BinaryReader): Preview;
 }
 
-export namespace PriceWithFee {
+export namespace Preview {
   export type AsObject = {
     price?: Price.AsObject,
     fee?: Fee.AsObject,
@@ -214,25 +206,7 @@ export namespace PriceWithFee {
   }
 }
 
-export class AddressWithBlindingKey extends jspb.Message {
-  getAddress(): string;
-  setAddress(value: string): AddressWithBlindingKey;
-
-  getBlinding(): string;
-  setBlinding(value: string): AddressWithBlindingKey;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): AddressWithBlindingKey.AsObject;
-  static toObject(includeInstance: boolean, msg: AddressWithBlindingKey): AddressWithBlindingKey.AsObject;
-  static serializeBinaryToWriter(message: AddressWithBlindingKey, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): AddressWithBlindingKey;
-  static deserializeBinaryFromReader(message: AddressWithBlindingKey, reader: jspb.BinaryReader): AddressWithBlindingKey;
+export enum TradeType { 
+  TRADE_TYPE_BUY = 0,
+  TRADE_TYPE_SELL = 1,
 }
-
-export namespace AddressWithBlindingKey {
-  export type AsObject = {
-    address: string,
-    blinding: string,
-  }
-}
-

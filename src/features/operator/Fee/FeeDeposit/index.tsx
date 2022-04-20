@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import type { FragmenterSplitFundsReply } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { FeeFragmenterSplitFundsResponse } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
@@ -105,7 +105,7 @@ export const FeeDeposit = (): JSX.Element => {
           reject({ message: status.details });
         }
       });
-      data.on('data', async (data: FragmenterSplitFundsReply) => {
+      data.on('data', async (data: FeeFragmenterSplitFundsResponse) => {
         setNewWaitingModalLogStr(data.getMessage());
       });
     });

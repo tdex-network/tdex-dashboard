@@ -17,29 +17,29 @@ export namespace SupportedContentTypesRequest {
   }
 }
 
-export class SupportedContentTypesReply extends jspb.Message {
+export class SupportedContentTypesResponse extends jspb.Message {
   getAcceptedTypesList(): Array<ContentType>;
-  setAcceptedTypesList(value: Array<ContentType>): SupportedContentTypesReply;
-  clearAcceptedTypesList(): SupportedContentTypesReply;
-  addAcceptedTypes(value: ContentType, index?: number): SupportedContentTypesReply;
+  setAcceptedTypesList(value: Array<ContentType>): SupportedContentTypesResponse;
+  clearAcceptedTypesList(): SupportedContentTypesResponse;
+  addAcceptedTypes(value: ContentType, index?: number): SupportedContentTypesResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): SupportedContentTypesReply.AsObject;
-  static toObject(includeInstance: boolean, msg: SupportedContentTypesReply): SupportedContentTypesReply.AsObject;
-  static serializeBinaryToWriter(message: SupportedContentTypesReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): SupportedContentTypesReply;
-  static deserializeBinaryFromReader(message: SupportedContentTypesReply, reader: jspb.BinaryReader): SupportedContentTypesReply;
+  toObject(includeInstance?: boolean): SupportedContentTypesResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: SupportedContentTypesResponse): SupportedContentTypesResponse.AsObject;
+  static serializeBinaryToWriter(message: SupportedContentTypesResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SupportedContentTypesResponse;
+  static deserializeBinaryFromReader(message: SupportedContentTypesResponse, reader: jspb.BinaryReader): SupportedContentTypesResponse;
 }
 
-export namespace SupportedContentTypesReply {
+export namespace SupportedContentTypesResponse {
   export type AsObject = {
     acceptedTypesList: Array<ContentType>,
   }
 }
 
 export enum ContentType { 
-  JSON = 0,
-  GRPC = 1,
-  GRPCWEB = 2,
-  GRPCWEBTEXT = 3,
+  CONTENT_TYPE_JSON = 0,
+  CONTENT_TYPE_GRPC = 1,
+  CONTENT_TYPE_GRPCWEB = 2,
+  CONTENT_TYPE_GRPCWEBTEXT = 3,
 }

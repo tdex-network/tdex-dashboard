@@ -1,18 +1,16 @@
 import * as jspb from 'google-protobuf'
 
+import * as tdex$daemon_v1_types_pb from '../../tdex-daemon/v1/types_pb';
 
 
 export class SendToManyRequest extends jspb.Message {
-  getOutputsList(): Array<TxOut>;
-  setOutputsList(value: Array<TxOut>): SendToManyRequest;
+  getOutputsList(): Array<tdex$daemon_v1_types_pb.TxOutput>;
+  setOutputsList(value: Array<tdex$daemon_v1_types_pb.TxOutput>): SendToManyRequest;
   clearOutputsList(): SendToManyRequest;
-  addOutputs(value?: TxOut, index?: number): TxOut;
+  addOutputs(value?: tdex$daemon_v1_types_pb.TxOutput, index?: number): tdex$daemon_v1_types_pb.TxOutput;
 
   getMillisatPerByte(): number;
   setMillisatPerByte(value: number): SendToManyRequest;
-
-  getPush(): boolean;
-  setPush(value: boolean): SendToManyRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SendToManyRequest.AsObject;
@@ -24,32 +22,31 @@ export class SendToManyRequest extends jspb.Message {
 
 export namespace SendToManyRequest {
   export type AsObject = {
-    outputsList: Array<TxOut.AsObject>,
+    outputsList: Array<tdex$daemon_v1_types_pb.TxOutput.AsObject>,
     millisatPerByte: number,
-    push: boolean,
   }
 }
 
-export class SendToManyReply extends jspb.Message {
+export class SendToManyResponse extends jspb.Message {
   getRawTx(): Uint8Array | string;
   getRawTx_asU8(): Uint8Array;
   getRawTx_asB64(): string;
-  setRawTx(value: Uint8Array | string): SendToManyReply;
+  setRawTx(value: Uint8Array | string): SendToManyResponse;
 
   getTxid(): Uint8Array | string;
   getTxid_asU8(): Uint8Array;
   getTxid_asB64(): string;
-  setTxid(value: Uint8Array | string): SendToManyReply;
+  setTxid(value: Uint8Array | string): SendToManyResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): SendToManyReply.AsObject;
-  static toObject(includeInstance: boolean, msg: SendToManyReply): SendToManyReply.AsObject;
-  static serializeBinaryToWriter(message: SendToManyReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): SendToManyReply;
-  static deserializeBinaryFromReader(message: SendToManyReply, reader: jspb.BinaryReader): SendToManyReply;
+  toObject(includeInstance?: boolean): SendToManyResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: SendToManyResponse): SendToManyResponse.AsObject;
+  static serializeBinaryToWriter(message: SendToManyResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SendToManyResponse;
+  static deserializeBinaryFromReader(message: SendToManyResponse, reader: jspb.BinaryReader): SendToManyResponse;
 }
 
-export namespace SendToManyReply {
+export namespace SendToManyResponse {
   export type AsObject = {
     rawTx: Uint8Array | string,
     txid: Uint8Array | string,
@@ -70,51 +67,25 @@ export namespace WalletAddressRequest {
   }
 }
 
-export class WalletAddressReply extends jspb.Message {
+export class WalletAddressResponse extends jspb.Message {
   getAddress(): string;
-  setAddress(value: string): WalletAddressReply;
+  setAddress(value: string): WalletAddressResponse;
 
   getBlinding(): string;
-  setBlinding(value: string): WalletAddressReply;
+  setBlinding(value: string): WalletAddressResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): WalletAddressReply.AsObject;
-  static toObject(includeInstance: boolean, msg: WalletAddressReply): WalletAddressReply.AsObject;
-  static serializeBinaryToWriter(message: WalletAddressReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): WalletAddressReply;
-  static deserializeBinaryFromReader(message: WalletAddressReply, reader: jspb.BinaryReader): WalletAddressReply;
+  toObject(includeInstance?: boolean): WalletAddressResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: WalletAddressResponse): WalletAddressResponse.AsObject;
+  static serializeBinaryToWriter(message: WalletAddressResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WalletAddressResponse;
+  static deserializeBinaryFromReader(message: WalletAddressResponse, reader: jspb.BinaryReader): WalletAddressResponse;
 }
 
-export namespace WalletAddressReply {
+export namespace WalletAddressResponse {
   export type AsObject = {
     address: string,
     blinding: string,
-  }
-}
-
-export class BalanceInfo extends jspb.Message {
-  getTotalBalance(): number;
-  setTotalBalance(value: number): BalanceInfo;
-
-  getConfirmedBalance(): number;
-  setConfirmedBalance(value: number): BalanceInfo;
-
-  getUnconfirmedBalance(): number;
-  setUnconfirmedBalance(value: number): BalanceInfo;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BalanceInfo.AsObject;
-  static toObject(includeInstance: boolean, msg: BalanceInfo): BalanceInfo.AsObject;
-  static serializeBinaryToWriter(message: BalanceInfo, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BalanceInfo;
-  static deserializeBinaryFromReader(message: BalanceInfo, reader: jspb.BinaryReader): BalanceInfo;
-}
-
-export namespace BalanceInfo {
-  export type AsObject = {
-    totalBalance: number,
-    confirmedBalance: number,
-    unconfirmedBalance: number,
   }
 }
 
@@ -132,47 +103,21 @@ export namespace WalletBalanceRequest {
   }
 }
 
-export class WalletBalanceReply extends jspb.Message {
-  getBalanceMap(): jspb.Map<string, BalanceInfo>;
-  clearBalanceMap(): WalletBalanceReply;
+export class WalletBalanceResponse extends jspb.Message {
+  getBalanceMap(): jspb.Map<string, tdex$daemon_v1_types_pb.BalanceInfo>;
+  clearBalanceMap(): WalletBalanceResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): WalletBalanceReply.AsObject;
-  static toObject(includeInstance: boolean, msg: WalletBalanceReply): WalletBalanceReply.AsObject;
-  static serializeBinaryToWriter(message: WalletBalanceReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): WalletBalanceReply;
-  static deserializeBinaryFromReader(message: WalletBalanceReply, reader: jspb.BinaryReader): WalletBalanceReply;
+  toObject(includeInstance?: boolean): WalletBalanceResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: WalletBalanceResponse): WalletBalanceResponse.AsObject;
+  static serializeBinaryToWriter(message: WalletBalanceResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WalletBalanceResponse;
+  static deserializeBinaryFromReader(message: WalletBalanceResponse, reader: jspb.BinaryReader): WalletBalanceResponse;
 }
 
-export namespace WalletBalanceReply {
+export namespace WalletBalanceResponse {
   export type AsObject = {
-    balanceMap: Array<[string, BalanceInfo.AsObject]>,
-  }
-}
-
-export class TxOut extends jspb.Message {
-  getAsset(): string;
-  setAsset(value: string): TxOut;
-
-  getValue(): number;
-  setValue(value: number): TxOut;
-
-  getAddress(): string;
-  setAddress(value: string): TxOut;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TxOut.AsObject;
-  static toObject(includeInstance: boolean, msg: TxOut): TxOut.AsObject;
-  static serializeBinaryToWriter(message: TxOut, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TxOut;
-  static deserializeBinaryFromReader(message: TxOut, reader: jspb.BinaryReader): TxOut;
-}
-
-export namespace TxOut {
-  export type AsObject = {
-    asset: string,
-    value: number,
-    address: string,
+    balanceMap: Array<[string, tdex$daemon_v1_types_pb.BalanceInfo.AsObject]>,
   }
 }
 

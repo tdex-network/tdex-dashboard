@@ -5,239 +5,129 @@ import * as tdex_v1_types_pb from '../../tdex/v1/types_pb';
 import * as google_api_annotations_pb from '../../google/api/annotations_pb';
 
 
-export class MarketsRequest extends jspb.Message {
+export class ListMarketsRequest extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MarketsRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: MarketsRequest): MarketsRequest.AsObject;
-  static serializeBinaryToWriter(message: MarketsRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MarketsRequest;
-  static deserializeBinaryFromReader(message: MarketsRequest, reader: jspb.BinaryReader): MarketsRequest;
+  toObject(includeInstance?: boolean): ListMarketsRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ListMarketsRequest): ListMarketsRequest.AsObject;
+  static serializeBinaryToWriter(message: ListMarketsRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListMarketsRequest;
+  static deserializeBinaryFromReader(message: ListMarketsRequest, reader: jspb.BinaryReader): ListMarketsRequest;
 }
 
-export namespace MarketsRequest {
+export namespace ListMarketsRequest {
   export type AsObject = {
   }
 }
 
-export class MarketsReply extends jspb.Message {
+export class ListMarketsResponse extends jspb.Message {
   getMarketsList(): Array<tdex_v1_types_pb.MarketWithFee>;
-  setMarketsList(value: Array<tdex_v1_types_pb.MarketWithFee>): MarketsReply;
-  clearMarketsList(): MarketsReply;
+  setMarketsList(value: Array<tdex_v1_types_pb.MarketWithFee>): ListMarketsResponse;
+  clearMarketsList(): ListMarketsResponse;
   addMarkets(value?: tdex_v1_types_pb.MarketWithFee, index?: number): tdex_v1_types_pb.MarketWithFee;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MarketsReply.AsObject;
-  static toObject(includeInstance: boolean, msg: MarketsReply): MarketsReply.AsObject;
-  static serializeBinaryToWriter(message: MarketsReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MarketsReply;
-  static deserializeBinaryFromReader(message: MarketsReply, reader: jspb.BinaryReader): MarketsReply;
+  toObject(includeInstance?: boolean): ListMarketsResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ListMarketsResponse): ListMarketsResponse.AsObject;
+  static serializeBinaryToWriter(message: ListMarketsResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListMarketsResponse;
+  static deserializeBinaryFromReader(message: ListMarketsResponse, reader: jspb.BinaryReader): ListMarketsResponse;
 }
 
-export namespace MarketsReply {
+export namespace ListMarketsResponse {
   export type AsObject = {
     marketsList: Array<tdex_v1_types_pb.MarketWithFee.AsObject>,
   }
 }
 
-export class BalancesRequest extends jspb.Message {
+export class GetMarketBalanceRequest extends jspb.Message {
   getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): BalancesRequest;
+  setMarket(value?: tdex_v1_types_pb.Market): GetMarketBalanceRequest;
   hasMarket(): boolean;
-  clearMarket(): BalancesRequest;
+  clearMarket(): GetMarketBalanceRequest;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BalancesRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: BalancesRequest): BalancesRequest.AsObject;
-  static serializeBinaryToWriter(message: BalancesRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BalancesRequest;
-  static deserializeBinaryFromReader(message: BalancesRequest, reader: jspb.BinaryReader): BalancesRequest;
+  toObject(includeInstance?: boolean): GetMarketBalanceRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketBalanceRequest): GetMarketBalanceRequest.AsObject;
+  static serializeBinaryToWriter(message: GetMarketBalanceRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketBalanceRequest;
+  static deserializeBinaryFromReader(message: GetMarketBalanceRequest, reader: jspb.BinaryReader): GetMarketBalanceRequest;
 }
 
-export namespace BalancesRequest {
+export namespace GetMarketBalanceRequest {
   export type AsObject = {
     market?: tdex_v1_types_pb.Market.AsObject,
   }
 }
 
-export class BalancesReply extends jspb.Message {
-  getBalancesList(): Array<tdex_v1_types_pb.BalanceWithFee>;
-  setBalancesList(value: Array<tdex_v1_types_pb.BalanceWithFee>): BalancesReply;
-  clearBalancesList(): BalancesReply;
-  addBalances(value?: tdex_v1_types_pb.BalanceWithFee, index?: number): tdex_v1_types_pb.BalanceWithFee;
+export class GetMarketBalanceResponse extends jspb.Message {
+  getBalance(): tdex_v1_types_pb.BalanceWithFee | undefined;
+  setBalance(value?: tdex_v1_types_pb.BalanceWithFee): GetMarketBalanceResponse;
+  hasBalance(): boolean;
+  clearBalance(): GetMarketBalanceResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BalancesReply.AsObject;
-  static toObject(includeInstance: boolean, msg: BalancesReply): BalancesReply.AsObject;
-  static serializeBinaryToWriter(message: BalancesReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BalancesReply;
-  static deserializeBinaryFromReader(message: BalancesReply, reader: jspb.BinaryReader): BalancesReply;
+  toObject(includeInstance?: boolean): GetMarketBalanceResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarketBalanceResponse): GetMarketBalanceResponse.AsObject;
+  static serializeBinaryToWriter(message: GetMarketBalanceResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarketBalanceResponse;
+  static deserializeBinaryFromReader(message: GetMarketBalanceResponse, reader: jspb.BinaryReader): GetMarketBalanceResponse;
 }
 
-export namespace BalancesReply {
+export namespace GetMarketBalanceResponse {
   export type AsObject = {
-    balancesList: Array<tdex_v1_types_pb.BalanceWithFee.AsObject>,
+    balance?: tdex_v1_types_pb.BalanceWithFee.AsObject,
   }
 }
 
-export class MarketPriceRequest extends jspb.Message {
+export class PreviewTradeRequest extends jspb.Message {
   getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): MarketPriceRequest;
+  setMarket(value?: tdex_v1_types_pb.Market): PreviewTradeRequest;
   hasMarket(): boolean;
-  clearMarket(): MarketPriceRequest;
+  clearMarket(): PreviewTradeRequest;
 
-  getType(): TradeType;
-  setType(value: TradeType): MarketPriceRequest;
+  getType(): tdex_v1_types_pb.TradeType;
+  setType(value: tdex_v1_types_pb.TradeType): PreviewTradeRequest;
 
   getAmount(): number;
-  setAmount(value: number): MarketPriceRequest;
+  setAmount(value: number): PreviewTradeRequest;
 
   getAsset(): string;
-  setAsset(value: string): MarketPriceRequest;
+  setAsset(value: string): PreviewTradeRequest;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MarketPriceRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: MarketPriceRequest): MarketPriceRequest.AsObject;
-  static serializeBinaryToWriter(message: MarketPriceRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MarketPriceRequest;
-  static deserializeBinaryFromReader(message: MarketPriceRequest, reader: jspb.BinaryReader): MarketPriceRequest;
+  toObject(includeInstance?: boolean): PreviewTradeRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PreviewTradeRequest): PreviewTradeRequest.AsObject;
+  static serializeBinaryToWriter(message: PreviewTradeRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PreviewTradeRequest;
+  static deserializeBinaryFromReader(message: PreviewTradeRequest, reader: jspb.BinaryReader): PreviewTradeRequest;
 }
 
-export namespace MarketPriceRequest {
+export namespace PreviewTradeRequest {
   export type AsObject = {
     market?: tdex_v1_types_pb.Market.AsObject,
-    type: TradeType,
+    type: tdex_v1_types_pb.TradeType,
     amount: number,
     asset: string,
   }
 }
 
-export class MarketPriceReply extends jspb.Message {
-  getPricesList(): Array<tdex_v1_types_pb.PriceWithFee>;
-  setPricesList(value: Array<tdex_v1_types_pb.PriceWithFee>): MarketPriceReply;
-  clearPricesList(): MarketPriceReply;
-  addPrices(value?: tdex_v1_types_pb.PriceWithFee, index?: number): tdex_v1_types_pb.PriceWithFee;
+export class PreviewTradeResponse extends jspb.Message {
+  getPreviewsList(): Array<tdex_v1_types_pb.Preview>;
+  setPreviewsList(value: Array<tdex_v1_types_pb.Preview>): PreviewTradeResponse;
+  clearPreviewsList(): PreviewTradeResponse;
+  addPreviews(value?: tdex_v1_types_pb.Preview, index?: number): tdex_v1_types_pb.Preview;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MarketPriceReply.AsObject;
-  static toObject(includeInstance: boolean, msg: MarketPriceReply): MarketPriceReply.AsObject;
-  static serializeBinaryToWriter(message: MarketPriceReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MarketPriceReply;
-  static deserializeBinaryFromReader(message: MarketPriceReply, reader: jspb.BinaryReader): MarketPriceReply;
+  toObject(includeInstance?: boolean): PreviewTradeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: PreviewTradeResponse): PreviewTradeResponse.AsObject;
+  static serializeBinaryToWriter(message: PreviewTradeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PreviewTradeResponse;
+  static deserializeBinaryFromReader(message: PreviewTradeResponse, reader: jspb.BinaryReader): PreviewTradeResponse;
 }
 
-export namespace MarketPriceReply {
+export namespace PreviewTradeResponse {
   export type AsObject = {
-    pricesList: Array<tdex_v1_types_pb.PriceWithFee.AsObject>,
-  }
-}
-
-export class TradeProposeRequest extends jspb.Message {
-  getMarket(): tdex_v1_types_pb.Market | undefined;
-  setMarket(value?: tdex_v1_types_pb.Market): TradeProposeRequest;
-  hasMarket(): boolean;
-  clearMarket(): TradeProposeRequest;
-
-  getType(): TradeType;
-  setType(value: TradeType): TradeProposeRequest;
-
-  getSwapRequest(): tdex_v1_swap_pb.SwapRequest | undefined;
-  setSwapRequest(value?: tdex_v1_swap_pb.SwapRequest): TradeProposeRequest;
-  hasSwapRequest(): boolean;
-  clearSwapRequest(): TradeProposeRequest;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TradeProposeRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: TradeProposeRequest): TradeProposeRequest.AsObject;
-  static serializeBinaryToWriter(message: TradeProposeRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TradeProposeRequest;
-  static deserializeBinaryFromReader(message: TradeProposeRequest, reader: jspb.BinaryReader): TradeProposeRequest;
-}
-
-export namespace TradeProposeRequest {
-  export type AsObject = {
-    market?: tdex_v1_types_pb.Market.AsObject,
-    type: TradeType,
-    swapRequest?: tdex_v1_swap_pb.SwapRequest.AsObject,
-  }
-}
-
-export class TradeProposeReply extends jspb.Message {
-  getSwapAccept(): tdex_v1_swap_pb.SwapAccept | undefined;
-  setSwapAccept(value?: tdex_v1_swap_pb.SwapAccept): TradeProposeReply;
-  hasSwapAccept(): boolean;
-  clearSwapAccept(): TradeProposeReply;
-
-  getSwapFail(): tdex_v1_swap_pb.SwapFail | undefined;
-  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): TradeProposeReply;
-  hasSwapFail(): boolean;
-  clearSwapFail(): TradeProposeReply;
-
-  getExpiryTimeUnix(): number;
-  setExpiryTimeUnix(value: number): TradeProposeReply;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TradeProposeReply.AsObject;
-  static toObject(includeInstance: boolean, msg: TradeProposeReply): TradeProposeReply.AsObject;
-  static serializeBinaryToWriter(message: TradeProposeReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TradeProposeReply;
-  static deserializeBinaryFromReader(message: TradeProposeReply, reader: jspb.BinaryReader): TradeProposeReply;
-}
-
-export namespace TradeProposeReply {
-  export type AsObject = {
-    swapAccept?: tdex_v1_swap_pb.SwapAccept.AsObject,
-    swapFail?: tdex_v1_swap_pb.SwapFail.AsObject,
-    expiryTimeUnix: number,
-  }
-}
-
-export class TradeCompleteRequest extends jspb.Message {
-  getSwapComplete(): tdex_v1_swap_pb.SwapComplete | undefined;
-  setSwapComplete(value?: tdex_v1_swap_pb.SwapComplete): TradeCompleteRequest;
-  hasSwapComplete(): boolean;
-  clearSwapComplete(): TradeCompleteRequest;
-
-  getSwapFail(): tdex_v1_swap_pb.SwapFail | undefined;
-  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): TradeCompleteRequest;
-  hasSwapFail(): boolean;
-  clearSwapFail(): TradeCompleteRequest;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TradeCompleteRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: TradeCompleteRequest): TradeCompleteRequest.AsObject;
-  static serializeBinaryToWriter(message: TradeCompleteRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TradeCompleteRequest;
-  static deserializeBinaryFromReader(message: TradeCompleteRequest, reader: jspb.BinaryReader): TradeCompleteRequest;
-}
-
-export namespace TradeCompleteRequest {
-  export type AsObject = {
-    swapComplete?: tdex_v1_swap_pb.SwapComplete.AsObject,
-    swapFail?: tdex_v1_swap_pb.SwapFail.AsObject,
-  }
-}
-
-export class TradeCompleteReply extends jspb.Message {
-  getTxid(): string;
-  setTxid(value: string): TradeCompleteReply;
-
-  getSwapFail(): tdex_v1_swap_pb.SwapFail | undefined;
-  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): TradeCompleteReply;
-  hasSwapFail(): boolean;
-  clearSwapFail(): TradeCompleteReply;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TradeCompleteReply.AsObject;
-  static toObject(includeInstance: boolean, msg: TradeCompleteReply): TradeCompleteReply.AsObject;
-  static serializeBinaryToWriter(message: TradeCompleteReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TradeCompleteReply;
-  static deserializeBinaryFromReader(message: TradeCompleteReply, reader: jspb.BinaryReader): TradeCompleteReply;
-}
-
-export namespace TradeCompleteReply {
-  export type AsObject = {
-    txid: string,
-    swapFail?: tdex_v1_swap_pb.SwapFail.AsObject,
+    previewsList: Array<tdex_v1_types_pb.Preview.AsObject>,
   }
 }
 
@@ -247,8 +137,8 @@ export class ProposeTradeRequest extends jspb.Message {
   hasMarket(): boolean;
   clearMarket(): ProposeTradeRequest;
 
-  getType(): TradeType;
-  setType(value: TradeType): ProposeTradeRequest;
+  getType(): tdex_v1_types_pb.TradeType;
+  setType(value: tdex_v1_types_pb.TradeType): ProposeTradeRequest;
 
   getSwapRequest(): tdex_v1_swap_pb.SwapRequest | undefined;
   setSwapRequest(value?: tdex_v1_swap_pb.SwapRequest): ProposeTradeRequest;
@@ -266,34 +156,34 @@ export class ProposeTradeRequest extends jspb.Message {
 export namespace ProposeTradeRequest {
   export type AsObject = {
     market?: tdex_v1_types_pb.Market.AsObject,
-    type: TradeType,
+    type: tdex_v1_types_pb.TradeType,
     swapRequest?: tdex_v1_swap_pb.SwapRequest.AsObject,
   }
 }
 
-export class ProposeTradeReply extends jspb.Message {
+export class ProposeTradeResponse extends jspb.Message {
   getSwapAccept(): tdex_v1_swap_pb.SwapAccept | undefined;
-  setSwapAccept(value?: tdex_v1_swap_pb.SwapAccept): ProposeTradeReply;
+  setSwapAccept(value?: tdex_v1_swap_pb.SwapAccept): ProposeTradeResponse;
   hasSwapAccept(): boolean;
-  clearSwapAccept(): ProposeTradeReply;
+  clearSwapAccept(): ProposeTradeResponse;
 
   getSwapFail(): tdex_v1_swap_pb.SwapFail | undefined;
-  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): ProposeTradeReply;
+  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): ProposeTradeResponse;
   hasSwapFail(): boolean;
-  clearSwapFail(): ProposeTradeReply;
+  clearSwapFail(): ProposeTradeResponse;
 
   getExpiryTimeUnix(): number;
-  setExpiryTimeUnix(value: number): ProposeTradeReply;
+  setExpiryTimeUnix(value: number): ProposeTradeResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ProposeTradeReply.AsObject;
-  static toObject(includeInstance: boolean, msg: ProposeTradeReply): ProposeTradeReply.AsObject;
-  static serializeBinaryToWriter(message: ProposeTradeReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ProposeTradeReply;
-  static deserializeBinaryFromReader(message: ProposeTradeReply, reader: jspb.BinaryReader): ProposeTradeReply;
+  toObject(includeInstance?: boolean): ProposeTradeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ProposeTradeResponse): ProposeTradeResponse.AsObject;
+  static serializeBinaryToWriter(message: ProposeTradeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ProposeTradeResponse;
+  static deserializeBinaryFromReader(message: ProposeTradeResponse, reader: jspb.BinaryReader): ProposeTradeResponse;
 }
 
-export namespace ProposeTradeReply {
+export namespace ProposeTradeResponse {
   export type AsObject = {
     swapAccept?: tdex_v1_swap_pb.SwapAccept.AsObject,
     swapFail?: tdex_v1_swap_pb.SwapFail.AsObject,
@@ -327,31 +217,27 @@ export namespace CompleteTradeRequest {
   }
 }
 
-export class CompleteTradeReply extends jspb.Message {
+export class CompleteTradeResponse extends jspb.Message {
   getTxid(): string;
-  setTxid(value: string): CompleteTradeReply;
+  setTxid(value: string): CompleteTradeResponse;
 
   getSwapFail(): tdex_v1_swap_pb.SwapFail | undefined;
-  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): CompleteTradeReply;
+  setSwapFail(value?: tdex_v1_swap_pb.SwapFail): CompleteTradeResponse;
   hasSwapFail(): boolean;
-  clearSwapFail(): CompleteTradeReply;
+  clearSwapFail(): CompleteTradeResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CompleteTradeReply.AsObject;
-  static toObject(includeInstance: boolean, msg: CompleteTradeReply): CompleteTradeReply.AsObject;
-  static serializeBinaryToWriter(message: CompleteTradeReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CompleteTradeReply;
-  static deserializeBinaryFromReader(message: CompleteTradeReply, reader: jspb.BinaryReader): CompleteTradeReply;
+  toObject(includeInstance?: boolean): CompleteTradeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CompleteTradeResponse): CompleteTradeResponse.AsObject;
+  static serializeBinaryToWriter(message: CompleteTradeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CompleteTradeResponse;
+  static deserializeBinaryFromReader(message: CompleteTradeResponse, reader: jspb.BinaryReader): CompleteTradeResponse;
 }
 
-export namespace CompleteTradeReply {
+export namespace CompleteTradeResponse {
   export type AsObject = {
     txid: string,
     swapFail?: tdex_v1_swap_pb.SwapFail.AsObject,
   }
 }
 
-export enum TradeType { 
-  BUY = 0,
-  SELL = 1,
-}

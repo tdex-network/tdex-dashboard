@@ -2,8 +2,8 @@ import type { RadioChangeEvent } from 'antd';
 import { Col, notification, Row, Radio } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useUpdateMarketStrategyMutation } from '../../operator.api';
 
 interface MarketStrategyProps {
@@ -46,9 +46,9 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
     <Row justify="center" className="text-center">
       <Col span={24}>
         <Radio.Group onChange={handleChange} value={defaultStrategyType}>
-          <Radio.Button value={StrategyType.BALANCED}>BALANCED</Radio.Button>
-          <Radio.Button value={StrategyType.UNBALANCED}>UNBALANCED</Radio.Button>
-          <Radio.Button value={StrategyType.PLUGGABLE}>PLUGGABLE</Radio.Button>
+          <Radio.Button value={StrategyType.STRATEGY_TYPE_BALANCED}>BALANCED</Radio.Button>
+          <Radio.Button value={StrategyType.STRATEGY_TYPE_UNBALANCED}>UNBALANCED</Radio.Button>
+          <Radio.Button value={StrategyType.STRATEGY_TYPE_PLUGGABLE}>PLUGGABLE</Radio.Button>
         </Radio.Group>
       </Col>
     </Row>

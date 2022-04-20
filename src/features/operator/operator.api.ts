@@ -1,47 +1,39 @@
 import type { ClientReadableStream, Metadata } from 'grpc-web';
 
 import type {
-  ActionType,
-  AddWebhookReply,
-  ClaimFeeDepositsReply,
-  ClaimMarketDepositsReply,
-  CloseMarketReply,
-  Deposit,
-  DropMarketReply,
-  FragmenterSplitFundsReply,
-  GetFeeAddressReply,
-  GetFeeBalanceReply,
-  GetInfoReply,
-  GetMarketBalanceReply,
-  GetMarketCollectedSwapFeesReply,
-  GetMarketFragmenterBalanceReply,
-  ListMarketsReply,
-  ListUtxosReply,
-  MarketInfo,
-  MarketReport,
-  NewMarketReply,
-  OpenMarketReply,
-  ReloadUtxosReply,
-  RemoveWebhookReply,
-  StrategyType,
-  TimeFrame,
-  TradeInfo,
-  UpdateMarketFeeReply,
-  UpdateMarketPriceReply,
-  UpdateMarketStrategyReply,
-  WebhookInfo,
-  Withdrawal,
-  WithdrawFeeFragmenterReply,
-  WithdrawFeeReply,
-  WithdrawMarketFragmenterReply,
-  WithdrawMarketReply,
+  ClaimFeeDepositsResponse,
+  ClaimMarketDepositsResponse,
+  CloseMarketResponse,
+  FeeFragmenterSplitFundsResponse,
+  GetFeeAddressResponse,
+  GetFeeBalanceResponse,
+  GetMarketBalanceResponse,
+  GetMarketCollectedSwapFeesResponse,
+  ListMarketsResponse,
+  MarketFragmenterSplitFundsResponse,
+  RemoveWebhookResponse,
+  UpdateMarketFixedFeeResponse,
+  UpdateMarketPriceResponse,
+  WithdrawFeeFragmenterResponse,
+  WithdrawFeeResponse,
+  WithdrawMarketFragmenterResponse,
+  WithdrawMarketResponse,
+  GetInfoResponse,
+  ListUtxosResponse,
+  ReloadUtxosResponse,
+  DropMarketResponse,
+  GetMarketFragmenterBalanceResponse,
+  OpenMarketResponse,
+  UpdateMarketPercentageFeeResponse,
+  UpdateMarketStrategyResponse,
+  AddWebhookResponse,
+  NewMarketResponse,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import {
   AddWebhookRequest,
   ClaimFeeDepositsRequest,
   ClaimMarketDepositsRequest,
   CloseMarketRequest,
-  CustomPeriod,
   DropMarketRequest,
   FeeFragmenterSplitFundsRequest,
   GetFeeAddressRequest,
@@ -69,11 +61,8 @@ import {
   MarketFragmenterSplitFundsRequest,
   NewMarketRequest,
   OpenMarketRequest,
-  Page,
   ReloadUtxosRequest,
   RemoveWebhookRequest,
-  TimeRange,
-  TxOutpoint,
   UpdateMarketFixedFeeRequest,
   UpdateMarketPercentageFeeRequest,
   UpdateMarketPriceRequest,
@@ -83,20 +72,36 @@ import {
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import type { BalanceInfo } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb';
-import type { AddressWithBlindingKey } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import type {
+  ActionType,
+  AddressWithBlindingKey,
+  BalanceInfo,
+  Deposit,
+  MarketInfo,
+  MarketReport,
+  StrategyType,
+  TimeFrame,
+  TradeInfo,
+  WebhookInfo,
+  Withdrawal,
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import {
+  CustomPeriod,
+  Outpoint,
+  Page,
+  TimeRange,
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
-import type { Optional } from '../../domain/helpers';
 import {
-  retryRtkRequest,
-  getAssetDataFromRegistry,
-  fromSatsToUnitOrFractional,
-  isLbtcTicker,
   BTC_CURRENCY,
+  fromSatsToUnitOrFractional,
+  getAssetDataFromRegistry,
+  isLbtcTicker,
+  retryRtkRequest,
 } from '../../utils';
-import { convertAmountToFavoriteCurrency } from '../rates.api';
 import type { CoinGeckoPriceResult } from '../rates.api';
+import { convertAmountToFavoriteCurrency } from '../rates.api';
 import { selectMacaroonCreds, selectOperatorClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
 
@@ -109,12 +114,12 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const feeAddressReply: GetFeeAddressReply = await client.getFeeAddress(
+          const feeAddressResponse: GetFeeAddressResponse = await client.getFeeAddress(
             new GetFeeAddressRequest(),
             metadata
           );
           return {
-            data: feeAddressReply.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)),
+            data: feeAddressResponse.getAddressWithBlindingKeyList().map((addr) => addr.toObject(false)),
           };
         });
       },
@@ -125,40 +130,40 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const listFeeAddressesReply = await client.listFeeAddresses(
+          const listFeeAddressesResponse = await client.listFeeAddresses(
             new ListFeeAddressesRequest(),
             metadata
           );
           return {
-            data: listFeeAddressesReply
+            data: listFeeAddressesResponse
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
         });
       },
     }),
-    getFeeBalance: build.query<GetFeeBalanceReply.AsObject, void>({
+    getFeeBalance: build.query<GetFeeBalanceResponse.AsObject, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const feeBalanceReply = await client.getFeeBalance(new GetFeeBalanceRequest(), metadata);
+          const feeBalanceResponse = await client.getFeeBalance(new GetFeeBalanceRequest(), metadata);
           return {
-            data: feeBalanceReply.toObject(false),
+            data: feeBalanceResponse.toObject(false),
           };
         });
       },
       providesTags: ['FeeUTXOs'],
     }),
-    claimFeeDeposits: build.mutation<ClaimFeeDepositsReply, { outpointsList: TxOutpoint.AsObject[] }>({
+    claimFeeDeposits: build.mutation<ClaimFeeDepositsResponse, ClaimFeeDepositsRequest.AsObject>({
       queryFn: async ({ outpointsList }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const arr = outpointsList.map(({ hash, index }) => {
-            const txOutpoint = new TxOutpoint();
+            const txOutpoint = new Outpoint();
             txOutpoint.setHash(hash);
             txOutpoint.setIndex(index);
             return txOutpoint;
@@ -174,7 +179,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFee: build.mutation<
-      WithdrawFeeReply,
+      WithdrawFeeResponse,
       {
         amount: number;
         millisatsPerByte: number;
@@ -249,7 +254,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     feeFragmenterSplitFunds: build.mutation<
-      ClientReadableStream<FragmenterSplitFundsReply>,
+      ClientReadableStream<FeeFragmenterSplitFundsResponse>,
       { maxFragments: number; millisatsPerByte: number }
     >({
       queryFn: async ({ maxFragments, millisatsPerByte }, { getState }) => {
@@ -270,7 +275,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFeeFragmenter: build.mutation<
-      WithdrawFeeFragmenterReply,
+      WithdrawFeeFragmenterResponse,
       { address: string; millisatsPerByte: number }
     >({
       queryFn: async ({ address, millisatsPerByte }, { getState }) => {
@@ -309,12 +314,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(market.baseAsset);
           newMarket.setQuoteAsset(market.quoteAsset);
-          const getMarketReportReply = await client.getMarketReport(
+          const getMarketReportResponse = await client.getMarketReport(
             new GetMarketReportRequest().setMarket(newMarket).setTimeRange(t).setTimeFrame(timeFrame),
             metadata
           );
           return {
-            data: getMarketReportReply.toObject(false).report,
+            data: getMarketReportResponse.toObject(false).report,
           };
         });
       },
@@ -329,12 +334,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const getMarketInfoReply = await client.getMarketInfo(
+          const getMarketInfoResponse = await client.getMarketInfo(
             new GetMarketInfoRequest().setMarket(newMarket),
             metadata
           );
           return {
-            data: getMarketInfoReply.toObject(false).info,
+            data: getMarketInfoResponse.toObject(false).info,
           };
         });
       },
@@ -350,12 +355,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const getMarketAddressReply = await client.getMarketAddress(
+          const getMarketAddressResponse = await client.getMarketAddress(
             new GetMarketAddressRequest().setMarket(newMarket),
             metadata
           );
           return {
-            data: getMarketAddressReply
+            data: getMarketAddressResponse
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
@@ -371,12 +376,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const listMarketAddressesReply = await client.listMarketAddresses(
+          const listMarketAddressesResponse = await client.listMarketAddresses(
             new ListMarketAddressesRequest().setMarket(newMarket),
             metadata
           );
           return {
-            data: listMarketAddressesReply
+            data: listMarketAddressesResponse
               .getAddressWithBlindingKeyList()
               .map((addr: AddressWithBlindingKey) => addr.toObject(false)),
           };
@@ -384,7 +389,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Market'],
     }),
-    getMarketBalance: build.query<GetMarketBalanceReply.AsObject, Market.AsObject>({
+    getMarketBalance: build.query<GetMarketBalanceResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -393,20 +398,20 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const getMarketBalanceReply = await client.getMarketBalance(
+          const getMarketBalanceResponse = await client.getMarketBalance(
             new GetMarketBalanceRequest().setMarket(newMarket),
             metadata
           );
           return {
-            data: getMarketBalanceReply.toObject(false),
+            data: getMarketBalanceResponse.toObject(false),
           };
         });
       },
       providesTags: ['MarketUTXOs'],
     }),
     claimMarketDeposits: build.mutation<
-      ClaimMarketDepositsReply.AsObject,
-      { market: Market.AsObject; outpointsList: TxOutpoint.AsObject[] }
+      ClaimMarketDepositsResponse.AsObject,
+      { market: Market.AsObject; outpointsList: Outpoint.AsObject[] }
     >({
       queryFn: async ({ outpointsList, market }, { getState }) => {
         const state = getState() as RootState;
@@ -418,23 +423,23 @@ export const operatorApi = tdexApi.injectEndpoints({
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
           const arr = outpointsList.map(({ hash, index }) => {
-            const txOutpoint = new TxOutpoint();
+            const txOutpoint = new Outpoint();
             txOutpoint.setHash(hash);
             txOutpoint.setIndex(index);
             return txOutpoint;
           });
-          const claimMarketDepositsReply = await client.claimMarketDeposits(
+          const claimMarketDepositsResponse = await client.claimMarketDeposits(
             new ClaimMarketDepositsRequest().setOutpointsList(arr).setMarket(newMarket),
             metadata
           );
           return {
-            data: claimMarketDepositsReply.toObject(false),
+            data: claimMarketDepositsResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
-    newMarket: build.mutation<NewMarketReply.AsObject, Market.AsObject>({
+    newMarket: build.mutation<NewMarketResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -443,15 +448,18 @@ export const operatorApi = tdexApi.injectEndpoints({
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
-          const newMarketReply = await client.newMarket(new NewMarketRequest().setMarket(market), metadata);
+          const newMarketResponse = await client.newMarket(
+            new NewMarketRequest().setMarket(market),
+            metadata
+          );
           return {
-            data: newMarketReply.toObject(false),
+            data: newMarketResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
-    openMarket: build.mutation<OpenMarketReply.AsObject, Market.AsObject>({
+    openMarket: build.mutation<OpenMarketResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -460,18 +468,18 @@ export const operatorApi = tdexApi.injectEndpoints({
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
-          const openMarketReply = await client.openMarket(
+          const openMarketResponse = await client.openMarket(
             new OpenMarketRequest().setMarket(market),
             metadata
           );
           return {
-            data: openMarketReply.toObject(false),
+            data: openMarketResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
-    closeMarket: build.mutation<CloseMarketReply.AsObject, Market.AsObject>({
+    closeMarket: build.mutation<CloseMarketResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -480,18 +488,18 @@ export const operatorApi = tdexApi.injectEndpoints({
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
-          const closeMarketReply = await client.closeMarket(
+          const closeMarketResponse = await client.closeMarket(
             new CloseMarketRequest().setMarket(market),
             metadata
           );
           return {
-            data: closeMarketReply.toObject(false),
+            data: closeMarketResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
-    dropMarket: build.mutation<DropMarketReply.AsObject, Market.AsObject>({
+    dropMarket: build.mutation<DropMarketResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -500,19 +508,19 @@ export const operatorApi = tdexApi.injectEndpoints({
           const market = new Market();
           market.setBaseAsset(baseAsset);
           market.setQuoteAsset(quoteAsset);
-          const dropMarketReply = await client.dropMarket(
+          const dropMarketResponse = await client.dropMarket(
             new DropMarketRequest().setMarket(market),
             metadata
           );
           return {
-            data: dropMarketReply.toObject(false),
+            data: dropMarketResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
     withdrawMarket: build.mutation<
-      WithdrawMarketReply.AsObject,
+      WithdrawMarketResponse.AsObject,
       {
         market: Market.AsObject;
         balance: Balance.AsObject;
@@ -535,7 +543,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           newBalance.setBaseAmount(baseAmount);
           newBalance.setQuoteAmount(quoteAmount);
           //
-          const withdrawMarketReply = await client.withdrawMarket(
+          const withdrawMarketResponse = await client.withdrawMarket(
             new WithdrawMarketRequest()
               .setMarket(newMarket)
               .setBalanceToWithdraw(newBalance)
@@ -544,14 +552,14 @@ export const operatorApi = tdexApi.injectEndpoints({
             metadata
           );
           return {
-            data: withdrawMarketReply.toObject(false),
+            data: withdrawMarketResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['MarketUTXOs'],
     }),
     updateMarketPercentageFee: build.mutation<
-      UpdateMarketFeeReply.AsObject,
+      UpdateMarketPercentageFeeResponse.AsObject,
       { market: Market.AsObject; basisPoint: number }
     >({
       queryFn: async ({ market, basisPoint }, { getState }) => {
@@ -563,19 +571,19 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const updateMarketFeeReply = await client.updateMarketPercentageFee(
+          const updateMarketFeeResponse = await client.updateMarketPercentageFee(
             new UpdateMarketPercentageFeeRequest().setMarket(newMarket).setBasisPoint(basisPoint),
             metadata
           );
           return {
-            data: updateMarketFeeReply.toObject(false),
+            data: updateMarketFeeResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
     updateMarketFixedFee: build.mutation<
-      UpdateMarketFeeReply.AsObject,
+      UpdateMarketFixedFeeResponse.AsObject,
       { market: Market.AsObject; fixedFee: Fixed.AsObject }
     >({
       queryFn: async ({ market, fixedFee }, { getState }) => {
@@ -591,23 +599,22 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newFixed = new Fixed();
           newFixed.setBaseFee(baseFee);
           newFixed.setQuoteFee(quoteFee);
-          const updateMarketFeeReply = await client.updateMarketFixedFee(
+          const updateMarketFeeResponse = await client.updateMarketFixedFee(
             new UpdateMarketFixedFeeRequest().setMarket(newMarket).setFixed(newFixed),
             metadata
           );
           return {
-            data: updateMarketFeeReply.toObject(false),
+            data: updateMarketFeeResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
     updateMarketPrice: build.mutation<
-      UpdateMarketPriceReply.AsObject,
+      UpdateMarketPriceResponse.AsObject,
       {
         market: Market.AsObject;
-        // TODO: remove when basePriceDeprecated and quotePriceDeprecated removed from the interface
-        price: Optional<Price.AsObject, 'basePriceDeprecated' | 'quotePriceDeprecated'>;
+        price: Price.AsObject;
       }
     >({
       queryFn: async ({ market, price }, { getState }) => {
@@ -625,19 +632,19 @@ export const operatorApi = tdexApi.injectEndpoints({
           newPrice.setBasePrice(basePrice);
           newPrice.setQuotePrice(quotePrice);
           //
-          const updateMarketPriceReply = await client.updateMarketPrice(
+          const updateMarketPriceResponse = await client.updateMarketPrice(
             new UpdateMarketPriceRequest().setMarket(newMarket).setPrice(newPrice),
             metadata
           );
           return {
-            data: updateMarketPriceReply.toObject(false),
+            data: updateMarketPriceResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
     updateMarketStrategy: build.mutation<
-      UpdateMarketStrategyReply.AsObject,
+      UpdateMarketStrategyResponse.AsObject,
       { market: Market.AsObject; strategyType: StrategyType; meta?: string }
     >({
       queryFn: async ({ market, strategyType, meta }, { getState }) => {
@@ -649,7 +656,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const updateMarketStrategyReply = await client.updateMarketStrategy(
+          const updateMarketStrategyResponse = await client.updateMarketStrategy(
             new UpdateMarketStrategyRequest()
               .setMarket(newMarket)
               .setStrategyType(strategyType)
@@ -657,21 +664,21 @@ export const operatorApi = tdexApi.injectEndpoints({
             metadata
           );
           return {
-            data: updateMarketStrategyReply.toObject(false),
+            data: updateMarketStrategyResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Market'],
     }),
-    listMarkets: build.query<ListMarketsReply.AsObject, void>({
+    listMarkets: build.query<ListMarketsResponse.AsObject, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const listMarketsReply = await client.listMarkets(new ListMarketsRequest(), metadata);
+          const listMarketsResponse = await client.listMarkets(new ListMarketsRequest(), metadata);
           return {
-            data: listMarketsReply.toObject(false),
+            data: listMarketsResponse.toObject(false),
           };
         });
       },
@@ -712,7 +719,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         });
       },
     }),
-    getMarketFragmenterBalance: build.query<GetMarketFragmenterBalanceReply.AsObject, void>({
+    getMarketFragmenterBalance: build.query<GetMarketFragmenterBalanceResponse.AsObject, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -727,7 +734,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     marketFragmenterSplitFunds: build.mutation<
-      ClientReadableStream<FragmenterSplitFundsReply>,
+      ClientReadableStream<MarketFragmenterSplitFundsResponse>,
       { market: Market.AsObject; millisatsPerByte: number }
     >({
       queryFn: async ({ market, millisatsPerByte }, { getState }) => {
@@ -752,7 +759,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['MarketUTXOs'],
     }),
     withdrawMarketFragmenter: build.mutation<
-      WithdrawMarketFragmenterReply,
+      WithdrawMarketFragmenterResponse,
       { address: string; millisatsPerByte: number }
     >({
       queryFn: async ({ address, millisatsPerByte }, { getState }) => {
@@ -785,18 +792,18 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const listTradesReply = await client.listTrades(
+          const listTradesResponse = await client.listTrades(
             new ListTradesRequest().setMarket(newMarket).setPage(newPage),
             metadata
           );
           return {
-            data: listTradesReply.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
+            data: listTradesResponse.getTradesList().map((tradeInfo: TradeInfo) => tradeInfo.toObject(false)),
           };
         });
       },
       providesTags: ['Trade'],
     }),
-    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesReply.AsObject, Market.AsObject>({
+    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesResponse.AsObject, Market.AsObject>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -805,12 +812,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = new Market();
           newMarket.setBaseAsset(baseAsset);
           newMarket.setQuoteAsset(quoteAsset);
-          const getMarketCollectedSwapFeesReply = await client.getMarketCollectedSwapFees(
+          const getMarketCollectedSwapFeesResponse = await client.getMarketCollectedSwapFees(
             new GetMarketCollectedSwapFeesRequest().setMarket(newMarket),
             metadata
           );
           return {
-            data: getMarketCollectedSwapFeesReply.toObject(false),
+            data: getMarketCollectedSwapFeesResponse.toObject(false),
           };
         });
       },
@@ -845,55 +852,58 @@ export const operatorApi = tdexApi.injectEndpoints({
                   new GetMarketCollectedSwapFeesRequest().setMarket(market),
                   metadata
                 )
-                .then((res) => ({
+                .then((res: GetMarketCollectedSwapFeesResponse) => ({
                   market: [market.getBaseAsset(), market.getQuoteAsset()],
-                  getMarketCollectedSwapFeesReply: res,
+                  getMarketCollectedSwapFeesResponse: res,
                 }))
             )
           );
 
-          for (const r of results) {
-            // eslint-disable-next-line
-            r.market.forEach((marketId) => {
-              const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesReply
-                .getTotalCollectedFeesPerAssetMap()
-                .get(marketId);
+          const calculateTotalCollectedSwapFees = (
+            marketId: string,
+            r: { market: string[]; getMarketCollectedSwapFeesResponse: GetMarketCollectedSwapFeesResponse }
+          ) => {
+            const marketIdCollectedSwapFees = r.getMarketCollectedSwapFeesResponse
+              .getTotalCollectedFeesPerAssetMap()
+              .get(marketId);
 
-              // Get Asset Data using the asset marketId
-              const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
+            // Get Asset Data using the asset marketId
+            const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
 
-              if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
-                // No point in calculating asset conversion
-                // for unknown asset and
-                // for undefined marketIdCollectedSwapFees
-                return;
-              }
+            if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
+              // No point in calculating asset conversion
+              // for unknown asset and
+              // for undefined marketIdCollectedSwapFees
+              return;
+            }
 
-              // Keeps marketIdCollectedSwapFees as sats if it's btc
-              // 100000000 lbtc/sats-representation = 100000000 L-sats
-              // Otherwise this makes sure to get the amount with fiat precision
-              // 100000000 usdt/sats-representation = 1 usdt
-              const currentAmount = fromSatsToUnitOrFractional(
-                marketIdCollectedSwapFees,
-                currentAsset.precision,
-                isLbtcTicker(currentAsset.ticker),
-                'L-sats'
-              );
+            // Keeps marketIdCollectedSwapFees as sats if it's btc
+            // 100000000 lbtc/sats-representation = 100000000 L-sats
+            // Otherwise this makes sure to get the amount with fiat precision
+            // 100000000 usdt/sats-representation = 1 usdt
+            const currentAmount = fromSatsToUnitOrFractional(
+              marketIdCollectedSwapFees,
+              currentAsset.precision,
+              isLbtcTicker(currentAsset.ticker),
+              'L-sats'
+            );
 
-              // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
-              const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
-                asset: currentAsset,
-                amount: currentAmount,
-                network: network,
-                preferredCurrency: BTC_CURRENCY,
-                preferredLbtcUnit: 'L-sats',
-                prices: prices,
-              });
-
-              if (marketIdCollectedSwapFeesInSats) {
-                totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);
-              }
+            // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
+            const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
+              asset: currentAsset,
+              amount: currentAmount,
+              network: network,
+              preferredCurrency: BTC_CURRENCY,
+              preferredLbtcUnit: 'L-sats',
+              prices: prices,
             });
+
+            if (marketIdCollectedSwapFeesInSats) {
+              totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);
+            }
+          };
+          for (const r of results) {
+            r.market.forEach((marketId) => calculateTotalCollectedSwapFees(marketId, r));
           }
           return { data: totalCollectedSwapFees };
         });
@@ -901,7 +911,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       providesTags: ['Trade'],
     }),
     // Utxos
-    reloadUtxos: build.mutation<ReloadUtxosReply, void>({
+    reloadUtxos: build.mutation<ReloadUtxosResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -914,18 +924,18 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
-    listUtxos: build.query<ListUtxosReply.AsObject, { accountIndex: number; page?: Page }>({
+    listUtxos: build.query<ListUtxosResponse.AsObject, { accountIndex: number; page?: Page }>({
       queryFn: async ({ page, accountIndex }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const listUtxosReply = await client.listUtxos(
+          const listUtxosResponse = await client.listUtxos(
             new ListUtxosRequest().setAccountIndex(accountIndex).setPage(page),
             metadata
           );
           return {
-            data: listUtxosReply.toObject(false),
+            data: listUtxosResponse.toObject(false),
           };
         });
       },
@@ -933,7 +943,7 @@ export const operatorApi = tdexApi.injectEndpoints({
     }),
     // Webhook
     addWebhook: build.mutation<
-      AddWebhookReply.AsObject,
+      AddWebhookResponse.AsObject,
       { action: ActionType; endpoint: string; secret: string }
     >({
       queryFn: async ({ action, endpoint, secret }, { getState }) => {
@@ -941,29 +951,29 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const addWebhookReply = await client.addWebhook(
+          const addWebhookResponse = await client.addWebhook(
             new AddWebhookRequest().setAction(action).setEndpoint(endpoint).setSecret(secret),
             metadata
           );
           return {
-            data: addWebhookReply.toObject(false),
+            data: addWebhookResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['Webhook'],
     }),
-    removeWebhook: build.mutation<RemoveWebhookReply, { id: string }>({
+    removeWebhook: build.mutation<RemoveWebhookResponse, { id: string }>({
       queryFn: async ({ id }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const removeWebhookReply = await client.removeWebhook(
+          const removeWebhookResponse = await client.removeWebhook(
             new RemoveWebhookRequest().setId(id),
             metadata
           );
           return {
-            data: removeWebhookReply,
+            data: removeWebhookResponse,
           };
         });
       },
@@ -975,9 +985,9 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const listWebhooksReply = await client.listWebhooks(new ListWebhooksRequest(), metadata);
+          const listWebhooksResponse = await client.listWebhooks(new ListWebhooksRequest(), metadata);
           return {
-            data: listWebhooksReply
+            data: listWebhooksResponse
               .getWebhookInfoList()
               .map((webhookInfo: WebhookInfo) => webhookInfo.toObject(false)),
           };
@@ -986,7 +996,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       providesTags: ['Webhook'],
     }),
     //
-    getInfo: build.query<GetInfoReply.AsObject, void>({
+    getInfo: build.query<GetInfoResponse.AsObject, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
@@ -1004,12 +1014,12 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const listDepositsReply = await client.listDeposits(
+          const listDepositsResponse = await client.listDeposits(
             new ListDepositsRequest().setAccountIndex(accountIndex),
             metadata
           );
           return {
-            data: listDepositsReply.getDepositsList().map((deposit) => deposit.toObject(false)),
+            data: listDepositsResponse.getDepositsList().map((deposit: Deposit) => deposit.toObject(false)),
           };
         });
       },
@@ -1025,12 +1035,12 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newPage = new Page();
           newPage.setPageNumber(pageNumber);
           newPage.setPageSize(pageSize);
-          const listWithdrawalsReply = await client.listWithdrawals(
+          const listWithdrawalsResponse = await client.listWithdrawals(
             new ListWithdrawalsRequest().setPage(newPage).setAccountIndex(accountIndex),
             metadata
           );
           return {
-            data: listWithdrawalsReply
+            data: listWithdrawalsResponse
               .getWithdrawalsList()
               .map((withdrawal: Withdrawal) => withdrawal.toObject(false)),
           };

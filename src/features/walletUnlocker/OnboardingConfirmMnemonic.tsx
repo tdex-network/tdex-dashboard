@@ -5,7 +5,7 @@ import { Breadcrumb, Button, Col, notification, Row, Space, Typography } from 'a
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import type { InitWalletReply } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import {
@@ -63,7 +63,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
           console.log('status', status);
         }
       });
-      data.on('data', async (data: InitWalletReply) => {
+      data.on('data', async (data: InitWalletResponse) => {
         if (data.getStatus() === 0 && data.getData().length > 150) {
           dispatch(setMacaroonCredentials(data.getData()));
           const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());

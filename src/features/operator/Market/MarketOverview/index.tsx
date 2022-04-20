@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
@@ -48,9 +48,9 @@ export const MarketOverview = (): JSX.Element => {
 
   // Market report
   const [marketReportPredefinedPeriod, setMarketReportPredefinedPeriod] = useState<PredefinedPeriod>(
-    PredefinedPeriod.LAST_MONTH
+    PredefinedPeriod.PREDEFINED_PERIOD_LAST_MONTH
   );
-  const [marketReportTimeFrame, setMarketReportTimeFrame] = useState<TimeFrame>(TimeFrame.DAY);
+  const [marketReportTimeFrame, setMarketReportTimeFrame] = useState<TimeFrame>(TimeFrame.TIME_FRAME_DAY);
   const { data: marketReport } = useGetMarketReportQuery({
     market: {
       baseAsset: state.baseAsset?.asset_id,

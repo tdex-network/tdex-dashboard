@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as tdex_v1_transport_pb from '../../tdex/v1/transport_pb';
 
 
-export class TransportClient {
+export class TransportServiceClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -36,35 +36,35 @@ export class TransportClient {
   }
 
   methodDescriptorSupportedContentTypes = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Transport/SupportedContentTypes',
+    '/tdex.v1.TransportService/SupportedContentTypes',
     grpcWeb.MethodType.UNARY,
     tdex_v1_transport_pb.SupportedContentTypesRequest,
-    tdex_v1_transport_pb.SupportedContentTypesReply,
+    tdex_v1_transport_pb.SupportedContentTypesResponse,
     (request: tdex_v1_transport_pb.SupportedContentTypesRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_transport_pb.SupportedContentTypesReply.deserializeBinary
+    tdex_v1_transport_pb.SupportedContentTypesResponse.deserializeBinary
   );
 
   supportedContentTypes(
     request: tdex_v1_transport_pb.SupportedContentTypesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_transport_pb.SupportedContentTypesReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_transport_pb.SupportedContentTypesResponse>;
 
   supportedContentTypes(
     request: tdex_v1_transport_pb.SupportedContentTypesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_transport_pb.SupportedContentTypesReply) => void): grpcWeb.ClientReadableStream<tdex_v1_transport_pb.SupportedContentTypesReply>;
+               response: tdex_v1_transport_pb.SupportedContentTypesResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_transport_pb.SupportedContentTypesResponse>;
 
   supportedContentTypes(
     request: tdex_v1_transport_pb.SupportedContentTypesRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_transport_pb.SupportedContentTypesReply) => void) {
+               response: tdex_v1_transport_pb.SupportedContentTypesResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Transport/SupportedContentTypes',
+          '/tdex.v1.TransportService/SupportedContentTypes',
         request,
         metadata || {},
         this.methodDescriptorSupportedContentTypes,
@@ -72,7 +72,7 @@ export class TransportClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Transport/SupportedContentTypes',
+      '/tdex.v1.TransportService/SupportedContentTypes',
     request,
     metadata || {},
     this.methodDescriptorSupportedContentTypes);

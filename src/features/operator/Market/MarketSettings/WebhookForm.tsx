@@ -1,6 +1,6 @@
 import { Button, Form, Input, Radio } from 'antd';
 
-import { ActionType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import { ActionType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useAddWebhookMutation } from '../../operator.api';
 
 interface IFormInputs {
@@ -38,10 +38,10 @@ export const WebhookForm = (): JSX.Element => {
     >
       <Form.Item name="notificationType">
         <Radio.Group className="ghost">
-          <Radio.Button value={ActionType.ALL_ACTIONS}>Any</Radio.Button>
-          <Radio.Button value={ActionType.TRADE_SETTLED}>Trade</Radio.Button>
-          <Radio.Button value={ActionType.ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
-          <Radio.Button value={ActionType.ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>
+          <Radio.Button value={ActionType.ACTION_TYPE_ALL_ACTIONS}>Any</Radio.Button>
+          <Radio.Button value={ActionType.ACTION_TYPE_TRADE_SETTLED}>Trade</Radio.Button>
+          <Radio.Button value={ActionType.ACTION_TYPE_ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
+          <Radio.Button value={ActionType.ACTION_TYPE_ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>
         </Radio.Group>
       </Form.Item>
       <Form.Item name="notificationUrlInput" className="mb-2">

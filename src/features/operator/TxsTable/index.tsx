@@ -9,7 +9,7 @@ import type {
   MarketInfo,
   TradeInfo,
   Withdrawal,
-} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';

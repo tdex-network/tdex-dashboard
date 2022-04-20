@@ -1,8 +1,8 @@
+import { TxOutput } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import type {
-  SendToManyReply,
-  WalletAddressReply,
-  WalletBalanceReply,
-  TxOut,
+  SendToManyResponse,
+  WalletAddressResponse,
+  WalletBalanceResponse,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb';
 import {
   SendToManyRequest,
@@ -16,7 +16,7 @@ import { tdexApi } from '../tdex.api';
 
 export const walletApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
-    walletAddress: build.query<WalletAddressReply, void>({
+    walletAddress: build.query<WalletAddressResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
@@ -26,7 +26,7 @@ export const walletApi = tdexApi.injectEndpoints({
         }));
       },
     }),
-    walletBalance: build.query<WalletBalanceReply, void>({
+    walletBalance: build.query<WalletBalanceResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
@@ -36,21 +36,21 @@ export const walletApi = tdexApi.injectEndpoints({
         }));
       },
     }),
-    sendToMany: build.mutation<
-      SendToManyReply,
-      {
-        isPush: boolean;
-        millisatPerByte: number;
-        txOut: TxOut[];
-      }
-    >({
-      queryFn: async ({ isPush, millisatPerByte, txOut }, { getState }) => {
+    sendToMany: build.mutation<SendToManyResponse, SendToManyRequest.AsObject>({
+      queryFn: async ({ millisatPerByte, outputsList }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
         const metadata = selectMacaroonCreds(state);
+        const outList = outputsList.map((o) => {
+          const txOut = new TxOutput();
+          txOut.setAddress(o.address);
+          txOut.setAsset(o.asset);
+          txOut.setValue(o.value);
+          return txOut;
+        });
         return retryRtkRequest(async () => ({
           data: await client.sendToMany(
-            new SendToManyRequest().setPush(isPush).setMillisatPerByte(millisatPerByte).setOutputsList(txOut),
+            new SendToManyRequest().setMillisatPerByte(millisatPerByte).setOutputsList(outList),
             metadata
           ),
         }));

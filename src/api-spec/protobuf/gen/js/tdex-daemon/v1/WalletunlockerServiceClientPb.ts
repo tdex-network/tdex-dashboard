@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for tdex.daemon.v1
+ * @fileoverview gRPC-Web generated client stub for tdex_daemon.v1
  * @enhanceable
  * @public
  */
@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as tdex$daemon_v1_walletunlocker_pb from '../../tdex-daemon/v1/walletunlocker_pb';
 
 
-export class WalletUnlockerClient {
+export class WalletUnlockerServiceClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -36,35 +36,35 @@ export class WalletUnlockerClient {
   }
 
   methodDescriptorGenSeed = new grpcWeb.MethodDescriptor(
-    '/tdex.daemon.v1.WalletUnlocker/GenSeed',
+    '/tdex_daemon.v1.WalletUnlockerService/GenSeed',
     grpcWeb.MethodType.UNARY,
     tdex$daemon_v1_walletunlocker_pb.GenSeedRequest,
-    tdex$daemon_v1_walletunlocker_pb.GenSeedReply,
+    tdex$daemon_v1_walletunlocker_pb.GenSeedResponse,
     (request: tdex$daemon_v1_walletunlocker_pb.GenSeedRequest) => {
       return request.serializeBinary();
     },
-    tdex$daemon_v1_walletunlocker_pb.GenSeedReply.deserializeBinary
+    tdex$daemon_v1_walletunlocker_pb.GenSeedResponse.deserializeBinary
   );
 
   genSeed(
     request: tdex$daemon_v1_walletunlocker_pb.GenSeedRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.GenSeedReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.GenSeedResponse>;
 
   genSeed(
     request: tdex$daemon_v1_walletunlocker_pb.GenSeedRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.GenSeedReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.GenSeedReply>;
+               response: tdex$daemon_v1_walletunlocker_pb.GenSeedResponse) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.GenSeedResponse>;
 
   genSeed(
     request: tdex$daemon_v1_walletunlocker_pb.GenSeedRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.GenSeedReply) => void) {
+               response: tdex$daemon_v1_walletunlocker_pb.GenSeedResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.daemon.v1.WalletUnlocker/GenSeed',
+          '/tdex_daemon.v1.WalletUnlockerService/GenSeed',
         request,
         metadata || {},
         this.methodDescriptorGenSeed,
@@ -72,64 +72,64 @@ export class WalletUnlockerClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.daemon.v1.WalletUnlocker/GenSeed',
+      '/tdex_daemon.v1.WalletUnlockerService/GenSeed',
     request,
     metadata || {},
     this.methodDescriptorGenSeed);
   }
 
   methodDescriptorInitWallet = new grpcWeb.MethodDescriptor(
-    '/tdex.daemon.v1.WalletUnlocker/InitWallet',
+    '/tdex_daemon.v1.WalletUnlockerService/InitWallet',
     grpcWeb.MethodType.SERVER_STREAMING,
     tdex$daemon_v1_walletunlocker_pb.InitWalletRequest,
-    tdex$daemon_v1_walletunlocker_pb.InitWalletReply,
+    tdex$daemon_v1_walletunlocker_pb.InitWalletResponse,
     (request: tdex$daemon_v1_walletunlocker_pb.InitWalletRequest) => {
       return request.serializeBinary();
     },
-    tdex$daemon_v1_walletunlocker_pb.InitWalletReply.deserializeBinary
+    tdex$daemon_v1_walletunlocker_pb.InitWalletResponse.deserializeBinary
   );
 
   initWallet(
     request: tdex$daemon_v1_walletunlocker_pb.InitWalletRequest,
-    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.InitWalletReply> {
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.InitWalletResponse> {
     return this.client_.serverStreaming(
       this.hostname_ +
-        '/tdex.daemon.v1.WalletUnlocker/InitWallet',
+        '/tdex_daemon.v1.WalletUnlockerService/InitWallet',
       request,
       metadata || {},
       this.methodDescriptorInitWallet);
   }
 
   methodDescriptorUnlockWallet = new grpcWeb.MethodDescriptor(
-    '/tdex.daemon.v1.WalletUnlocker/UnlockWallet',
+    '/tdex_daemon.v1.WalletUnlockerService/UnlockWallet',
     grpcWeb.MethodType.UNARY,
     tdex$daemon_v1_walletunlocker_pb.UnlockWalletRequest,
-    tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply,
+    tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse,
     (request: tdex$daemon_v1_walletunlocker_pb.UnlockWalletRequest) => {
       return request.serializeBinary();
     },
-    tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply.deserializeBinary
+    tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse.deserializeBinary
   );
 
   unlockWallet(
     request: tdex$daemon_v1_walletunlocker_pb.UnlockWalletRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse>;
 
   unlockWallet(
     request: tdex$daemon_v1_walletunlocker_pb.UnlockWalletRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply>;
+               response: tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse>;
 
   unlockWallet(
     request: tdex$daemon_v1_walletunlocker_pb.UnlockWalletRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.UnlockWalletReply) => void) {
+               response: tdex$daemon_v1_walletunlocker_pb.UnlockWalletResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.daemon.v1.WalletUnlocker/UnlockWallet',
+          '/tdex_daemon.v1.WalletUnlockerService/UnlockWallet',
         request,
         metadata || {},
         this.methodDescriptorUnlockWallet,
@@ -137,42 +137,42 @@ export class WalletUnlockerClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.daemon.v1.WalletUnlocker/UnlockWallet',
+      '/tdex_daemon.v1.WalletUnlockerService/UnlockWallet',
     request,
     metadata || {},
     this.methodDescriptorUnlockWallet);
   }
 
   methodDescriptorChangePassword = new grpcWeb.MethodDescriptor(
-    '/tdex.daemon.v1.WalletUnlocker/ChangePassword',
+    '/tdex_daemon.v1.WalletUnlockerService/ChangePassword',
     grpcWeb.MethodType.UNARY,
     tdex$daemon_v1_walletunlocker_pb.ChangePasswordRequest,
-    tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply,
+    tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse,
     (request: tdex$daemon_v1_walletunlocker_pb.ChangePasswordRequest) => {
       return request.serializeBinary();
     },
-    tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply.deserializeBinary
+    tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse.deserializeBinary
   );
 
   changePassword(
     request: tdex$daemon_v1_walletunlocker_pb.ChangePasswordRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse>;
 
   changePassword(
     request: tdex$daemon_v1_walletunlocker_pb.ChangePasswordRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply>;
+               response: tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse>;
 
   changePassword(
     request: tdex$daemon_v1_walletunlocker_pb.ChangePasswordRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.ChangePasswordReply) => void) {
+               response: tdex$daemon_v1_walletunlocker_pb.ChangePasswordResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.daemon.v1.WalletUnlocker/ChangePassword',
+          '/tdex_daemon.v1.WalletUnlockerService/ChangePassword',
         request,
         metadata || {},
         this.methodDescriptorChangePassword,
@@ -180,42 +180,42 @@ export class WalletUnlockerClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.daemon.v1.WalletUnlocker/ChangePassword',
+      '/tdex_daemon.v1.WalletUnlockerService/ChangePassword',
     request,
     metadata || {},
     this.methodDescriptorChangePassword);
   }
 
   methodDescriptorIsReady = new grpcWeb.MethodDescriptor(
-    '/tdex.daemon.v1.WalletUnlocker/IsReady',
+    '/tdex_daemon.v1.WalletUnlockerService/IsReady',
     grpcWeb.MethodType.UNARY,
     tdex$daemon_v1_walletunlocker_pb.IsReadyRequest,
-    tdex$daemon_v1_walletunlocker_pb.IsReadyReply,
+    tdex$daemon_v1_walletunlocker_pb.IsReadyResponse,
     (request: tdex$daemon_v1_walletunlocker_pb.IsReadyRequest) => {
       return request.serializeBinary();
     },
-    tdex$daemon_v1_walletunlocker_pb.IsReadyReply.deserializeBinary
+    tdex$daemon_v1_walletunlocker_pb.IsReadyResponse.deserializeBinary
   );
 
   isReady(
     request: tdex$daemon_v1_walletunlocker_pb.IsReadyRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.IsReadyReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex$daemon_v1_walletunlocker_pb.IsReadyResponse>;
 
   isReady(
     request: tdex$daemon_v1_walletunlocker_pb.IsReadyRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.IsReadyReply) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.IsReadyReply>;
+               response: tdex$daemon_v1_walletunlocker_pb.IsReadyResponse) => void): grpcWeb.ClientReadableStream<tdex$daemon_v1_walletunlocker_pb.IsReadyResponse>;
 
   isReady(
     request: tdex$daemon_v1_walletunlocker_pb.IsReadyRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex$daemon_v1_walletunlocker_pb.IsReadyReply) => void) {
+               response: tdex$daemon_v1_walletunlocker_pb.IsReadyResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.daemon.v1.WalletUnlocker/IsReady',
+          '/tdex_daemon.v1.WalletUnlockerService/IsReady',
         request,
         metadata || {},
         this.methodDescriptorIsReady,
@@ -223,7 +223,7 @@ export class WalletUnlockerClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.daemon.v1.WalletUnlocker/IsReady',
+      '/tdex_daemon.v1.WalletUnlockerService/IsReady',
     request,
     metadata || {},
     this.methodDescriptorIsReady);

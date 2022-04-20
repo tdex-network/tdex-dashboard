@@ -1,10 +1,10 @@
 import type { ClientReadableStream } from 'grpc-web';
 
 import type {
-  InitWalletReply,
-  ChangePasswordReply,
-  UnlockWalletReply,
-  IsReadyReply,
+  InitWalletResponse,
+  ChangePasswordResponse,
+  UnlockWalletResponse,
+  IsReadyResponse,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import {
   ChangePasswordRequest,
@@ -26,13 +26,13 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
         const client = selectWalletUnlockerClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const genSeedReply = await client.genSeed(new GenSeedRequest(), metadata);
-          return { data: genSeedReply.getSeedMnemonicList() };
+          const genSeedResponse = await client.genSeed(new GenSeedRequest(), metadata);
+          return { data: genSeedResponse.getSeedMnemonicList() };
         });
       },
     }),
     initWallet: build.mutation<
-      ClientReadableStream<InitWalletReply>,
+      ClientReadableStream<InitWalletResponse>,
       {
         isRestore: boolean;
         password: string | Uint8Array;
@@ -57,7 +57,7 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
       invalidatesTags: ['isReady'],
     }),
     unlockWallet: build.mutation<
-      UnlockWalletReply.AsObject,
+      UnlockWalletResponse.AsObject,
       {
         password: string | Uint8Array;
       }
@@ -67,19 +67,19 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
         const client = selectWalletUnlockerClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const unlockWalletReply = await client.unlockWallet(
+          const unlockWalletResponse = await client.unlockWallet(
             new UnlockWalletRequest().setWalletPassword(password),
             metadata
           );
           return {
-            data: unlockWalletReply.toObject(false),
+            data: unlockWalletResponse.toObject(false),
           };
         });
       },
       invalidatesTags: ['isReady', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
     }),
     changePassword: build.mutation<
-      ChangePasswordReply,
+      ChangePasswordResponse,
       {
         currentPassword: string | Uint8Array;
         newPassword: string | Uint8Array;
@@ -90,24 +90,24 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
         const client = selectWalletUnlockerClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const changePasswordReply = await client.changePassword(
+          const changePasswordResponse = await client.changePassword(
             new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
             metadata
           );
-          return { data: changePasswordReply };
+          return { data: changePasswordResponse };
         });
       },
       invalidatesTags: ['isReady'],
     }),
-    isReady: build.query<IsReadyReply.AsObject, void>({
+    isReady: build.query<IsReadyResponse.AsObject, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
         const metadata = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const isReadyReply = await client.isReady(new IsReadyRequest(), metadata);
+          const isReadyResponse = await client.isReady(new IsReadyRequest(), metadata);
           return {
-            data: isReadyReply.toObject(false),
+            data: isReadyResponse.toObject(false),
           };
         });
       },

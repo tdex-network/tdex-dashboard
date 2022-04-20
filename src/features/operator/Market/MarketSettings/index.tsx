@@ -5,7 +5,7 @@ import type { SwitchChangeEventHandler } from 'antd/es/switch';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { ListWebhooks } from '../../Webhook/ListWebhooks';

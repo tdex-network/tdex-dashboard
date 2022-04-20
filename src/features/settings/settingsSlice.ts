@@ -3,9 +3,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { Metadata } from 'grpc-web';
 import type { NetworkString } from 'ldk';
 
-import { OperatorClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/OperatorServiceClientPb';
-import { WalletClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletServiceClientPb';
-import { WalletUnlockerClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletunlockerServiceClientPb';
+import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/OperatorServiceClientPb';
+import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletServiceClientPb';
+import { WalletUnlockerServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletunlockerServiceClientPb';
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
@@ -213,16 +213,16 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 }
 
 //
-export function selectOperatorClient(state: RootState): OperatorClient {
-  return new OperatorClient(selectBaseUrl(state));
+export function selectOperatorClient(state: RootState): OperatorServiceClient {
+  return new OperatorServiceClient(selectBaseUrl(state));
 }
 
-export function selectWalletClient(state: RootState): WalletClient {
-  return new WalletClient(selectBaseUrl(state));
+export function selectWalletClient(state: RootState): WalletServiceClient {
+  return new WalletServiceClient(selectBaseUrl(state));
 }
 
-export function selectWalletUnlockerClient(state: RootState): WalletUnlockerClient {
-  return new WalletUnlockerClient(selectBaseUrl(state));
+export function selectWalletUnlockerClient(state: RootState): WalletUnlockerServiceClient {
+  return new WalletUnlockerServiceClient(selectBaseUrl(state));
 }
 
 export const {

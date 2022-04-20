@@ -16,21 +16,21 @@ export namespace GenSeedRequest {
   }
 }
 
-export class GenSeedReply extends jspb.Message {
+export class GenSeedResponse extends jspb.Message {
   getSeedMnemonicList(): Array<string>;
-  setSeedMnemonicList(value: Array<string>): GenSeedReply;
-  clearSeedMnemonicList(): GenSeedReply;
-  addSeedMnemonic(value: string, index?: number): GenSeedReply;
+  setSeedMnemonicList(value: Array<string>): GenSeedResponse;
+  clearSeedMnemonicList(): GenSeedResponse;
+  addSeedMnemonic(value: string, index?: number): GenSeedResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GenSeedReply.AsObject;
-  static toObject(includeInstance: boolean, msg: GenSeedReply): GenSeedReply.AsObject;
-  static serializeBinaryToWriter(message: GenSeedReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GenSeedReply;
-  static deserializeBinaryFromReader(message: GenSeedReply, reader: jspb.BinaryReader): GenSeedReply;
+  toObject(includeInstance?: boolean): GenSeedResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GenSeedResponse): GenSeedResponse.AsObject;
+  static serializeBinaryToWriter(message: GenSeedResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GenSeedResponse;
+  static deserializeBinaryFromReader(message: GenSeedResponse, reader: jspb.BinaryReader): GenSeedResponse;
 }
 
-export namespace GenSeedReply {
+export namespace GenSeedResponse {
   export type AsObject = {
     seedMnemonicList: Array<string>,
   }
@@ -66,34 +66,34 @@ export namespace InitWalletRequest {
   }
 }
 
-export class InitWalletReply extends jspb.Message {
+export class InitWalletResponse extends jspb.Message {
   getAccount(): number;
-  setAccount(value: number): InitWalletReply;
+  setAccount(value: number): InitWalletResponse;
 
-  getStatus(): InitWalletReply.Status;
-  setStatus(value: InitWalletReply.Status): InitWalletReply;
+  getStatus(): InitWalletResponse.Status;
+  setStatus(value: InitWalletResponse.Status): InitWalletResponse;
 
   getData(): string;
-  setData(value: string): InitWalletReply;
+  setData(value: string): InitWalletResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): InitWalletReply.AsObject;
-  static toObject(includeInstance: boolean, msg: InitWalletReply): InitWalletReply.AsObject;
-  static serializeBinaryToWriter(message: InitWalletReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): InitWalletReply;
-  static deserializeBinaryFromReader(message: InitWalletReply, reader: jspb.BinaryReader): InitWalletReply;
+  toObject(includeInstance?: boolean): InitWalletResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: InitWalletResponse): InitWalletResponse.AsObject;
+  static serializeBinaryToWriter(message: InitWalletResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): InitWalletResponse;
+  static deserializeBinaryFromReader(message: InitWalletResponse, reader: jspb.BinaryReader): InitWalletResponse;
 }
 
-export namespace InitWalletReply {
+export namespace InitWalletResponse {
   export type AsObject = {
     account: number,
-    status: InitWalletReply.Status,
+    status: InitWalletResponse.Status,
     data: string,
   }
 
   export enum Status { 
-    PROCESSING = 0,
-    DONE = 1,
+    STATUS_PROCESSING = 0,
+    STATUS_DONE = 1,
   }
 }
 
@@ -117,16 +117,16 @@ export namespace UnlockWalletRequest {
   }
 }
 
-export class UnlockWalletReply extends jspb.Message {
+export class UnlockWalletResponse extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UnlockWalletReply.AsObject;
-  static toObject(includeInstance: boolean, msg: UnlockWalletReply): UnlockWalletReply.AsObject;
-  static serializeBinaryToWriter(message: UnlockWalletReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UnlockWalletReply;
-  static deserializeBinaryFromReader(message: UnlockWalletReply, reader: jspb.BinaryReader): UnlockWalletReply;
+  toObject(includeInstance?: boolean): UnlockWalletResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UnlockWalletResponse): UnlockWalletResponse.AsObject;
+  static serializeBinaryToWriter(message: UnlockWalletResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UnlockWalletResponse;
+  static deserializeBinaryFromReader(message: UnlockWalletResponse, reader: jspb.BinaryReader): UnlockWalletResponse;
 }
 
-export namespace UnlockWalletReply {
+export namespace UnlockWalletResponse {
   export type AsObject = {
   }
 }
@@ -157,16 +157,16 @@ export namespace ChangePasswordRequest {
   }
 }
 
-export class ChangePasswordReply extends jspb.Message {
+export class ChangePasswordResponse extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ChangePasswordReply.AsObject;
-  static toObject(includeInstance: boolean, msg: ChangePasswordReply): ChangePasswordReply.AsObject;
-  static serializeBinaryToWriter(message: ChangePasswordReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ChangePasswordReply;
-  static deserializeBinaryFromReader(message: ChangePasswordReply, reader: jspb.BinaryReader): ChangePasswordReply;
+  toObject(includeInstance?: boolean): ChangePasswordResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ChangePasswordResponse): ChangePasswordResponse.AsObject;
+  static serializeBinaryToWriter(message: ChangePasswordResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ChangePasswordResponse;
+  static deserializeBinaryFromReader(message: ChangePasswordResponse, reader: jspb.BinaryReader): ChangePasswordResponse;
 }
 
-export namespace ChangePasswordReply {
+export namespace ChangePasswordResponse {
   export type AsObject = {
   }
 }
@@ -185,25 +185,25 @@ export namespace IsReadyRequest {
   }
 }
 
-export class IsReadyReply extends jspb.Message {
+export class IsReadyResponse extends jspb.Message {
   getInitialized(): boolean;
-  setInitialized(value: boolean): IsReadyReply;
+  setInitialized(value: boolean): IsReadyResponse;
 
   getUnlocked(): boolean;
-  setUnlocked(value: boolean): IsReadyReply;
+  setUnlocked(value: boolean): IsReadyResponse;
 
   getSynced(): boolean;
-  setSynced(value: boolean): IsReadyReply;
+  setSynced(value: boolean): IsReadyResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): IsReadyReply.AsObject;
-  static toObject(includeInstance: boolean, msg: IsReadyReply): IsReadyReply.AsObject;
-  static serializeBinaryToWriter(message: IsReadyReply, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): IsReadyReply;
-  static deserializeBinaryFromReader(message: IsReadyReply, reader: jspb.BinaryReader): IsReadyReply;
+  toObject(includeInstance?: boolean): IsReadyResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: IsReadyResponse): IsReadyResponse.AsObject;
+  static serializeBinaryToWriter(message: IsReadyResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): IsReadyResponse;
+  static deserializeBinaryFromReader(message: IsReadyResponse, reader: jspb.BinaryReader): IsReadyResponse;
 }
 
-export namespace IsReadyReply {
+export namespace IsReadyResponse {
   export type AsObject = {
     initialized: boolean,
     unlocked: boolean,

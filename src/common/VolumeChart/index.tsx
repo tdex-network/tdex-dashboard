@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import type { MarketReport } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import { PredefinedPeriod } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { MarketReport } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import { PredefinedPeriod } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import type { Asset } from '../../domain/asset';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../utils';
@@ -61,8 +61,8 @@ export const VolumeChart = ({
             tickLine={false}
             tickFormatter={(time) => {
               if (
-                marketReportPredefinedPeriod === PredefinedPeriod.LAST_DAY ||
-                marketReportPredefinedPeriod === PredefinedPeriod.LAST_WEEK
+                marketReportPredefinedPeriod === PredefinedPeriod.PREDEFINED_PERIOD_LAST_DAY ||
+                marketReportPredefinedPeriod === PredefinedPeriod.PREDEFINED_PERIOD_LAST_WEEK
               ) {
                 return `${dayjs(time).format('HH')}h`;
               } else {

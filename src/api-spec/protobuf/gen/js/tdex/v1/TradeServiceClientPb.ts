@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as tdex_v1_trade_pb from '../../tdex/v1/trade_pb';
 
 
-export class TradeClient {
+export class TradeServiceClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -35,187 +35,165 @@ export class TradeClient {
     this.options_ = options;
   }
 
-  methodDescriptorMarkets = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/Markets',
+  methodDescriptorListMarkets = new grpcWeb.MethodDescriptor(
+    '/tdex.v1.TradeService/ListMarkets',
     grpcWeb.MethodType.UNARY,
-    tdex_v1_trade_pb.MarketsRequest,
-    tdex_v1_trade_pb.MarketsReply,
-    (request: tdex_v1_trade_pb.MarketsRequest) => {
+    tdex_v1_trade_pb.ListMarketsRequest,
+    tdex_v1_trade_pb.ListMarketsResponse,
+    (request: tdex_v1_trade_pb.ListMarketsRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_trade_pb.MarketsReply.deserializeBinary
+    tdex_v1_trade_pb.ListMarketsResponse.deserializeBinary
   );
 
-  markets(
-    request: tdex_v1_trade_pb.MarketsRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.MarketsReply>;
+  listMarkets(
+    request: tdex_v1_trade_pb.ListMarketsRequest,
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.ListMarketsResponse>;
 
-  markets(
-    request: tdex_v1_trade_pb.MarketsRequest,
+  listMarkets(
+    request: tdex_v1_trade_pb.ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.MarketsReply) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.MarketsReply>;
+               response: tdex_v1_trade_pb.ListMarketsResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.ListMarketsResponse>;
 
-  markets(
-    request: tdex_v1_trade_pb.MarketsRequest,
+  listMarkets(
+    request: tdex_v1_trade_pb.ListMarketsRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.MarketsReply) => void) {
+               response: tdex_v1_trade_pb.ListMarketsResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Trade/Markets',
+          '/tdex.v1.TradeService/ListMarkets',
         request,
         metadata || {},
-        this.methodDescriptorMarkets,
+        this.methodDescriptorListMarkets,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Trade/Markets',
+      '/tdex.v1.TradeService/ListMarkets',
     request,
     metadata || {},
-    this.methodDescriptorMarkets);
+    this.methodDescriptorListMarkets);
   }
 
-  methodDescriptorBalances = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/Balances',
+  methodDescriptorGetMarketBalance = new grpcWeb.MethodDescriptor(
+    '/tdex.v1.TradeService/GetMarketBalance',
     grpcWeb.MethodType.UNARY,
-    tdex_v1_trade_pb.BalancesRequest,
-    tdex_v1_trade_pb.BalancesReply,
-    (request: tdex_v1_trade_pb.BalancesRequest) => {
+    tdex_v1_trade_pb.GetMarketBalanceRequest,
+    tdex_v1_trade_pb.GetMarketBalanceResponse,
+    (request: tdex_v1_trade_pb.GetMarketBalanceRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_trade_pb.BalancesReply.deserializeBinary
+    tdex_v1_trade_pb.GetMarketBalanceResponse.deserializeBinary
   );
 
-  balances(
-    request: tdex_v1_trade_pb.BalancesRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.BalancesReply>;
+  getMarketBalance(
+    request: tdex_v1_trade_pb.GetMarketBalanceRequest,
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.GetMarketBalanceResponse>;
 
-  balances(
-    request: tdex_v1_trade_pb.BalancesRequest,
+  getMarketBalance(
+    request: tdex_v1_trade_pb.GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.BalancesReply) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.BalancesReply>;
+               response: tdex_v1_trade_pb.GetMarketBalanceResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.GetMarketBalanceResponse>;
 
-  balances(
-    request: tdex_v1_trade_pb.BalancesRequest,
+  getMarketBalance(
+    request: tdex_v1_trade_pb.GetMarketBalanceRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.BalancesReply) => void) {
+               response: tdex_v1_trade_pb.GetMarketBalanceResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Trade/Balances',
+          '/tdex.v1.TradeService/GetMarketBalance',
         request,
         metadata || {},
-        this.methodDescriptorBalances,
+        this.methodDescriptorGetMarketBalance,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Trade/Balances',
+      '/tdex.v1.TradeService/GetMarketBalance',
     request,
     metadata || {},
-    this.methodDescriptorBalances);
+    this.methodDescriptorGetMarketBalance);
   }
 
-  methodDescriptorMarketPrice = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/MarketPrice',
+  methodDescriptorPreviewTrade = new grpcWeb.MethodDescriptor(
+    '/tdex.v1.TradeService/PreviewTrade',
     grpcWeb.MethodType.UNARY,
-    tdex_v1_trade_pb.MarketPriceRequest,
-    tdex_v1_trade_pb.MarketPriceReply,
-    (request: tdex_v1_trade_pb.MarketPriceRequest) => {
+    tdex_v1_trade_pb.PreviewTradeRequest,
+    tdex_v1_trade_pb.PreviewTradeResponse,
+    (request: tdex_v1_trade_pb.PreviewTradeRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_trade_pb.MarketPriceReply.deserializeBinary
+    tdex_v1_trade_pb.PreviewTradeResponse.deserializeBinary
   );
 
-  marketPrice(
-    request: tdex_v1_trade_pb.MarketPriceRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.MarketPriceReply>;
+  previewTrade(
+    request: tdex_v1_trade_pb.PreviewTradeRequest,
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.PreviewTradeResponse>;
 
-  marketPrice(
-    request: tdex_v1_trade_pb.MarketPriceRequest,
+  previewTrade(
+    request: tdex_v1_trade_pb.PreviewTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.MarketPriceReply) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.MarketPriceReply>;
+               response: tdex_v1_trade_pb.PreviewTradeResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.PreviewTradeResponse>;
 
-  marketPrice(
-    request: tdex_v1_trade_pb.MarketPriceRequest,
+  previewTrade(
+    request: tdex_v1_trade_pb.PreviewTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.MarketPriceReply) => void) {
+               response: tdex_v1_trade_pb.PreviewTradeResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Trade/MarketPrice',
+          '/tdex.v1.TradeService/PreviewTrade',
         request,
         metadata || {},
-        this.methodDescriptorMarketPrice,
+        this.methodDescriptorPreviewTrade,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Trade/MarketPrice',
+      '/tdex.v1.TradeService/PreviewTrade',
     request,
     metadata || {},
-    this.methodDescriptorMarketPrice);
-  }
-
-  methodDescriptorTradePropose = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/TradePropose',
-    grpcWeb.MethodType.SERVER_STREAMING,
-    tdex_v1_trade_pb.TradeProposeRequest,
-    tdex_v1_trade_pb.TradeProposeReply,
-    (request: tdex_v1_trade_pb.TradeProposeRequest) => {
-      return request.serializeBinary();
-    },
-    tdex_v1_trade_pb.TradeProposeReply.deserializeBinary
-  );
-
-  tradePropose(
-    request: tdex_v1_trade_pb.TradeProposeRequest,
-    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.TradeProposeReply> {
-    return this.client_.serverStreaming(
-      this.hostname_ +
-        '/tdex.v1.Trade/TradePropose',
-      request,
-      metadata || {},
-      this.methodDescriptorTradePropose);
+    this.methodDescriptorPreviewTrade);
   }
 
   methodDescriptorProposeTrade = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/ProposeTrade',
+    '/tdex.v1.TradeService/ProposeTrade',
     grpcWeb.MethodType.UNARY,
     tdex_v1_trade_pb.ProposeTradeRequest,
-    tdex_v1_trade_pb.ProposeTradeReply,
+    tdex_v1_trade_pb.ProposeTradeResponse,
     (request: tdex_v1_trade_pb.ProposeTradeRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_trade_pb.ProposeTradeReply.deserializeBinary
+    tdex_v1_trade_pb.ProposeTradeResponse.deserializeBinary
   );
 
   proposeTrade(
     request: tdex_v1_trade_pb.ProposeTradeRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.ProposeTradeReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.ProposeTradeResponse>;
 
   proposeTrade(
     request: tdex_v1_trade_pb.ProposeTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.ProposeTradeReply) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.ProposeTradeReply>;
+               response: tdex_v1_trade_pb.ProposeTradeResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.ProposeTradeResponse>;
 
   proposeTrade(
     request: tdex_v1_trade_pb.ProposeTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.ProposeTradeReply) => void) {
+               response: tdex_v1_trade_pb.ProposeTradeResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Trade/ProposeTrade',
+          '/tdex.v1.TradeService/ProposeTrade',
         request,
         metadata || {},
         this.methodDescriptorProposeTrade,
@@ -223,64 +201,42 @@ export class TradeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Trade/ProposeTrade',
+      '/tdex.v1.TradeService/ProposeTrade',
     request,
     metadata || {},
     this.methodDescriptorProposeTrade);
   }
 
-  methodDescriptorTradeComplete = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/TradeComplete',
-    grpcWeb.MethodType.SERVER_STREAMING,
-    tdex_v1_trade_pb.TradeCompleteRequest,
-    tdex_v1_trade_pb.TradeCompleteReply,
-    (request: tdex_v1_trade_pb.TradeCompleteRequest) => {
-      return request.serializeBinary();
-    },
-    tdex_v1_trade_pb.TradeCompleteReply.deserializeBinary
-  );
-
-  tradeComplete(
-    request: tdex_v1_trade_pb.TradeCompleteRequest,
-    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.TradeCompleteReply> {
-    return this.client_.serverStreaming(
-      this.hostname_ +
-        '/tdex.v1.Trade/TradeComplete',
-      request,
-      metadata || {},
-      this.methodDescriptorTradeComplete);
-  }
-
   methodDescriptorCompleteTrade = new grpcWeb.MethodDescriptor(
-    '/tdex.v1.Trade/CompleteTrade',
+    '/tdex.v1.TradeService/CompleteTrade',
     grpcWeb.MethodType.UNARY,
     tdex_v1_trade_pb.CompleteTradeRequest,
-    tdex_v1_trade_pb.CompleteTradeReply,
+    tdex_v1_trade_pb.CompleteTradeResponse,
     (request: tdex_v1_trade_pb.CompleteTradeRequest) => {
       return request.serializeBinary();
     },
-    tdex_v1_trade_pb.CompleteTradeReply.deserializeBinary
+    tdex_v1_trade_pb.CompleteTradeResponse.deserializeBinary
   );
 
   completeTrade(
     request: tdex_v1_trade_pb.CompleteTradeRequest,
-    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.CompleteTradeReply>;
+    metadata: grpcWeb.Metadata | null): Promise<tdex_v1_trade_pb.CompleteTradeResponse>;
 
   completeTrade(
     request: tdex_v1_trade_pb.CompleteTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.CompleteTradeReply) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.CompleteTradeReply>;
+               response: tdex_v1_trade_pb.CompleteTradeResponse) => void): grpcWeb.ClientReadableStream<tdex_v1_trade_pb.CompleteTradeResponse>;
 
   completeTrade(
     request: tdex_v1_trade_pb.CompleteTradeRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: tdex_v1_trade_pb.CompleteTradeReply) => void) {
+               response: tdex_v1_trade_pb.CompleteTradeResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tdex.v1.Trade/CompleteTrade',
+          '/tdex.v1.TradeService/CompleteTrade',
         request,
         metadata || {},
         this.methodDescriptorCompleteTrade,
@@ -288,7 +244,7 @@ export class TradeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tdex.v1.Trade/CompleteTrade',
+      '/tdex.v1.TradeService/CompleteTrade',
     request,
     metadata || {},
     this.methodDescriptorCompleteTrade);

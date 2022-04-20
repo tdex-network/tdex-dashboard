@@ -2,11 +2,11 @@ import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import type { MarketFragmenterSplitFundsResponse } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import type {
   MarketInfo,
-  FragmenterSplitFundsReply,
-} from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import type { AddressWithBlindingKey } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+  AddressWithBlindingKey,
+} from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
@@ -127,7 +127,7 @@ export const MarketDeposit = (): JSX.Element => {
           reject({ message: status.details });
         }
       });
-      data.on('data', async (data: FragmenterSplitFundsReply) => {
+      data.on('data', async (data: MarketFragmenterSplitFundsResponse) => {
         setNewWaitingModalLogStr(data.getMessage());
       });
     });

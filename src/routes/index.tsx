@@ -2,7 +2,7 @@ import type { NetworkString } from 'ldk';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
-import type { IsReadyReply } from '../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { IsReadyResponse } from '../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import { configRecord } from '../app/config';
 import type { RootState } from '../app/store';
 import { useTypedDispatch, useTypedSelector } from '../app/store';
@@ -51,7 +51,7 @@ const PrivateRoute = ({ children }: any) => {
   const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
   const isDaemonInitialized = useTypedSelector(
     ({ tdexService }: RootState) =>
-      (tdexService.queries['isReady(undefined)']?.data as IsReadyReply.AsObject)?.initialized
+      (tdexService.queries['isReady(undefined)']?.data as IsReadyResponse.AsObject)?.initialized
   );
   if (isDaemonInitialized && tdexdConnectUrl) {
     return children;

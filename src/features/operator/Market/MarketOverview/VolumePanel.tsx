@@ -2,11 +2,8 @@ import { Col, Row, Typography, Radio } from 'antd';
 import type { Dispatch, SetStateAction } from 'react';
 import React from 'react';
 
-import type {
-  MarketInfo,
-  MarketReport,
-} from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { MarketInfo, MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';
@@ -114,37 +111,37 @@ export const VolumePanel = ({
           <div className="text-end">
             <Radio.Group className="radio-green" defaultValue={marketReportPredefinedPeriod}>
               <Radio.Button
-                value={PredefinedPeriod.LAST_DAY}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_LAST_DAY}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_DAY);
-                  setMarketReportTimeFrame(TimeFrame.HOUR);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_LAST_DAY);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_HOUR);
                 }}
               >
                 1D
               </Radio.Button>
               <Radio.Button
-                value={PredefinedPeriod.LAST_WEEK}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_LAST_WEEK}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_WEEK);
-                  setMarketReportTimeFrame(TimeFrame.FOUR_HOURS);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_LAST_WEEK);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_FOUR_HOURS);
                 }}
               >
                 7D
               </Radio.Button>
               <Radio.Button
-                value={PredefinedPeriod.LAST_MONTH}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_LAST_MONTH}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_MONTH);
-                  setMarketReportTimeFrame(TimeFrame.DAY);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_LAST_MONTH);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_DAY);
                 }}
               >
                 1M
               </Radio.Button>
               <Radio.Button
-                value={PredefinedPeriod.LAST_THREE_MONTHS}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_LAST_THREE_MONTHS}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_THREE_MONTHS);
-                  setMarketReportTimeFrame(TimeFrame.DAY);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_LAST_THREE_MONTHS);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_DAY);
                 }}
               >
                 3M
@@ -160,19 +157,19 @@ export const VolumePanel = ({
                 1Y
               </Radio.Button>
               <Radio.Button
-                value={PredefinedPeriod.YEAR_TO_DATE}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_YEAR_TO_DATE}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.YEAR_TO_DATE);
-                  setMarketReportTimeFrame(TimeFrame.WEEK);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_YEAR_TO_DATE);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_WEEK);
                 }}
               >
                 YTD
               </Radio.Button>
               <Radio.Button
-                value={PredefinedPeriod.ALL}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_ALL}
                 onClick={() => {
-                  setMarketReportPredefinedPeriod(PredefinedPeriod.ALL);
-                  setMarketReportTimeFrame(TimeFrame.WEEK);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_ALL);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_WEEK);
                 }}
               >
                 ALL

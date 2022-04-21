@@ -9,24 +9,14 @@ import { configRecord } from '../../app/config';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import {
-  HOME_ROUTE,
-  MARKET_WITHDRAW_FRAGMENTER_ROUTE,
-  ONBOARDING_PAIRING_ROUTE,
-} from '../../routes/constants';
+import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { LBTC_UNITS, CURRENCIES } from '../../utils';
-import { liquidApi } from '../liquid.api';
-import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
-import { walletApi } from '../wallet/wallet.api';
-import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
+import { useReloadUtxosMutation } from '../operator/operator.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
 import { FixedAssets } from './FixedAssets';
 import {
-  disconnectProxy,
-  logout,
-  resetSettings,
   setExplorerLiquidAPI,
   setExplorerLiquidUI,
   setLbtcUnit,
@@ -40,7 +30,7 @@ const { Option } = Select;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy, network, currency } = useTypedSelector(
+  const { tdexdConnectUrl, lbtcUnit, network, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();

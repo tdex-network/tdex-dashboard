@@ -66,11 +66,11 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
         <Icon component={chevronRight} />
       </Button>
       <Divider />
-      <Button className="mt-4 mb-2" onClick={clearCache}>
-        CLEAR CACHE
-      </Button>
-      <Button type="ghost" onClick={logOut}>
+      <Button className="mt-4 mb-2" onClick={logOut}>
         LOGOUT
+      </Button>
+      <Button type="ghost" onClick={clearCache}>
+        CLEAR CACHE
       </Button>
     </div>
   );

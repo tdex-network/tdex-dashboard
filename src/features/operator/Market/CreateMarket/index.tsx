@@ -53,7 +53,7 @@ export const CreateMarket = (): JSX.Element => {
   return (
     <Row>
       <Col span={10} offset={7}>
-        <Breadcrumb separator={<Icon component={chevronRight} />} className="mb-2">
+        <Breadcrumb separator={<Icon component={chevronRight} />}>
           <Breadcrumb.Item>
             <Link to={HOME_ROUTE}>Dashboard</Link>
           </Breadcrumb.Item>

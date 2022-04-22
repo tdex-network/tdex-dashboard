@@ -29,20 +29,24 @@ export const Header = (): JSX.Element => {
   }, []);
 
   return (
-    <Header className="h-100 mt-4">
+    <Header className="h-100 mt-8">
       <Row>
         <Col span={12}>
           <Link to={HOME_ROUTE}>
-            <img src={logo} alt="logo" style={{ height: '45px' }} />
+            <img src={logo} alt="logo" style={{ height: '65px' }} />
           </Link>
         </Col>
-        <Col span={12} className="d-flex justify-end align-center pr-4">
-          <Space>
-            <Button icon={<PlusCircleOutlined />} onClick={() => navigate(CREATE_MARKET_ROUTE)}>
+        <Col span={12} className="d-flex justify-end pr-4">
+          <Space align="center">
+            <Button
+              className="d-flex"
+              icon={<PlusCircleOutlined />}
+              onClick={() => navigate(CREATE_MARKET_ROUTE)}
+            >
               CREATE NEW MARKET
             </Button>
             <Button
-              className="user-menu-btn"
+              className="user-menu-btn d-flex"
               shape="circle"
               icon={<Icon component={threeDots} className="user-menu-btn-svg" />}
             />

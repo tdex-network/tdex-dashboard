@@ -8,6 +8,7 @@ interface SelectWithAdditionProps {
   selectedItem: string;
   selectItem: (item: string) => void;
   addNewItem: (item: string) => void;
+  className?: string;
 }
 
 export const SelectWithAddition = ({
@@ -15,6 +16,7 @@ export const SelectWithAddition = ({
   selectedItem,
   selectItem,
   addNewItem,
+  className,
 }: SelectWithAdditionProps): JSX.Element => {
   const [item, setItem] = useState<string>('');
   const onItemChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -34,7 +36,8 @@ export const SelectWithAddition = ({
 
   return (
     <Select
-      className="w-100"
+      className={`w-100 ${className}`}
+      dropdownClassName={className}
       value={selectedItem}
       onSelect={handleSelection}
       dropdownRender={(menu) => (

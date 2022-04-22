@@ -7,42 +7,52 @@ a.ant-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   .anticon {
     font-size: 16px;
     margin-right: 6px;
   }
+
   &.rotate-icon > .anticon {
     rotate: 180deg;
   }
+
   &:hover {
     color: @primary-color;
     box-shadow: 0 0 0 1px @primary-color inset;
   }
+
   &:focus {
     color: @primary-color;
     background: @btn-default-bg;
   }
+
   &.ant-btn-icon-only {
     background: transparent;
     width: auto;
     height: auto;
+
     .anticon {
       margin-right: 0;
     }
+
     &:hover {
       color: #27cb1f;
       background: transparent;
       box-shadow: none;
     }
+
     &:focus {
       color: #27cb1f;
       background: transparent;
       box-shadow: none;
     }
   }
+
   &.ant-btn-dangerous {
     background: rgba(189, 10, 10, 0.15);
     border: 1px solid rgba(189, 10, 10, 0.15);
+
     &:hover, &:focus, &:disabled {
       background: rgba(189, 10, 10, 0.15) !important;
       border: 1px solid rgba(189, 10, 10, 0.15) !important;
@@ -50,33 +60,40 @@ a.ant-btn {
       box-shadow: 0 0 0 1px #FF0000 inset;
     }
   }
+
   &.ant-btn-ghost {
     font-family: dm-mono, sans-serif;
     font-weight: 500;
     font-size: 12px;
     color: #7d7d7d;
+
     &:hover {
       border: none;
       box-shadow: none;
       color: @grey-x-light;
     }
+
     &:focus {
       background: transparent;
     }
   }
+
   &.ant-btn-link {
     &:focus {
       background: transparent;
     }
   }
+
   &.ant-btn-grey-with-chevron {
     background-color: fade(@grey-light, 30%);
     color: #FFFFFF;
     display: flex;
     justify-content: space-between;
+
     &:hover {
       box-shadow: 0 0 0 1px @grey-x-light inset;
     }
+
     .anticon {
       font-size: 14px;
       margin-right: 0;
@@ -85,7 +102,7 @@ a.ant-btn {
   }
 
   &.btn-animate {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     transform: translate3d(0, 0, 0);
     perspective: 1000px;
   }
@@ -109,36 +126,53 @@ a.ant-btn {
 
 // Radio buttons
 .ant-radio-group {
+  display: flex !important;
+  justify-content: space-between;
+
   &.radio-green {
     .ant-radio-button-wrapper {
       background: @btn-default-bg !important;
       color: @primary-color;
     }
   }
+
   .ant-radio-button-wrapper {
     height: 38px;
     font-weight: bold;
-    padding: 0 20px;
+    width: 10vw;
     border-radius: 8px !important;
     border: none !important;
-    align-items: center;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: @grey-dark;
+
+    span {
+      white-space: nowrap;
+    }
+
     &:not(:last-child) {
       margin-right: 10px !important;
     }
+
     &:not(:first-child)::before {
       width: 0;
     }
+
     &:hover, &:focus, &:checked {
       box-shadow: 0 0 0 1px @primary-color inset !important;
     }
+
     &:focus-within {
       box-shadow: none;
     }
+
     &.ant-radio-button-wrapper-checked {
+      background-color: @grey-dark;
       box-shadow: 0 0 0 1px @primary-color inset !important;
     }
   }
+
   &.ghost {
     .ant-radio-button-wrapper {
       background: transparent;

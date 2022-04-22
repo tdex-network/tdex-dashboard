@@ -1,10 +1,27 @@
-// If we need a Button instead of a Link in breadcrumb
-.ant-breadcrumb-link > button.ant-btn {
-  color: @white;
-  padding: 0;
-  &:hover {
-    color: rgba(255, 255, 255, 0.75);
-    transition: color 0.3s;
-    box-shadow: none;
+.ant-breadcrumb {
+  margin-bottom: 10px !important;
+  display: flex;
+  align-items: center;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+
+  .anticon {
+    font-size: 24px;
+    opacity: 0.5;
+  }
+
+  // If we need a Button instead of a Link in breadcrumb
+  .ant-breadcrumb-link > button.ant-btn {
+    color: @white;
+    padding: 0;
+    &:hover {
+      color: rgba(255, 255, 255, 0.75);
+      transition: color 0.3s;
+      box-shadow: none;
+    }
   }
 }
+

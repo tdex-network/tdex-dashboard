@@ -36,11 +36,19 @@ interface TxsTableProps {
 const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
   const handleTableModeChange = (ev: RadioChangeEvent) => setMode(ev.target.value);
   return (
-    <Radio.Group onChange={handleTableModeChange} value={mode} className="ghost">
-      <Radio.Button value="all">All</Radio.Button>
-      <Radio.Button value="trade">Swap</Radio.Button>
-      <Radio.Button value="deposit">Deposit</Radio.Button>
-      <Radio.Button value="withdraw">Withdraw</Radio.Button>
+    <Radio.Group onChange={handleTableModeChange} value={mode} className="ghost radio-group-txs-table">
+      <Radio.Button className="radio-btn-txs-table" value="all">
+        All
+      </Radio.Button>
+      <Radio.Button className="radio-btn-txs-table" value="trade">
+        Swap
+      </Radio.Button>
+      <Radio.Button className="radio-btn-txs-table" value="deposit">
+        Deposit
+      </Radio.Button>
+      <Radio.Button className="radio-btn-txs-table" value="withdraw">
+        Withdraw
+      </Radio.Button>
     </Radio.Group>
   );
 };

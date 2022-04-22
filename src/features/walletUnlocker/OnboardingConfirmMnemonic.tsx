@@ -111,7 +111,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
   return (
     <>
-      <Breadcrumb separator={<Icon component={chevronRight} />} className="mt-8 mb-2">
+      <Breadcrumb separator={<Icon component={chevronRight} />} className="mt-8">
         <Breadcrumb.Item>
           <Link to={ONBOARDING_PAIRING_ROUTE}>Pairing</Link>
         </Breadcrumb.Item>

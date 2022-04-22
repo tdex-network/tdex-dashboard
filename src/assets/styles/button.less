@@ -128,9 +128,14 @@ a.ant-btn {
 .ant-radio-group {
   display: flex !important;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 7px 10px;
 
   &.radio-green {
+    justify-content: normal;
+
     .ant-radio-button-wrapper {
+      width: auto;
       background: @btn-default-bg !important;
       color: @primary-color;
     }
@@ -139,7 +144,7 @@ a.ant-btn {
   .ant-radio-button-wrapper {
     height: 38px;
     font-weight: bold;
-    width: 10vw;
+    flex-grow: 1;
     border-radius: 8px !important;
     border: none !important;
     display: inline-flex;
@@ -149,10 +154,6 @@ a.ant-btn {
 
     span {
       white-space: nowrap;
-    }
-
-    &:not(:last-child) {
-      margin-right: 10px !important;
     }
 
     &:not(:first-child)::before {
@@ -171,6 +172,10 @@ a.ant-btn {
       background-color: @grey-dark;
       box-shadow: 0 0 0 1px @primary-color inset !important;
     }
+  }
+
+  &.radio-group-txs-table {
+    display: inline-block !important;
   }
 
   &.ghost {

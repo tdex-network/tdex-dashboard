@@ -52,7 +52,12 @@ export const CreateMarket = (): JSX.Element => {
 
   return (
     <Row>
-      <Col span={10} offset={7}>
+      <Col
+        sm={{ span: 20, offset: 2 }}
+        md={{ span: 16, offset: 4 }}
+        lg={{ span: 12, offset: 6 }}
+        xl={{ span: 10, offset: 7 }}
+      >
         <Breadcrumb separator={<Icon component={chevronRight} />}>
           <Breadcrumb.Item>
             <Link to={HOME_ROUTE}>Dashboard</Link>

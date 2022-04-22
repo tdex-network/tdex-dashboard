@@ -1,0 +1,47 @@
+.user-menu {
+  visibility: hidden;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+
+  &-visible {
+    transition: visibility 0s, opacity 0.1s linear;
+    visibility: visible;
+    opacity: 1;
+    width: auto;
+    height: auto;
+    background-color: @grey-x-dark;
+    border-radius: 8px;
+    text-align: center;
+    margin: 10px 5px;
+    padding: 25px 25px 15px;
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    z-index: 1;
+    box-shadow: -2px 5px 15px -2px #000000;
+
+    .ant-divider {
+      width: 80%;
+      margin: 8px auto;
+      border-top: 1px solid #000000;
+    }
+
+    button {
+      min-width: 200px;
+      display: block;
+
+      &.ant-btn.ant-btn-ghost {
+        font-family: dm-sans, serif;
+        font-weight: bold;
+        font-size: 12px;
+        color: #FFFFFF;
+
+        &:hover {
+          color: @primary-color;
+        }
+      }
+    }
+  }
+}

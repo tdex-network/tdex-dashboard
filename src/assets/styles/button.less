@@ -69,6 +69,20 @@ a.ant-btn {
       background: transparent;
     }
   }
+  &.ant-btn-grey-with-chevron {
+    background-color: fade(@grey-light, 30%);
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    &:hover {
+      box-shadow: 0 0 0 1px @grey-x-light inset;
+    }
+    .anticon {
+      font-size: 14px;
+      margin-right: 0;
+      filter: invert(100%);
+    }
+  }
 
   &.btn-animate {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

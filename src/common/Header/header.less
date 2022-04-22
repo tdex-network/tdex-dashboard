@@ -1,0 +1,15 @@
+button.ant-btn-circle.user-menu-btn {
+  background-color: @btn-default-bg;
+  width: 38px;
+  height: 38px;
+
+  &:hover {
+    border: 1px solid @primary-color;
+    background-color: @btn-default-bg;
+  }
+
+  /* ensure svg will never be the target of mouse event */
+  .user-menu-btn-svg {
+    pointer-events: none;
+  }
+}

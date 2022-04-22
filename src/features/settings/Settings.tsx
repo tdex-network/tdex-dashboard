@@ -9,24 +9,14 @@ import { configRecord } from '../../app/config';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import {
-  HOME_ROUTE,
-  MARKET_WITHDRAW_FRAGMENTER_ROUTE,
-  ONBOARDING_PAIRING_ROUTE,
-} from '../../routes/constants';
+import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { LBTC_UNITS, CURRENCIES } from '../../utils';
-import { liquidApi } from '../liquid.api';
-import { operatorApi, useReloadUtxosMutation } from '../operator/operator.api';
-import { walletApi } from '../wallet/wallet.api';
-import { walletUnlockerApi } from '../walletUnlocker/walletUnlocker.api';
+import { useReloadUtxosMutation } from '../operator/operator.api';
 
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
 import { FixedAssets } from './FixedAssets';
 import {
-  disconnectProxy,
-  logout,
-  resetSettings,
   setExplorerLiquidAPI,
   setExplorerLiquidUI,
   setLbtcUnit,
@@ -40,7 +30,7 @@ const { Option } = Select;
 export const Settings = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { tdexdConnectUrl, lbtcUnit, useProxy, network, currency } = useTypedSelector(
+  const { tdexdConnectUrl, lbtcUnit, network, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
@@ -73,77 +63,6 @@ export const Settings = (): JSX.Element => {
                   <Radio.Button value={LBTC_UNITS[2]}>L-bits</Radio.Button>
                   <Radio.Button value={LBTC_UNITS[3]}>L-sats</Radio.Button>
                 </Radio.Group>
-              </Col>
-            </Row>
-          </div>
-          {/**/}
-          <div className="mb-4">
-            <Row>
-              <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                  Log Out
-                </Title>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Button
-                  onClick={async () => {
-                    if (useProxy) {
-                      try {
-                        // Close proxy connection to avoid conflict
-                        await dispatch(disconnectProxy()).unwrap();
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }
-                    dispatch(logout());
-                    // Reset the APIs state completely
-                    dispatch(liquidApi.util.resetApiState());
-                    dispatch(operatorApi.util.resetApiState());
-                    dispatch(walletUnlockerApi.util.resetApiState());
-                    dispatch(walletApi.util.resetApiState());
-                    navigate(ONBOARDING_PAIRING_ROUTE);
-                  }}
-                  className="w-100"
-                >
-                  Log Out
-                </Button>
-              </Col>
-            </Row>
-          </div>
-          {/**/}
-          <div className="mb-4">
-            <Row>
-              <Col span={24}>
-                <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                  Clear Cache
-                </Title>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Button
-                  onClick={async () => {
-                    if (useProxy) {
-                      try {
-                        // Close proxy connection to avoid conflict
-                        await dispatch(disconnectProxy()).unwrap();
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }
-                    dispatch(resetSettings());
-                    // Reset the APIs state completely
-                    dispatch(liquidApi.util.resetApiState());
-                    dispatch(operatorApi.util.resetApiState());
-                    dispatch(walletUnlockerApi.util.resetApiState());
-                    dispatch(walletApi.util.resetApiState());
-                    navigate(ONBOARDING_PAIRING_ROUTE);
-                  }}
-                >
-                  Clear Cache
-                </Button>
               </Col>
             </Row>
           </div>

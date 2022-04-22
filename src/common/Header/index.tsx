@@ -20,10 +20,10 @@ export const Header = (): JSX.Element => {
   useEffect(() => {
     document.addEventListener('click', (e) => {
       // @ts-ignore
-      if (!e.target.classList.contains('user-menu-btn')) {
-        closeUserMenu();
-      } else {
+      if (e.target.classList.contains('user-menu-btn')) {
         openUserMenu();
+      } else {
+        closeUserMenu();
       }
     });
   }, []);
@@ -45,7 +45,6 @@ export const Header = (): JSX.Element => {
               className="user-menu-btn"
               shape="circle"
               icon={<Icon component={threeDots} className="user-menu-btn-svg" />}
-              onMouseEnter={openUserMenu}
             />
             <UserMenu isUserMenuVisible={isUserMenuVisible} />
           </Space>

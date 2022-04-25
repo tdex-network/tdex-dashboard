@@ -8,7 +8,6 @@ let config: {
   explorerBitcoinAPI: string;
   explorerLiquidUI: string;
   explorerBitcoinUI: string;
-  tdexdBaseUrl: string;
 };
 
 export const configProduction: typeof config = {
@@ -17,7 +16,6 @@ export const configProduction: typeof config = {
   explorerBitcoinAPI: 'https://blockstream.info/api',
   explorerLiquidUI: 'https://blockstream.info/liquid',
   explorerBitcoinUI: 'https://blockstream.info',
-  tdexdBaseUrl: 'https://localhost:9000',
 };
 
 export const configTestnet: typeof config = {
@@ -26,7 +24,6 @@ export const configTestnet: typeof config = {
   explorerBitcoinAPI: 'https://blockstream.info/testnet/api',
   explorerLiquidUI: 'https://blockstream.info/liquidtestnet',
   explorerBitcoinUI: 'https://blockstream.info/testnet',
-  tdexdBaseUrl: 'https://localhost:9000',
 };
 
 export const configRegtest: typeof config = {
@@ -35,7 +32,6 @@ export const configRegtest: typeof config = {
   explorerBitcoinAPI: 'http://localhost:3000',
   explorerLiquidUI: 'http://localhost:5001',
   explorerBitcoinUI: 'http://localhost:5000',
-  tdexdBaseUrl: 'https://localhost:9000',
 };
 
 export const configRecord: Record<NetworkString, typeof config> = {

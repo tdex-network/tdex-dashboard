@@ -8,10 +8,8 @@ import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { liquidApi } from '../../features/liquid.api';
-import { operatorApi } from '../../features/operator/operator.api';
 import { disconnectProxy, logout, resetSettings } from '../../features/settings/settingsSlice';
-import { walletApi } from '../../features/wallet/wallet.api';
-import { walletUnlockerApi } from '../../features/walletUnlocker/walletUnlocker.api';
+import { tdexApi } from '../../features/tdex.api';
 import { ONBOARDING_PAIRING_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
 interface UserMenuProps {
@@ -35,9 +33,7 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
     dispatch(logout());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());
-    dispatch(operatorApi.util.resetApiState());
-    dispatch(walletUnlockerApi.util.resetApiState());
-    dispatch(walletApi.util.resetApiState());
+    dispatch(tdexApi.util.resetApiState());
     navigate(ONBOARDING_PAIRING_ROUTE);
   };
 
@@ -53,9 +49,7 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
     dispatch(resetSettings());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());
-    dispatch(operatorApi.util.resetApiState());
-    dispatch(walletUnlockerApi.util.resetApiState());
-    dispatch(walletApi.util.resetApiState());
+    dispatch(tdexApi.util.resetApiState());
     navigate(ONBOARDING_PAIRING_ROUTE);
   };
 

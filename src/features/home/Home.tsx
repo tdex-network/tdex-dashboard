@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../app/store';
 import { ServiceUnavailableModal } from '../../common/ServiceUnavailableModal';
 import { ListMarkets } from '../operator/Market/ListMarkets';
+import { useGetInfoQuery } from '../operator/operator.api';
 import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
 import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
 import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
@@ -24,6 +25,7 @@ export const Home = (): JSX.Element => {
     skip: proxyHealth && proxyHealth !== 'SERVING',
   });
   const priceFeed = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 60000 });
+  const { data: daemonInfo, isFetching: daemonInfoIsFetching } = useGetInfoQuery();
   // UnlockWallet Modal
   const [isUnlockWalletModalVisible, setIsUnlockWalletModalVisible] = useState(false);
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
@@ -68,10 +70,20 @@ export const Home = (): JSX.Element => {
       </Title>
       <Row gutter={{ xs: 4, sm: 8, md: 12 }} className="mb-8">
         <Col span={12}>
-          <DashboardPanelLeft lbtcUnit={lbtcUnit} priceFeed={priceFeed} />
+          <DashboardPanelLeft
+            lbtcUnit={lbtcUnit}
+            priceFeed={priceFeed}
+            daemonInfo={daemonInfo}
+            daemonInfoIsFetching={daemonInfoIsFetching}
+          />
         </Col>
         <Col span={12}>
-          <DashboardPanelRight lbtcUnit={lbtcUnit} priceFeed={priceFeed} />
+          <DashboardPanelRight
+            lbtcUnit={lbtcUnit}
+            priceFeed={priceFeed}
+            daemonInfo={daemonInfo}
+            daemonInfoIsFetching={daemonInfoIsFetching}
+          />
         </Col>
       </Row>
       <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>

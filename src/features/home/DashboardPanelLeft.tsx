@@ -4,6 +4,7 @@ import { Button, Col, Divider, Row, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { GetInfoResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -19,9 +20,16 @@ const { Title } = Typography;
 interface DashboardPanelLeftProps {
   lbtcUnit: LbtcUnit;
   priceFeed: PriceFeedQueryResult;
+  daemonInfo?: GetInfoResponse.AsObject;
+  daemonInfoIsFetching: boolean;
 }
 
-export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftProps): JSX.Element => {
+export const DashboardPanelLeft = ({
+  lbtcUnit,
+  priceFeed,
+  daemonInfo,
+  daemonInfoIsFetching,
+}: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
   const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: listMarkets } = useListMarketsQuery();
@@ -37,20 +45,36 @@ export const DashboardPanelLeft = ({ lbtcUnit, priceFeed }: DashboardPanelLeftPr
     useState<string>();
 
   useEffect(() => {
-    if (totalCollectedSwapFeesSats !== undefined) {
-      const totalCollectedSwapFeesInLbtcUnit = fromUnitToUnit(totalCollectedSwapFeesSats, 'L-sats', lbtcUnit);
-      setTotalCollectedSwapFeesAsFavoriteCurrency(
-        convertAmountToFavoriteCurrency({
-          asset: LBTC_ASSET[network],
-          amount: totalCollectedSwapFeesInLbtcUnit,
-          network: network,
-          preferredCurrency: currency,
-          preferredLbtcUnit: lbtcUnit,
-          prices: prices,
-        })
-      );
+    if (network === daemonInfo?.network && !daemonInfoIsFetching) {
+      if (totalCollectedSwapFeesSats !== undefined) {
+        const totalCollectedSwapFeesInLbtcUnit = fromUnitToUnit(
+          totalCollectedSwapFeesSats,
+          'L-sats',
+          lbtcUnit
+        );
+        setTotalCollectedSwapFeesAsFavoriteCurrency(
+          convertAmountToFavoriteCurrency({
+            asset: LBTC_ASSET[network],
+            amount: totalCollectedSwapFeesInLbtcUnit,
+            network: network,
+            preferredCurrency: currency,
+            preferredLbtcUnit: lbtcUnit,
+            prices: prices,
+          })
+        );
+      }
+    } else {
+      setTotalCollectedSwapFeesAsFavoriteCurrency(undefined);
     }
-  }, [currency, lbtcUnit, network, prices, totalCollectedSwapFeesSats]);
+  }, [
+    currency,
+    daemonInfo?.network,
+    daemonInfoIsFetching,
+    lbtcUnit,
+    network,
+    prices,
+    totalCollectedSwapFeesSats,
+  ]);
 
   return (
     <div id="dashboard-panel-left-container" className="panel w-100 h-100">

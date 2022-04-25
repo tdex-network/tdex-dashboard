@@ -1,15 +1,17 @@
 import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { GetInfoResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { LBTC_ASSET, fromUnitToUnit } from '../../utils';
-import { useGetFeeBalanceQuery } from '../operator/operator.api';
+import { useGetFeeBalanceQuery, useGetInfoQuery } from '../operator/operator.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
 import type { PriceFeedQueryResult } from '../rates.api';
 
@@ -18,6 +20,8 @@ const { Title } = Typography;
 interface DashboardPanelRightProps {
   lbtcUnit: LbtcUnit;
   priceFeed: PriceFeedQueryResult;
+  daemonInfo?: GetInfoResponse.AsObject;
+  daemonInfoIsFetching: boolean;
 }
 
 export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRightProps): JSX.Element => {
@@ -25,17 +29,26 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
   const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
   const { data: feeBalance } = useGetFeeBalanceQuery();
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
+  const { data: daemonInfo, isFetching: daemonInfoIsFetching } = useGetInfoQuery();
+  const [feeAccountBalanceAsFavoriteCurrency, setFeeAccountBalanceAsFavoriteCurrency] = useState<string>();
 
-  const feeBalanceInLbtcUnit = feeBalance && fromUnitToUnit(feeBalance.totalBalance, 'L-sats', lbtcUnit);
-
-  const feeAccountBalanceAsFavoriteCurrency = convertAmountToFavoriteCurrency({
-    asset: LBTC_ASSET[network],
-    amount: feeBalanceInLbtcUnit,
-    network: network,
-    preferredCurrency: currency,
-    preferredLbtcUnit: lbtcUnit,
-    prices: prices,
-  });
+  useEffect(() => {
+    if (network === daemonInfo?.network && !daemonInfoIsFetching) {
+      const feeBalanceInLbtcUnit = feeBalance && fromUnitToUnit(feeBalance.totalBalance, 'L-sats', lbtcUnit);
+      setFeeAccountBalanceAsFavoriteCurrency(
+        convertAmountToFavoriteCurrency({
+          asset: LBTC_ASSET[network],
+          amount: feeBalanceInLbtcUnit,
+          network: network,
+          preferredCurrency: currency,
+          preferredLbtcUnit: lbtcUnit,
+          prices: prices,
+        })
+      );
+    } else {
+      setFeeAccountBalanceAsFavoriteCurrency(undefined);
+    }
+  }, [currency, daemonInfo?.network, daemonInfoIsFetching, feeBalance, lbtcUnit, network, prices]);
 
   return (
     <div id="dashboard-panel-right-container" className="panel w-100 h-100">

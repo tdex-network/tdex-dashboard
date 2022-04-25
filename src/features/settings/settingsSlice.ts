@@ -121,7 +121,7 @@ export const initialState: SettingsState = {
     'https://blockstream.info/liquid',
   ],
   explorerLiquidUI: config.explorerLiquidUI,
-  baseUrl: USE_PROXY ? PROXY_URL : config.tdexdBaseUrl,
+  baseUrl: USE_PROXY ? PROXY_URL : '',
   assets: {
     liquid: featuredAssets['liquid'],
     testnet: featuredAssets['testnet'],
@@ -190,6 +190,7 @@ export const settingsSlice = createSlice({
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
+      state.baseUrl = '';
     },
     resetSettings: () => initialState,
   },

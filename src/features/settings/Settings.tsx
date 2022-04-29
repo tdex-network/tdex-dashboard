@@ -9,6 +9,7 @@ import { ReactComponent as chevronRight } from '../../assets/images/chevron-righ
 import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
 import { useReloadUtxosMutation } from '../operator/operator.api';
 
+import { DaemonVersion } from './DaemonVersion';
 import { DefaultCurrencyRadioButtons } from './DefaultCurrencyRadioButtons';
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
@@ -122,6 +123,7 @@ export const Settings = (): JSX.Element => {
               <FixedAssets />
             </div>
             {/**/}
+            <DaemonVersion />
           </div>
         </Col>
       </Row>

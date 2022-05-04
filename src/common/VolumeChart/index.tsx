@@ -49,9 +49,11 @@ export const VolumeChart = ({
 
   return (
     <>
-      <Row>
-        <Col span={4}>{topLeft}</Col>
-        <Col span={20}>{topRight}</Col>
+      <Row className="mb-4" gutter={10}>
+        <Col span={6} className="d-flex align-end">
+          {topLeft}
+        </Col>
+        <Col span={18}>{topRight}</Col>
       </Row>
       <ResponsiveContainer width="100%" height={265}>
         <BarChart width={730} height={250} data={data} margin={{ top: 5, bottom: -12 }}>

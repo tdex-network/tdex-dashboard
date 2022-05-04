@@ -1,6 +1,6 @@
 import { Col, Row, Typography, Radio } from 'antd';
 import type { Dispatch, SetStateAction } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { MarketInfo, MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
@@ -9,6 +9,7 @@ import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';
 import type { Asset } from '../../../../domain/asset';
 import { formatCompact, fromSatsToUnitOrFractional, isLbtcAssetId, isLbtcTicker } from '../../../../utils';
+import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 
 interface VolumePanelProps {
   baseAsset: Asset;
@@ -31,26 +32,75 @@ export const VolumePanel = ({
   setMarketReportTimeFrame,
   marketReportPredefinedPeriod,
 }: VolumePanelProps): JSX.Element => {
-  const { lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
+  const { lbtcUnit, network, currency } = useTypedSelector(({ settings }) => settings);
+  const { data: prices } = useLatestPriceFeedFromCoinGeckoQuery();
+  const [baseAmount, setBaseAmount] = useState<string>();
+  const [quoteAmount, setQuoteAmount] = useState<string>();
+  const [volumeAsFavCurrencyFormatted, setVolumeAsFavCurrencyFormatted] = useState<JSX.Element | undefined>();
 
-  const baseAmount =
-    marketInfo?.balance?.baseAmount === undefined
-      ? 'N/A'
-      : fromSatsToUnitOrFractional(
-          marketInfo?.balance?.baseAmount,
-          baseAsset.precision,
-          isLbtcTicker(baseAsset.ticker),
-          lbtcUnit
-        );
-  const quoteAmount =
-    marketInfo?.balance?.quoteAmount === undefined
-      ? 'N/A'
-      : fromSatsToUnitOrFractional(
-          marketInfo?.balance?.quoteAmount,
-          quoteAsset.precision,
-          isLbtcTicker(quoteAsset.ticker),
-          lbtcUnit
-        );
+  useEffect(() => {
+    setBaseAmount(
+      marketInfo?.balance?.baseAmount === undefined
+        ? 'N/A'
+        : fromSatsToUnitOrFractional(
+            marketInfo?.balance?.baseAmount,
+            baseAsset.precision,
+            isLbtcTicker(baseAsset.ticker),
+            lbtcUnit
+          )
+    );
+    setQuoteAmount(
+      marketInfo?.balance?.quoteAmount === undefined
+        ? 'N/A'
+        : fromSatsToUnitOrFractional(
+            marketInfo?.balance?.quoteAmount,
+            quoteAsset.precision,
+            isLbtcTicker(quoteAsset.ticker),
+            lbtcUnit
+          )
+    );
+
+    const volumeAsUnitOrFractional = fromSatsToUnitOrFractional(
+      marketReport?.totalVolume?.quoteVolume || 0,
+      quoteAsset.precision,
+      isLbtcTicker(quoteAsset.ticker),
+      lbtcUnit
+    );
+
+    const volumeAsFavCurrency = convertAmountToFavoriteCurrency({
+      asset: quoteAsset,
+      amount: volumeAsUnitOrFractional,
+      network: network,
+      preferredCurrency: currency,
+      preferredLbtcUnit: lbtcUnit,
+      prices: prices,
+    });
+
+    setVolumeAsFavCurrencyFormatted(
+      currency.value === 'btc' ? (
+        <div className="d-inline">
+          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+          <span className="d-inline-block dm-mono dm-mono__x dm_mono__bold mx-2">{lbtcUnit}</span>
+        </div>
+      ) : (
+        <div className="d-inline">
+          <span className="d-inline-block dm-mono dm_mono__bold">{currency.symbol}</span>
+          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+        </div>
+      )
+    );
+  }, [
+    baseAsset.precision,
+    baseAsset.ticker,
+    currency,
+    lbtcUnit,
+    marketInfo?.balance?.baseAmount,
+    marketInfo?.balance?.quoteAmount,
+    marketReport?.totalVolume?.quoteVolume,
+    network,
+    prices,
+    quoteAsset,
+  ]);
 
   return (
     <div className="panel panel__grey h-100">
@@ -99,12 +149,11 @@ export const VolumePanel = ({
       </Row>
       <VolumeChart
         topLeft={
-          <div className="mb-4">
+          <div>
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline" level={3}>
               Volume
             </Title>
-            {/*TODO: Convert to fav currency https://github.com/tdex-network/tdex-dashboard/pull/267*/}
-            <span className="dm-sans dm-sans__xx ml-2">$1.22b</span>
+            <span className="dm-sans dm-sans__xx ml-2 break-all">{volumeAsFavCurrencyFormatted}</span>
           </div>
         }
         topRight={

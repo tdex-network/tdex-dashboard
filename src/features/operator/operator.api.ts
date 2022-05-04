@@ -846,7 +846,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           });
           // Calculate timeranges
           const milliseconds24hrs = 24 * 60 * 60 * 1000;
-          const startDate = new Date('2022-01-01T00:00:00').toISOString();
+          const startDate = new Date(`${new Date().getFullYear()}-01-01T00:00:00`).toISOString();
           const minus24hDate = new Date(Date.now() - milliseconds24hrs).toISOString();
           const timeRangeUntil24hAgo = new TimeRange();
           const customPeriodUntil24hAgo = new CustomPeriod();

@@ -1,6 +1,7 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Row, Typography } from 'antd';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +12,11 @@ import { useTypedSelector } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
 import { LBTC_ASSET, fromUnitToUnit } from '../../utils';
-import { useListMarketsQuery, useTotalCollectedSwapFeesQuery } from '../operator/operator.api';
+import {
+  useListMarketsQuery,
+  useTotalCollectedSwapFeesChangeQuery,
+  useTotalCollectedSwapFeesQuery,
+} from '../operator/operator.api';
 import type { PriceFeedQueryResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
 
@@ -38,6 +43,10 @@ export const DashboardPanelLeft = ({
   const pausedMarkets = (listMarkets?.marketsList.length ?? 0) - activeMarkets;
   const markets = listMarkets?.marketsList.map((m) => m.market as Market.AsObject);
   const { data: totalCollectedSwapFeesSats } = useTotalCollectedSwapFeesQuery({
+    markets: markets,
+    prices: prices,
+  });
+  const { data: totalCollectedSwapFeesChange } = useTotalCollectedSwapFeesChangeQuery({
     markets: markets,
     prices: prices,
   });
@@ -95,9 +104,18 @@ export const DashboardPanelLeft = ({
             <span className="dm-sans dm-sans__xxxx ml-3">{lbtcUnit}</span>
           )}
         </Col>
-        <Col className="total-earned-change" span={8}>
+        <Col
+          className={classNames('total-earned-change', {
+            'total-earned-change__is-negative': totalCollectedSwapFeesChange?.charAt(0) === '-',
+          })}
+          span={8}
+        >
           <div>24h</div>
-          <div>+2.85%</div>
+          {totalCollectedSwapFeesChange === 'N/A' ? (
+            <div>N/A</div>
+          ) : (
+            <div>{totalCollectedSwapFeesChange}%</div>
+          )}
         </Col>
       </Row>
       <Divider style={{ margin: '12px 0 40px 0' }} />

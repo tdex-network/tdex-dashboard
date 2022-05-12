@@ -45,10 +45,10 @@ export const WebhookForm = (): JSX.Element => {
         </Radio.Group>
       </Form.Item>
       <Form.Item name="notificationUrlInput" className="mb-2">
-        <Input placeholder="Notification URL" />
+        <Input placeholder="Notification URL" className="input__small" />
       </Form.Item>
       <Form.Item name="notificationSecretInput" className="mb-3">
-        <Input placeholder="Notification Secret" />
+        <Input placeholder="Notification Secret" className="input__small" />
       </Form.Item>
       <Form.Item>
         <Button className="w-100" htmlType="submit">

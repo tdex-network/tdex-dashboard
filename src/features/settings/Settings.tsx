@@ -1,14 +1,14 @@
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Typography, Button, notification } from 'antd';
+import { Breadcrumb, Row, Col, Typography } from 'antd';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
-import { HOME_ROUTE, MARKET_WITHDRAW_FRAGMENTER_ROUTE } from '../../routes/constants';
-import { useReloadUtxosMutation } from '../operator/operator.api';
+import { HOME_ROUTE } from '../../routes/constants';
 
+import { ActionButtons } from './ActionButtons';
 import { DaemonVersion } from './DaemonVersion';
 import { DefaultCurrencyRadioButtons } from './DefaultCurrencyRadioButtons';
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
@@ -20,9 +20,7 @@ import { NetworkSelect } from './NetworkSelect';
 const { Text, Title } = Typography;
 
 export const Settings = (): JSX.Element => {
-  const navigate = useNavigate();
   const { tdexdConnectUrl } = useTypedSelector(({ settings }: RootState) => settings);
-  const [reloadUtxos, { isLoading: isReloadUtxosLoading }] = useReloadUtxosMutation();
 
   return (
     <>
@@ -36,57 +34,19 @@ export const Settings = (): JSX.Element => {
           </Breadcrumb>
 
           <div className="panel">
-            <Row gutter={{ xs: 30, sm: 40, md: 50, lg: 70 }}>
+            <Row gutter={{ xs: 20, sm: 30, md: 50, lg: 60 }} className="mb-8">
               <Col span={12}>
                 <FavoriteBitcoinUnitsRadioButtons />
                 <DefaultCurrencyRadioButtons />
-                {/**/}
-                <div className="mb-4">
-                  <Row>
-                    <Col span={24}>
-                      <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                        Reload Utxos
-                      </Title>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Button
-                        onClick={async () => {
-                          try {
-                            const res = await reloadUtxos();
-                            // @ts-ignore
-                            if (res?.error) throw new Error(res?.error);
-                            notification.success({ message: 'Utxos reloaded', key: 'Utxos reloaded' });
-                          } catch (err) {
-                            // @ts-ignore
-                            notification.error({ message: err.message, key: err.message });
-                          }
-                        }}
-                        loading={isReloadUtxosLoading}
-                      >
-                        Reload Utxos
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-                {/**/}
-                <div className="mb-4">
-                  <Row>
-                    <Col span={24}>
-                      <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                        Recovery Withdraw Markets
-                      </Title>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Button onClick={() => navigate(MARKET_WITHDRAW_FRAGMENTER_ROUTE)}>
-                        Recovery Withdraw Markets
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
+                <ActionButtons />
+                {/*<Row className="my-4">
+                  <Col span={24}>
+                    <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+                      Change Password
+                    </Title>
+                    <ChangePasswordForm />
+                  </Col>
+                </Row>*/}
               </Col>
               <Col span={12}>
                 <NetworkSelect />

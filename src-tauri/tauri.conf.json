@@ -1,7 +1,7 @@
 {
   "build": {
     "beforeBuildCommand": "yarn build",
-    "beforeDevCommand": "kill -9 $(lsof -i :3003 -t) &>/dev/null || true && yarn start",
+    "beforeDevCommand": "yarn start",
     "devPath": "http://localhost:3003",
     "distDir": "../build"
   },
@@ -41,8 +41,7 @@
       "category": "DeveloperTool",
       "copyright": "",
       "deb": {
-        "depends": [],
-        "useBootstrapper": false
+        "depends": []
       },
       "externalBin": [
         "bin/grpcproxy"
@@ -61,8 +60,7 @@
         "exceptionDomain": "",
         "frameworks": [],
         "minimumSystemVersion": "11.0",
-        "signingIdentity": null,
-        "useBootstrapper": false
+        "signingIdentity": null
       },
       "resources": [],
       "shortDescription": "",

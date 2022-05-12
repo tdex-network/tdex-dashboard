@@ -1,4 +1,4 @@
-import Icon from '@ant-design/icons';
+import { RightOutlined } from '@ant-design/icons';
 import { Button, Divider } from 'antd';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import './userMenu.less';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
-import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { liquidApi } from '../../features/liquid.api';
 import { disconnectProxy, logout, resetSettings } from '../../features/settings/settingsSlice';
 import { tdexApi } from '../../features/tdex.api';
@@ -57,7 +56,7 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
     <div className={classNames({ 'user-menu-visible': isUserMenuVisible, 'user-menu': !isUserMenuVisible })}>
       <Button className="ant-btn-grey-with-chevron mb-4" onClick={() => navigate(SETTINGS_ROUTE)}>
         <span>GENERAL SETTINGS</span>
-        <Icon component={chevronRight} />
+        <RightOutlined color="#FFFFFF" />
       </Button>
       <Divider />
       <Button className="mt-4 mb-2" onClick={logOut}>

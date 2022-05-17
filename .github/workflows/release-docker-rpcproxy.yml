@@ -39,7 +39,7 @@ jobs:
       - name: Build & push proxy image
         run:  >-
           docker buildx build --push 
-          --file ./Dockerfile.proxy
+          --file ./proxy.Dockerfile
           --tag ghcr.io/tdex-network/rpcproxy:latest 
           --tag ghcr.io/tdex-network/rpcproxy:${{ steps.next_tag.outputs.tag }}  
           --platform linux/arm64,linux/amd64 .

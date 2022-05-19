@@ -1,4 +1,4 @@
-export function snippets(str: string): string {
+export function capitalize(str: string): string {
   return str.replace(str[0], str[0].toUpperCase());
 }
 

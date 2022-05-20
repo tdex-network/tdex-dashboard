@@ -3,7 +3,7 @@ import Icon from '@ant-design/icons';
 import { Breadcrumb, Button, Checkbox, Col, Row, Typography } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import classNames from 'classnames';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -131,10 +131,18 @@ export const DepositPage = ({
           </div>
         </Col>
         <Col span={12}>
-          <Row className="panel panel__grey panel__top deposit-address-frame">
+          <Row className="panel panel__grey panel__top deposit-address-frame text-center">
             {depositAddress ? (
               <Col span={8}>
-                <QRCode className="qr-code" level="H" value={depositAddress} />
+                <QRCodeSVG
+                  className="qr-code"
+                  level="H"
+                  value={depositAddress}
+                  bgColor="#FFFFFF"
+                  fgColor="#000000"
+                  includeMargin={false}
+                  size={128}
+                />
               </Col>
             ) : (
               <p className="dm-sans dm-sans__x dm-sans__bold">Please generate a new address</p>

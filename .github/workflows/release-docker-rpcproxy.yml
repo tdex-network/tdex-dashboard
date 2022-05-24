@@ -40,7 +40,7 @@ jobs:
         run:  >-
           docker buildx build --push 
           --file ./proxy.Dockerfile
-          --tag ghcr.io/tdex-network/rpcproxy:latest 
-          --tag ghcr.io/tdex-network/rpcproxy:${{ steps.next_tag.outputs.tag }}  
+          --tag ghcr.io/tdex-network/tdexd-proxy:latest 
+          --tag ghcr.io/tdex-network/tdexd-proxy:${{ steps.next_tag.outputs.tag }}  
           --platform linux/arm64,linux/amd64 .
   

@@ -20,7 +20,7 @@ import { sleep } from './utils';
 
 export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { useProxy, isTauri, proxyHealth, proxyPid, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
+  const { useProxy, proxyHealth, proxyPid, tdexdConnectUrl } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export const App = (): JSX.Element => {
         }
       });
 
-      if (useProxy && isTauri) {
+      if (useProxy) {
         // Register close app event for cleanup
         await once('quit-event', async () => {
           try {
@@ -95,8 +95,7 @@ export const App = (): JSX.Element => {
       // Health check
       const { desc } = await dispatch(healthCheckProxy()).unwrap();
       if (desc === 'SERVING_NOT_CONNECTED') {
-        // If onboarded, try to connect to proxy
-        if (macaroonCredentials && tdexdConnectUrl) {
+        if (tdexdConnectUrl) {
           // Connect
           await dispatch(connectProxy()).unwrap();
           // Recheck health status
@@ -112,7 +111,7 @@ export const App = (): JSX.Element => {
         console.error('gRPC Proxy:', desc);
       }
     }
-  }, [useProxy, proxyHealth, isExiting, startProxy, dispatch, macaroonCredentials, tdexdConnectUrl]);
+  }, [useProxy, proxyHealth, isExiting, startProxy, dispatch, tdexdConnectUrl]);
 
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error

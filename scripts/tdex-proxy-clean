@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+docker stop tdexd-proxy
+docker stop dashboard
+docker rm tdexd-proxy
+docker rm dashboard
+rm -rf ./tdexd-data

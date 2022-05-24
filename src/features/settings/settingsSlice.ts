@@ -14,8 +14,10 @@ import type { MarketLabelled } from '../../domain/market';
 import type { LbtcUnit } from '../../utils';
 import { featuredAssets, LBTC_ASSET, LBTC_UNITS, CURRENCIES } from '../../utils';
 
-const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
+const IS_TAURI = '__TAURI__' in window;
+const USE_PROXY = IS_TAURI || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
+console.log(USE_PROXY, PROXY_URL);
 
 const proxyHealthStatus = ['SERVING', 'SERVING_NOT_CONNECTED', 'NOT_SERVING'] as const;
 export type ProxyHealthStatus = typeof proxyHealthStatus[number];
@@ -30,6 +32,7 @@ export interface SettingsState {
   assets: Record<NetworkString, Asset[]>;
   baseUrl: string;
   useProxy: boolean;
+  isTauri: boolean;
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
@@ -107,6 +110,7 @@ export const healthCheckProxy = createAsyncThunk<
   }
 });
 
+console.log('condition', USE_PROXY ? PROXY_URL : '');
 export const initialState: SettingsState = {
   network: config.chain,
   explorerLiquidAPI: config.explorerLiquidAPI,
@@ -128,6 +132,7 @@ export const initialState: SettingsState = {
     regtest: [LBTC_ASSET['regtest']],
   },
   useProxy: USE_PROXY,
+  isTauri: IS_TAURI,
   lbtcUnit: LBTC_UNITS[0],
   currency: CURRENCIES[0],
 };
@@ -174,7 +179,9 @@ export const settingsSlice = createSlice({
       state.proxyPid = action.payload;
     },
     setBaseUrl: (state, action: PayloadAction<string>) => {
+      console.log(`inside setBaseUrl`, state.useProxy);
       if (!state.useProxy) {
+        console.log('setBaseUrl', action.payload);
         state.baseUrl = action.payload;
       }
     },

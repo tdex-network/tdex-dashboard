@@ -20,7 +20,7 @@ import { sleep } from './utils';
 
 export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { useProxy, proxyHealth, proxyPid, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
+  const { useProxy, isTauri, proxyHealth, proxyPid, macaroonCredentials, tdexdConnectUrl } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export const App = (): JSX.Element => {
         }
       });
 
-      if (useProxy) {
+      if (useProxy && isTauri) {
         // Register close app event for cleanup
         await once('quit-event', async () => {
           try {

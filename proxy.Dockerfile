@@ -20,9 +20,7 @@ RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-s -w " -tags netgo
 FROM debian:buster-slim
 
 COPY --from=gobuilder /app/rpcproxy /usr/local/bin/rpcproxy
-COPY --from=ghcr.io/tdex-network/tdexd:latest /usr/local/bin/tdex /usr/local/bin/tdex
-COPY --from=ghcr.io/tdex-network/tdexd:latest /usr/local/bin/tdexd /usr/local/bin//tdexd
-COPY --from=ghcr.io/tdex-network/tdexd:latest /usr/local/bin/tdexdconnect /usr/local/bin/tdexdconnect
+COPY --from=ghcr.io/tdex-network/tdexd:latest /usr/local/bin/* /usr/local/bin/
 COPY proxy-entrypoint.sh .
 RUN chmod +x /proxy-entrypoint.sh 
 

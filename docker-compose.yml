@@ -15,7 +15,7 @@ services:
       - 8080:8080
 
   tdexd:
-    container_name: "tdexd"
+    container_name: "tdexd-proxy"
     image: ghcr.io/tdex-network/tdexd-proxy:latest
     restart: unless-stopped
     tty: true

@@ -41,7 +41,7 @@ export const App = (): JSX.Element => {
         }
       });
 
-      if (useProxy && isTauri) {
+      if (isTauri) {
         // Register close app event for cleanup
         await once('quit-event', async () => {
           try {

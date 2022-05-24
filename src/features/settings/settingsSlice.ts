@@ -30,6 +30,7 @@ export interface SettingsState {
   assets: Record<NetworkString, Asset[]>;
   baseUrl: string;
   useProxy: boolean;
+  isTauri: boolean;
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   tdexdConnectUrl?: string;
@@ -122,6 +123,7 @@ export const initialState: SettingsState = {
   ],
   explorerLiquidUI: config.explorerLiquidUI,
   baseUrl: USE_PROXY ? PROXY_URL : '',
+  isTauri: '__TAURI__' in window,
   assets: {
     liquid: featuredAssets['liquid'],
     testnet: featuredAssets['testnet'],

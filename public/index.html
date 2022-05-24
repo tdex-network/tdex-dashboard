@@ -27,8 +27,10 @@
     <title>TDEX Dashboard</title>
     <script>
       try {
-        window.USE_PROXY = true;
-        window.PROXY_URL = "http://localhost:3030";
+        if (!('__TAURI__' in window)) {
+          window.USE_PROXY = __USE_PROXY__;
+          window.PROXY_URL = __PROXY_URL__;
+        }
       } catch (_) {}
     </script>
   </head>

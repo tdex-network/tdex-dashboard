@@ -176,9 +176,7 @@ export const settingsSlice = createSlice({
       state.proxyPid = action.payload;
     },
     setBaseUrl: (state, action: PayloadAction<string>) => {
-      console.log(`inside setBaseUrl`, state.useProxy);
       if (!state.useProxy) {
-        console.log('setBaseUrl', action.payload);
         state.baseUrl = action.payload;
       }
     },

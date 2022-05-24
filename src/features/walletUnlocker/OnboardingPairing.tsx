@@ -26,7 +26,7 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { useProxy } = useTypedSelector(({ settings }) => settings);
+  const { useProxy, isTauri } = useTypedSelector(({ settings }) => settings);
 
   useEffect(() => {
     // Reset the APIs state completely
@@ -111,7 +111,7 @@ export const OnboardingPairing = (): JSX.Element => {
                   className="overflow-hidden"
                   placeholder="Paste the Tdex daemon connect URL"
                   onPaste={(ev) => {
-                    if (!(window as any).__TAURI__ && !(window as any).USE_PROXY) {
+                    if (!isTauri && !useProxy) {
                       showDownloadCertModal();
                     } else {
                       const connectString = ev.clipboardData.getData('text');

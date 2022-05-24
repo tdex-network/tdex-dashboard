@@ -126,6 +126,7 @@ export const initialState: SettingsState = {
   ],
   explorerLiquidUI: config.explorerLiquidUI,
   baseUrl: USE_PROXY ? PROXY_URL : '',
+  isTauri: '__TAURI__' in window,
   assets: {
     liquid: featuredAssets['liquid'],
     testnet: featuredAssets['testnet'],

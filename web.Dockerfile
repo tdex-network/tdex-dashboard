@@ -9,9 +9,10 @@ WORKDIR /app
 # Cache and Install dependencies
 COPY package.json .
 COPY tsconfig.json .
+COPY yarn.lock .
 
 # Install
-RUN yarn install --network-timeout 1000000
+RUN yarn install --frozen-lockfile --network-timeout 1000000
 
 # Copy app files
 COPY craco.config.js .

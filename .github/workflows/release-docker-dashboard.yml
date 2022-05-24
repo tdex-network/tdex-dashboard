@@ -39,7 +39,7 @@ jobs:
       - name: Build & push dashboard
         run:  >-
           docker buildx build --push 
-          --file ./Dockerfile.web
+          --file ./web.Dockerfile
           --tag ghcr.io/tdex-network/dashboard:latest 
           --tag ghcr.io/tdex-network/dashboard:${{ steps.next_tag.outputs.tag }}  
           --platform linux/arm64,linux/amd64 .

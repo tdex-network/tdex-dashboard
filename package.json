@@ -84,7 +84,7 @@
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev",
     "tdex:clean": "bash scripts/tdexd-clean",
-    "tdex:connect": "docker exec -it tdexd tdexdconnect --out url",
+    "tdex:connect": "docker exec -it tdexd-proxy tdexdconnect --out url",
     "tdex:run": "bash scripts/tdexd-run",
     "tdex:run-init": "bash scripts/tdexd-run-initialized",
     "tdex:run-testnet": "bash scripts/tdexd-run-testnet",

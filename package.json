@@ -88,8 +88,11 @@
     "tdex:run": "bash scripts/tdex-run",
     "tdex:run-init": "bash scripts/tdex-run-initialized",
     "tdex:run-testnet": "bash scripts/tdex-run-testnet",
+    "tdexproxy:build-web": "docker build --file ./web.Dockerfile --tag ghcr.io/tdex-network/dashboard .",
+    "tdexproxy:build-proxy": "docker build --file ./proxy.Dockerfile --tag ghcr.io/tdex-network/tdexd-proxy .",
     "tdexproxy:clean": "bash scripts/tdex-proxy-clean",
     "tdexproxy:connect": "docker exec -it tdexd-proxy tdexdconnect --out url",
+    "tdexproxy:up": "docker-compose up -d",
     "test": "craco test"
   },
   "version": "0.1.24"

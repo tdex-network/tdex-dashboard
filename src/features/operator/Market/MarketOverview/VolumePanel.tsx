@@ -8,7 +8,13 @@ import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';
 import type { Asset } from '../../../../domain/asset';
-import { formatCompact, fromSatsToUnitOrFractional, isLbtcAssetId, isLbtcTicker } from '../../../../utils';
+import {
+  formatCompact,
+  fromSatsToUnitOrFractional,
+  fromUnitToUnit,
+  isLbtcAssetId,
+  isLbtcTicker,
+} from '../../../../utils';
 import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 
 interface VolumePanelProps {
@@ -124,26 +130,19 @@ export const VolumePanel = ({
         {marketInfo?.strategyType === 0 ? (
           <Col span={8} className="text-end">
             <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
-              Number(
-                fromSatsToUnitOrFractional(
-                  marketInfo.price?.basePrice ?? 0,
-                  baseAsset.precision,
-                  isLbtcTicker(baseAsset.ticker),
-                  lbtcUnit
-                )
-              )
-            )} ${
-              isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker
-            } for ${formatCompact(
-              Number(
-                fromSatsToUnitOrFractional(
-                  marketInfo.price?.quotePrice ?? 0,
-                  quoteAsset.precision,
-                  isLbtcTicker(quoteAsset.ticker),
-                  lbtcUnit
-                )
-              )
-            )} ${isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker}`}</span>
+              isLbtcAssetId(baseAsset?.asset_id, network)
+                ? Number(
+                    // If marketInfo.price?.basePrice is Liquid Bitcoin then amount is expressed in L-BTC
+                    fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-BTC', lbtcUnit)
+                  )
+                : Number(
+                    // If marketInfo.price?.basePrice is other asset then amount is expressed in sats
+                    // We want to format to fiat fractional
+                    fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-sats', 'L-BTC')
+                  )
+            )} ${isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker} for 1 ${
+              isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker
+            }`}</span>
           </Col>
         ) : null}
       </Row>

@@ -32,14 +32,16 @@ export const VolumeChart = ({
       (acc, curr) =>
         acc.concat({
           time: curr.startDate,
-          value: fromSatsToUnitOrFractional(
-            curr.baseVolume,
-            baseAsset.precision,
-            isLbtcTicker(baseAsset.ticker),
-            lbtcUnit
+          value: Number(
+            fromSatsToUnitOrFractional(
+              curr.baseVolume,
+              baseAsset.precision,
+              isLbtcTicker(baseAsset.ticker),
+              lbtcUnit
+            )
           ),
         }),
-      [] as { time: string; value: string }[]
+      [] as { time: string; value: number }[]
     );
   }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.groupedVolumeList]);
 
@@ -62,10 +64,7 @@ export const VolumeChart = ({
             axisLine={false}
             tickLine={false}
             tickFormatter={(time) => {
-              if (
-                marketReportPredefinedPeriod === PredefinedPeriod.PREDEFINED_PERIOD_LAST_DAY ||
-                marketReportPredefinedPeriod === PredefinedPeriod.PREDEFINED_PERIOD_LAST_WEEK
-              ) {
+              if (marketReportPredefinedPeriod === PredefinedPeriod.PREDEFINED_PERIOD_LAST_DAY) {
                 return `${dayjs(time).format('HH')}h`;
               } else {
                 return dayjs(time).format('DD/MM');

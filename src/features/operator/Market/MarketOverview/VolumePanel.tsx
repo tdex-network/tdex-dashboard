@@ -195,11 +195,10 @@ export const VolumePanel = ({
                 3M
               </Radio.Button>
               <Radio.Button
-                value={''}
+                value={PredefinedPeriod.PREDEFINED_PERIOD_LAST_YEAR}
                 onClick={() => {
-                  // TODO: https://github.com/tdex-network/tdex-daemon/issues/569
-                  //setMarketReportPredefinedPeriod(PredefinedPeriod.LAST_YEAR);
-                  //setMarketReportTimeFrame(TimeFrame.WEEK);
+                  setMarketReportPredefinedPeriod(PredefinedPeriod.PREDEFINED_PERIOD_LAST_YEAR);
+                  setMarketReportTimeFrame(TimeFrame.TIME_FRAME_WEEK);
                 }}
               >
                 1Y

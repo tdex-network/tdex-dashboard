@@ -192,7 +192,7 @@ export const settingsSlice = createSlice({
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
-      state.baseUrl = '';
+      state.baseUrl = USE_PROXY ? PROXY_URL : '';
     },
     resetSettings: () => initialState,
   },

@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
-    "@tauri-apps/api": "1.0.0-rc.5",
+    "@tauri-apps/api": "1.0.0-rc.6",
     "antd": "^4.17.2",
     "antd-css-utilities": "^1.0.2",
     "base64url": "^3.0.1",
@@ -48,8 +48,8 @@
     "@types/lodash.groupby": "^4.6.6",
     "@types/node": "^16.11.11",
     "@types/qrcode.react": "^1.0.2",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
     "@types/react-redux": "^7.1.20",
     "@types/react-router-dom": "^5.3.2",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
@@ -67,7 +67,9 @@
   "private": true,
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "@types/react": "17.0.45",
+    "@types/react-dom": "17.0.17"
   },
   "scripts": {
     "build": "npx craco build",

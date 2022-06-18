@@ -67,9 +67,9 @@
   "private": true,
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9",
     "@types/react": "17.0.45",
-    "@types/react-dom": "17.0.17"
+    "@types/react-dom": "17.0.17",
+    "react-error-overlay": "6.0.9"
   },
   "scripts": {
     "build": "npx craco build",
@@ -90,12 +90,12 @@
     "tdex:run": "bash scripts/tdex-run",
     "tdex:run-init": "bash scripts/tdex-run-initialized",
     "tdex:run-testnet": "bash scripts/tdex-run-testnet",
-    "tdexproxy:build-web": "docker build --file ./web.Dockerfile --tag ghcr.io/tdex-network/dashboard .",
     "tdexproxy:build-proxy": "docker build --file ./proxy.Dockerfile --tag ghcr.io/tdex-network/tdexd-proxy .",
+    "tdexproxy:build-web": "docker build --file ./web.Dockerfile --tag ghcr.io/tdex-network/dashboard .",
     "tdexproxy:clean": "bash scripts/tdex-proxy-clean",
     "tdexproxy:connect": "docker exec -it tdexd-proxy tdexdconnect --out url",
     "tdexproxy:up": "docker-compose up -d",
     "test": "craco test"
   },
-  "version": "0.1.24"
+  "version": "0.1.25"
 }

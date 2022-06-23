@@ -4,7 +4,11 @@ import React, { useEffect, useState } from 'react';
 
 import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { useUpdateMarketStrategyMutation } from '../../operator.api';
+import {
+  useCloseMarketMutation,
+  useOpenMarketMutation,
+  useUpdateMarketStrategyMutation,
+} from '../../operator.api';
 
 interface MarketStrategyProps {
   marketInfo?: MarketInfo.AsObject;
@@ -12,6 +16,8 @@ interface MarketStrategyProps {
 
 export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element => {
   const [updateMarketStrategy] = useUpdateMarketStrategyMutation();
+  const [openMarket] = useOpenMarketMutation();
+  const [closeMarket] = useCloseMarketMutation();
   const [defaultStrategyType, setDefaultStrategyType] = useState<number | undefined>(
     marketInfo?.strategyType
   );
@@ -23,6 +29,13 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
   const handleChange = async (ev: RadioChangeEvent) => {
     try {
       if (!marketInfo) return;
+      // Pause Market
+      const resClose = await closeMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      if ('error' in resClose) throw new Error((resClose as any).error);
+      //
       const res = await updateMarketStrategy({
         market: {
           baseAsset: marketInfo.market?.baseAsset || '',
@@ -36,6 +49,12 @@ export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element
         message: 'Market strategy updated successfully',
         key: 'Market strategy updated successfully',
       });
+      // Re-open market
+      const resOpen = await openMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      if ('error' in resOpen) throw new Error((resOpen as any).error);
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message, key: err.message });

@@ -18,7 +18,9 @@ import {
   sleep,
 } from '../../../../utils';
 import {
+  useCloseMarketMutation,
   useGetMarketInfoQuery,
+  useOpenMarketMutation,
   useUpdateMarketFixedFeeMutation,
   useUpdateMarketPercentageFeeMutation,
 } from '../../operator.api';
@@ -58,6 +60,8 @@ export const FeeForm = ({
 }: FeeFormProps): JSX.Element => {
   const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
   const [form] = Form.useForm<IFormInputs>();
+  const [openMarket] = useOpenMarketMutation();
+  const [closeMarket] = useCloseMarketMutation();
   const [updateMarketPercentageFee] = useUpdateMarketPercentageFeeMutation();
   const [updateMarketFixedFee] = useUpdateMarketFixedFeeMutation();
   const { data: marketInfo } = useGetMarketInfoQuery({
@@ -69,6 +73,13 @@ export const FeeForm = ({
 
   const onFinish = async () => {
     try {
+      // Pause Market
+      const resClose = await closeMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      if ('error' in resClose) throw new Error((resClose as any).error);
+      //
       const values = await form.validateFields();
       const updateMarketPercentageFeeRes = await updateMarketPercentageFee({
         basisPoint: Number(values.feeRelativeInput) * 100,
@@ -91,6 +102,13 @@ export const FeeForm = ({
       if (updateMarketFixedFeeRes?.error) throw new Error(updateMarketFixedFeeRes?.error);
       incrementStep?.();
       notification.success({ message: 'Market fees updated successfully' });
+      // Re-open market
+      const resOpen = await openMarket({
+        baseAsset: marketInfo?.market?.baseAsset || '',
+        quoteAsset: marketInfo?.market?.quoteAsset || '',
+      });
+      if ('error' in resOpen) throw new Error((resOpen as any).error);
+      //
       await sleep(500);
       marketInfoRefetch?.();
     } catch (err) {

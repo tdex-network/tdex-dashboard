@@ -132,12 +132,9 @@ export const VolumePanel = ({
             <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
               isLbtcAssetId(baseAsset?.asset_id, network)
                 ? Number(
-                    // If marketInfo.price?.basePrice is Liquid Bitcoin then amount is expressed in L-BTC
-                    fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-BTC', lbtcUnit)
+                    fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-sats', lbtcUnit)
                   )
                 : Number(
-                    // If marketInfo.price?.basePrice is other asset then amount is expressed in sats
-                    // We want to format to fiat fractional
                     fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-sats', 'L-BTC')
                   )
             )} ${isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker} for 1 ${

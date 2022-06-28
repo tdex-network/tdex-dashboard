@@ -48,7 +48,7 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
           <SeedMnemonicList seed={seedMnemonicList} />
           <Row justify="center">
             <Col>
-              <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__x" value={seedHasBeenSaved}>
+              <Checkbox onChange={onCheckboxChange} className="dm-sans dm-sans__x" checked={seedHasBeenSaved}>
                 I’ve saved my Secret Phrase
               </Checkbox>
             </Col>

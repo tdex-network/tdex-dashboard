@@ -5,14 +5,33 @@
     padding: 10px;
     min-height: 12rem;
     text-align: left;
+
+    button.word {
+      width: 100px;
+      height: 38px;
+      background-color: @grey-dark;
+      color: #FFFFFF;
+      &:hover {
+        border: none;
+        box-shadow: none;
+      }
+    }
   }
+
   .words-container-initial {
     min-height: 11rem;
-  }
-  button.word {
-    width: 100px;
-    height: 38px;
-    background-color: @grey-dark;
-    border: #00ff00 solid 1px;
+
+    button.word {
+      width: 100px;
+      height: 38px;
+      border: #00ff00 solid 1px;
+      &__selected {
+        border: none;
+        &:hover {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
   }
 }

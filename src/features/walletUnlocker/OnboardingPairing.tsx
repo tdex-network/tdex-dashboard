@@ -1,5 +1,6 @@
 import './onboardingPairing.less';
 import { Button, Col, Form, Input, Modal, notification, Row, Typography } from 'antd';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +22,8 @@ interface IFormInputs {
 
 export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
-  const [isValidCert, setIsValidCert] = useState<boolean>(false);
+  const [isValidConnectUrl, setIsValidConnectUrl] = useState<boolean>(false);
+  const [showRedBorder, setShowRedBorder] = useState<boolean>(false);
   const [macaroon, setMacaroon] = useState<string>('');
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ export const OnboardingPairing = (): JSX.Element => {
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
+      setConnectUrlDataToStore(form.getFieldValue('tdexdConnectUrl'));
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
       if (macaroon) {
         navigate(HOME_ROUTE);
@@ -59,23 +62,14 @@ export const OnboardingPairing = (): JSX.Element => {
 
   const setConnectUrlDataToStore = (connectString: string) => {
     try {
-      const { host, cert, macaroon } = extractHostCertMacaroon(connectString);
+      const connectData = extractHostCertMacaroon(connectString);
       if (!useProxy) {
-        if (host) {
-          dispatch(setBaseUrl('https://' + host));
-        } else {
-          throw new Error('Tdexd Connect URL is not valid');
-        }
+        dispatch(setBaseUrl('https://' + connectData?.host));
       }
-      if (cert) {
-        const certPem = decodeCert(cert);
-        setIsValidCert(true);
-        if (!useProxy) {
-          downloadCert(certPem);
-          setIsDownloadCertModalVisible(false);
-        }
-      } else {
-        throw new Error('Tdexd Connect URL is not valid');
+      const certPem = decodeCert(connectData?.cert ?? '');
+      if (!useProxy) {
+        downloadCert(certPem);
+        setIsDownloadCertModalVisible(false);
       }
       if (macaroon) {
         const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
@@ -108,20 +102,33 @@ export const OnboardingPairing = (): JSX.Element => {
             >
               <Form.Item name="tdexdConnectUrl" className="mb-16">
                 <Input.TextArea
-                  className="scrollbar"
+                  className={classNames('scrollbar', {
+                    'invalid-connect-url': showRedBorder,
+                  })}
                   placeholder="Paste the Tdex daemon connect URL"
-                  onPaste={(ev) => {
+                  onPaste={() => {
                     if (!isTauri && !useProxy) {
                       showDownloadCertModal();
+                    }
+                  }}
+                  onChange={(ev) => {
+                    const connectData = extractHostCertMacaroon(ev.target.value);
+                    if (form.getFieldValue('tdexdConnectUrl')?.length > 0) {
+                      if (!connectData?.host || !connectData?.cert) {
+                        setIsValidConnectUrl(false);
+                        setShowRedBorder(true);
+                      } else {
+                        setIsValidConnectUrl(true);
+                        setShowRedBorder(false);
+                      }
                     } else {
-                      const connectString = ev.clipboardData.getData('text');
-                      setConnectUrlDataToStore(connectString);
+                      setShowRedBorder(false);
                     }
                   }}
                 />
               </Form.Item>
               <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-                <Button htmlType="submit" className="w-100" disabled={!isValidCert}>
+                <Button htmlType="submit" className="w-100" disabled={!isValidConnectUrl}>
                   CONNECT
                 </Button>
               </Form.Item>
@@ -132,7 +139,7 @@ export const OnboardingPairing = (): JSX.Element => {
       <Modal
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}
-        onOk={() => setConnectUrlDataToStore(form.getFieldValue('tdexdConnectUrl'))}
+        onOk={() => setIsDownloadCertModalVisible(false)}
         onCancel={() => setIsDownloadCertModalVisible(false)}
       >
         <Title className="dm-sans dm-sans__xx dm-sans__bold" level={3}>
@@ -142,7 +149,7 @@ export const OnboardingPairing = (): JSX.Element => {
           <li>Accept to download the daemon TLS certificate</li>
           <li>Double click on it to install</li>
           <li>Mark it as "always trust"</li>
-          <li>Click PAIR DASHBOARD button to finish onboarding</li>
+          <li>Click CONNECT button to finish onboarding</li>
         </ol>
       </Modal>
     </>

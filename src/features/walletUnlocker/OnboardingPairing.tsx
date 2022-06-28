@@ -108,7 +108,7 @@ export const OnboardingPairing = (): JSX.Element => {
             >
               <Form.Item name="tdexdConnectUrl" className="mb-16">
                 <Input.TextArea
-                  className="overflow-hidden"
+                  className="scrollbar"
                   placeholder="Paste the Tdex daemon connect URL"
                   onPaste={(ev) => {
                     if (!isTauri && !useProxy) {

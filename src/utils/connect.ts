@@ -21,14 +21,18 @@ export const downloadCert = (certPem: string): void => {
  */
 export const extractHostCertMacaroon = (
   connectString: string
-): { host?: string; cert?: string; macaroon?: string } => {
-  const connectStr = connectString.trim();
-  if (!connectStr.startsWith('tdexdconnect://')) throw new Error('Tdexd Connect URL is not valid');
-  const [baseUrl, paramsString] = connectStr.split('?');
-  const [, host] = baseUrl.split('://');
-  const params = new URLSearchParams(paramsString);
-  const { cert, macaroon } = Object.fromEntries(params.entries());
-  return { host, cert, macaroon };
+): { host?: string; cert?: string; macaroon?: string } | undefined => {
+  try {
+    const connectStr = connectString.trim();
+    if (!connectStr.startsWith('tdexdconnect://')) throw new Error('Tdexd Connect URL is not valid');
+    const [baseUrl, paramsString] = connectStr.split('?');
+    const [, host] = baseUrl.split('://');
+    const params = new URLSearchParams(paramsString);
+    const { cert, macaroon } = Object.fromEntries(params.entries());
+    return { host, cert, macaroon };
+  } catch (_) {
+    return undefined;
+  }
 };
 
 /**

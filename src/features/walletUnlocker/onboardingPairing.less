@@ -5,7 +5,12 @@
     padding-top: 0;
     background-color: @grey-dark;
     height: 140px;
+
+    &.invalid-connect-url {
+      border: @error-color 1px solid;
+    }
   }
+
   form .ant-form-item-control-input-content textarea::-webkit-input-placeholder {
     display: flex !important;
     align-items: center;

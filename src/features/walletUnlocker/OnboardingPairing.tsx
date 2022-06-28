@@ -122,7 +122,7 @@ export const OnboardingPairing = (): JSX.Element => {
               </Form.Item>
               <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                 <Button htmlType="submit" className="w-100" disabled={!isValidCert}>
-                  PAIR DASHBOARD
+                  CONNECT
                 </Button>
               </Form.Item>
             </Form>

@@ -10,10 +10,8 @@ import { HOME_ROUTE } from '../../routes/constants';
 
 import { ActionButtons } from './ActionButtons';
 import { DaemonVersion } from './DaemonVersion';
-import { DefaultCurrencyRadioButtons } from './DefaultCurrencyRadioButtons';
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { FavoriteBitcoinUnitsRadioButtons } from './FavoriteBitcoinUnitsRadioButtons';
 import { FixedAssets } from './FixedAssets';
 import { NetworkSelect } from './NetworkSelect';
 
@@ -36,8 +34,6 @@ export const Settings = (): JSX.Element => {
           <div className="panel">
             <Row gutter={{ xs: 20, sm: 30, md: 50, lg: 60 }} className="mb-8">
               <Col span={12}>
-                <FavoriteBitcoinUnitsRadioButtons />
-                <DefaultCurrencyRadioButtons />
                 <ActionButtons />
                 {/*<Row className="my-4">
                   <Col span={24}>

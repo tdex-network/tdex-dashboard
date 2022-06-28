@@ -7,6 +7,8 @@ import './userMenu.less';
 import type { RootState } from '../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { liquidApi } from '../../features/liquid.api';
+import { DefaultCurrencyRadioButtons } from '../../features/settings/DefaultCurrencyRadioButtons';
+import { FavoriteBitcoinUnitsRadioButtons } from '../../features/settings/FavoriteBitcoinUnitsRadioButtons';
 import { disconnectProxy, logout, resetSettings } from '../../features/settings/settingsSlice';
 import { tdexApi } from '../../features/tdex.api';
 import { ONBOARDING_PAIRING_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
@@ -54,16 +56,18 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
 
   return (
     <div className={classNames({ 'user-menu-visible': isUserMenuVisible, 'user-menu': !isUserMenuVisible })}>
-      <Button className="ant-btn-grey-with-chevron mb-4" onClick={() => navigate(SETTINGS_ROUTE)}>
-        <span>GENERAL SETTINGS</span>
+      <FavoriteBitcoinUnitsRadioButtons />
+      <DefaultCurrencyRadioButtons />
+      <Button className="ant-btn-grey-with-chevron mb-4 w-100" onClick={() => navigate(SETTINGS_ROUTE)}>
+        <span>ADVANCED SETTINGS</span>
         <RightOutlined color="#FFFFFF" />
       </Button>
       <Divider />
-      <Button className="mt-4 mb-2" onClick={logOut}>
+      <Button type="ghost" className="mt-4 mb-2 w-100" onClick={logOut}>
         LOGOUT
       </Button>
-      <Button type="ghost" onClick={clearCache}>
-        CLEAR CACHE
+      <Button danger onClick={clearCache} className="w-100">
+        DISCONNECT AND RESET
       </Button>
     </div>
   );

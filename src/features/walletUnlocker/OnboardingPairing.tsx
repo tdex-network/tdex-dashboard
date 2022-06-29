@@ -43,9 +43,15 @@ export const OnboardingPairing = (): JSX.Element => {
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
-      setConnectUrlDataToStore(form.getFieldValue('tdexdConnectUrl'));
+      const connectData = extractHostCertMacaroon(values.tdexdConnectUrl);
+      if (!useProxy) {
+        dispatch(setBaseUrl('https://' + connectData?.host));
+      }
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
       if (macaroon) {
+        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+        dispatch(setMacaroonCredentials(decodedMacaroonHex));
+        setMacaroon(decodedMacaroonHex);
         navigate(HOME_ROUTE);
       } else {
         navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
@@ -60,24 +66,16 @@ export const OnboardingPairing = (): JSX.Element => {
     setIsDownloadCertModalVisible(true);
   };
 
-  const setConnectUrlDataToStore = (connectString: string) => {
+  const downloadCertificate = (connectString: string) => {
     try {
       const connectData = extractHostCertMacaroon(connectString);
-      if (!useProxy) {
-        dispatch(setBaseUrl('https://' + connectData?.host));
-      }
       const certPem = decodeCert(connectData?.cert ?? '');
       if (!useProxy) {
         downloadCert(certPem);
         setIsDownloadCertModalVisible(false);
       }
-      if (macaroon) {
-        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
-        dispatch(setMacaroonCredentials(decodedMacaroonHex));
-        setMacaroon(decodedMacaroonHex);
-      }
     } catch (err) {
-      console.error('setConnectUrlDataToStore', err);
+      console.error('downloadCertificate', err);
       if (err instanceof Error) {
         notification.error({ message: err.message });
       }
@@ -106,9 +104,13 @@ export const OnboardingPairing = (): JSX.Element => {
                     'invalid-connect-url': showRedBorder,
                   })}
                   placeholder="Paste the Tdex daemon connect URL"
-                  onPaste={() => {
-                    if (!isTauri && !useProxy) {
-                      showDownloadCertModal();
+                  onPaste={(ev) => {
+                    const connectString = ev.clipboardData.getData('text');
+                    const connectData = extractHostCertMacaroon(connectString);
+                    if (connectData?.host && connectData?.cert) {
+                      if (!isTauri && !useProxy) {
+                        showDownloadCertModal();
+                      }
                     }
                   }}
                   onChange={(ev) => {
@@ -139,7 +141,7 @@ export const OnboardingPairing = (): JSX.Element => {
       <Modal
         title="Download & install TLS Certificate"
         visible={isDownloadCertModalVisible}
-        onOk={() => setIsDownloadCertModalVisible(false)}
+        onOk={() => downloadCertificate(form.getFieldValue('tdexdConnectUrl'))}
         onCancel={() => setIsDownloadCertModalVisible(false)}
       >
         <Title className="dm-sans dm-sans__xx dm-sans__bold" level={3}>

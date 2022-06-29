@@ -1,7 +1,6 @@
 import './depositPage.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Checkbox, Col, Row, Typography } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
@@ -45,9 +44,9 @@ export const DepositPage = ({
   const assetRegistry = useTypedSelector(({ settings }: RootState) => settings.assets);
   const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
   const network = useTypedSelector(({ settings }) => settings.network);
-  const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
+  /*const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
     setUseFragmenter(ev.target.checked);
-  };
+  };*/
 
   return (
     <>
@@ -91,9 +90,9 @@ export const DepositPage = ({
           <Button className="w-100 mb-4 btn-animate" onClick={getNewAddress}>
             CREATE NEW DEPOSIT ADDRESS
           </Button>
-          <Checkbox onChange={handleOptInFragmentationChange} className="dm-sans dm-sans__x mt-4">
+          {/*<Checkbox onChange={handleOptInFragmentationChange} className="dm-sans dm-sans__x mt-4">
             Advanced: split deposit into multiple fragments for concurrent trade support
-          </Checkbox>
+          </Checkbox>*/}
           <div className="mt-4">
             <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
               Previous addresses

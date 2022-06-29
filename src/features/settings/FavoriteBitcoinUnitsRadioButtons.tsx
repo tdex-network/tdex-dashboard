@@ -17,7 +17,7 @@ export const FavoriteBitcoinUnitsRadioButtons = (): JSX.Element => {
     <div className="mb-4">
       <Row>
         <Col span={24}>
-          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey text-start" level={3}>
             Favorite Bitcoin Units
           </Title>
         </Col>

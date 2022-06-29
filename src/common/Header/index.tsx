@@ -23,7 +23,17 @@ export const Header = (): JSX.Element => {
       if (e.target.classList.contains('user-menu-btn')) {
         openUserMenu();
       } else {
-        closeUserMenu();
+        // Close menu if click anywhere expect radio buttons
+        if (
+          // @ts-ignore
+          !e.target.classList.contains('ant-radio-button-wrapper') &&
+          // @ts-ignore
+          !e.target.parentElement.classList.contains('ant-radio-button-wrapper') &&
+          // @ts-ignore
+          !e.target.classList.contains('ant-radio-button-input')
+        ) {
+          closeUserMenu();
+        }
       }
     });
   }, []);

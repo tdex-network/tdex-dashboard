@@ -1,13 +1,14 @@
 import './feeForm.less';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Divider, Form, Button, notification } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { MarketIcons } from '../../../../common/MarketIcons';
+import { RestartMarketModal } from '../../../../common/RestartMarketModal';
 import type { Asset } from '../../../../domain/asset';
 import {
   formatFiatToSats,
@@ -70,8 +71,10 @@ export const FeeForm = ({
   });
   const baseAssetUnitOrTicker = isLbtcAssetId(baseAsset.asset_id, network) ? lbtcUnit : baseAsset.ticker;
   const quoteAssetUnitOrTicker = isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker;
+  const [isFeeFormLocked, setIsFeeFormLocked] = useState<boolean>(true);
+  const [isRestartMarketModalVisible, setIsRestartMarketModalVisible] = useState<boolean>(false);
 
-  const onFinish = async () => {
+  const saveAndRestart = async () => {
     try {
       // Pause Market
       const resClose = await closeMarket({
@@ -108,6 +111,8 @@ export const FeeForm = ({
         quoteAsset: marketInfo?.market?.quoteAsset || '',
       });
       if ('error' in resOpen) throw new Error((resOpen as any).error);
+      setIsFeeFormLocked(true);
+      setIsRestartMarketModalVisible(false);
       //
       await sleep(500);
       marketInfoRefetch?.();
@@ -137,117 +142,161 @@ export const FeeForm = ({
   };
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      name="fee_form"
-      initialValues={{
-        feeAbsoluteBaseInput: fromSatsToUnitOrFractional(
-          Number(feeAbsoluteBase),
-          baseAsset.precision,
-          isLbtcTicker(baseAsset.ticker),
-          lbtcUnit
-        ),
-        feeAbsoluteQuoteInput: fromSatsToUnitOrFractional(
-          Number(feeAbsoluteQuote),
-          quoteAsset.precision,
-          isLbtcTicker(quoteAsset.ticker),
-          lbtcUnit
-        ),
-        feeRelativeInput: Number(feeRelative) / 100,
-      }}
-      onFinish={onFinish}
-      className={className}
-    >
-      <div className="panel panel__grey">
-        <Row>
-          <Col span={24}>
-            <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-              Set Absolute Fee
-            </Title>
-            <InfoCircleOutlined className="grey" />
-          </Col>
-        </Row>
-        <Row align="middle">
-          <Col span={8}>
-            <CurrencyIcon currency={baseAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
-          </Col>
-          <Col span={16}>
-            <InputAmount
-              assetPrecision={baseAsset.precision}
-              formItemName="feeAbsoluteBaseInput"
-              lbtcUnitOrTicker={baseAssetUnitOrTicker}
-              setInputValue={(value) => form.setFieldsValue({ feeAbsoluteBaseInput: value })}
-            />
-          </Col>
-        </Row>
-        <Divider />
-        <Row align="middle">
-          <Col span={8}>
-            <CurrencyIcon currency={quoteAsset.ticker} />
-            <span className="dm-sans dm-sans__xx ml-2">
-              {isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker}
-            </span>
-          </Col>
-          <Col span={16}>
-            <InputAmount
-              assetPrecision={quoteAsset.precision}
-              formItemName="feeAbsoluteQuoteInput"
-              lbtcUnitOrTicker={quoteAssetUnitOrTicker}
-              setInputValue={(value) => form.setFieldsValue({ feeAbsoluteQuoteInput: value })}
-            />
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col span={24}>
-            <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-              Set Relative Fee
-            </Title>
-            <InfoCircleOutlined className="grey" />
-          </Col>
-        </Row>
-        <Row align="middle" className="fee-relative-container">
-          <Col span={14}>
-            <MarketIcons
-              baseAssetTicker={baseAsset.ticker}
-              quoteAssetTicker={quoteAsset.ticker}
-              size="medium"
-            />
-            <span className="dm-sans dm-sans__xx">
-              {baseAsset.ticker} / {quoteAsset.ticker}
-            </span>
-          </Col>
-          <Col span={10}>
-            <InputAmount
-              assetPrecision={2}
-              formItemName="feeRelativeInput"
-              lbtcUnitOrTicker=""
-              setInputValue={(value) => form.setFieldsValue({ feeRelativeInput: value })}
-              suffix="%"
-            />
-          </Col>
-        </Row>
-        <Row align="middle" className="fee-relative-btn-container">
-          <Col span={14}>
-            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '0.25' })}>0.25%</Button>
-            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '3' })}>3%</Button>
-            <Button onClick={() => form.setFieldsValue({ feeRelativeInput: '10' })}>10%</Button>
-          </Col>
-        </Row>
-        <Row className="confirm-btn-container">
-          <Col span={24}>
-            <Form.Item noStyle>
-              <Button type="ghost" onClick={resetAll}>
-                Reset all
+    <>
+      <Form
+        layout="vertical"
+        form={form}
+        name="fee_form"
+        initialValues={{
+          feeAbsoluteBaseInput: fromSatsToUnitOrFractional(
+            Number(feeAbsoluteBase),
+            baseAsset.precision,
+            isLbtcTicker(baseAsset.ticker),
+            lbtcUnit
+          ),
+          feeAbsoluteQuoteInput: fromSatsToUnitOrFractional(
+            Number(feeAbsoluteQuote),
+            quoteAsset.precision,
+            isLbtcTicker(quoteAsset.ticker),
+            lbtcUnit
+          ),
+          feeRelativeInput: Number(feeRelative) / 100,
+        }}
+        className={className}
+      >
+        <div className="panel panel__grey">
+          <Row>
+            <Col span={24}>
+              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                Set Absolute Fee
+              </Title>
+              <InfoCircleOutlined className="grey" />
+            </Col>
+          </Row>
+          <Row align="middle">
+            <Col span={8}>
+              <CurrencyIcon currency={baseAsset.ticker} />
+              <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
+            </Col>
+            <Col span={16}>
+              <InputAmount
+                disabled={isFeeFormLocked}
+                assetPrecision={baseAsset.precision}
+                formItemName="feeAbsoluteBaseInput"
+                lbtcUnitOrTicker={baseAssetUnitOrTicker}
+                setInputValue={(value) => form.setFieldsValue({ feeAbsoluteBaseInput: value })}
+              />
+            </Col>
+          </Row>
+          <Divider />
+          <Row align="middle">
+            <Col span={8}>
+              <CurrencyIcon currency={quoteAsset.ticker} />
+              <span className="dm-sans dm-sans__xx ml-2">
+                {isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker}
+              </span>
+            </Col>
+            <Col span={16}>
+              <InputAmount
+                disabled={isFeeFormLocked}
+                assetPrecision={quoteAsset.precision}
+                formItemName="feeAbsoluteQuoteInput"
+                lbtcUnitOrTicker={quoteAssetUnitOrTicker}
+                setInputValue={(value) => form.setFieldsValue({ feeAbsoluteQuoteInput: value })}
+              />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24}>
+              <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
+                Set Relative Fee
+              </Title>
+              <InfoCircleOutlined className="grey" />
+            </Col>
+          </Row>
+          <Row align="middle" className="fee-relative-container">
+            <Col span={14}>
+              <MarketIcons
+                baseAssetTicker={baseAsset.ticker}
+                quoteAssetTicker={quoteAsset.ticker}
+                size="medium"
+              />
+              <span className="dm-sans dm-sans__xx">
+                {baseAsset.ticker} / {quoteAsset.ticker}
+              </span>
+            </Col>
+            <Col span={10}>
+              <InputAmount
+                disabled={isFeeFormLocked}
+                assetPrecision={2}
+                formItemName="feeRelativeInput"
+                lbtcUnitOrTicker=""
+                setInputValue={(value) => form.setFieldsValue({ feeRelativeInput: value })}
+                suffix="%"
+              />
+            </Col>
+          </Row>
+          <Row align="middle" className="fee-relative-btn-container">
+            <Col span={14}>
+              <Button
+                className="mr-2"
+                onClick={() => form.setFieldsValue({ feeRelativeInput: '0.25' })}
+                disabled={isFeeFormLocked}
+              >
+                0.25%
               </Button>
-            </Form.Item>
-            <Form.Item noStyle>
-              <Button htmlType="submit">CONFIRM FEES</Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </div>
-    </Form>
+              <Button
+                className="mr-2"
+                onClick={() => form.setFieldsValue({ feeRelativeInput: '3' })}
+                disabled={isFeeFormLocked}
+              >
+                3%
+              </Button>
+              <Button
+                onClick={() => form.setFieldsValue({ feeRelativeInput: '10' })}
+                disabled={isFeeFormLocked}
+              >
+                10%
+              </Button>
+            </Col>
+          </Row>
+          <Row className="confirm-btn-container">
+            <Col span={24}>
+              {isFeeFormLocked ? (
+                <>
+                  <span className="dm-sans dm-sans__bold mr-2">Unlock to make changes</span>
+                  <Button
+                    onClick={() => setIsFeeFormLocked(false)}
+                    className="lock-btn"
+                    shape="circle"
+                    icon={<LockOutlined />}
+                    disabled={!isFeeFormLocked}
+                  />
+                </>
+              ) : (
+                <>
+                  <span className="dm-sans dm-sans__bold mr-3">Lock to apply changes</span>
+                  <Form.Item noStyle>
+                    <Button
+                      onClick={() => setIsRestartMarketModalVisible(true)}
+                      className="lock-btn"
+                      shape="circle"
+                      icon={<UnlockOutlined />}
+                      disabled={isFeeFormLocked}
+                    />
+                  </Form.Item>
+                </>
+              )}
+            </Col>
+          </Row>
+        </div>
+      </Form>
+      <RestartMarketModal
+        setIsRestartMarketModalVisible={setIsRestartMarketModalVisible}
+        isRestartMarketModalVisible={isRestartMarketModalVisible}
+        saveAndRestart={saveAndRestart}
+        resetAll={resetAll}
+      />
+    </>
   );
 };

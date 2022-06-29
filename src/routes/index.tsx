@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import type { NetworkString } from 'ldk';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
@@ -64,11 +65,7 @@ const PrivateRoute = ({ children }: any) => {
   }
 };
 
-interface RoutesProps {
-  setIsServiceUnavailableModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JSX.Element => {
+export const Routes = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   // If tdexdConnectUrl, call IsReady to set data in store
@@ -94,14 +91,17 @@ export const Routes = ({ setIsServiceUnavailableModalVisible }: RoutesProps): JS
     (async () => {
       if (isReadyError) {
         navigate(ONBOARDING_PAIRING_ROUTE);
-        setIsServiceUnavailableModalVisible(true);
+        notification.error({
+          message: 'Service is not available or credentials are wrong',
+          key: 'service unavailable',
+        });
         dispatch(logout());
         if (useProxy) {
           await dispatch(disconnectProxy()).unwrap();
         }
       }
     })();
-  }, [dispatch, isReadyError, navigate, setIsServiceUnavailableModalVisible, useProxy]);
+  }, [dispatch, isReadyError, navigate, useProxy]);
 
   return (
     <ReactRouterDomRoutes>

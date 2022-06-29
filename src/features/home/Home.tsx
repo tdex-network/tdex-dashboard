@@ -1,8 +1,7 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, notification, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { useTypedSelector } from '../../app/store';
-import { ServiceUnavailableModal } from '../../common/ServiceUnavailableModal';
 import { ListMarkets } from '../operator/Market/ListMarkets';
 import { useGetInfoQuery } from '../operator/operator.api';
 import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
@@ -15,7 +14,7 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
+  const { lbtcUnit, proxyHealth, isTauri } = useTypedSelector(({ settings }) => settings);
   const {
     data: isReady,
     refetch: refetchIsReady,
@@ -32,11 +31,24 @@ export const Home = (): JSX.Element => {
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
   //
   const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
-  const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    if (errorIsReady) setIsServiceUnavailableModalVisible(true);
+    if (errorIsReady) {
+      notification.error({
+        message: 'Service is not available or credentials are wrong',
+        key: 'service unavailable',
+      });
+    }
   }, [errorIsReady]);
+
+  useEffect(() => {
+    if (isTauri && !proxyIsServingAndReady) {
+      notification.error({
+        message: 'Service is not available or credentials are wrong',
+        key: 'service unavailable',
+      });
+    }
+  }, [isTauri, proxyIsServingAndReady]);
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {
@@ -53,15 +65,6 @@ export const Home = (): JSX.Element => {
       showUnlockWalletModal();
     }
   }, [isReady]);
-
-  if ('__TAURI__' in window && !proxyIsServingAndReady) {
-    return (
-      <ServiceUnavailableModal
-        isServiceUnavailableModalVisible={isServiceUnavailableModalVisible}
-        setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible}
-      />
-    );
-  }
 
   return (
     <>

@@ -24,7 +24,6 @@ export const OnboardingPairing = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [isValidConnectUrl, setIsValidConnectUrl] = useState<boolean>(false);
   const [showRedBorder, setShowRedBorder] = useState<boolean>(false);
-  const [macaroon, setMacaroon] = useState<string>('');
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
@@ -48,10 +47,9 @@ export const OnboardingPairing = (): JSX.Element => {
         dispatch(setBaseUrl('https://' + connectData?.host));
       }
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
-      if (macaroon) {
-        const decodedMacaroonHex = decodeBase64UrlMacaroon(macaroon);
+      if (connectData?.macaroon) {
+        const decodedMacaroonHex = decodeBase64UrlMacaroon(connectData.macaroon);
         dispatch(setMacaroonCredentials(decodedMacaroonHex));
-        setMacaroon(decodedMacaroonHex);
         navigate(HOME_ROUTE);
       } else {
         navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);

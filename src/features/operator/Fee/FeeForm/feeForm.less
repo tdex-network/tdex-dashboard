@@ -2,11 +2,14 @@
   input,
   .ant-input-affix-wrapper,
   .ant-input-affix-wrapper-focused {
-    font-size: 26px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 24px;
     font-family: dm-mono, sans-serif;
     text-align: right;
     border: none;
     box-shadow: none;
+
     &.ant-input:focus,
     .ant-input-focused,
     &.ant-input:hover {
@@ -14,18 +17,38 @@
       box-shadow: none;
     }
   }
+
   .fee-relative-container {
     height: 42px;
   }
+
   .fee-relative-btn-container {
     margin-left: 42px;
+
     button {
-      background: transparent;
       height: 20px;
       padding: 7px;
+
+      &:disabled {
+        color: fade(@primary-color, 25%);
+        background: fade(@primary-color, 5%);
+      }
     }
   }
+
   .confirm-btn-container {
+    margin-top: 10px;
     text-align: end;
+  }
+
+  .lock-btn {
+    background: @btn-default-bg;
+    width: 32px;
+    height: 32px;
+
+    &:disabled {
+      color: @grey-light;
+      background: #000000;
+    }
   }
 }

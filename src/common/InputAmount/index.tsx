@@ -11,6 +11,7 @@ interface InputAmountProps {
   lbtcUnitOrTicker: string;
   setInputValue: (value: string) => void;
   suffix?: string;
+  disabled?: boolean;
 }
 
 export const InputAmount = ({
@@ -20,6 +21,7 @@ export const InputAmount = ({
   lbtcUnitOrTicker,
   setInputValue,
   suffix,
+  disabled,
 }: InputAmountProps): JSX.Element => {
   return (
     <Form.Item
@@ -29,6 +31,7 @@ export const InputAmount = ({
       })}
     >
       <Input
+        disabled={disabled ?? false}
         type="text"
         placeholder="0"
         suffix={suffix}

@@ -28,7 +28,7 @@ export const Header = (): JSX.Element => {
           // @ts-ignore
           !e.target.classList.contains('ant-radio-button-wrapper') &&
           // @ts-ignore
-          !e.target.parentElement.classList.contains('ant-radio-button-wrapper') &&
+          !e.target.parentElement?.classList.contains('ant-radio-button-wrapper') &&
           // @ts-ignore
           !e.target.classList.contains('ant-radio-button-input')
         ) {

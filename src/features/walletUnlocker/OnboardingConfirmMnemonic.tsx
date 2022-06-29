@@ -2,6 +2,7 @@ import './onboardingConfirmMnemonic.less';
 import Icon from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
 import { Breadcrumb, Button, Col, notification, Row, Space, Typography } from 'antd';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
@@ -38,7 +39,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
   const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [error, setError] = useState(NULL_ERROR);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //
@@ -79,34 +80,32 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
   const handleConfirm = async () => {
     setIsLoading(true);
-    if (selected.join(' ') === state?.mnemonic.join(' ')) {
+    if (selectedWords.join(' ') === state?.mnemonic.join(' ')) {
       await handleInitWallet();
     } else {
       setIsLoading(false);
       setError(ERROR_MSG);
-      setSelected([]);
+      setSelectedWords([]);
       setWordsList(mnemonicRandomized);
     }
   };
 
-  const drop = (words: string[], index: number): string[] => {
-    words.splice(index, 1);
-    return words;
-  };
-
-  // select a word among wordsList
-  const selectWord = (index: number) => {
+  const toggleWordSelection = (index: number) => {
     if (error !== NULL_ERROR) setError(NULL_ERROR);
     const word = wordsList[index];
-    setSelected((selected) => [...selected, word]);
-    setWordsList(drop(wordsList, index));
-  };
-
-  // delete words from selected array
-  const deleteSelectedWord = (index: number) => {
-    const word = selected[index];
-    setWordsList((wordsList) => [...wordsList, word]);
-    setSelected(drop(selected, index));
+    // Check if word in selectedWords list
+    const isWordSelected = selectedWords.includes(word);
+    if (isWordSelected) {
+      // Find first element in array starting from the end
+      const selectedWordIndex = selectedWords.reverse().findIndex((w) => w === word);
+      if (selectedWordIndex > -1) {
+        // If found remove it
+        selectedWords.splice(selectedWordIndex, 1);
+        setSelectedWords(selectedWords.reverse().slice());
+      }
+    } else {
+      setSelectedWords((selected) => [...selected, word]);
+    }
   };
 
   return (
@@ -142,13 +141,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
           <Space className="w-full my-4" direction="vertical" size={24}>
             <div className="words-container">
-              {selected.map((word: string, i: number) => (
-                <Button
-                  className="word"
-                  key={nanoid()}
-                  onClick={() => deleteSelectedWord(i)}
-                  style={{ margin: '2px' }}
-                >
+              {selectedWords.map((word: string, i: number) => (
+                <Button className="word" key={nanoid()} style={{ margin: '2px' }}>
                   {word}
                 </Button>
               ))}
@@ -156,9 +150,11 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
             <div className="words-container-initial">
               {wordsList.map((word, i) => (
                 <Button
-                  className="word"
+                  className={classNames('word', {
+                    word__selected: selectedWords.includes(wordsList[i]),
+                  })}
                   key={nanoid()}
-                  onClick={() => selectWord(i)}
+                  onClick={() => toggleWordSelection(i)}
                   style={{ margin: '2px' }}
                 >
                   {word}
@@ -171,7 +167,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
             <Col span={8} offset={8}>
               <Button
                 onClick={handleConfirm}
-                disabled={wordsList.length > 0}
+                disabled={selectedWords.length !== 24}
                 loading={isLoading}
                 className="w-100"
               >

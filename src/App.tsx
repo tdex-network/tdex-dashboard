@@ -2,11 +2,11 @@ import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
 import type { ChildProcess } from '@tauri-apps/api/shell';
 import { Child, Command } from '@tauri-apps/api/shell';
+import { notification } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { RootState } from './app/store';
 import { useTypedDispatch, useTypedSelector } from './app/store';
-import { ServiceUnavailableModal } from './common/ServiceUnavailableModal';
 import Shell from './common/Shell';
 import {
   connectProxy,
@@ -23,7 +23,6 @@ export const App = (): JSX.Element => {
   const { useProxy, isTauri, proxyHealth, proxyPid, tdexdConnectUrl } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
-  const [isServiceUnavailableModalVisible, setIsServiceUnavailableModalVisible] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
   const proxyChildProcess = useRef<Child | null>(null);
 
@@ -156,7 +155,10 @@ export const App = (): JSX.Element => {
           await startAndConnectToProxyRetry();
         } catch (err) {
           console.error('startAndConnectToProxyRetry error', err);
-          setIsServiceUnavailableModalVisible(true);
+          notification.error({
+            message: 'Service is not available or credentials are wrong',
+            key: 'service unavailable',
+          });
         }
       })();
     }
@@ -165,11 +167,7 @@ export const App = (): JSX.Element => {
   return (
     <>
       <Shell>
-        <Routes setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible} />
-        <ServiceUnavailableModal
-          isServiceUnavailableModalVisible={isServiceUnavailableModalVisible}
-          setIsServiceUnavailableModalVisible={setIsServiceUnavailableModalVisible}
-        />
+        <Routes />
       </Shell>
     </>
   );

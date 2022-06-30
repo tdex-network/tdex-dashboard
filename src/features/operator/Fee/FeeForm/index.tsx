@@ -139,6 +139,7 @@ export const FeeForm = ({
       ),
       feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
     });
+    setIsFeeFormLocked(true);
   };
 
   return (

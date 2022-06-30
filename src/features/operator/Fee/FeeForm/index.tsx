@@ -1,6 +1,7 @@
 import './feeForm.less';
 import { InfoCircleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Divider, Form, Button, notification } from 'antd';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import type { RootState } from '../../../../app/store';
@@ -165,7 +166,9 @@ export const FeeForm = ({
         }}
         className={className}
       >
-        <div className="panel panel__grey">
+        <div
+          className={classNames('panel panel__grey', { locked: isFeeFormLocked, unlocked: !isFeeFormLocked })}
+        >
           <Row>
             <Col span={24}>
               <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>

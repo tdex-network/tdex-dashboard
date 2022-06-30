@@ -1,5 +1,16 @@
 #fee_form {
-  input,
+  .unlocked {
+    input {
+      &.ant-input:not(#fee_form_feeRelativeInput) {
+        background-color: fade(#FFFFFF, 20%);
+      }
+    }
+    .ant-input-affix-wrapper {
+      background-color: fade(#FFFFFF, 20%);
+    }
+  }
+
+    input,
   .ant-input-affix-wrapper,
   .ant-input-affix-wrapper-focused {
     padding-top: 2px;
@@ -15,6 +26,10 @@
     &.ant-input:hover {
       border: none;
       box-shadow: none;
+    }
+
+    &.ant-input:disabled, &.ant-input-affix-wrapper-disabled {
+      background-color: transparent;
     }
   }
 
@@ -45,10 +60,5 @@
     background: @btn-default-bg;
     width: 32px;
     height: 32px;
-
-    &:disabled {
-      color: @grey-light;
-      background: #000000;
-    }
   }
 }

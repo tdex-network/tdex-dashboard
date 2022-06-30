@@ -279,7 +279,32 @@ export const FeeForm = ({
                   <span className="dm-sans dm-sans__bold mr-3">Lock to apply changes</span>
                   <Form.Item noStyle>
                     <Button
-                      onClick={() => setIsRestartMarketModalVisible(true)}
+                      onClick={() => {
+                        // If values have changed show modal
+                        const feeAbsoluteBaseBeforeChange = fromSatsToUnitOrFractional(
+                          Number(feeAbsoluteBase),
+                          baseAsset.precision,
+                          isLbtcTicker(baseAsset.ticker),
+                          lbtcUnit
+                        );
+                        const feeAbsoluteQuoteBeforeChange = fromSatsToUnitOrFractional(
+                          Number(feeAbsoluteQuote),
+                          baseAsset.precision,
+                          isLbtcTicker(baseAsset.ticker),
+                          lbtcUnit
+                        );
+                        const feeRelativeBeforeChange = Number(feeRelative) / 100;
+                        const newValues = form.getFieldsValue();
+                        if (
+                          newValues.feeAbsoluteBaseInput !== feeAbsoluteBaseBeforeChange ||
+                          newValues.feeAbsoluteQuoteInput !== feeAbsoluteQuoteBeforeChange ||
+                          newValues.feeRelativeInput.toString() !== feeRelativeBeforeChange.toString()
+                        ) {
+                          setIsRestartMarketModalVisible(true);
+                        } else {
+                          setIsFeeFormLocked(true);
+                        }
+                      }}
                       className="lock-btn"
                       shape="circle"
                       icon={<UnlockOutlined />}

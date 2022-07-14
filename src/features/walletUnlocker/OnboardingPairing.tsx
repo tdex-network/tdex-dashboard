@@ -101,7 +101,7 @@ export const OnboardingPairing = (): JSX.Element => {
                   className={classNames('scrollbar', {
                     'invalid-connect-url': showRedBorder,
                   })}
-                  placeholder="Paste the Tdex daemon connect URL"
+                  placeholder="Paste the TDEX connect URL"
                   onPaste={(ev) => {
                     const connectString = ev.clipboardData.getData('text');
                     const connectData = extractHostCertMacaroon(connectString);

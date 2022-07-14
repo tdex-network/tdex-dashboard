@@ -48,7 +48,7 @@ export const OnboardingCreateOrRestore = (): JSX.Element => {
               <div className="card text-center">
                 <h2 className="dm-mono dm-mono__xx dm-mono__bold text-center">Create Wallet</h2>
                 <p className="dm-mono">
-                  Create your Tdex daemon wallet and start offering Liquid-based markets
+                  Create the wallet of your TDEX provider and start offering Liquid-based markets
                 </p>
                 <Row>
                   <Col span={12} offset={6}>
@@ -62,7 +62,7 @@ export const OnboardingCreateOrRestore = (): JSX.Element => {
             <Col span={12}>
               <div className="card text-center">
                 <h2 className="dm-mono dm-mono__xx dm-mono__bold text-center">Restore Wallet</h2>
-                <p className="dm-mono">Restore your Tdex daemon wallet and get back to business</p>
+                <p className="dm-mono">Restore the wallet of your TDEX provider and get back to business</p>
                 <Row>
                   <Col span={12} offset={6}>
                     <Button className="w-100" onClick={() => navigate(ONBOARDING_RESTORE_MNEMONIC_ROUTE)}>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon / Check</title>
+    <defs>
+        <path d="M3.89678531,11.6009369 C3.46286943,11.1912961 2.75935279,11.1912961 2.32543691,11.6009369 C1.89152103,12.0105778 1.89152103,12.6747369 2.32543691,13.0843777 L7.88099247,18.329133 C8.31490835,18.7387739 9.01842499,18.7387739 9.45234087,18.329133 L21.6745631,6.79067145 C22.108479,6.38103058 22.108479,5.71687151 21.6745631,5.30723065 C21.2406472,4.89758978 20.5371306,4.89758978 20.1032147,5.30723065 L8.66666667,16.1039718 L3.89678531,11.6009369 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-/-Check">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Shape" fill="#49CC38" fill-rule="nonzero" xlink:href="#path-1"></use>
+            <rect id="Rectangle" fill="#0fff00" mask="url(#mask-2)" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

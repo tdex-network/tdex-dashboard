@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "https://tdex-network.github.io/tdex-dashboard/static/css/main.7a5298be.chunk.css",
+    "main.js": "https://tdex-network.github.io/tdex-dashboard/static/js/main.beb6bca8.chunk.js",
+    "main.js.map": "https://tdex-network.github.io/tdex-dashboard/static/js/main.beb6bca8.chunk.js.map",
+    "runtime-main.js": "https://tdex-network.github.io/tdex-dashboard/static/js/runtime-main.7a8277cd.js",
+    "runtime-main.js.map": "https://tdex-network.github.io/tdex-dashboard/static/js/runtime-main.7a8277cd.js.map",
+    "static/css/2.7739ed11.chunk.css": "https://tdex-network.github.io/tdex-dashboard/static/css/2.7739ed11.chunk.css",
+    "static/js/2.99b5ef3c.chunk.js": "https://tdex-network.github.io/tdex-dashboard/static/js/2.99b5ef3c.chunk.js",
+    "static/js/2.99b5ef3c.chunk.js.map": "https://tdex-network.github.io/tdex-dashboard/static/js/2.99b5ef3c.chunk.js.map",
+    "index.html": "https://tdex-network.github.io/tdex-dashboard/index.html",
+    "static/css/2.7739ed11.chunk.css.map": "https://tdex-network.github.io/tdex-dashboard/static/css/2.7739ed11.chunk.css.map",
+    "static/css/main.7a5298be.chunk.css.map": "https://tdex-network.github.io/tdex-dashboard/static/css/main.7a5298be.chunk.css.map",
+    "static/js/2.99b5ef3c.chunk.js.LICENSE.txt": "https://tdex-network.github.io/tdex-dashboard/static/js/2.99b5ef3c.chunk.js.LICENSE.txt",
+    "static/media/index.less": "https://tdex-network.github.io/tdex-dashboard/static/media/DMSans-Regular.9566aaac.woff2",
+    "static/media/alert-octagon-red.c8e25f86.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/alert-octagon-red.c8e25f86.svg",
+    "static/media/alert-octagon.a5cc99fe.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/alert-octagon.a5cc99fe.svg",
+    "static/media/blockstream.939cf5d0.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/blockstream.939cf5d0.svg",
+    "static/media/btse.dc14a48d.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/btse.dc14a48d.svg",
+    "static/media/checkmark.e163835b.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/checkmark.e163835b.svg",
+    "static/media/chevron-right.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/chevron-right.3f1ad016.svg",
+    "static/media/deposit-green.3597774d.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/deposit-green.3597774d.svg",
+    "static/media/deposit.dc9873f0.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/deposit.dc9873f0.svg",
+    "static/media/generic.81f4847a.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/generic.81f4847a.svg",
+    "static/media/lbtc.580d53b5.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/lbtc.580d53b5.svg",
+    "static/media/lcad.39083910.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/lcad.39083910.svg",
+    "static/media/tdex-logo.3fec174d.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/tdex-logo.3fec174d.svg",
+    "static/media/three-dots.df32f13f.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/three-dots.df32f13f.svg",
+    "static/media/usdt.60135f1d.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/usdt.60135f1d.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7a8277cd.js",
+    "static/css/2.7739ed11.chunk.css",
+    "static/js/2.99b5ef3c.chunk.js",
+    "static/css/main.7a5298be.chunk.css",
+    "static/js/main.beb6bca8.chunk.js"
+  ]
+}

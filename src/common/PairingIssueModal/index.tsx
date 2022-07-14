@@ -24,7 +24,7 @@ export const PairingIssueModal = ({ isPairingIssueModalVisible }: PairingIssueMo
       }
     >
       <p className="dm-mono dm-mono__x">
-        It seems that you haven't installed the TLS certificate properly or your Tdex daemon is not reachable.
+        It seems that you haven't installed the TLS certificate properly or your TDEX provider is not reachable.
         Please go back and try again.
       </p>
     </Modal>

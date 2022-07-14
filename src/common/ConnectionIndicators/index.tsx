@@ -42,7 +42,7 @@ export const ConnectionIndicators = (): JSX.Element => {
 
   return (
     <div className="d-flex align-center justify-end mr-2">
-      <span className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey mr-2">Daemon: </span>
+      <span className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey mr-2">Server: </span>
       <Tooltip placement="topRight" title={tooltipDaemonElement}>
         <span
           className={classNames('connection-indicator', {

@@ -28,8 +28,8 @@ export const extractHostCertMacaroon = (
     const [baseUrl, paramsString] = connectStr.split('?');
     const [, host] = baseUrl.split('://');
     const params = new URLSearchParams(paramsString);
-    const { cert, macaroon } = Object.fromEntries(params.entries());
-    return { host, cert, macaroon };
+    const entries = Object.fromEntries(params.entries());
+    return { host, ...entries };
   } catch (_) {
     return undefined;
   }

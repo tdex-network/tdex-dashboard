@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import type { RootState } from '../../app/store';
 import { HOME_ROUTE, ONBOARDING_CREATE_OR_RESTORE_ROUTE } from '../../routes/constants';
 import { decodeCert, decodeBase64UrlMacaroon, downloadCert, extractHostCertMacaroon } from '../../utils';
 import { liquidApi } from '../liquid.api';
@@ -12,7 +13,7 @@ import { operatorApi } from '../operator/operator.api';
 import { setBaseUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 import { walletApi } from '../wallet/wallet.api';
 
-import { walletUnlockerApi } from './walletUnlocker.api';
+import { useIsReadyQuery, walletUnlockerApi } from './walletUnlocker.api';
 
 const { Title } = Typography;
 
@@ -27,9 +28,19 @@ export const OnboardingPairing = (): JSX.Element => {
   const [isDownloadCertModalVisible, setIsDownloadCertModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { useProxy, isTauri } = useTypedSelector(({ settings }) => settings);
+  const { tdexdConnectUrl, proxyHealth, useProxy, isTauri } = useTypedSelector(
+    ({ settings }: RootState) => settings
+  );
+  const { isSuccess: isReadySuccess, isError: isReadyError } = useIsReadyQuery(undefined, {
+    // Skip if no tdexdConnectUrl or if proxy is used but not serving
+    skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
+  });
 
   useEffect(() => {
+    console.log(isReadyError, isReadySuccess);
+    if (isReadySuccess) {
+      navigate(HOME_ROUTE);
+    }
     // Reset the APIs state completely
     // Especially useful when redirected on this page after failed pairing attempt
     dispatch(liquidApi.util.resetApiState());
@@ -44,16 +55,28 @@ export const OnboardingPairing = (): JSX.Element => {
       const values = await form.validateFields();
       const connectData = extractHostCertMacaroon(values.tdexdConnectUrl);
       if (!useProxy) {
-        dispatch(setBaseUrl('https://' + connectData?.host));
+        if (connectData?.cert) {
+          dispatch(setBaseUrl('https://' + connectData?.host));
+        } else {
+          dispatch(setBaseUrl('http://' + connectData?.host));
+        }
       }
+
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
+
       if (connectData?.macaroon) {
         const decodedMacaroonHex = decodeBase64UrlMacaroon(connectData.macaroon);
         dispatch(setMacaroonCredentials(decodedMacaroonHex));
-        navigate(HOME_ROUTE);
-      } else {
-        navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
       }
+
+      setTimeout(() => {
+        console.log(isReadyError, isReadySuccess);
+        if (isReadyError) {
+          navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
+        } else if (isReadySuccess) {
+          navigate(HOME_ROUTE);
+        }
+      }, 2000);
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });
@@ -68,7 +91,7 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       const connectData = extractHostCertMacaroon(connectString);
       const certPem = decodeCert(connectData?.cert ?? '');
-      if (!useProxy) {
+      if (!useProxy && connectData?.cert && connectData?.macaroon) {
         downloadCert(certPem);
         setIsDownloadCertModalVisible(false);
       }
@@ -114,7 +137,7 @@ export const OnboardingPairing = (): JSX.Element => {
                   onChange={(ev) => {
                     const connectData = extractHostCertMacaroon(ev.target.value);
                     if (form.getFieldValue('tdexdConnectUrl')?.length > 0) {
-                      if (!connectData?.host || !connectData?.cert) {
+                      if (!connectData?.host) {
                         setIsValidConnectUrl(false);
                         setShowRedBorder(true);
                       } else {

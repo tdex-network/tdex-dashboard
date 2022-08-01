@@ -41,14 +41,19 @@ export const Home = (): JSX.Element => {
     }
   }, [errorIsReady]);
 
-  useEffect(() => {
+
+  // Workaround for https://github.com/tdex-network/tdex-dashboard/issues/379
+  // basically runs two times this effect, the first time proxyIsServingAndReady is ALWAYS false, altough right after becomes true
+  // TODO refactor this logic 
+   
+  /* useEffect(() => {
     if (isTauri && !proxyIsServingAndReady) {
       notification.error({
         message: 'Service is not available or credentials are wrong',
         key: 'service unavailable',
       });
     }
-  }, [isTauri, proxyIsServingAndReady]);
+  }, [isTauri, proxyIsServingAndReady]); */
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {

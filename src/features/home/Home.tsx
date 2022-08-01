@@ -14,7 +14,7 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const { lbtcUnit, proxyHealth, isTauri } = useTypedSelector(({ settings }) => settings);
+  const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const {
     data: isReady,
     refetch: refetchIsReady,
@@ -30,7 +30,7 @@ export const Home = (): JSX.Element => {
   const showUnlockWalletModal = () => setIsUnlockWalletModalVisible(true);
   const handleUnlockWalletModalCancel = () => setIsUnlockWalletModalVisible(false);
   //
-  const [proxyIsServingAndReady, setProxyIsServingAndReady] = useState(false);
+  const [, setProxyIsServingAndReady] = useState(false);
 
   useEffect(() => {
     if (errorIsReady) {
@@ -41,11 +41,10 @@ export const Home = (): JSX.Element => {
     }
   }, [errorIsReady]);
 
-
   // Workaround for https://github.com/tdex-network/tdex-dashboard/issues/379
   // basically runs two times this effect, the first time proxyIsServingAndReady is ALWAYS false, altough right after becomes true
-  // TODO refactor this logic 
-   
+  // TODO refactor this logic
+
   /* useEffect(() => {
     if (isTauri && !proxyIsServingAndReady) {
       notification.error({

@@ -4,7 +4,7 @@ import React from 'react';
 import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
-import { formatFiatToSats, formatLbtcUnitToSats, isLbtcAssetId } from '../../../../utils';
+import { fromUnitToUnit, isLbtcAssetId } from '../../../../utils';
 import { operatorApi } from '../../operator.api';
 
 interface IFormInputs {
@@ -44,11 +44,11 @@ export const UpdateMarketPriceForm = ({
             market,
             price: {
               basePrice: isLbtcAssetId(market?.baseAsset, network)
-                ? Number(formatLbtcUnitToSats(values.basePrice, lbtcUnit))
-                : Number(formatFiatToSats(values.basePrice)),
+                ? Number(fromUnitToUnit(values.basePrice, lbtcUnit, 'L-BTC'))
+                : values.basePrice,
               quotePrice: isLbtcAssetId(market?.quoteAsset, network)
-                ? Number(formatLbtcUnitToSats(values.quotePrice, lbtcUnit))
-                : Number(formatFiatToSats(values.quotePrice)),
+                ? Number(fromUnitToUnit(values.quotePrice, lbtcUnit, 'L-BTC'))
+                : values.quotePrice,
             },
           })
         ).unwrap();

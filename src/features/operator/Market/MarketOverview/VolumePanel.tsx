@@ -14,6 +14,7 @@ import {
   fromUnitToUnit,
   isLbtcAssetId,
   isLbtcTicker,
+  lbtcUnitOrTickerToFractionalDigits,
 } from '../../../../utils';
 import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 
@@ -41,8 +42,31 @@ export const VolumePanel = ({
   const { lbtcUnit, network, currency } = useTypedSelector(({ settings }) => settings);
   const { data: prices } = useLatestPriceFeedFromCoinGeckoQuery();
   const [baseAmount, setBaseAmount] = useState<string>();
+  const [basePrice, setBasePrice] = useState<number>(0);
   const [quoteAmount, setQuoteAmount] = useState<string>();
   const [volumeAsFavCurrencyFormatted, setVolumeAsFavCurrencyFormatted] = useState<JSX.Element | undefined>();
+
+  useEffect(() => {
+    // Note that if marketInfo.price?.basePrice is Liquid Bitcoin then amount is expressed in L-BTC unit
+    // We divide marketInfo.price?.basePrice by marketInfo.price?.quotePrice to get basePrice for 1 quote unit.
+    if (marketInfo?.price?.basePrice && marketInfo?.price?.quotePrice) {
+      setBasePrice(
+        isLbtcAssetId(baseAsset?.asset_id, network)
+          ? Number(
+              Number(
+                Number(
+                  fromUnitToUnit(Number(marketInfo?.price?.basePrice.toFixed(8)) ?? 0, 'L-BTC', lbtcUnit)
+                ) / (marketInfo?.price?.quotePrice ?? 1)
+              ).toFixed(lbtcUnitOrTickerToFractionalDigits(lbtcUnit, 8))
+            )
+          : Number(
+              Number(
+                Number(marketInfo?.price?.basePrice.toFixed(8) ?? 0) / (marketInfo?.price?.quotePrice ?? 1)
+              ).toFixed(lbtcUnitOrTickerToFractionalDigits(lbtcUnit, 8))
+            )
+      );
+    }
+  }, [baseAsset?.asset_id, lbtcUnit, marketInfo?.price?.basePrice, marketInfo?.price?.quotePrice, network]);
 
   useEffect(() => {
     setBaseAmount(
@@ -129,17 +153,9 @@ export const VolumePanel = ({
         </Col>
         {marketInfo?.strategyType === 0 ? (
           <Col span={8} className="text-end">
-            <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(
-              isLbtcAssetId(baseAsset?.asset_id, network)
-                ? // If marketInfo.price?.basePrice is Liquid Bitcoin then amount is expressed in L-BTC
-                  Number(
-                    fromUnitToUnit(Number(marketInfo.price?.basePrice.toFixed(8)) ?? 0, 'L-BTC', lbtcUnit)
-                  ) / (marketInfo.price?.quotePrice ?? 1)
-                : // Fiat fractional
-                  Number(marketInfo.price?.basePrice.toFixed(8) ?? 0) / (marketInfo.price?.quotePrice ?? 1)
-            )} ${isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker} for 1 ${
-              isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker
-            }`}</span>
+            <span className="dm-mono dm-mono__x dm_mono__bold mx-2">{`${formatCompact(basePrice)} ${
+              isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker
+            } for 1 ${isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker}`}</span>
           </Col>
         ) : null}
       </Row>

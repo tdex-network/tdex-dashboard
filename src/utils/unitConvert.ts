@@ -115,10 +115,7 @@ export function formatFiatToSats(val: number): string {
 }
 
 export function formatCompact(amount: number): string {
-  const formatter = Intl.NumberFormat('en', {
-    notation: 'compact',
-    maximumFractionDigits: 8,
-  });
+  const formatter = Intl.NumberFormat('en', { notation: 'compact', maximumSignificantDigits: 21 });
   return formatter.format(amount);
 }
 

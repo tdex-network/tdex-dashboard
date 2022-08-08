@@ -39,7 +39,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
   const mnemonicRandomized = shuffleMnemonic([...state.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
-  const [selectedWords, setSelectedWords] = useState<string[]>([]);
+  const [selectedWordIndexes, setSelectedWordIndexes] = useState<number[]>([]);
   const [error, setError] = useState(NULL_ERROR);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //
@@ -56,6 +56,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       });
       data.on('status', async (status: any) => {
         if (status.code === 0) {
+          await sleep(1000);
           await unlockWallet({ password: Buffer.from(state.password) });
           await sleep(1000);
           setIsLoading(false);
@@ -80,31 +81,32 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
   const handleConfirm = async () => {
     setIsLoading(true);
-    if (selectedWords.join(' ') === state?.mnemonic.join(' ')) {
+    if (selectedWordIndexes.map((i) => wordsList[i]).join(' ') === state?.mnemonic.join(' ')) {
       await handleInitWallet();
     } else {
       setIsLoading(false);
       setError(ERROR_MSG);
-      setSelectedWords([]);
+      setSelectedWordIndexes([]);
       setWordsList(mnemonicRandomized);
     }
   };
 
   const toggleWordSelection = (index: number) => {
     if (error !== NULL_ERROR) setError(NULL_ERROR);
-    const word = wordsList[index];
-    // Check if word in selectedWords list
-    const isWordSelected = selectedWords.includes(word);
+    // Check if word in selectedWordIndexes list
+    const isWordSelected = selectedWordIndexes.includes(index);
     if (isWordSelected) {
       // Find first element in array starting from the end
-      const selectedWordIndex = selectedWords.reverse().findIndex((w) => w === word);
+      const selectedWordIndex = selectedWordIndexes
+        .reverse()
+        .findIndex((selectedIndex) => selectedIndex === index);
       if (selectedWordIndex > -1) {
         // If found remove it
-        selectedWords.splice(selectedWordIndex, 1);
-        setSelectedWords(selectedWords.reverse().slice());
+        selectedWordIndexes.splice(selectedWordIndex, 1);
+        setSelectedWordIndexes(selectedWordIndexes.reverse().slice());
       }
     } else {
-      setSelectedWords((selected) => [...selected, word]);
+      setSelectedWordIndexes((selectedIndexes) => [...selectedIndexes, index]);
     }
   };
 
@@ -141,9 +143,9 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
           <Space className="w-full my-4" direction="vertical" size={24}>
             <div className="words-container">
-              {selectedWords.map((word: string) => (
+              {selectedWordIndexes.map((index: number) => (
                 <Button className="word" key={nanoid()} style={{ margin: '2px' }}>
-                  {word}
+                  {wordsList[index]}
                 </Button>
               ))}
             </div>
@@ -151,7 +153,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
               {wordsList.map((word, i) => (
                 <Button
                   className={classNames('word', {
-                    word__selected: selectedWords.includes(wordsList[i]),
+                    word__selected: selectedWordIndexes.includes(i),
                   })}
                   key={nanoid()}
                   onClick={() => toggleWordSelection(i)}
@@ -167,7 +169,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
             <Col span={8} offset={8}>
               <Button
                 onClick={handleConfirm}
-                disabled={selectedWords.length !== 24}
+                disabled={selectedWordIndexes.length !== 24}
                 loading={isLoading}
                 className="w-100"
               >

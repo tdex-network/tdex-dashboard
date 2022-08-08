@@ -43,6 +43,7 @@ export const UpdateMarketPriceForm = ({
           operatorApi.endpoints.updateMarketPrice.initiate({
             market,
             price: {
+              // If asset is Bitcoin set price in L-BTC unit
               basePrice: isLbtcAssetId(market?.baseAsset, network)
                 ? Number(fromUnitToUnit(values.basePrice, lbtcUnit, 'L-BTC'))
                 : values.basePrice,

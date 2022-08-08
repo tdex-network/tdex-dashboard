@@ -48,11 +48,11 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
   }, [newWaitingModalLogStr, waitingModalLogs]);
 
   useEffect(() => {
-    unlockWalletError && notification.error({ message: unlockWalletError });
+    unlockWalletError && notification.error({ message: unlockWalletError.toString() });
   }, [unlockWalletError]);
 
   useEffect(() => {
-    initWalletError && notification.error({ message: initWalletError });
+    initWalletError && notification.error({ message: initWalletError.toString() });
   }, [initWalletError]);
 
   const handleRestoreWallet = async () => {

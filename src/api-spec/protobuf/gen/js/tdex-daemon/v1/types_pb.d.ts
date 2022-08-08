@@ -447,6 +447,9 @@ export class WebhookInfo extends jspb.Message {
   getIsSecured(): boolean;
   setIsSecured(value: boolean): WebhookInfo;
 
+  getActionType(): ActionType;
+  setActionType(value: ActionType): WebhookInfo;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): WebhookInfo.AsObject;
   static toObject(includeInstance: boolean, msg: WebhookInfo): WebhookInfo.AsObject;
@@ -460,6 +463,7 @@ export namespace WebhookInfo {
     id: string,
     endpoint: string,
     isSecured: boolean,
+    actionType: ActionType,
   }
 }
 

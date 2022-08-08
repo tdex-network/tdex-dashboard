@@ -3790,7 +3790,8 @@ proto.tdex_daemon.v1.WebhookInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     endpoint: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    isSecured: jspb.Message.getBooleanFieldWithDefault(msg, 3, false)
+    isSecured: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
+    actionType: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -3839,6 +3840,10 @@ proto.tdex_daemon.v1.WebhookInfo.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsSecured(value);
       break;
+    case 4:
+      var value = /** @type {!proto.tdex_daemon.v1.ActionType} */ (reader.readEnum());
+      msg.setActionType(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -3886,6 +3891,13 @@ proto.tdex_daemon.v1.WebhookInfo.serializeBinaryToWriter = function(message, wri
   if (f) {
     writer.writeBool(
       3,
+      f
+    );
+  }
+  f = message.getActionType();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      4,
       f
     );
   }
@@ -3943,6 +3955,24 @@ proto.tdex_daemon.v1.WebhookInfo.prototype.getIsSecured = function() {
  */
 proto.tdex_daemon.v1.WebhookInfo.prototype.setIsSecured = function(value) {
   return jspb.Message.setProto3BooleanField(this, 3, value);
+};
+
+
+/**
+ * optional ActionType action_type = 4;
+ * @return {!proto.tdex_daemon.v1.ActionType}
+ */
+proto.tdex_daemon.v1.WebhookInfo.prototype.getActionType = function() {
+  return /** @type {!proto.tdex_daemon.v1.ActionType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {!proto.tdex_daemon.v1.ActionType} value
+ * @return {!proto.tdex_daemon.v1.WebhookInfo} returns this
+ */
+proto.tdex_daemon.v1.WebhookInfo.prototype.setActionType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 4, value);
 };
 
 

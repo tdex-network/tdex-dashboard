@@ -61,7 +61,7 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
             </Col>
           </Row>
           <PasswordForm mnemonic={seedMnemonicList || []} seedHasBeenSaved={seedHasBeenSaved} />
-          {genSeedError && <p className="error">{genSeedError}</p>}
+          {genSeedError && <p className="error">{genSeedError.toString()}</p>}
         </div>
       </div>
     </>

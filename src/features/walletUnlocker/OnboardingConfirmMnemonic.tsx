@@ -37,7 +37,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   const { state } = useLocation() as { state: { mnemonic: string[]; password: string } };
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
-  const mnemonicRandomized = shuffleMnemonic([...state?.mnemonic]);
+  const mnemonicRandomized = shuffleMnemonic([...state.mnemonic]);
   const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [error, setError] = useState(NULL_ERROR);
@@ -141,7 +141,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
 
           <Space className="w-full my-4" direction="vertical" size={24}>
             <div className="words-container">
-              {selectedWords.map((word: string, i: number) => (
+              {selectedWords.map((word: string) => (
                 <Button className="word" key={nanoid()} style={{ margin: '2px' }}>
                   {word}
                 </Button>
@@ -175,8 +175,8 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
               </Button>
             </Col>
           </Row>
-          {unlockWalletError && <p className="error">{unlockWalletError}</p>}
-          {initWalletError && <p className="error">{initWalletError}</p>}
+          {unlockWalletError && <p className="error">{unlockWalletError.toString()}</p>}
+          {initWalletError && <p className="error">{initWalletError.toString()}</p>}
         </div>
       </div>
     </>

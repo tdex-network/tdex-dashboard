@@ -15,7 +15,7 @@ COPY yarn.lock .
 RUN yarn install --frozen-lockfile --network-timeout 1000000
 
 # Copy app files
-COPY craco.config.js .
+COPY craco.config.ts .
 # eslint
 COPY .eslintrc.json .
 COPY .eslintignore .

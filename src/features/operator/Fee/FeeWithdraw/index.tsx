@@ -11,7 +11,7 @@ import { ReactComponent as chevronRight } from '../../../../assets/images/chevro
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_TICKER, LBTC_ASSET } from '../../../../utils';
+import { formatLbtcUnitToSats, fromSatsToUnitOrFractional, LBTC_ASSET } from '../../../../utils';
 import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetFeeBalanceQuery, useWithdrawFeeMutation } from '../../operator.api';
 

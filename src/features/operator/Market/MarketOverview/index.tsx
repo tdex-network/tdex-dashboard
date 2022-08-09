@@ -106,11 +106,7 @@ export const MarketOverview = (): JSX.Element => {
         {/**/}
         <Row className="mb-4">
           <Col span={12} className="d-flex align-center">
-            <MarketIcons
-              baseAssetTicker={state?.baseAsset?.ticker}
-              quoteAssetTicker={state?.quoteAsset?.ticker}
-              size="big"
-            />
+            <MarketIcons baseAsset={state?.baseAsset} quoteAsset={state?.quoteAsset} size="big" />
             <Space direction="vertical" size={0}>
               <span className="dm-sans dm-sans__xx">
                 {state?.baseAsset?.ticker} / {state?.quoteAsset?.ticker}

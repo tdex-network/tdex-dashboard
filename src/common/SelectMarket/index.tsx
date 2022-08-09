@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import React from 'react';
 
 import type { Asset } from '../../domain/asset';
 import { CurrencyIcon } from '../CurrencyIcon';
@@ -18,11 +17,18 @@ export const SelectMarket = ({
   marketList,
 }: SelectMarketProps): JSX.Element => {
   const selectMarketsList = marketList.map(([baseAsset, quoteAsset]) =>
-    JSON.stringify({ baseAssetTicker: baseAsset?.ticker, quoteAssetTicker: quoteAsset?.ticker })
+    JSON.stringify({
+      baseAssetTicker: baseAsset?.ticker,
+      baseAssetId: baseAsset?.asset_id,
+      quoteAssetTicker: quoteAsset?.ticker,
+      quoteAssetId: quoteAsset?.asset_id,
+    })
   );
   const selectedMarketStr = JSON.stringify({
     baseAssetTicker: selectedMarket.baseAsset?.ticker,
+    baseAssetId: selectedMarket.baseAsset?.asset_id,
     quoteAssetTicker: selectedMarket.quoteAsset?.ticker,
+    quoteAssetId: selectedMarket.quoteAsset?.asset_id,
   });
 
   const handleChangeMarket = (selectedMarketStr: string) => {
@@ -39,12 +45,17 @@ export const SelectMarket = ({
   return (
     <Select value={selectedMarketStr} onChange={handleChangeMarket} className="w-100 mb-8">
       {selectMarketsList?.map((marketStr, index) => {
-        const market = JSON.parse(marketStr) as { baseAssetTicker: string; quoteAssetTicker: string };
+        const market = JSON.parse(marketStr) as {
+          baseAssetTicker: string;
+          baseAssetId: string;
+          quoteAssetTicker: string;
+          quoteAssetId: string;
+        };
         return (
           <Option value={marketStr} key={index}>
             <span className="market-icons-translate">
-              <CurrencyIcon currency={market?.baseAssetTicker} />
-              <CurrencyIcon currency={market?.quoteAssetTicker} />
+              <CurrencyIcon assetId={market?.baseAssetId} />
+              <CurrencyIcon assetId={market?.quoteAssetId} />
             </span>
             <span className="select-option-text">
               <span>

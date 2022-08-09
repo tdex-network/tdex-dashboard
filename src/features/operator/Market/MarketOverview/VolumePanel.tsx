@@ -111,16 +111,16 @@ export const VolumePanel = ({
   return (
     <div className="panel panel__grey h-100">
       <Row className="mb-2">
-        <Col span={marketInfo?.strategyType === 0 ? 16 : 24}>
-          <div className="d-inline-block">
-            <CurrencyIcon currency={baseAsset?.ticker} />
+        <Col span={marketInfo?.strategyType === 0 ? 16 : 24} className="d-flex align-center">
+          <div className="d-flex align-center">
+            <CurrencyIcon assetId={baseAsset?.asset_id} />
             <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
               {isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker}
             </span>
             <span className="dm-mono dm-mono__xx mr-6">{baseAmount}</span>
           </div>
-          <div className="d-inline-block">
-            <CurrencyIcon currency={quoteAsset?.ticker} />
+          <div className="d-flex align-center">
+            <CurrencyIcon assetId={quoteAsset?.asset_id} />
             <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
               {isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker}
             </span>

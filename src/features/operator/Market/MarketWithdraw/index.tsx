@@ -213,8 +213,8 @@ export const MarketWithdraw = (): JSX.Element => {
           >
             <div className="base-amount-container panel panel__grey panel__top">
               <Row className="align-center">
-                <Col span={12}>
-                  <CurrencyIcon currency={selectedMarket?.baseAsset?.ticker || ''} />
+                <Col span={12} className="d-flex align-center">
+                  <CurrencyIcon assetId={selectedMarket?.baseAsset?.asset_id || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">
                     {selectedMarket?.baseAsset?.formattedTicker}
                   </span>
@@ -259,8 +259,8 @@ export const MarketWithdraw = (): JSX.Element => {
             </div>
             <div className="panel panel__grey panel__bottom mb-6">
               <Row className="align-center">
-                <Col span={12}>
-                  <CurrencyIcon currency={selectedMarket?.quoteAsset?.ticker || ''} />
+                <Col span={12} className="d-flex align-center">
+                  <CurrencyIcon assetId={selectedMarket?.quoteAsset?.asset_id || ''} />
                   <span className="dm-sans dm-sans__xx ml-2">
                     {selectedMarket?.quoteAsset?.formattedTicker}
                   </span>

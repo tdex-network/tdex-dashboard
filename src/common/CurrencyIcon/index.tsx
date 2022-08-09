@@ -1,81 +1,58 @@
-import Icon from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 
-import { ReactComponent as BjdeIcon } from '../../assets/images/coins/blockstream.svg';
-import { ReactComponent as BtseIcon } from '../../assets/images/coins/btse.svg';
-import { ReactComponent as GenericIcon } from '../../assets/images/coins/generic.svg';
-import { ReactComponent as LbtcIcon } from '../../assets/images/coins/lbtc.svg';
-import { ReactComponent as LcadIcon } from '../../assets/images/coins/lcad.svg';
-import { ReactComponent as UsdtIcon } from '../../assets/images/coins/usdt.svg';
-import { BJDE_TICKER, BTSE_TICKER, LBTC_TICKER, LCAD_TICKER, USDT_TICKER } from '../../utils';
+import { useTypedSelector } from '../../app/store';
+import GenericIcon from '../../assets/images/coins/generic.svg';
+import { isLbtcAssetId, isLcadAssetId, isUsdtAssetId } from '../../utils';
 
 interface CurrencyIconProps {
-  currency: string;
+  assetId: string;
   size?: number;
-  [x: string]: any;
 }
 
-export const CurrencyIcon = ({ currency, size = 24, ...props }: CurrencyIconProps): JSX.Element => {
-  switch (currency) {
-    case LBTC_TICKER['liquid']:
-    case LBTC_TICKER['testnet']:
-      return (
-        <Icon
-          component={LbtcIcon}
-          {...props}
-          alt="L-BTC"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-    case USDT_TICKER:
-      return (
-        <Icon
-          component={UsdtIcon}
-          {...props}
-          alt="USDt"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-    case LCAD_TICKER:
-      return (
-        <Icon
-          component={LcadIcon}
-          {...props}
-          alt="LCAD"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-    case BTSE_TICKER:
-      return (
-        <Icon
-          component={BtseIcon}
-          {...props}
-          alt="BTSE"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-    case BJDE_TICKER:
-      return (
-        <Icon
-          component={BjdeIcon}
-          {...props}
-          alt="Blockstream Jade"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-    default:
-      return (
-        <Icon
-          component={GenericIcon}
-          {...props}
-          alt="placeholder"
-          className="currency-icon"
-          style={{ fontSize: `${size}px` }}
-        />
-      );
-  }
+export const CurrencyIcon = ({ assetId, size = 24 }: CurrencyIconProps): JSX.Element => {
+  const [icon, setIcon] = useState<string | null>(null);
+  const network = useTypedSelector(({ settings }) => settings.network);
+
+  useEffect(() => {
+    (async () => {
+      let res: Response;
+      const reader = new FileReader();
+      // Display lbtc/usdt/lcad icons for all networks
+      if (isLbtcAssetId(assetId, network)) {
+        res = await fetch(
+          `https://liquid.network/api/v1/asset/6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d/icon`
+        );
+      } else if (isUsdtAssetId(assetId, network)) {
+        res = await fetch(
+          `https://liquid.network/api/v1/asset/ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2/icon`
+        );
+      } else if (isLcadAssetId(assetId, network)) {
+        res = await fetch(
+          `https://liquid.network/api/v1/asset/0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a/icon`
+        );
+      } else {
+        res = await fetch(`https://liquid.network/api/v1/asset/${assetId}/icon`);
+        if (!res.ok) {
+          setIcon(null);
+          return;
+        }
+      }
+      const imageBlob = await res.blob();
+      reader.readAsDataURL(imageBlob);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        setIcon(base64data?.toString() ?? null);
+      };
+    })();
+  }, [assetId, network]);
+
+  return (
+    <>
+      {icon === null ? (
+        <img src={GenericIcon} alt="d" className="currency-icon" width={size} height={size} />
+      ) : (
+        <img src={icon} alt="currency-icon" className="currency-icon" width={size} height={size} />
+      )}
+    </>
+  );
 };

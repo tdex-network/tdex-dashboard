@@ -60,8 +60,8 @@ export const TxRow = ({
         {mode === 'trade' && (
           <td>
             <span className="market-icons-translate__small">
-              <CurrencyIcon className="base-icon" currency={baseAsset?.ticker ?? ''} size={16} />
-              <CurrencyIcon className="quote-icon" currency={quoteAsset?.ticker ?? ''} size={16} />
+              <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
+              <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
             </span>
             {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
           </td>

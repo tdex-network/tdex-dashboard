@@ -178,8 +178,8 @@ export const FeeForm = ({
             </Col>
           </Row>
           <Row align="middle">
-            <Col span={8}>
-              <CurrencyIcon currency={baseAsset.ticker} />
+            <Col span={8} className="d-flex align-center">
+              <CurrencyIcon assetId={baseAsset.asset_id} />
               <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
             </Col>
             <Col span={16}>
@@ -194,8 +194,8 @@ export const FeeForm = ({
           </Row>
           <Divider />
           <Row align="middle">
-            <Col span={8}>
-              <CurrencyIcon currency={quoteAsset.ticker} />
+            <Col span={8} className="d-flex align-center">
+              <CurrencyIcon assetId={quoteAsset.asset_id} />
               <span className="dm-sans dm-sans__xx ml-2">
                 {isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker}
               </span>
@@ -220,11 +220,7 @@ export const FeeForm = ({
           </Row>
           <Row align="middle" className="fee-relative-container">
             <Col span={14}>
-              <MarketIcons
-                baseAssetTicker={baseAsset.ticker}
-                quoteAssetTicker={quoteAsset.ticker}
-                size="medium"
-              />
+              <MarketIcons baseAsset={baseAsset} quoteAsset={quoteAsset} size="medium" />
               <span className="dm-sans dm-sans__xx">
                 {baseAsset.ticker} / {quoteAsset.ticker}
               </span>

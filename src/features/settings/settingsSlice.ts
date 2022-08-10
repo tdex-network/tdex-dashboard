@@ -204,7 +204,7 @@ export function selectBaseUrl(state: RootState): string {
 }
 
 export function selectMacaroonCreds(state: RootState): Metadata | null {
-  if (state.settings.macaroonCredentials) {
+  if (!state.settings.useProxy && state.settings.macaroonCredentials) {
     return {
       macaroon: state.settings.macaroonCredentials,
     };

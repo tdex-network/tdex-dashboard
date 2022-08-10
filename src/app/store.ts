@@ -29,7 +29,8 @@ export const store = configureStore({
       serializableCheck: false,
     }).concat(liquidApi.middleware, ratesApi.middleware, tdexApi.middleware),
 });
-
+// @ts-ignore
+// window['store'] = store;
 export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;

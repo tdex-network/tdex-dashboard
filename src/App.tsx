@@ -46,7 +46,6 @@ export const App = (): JSX.Element => {
           try {
             console.debug('quitting...');
             setIsExiting(true);
-            dispatch(setProxyHealth('NOT_SERVING'));
           } catch (err) {
             console.error('err', err);
           }
@@ -59,7 +58,8 @@ export const App = (): JSX.Element => {
   // Exit after cleanup
   useEffect(() => {
     (async () => {
-      if (proxyPid && isExiting && proxyHealth === 'NOT_SERVING') {
+      if (proxyPid && isExiting) {
+        dispatch(setProxyHealth('NOT_SERVING'));
         dispatch(setProxyPid(undefined));
         // Need to sleep the time to write in persistent storage
         await sleep(500);
@@ -71,7 +71,7 @@ export const App = (): JSX.Element => {
   }, [dispatch, isExiting, proxyHealth, proxyPid]);
 
   const startProxy = useCallback(async () => {
-    if (!proxyChildProcess.current?.pid) {
+    if (!proxyPid) {
       const command = Command.sidecar('bin/grpcproxy');
       command.on('close', (data: ChildProcess) => {
         console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
@@ -85,7 +85,7 @@ export const App = (): JSX.Element => {
       dispatch(setProxyPid(proxyChildProcess.current.pid));
       console.debug('Proxy pid:', proxyChildProcess.current.pid);
     }
-  }, [dispatch]);
+  }, [dispatch, proxyPid]);
 
   const startAndConnectToProxy = useCallback(async () => {
     if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
@@ -139,7 +139,7 @@ export const App = (): JSX.Element => {
 
   // Start and connect to gRPC proxy
   useEffect(() => {
-    if (useProxy) {
+    if (useProxy && !isExiting) {
       (async () => {
         const startAndConnectToProxyRetry = async (retryCount = 0, lastError?: string): Promise<void> => {
           if (retryCount > 5) throw new Error(lastError);
@@ -162,7 +162,7 @@ export const App = (): JSX.Element => {
         }
       })();
     }
-  }, [proxyHealth, startAndConnectToProxy, useProxy]);
+  }, [isExiting, proxyHealth, startAndConnectToProxy, useProxy]);
 
   return (
     <>

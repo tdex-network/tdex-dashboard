@@ -24,8 +24,8 @@ export const MarketListItem = ({ isTradable, baseAsset, quoteAsset }: MarketList
       <Row className="w-100">
         <Col span={4}>
           <div className="market-icons-translate">
-            <CurrencyIcon className="base-icon" currency={baseAsset?.ticker || ''} size={32} />
-            <CurrencyIcon className="quote-icon" currency={quoteAsset?.ticker || ''} size={32} />
+            <CurrencyIcon assetId={baseAsset?.asset_id || ''} size={32} />
+            <CurrencyIcon assetId={quoteAsset?.asset_id || ''} size={32} />
           </div>
         </Col>
         <Col span={12}>

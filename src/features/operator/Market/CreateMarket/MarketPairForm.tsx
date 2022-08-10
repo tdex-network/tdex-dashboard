@@ -84,9 +84,9 @@ export const MarketPairForm = ({
       <Row gutter={{ xs: 4, sm: 10, md: 16 }} className={classNames({ 'mb-4': !showGenericAssetForm })}>
         <Col span={12}>
           <Select value={baseAsset.ticker} onChange={(ticker) => handleChangeBaseAsset(ticker, network)}>
-            {selectAssetList.map(({ ticker }: Asset) => (
+            {selectAssetList.map(({ ticker, asset_id }: Asset) => (
               <Option value={ticker} key={ticker}>
-                <CurrencyIcon currency={ticker} />
+                <CurrencyIcon assetId={asset_id} />
                 <span className="select-option-text">{ticker}</span>
               </Option>
             ))}
@@ -94,9 +94,9 @@ export const MarketPairForm = ({
         </Col>
         <Col span={12}>
           <Select value={quoteAsset.ticker} onChange={(ticker) => handleChangeQuoteAsset(ticker, network)}>
-            {selectAssetList.map(({ ticker }: Asset) => (
+            {selectAssetList.map(({ ticker, asset_id }: Asset) => (
               <Option value={ticker} key={ticker}>
-                <CurrencyIcon currency={ticker} />
+                <CurrencyIcon assetId={asset_id} />
                 <span className="select-option-text">{ticker}</span>
               </Option>
             ))}

@@ -59,6 +59,9 @@ export const UpdateMarketPriceForm = ({
         if (typeof err === 'string') {
           notification.error({ message: err, key: 'onUpdateMarketFinish error' });
         }
+        if (err instanceof Error) {
+          notification.error({ message: err.message, key: 'onUpdateMarketFinish error' });
+        }
       }
     }
   };

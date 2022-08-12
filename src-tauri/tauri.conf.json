@@ -81,9 +81,11 @@
       {
         "fullscreen": false,
         "height": 800,
+        "minHeight": 800,
         "resizable": true,
         "title": "TDEX Dashboard",
-        "width": 1180
+        "width": 1220,
+        "minWidth": 1220
       }
     ]
   }

@@ -12,17 +12,17 @@ import type { TxData } from './TxRow';
 import { TxRow } from './TxRow';
 
 interface WithdrawalRowsProps {
-  marketInfo: MarketInfo.AsObject;
-  withdrawals?: Withdrawal.AsObject[];
+  marketInfo: MarketInfo;
+  withdrawals?: Withdrawal[];
   lbtcUnit: LbtcUnit;
   baseAsset?: Asset;
   quoteAsset?: Asset;
 }
 
 export const getWithdrawData = (
-  row: Withdrawal.AsObject,
+  row: Withdrawal,
   lbtcUnit: LbtcUnit,
-  marketInfo: MarketInfo.AsObject,
+  marketInfo: MarketInfo,
   network: NetworkString,
   baseAsset?: Asset,
   quoteAsset?: Asset

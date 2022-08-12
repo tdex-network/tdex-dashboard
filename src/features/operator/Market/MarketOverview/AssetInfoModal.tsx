@@ -6,7 +6,7 @@ import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 
 interface AssetInfoModalProps {
-  market: MarketInfo.AsObject['market'];
+  market: MarketInfo['market'];
   isAssetInfoModalVisible: boolean;
   handleAssetInfoModalCancel: () => void;
 }

@@ -66,14 +66,14 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
         setHasMatchingError(false);
         // @ts-ignore
         const { data } = await initWallet({
-          isRestore: true,
-          password: Buffer.from(password),
-          mnemonic: mnemonicSanitized,
+          restore: true,
+          walletPassword: Buffer.from(password),
+          seedMnemonic: mnemonicSanitized,
         });
         data.on('status', async (status: any) => {
           if (status.code === 0) {
             await sleep(1000);
-            await unlockWallet({ password: Buffer.from(password) });
+            await unlockWallet({ walletPassword: Buffer.from(password) });
             await sleep(1000);
             setIsLoading(false);
             navigate(HOME_ROUTE);
@@ -83,12 +83,12 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
         });
         data.on('data', async (data: InitWalletResponse) => {
           // If not macaroon, log data in modal
-          if (data.getData().length < 150) {
-            setNewWaitingModalLogStr(data.getData());
+          if (data.data.length < 150) {
+            setNewWaitingModalLogStr(data.data);
           }
-          if (data.getStatus() === 0 && data.getData().length > 150) {
-            dispatch(setMacaroonCredentials(data.getData()));
-            const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
+          if (data.status === 0 && data.data.length > 150) {
+            dispatch(setMacaroonCredentials(data.data));
+            const base64UrlMacaroon = encodeBase64UrlMacaroon(data.data);
             dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
             setIsWaitingModalVisible(false);
           }

@@ -12,7 +12,7 @@ import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../utils';
 interface VolumeChartProps {
   topLeft: JSX.Element;
   topRight: JSX.Element;
-  marketReport?: MarketReport.AsObject;
+  marketReport?: MarketReport;
   marketReportPredefinedPeriod: PredefinedPeriod;
   baseAsset: Asset;
   lbtcUnit: LbtcUnit;
@@ -28,7 +28,7 @@ export const VolumeChart = ({
 }: VolumeChartProps): JSX.Element => {
   // Prepare data starting from last element
   const data = useMemo(() => {
-    return marketReport?.groupedVolumeList.reduceRight(
+    return marketReport?.groupedVolume.reduceRight(
       (acc, curr) =>
         acc.concat({
           time: curr.startDate,
@@ -43,7 +43,7 @@ export const VolumeChart = ({
         }),
       [] as { time: string; value: number }[]
     );
-  }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.groupedVolumeList]);
+  }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.groupedVolume]);
 
   // Calculate yAxis width
   const yAxis = document.getElementsByClassName('recharts-cartesian-axis recharts-yAxis')[0];

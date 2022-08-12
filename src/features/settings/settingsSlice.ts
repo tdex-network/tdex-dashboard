@@ -1,11 +1,11 @@
+import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { Metadata } from 'grpc-web';
 import type { NetworkString } from 'ldk';
 
-import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/OperatorServiceClientPb';
-import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletServiceClientPb';
-import { WalletUnlockerServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/WalletunlockerServiceClientPb';
+import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb.client';
+import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb.client';
+import { WalletUnlockerServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb.client';
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
@@ -203,13 +203,11 @@ export function selectBaseUrl(state: RootState): string {
   return state.settings.baseUrl;
 }
 
-export function selectMacaroonCreds(state: RootState): Metadata | null {
+export function selectMacaroonCreds(state: RootState): string {
   if (!state.settings.useProxy && state.settings.macaroonCredentials) {
-    return {
-      macaroon: state.settings.macaroonCredentials,
-    };
+    return state.settings.macaroonCredentials;
   }
-  return null;
+  return '';
 }
 
 export function selectMarketLabelled(state: RootState): MarketLabelled[] | undefined {
@@ -218,15 +216,15 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 
 //
 export function selectOperatorClient(state: RootState): OperatorServiceClient {
-  return new OperatorServiceClient(selectBaseUrl(state));
+  return new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
 }
 
 export function selectWalletClient(state: RootState): WalletServiceClient {
-  return new WalletServiceClient(selectBaseUrl(state));
+  return new WalletServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
 }
 
 export function selectWalletUnlockerClient(state: RootState): WalletUnlockerServiceClient {
-  return new WalletUnlockerServiceClient(selectBaseUrl(state));
+  return new WalletUnlockerServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
 }
 
 export const {

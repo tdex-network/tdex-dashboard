@@ -50,14 +50,14 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
     try {
       // @ts-ignore
       const { data } = await initWallet({
-        isRestore: false,
-        password: Buffer.from(state.password),
-        mnemonic: state.mnemonic,
+        restore: false,
+        walletPassword: Buffer.from(state.password),
+        seedMnemonic: state.mnemonic,
       });
       data.on('status', async (status: any) => {
         if (status.code === 0) {
           await sleep(1000);
-          await unlockWallet({ password: Buffer.from(state.password) });
+          await unlockWallet({ walletPassword: Buffer.from(state.password) });
           await sleep(1000);
           setIsLoading(false);
           navigate(HOME_ROUTE);
@@ -66,9 +66,9 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
         }
       });
       data.on('data', async (data: InitWalletResponse) => {
-        if (data.getStatus() === 0 && data.getData().length > 150) {
-          dispatch(setMacaroonCredentials(data.getData()));
-          const base64UrlMacaroon = encodeBase64UrlMacaroon(data.getData());
+        if (data.status === 0 && data.data.length > 150) {
+          dispatch(setMacaroonCredentials(data.data));
+          const base64UrlMacaroon = encodeBase64UrlMacaroon(data.data);
           dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
         }
       });

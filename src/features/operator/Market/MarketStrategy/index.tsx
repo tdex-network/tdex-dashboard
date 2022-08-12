@@ -11,7 +11,7 @@ import {
 } from '../../operator.api';
 
 interface MarketStrategyProps {
-  marketInfo?: MarketInfo.AsObject;
+  marketInfo?: MarketInfo;
 }
 
 export const MarketStrategy = ({ marketInfo }: MarketStrategyProps): JSX.Element => {

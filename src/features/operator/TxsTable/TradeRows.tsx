@@ -11,7 +11,7 @@ import type { TxData } from './TxRow';
 import { TxRow } from './TxRow';
 
 interface TradeRowsProps {
-  trades?: TradeInfo.AsObject[];
+  trades?: TradeInfo[];
   assets: Asset[];
   lbtcUnit: LbtcUnit;
   baseAsset?: Asset;
@@ -19,7 +19,7 @@ interface TradeRowsProps {
 }
 
 export const getTradeData = (
-  row: TradeInfo.AsObject,
+  row: TradeInfo,
   lbtcUnit: LbtcUnit,
   network: NetworkString,
   assets: Asset[]

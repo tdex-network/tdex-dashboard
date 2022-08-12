@@ -106,7 +106,7 @@ export const FeeDeposit = (): JSX.Element => {
         }
       });
       data.on('data', async (data: FeeFragmenterSplitFundsResponse) => {
-        setNewWaitingModalLogStr(data.getMessage());
+        setNewWaitingModalLogStr(data.message);
       });
     });
     await feeFragmenterSplitFundsStreamPromise;
@@ -129,7 +129,7 @@ export const FeeDeposit = (): JSX.Element => {
     }
     // @ts-ignore
     const { error } = await claimFeeDeposits({
-      outpointsList: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
+      outpoints: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
     });
     if (error) throw new Error(error);
     notification.success({ message: 'Deposit successful', key: 'Deposit successful' });

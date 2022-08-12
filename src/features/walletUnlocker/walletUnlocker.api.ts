@@ -1,4 +1,4 @@
-import type { ClientReadableStream } from 'grpc-web';
+import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 
 import type {
   InitWalletResponse,
@@ -24,90 +24,76 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const genSeedResponse = await client.genSeed(new GenSeedRequest(), metadata);
-          return { data: genSeedResponse.getSeedMnemonicList() };
+          const call = await client.genSeed(GenSeedRequest.create(), {
+            meta: macaroon ? { macaroon } : undefined,
+          });
+          return { data: call.response.seedMnemonic };
         });
       },
     }),
-    initWallet: build.mutation<
-      ClientReadableStream<InitWalletResponse>,
-      {
-        isRestore: boolean;
-        password: string | Uint8Array;
-        mnemonic: string[];
-      }
-    >({
-      queryFn: async ({ isRestore, password, mnemonic }, { getState }) => {
+    initWallet: build.mutation<RpcOutputStream<InitWalletResponse>, InitWalletRequest>({
+      queryFn: async ({ restore, walletPassword, seedMnemonic }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
         return retryRtkRequest(async () => {
-          const clientReadableStream = client.initWallet(
-            new InitWalletRequest()
-              .setRestore(isRestore)
-              .setWalletPassword(password)
-              .setSeedMnemonicList(mnemonic)
+          const call = client.initWallet(
+            InitWalletRequest.create({
+              restore,
+              walletPassword,
+              seedMnemonic,
+            })
           );
           return {
-            data: clientReadableStream,
+            data: call.responses,
           };
         });
       },
       invalidatesTags: ['isReady'],
     }),
-    unlockWallet: build.mutation<
-      UnlockWalletResponse.AsObject,
-      {
-        password: string | Uint8Array;
-      }
-    >({
-      queryFn: async ({ password }, { getState }) => {
+    unlockWallet: build.mutation<UnlockWalletResponse, UnlockWalletRequest>({
+      queryFn: async ({ walletPassword }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const unlockWalletResponse = await client.unlockWallet(
-            new UnlockWalletRequest().setWalletPassword(password),
-            metadata
-          );
+          const call = await client.unlockWallet(UnlockWalletRequest.create({ walletPassword }), {
+            meta: macaroon ? { macaroon } : undefined,
+          });
           return {
-            data: unlockWalletResponse.toObject(false),
+            data: call.response,
           };
         });
       },
       invalidatesTags: ['isReady', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
     }),
-    changePassword: build.mutation<
-      ChangePasswordResponse,
-      {
-        currentPassword: string | Uint8Array;
-        newPassword: string | Uint8Array;
-      }
-    >({
+    changePassword: build.mutation<ChangePasswordResponse, ChangePasswordRequest>({
       queryFn: async ({ currentPassword, newPassword }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const changePasswordResponse = await client.changePassword(
-            new ChangePasswordRequest().setCurrentPassword(currentPassword).setNewPassword(newPassword),
-            metadata
+          const call = await client.changePassword(
+            ChangePasswordRequest.create({ currentPassword, newPassword }),
+            { meta: macaroon ? { macaroon } : undefined }
           );
-          return { data: changePasswordResponse };
+          return { data: call.response };
         });
       },
       invalidatesTags: ['isReady'],
     }),
-    isReady: build.query<IsReadyResponse.AsObject, void>({
+    isReady: build.query<IsReadyResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const isReadyResponse = await client.isReady(new IsReadyRequest(), metadata);
+          const call = await client.isReady(IsReadyRequest.create(), {
+            meta: macaroon ? { macaroon } : undefined,
+          });
           return {
-            data: isReadyResponse.toObject(false),
+            data: call.response,
           };
         });
       },

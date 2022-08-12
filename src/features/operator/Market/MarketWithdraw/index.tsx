@@ -61,7 +61,7 @@ export const MarketWithdraw = (): JSX.Element => {
 
   useEffect(() => {
     if (listMarkets) {
-      for (const { market } of listMarkets.marketsList) {
+      for (const { market } of listMarkets.markets) {
         const newMarket: [Asset?, Asset?] = [
           getAssetDataFromRegistry(market?.baseAsset ?? '', assets[network], lbtcUnit),
           getAssetDataFromRegistry(market?.quoteAsset ?? '', assets[network], lbtcUnit),

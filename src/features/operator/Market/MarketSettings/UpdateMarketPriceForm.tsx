@@ -4,7 +4,7 @@ import React from 'react';
 import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../../../app/store';
 import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
-import { fromUnitToUnit, isLbtcAssetId } from '../../../../utils';
+import { isLbtcAssetId, unitToExponent } from '../../../../utils';
 import { operatorApi } from '../../operator.api';
 
 interface IFormInputs {
@@ -33,9 +33,6 @@ export const UpdateMarketPriceForm = ({
     if (market) {
       try {
         const values = await form.validateFields();
-        if (!values.basePrice) {
-          return notification.error({ message: 'Base price is missing', key: 'Base price is missing' });
-        }
         if (!values.quotePrice) {
           return notification.error({ message: 'Quote price is missing', key: 'Quote price is missing' });
         }
@@ -43,13 +40,12 @@ export const UpdateMarketPriceForm = ({
           operatorApi.endpoints.updateMarketPrice.initiate({
             market,
             price: {
-              // If asset is Bitcoin set price in L-BTC unit
               basePrice: isLbtcAssetId(market?.baseAsset, network)
-                ? Number(fromUnitToUnit(values.basePrice, lbtcUnit, 'L-BTC'))
-                : values.basePrice,
+                ? Math.pow(10, -unitToExponent(lbtcUnit)) / values.quotePrice
+                : 1 / values.quotePrice,
               quotePrice: isLbtcAssetId(market?.quoteAsset, network)
-                ? Number(fromUnitToUnit(values.quotePrice, lbtcUnit, 'L-BTC'))
-                : values.quotePrice,
+                ? Math.pow(10, -unitToExponent(lbtcUnit)) / values.quotePrice
+                : values.quotePrice * Math.pow(10, unitToExponent(lbtcUnit)),
             },
           })
         ).unwrap();
@@ -74,16 +70,12 @@ export const UpdateMarketPriceForm = ({
       wrapperCol={{ span: 18 }}
       onFinish={onUpdateMarketFinish}
     >
-      <Form.Item label="Base asset price" name="basePrice">
-        <Input
-          type="number"
-          suffix={isLbtcAssetId(market?.baseAsset || '', network) ? lbtcUnit : baseAssetTicker}
-        />
-      </Form.Item>
       <Form.Item label="Quote asset price" name="quotePrice">
         <Input
           type="number"
-          suffix={isLbtcAssetId(market?.quoteAsset || '', network) ? lbtcUnit : quoteAssetTicker}
+          suffix={`${isLbtcAssetId(market?.quoteAsset || '', network) ? lbtcUnit : quoteAssetTicker} for 1 ${
+            isLbtcAssetId(market?.baseAsset || '', network) ? lbtcUnit : baseAssetTicker
+          }`}
         />
       </Form.Item>
       <Form.Item wrapperCol={{ span: 24 }}>

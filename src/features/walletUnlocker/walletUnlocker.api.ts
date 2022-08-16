@@ -1,4 +1,4 @@
-import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
+import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
 import type {
   InitWalletResponse,
@@ -33,22 +33,23 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
         });
       },
     }),
-    initWallet: build.mutation<RpcOutputStream<InitWalletResponse>, InitWalletRequest>({
-      queryFn: async ({ restore, walletPassword, seedMnemonic }, { getState }) => {
+    initWallet: build.mutation<
+      { responses: RpcOutputStream<InitWalletResponse>; status: Promise<RpcStatus> },
+      InitWalletRequest
+    >({
+      queryFn: ({ restore, walletPassword, seedMnemonic }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletUnlockerClient(state);
-        return retryRtkRequest(async () => {
-          const call = client.initWallet(
-            InitWalletRequest.create({
-              restore,
-              walletPassword,
-              seedMnemonic,
-            })
-          );
-          return {
-            data: call.responses,
-          };
-        });
+        const call = client.initWallet(
+          InitWalletRequest.create({
+            restore,
+            walletPassword,
+            seedMnemonic,
+          })
+        );
+        return {
+          data: { responses: call.responses, status: call.status },
+        };
       },
       invalidatesTags: ['isReady'],
     }),

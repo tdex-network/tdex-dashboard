@@ -1,3 +1,4 @@
+import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -96,20 +97,15 @@ export const FeeDeposit = (): JSX.Element => {
     setIsWaitingModalVisible(true);
     // @ts-ignore
     const { data } = await feeFragmenterSplitFunds({ millisatsPerByte: 100, maxFragment: 50 });
-    const feeFragmenterSplitFundsStreamPromise = new Promise((resolve, reject) => {
-      data.on('status', async (status: any) => {
-        if (status.code === 0) {
-          notification.success({ message: 'Fragmentation deposit successful' });
-          resolve({ code: 0 });
-        } else {
-          reject({ message: status.details });
-        }
-      });
-      data.on('data', async (data: FeeFragmenterSplitFundsResponse) => {
-        setNewWaitingModalLogStr(data.message);
-      });
-    });
-    await feeFragmenterSplitFundsStreamPromise;
+    for await (const message of data.responses as RpcOutputStream<FeeFragmenterSplitFundsResponse>) {
+      setNewWaitingModalLogStr(message.message);
+    }
+    const status = await data.status;
+    if (status.code === 'OK') {
+      notification.success({ message: 'Fragmentation deposit successful' });
+    } else {
+      console.log('status', status);
+    }
   };
 
   const handleClaimFeeDeposits = async () => {

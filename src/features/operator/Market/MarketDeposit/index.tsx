@@ -1,3 +1,4 @@
+import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -118,20 +119,15 @@ export const MarketDeposit = (): JSX.Element => {
       market,
       millisatsPerByte: 100,
     });
-    const marketFragmenterSplitFundsStreamPromise = new Promise((resolve, reject) => {
-      data.on('status', async (status: any) => {
-        if (status.code === 0) {
-          notification.success({ message: 'Fragmentation deposit successful' });
-          resolve({ code: 0 });
-        } else {
-          reject({ message: status.details });
-        }
-      });
-      data.on('data', async (data: MarketFragmenterSplitFundsResponse) => {
-        setNewWaitingModalLogStr(data.message);
-      });
-    });
-    await marketFragmenterSplitFundsStreamPromise;
+    for await (const message of data.responses as RpcOutputStream<MarketFragmenterSplitFundsResponse>) {
+      setNewWaitingModalLogStr(message.message);
+    }
+    const status = await data.status;
+    if (status.code === 'OK') {
+      notification.success({ message: 'Fragmentation deposit successful' });
+    } else {
+      console.log('status', status);
+    }
   };
 
   const handleClaimMarketDeposits = async () => {

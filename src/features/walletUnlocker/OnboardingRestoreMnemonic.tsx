@@ -1,5 +1,6 @@
 import './onboardingRestoreMnemonic.less';
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 import { Button, Col, Form, Row, Typography, Input, notification, Breadcrumb } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
@@ -70,37 +71,35 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           walletPassword: Buffer.from(password),
           seedMnemonic: mnemonicSanitized,
         });
-        data.on('status', async (status: any) => {
-          if (status.code === 0) {
-            await sleep(1000);
-            await unlockWallet({ walletPassword: Buffer.from(password) });
-            await sleep(1000);
-            setIsLoading(false);
-            navigate(HOME_ROUTE);
-          } else {
-            console.log('status', status);
-          }
-        });
-        data.on('data', async (data: InitWalletResponse) => {
+        for await (const message of data.responses as RpcOutputStream<InitWalletResponse>) {
+          console.debug('init wallet stream:', message);
           // If not macaroon, log data in modal
-          if (data.data.length < 150) {
-            setNewWaitingModalLogStr(data.data);
+          if (message.data.length < 150) {
+            setNewWaitingModalLogStr(message.data);
           }
-          if (data.status === 0 && data.data.length > 150) {
-            dispatch(setMacaroonCredentials(data.data));
-            const base64UrlMacaroon = encodeBase64UrlMacaroon(data.data);
+          if (message.status === 0 && message.data.length > 150) {
+            dispatch(setMacaroonCredentials(message.data));
+            const base64UrlMacaroon = encodeBase64UrlMacaroon(message.data);
             dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
             setIsWaitingModalVisible(false);
           }
-        });
-        data.on('error', async (error: any) => {
-          console.error('error', error);
-        });
+        }
+        const status = await data.status;
+        if (status.code === 'OK') {
+          await sleep(1000);
+          await unlockWallet({ walletPassword: Buffer.from(password) });
+          await sleep(1000);
+          setIsLoading(false);
+          navigate(HOME_ROUTE);
+        } else {
+          console.log('status', status);
+        }
       } else {
         notification.error({ message: "Passwords don't match" });
         setHasMatchingError(true);
       }
     } catch (err) {
+      console.error(err);
       // @ts-ignore
       notification.error({ message: err.message });
     }

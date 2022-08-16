@@ -1,4 +1,4 @@
-import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
+import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
 import type {
   AddWebhookResponse,
@@ -247,25 +247,23 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     feeFragmenterSplitFunds: build.mutation<
-      RpcOutputStream<FeeFragmenterSplitFundsResponse>,
+      { responses: RpcOutputStream<FeeFragmenterSplitFundsResponse>; status: Promise<RpcStatus> },
       FeeFragmenterSplitFundsRequest
     >({
-      queryFn: async ({ maxFragments, millisatsPerByte }, { getState }) => {
+      queryFn: ({ maxFragments, millisatsPerByte }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const call = client.feeFragmenterSplitFunds(
-            FeeFragmenterSplitFundsRequest.create({
-              maxFragments,
-              millisatsPerByte,
-            }),
-            { meta: macaroon ? { macaroon } : undefined }
-          );
-          return {
-            data: call.responses,
-          };
-        });
+        const call = client.feeFragmenterSplitFunds(
+          FeeFragmenterSplitFundsRequest.create({
+            maxFragments,
+            millisatsPerByte,
+          }),
+          { meta: macaroon ? { macaroon } : undefined }
+        );
+        return {
+          data: { responses: call.responses, status: call.status },
+        };
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
@@ -675,23 +673,21 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     marketFragmenterSplitFunds: build.mutation<
-      RpcOutputStream<MarketFragmenterSplitFundsResponse>,
+      { responses: RpcOutputStream<MarketFragmenterSplitFundsResponse>; status: Promise<RpcStatus> },
       MarketFragmenterSplitFundsRequest
     >({
-      queryFn: async ({ market, millisatsPerByte }, { getState }) => {
+      queryFn: ({ market, millisatsPerByte }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
-          const call = client.marketFragmenterSplitFunds(
-            MarketFragmenterSplitFundsRequest.create({ market: newMarket, millisatsPerByte }),
-            { meta: macaroon ? { macaroon } : undefined }
-          );
-          return {
-            data: call.responses,
-          };
-        });
+        const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+        const call = client.marketFragmenterSplitFunds(
+          MarketFragmenterSplitFundsRequest.create({ market: newMarket, millisatsPerByte }),
+          { meta: macaroon ? { macaroon } : undefined }
+        );
+        return {
+          data: { responses: call.responses, status: call.status },
+        };
       },
       invalidatesTags: ['MarketUTXOs'],
     }),

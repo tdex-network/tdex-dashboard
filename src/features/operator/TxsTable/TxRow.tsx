@@ -11,7 +11,7 @@ import { useGetTransactionByIdQuery } from '../../liquid.api';
 import type { DepositRow } from './DepositRows';
 import type { TableMode } from './index';
 
-export type TxData = TradeInfo.AsObject & DepositRow & Withdrawal.AsObject;
+export type TxData = TradeInfo & DepositRow & Withdrawal;
 
 interface TxRowProps {
   mode: TableMode;

@@ -10,7 +10,7 @@ export const ConnectionIndicators = (): JSX.Element => {
   const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const daemonState = useTypedSelector(
     ({ tdexService }: RootState) =>
-      tdexService.queries['isReady(undefined)']?.data as IsReadyResponse.AsObject | undefined
+      tdexService.queries['isReady(undefined)']?.data as IsReadyResponse | undefined
   );
   const daemonError = useTypedSelector(
     ({ tdexService }: RootState) => tdexService.queries['isReady(undefined)']?.error

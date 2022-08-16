@@ -14,7 +14,10 @@ export const ChangePasswordForm = (): JSX.Element => {
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
-      changePassword({ currentPassword: values.currentPassword, newPassword: values.newPassword });
+      changePassword({
+        currentPassword: new TextEncoder().encode(values.currentPassword),
+        newPassword: new TextEncoder().encode(values.newPassword),
+      });
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

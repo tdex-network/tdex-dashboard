@@ -16,7 +16,7 @@ import { UpdateMarketPriceForm } from './UpdateMarketPriceForm';
 import { WebhookForm } from './WebhookForm';
 
 interface MarketSettingsProps {
-  marketInfo?: MarketInfo.AsObject;
+  marketInfo?: MarketInfo;
   isMarketSettingsModalVisible: boolean;
   handleMarketSettingsModalCancel: () => void;
   baseAssetTicker: string;

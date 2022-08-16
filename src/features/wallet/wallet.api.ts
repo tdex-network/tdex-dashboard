@@ -20,9 +20,13 @@ export const walletApi = tdexApi.injectEndpoints({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => ({
-          data: await client.walletAddress(new WalletAddressRequest(), metadata),
+          data: (
+            await client.walletAddress(WalletAddressRequest.create(), {
+              meta: macaroon ? { macaroon } : undefined,
+            })
+          ).response,
         }));
       },
     }),
@@ -30,29 +34,30 @@ export const walletApi = tdexApi.injectEndpoints({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
-        const metadata = selectMacaroonCreds(state);
+        const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => ({
-          data: await client.walletBalance(new WalletBalanceRequest(), metadata),
+          data: (
+            await client.walletBalance(WalletBalanceRequest.create(), {
+              meta: macaroon ? { macaroon } : undefined,
+            })
+          ).response,
         }));
       },
     }),
-    sendToMany: build.mutation<SendToManyResponse, SendToManyRequest.AsObject>({
-      queryFn: async ({ millisatPerByte, outputsList }, { getState }) => {
+    sendToMany: build.mutation<SendToManyResponse, SendToManyRequest>({
+      queryFn: async ({ millisatPerByte, outputs }, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state);
-        const metadata = selectMacaroonCreds(state);
-        const outList = outputsList.map((o) => {
-          const txOut = new TxOutput();
-          txOut.setAddress(o.address);
-          txOut.setAsset(o.asset);
-          txOut.setValue(o.value);
-          return txOut;
+        const macaroon = selectMacaroonCreds(state);
+        const outList = outputs.map((o) => {
+          return TxOutput.create({ address: o.address, asset: o.asset, value: o.value });
         });
         return retryRtkRequest(async () => ({
-          data: await client.sendToMany(
-            new SendToManyRequest().setMillisatPerByte(millisatPerByte).setOutputsList(outList),
-            metadata
-          ),
+          data: (
+            await client.sendToMany(SendToManyRequest.create({ millisatPerByte, outputs: outList }), {
+              meta: macaroon ? { macaroon } : undefined,
+            })
+          ).response,
         }));
       },
     }),

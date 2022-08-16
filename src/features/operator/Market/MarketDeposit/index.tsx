@@ -22,7 +22,7 @@ import {
 
 export const MarketDeposit = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { state } = useLocation() as { state: { marketInfo: MarketInfo.AsObject } };
+  const { state } = useLocation() as { state: { marketInfo: MarketInfo } };
   const market = {
     baseAsset: state?.marketInfo?.market?.baseAsset || '',
     quoteAsset: state?.marketInfo?.market?.quoteAsset || '',
@@ -45,7 +45,7 @@ export const MarketDeposit = (): JSX.Element => {
   const [marketAddress, setMarketAddress] = useState<string>('');
   const [marketFragmenterAddress, setMarketFragmenterAddress] = useState<string>('');
   const [depositAddress, setDepositAddress] = useState<string>('');
-  const [depositAddresses, setDepositAddresses] = useState<AddressWithBlindingKey.AsObject[]>([]);
+  const [depositAddresses, setDepositAddresses] = useState<AddressWithBlindingKey[]>([]);
 
   useEffect(() => {
     useFragmenter
@@ -128,7 +128,7 @@ export const MarketDeposit = (): JSX.Element => {
         }
       });
       data.on('data', async (data: MarketFragmenterSplitFundsResponse) => {
-        setNewWaitingModalLogStr(data.getMessage());
+        setNewWaitingModalLogStr(data.message);
       });
     });
     await marketFragmenterSplitFundsStreamPromise;

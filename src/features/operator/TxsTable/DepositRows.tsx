@@ -19,7 +19,7 @@ export interface DepositRow {
 export const getDepositData = (
   row: DepositRow,
   lbtcUnit: LbtcUnit,
-  marketInfo: MarketInfo.AsObject,
+  marketInfo: MarketInfo,
   baseAsset?: Asset,
   quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
@@ -58,7 +58,7 @@ export const getDepositData = (
 interface DepositRowsProps {
   deposits?: DepositRow[];
   lbtcUnit: LbtcUnit;
-  marketInfo: MarketInfo.AsObject;
+  marketInfo: MarketInfo;
   numItemsToShow: number;
   baseAsset?: Asset;
   quoteAsset?: Asset;

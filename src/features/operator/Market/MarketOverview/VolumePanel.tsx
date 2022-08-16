@@ -20,8 +20,8 @@ import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery }
 interface VolumePanelProps {
   baseAsset: Asset;
   quoteAsset: Asset;
-  marketInfo?: MarketInfo.AsObject;
-  marketReport?: MarketReport.AsObject;
+  marketInfo?: MarketInfo;
+  marketReport?: MarketReport;
   setMarketReportPredefinedPeriod: Dispatch<SetStateAction<PredefinedPeriod>>;
   setMarketReportTimeFrame: Dispatch<SetStateAction<TimeFrame>>;
   marketReportPredefinedPeriod: PredefinedPeriod;
@@ -49,7 +49,7 @@ export const VolumePanel = ({
       marketInfo?.balance?.baseAmount === undefined
         ? 'N/A'
         : fromSatsToUnitOrFractional(
-            marketInfo?.balance?.baseAmount,
+            Number(marketInfo?.balance?.baseAmount),
             baseAsset.precision,
             isLbtcTicker(baseAsset.ticker),
             lbtcUnit
@@ -59,7 +59,7 @@ export const VolumePanel = ({
       marketInfo?.balance?.quoteAmount === undefined
         ? 'N/A'
         : fromSatsToUnitOrFractional(
-            marketInfo?.balance?.quoteAmount,
+            Number(marketInfo?.balance?.quoteAmount),
             quoteAsset.precision,
             isLbtcTicker(quoteAsset.ticker),
             lbtcUnit
@@ -67,7 +67,7 @@ export const VolumePanel = ({
     );
 
     const volumeAsUnitOrFractional = fromSatsToUnitOrFractional(
-      marketReport?.totalVolume?.quoteVolume || 0,
+      Number(marketReport?.totalVolume?.quoteVolume || 0),
       quoteAsset.precision,
       isLbtcTicker(quoteAsset.ticker),
       lbtcUnit

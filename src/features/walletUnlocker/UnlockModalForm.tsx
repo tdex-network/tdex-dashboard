@@ -26,7 +26,7 @@ export const UnlockModalForm = ({
   const handleUnlockWalletModalOk = async () => {
     try {
       const values = await form.validateFields();
-      const res = await unlockWallet({ password: Buffer.from(values.password) });
+      const res = await unlockWallet({ walletPassword: Buffer.from(values.password) });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
       notification.success({ message: 'Wallet unlocked successfully' });

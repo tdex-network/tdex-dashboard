@@ -24,7 +24,7 @@ export const ListMarkets = (): JSX.Element => {
     (async () => {
       if (network === daemonInfo?.network && !daemonInfoIsFetching) {
         try {
-          const assets = getAllAssetIdsFromMarkets(listMarkets?.marketsList || []);
+          const assets = getAllAssetIdsFromMarkets(listMarkets?.markets || []);
           for (const asset of assets) {
             if (!assetRegistry[network].map((a) => a.asset_id).includes(asset)) {
               const assetData = await dispatch(liquidApi.endpoints.getAssetData.initiate(asset)).unwrap();
@@ -36,12 +36,12 @@ export const ListMarkets = (): JSX.Element => {
         }
       }
     })();
-  }, [assetRegistry, daemonInfo?.network, daemonInfoIsFetching, dispatch, listMarkets?.marketsList, network]);
+  }, [assetRegistry, daemonInfo?.network, daemonInfoIsFetching, dispatch, listMarkets?.markets, network]);
 
   return (
     <div id="list-markets">
-      {listMarkets?.marketsList.length && network === daemonInfo?.network ? (
-        listMarkets?.marketsList.map((marketInfo, index) => {
+      {listMarkets?.markets.length && network === daemonInfo?.network ? (
+        listMarkets?.markets.map((marketInfo, index) => {
           const baseAsset = getAssetDataFromRegistry(
             marketInfo.market?.baseAsset || '',
             assetRegistry[network],

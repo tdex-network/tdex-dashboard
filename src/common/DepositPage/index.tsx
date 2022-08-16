@@ -21,12 +21,12 @@ interface DepositPageProps {
   type: 'Fee' | 'Market';
   depositAddress: string;
   setDepositAddress: React.Dispatch<React.SetStateAction<string>>;
-  depositAddresses: AddressWithBlindingKey.AsObject[];
+  depositAddresses: AddressWithBlindingKey[];
   isFragmenting: boolean;
   handleDeposit: () => void;
   setUseFragmenter: (checked: boolean) => void;
   getNewAddress: () => void;
-  market?: Market.AsObject;
+  market?: Market;
 }
 
 export const DepositPage = ({

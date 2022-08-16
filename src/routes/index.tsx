@@ -52,7 +52,7 @@ const PrivateRoute = ({ children }: any) => {
   const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
   const isDaemonInitialized = useTypedSelector(
     ({ tdexService }: RootState) =>
-      (tdexService.queries['isReady(undefined)']?.data as IsReadyResponse.AsObject)?.initialized
+      (tdexService.queries['isReady(undefined)']?.data as IsReadyResponse)?.initialized
   );
   if (isDaemonInitialized && tdexdConnectUrl) {
     return children;

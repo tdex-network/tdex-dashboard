@@ -13,7 +13,7 @@ interface IFormInputs {
 }
 
 interface UpdateMarketPriceFormProps {
-  market?: Market.AsObject;
+  market?: Market;
   baseAssetTicker: string;
   quoteAssetTicker: string;
   handleMarketSettingsModalCancel: () => void;

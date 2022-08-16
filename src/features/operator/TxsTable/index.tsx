@@ -30,7 +30,7 @@ interface ButtonsTableModeProps {
 }
 
 interface TxsTableProps {
-  marketInfo: MarketInfo.AsObject;
+  marketInfo: MarketInfo;
 }
 
 const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
@@ -57,12 +57,12 @@ interface tableRowsProps {
   lbtcUnit: LbtcUnit;
   mode: ButtonsTableModeProps['mode'];
   savedAssets: Asset[];
-  marketInfo: MarketInfo.AsObject;
-  trades?: TradeInfo.AsObject[];
+  marketInfo: MarketInfo;
+  trades?: TradeInfo[];
   deposits?: DepositRow[];
   numDepositsToShow: number;
   numAllItemsToShow: number;
-  withdrawals?: Withdrawal.AsObject[];
+  withdrawals?: Withdrawal[];
   baseAsset?: Asset;
   quoteAsset?: Asset;
 }
@@ -185,7 +185,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     },
     page: { pageNumber: pageNumberTrades, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const [trades, setTrades] = useState<TradeInfo.AsObject[] | undefined>([]);
+  const [trades, setTrades] = useState<TradeInfo[] | undefined>([]);
   // Set first page trades when ready
   useEffect(() => {
     setTrades(tradesFirstPage);
@@ -201,7 +201,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     accountIndex: marketInfo.accountIndex,
     page: { pageNumber: pageNumberWithdrawals, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const [withdrawals, setWithdrawals] = useState<Withdrawal.AsObject[] | undefined>([]);
+  const [withdrawals, setWithdrawals] = useState<Withdrawal[] | undefined>([]);
   // Set first page withdrawals when ready
   useEffect(() => {
     setWithdrawals(withdrawalsFirstPage);
@@ -213,7 +213,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const { data: depositFragments } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
   // Recreate deposits from fragments
   // A deposit tx can have 1 or 2 assets/values
-  const reduceValue = (deposits: Deposit.AsObject[], txId: string) => {
+  const reduceValue = (deposits: Deposit[], txId: string) => {
     if (!deposits) return {};
     return deposits.reduce((result, currentValue, index) => {
       // First utxo sets assetId

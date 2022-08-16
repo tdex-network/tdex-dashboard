@@ -20,7 +20,7 @@ const { Title } = Typography;
 interface DashboardPanelRightProps {
   lbtcUnit: LbtcUnit;
   priceFeed: PriceFeedQueryResult;
-  daemonInfo?: GetInfoResponse.AsObject;
+  daemonInfo?: GetInfoResponse;
   daemonInfoIsFetching: boolean;
 }
 

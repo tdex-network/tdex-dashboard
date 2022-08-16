@@ -1,4 +1,4 @@
-import type { RpcError } from 'grpc-web';
+import type { RpcError } from '@protobuf-ts/runtime-rpc';
 
 import { sleep } from './sleep';
 

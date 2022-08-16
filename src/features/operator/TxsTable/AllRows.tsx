@@ -18,11 +18,11 @@ import { TxRow } from './TxRow';
 import { getWithdrawData } from './WithdrawalRows';
 
 interface AllRowsProps {
-  trades?: TradeInfo.AsObject[];
+  trades?: TradeInfo[];
   deposits?: DepositRow[];
-  withdrawals?: Withdrawal.AsObject[];
+  withdrawals?: Withdrawal[];
   assets: Asset[];
-  marketInfo: MarketInfo.AsObject;
+  marketInfo: MarketInfo;
   lbtcUnit: LbtcUnit;
   numItemsToShow: number;
   baseAsset?: Asset;

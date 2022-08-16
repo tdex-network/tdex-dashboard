@@ -30,7 +30,7 @@ export const isLcadTicker = (ticker?: string): boolean => {
 export const isLcadAssetId = (assetId: string, network: NetworkString): boolean =>
   assetId === LCAD_ASSET[network].asset_id;
 
-export const getAllAssetIdsFromMarkets = (marketsList: MarketInfo.AsObject[]): string[] => {
+export const getAllAssetIdsFromMarkets = (marketsList: MarketInfo[]): string[] => {
   return filterUndef(
     Array.from(
       new Set(

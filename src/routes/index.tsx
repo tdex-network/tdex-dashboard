@@ -96,9 +96,6 @@ export const Routes = (): JSX.Element => {
           key: 'service unavailable',
         });
         dispatch(logout());
-        if (useProxy) {
-          await dispatch(disconnectProxy()).unwrap();
-        }
       }
     })();
   }, [dispatch, isReadyError, navigate, useProxy]);

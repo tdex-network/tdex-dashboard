@@ -10,7 +10,7 @@ import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { liquidApi } from '../../features/liquid.api';
 import { DefaultCurrencyRadioButtons } from '../../features/settings/DefaultCurrencyRadioButtons';
 import { FavoriteBitcoinUnitsRadioButtons } from '../../features/settings/FavoriteBitcoinUnitsRadioButtons';
-import { disconnectProxy, logout, resetSettings } from '../../features/settings/settingsSlice';
+import { logout, resetSettings } from '../../features/settings/settingsSlice';
 import { tdexApi } from '../../features/tdex.api';
 import { ONBOARDING_PAIRING_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
@@ -35,14 +35,6 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
   };
 
   const clearCache = async () => {
-    if (useProxy) {
-      try {
-        // Close proxy connection to avoid conflict
-        await dispatch(disconnectProxy()).unwrap();
-      } catch (err) {
-        console.error(err);
-      }
-    }
     dispatch(resetSettings());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());

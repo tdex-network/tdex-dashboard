@@ -18,7 +18,6 @@ import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
 import { useGetInfoQuery } from '../features/operator/operator.api';
 import { Settings } from '../features/settings/Settings';
 import {
-  disconnectProxy,
   logout,
   setExplorerLiquidAPI,
   setExplorerLiquidUI,
@@ -96,9 +95,6 @@ export const Routes = (): JSX.Element => {
           key: 'service unavailable',
         });
         dispatch(logout());
-        if (useProxy) {
-          await dispatch(disconnectProxy()).unwrap();
-        }
       }
     })();
   }, [dispatch, isReadyError, navigate, useProxy]);

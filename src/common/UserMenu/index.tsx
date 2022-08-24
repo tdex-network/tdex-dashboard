@@ -27,14 +27,6 @@ export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
   const [isDisconnectAndResetModalVisible, setIsDisconnectAndResetModalVisible] = useState<boolean>(false);
 
   const logOut = async () => {
-    if (useProxy) {
-      try {
-        // Close proxy connection to avoid conflict
-        await dispatch(disconnectProxy()).unwrap();
-      } catch (err) {
-        console.error(err);
-      }
-    }
     dispatch(logout());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());

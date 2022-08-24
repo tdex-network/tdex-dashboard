@@ -10,6 +10,7 @@ import { useTypedDispatch, useTypedSelector } from './app/store';
 import Shell from './common/Shell';
 import {
   connectProxy,
+  disconnectProxy,
   healthCheckProxy,
   setProxyHealth,
   setProxyPid,
@@ -87,31 +88,13 @@ export const App = (): JSX.Element => {
     }
   }, [dispatch, proxyPid]);
 
-  const startAndConnectToProxy = useCallback(async () => {
+  const startupProxy = useCallback(async () => {
     if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
       if (isTauri) {
         await startProxy();
       }
-      // Health check
-      const { desc } = await dispatch(healthCheckProxy()).unwrap();
-      if (desc === 'SERVING_NOT_CONNECTED') {
-        if (tdexdConnectUrl) {
-          // Connect
-          await dispatch(connectProxy()).unwrap();
-          // Recheck health status
-          const { desc } = await dispatch(healthCheckProxy()).unwrap();
-          if (desc === 'SERVING') {
-            console.log('gRPC Proxy:', desc);
-          } else {
-            console.log('gRPC Proxy:', desc);
-          }
-        }
-        // If the HTTP call fails
-      } else if (desc === 'NOT_SERVING') {
-        console.error('gRPC Proxy:', desc);
-      }
     }
-  }, [useProxy, proxyHealth, isExiting, isTauri, dispatch, startProxy, tdexdConnectUrl]);
+  }, [useProxy, proxyHealth, isExiting, isTauri, startProxy]);
 
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
@@ -141,20 +124,20 @@ export const App = (): JSX.Element => {
   useEffect(() => {
     if (useProxy && !isExiting) {
       (async () => {
-        const startAndConnectToProxyRetry = async (retryCount = 0, lastError?: string): Promise<void> => {
+        const startupProxyRetry = async (retryCount = 0, lastError?: string): Promise<void> => {
           if (retryCount > 5) throw new Error(lastError);
           try {
-            await startAndConnectToProxy();
+            await startupProxy();
           } catch (err) {
             await sleep(2000);
             // @ts-ignore
-            await startAndConnectToProxyRetry(retryCount + 1, err);
+            await startupProxyRetry(retryCount + 1, err);
           }
         };
         try {
-          await startAndConnectToProxyRetry();
+          await startupProxyRetry();
         } catch (err) {
-          console.error('startAndConnectToProxyRetry error', err);
+          console.error('startupProxyRetry error', err);
           notification.error({
             message: 'Service is not available or credentials are wrong',
             key: 'service unavailable',
@@ -162,7 +145,22 @@ export const App = (): JSX.Element => {
         }
       })();
     }
-  }, [isExiting, proxyHealth, startAndConnectToProxy, useProxy]);
+  }, [isExiting, proxyHealth, startProxy, useProxy]);
+
+  useEffect(() => {
+    if (useProxy) {
+      (async () => {
+        if (tdexdConnectUrl) {
+          await dispatch(connectProxy()).unwrap();
+        } else {
+          const { desc } = await dispatch(healthCheckProxy()).unwrap();
+          if (desc === 'SERVING') {
+            await dispatch(disconnectProxy()).unwrap();
+          }
+        }
+      })();
+    }
+  }, [useProxy, tdexdConnectUrl]);
 
   return (
     <>

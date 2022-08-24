@@ -145,7 +145,7 @@ export const App = (): JSX.Element => {
         }
       })();
     }
-  }, [isExiting, proxyHealth, startProxy, useProxy]);
+  }, [isExiting, proxyHealth, startupProxy, useProxy]);
 
   useEffect(() => {
     if (useProxy) {
@@ -160,7 +160,7 @@ export const App = (): JSX.Element => {
         }
       })();
     }
-  }, [useProxy, tdexdConnectUrl]);
+  }, [useProxy, tdexdConnectUrl, dispatch]);
 
   return (
     <>

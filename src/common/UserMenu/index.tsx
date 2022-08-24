@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './userMenu.less';
-import type { RootState } from '../../app/store';
-import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import { useTypedDispatch } from '../../app/store';
 import { liquidApi } from '../../features/liquid.api';
 import { DefaultCurrencyRadioButtons } from '../../features/settings/DefaultCurrencyRadioButtons';
 import { FavoriteBitcoinUnitsRadioButtons } from '../../features/settings/FavoriteBitcoinUnitsRadioButtons';
@@ -23,7 +22,6 @@ interface UserMenuProps {
 export const UserMenu = ({ isUserMenuVisible }: UserMenuProps): JSX.Element => {
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
-  const useProxy = useTypedSelector(({ settings }: RootState) => settings.useProxy);
   const [isDisconnectAndResetModalVisible, setIsDisconnectAndResetModalVisible] = useState<boolean>(false);
 
   const logOut = async () => {

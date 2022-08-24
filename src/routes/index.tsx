@@ -18,7 +18,6 @@ import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
 import { useGetInfoQuery } from '../features/operator/operator.api';
 import { Settings } from '../features/settings/Settings';
 import {
-  disconnectProxy,
   logout,
   setExplorerLiquidAPI,
   setExplorerLiquidUI,

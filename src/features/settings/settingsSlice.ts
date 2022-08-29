@@ -33,6 +33,7 @@ export interface SettingsState {
   isTauri: boolean;
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
+  connectUrlProto?: string;
   tdexdConnectUrl?: string;
   lbtcUnit: LbtcUnit;
   proxyHealth?: ProxyHealthStatus;
@@ -183,6 +184,9 @@ export const settingsSlice = createSlice({
     setMacaroonCredentials: (state, action: PayloadAction<string | undefined>) => {
       state.macaroonCredentials = action.payload;
     },
+    setConnectUrlProto: (state, action: PayloadAction<string | undefined>) => {
+      state.connectUrlProto = action.payload;
+    },
     setTdexdConnectUrl: (state, action: PayloadAction<string | undefined>) => {
       state.tdexdConnectUrl = action.payload;
     },
@@ -237,6 +241,7 @@ export const {
   setCurrency,
   setBaseUrl,
   setMacaroonCredentials,
+  setConnectUrlProto,
   setTdexdConnectUrl,
   setProxyHealth,
   setProxyPid,

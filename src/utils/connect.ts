@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import base64url from 'base64url';
 import decodeUriComponent from 'decode-uri-component';
 import untildify from 'untildify';
@@ -14,24 +15,48 @@ export const downloadCert = (certPem: string): void => {
   link.dispatchEvent(event);
 };
 
+type ConnectUrlData = { host?: string; cert?: string; macaroon?: string; proto?: string };
 /**
  *  Extract host, cert and macaroon from Connect string
  *  @param  {String} connectString
  *  @return { host?: string; cert?: string; macaroon?: string }
  */
-export const extractHostCertMacaroon = (
-  connectString: string
-): { host?: string; cert?: string; macaroon?: string } | undefined => {
+export const extractConnectUrlData = (connectString: string): ConnectUrlData | undefined => {
   try {
     const connectStr = connectString.trim();
     if (!connectStr.startsWith('tdexdconnect://')) throw new Error('Tdexd Connect URL is not valid');
     const [baseUrl, paramsString] = connectStr.split('?');
     const [, host] = baseUrl.split('://');
     const params = new URLSearchParams(paramsString);
-    const { cert, macaroon } = Object.fromEntries(params.entries());
-    return { host, cert, macaroon };
+    const { cert, macaroon, proto } = Object.fromEntries(params.entries());
+    return { host, cert, macaroon, proto };
   } catch (_) {
     return undefined;
+  }
+};
+
+/**
+ * if cert is given and proto is not set, valid ✅ (we default to https in clients)
+ * if cert is given and proto is set to http, we return error ⛔️
+ * if cert is NOT given and proto is set to https we assume a CA signed certificate is set up
+ * if cert is NOT given and proto is set to http we assume insecure connection
+ * @param connectUrlData
+ */
+export const checkConnectUrlDataValidity = (connectUrlData: ConnectUrlData): boolean => {
+  if (!connectUrlData?.host) {
+    notification.error({
+      message: 'Host is missing in connect url',
+      key: 'Host is missing in connect url',
+    });
+    return false;
+  } else if (connectUrlData?.cert && connectUrlData?.proto === 'http') {
+    notification.error({
+      message: 'Connect url has a certificate but proto set to http',
+      key: 'Connect url has a certificate but proto set to http',
+    });
+    return false;
+  } else {
+    return true;
   }
 };
 

@@ -1,5 +1,6 @@
 import './onboardingConfirmMnemonic.less';
 import Icon from '@ant-design/icons';
+import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 import { nanoid } from '@reduxjs/toolkit';
 import { Breadcrumb, Button, Col, notification, Row, Space, Typography } from 'antd';
 import classNames from 'classnames';
@@ -54,24 +55,23 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
         walletPassword: Buffer.from(state.password),
         seedMnemonic: state.mnemonic,
       });
-      data.on('status', async (status: any) => {
-        if (status.code === 0) {
-          await sleep(1000);
-          await unlockWallet({ walletPassword: Buffer.from(state.password) });
-          await sleep(1000);
-          setIsLoading(false);
-          navigate(HOME_ROUTE);
-        } else {
-          console.log('status', status);
-        }
-      });
-      data.on('data', async (data: InitWalletResponse) => {
-        if (data.status === 0 && data.data.length > 150) {
-          dispatch(setMacaroonCredentials(data.data));
-          const base64UrlMacaroon = encodeBase64UrlMacaroon(data.data);
+      for await (const message of data.responses as RpcOutputStream<InitWalletResponse>) {
+        if (message.data.length > 150) {
+          dispatch(setMacaroonCredentials(message.data));
+          const base64UrlMacaroon = encodeBase64UrlMacaroon(message.data);
           dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
         }
-      });
+      }
+      const status = await data.status;
+      if (status.code === 'OK') {
+        await sleep(1000);
+        await unlockWallet({ walletPassword: Buffer.from(state.password) });
+        await sleep(1000);
+        setIsLoading(false);
+        navigate(HOME_ROUTE);
+      } else {
+        console.log('status', status);
+      }
     } catch (err) {
       // @ts-ignore
       console.error(err.message);

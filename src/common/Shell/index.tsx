@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { ReactComponent as TdexLogo } from '../../assets/images/tdex-logo.svg';
 import { Footer } from '../Footer';
 import { Header } from '../Header';
+import { HeaderOnboarding } from '../HeaderOnboarding';
 
 interface Props {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export const Shell = ({ children }: Props): JSX.Element => {
 
   return (
     <Layout id="shell">
-      {!isOnboarding && <Header />}
+      {isOnboarding ? <HeaderOnboarding /> : <Header />}
       <Content className={clx({ 'is-onboarding': isOnboarding })}>
         {isOnboarding ? (
           <div className="w-100">

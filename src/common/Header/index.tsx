@@ -1,6 +1,6 @@
 import Icon, { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Layout, Row, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import logo from '../../assets/images/tdex-logo.svg';
@@ -14,14 +14,18 @@ export const Header = (): JSX.Element => {
   const { Header } = Layout;
   const navigate = useNavigate();
   const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
-  const openUserMenu = () => setIsUserMenuVisible(true);
   const closeUserMenu = () => setIsUserMenuVisible(false);
+
+  const toggleUserMenu = useCallback(
+    () => (isUserMenuVisible ? setIsUserMenuVisible(false) : setIsUserMenuVisible(true)),
+    [isUserMenuVisible]
+  );
 
   useEffect(() => {
     document.addEventListener('click', (e) => {
       // @ts-ignore
       if (e.target.classList.contains('user-menu-btn')) {
-        openUserMenu();
+        toggleUserMenu();
       } else {
         // Close menu if click anywhere expect radio buttons
         if (
@@ -36,7 +40,7 @@ export const Header = (): JSX.Element => {
         }
       }
     });
-  }, []);
+  }, [toggleUserMenu]);
 
   return (
     <Header className="h-100 mt-8">

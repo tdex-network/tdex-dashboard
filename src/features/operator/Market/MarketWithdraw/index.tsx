@@ -1,5 +1,5 @@
 import './marketWithdraw.less';
-import Icon from '@ant-design/icons';
+import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
@@ -30,9 +30,15 @@ interface IFormInputs {
   millisatPerByte: number;
 }
 
+interface IPasswordFormInputs {
+  password: string;
+}
+
 export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
+  const [passwordForm] = Form.useForm<IPasswordFormInputs>();
+
   const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
@@ -55,6 +61,7 @@ export const MarketWithdraw = (): JSX.Element => {
   } = useLatestPriceFeedFromCoinGeckoQuery();
   const [marketList, setMarketList] = useState<[Asset?, Asset?][]>([[state?.baseAsset, state?.quoteAsset]]);
   const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
+  const [isPasswordModalVisible, setIsPasswordModalVisible] = useState<boolean>();
   const [baseAmount, setBaseAmount] = useState<number>(0);
   const [quoteAmount, setQuoteAmount] = useState<number>(0);
   const [address, setAddress] = useState<string>();
@@ -81,13 +88,14 @@ export const MarketWithdraw = (): JSX.Element => {
           quoteAsset?.ticker === selectedMarket.quoteAsset?.ticker
       );
       if (!selectedAssetMarket?.[0] || !selectedAssetMarket?.[1]) throw new Error('Market selection error');
+      const { password } = await passwordForm.validateFields();
       const res = await withdrawMarket({
         market: {
           baseAsset: selectedAssetMarket?.[0].asset_id,
           quoteAsset: selectedAssetMarket?.[1].asset_id,
         },
         // Expect lbtc amount to be in favorite user unit
-        balance: {
+        balanceToWithdraw: {
           baseAmount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
             ? Number(formatLbtcUnitToSats(baseAmount, lbtcUnit))
             : Number(formatFiatToSats(baseAmount)),
@@ -97,6 +105,7 @@ export const MarketWithdraw = (): JSX.Element => {
         },
         address: address,
         millisatsPerByte: 100,
+        password: password,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
@@ -334,8 +343,8 @@ export const MarketWithdraw = (): JSX.Element => {
         title="Withdrawal Confirmation"
         visible={isConfirmWithdrawModalVisible}
         onOk={async () => {
-          await withdraw();
           setIsConfirmWithdrawModalVisible(false);
+          setIsPasswordModalVisible(true);
         }}
         onCancel={() => setIsConfirmWithdrawModalVisible(false)}
       >
@@ -354,6 +363,27 @@ export const MarketWithdraw = (): JSX.Element => {
           ) : null}
           to address <span className="address">{address}</span> ?
         </p>
+      </Modal>
+      <Modal
+        title="Withdrawal Password Confirmation"
+        visible={isPasswordModalVisible}
+        onOk={async () => {
+          await withdraw();
+          setIsPasswordModalVisible(false);
+        }}
+        onCancel={() => {
+          setIsPasswordModalVisible(false);
+          passwordForm.resetFields();
+        }}
+      >
+        <Form layout="vertical" form={passwordForm} name="withdraw_password_form" wrapperCol={{ span: 24 }}>
+          <Form.Item noStyle label="Enter your password" name="password">
+            <Input.Password
+              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+              className="input__medium"
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );

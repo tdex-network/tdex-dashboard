@@ -2,21 +2,18 @@ version: "3.7"
 
 services:
 
-  web:
+  dashboard:
     container_name: dashboard
     image: ghcr.io/tdex-network/dashboard:latest
     restart: unless-stopped
     environment:
-      USE_PROXY: "true"
-      # this must be the remote URL where this service is exposed
-      # if ran locally it's fine localhost
-      PROXY_URL: "http://localhost:3030"
+      USE_PROXY: "false"
     ports:
       - 8080:8080
 
   tdexd:
-    container_name: "tdexd-proxy"
-    image: ghcr.io/tdex-network/tdexd-proxy:latest
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
     restart: unless-stopped
     tty: true
     volumes:
@@ -25,11 +22,14 @@ services:
       TDEX_NETWORK: regtest
       TDEX_BASE_ASSET: 5ac9f65c0efcc4775e0baec4ec03abdde22473cd3cf33c0419ca290e0751b225
       TDEX_LOG_LEVEL: 5
-      TDEX_EXPLORER_ENDPOINT: http://chopsticks-liquid:3000 
+      TDEX_EXPLORER_ENDPOINT: http://chopsticks-liquid:3000
+      TDEX_OPERATOR_LISTENING_PORT: 9090
+      TDEX_TRADE_LISTENING_PORT: 9090
+      TDEX_NO_OPERATOR_TLS: "true"
+      TDEX_CONNECT_ADDR: "localhost:9090"
+      TDEX_CONNECT_PROTO: http
     ports:
-      - "3030:3030"
-      - "9945:9945"
-      - "9000:9000"
+      - "9090:9090"
 
 networks:
   default:

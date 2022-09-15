@@ -24,12 +24,12 @@ import {
 import { walletApi } from '../wallet/wallet.api';
 
 import { walletUnlockerApi } from './walletUnlocker.api';
+import { setIsConnectUrlFromEnvVar } from './walletUnlockerSlice';
 
 const { Title } = Typography;
 
 interface IFormInputs {
   tdexdConnectUrl: string;
-  proto: string;
 }
 
 export const OnboardingPairing = (): JSX.Element => {
@@ -40,25 +40,52 @@ export const OnboardingPairing = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const { useProxy, isTauri } = useTypedSelector(({ settings }) => settings);
+  const isConnectUrlFromEnvVar = useTypedSelector(
+    ({ walletUnlocker }) => walletUnlocker.isConnectUrlFromEnvVar
+  );
 
   useEffect(() => {
-    // Reset the APIs state completely
-    // Especially useful when redirected on this page after failed pairing attempt
-    dispatch(liquidApi.util.resetApiState());
-    dispatch(operatorApi.util.resetApiState());
-    dispatch(walletUnlockerApi.util.resetApiState());
-    dispatch(walletApi.util.resetApiState());
+    (async () => {
+      // Reset the APIs state completely
+      // Especially useful when redirected on this page after failed pairing attempt
+      dispatch(liquidApi.util.resetApiState());
+      dispatch(operatorApi.util.resetApiState());
+      dispatch(walletUnlockerApi.util.resetApiState());
+      dispatch(walletApi.util.resetApiState());
+      // Auto connect if tdex connect url is in env var (like in Umbrel)
+      if (process.env.REACT_APP_TDEX_CONNECT_URL) {
+        // isConnectUrlFromEnvVar is false on first load
+        if (!isConnectUrlFromEnvVar) {
+          dispatch(setIsConnectUrlFromEnvVar(true));
+          await onFinish(process.env.REACT_APP_TDEX_CONNECT_URL);
+        } else {
+          notification.error({
+            message: 'Automatic connection with TDEX connect url from environment variable has failed',
+            key: 'env_var_failure',
+          });
+        }
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onFinish = async () => {
+  /**
+   * onFinish form
+   * @param connectUrl Comes from textarea input or env var
+   */
+  const onFinish = async (connectUrl?: string) => {
     try {
-      const values = await form.validateFields();
-      const connectData = extractConnectUrlData(values.tdexdConnectUrl);
+      let tdexdConnectUrl: string;
+      if (connectUrl) {
+        tdexdConnectUrl = connectUrl;
+      } else {
+        tdexdConnectUrl = (await form.validateFields()).tdexdConnectUrl;
+      }
+      const connectData = extractConnectUrlData(tdexdConnectUrl);
       if (!useProxy) {
         dispatch(setBaseUrl(`${connectData?.proto}://` + connectData?.host));
       }
-      dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
+      dispatch(setTdexdConnectUrl(tdexdConnectUrl));
       dispatch(setConnectUrlProto(connectData?.proto));
       if (connectData?.macaroon) {
         const decodedMacaroonHex = decodeBase64UrlMacaroon(connectData.macaroon);
@@ -102,7 +129,7 @@ export const OnboardingPairing = (): JSX.Element => {
               Welcome on TDEX Dashboard
             </Title>
             <Form
-              onFinish={onFinish}
+              onFinish={({ tdexdConnectUrl }) => onFinish(tdexdConnectUrl)}
               layout="vertical"
               form={form}
               name="pairing_form"

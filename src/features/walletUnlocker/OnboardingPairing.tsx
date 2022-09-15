@@ -56,7 +56,7 @@ export const OnboardingPairing = (): JSX.Element => {
       const values = await form.validateFields();
       const connectData = extractConnectUrlData(values.tdexdConnectUrl);
       if (!useProxy) {
-        dispatch(setBaseUrl('https://' + connectData?.host));
+        dispatch(setBaseUrl(`${connectData?.proto}://` + connectData?.host));
       }
       dispatch(setTdexdConnectUrl(values.tdexdConnectUrl));
       dispatch(setConnectUrlProto(connectData?.proto));

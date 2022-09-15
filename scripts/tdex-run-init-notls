@@ -26,6 +26,8 @@ docker run -it -d --name tdexd \
   -p 9945:9945 -p 9000:9000 \
   -v "$(pwd)/tdexd:/home/user/.tdex-daemon" \
   -e TDEX_NO_MACAROONS=false \
+  -e TDEX_CONNECT_PROTO=http \
+  -e TDEX_NO_OPERATOR_TLS=true \
   -e TDEX_NETWORK="regtest" \
   -e TDEX_BASE_ASSET="$TDEX_BASE_ASSET" \
   -e TDEX_LOG_LEVEL=5 \
@@ -36,8 +38,8 @@ docker run -it -d --name tdexd \
 echo ""
 echo "init wallet"
 
-tdex='docker exec -it tdexd tdex '
-$tdex config init --network "regtest"
+tdex='docker exec -it tdexd tdex'
+$tdex config init --network "regtest" --no_tls
 
 mnemonic=$($tdex genseed | grep "\S")
 $tdex init --seed "${mnemonic}" --password secret &>/dev/null

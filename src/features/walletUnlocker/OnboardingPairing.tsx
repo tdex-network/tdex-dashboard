@@ -53,11 +53,11 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
       // Auto connect if tdex connect url is in env var (like in Umbrel)
-      if (process.env.REACT_APP_TDEX_CONNECT_URL) {
+      if ((window as any).TDEX_CONNECT_URL) {
         // isConnectUrlFromEnvVar is false on first load
         if (!isConnectUrlFromEnvVar) {
           dispatch(setIsConnectUrlFromEnvVar(true));
-          await onFinish(process.env.REACT_APP_TDEX_CONNECT_URL);
+          await onFinish((window as any).TDEX_CONNECT_URL);
         } else {
           notification.error({
             message: 'Automatic connection with TDEX connect url from environment variable has failed',

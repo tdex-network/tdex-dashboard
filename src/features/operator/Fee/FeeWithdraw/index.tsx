@@ -1,5 +1,5 @@
 import './feeWithdraw.less';
-import Icon from '@ant-design/icons';
+import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -22,8 +22,13 @@ interface IFormInputs {
   asset: string;
 }
 
+interface IPasswordFormInputs {
+  password: string;
+}
+
 export const FeeWithdraw = (): JSX.Element => {
   const { lbtcUnit, network, currency } = useTypedSelector(({ settings }: RootState) => settings);
+  const [passwordForm] = Form.useForm<IPasswordFormInputs>();
   const [form] = Form.useForm<IFormInputs>();
   const [withdrawFee, { error: withdrawFeeError, isLoading: withdrawFeeIsLoading }] =
     useWithdrawFeeMutation();
@@ -45,6 +50,7 @@ export const FeeWithdraw = (): JSX.Element => {
   const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
   const [unitAmount, setUnitAmount] = useState<number>(0);
   const [address, setAddress] = useState<string>();
+  const [isPasswordModalVisible, setIsPasswordModalVisible] = useState<boolean>();
 
   const feeTickerAsFavoriteCurrency = convertAmountToFavoriteCurrency({
     asset: LBTC_ASSET[network],
@@ -58,11 +64,13 @@ export const FeeWithdraw = (): JSX.Element => {
   const withdraw = async () => {
     try {
       if (!unitAmount || !address) return;
+      const { password } = await passwordForm.validateFields();
       const res = await withdrawFee({
         amount: Number(formatLbtcUnitToSats(unitAmount, lbtcUnit)),
         millisatsPerByte: 100,
         address: address,
         asset: LBTC_ASSET[network].asset_id,
+        password: password,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
@@ -170,8 +178,8 @@ export const FeeWithdraw = (): JSX.Element => {
         title="Withdrawal Confirmation"
         visible={isConfirmWithdrawModalVisible}
         onOk={async () => {
-          await withdraw();
           setIsConfirmWithdrawModalVisible(false);
+          setIsPasswordModalVisible(true);
         }}
         onCancel={() => setIsConfirmWithdrawModalVisible(false)}
       >
@@ -179,6 +187,27 @@ export const FeeWithdraw = (): JSX.Element => {
           Are you sure you want to withdraw {unitAmount} {lbtcUnit} to address
           <span className="address ml-1">{address}</span> ?
         </p>
+      </Modal>
+      <Modal
+        title="Withdrawal Password Confirmation"
+        visible={isPasswordModalVisible}
+        onOk={async () => {
+          await withdraw();
+          setIsPasswordModalVisible(false);
+        }}
+        onCancel={() => {
+          setIsPasswordModalVisible(false);
+          passwordForm.resetFields();
+        }}
+      >
+        <Form layout="vertical" form={passwordForm} name="withdraw_password_form" wrapperCol={{ span: 24 }}>
+          <Form.Item noStyle label="Enter your password" name="password">
+            <Input.Password
+              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+              className="input__medium"
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );

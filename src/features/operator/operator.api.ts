@@ -172,22 +172,14 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
-    withdrawFee: build.mutation<
-      WithdrawFeeResponse,
-      {
-        amount: number;
-        millisatsPerByte: number;
-        address: string;
-        asset: string;
-      }
-    >({
-      queryFn: async ({ amount, millisatsPerByte, address, asset }, { getState }) => {
+    withdrawFee: build.mutation<WithdrawFeeResponse, WithdrawFeeRequest>({
+      queryFn: async ({ amount, millisatsPerByte, address, asset, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.withdrawFee(
-            WithdrawFeeRequest.create({ address, amount, asset, millisatsPerByte }),
+            WithdrawFeeRequest.create({ address, amount, asset, millisatsPerByte, password }),
             { meta: macaroon ? { macaroon } : undefined }
           );
           return {
@@ -268,7 +260,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFeeFragmenter: build.mutation<WithdrawFeeFragmenterResponse, WithdrawFeeFragmenterRequest>({
-      queryFn: async ({ address, millisatsPerByte }, { getState }) => {
+      queryFn: async ({ address, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
@@ -276,7 +268,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           return {
             data: (
               await client.withdrawFeeFragmenter(
-                WithdrawFeeFragmenterRequest.create({ address, millisatsPerByte }),
+                WithdrawFeeFragmenterRequest.create({ address, millisatsPerByte, password }),
                 { meta: macaroon ? { macaroon } : undefined }
               )
             ).response,
@@ -477,32 +469,24 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['Market'],
     }),
-    withdrawMarket: build.mutation<
-      WithdrawMarketResponse,
-      {
-        market: Market;
-        balance: Balance;
-        address: string;
-        millisatsPerByte: number;
-      }
-    >({
-      queryFn: async ({ market, balance, address, millisatsPerByte }, { getState }) => {
+    withdrawMarket: build.mutation<WithdrawMarketResponse, WithdrawMarketRequest>({
+      queryFn: async ({ market, balanceToWithdraw, address, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          //
-          const { baseAmount, quoteAmount } = balance;
-          const newBalance = Balance.create({ baseAmount, quoteAmount });
-          //
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newBalance = Balance.create({
+            baseAmount: balanceToWithdraw?.baseAmount,
+            quoteAmount: balanceToWithdraw?.quoteAmount,
+          });
           const call = await client.withdrawMarket(
             WithdrawMarketRequest.create({
               market: newMarket,
               balanceToWithdraw: newBalance,
               address,
               millisatsPerByte,
+              password,
             }),
             { meta: macaroon ? { macaroon } : undefined }
           );
@@ -693,9 +677,9 @@ export const operatorApi = tdexApi.injectEndpoints({
     }),
     withdrawMarketFragmenter: build.mutation<
       WithdrawMarketFragmenterResponse,
-      { address: string; millisatsPerByte: number }
+      WithdrawMarketFragmenterRequest
     >({
-      queryFn: async ({ address, millisatsPerByte }, { getState }) => {
+      queryFn: async ({ address, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state);
         const macaroon = selectMacaroonCreds(state);
@@ -703,7 +687,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           return {
             data: (
               await client.withdrawMarketFragmenter(
-                WithdrawMarketFragmenterRequest.create({ address, millisatsPerByte }),
+                WithdrawMarketFragmenterRequest.create({ address, millisatsPerByte, password }),
                 { meta: macaroon ? { macaroon } : undefined }
               )
             ).response,

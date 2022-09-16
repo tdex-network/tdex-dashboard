@@ -1,4 +1,4 @@
-import Icon from '@ant-design/icons';
+import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
@@ -11,6 +11,7 @@ import { useWithdrawMarketFragmenterMutation } from '../../operator.api';
 interface IFormInputs {
   millisatsPerByte: number;
   address: string;
+  password: string;
 }
 
 export const MarketFragmenterWithdraw = (): JSX.Element => {
@@ -26,6 +27,7 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
       const res = await withdrawMarketFragmenter({
         millisatsPerByte: 100,
         address: values.address,
+        password: values.password,
       });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
@@ -67,6 +69,12 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
               <Button htmlType="submit" loading={withdrawMarketFragmenterIsLoading} className="w-100">
                 RECOVERY MARKETS WITHDRAW
               </Button>
+            </Form.Item>
+            <Form.Item name="password">
+              <Input.Password
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                className="input__medium"
+              />
             </Form.Item>
           </Form>
         </Col>

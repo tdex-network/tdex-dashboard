@@ -65,7 +65,6 @@ export const OnboardingPairing = (): JSX.Element => {
       if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true
         dispatch(setIsPackaged(true));
-        dispatch(setBaseUrl(process.env.REACT_APP_TDEX_DAEMON_URL || ''));
         setIsEnterPasswordModalVisible(true);
       }
     })();

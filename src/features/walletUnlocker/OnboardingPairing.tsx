@@ -16,6 +16,7 @@ import {
 import { liquidApi } from '../liquid.api';
 import { operatorApi } from '../operator/operator.api';
 import {
+  getTdexdConnectUrlProxy,
   setBaseUrl,
   setConnectUrlProto,
   setMacaroonCredentials,
@@ -53,11 +54,17 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
       // Auto connect if tdex connect url is in env var (like in Umbrel)
-      if ((window as any).TDEX_CONNECT_URL) {
+      if ((window as any).IS_PACKAGED || process.env.REACT_APP_IS_PACKAGED) {
         // isConnectUrlFromEnvVar is false on first load
         if (!isConnectUrlFromEnvVar) {
           dispatch(setIsConnectUrlFromEnvVar(true));
-          await onFinish((window as any).TDEX_CONNECT_URL);
+          try {
+            const url = await dispatch(getTdexdConnectUrlProxy()).unwrap();
+            console.log('url', url);
+          } catch (err) {
+            console.log('err', err);
+          }
+          // await onFinish((window as any).IS_PACKAGED);
         } else {
           notification.error({
             message: 'Automatic connection with TDEX connect url from environment variable has failed',

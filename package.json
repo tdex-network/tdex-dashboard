@@ -75,7 +75,7 @@
     "lint": "yarn run eslint && yarn run prettier --check",
     "prettier": "prettier './src/**/*.{ts,tsx}'",
     "proxy:run": "make run",
-    "start": "PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
+    "start": "REACT_APP_IS_PACKAGED=true PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "start:testnet": "REACT_APP_CHAIN=testnet PORT=3003 nodemon -w './src/assets/styles/antd.customize.less' --exec 'craco start'",
     "tauri:build": "cargo tauri build",
     "tauri:dev": "cargo tauri dev",

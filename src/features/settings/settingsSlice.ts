@@ -109,6 +109,33 @@ export const healthCheckProxy = createAsyncThunk<
   }
 });
 
+export const getTdexdConnectUrlProxy = createAsyncThunk<string, void, { state: RootState }>(
+  'settings/getTdexdConnectUrlProxy',
+  async (_, thunkAPI) => {
+    try {
+      const { settings } = thunkAPI.getState();
+      console.log('settings.baseUrl', settings.baseUrl);
+      const res = await fetch('http://localhost:9000' + '/tdexdconnect', {
+        method: 'GET',
+        headers: new Headers({ Authorization: `Basic ${Buffer.from('tdex:secret').toString('base64')}` }),
+      });
+      console.log('//res', res);
+      console.log('res', await res.text());
+      //const connectUrl = JSON.parse(await res.text());
+      //console.log('connectUrl', connectUrl);
+      //thunkAPI.dispatch(setProxyHealth(proxyHealth.desc));
+      return 'connectUrl';
+    } catch (err) {
+      if (err instanceof TypeError) {
+        return thunkAPI.rejectWithValue(err.message);
+      } else {
+        // @ts-ignore
+        return thunkAPI.rejectWithValue(err.response.data);
+      }
+    }
+  }
+);
+
 export const initialState: SettingsState = {
   network: config.chain,
   explorerLiquidAPI: config.explorerLiquidAPI,

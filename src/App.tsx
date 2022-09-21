@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
 import type { ChildProcess } from '@tauri-apps/api/shell';
@@ -52,6 +53,10 @@ export const App = (): JSX.Element => {
           }
         });
       }
+
+      notification.config({
+        closeIcon: <PlusOutlined />,
+      });
     })();
     // eslint-disable-next-line
   }, []);

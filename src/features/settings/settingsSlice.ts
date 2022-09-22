@@ -117,7 +117,9 @@ export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: Root
       const res = await fetch(`${(window as any).TDEX_DAEMON_URL}/tdexdconnect`, {
         method: 'GET',
         headers: new Headers({
-          Authorization: `Basic ${Buffer.from(`tdex:${password}`).toString('base64')}`,
+          Authorization: `Basic ${Buffer.from(unescape(encodeURIComponent(`tdex:${password}`))).toString(
+            'base64'
+          )}`,
         }),
       });
       if (!res.ok) {

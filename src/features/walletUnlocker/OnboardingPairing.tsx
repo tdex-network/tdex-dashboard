@@ -99,7 +99,7 @@ export const OnboardingPairing = (): JSX.Element => {
       handleEnterPasswordModalCancel();
     } catch (err) {
       if (typeof err === 'string' && err === 'Unauthorized') {
-        notification.error({ message: 'Invalid password' });
+        notification.error({ message: 'Invalid password', key: 'invalid_password' });
       } else {
         dispatch(setIsPackaged(false));
         notification.error({

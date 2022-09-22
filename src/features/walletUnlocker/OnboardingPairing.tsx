@@ -17,7 +17,7 @@ import {
 import { liquidApi } from '../liquid.api';
 import { operatorApi } from '../operator/operator.api';
 import {
-  getTdexdConnectUrlProxy,
+  getTdexdConnectUrl,
   setBaseUrl,
   setConnectUrlProto,
   setMacaroonCredentials,
@@ -75,7 +75,7 @@ export const OnboardingPairing = (): JSX.Element => {
     try {
       setIsTdexdConnectUrlLoading(true);
       const values = await passwordForm.validateFields();
-      const connectUrl = await dispatch(getTdexdConnectUrlProxy(values.password)).unwrap();
+      const connectUrl = await dispatch(getTdexdConnectUrl(values.password)).unwrap();
       const connectUrlData = extractConnectUrlData(connectUrl);
       if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
         await onFinish(connectUrl);
@@ -83,9 +83,7 @@ export const OnboardingPairing = (): JSX.Element => {
       passwordForm.resetFields();
       handleEnterPasswordModalCancel();
     } catch (err) {
-      console.error(err);
-      // Wrong password error. Error Code 401 not available so we check error message
-      if (typeof err === 'string' && err === 'Failed to fetch') {
+      if (typeof err === 'string' && err === 'Unauthorized') {
         notification.error({ message: 'Invalid password' });
       } else {
         dispatch(setIsPackaged(false));

@@ -109,8 +109,8 @@ export const healthCheckProxy = createAsyncThunk<
   }
 });
 
-export const getTdexdConnectUrlProxy = createAsyncThunk<string, string, { state: RootState }>(
-  'settings/getTdexdConnectUrlProxy',
+export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: RootState }>(
+  'settings/getTdexdConnectUrl',
   async (password, thunkAPI) => {
     try {
       if (!(window as any).TDEX_DAEMON_URL) throw new Error('TDEX_DAEMON_URL is missing');
@@ -120,14 +120,14 @@ export const getTdexdConnectUrlProxy = createAsyncThunk<string, string, { state:
           Authorization: `Basic ${Buffer.from(`tdex:${password}`).toString('base64')}`,
         }),
       });
+      if (!res.ok) {
+        // Handle 401 Unauthorized response
+        throw new Error(res.statusText);
+      }
       return await res.text();
     } catch (err) {
-      if (err instanceof TypeError) {
-        return thunkAPI.rejectWithValue(err.message);
-      } else {
-        // @ts-ignore
-        return thunkAPI.rejectWithValue(err.response.data);
-      }
+      // @ts-ignore
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );

@@ -62,10 +62,16 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
       // Auto connect if IS_PACKAGED (like in Umbrel)
-      if ((window as any).IS_PACKAGED) {
+      if ((window as any).IS_PACKAGED && (window as any).TDEX_DAEMON_URL) {
         // isPackaged is false on first load, set it to true
         dispatch(setIsPackaged(true));
-        setIsEnterPasswordModalVisible(true);
+        dispatch(setBaseUrl((window as any).TDEX_DAEMON_URL));
+        const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
+        if (isReady.data?.initialized) {
+          setIsEnterPasswordModalVisible(true);
+        } else {
+          navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
+        }
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

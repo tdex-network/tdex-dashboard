@@ -1,7 +1,6 @@
-import type { NetworkString } from 'ldk';
-
 import type { MarketInfo } from '../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import type { Asset } from '../domain/asset';
+import type { NetworkString } from '../domain/misc';
 
 import type { LbtcUnit } from './constants';
 import { LBTC_ASSET, LBTC_TICKER, LCAD_ASSET, LCAD_TICKER, USDT_ASSET, USDT_TICKER } from './constants';

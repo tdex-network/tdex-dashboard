@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import type { NetworkString } from 'ldk';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
@@ -7,6 +6,7 @@ import type { IsReadyResponse } from '../api-spec/protobuf/gen/js/tdex-daemon/v1
 import { configRecord } from '../app/config';
 import type { RootState } from '../app/store';
 import { useTypedDispatch, useTypedSelector } from '../app/store';
+import type { NetworkString } from '../domain/misc';
 import { Home } from '../features/home/Home';
 import { FeeDeposit } from '../features/operator/Fee/FeeDeposit';
 import { FeeWithdraw } from '../features/operator/Fee/FeeWithdraw';

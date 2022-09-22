@@ -1,7 +1,6 @@
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { NetworkString } from 'ldk';
 
 import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb.client';
 import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb.client';
@@ -11,6 +10,7 @@ import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { Currency } from '../../domain/currency';
 import type { MarketLabelled } from '../../domain/market';
+import type { NetworkString } from '../../domain/misc';
 import type { LbtcUnit } from '../../utils';
 import { CURRENCIES, featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
 

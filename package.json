@@ -25,7 +25,6 @@
     "craco-antd": "^2.0.0",
     "dayjs": "^1.10.7",
     "decode-uri-component": "^0.2.0",
-    "ldk": "0.4.4",
     "lodash.groupby": "^4.6.0",
     "os-browserify": "^0.3.0",
     "qrcode.react": "^3.1.0",

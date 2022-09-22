@@ -1,7 +1,6 @@
-import type { NetworkString } from 'ldk';
-
 import type { Asset } from '../domain/asset';
 import type { Currency } from '../domain/currency';
+import type { NetworkString } from '../domain/misc';
 
 export const defaultPrecision = 8;
 

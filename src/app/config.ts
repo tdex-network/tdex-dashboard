@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-mutable-exports
-import type { NetworkString } from 'ldk';
+import type { NetworkString } from '../domain/misc';
 
 // eslint-disable-next-line import/no-mutable-exports
 let config: {

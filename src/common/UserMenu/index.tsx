@@ -1,5 +1,5 @@
 import { RightOutlined } from '@ant-design/icons';
-import { Button, Divider } from 'antd';
+import { Button, Divider, notification } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { DefaultCurrencyRadioButtons } from '../../features/settings/DefaultCurr
 import { FavoriteBitcoinUnitsRadioButtons } from '../../features/settings/FavoriteBitcoinUnitsRadioButtons';
 import { logout, resetSettings } from '../../features/settings/settingsSlice';
 import { tdexApi } from '../../features/tdex.api';
+import { resetWalletUnlocker } from '../../features/walletUnlocker/walletUnlockerSlice';
 import { ONBOARDING_PAIRING_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
 import { DisconnectAndResetModal } from './DisconnectAndResetModal';
@@ -35,6 +36,7 @@ export const UserMenu = ({ isUserMenuVisible, isConnectionPage = false }: UserMe
 
   const clearCache = async () => {
     dispatch(resetSettings());
+    dispatch(resetWalletUnlocker());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());
     dispatch(tdexApi.util.resetApiState());
@@ -47,7 +49,16 @@ export const UserMenu = ({ isUserMenuVisible, isConnectionPage = false }: UserMe
         className={classNames({ 'user-menu-visible': isUserMenuVisible, 'user-menu': !isUserMenuVisible })}
       >
         {isConnectionPage ? (
-          <Button danger onClick={() => clearCache()}>
+          <Button
+            danger
+            onClick={async () => {
+              await clearCache();
+              notification.success({
+                message: 'Application state has been reset successfully',
+                key: 'reset',
+              });
+            }}
+          >
             FORCE RESET
           </Button>
         ) : (

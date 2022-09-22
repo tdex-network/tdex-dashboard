@@ -83,6 +83,7 @@
     "tdex:connect": "docker exec -it tdexd tdexdconnect --out url",
     "tdex:connect-notls": "docker exec -it tdexd tdexdconnect --out url --no_tls --proto=http",
     "tdex:run": "bash scripts/tdex-run",
+    "tdex:run-notls": "bash scripts/tdex-run-notls",
     "tdex:run-init": "bash scripts/tdex-run-init",
     "tdex:run-init-notls": "bash scripts/tdex-run-init-notls",
     "tdex:run-testnet": "bash scripts/tdex-run-testnet",

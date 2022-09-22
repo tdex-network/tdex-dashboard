@@ -62,9 +62,7 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
           const call = await client.unlockWallet(UnlockWalletRequest.create({ walletPassword }), {
             meta: macaroon ? { macaroon } : undefined,
           });
-          return {
-            data: call.response,
-          };
+          return { data: call.response };
         });
       },
       invalidatesTags: ['isReady', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
@@ -93,9 +91,7 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
           const call = await client.isReady(IsReadyRequest.create(), {
             meta: macaroon ? { macaroon } : undefined,
           });
-          return {
-            data: call.response,
-          };
+          return { data: call.response };
         });
       },
       providesTags: ['isReady'],

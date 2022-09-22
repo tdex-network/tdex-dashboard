@@ -12,7 +12,7 @@ import type { Asset } from '../../domain/asset';
 import type { Currency } from '../../domain/currency';
 import type { MarketLabelled } from '../../domain/market';
 import type { LbtcUnit } from '../../utils';
-import { featuredAssets, LBTC_ASSET, LBTC_UNITS, CURRENCIES } from '../../utils';
+import { CURRENCIES, featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
 
 const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
@@ -108,6 +108,29 @@ export const healthCheckProxy = createAsyncThunk<
     }
   }
 });
+
+export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: RootState }>(
+  'settings/getTdexdConnectUrl',
+  async (password, thunkAPI) => {
+    try {
+      if (!(window as any).TDEX_DAEMON_URL) throw new Error('TDEX_DAEMON_URL is missing');
+      const res = await fetch(`${(window as any).TDEX_DAEMON_URL}/tdexdconnect`, {
+        method: 'GET',
+        headers: new Headers({
+          Authorization: `Basic ${Buffer.from(`tdex:${password}`).toString('base64')}`,
+        }),
+      });
+      if (!res.ok) {
+        // Handle 401 Unauthorized response
+        throw new Error(res.statusText);
+      }
+      return await res.text();
+    } catch (err) {
+      // @ts-ignore
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
 
 export const initialState: SettingsState = {
   network: config.chain,

@@ -15,9 +15,9 @@
       "signature": "",
       "url": "https://github.com/tdex-network/tdex-dashboard/releases/download/v0.1.36/tdex-dashboard_0.1.36_amd64.AppImage"
     },
-    "windows-x86_64": {
+    "linux-aarch64": {
       "signature": "",
-      "url": "https://github.com/tdex-network/tdex-dashboard/releases/download/v0.1.36/tdex-dashboard.app.tar.gz"
+      "url": "https://github.com/tdex-network/tdex-dashboard/releases/download/v0.1.36/tdex-dashboard_0.1.36_amd64.AppImage"
     }
   }
 }

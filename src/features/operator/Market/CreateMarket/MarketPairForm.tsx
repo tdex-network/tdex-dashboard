@@ -1,11 +1,11 @@
 import { Button, Col, Row, notification, Select } from 'antd';
 import classNames from 'classnames';
-import type { NetworkString } from 'ldk';
 import React, { useEffect, useState } from 'react';
 
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import type { Asset } from '../../../../domain/asset';
+import type { NetworkString } from '../../../../domain/misc';
 import { LBTC_ASSET } from '../../../../utils';
 import { useNewMarketMutation } from '../../operator.api';
 

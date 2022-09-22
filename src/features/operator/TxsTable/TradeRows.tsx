@@ -1,9 +1,8 @@
-import type { NetworkString } from 'ldk';
-
 import type { TradeInfo } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
+import type { NetworkString } from '../../../domain/misc';
 import type { LbtcUnit } from '../../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../utils';
 

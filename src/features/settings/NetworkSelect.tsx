@@ -1,8 +1,8 @@
 import { Col, Row, Select, Typography } from 'antd';
-import type { NetworkString } from 'ldk';
 
 import { configRecord } from '../../app/config';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
+import type { NetworkString } from '../../domain/misc';
 
 import { setExplorerLiquidAPI, setExplorerLiquidUI, setNetwork } from './settingsSlice';
 

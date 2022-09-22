@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Big from 'big.js';
 import type { BigSource } from 'big.js';
-import type { NetworkString } from 'ldk';
 
 import type { Asset } from '../domain/asset';
 import type { Currency } from '../domain/currency';
+import type { NetworkString } from '../domain/misc';
 import type { LbtcUnit } from '../utils';
 import {
   isLbtcAssetId,

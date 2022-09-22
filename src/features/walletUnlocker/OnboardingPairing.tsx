@@ -67,10 +67,19 @@ export const OnboardingPairing = (): JSX.Element => {
         dispatch(setIsPackaged(true));
         dispatch(setBaseUrl((window as any).TDEX_DAEMON_URL));
         const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
-        if (isReady.data?.initialized) {
-          setIsEnterPasswordModalVisible(true);
+        // If connection to daemon fails, switch to regular pairing and show toast error message
+        if (isReady.error) {
+          dispatch(setIsPackaged(false));
+          notification.error({
+            message: 'Automatic connection with TDEX connect url from environment variable has failed',
+            key: 'auto_connect_failure',
+          });
         } else {
-          navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
+          if (isReady.data?.initialized) {
+            setIsEnterPasswordModalVisible(true);
+          } else {
+            navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
+          }
         }
       }
     })();

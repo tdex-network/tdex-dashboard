@@ -13,7 +13,7 @@ import { useTypedSelector } from '../../app/store';
 import alertOctogon from '../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../routes/constants';
-import { getAssetDataFromRegistry } from '../../utils';
+import { assetIdToTicker, getAssetDataFromRegistry } from '../../utils';
 
 const { Text, Title } = Typography;
 
@@ -132,7 +132,12 @@ export const DepositPage = ({
         <Col span={12}>
           <Row className="panel panel__grey panel__top deposit-address-frame text-center flex-column">
             <Title className="dm-sans dm-sans__x dm-sans__bold" level={3}>
-              Deposit L-BTC only
+              {type === 'Fee'
+                ? 'Deposit L-BTC only'
+                : `Deposit ${assetIdToTicker(
+                    market?.baseAsset ?? '',
+                    assetRegistry[network]
+                  )} and ${assetIdToTicker(market?.quoteAsset ?? '', assetRegistry[network])}`}
             </Title>
             {depositAddress ? (
               <Col span={8}>

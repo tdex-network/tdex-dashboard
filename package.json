@@ -93,5 +93,5 @@
     "tdexproxy:up": "docker-compose up -d",
     "test": "craco test"
   },
-  "version": "0.1.36"
+  "version": "0.1.37"
 }

@@ -14,7 +14,6 @@ import type { NetworkString } from '../../domain/misc';
 import type { LbtcUnit } from '../../utils';
 import { CURRENCIES, featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
 
-const USE_PROXY = '__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY));
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 
 const proxyHealthStatus = ['SERVING', 'SERVING_NOT_CONNECTED', 'NOT_SERVING'] as const;
@@ -29,7 +28,7 @@ export interface SettingsState {
   explorersLiquidUI: string[];
   assets: Record<NetworkString, Asset[]>;
   baseUrl: string;
-  useProxy: boolean;
+  useProxy?: boolean;
   isTauri: boolean;
   marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
@@ -146,14 +145,13 @@ export const initialState: SettingsState = {
     'https://blockstream.info/liquid',
   ],
   explorerLiquidUI: config.explorerLiquidUI,
-  baseUrl: USE_PROXY ? PROXY_URL : '',
+  baseUrl: '',
   isTauri: '__TAURI__' in window,
   assets: {
     liquid: featuredAssets['liquid'],
     testnet: featuredAssets['testnet'],
     regtest: [LBTC_ASSET['regtest']],
   },
-  useProxy: USE_PROXY,
   lbtcUnit: LBTC_UNITS[0],
   currency: CURRENCIES[0],
 };
@@ -218,11 +216,12 @@ export const settingsSlice = createSlice({
     },
     setUseProxy: (state, action: PayloadAction<boolean>) => {
       state.useProxy = action.payload;
+      state.baseUrl = PROXY_URL;
     },
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
-      state.baseUrl = USE_PROXY ? PROXY_URL : '';
+      state.baseUrl = state.useProxy ? PROXY_URL : '';
       state.proxyHealth = undefined;
     },
     resetSettings: () => initialState,
@@ -230,7 +229,7 @@ export const settingsSlice = createSlice({
 });
 
 export function selectBaseUrl(state: RootState): string {
-  return state.settings.baseUrl;
+  return state.settings.baseUrl ?? '';
 }
 
 export function selectMacaroonCreds(state: RootState): string {

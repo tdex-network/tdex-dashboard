@@ -126,8 +126,9 @@ export const OnboardingPairing = (): JSX.Element => {
         tdexdConnectUrl = (await form.validateFields()).tdexdConnectUrl;
       }
       const connectData = extractConnectUrlData(tdexdConnectUrl);
-      // If no cert we don't use proxy
-      const isProxyNeeded = useProxy && !!connectData?.cert;
+      const isProxyNeeded =
+        ('__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY))) &&
+        !!connectData?.cert;
       dispatch(setUseProxy(isProxyNeeded));
       if (!isProxyNeeded) {
         dispatch(setBaseUrl(`${connectData?.proto}://` + connectData?.host));

@@ -99,15 +99,20 @@ export const App = (): JSX.Element => {
     }
   }, 125);
 
+  // Start proxy sidecar
+  useEffect(() => {
+    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
+      startProxySidecar(dispatch, proxyPid);
+    }
+  }, [dispatch, isExiting, proxyHealth, proxyPid, useProxy]);
+
   // Connect/Disconnect proxy
   useEffect(() => {
     (async () => {
-      if (useProxy) {
-        if (proxyHealth !== 'SERVING' && !isExiting) {
-          await startProxySidecar(dispatch, proxyPid);
-        }
+      if (useProxy && proxyPid) {
         if (tdexdConnectUrl) {
           await dispatch(connectProxy()).unwrap();
+          await dispatch(healthCheckProxy()).unwrap();
         } else {
           const { desc } = await dispatch(healthCheckProxy()).unwrap();
           if (desc === 'SERVING') {
@@ -116,7 +121,7 @@ export const App = (): JSX.Element => {
         }
       }
     })();
-  }, [useProxy, tdexdConnectUrl, dispatch, proxyPid, proxyHealth, isExiting]);
+  }, [dispatch, proxyPid, tdexdConnectUrl, useProxy]);
 
   return (
     <>

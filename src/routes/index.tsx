@@ -71,11 +71,11 @@ export const Routes = (): JSX.Element => {
   const { tdexdConnectUrl, proxyHealth, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
   const { isSuccess: isReadySuccess, isError: isReadyError } = useIsReadyQuery(undefined, {
     // Skip if no tdexdConnectUrl or if proxy is used but not serving
-    skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
+    skip: !tdexdConnectUrl || (useProxy && proxyHealth !== 'SERVING'),
   });
   const { data: daemonInfo } = useGetInfoQuery(undefined, {
     // Skip if no tdexdConnectUrl or if proxy is used but not serving
-    skip: !tdexdConnectUrl || (proxyHealth && proxyHealth !== 'SERVING'),
+    skip: !tdexdConnectUrl || (useProxy && proxyHealth !== 'SERVING'),
   });
 
   useEffect(() => {

@@ -22,6 +22,7 @@ import {
   setConnectUrlProto,
   setMacaroonCredentials,
   setTdexdConnectUrl,
+  setUseProxy,
 } from '../settings/settingsSlice';
 import { walletApi } from '../wallet/wallet.api';
 
@@ -125,7 +126,10 @@ export const OnboardingPairing = (): JSX.Element => {
         tdexdConnectUrl = (await form.validateFields()).tdexdConnectUrl;
       }
       const connectData = extractConnectUrlData(tdexdConnectUrl);
-      if (!useProxy) {
+      // If no cert we don't use proxy
+      const isProxyNeeded = useProxy && !!connectData?.cert;
+      dispatch(setUseProxy(isProxyNeeded));
+      if (!isProxyNeeded) {
         dispatch(setBaseUrl(`${connectData?.proto}://` + connectData?.host));
       }
       dispatch(setTdexdConnectUrl(tdexdConnectUrl));

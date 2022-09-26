@@ -216,6 +216,9 @@ export const settingsSlice = createSlice({
     setProxyHealth: (state, action: PayloadAction<ProxyHealthStatus | undefined>) => {
       state.proxyHealth = action.payload;
     },
+    setUseProxy: (state, action: PayloadAction<boolean>) => {
+      state.useProxy = action.payload;
+    },
     logout: (state) => {
       state.macaroonCredentials = undefined;
       state.tdexdConnectUrl = undefined;
@@ -271,6 +274,7 @@ export const {
   resetSettings,
   logout,
   setAsset,
+  setUseProxy,
   setMarketLabelled,
 } = settingsSlice.actions;
 

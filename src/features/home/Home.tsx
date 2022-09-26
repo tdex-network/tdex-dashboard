@@ -14,14 +14,14 @@ import { DashboardPanelRight } from './DashboardPanelRight';
 const { Title } = Typography;
 
 export const Home = (): JSX.Element => {
-  const { lbtcUnit, proxyHealth } = useTypedSelector(({ settings }) => settings);
+  const { lbtcUnit, proxyHealth, useProxy } = useTypedSelector(({ settings }) => settings);
   const {
     data: isReady,
     refetch: refetchIsReady,
     error: errorIsReady,
   } = useIsReadyQuery(undefined, {
     // Skip if proxy is used but not serving
-    skip: proxyHealth && proxyHealth !== 'SERVING',
+    skip: useProxy && proxyHealth !== 'SERVING',
   });
   const priceFeed = useLatestPriceFeedFromCoinGeckoQuery(undefined, { pollingInterval: 60000 });
   const { data: daemonInfo, isFetching: daemonInfoIsFetching } = useGetInfoQuery();

@@ -144,7 +144,12 @@ export const DepositPage = ({
                 />
               </Col>
             ) : (
-              <p className="dm-sans dm-sans__x dm-sans__bold">Please generate a new address</p>
+              <div className="d-block">
+                <Title className="dm-sans dm-sans__x dm-sans__bold" level={3}>
+                  Deposit L-BTC only
+                </Title>
+                <p className="dm-sans dm-sans__x dm-sans__bold">Please generate a new address</p>
+              </div>
             )}
           </Row>
           <Row className="py-6 deposit-address">

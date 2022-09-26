@@ -1,10 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { once } from '@tauri-apps/api/event';
 import { exit } from '@tauri-apps/api/process';
-import type { ChildProcess } from '@tauri-apps/api/shell';
-import { Child, Command } from '@tauri-apps/api/shell';
+import { Child } from '@tauri-apps/api/shell';
 import { notification } from 'antd';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { RootState } from './app/store';
 import { useTypedDispatch, useTypedSelector } from './app/store';
@@ -19,14 +18,14 @@ import {
 import { useExponentialInterval } from './hooks/useExponentialInterval';
 import { Routes } from './routes';
 import { sleep } from './utils';
+import { startProxySidecar } from './utils/proxy';
 
 export const App = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { useProxy, isTauri, proxyHealth, proxyPid, tdexdConnectUrl } = useTypedSelector(
+  const { useProxy, tdexdConnectUrl, isTauri, proxyHealth, proxyPid } = useTypedSelector(
     ({ settings }: RootState) => settings
   );
   const [isExiting, setIsExiting] = useState<boolean>(false);
-  const proxyChildProcess = useRef<Child | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -76,31 +75,6 @@ export const App = (): JSX.Element => {
     })();
   }, [dispatch, isExiting, proxyHealth, proxyPid]);
 
-  const startProxy = useCallback(async () => {
-    if (!proxyPid) {
-      const command = Command.sidecar('bin/grpcproxy');
-      command.on('close', (data: ChildProcess) => {
-        console.log(`grpcproxy command finished with code ${data.code} and signal ${data.signal}`);
-      });
-      command.on('error', (error) => console.error(`grpcproxy command error: "${error}"`));
-      command.stdout.on('data', (line) => console.log(`grpcproxy command stdout: "${line}"`));
-      command.stderr.on('data', (line) => console.log(`grpcproxy command stderr: "${line}"`));
-      // Set pid in ref to avoid running the function multiple times
-      proxyChildProcess.current = (await command.spawn()) ?? null;
-      // Persist pid in storage to keep it after app reloads
-      dispatch(setProxyPid(proxyChildProcess.current.pid));
-      console.debug('Proxy pid:', proxyChildProcess.current.pid);
-    }
-  }, [dispatch, proxyPid]);
-
-  const startupProxy = useCallback(async () => {
-    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
-      if (isTauri) {
-        await startProxy();
-      }
-    }
-  }, [useProxy, proxyHealth, isExiting, isTauri, startProxy]);
-
   // Update health proxy status every x seconds
   // Try to restart proxy if 'Load failed' error
   useExponentialInterval(() => {
@@ -115,7 +89,7 @@ export const App = (): JSX.Element => {
               // Reset proxyHealth manually because healthCheckProxy thunk is throwing before setting it
               dispatch(setProxyHealth(undefined));
               console.log('Restart proxy');
-              await startProxy();
+              await startProxySidecar(dispatch, proxyPid);
             } catch (err) {
               console.log('Restart failure', err);
             }
@@ -125,47 +99,29 @@ export const App = (): JSX.Element => {
     }
   }, 125);
 
-  // Start and connect to gRPC proxy
+  // Start proxy sidecar
   useEffect(() => {
-    if (useProxy && !isExiting) {
-      (async () => {
-        const startupProxyRetry = async (retryCount = 0, lastError?: string): Promise<void> => {
-          if (retryCount > 5) throw new Error(lastError);
-          try {
-            await startupProxy();
-          } catch (err) {
-            await sleep(2000);
-            // @ts-ignore
-            await startupProxyRetry(retryCount + 1, err);
-          }
-        };
-        try {
-          await startupProxyRetry();
-        } catch (err) {
-          console.error('startupProxyRetry error', err);
-          notification.error({
-            message: 'Service is not available or credentials are wrong',
-            key: 'service unavailable',
-          });
-        }
-      })();
+    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
+      startProxySidecar(dispatch, proxyPid);
     }
-  }, [isExiting, proxyHealth, startupProxy, useProxy]);
+  }, [dispatch, isExiting, proxyHealth, proxyPid, useProxy]);
 
+  // Connect/Disconnect proxy
   useEffect(() => {
-    if (useProxy) {
-      (async () => {
+    (async () => {
+      if (useProxy && proxyPid) {
         if (tdexdConnectUrl) {
           await dispatch(connectProxy()).unwrap();
+          await dispatch(healthCheckProxy()).unwrap();
         } else {
           const { desc } = await dispatch(healthCheckProxy()).unwrap();
           if (desc === 'SERVING') {
             await dispatch(disconnectProxy()).unwrap();
           }
         }
-      })();
-    }
-  }, [useProxy, tdexdConnectUrl, dispatch]);
+      }
+    })();
+  }, [dispatch, proxyPid, tdexdConnectUrl, useProxy]);
 
   return (
     <>

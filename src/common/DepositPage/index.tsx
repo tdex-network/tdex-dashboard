@@ -130,7 +130,10 @@ export const DepositPage = ({
           </div>
         </Col>
         <Col span={12}>
-          <Row className="panel panel__grey panel__top deposit-address-frame text-center">
+          <Row className="panel panel__grey panel__top deposit-address-frame text-center flex-column">
+            <Title className="dm-sans dm-sans__x dm-sans__bold" level={3}>
+              Deposit L-BTC only
+            </Title>
             {depositAddress ? (
               <Col span={8}>
                 <QRCodeSVG
@@ -143,9 +146,7 @@ export const DepositPage = ({
                   size={128}
                 />
               </Col>
-            ) : (
-              <p className="dm-sans dm-sans__x dm-sans__bold">Please generate a new address</p>
-            )}
+            ) : null}
           </Row>
           <Row className="py-6 deposit-address">
             <Col span={21} offset={1}>

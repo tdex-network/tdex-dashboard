@@ -6,8 +6,8 @@ import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import type { Asset } from '../../../../domain/asset';
 import type { NetworkString } from '../../../../domain/misc';
-import { LBTC_ASSET } from '../../../../utils';
-import { useNewMarketMutation } from '../../operator.api';
+import { assetIdToTicker, LBTC_ASSET } from '../../../../utils';
+import { useGetInfoQuery, useNewMarketMutation } from '../../operator.api';
 
 import { AddCustomToken } from './AddCustomToken';
 
@@ -35,6 +35,7 @@ export const MarketPairForm = ({
   const selectAssetList = assets[network].concat([
     { ticker: 'Generic Asset', asset_id: '', name: '', precision: 8 },
   ]);
+  const { data } = useGetInfoQuery();
 
   useEffect(() => {
     setActiveSelectComponent('base');
@@ -83,7 +84,15 @@ export const MarketPairForm = ({
     <div id="market-pair-container">
       <Row gutter={{ xs: 4, sm: 10, md: 16 }} className={classNames({ 'mb-4': !showGenericAssetForm })}>
         <Col span={12}>
-          <Select value={baseAsset.ticker} onChange={(ticker) => handleChangeBaseAsset(ticker, network)}>
+          <Select
+            value={
+              data?.fixedBaseAsset
+                ? assetIdToTicker(data?.fixedBaseAsset ?? '', assets[network])
+                : baseAsset.ticker
+            }
+            disabled={!!data?.fixedBaseAsset}
+            onChange={(ticker) => handleChangeBaseAsset(ticker, network)}
+          >
             {selectAssetList.map(({ ticker, asset_id }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon assetId={asset_id} />
@@ -93,7 +102,15 @@ export const MarketPairForm = ({
           </Select>
         </Col>
         <Col span={12}>
-          <Select value={quoteAsset.ticker} onChange={(ticker) => handleChangeQuoteAsset(ticker, network)}>
+          <Select
+            value={
+              data?.fixedQuoteAsset
+                ? assetIdToTicker(data?.fixedQuoteAsset ?? '', assets[network])
+                : quoteAsset.ticker
+            }
+            disabled={!!data?.fixedQuoteAsset}
+            onChange={(ticker) => handleChangeQuoteAsset(ticker, network)}
+          >
             {selectAssetList.map(({ ticker, asset_id }: Asset) => (
               <Option value={ticker} key={ticker}>
                 <CurrencyIcon assetId={asset_id} />

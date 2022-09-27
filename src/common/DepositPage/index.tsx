@@ -13,7 +13,8 @@ import { useTypedSelector } from '../../app/store';
 import alertOctogon from '../../assets/images/alert-octagon.svg';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, MARKET_OVERVIEW_ROUTE } from '../../routes/constants';
-import { assetIdToTicker, getAssetDataFromRegistry } from '../../utils';
+import { assetIdToTicker, getAssetDataFromRegistry, LBTC_ASSET } from '../../utils';
+import { CurrencyIcon } from '../CurrencyIcon';
 
 const { Text, Title } = Typography;
 
@@ -87,6 +88,27 @@ export const DepositPage = ({
       </Breadcrumb>
       <Row className="panel">
         <Col span={12} className="pr-10">
+          <div className="mb-4 d-flex panel panel__grey">
+            {type === 'Fee' ? (
+              <>
+                <CurrencyIcon size={32} assetId={LBTC_ASSET[network].asset_id} />
+                <span className="dm-mono__xx d-flex align-center ml-2">{LBTC_ASSET[network].ticker}</span>
+              </>
+            ) : (
+              <>
+                <span className="market-icons-translate">
+                  <CurrencyIcon size={32} assetId={market?.baseAsset ?? ''} />
+                  <CurrencyIcon size={32} assetId={market?.quoteAsset ?? ''} />
+                </span>
+                <span className="dm-mono__xx d-flex align-center">
+                  {`${assetIdToTicker(market?.baseAsset ?? '', assetRegistry[network])} / ${assetIdToTicker(
+                    market?.quoteAsset ?? '',
+                    assetRegistry[network]
+                  )}`}
+                </span>
+              </>
+            )}
+          </div>
           <Button className="w-100 mb-4 btn-animate" onClick={getNewAddress}>
             CREATE NEW DEPOSIT ADDRESS
           </Button>
@@ -129,17 +151,9 @@ export const DepositPage = ({
             </div>
           </div>
         </Col>
-        <Col span={12}>
-          <Row className="panel panel__grey panel__top deposit-address-frame text-center flex-column">
-            <Title className="dm-sans dm-sans__x dm-sans__bold" level={3}>
-              {type === 'Fee'
-                ? 'Deposit L-BTC only'
-                : `Deposit ${assetIdToTicker(
-                    market?.baseAsset ?? '',
-                    assetRegistry[network]
-                  )} and ${assetIdToTicker(market?.quoteAsset ?? '', assetRegistry[network])}`}
-            </Title>
-            {depositAddress ? (
+        {depositAddress ? (
+          <Col span={12}>
+            <Row className="panel panel__grey panel__top deposit-address-frame text-center">
               <Col span={8}>
                 <QRCodeSVG
                   className="qr-code"
@@ -151,34 +165,42 @@ export const DepositPage = ({
                   size={128}
                 />
               </Col>
-            ) : null}
-          </Row>
-          <Row className="py-6 deposit-address">
-            <Col span={21} offset={1}>
-              {depositAddress ? (
+            </Row>
+            <Row className="py-6 deposit-address">
+              <Col span={21} offset={1}>
                 <Text className="address" copyable>
                   {depositAddress}
                 </Text>
-              ) : null}
-            </Col>
-          </Row>
-          <Row className="panel panel__grey panel__bottom text-center">
-            <Col span={20} offset={2}>
-              <img src={alertOctogon} alt="alert" className="mb-2" />
-              <p>
-                The pending transaction will appear here, once you are done depositing assets click on CONFIRM
-                to claim your deposit.
-              </p>
-              <Row>
-                <Col span={20} offset={2}>
-                  <Button onClick={handleDeposit} loading={isFragmenting}>
-                    CONFIRM DEPOSIT
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
+              </Col>
+            </Row>
+            <Row
+              className={classNames('panel panel__grey text-center', { 'panel__bottom ': depositAddress })}
+            >
+              <Col span={20} offset={2}>
+                <img src={alertOctogon} alt="alert" className="mb-2" />
+                <p>
+                  The pending transaction will appear here, once you are done depositing assets click on
+                  CONFIRM to claim your deposit.
+                </p>
+                <Row>
+                  <Col span={20} offset={2}>
+                    <Button onClick={handleDeposit} loading={isFragmenting}>
+                      CONFIRM DEPOSIT
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        ) : (
+          <Col span={12}>
+            <Row className="panel panel__grey text-center">
+              <Col span={20} offset={2}>
+                <p className="dm-sans dm-sans__x dm-sans__bold">Please generate or select an address</p>
+              </Col>
+            </Row>
+          </Col>
+        )}
       </Row>
     </>
   );

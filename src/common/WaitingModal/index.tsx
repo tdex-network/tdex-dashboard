@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 
 interface WaitingModalProps {
   isWaitingModalVisible: boolean;
@@ -15,15 +15,11 @@ export const WaitingModal = ({
     <Modal
       centered={true}
       closable={false}
-      maskClosable={true}
+      maskClosable={false}
       onCancel={() => setIsWaitingModalVisible(false)}
       title="Please Wait"
-      visible={isWaitingModalVisible}
-      footer={
-        <Button key="close" onClick={() => setIsWaitingModalVisible(false)}>
-          CLOSE
-        </Button>
-      }
+      open={isWaitingModalVisible}
+      footer={null}
     >
       <div className="dm-mono dm-mono__x">{children}</div>
     </Modal>

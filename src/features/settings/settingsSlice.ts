@@ -112,6 +112,7 @@ export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: Root
   'settings/getTdexdConnectUrl',
   async (password, thunkAPI) => {
     try {
+      if (!(window as any).IS_PACKAGED) throw new Error('App is not in packaged mode');
       const res = await fetch(`${window.location.host}/tdexdconnect`, {
         method: 'GET',
         headers: new Headers({

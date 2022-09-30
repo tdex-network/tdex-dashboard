@@ -138,6 +138,9 @@ export const OnboardingPairing = (): JSX.Element => {
       if (connectData?.macaroon) {
         const decodedMacaroonHex = decodeBase64UrlMacaroon(connectData.macaroon);
         dispatch(setMacaroonCredentials(decodedMacaroonHex));
+      }
+      const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
+      if (isReady.data?.initialized) {
         navigate(HOME_ROUTE);
       } else {
         navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);

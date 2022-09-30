@@ -112,8 +112,7 @@ export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: Root
   'settings/getTdexdConnectUrl',
   async (password, thunkAPI) => {
     try {
-      if (!(window as any).TDEX_DAEMON_URL) throw new Error('TDEX_DAEMON_URL is missing');
-      const res = await fetch(`${(window as any).TDEX_DAEMON_URL}/tdexdconnect`, {
+      const res = await fetch(`${window.location.host}/tdexdconnect`, {
         method: 'GET',
         headers: new Headers({
           Authorization: `Basic ${Buffer.from(`tdex:${password}`).toString('base64')}`,

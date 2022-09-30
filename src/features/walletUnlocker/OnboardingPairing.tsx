@@ -63,10 +63,10 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
       // Auto connect if IS_PACKAGED (like in Umbrel)
-      if ((window as any).IS_PACKAGED && (window as any).TDEX_DAEMON_URL) {
+      if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true
         dispatch(setIsPackaged(true));
-        dispatch(setBaseUrl((window as any).TDEX_DAEMON_URL));
+        dispatch(setBaseUrl(window.location.host));
         const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
         // If connection to daemon fails, switch to regular pairing and show toast error message
         if (isReady.error) {

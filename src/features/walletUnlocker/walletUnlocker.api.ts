@@ -14,6 +14,7 @@ import {
   UnlockWalletRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
 import type { RootState } from '../../app/store';
+import { interceptors } from '../../grpcDevTool';
 import { retryRtkRequest } from '../../utils';
 import { selectMacaroonCreds, selectWalletUnlockerClient } from '../settings/settingsSlice';
 import { tdexApi } from '../tdex.api';
@@ -23,11 +24,12 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
     genSeed: build.query<string[], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
-        const client = selectWalletUnlockerClient(state);
+        const client = selectWalletUnlockerClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.genSeed(GenSeedRequest.create(), {
             meta: macaroon ? { macaroon } : undefined,
+            interceptors,
           });
           return { data: call.response.seedMnemonic };
         });
@@ -39,7 +41,7 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
     >({
       queryFn: ({ restore, walletPassword, seedMnemonic }, { getState }) => {
         const state = getState() as RootState;
-        const client = selectWalletUnlockerClient(state);
+        const client = selectWalletUnlockerClient(state.settings.baseUrl);
         const call = client.initWallet(
           InitWalletRequest.create({
             restore,
@@ -56,11 +58,12 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
     unlockWallet: build.mutation<UnlockWalletResponse, UnlockWalletRequest>({
       queryFn: async ({ walletPassword }, { getState }) => {
         const state = getState() as RootState;
-        const client = selectWalletUnlockerClient(state);
+        const client = selectWalletUnlockerClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.unlockWallet(UnlockWalletRequest.create({ walletPassword }), {
             meta: macaroon ? { macaroon } : undefined,
+            interceptors,
           });
           return { data: call.response };
         });
@@ -70,12 +73,12 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
     changePassword: build.mutation<ChangePasswordResponse, ChangePasswordRequest>({
       queryFn: async ({ currentPassword, newPassword }, { getState }) => {
         const state = getState() as RootState;
-        const client = selectWalletUnlockerClient(state);
+        const client = selectWalletUnlockerClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.changePassword(
             ChangePasswordRequest.create({ currentPassword, newPassword }),
-            { meta: macaroon ? { macaroon } : undefined }
+            { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return { data: call.response };
         });
@@ -85,11 +88,12 @@ export const walletUnlockerApi = tdexApi.injectEndpoints({
     isReady: build.query<IsReadyResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
-        const client = selectWalletUnlockerClient(state);
+        const client = selectWalletUnlockerClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.isReady(IsReadyRequest.create(), {
             meta: macaroon ? { macaroon } : undefined,
+            interceptors,
           });
           return { data: call.response };
         });

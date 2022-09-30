@@ -243,17 +243,29 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
   return state.settings.marketsLabelled;
 }
 
-//
-export function selectOperatorClient(state: RootState): OperatorServiceClient {
-  return new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
+// gRPC Web Clients
+let operatorClient: OperatorServiceClient,
+  walletClient: WalletServiceClient,
+  walletUnlockerClient: WalletUnlockerServiceClient;
+export function selectOperatorClient(baseUrl: string): OperatorServiceClient {
+  if (!operatorClient) {
+    operatorClient = new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl }));
+  }
+  return operatorClient;
 }
 
-export function selectWalletClient(state: RootState): WalletServiceClient {
-  return new WalletServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
+export function selectWalletClient(baseUrl: string): WalletServiceClient {
+  if (!walletClient) {
+    walletClient = new WalletServiceClient(new GrpcWebFetchTransport({ baseUrl }));
+  }
+  return walletClient;
 }
 
-export function selectWalletUnlockerClient(state: RootState): WalletUnlockerServiceClient {
-  return new WalletUnlockerServiceClient(new GrpcWebFetchTransport({ baseUrl: selectBaseUrl(state) }));
+export function selectWalletUnlockerClient(baseUrl: string): WalletUnlockerServiceClient {
+  if (!walletUnlockerClient) {
+    walletUnlockerClient = new WalletUnlockerServiceClient(new GrpcWebFetchTransport({ baseUrl }));
+  }
+  return walletUnlockerClient;
 }
 
 export const {

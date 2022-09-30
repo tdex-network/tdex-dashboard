@@ -85,6 +85,7 @@
     "tdex:run-init": "bash scripts/tdex-run-init",
     "tdex:run-init-notls": "bash scripts/tdex-run-init-notls",
     "tdex:run-notls": "bash scripts/tdex-run-notls",
+    "tdex:run-notls-nomac": "bash scripts/tdex-run-notls-nomac",
     "tdex:run-testnet": "bash scripts/tdex-run-testnet",
     "tdexproxy:build-proxy": "docker build --file ./proxy.Dockerfile --tag ghcr.io/tdex-network/tdexd-proxy .",
     "tdexproxy:build-web": "docker build --file ./web.Dockerfile --tag ghcr.io/tdex-network/dashboard .",

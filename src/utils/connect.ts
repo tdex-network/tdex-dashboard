@@ -36,14 +36,20 @@ export const extractConnectUrlData = (connectString: string): ConnectUrlData | u
 };
 
 /**
- * if cert is given and proto is not set, valid ✅ (we default to https in clients)
+ * proto must be set
  * if cert is given and proto is set to http, we return error ⛔️
  * if cert is NOT given and proto is set to https we assume a CA signed certificate is set up
  * if cert is NOT given and proto is set to http we assume insecure connection
  * @param connectUrlData
  */
 export const checkConnectUrlDataValidity = (connectUrlData: ConnectUrlData): boolean => {
-  if (!connectUrlData?.host) {
+  if (!connectUrlData?.proto) {
+    notification.error({
+      message: 'The query parameter "proto" is missing in connect url',
+      key: 'The query parameter "proto" is missing in connect url',
+    });
+    return false;
+  } else if (!connectUrlData?.host) {
     notification.error({
       message: 'Host is missing in connect url',
       key: 'Host is missing in connect url',

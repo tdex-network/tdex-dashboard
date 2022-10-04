@@ -39,7 +39,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
   const { state } = useLocation() as { state: { mnemonic: string[]; password: string } };
   const tdexdConnectUrl = useTypedSelector(({ settings }) => settings.tdexdConnectUrl);
   const mnemonicRandomized = shuffleMnemonic([...state.mnemonic]);
-  const [wordsList, setWordsList] = useState<string[]>(mnemonicRandomized);
+  const [wordsList] = useState<string[]>(mnemonicRandomized);
   const [selectedWordIndexes, setSelectedWordIndexes] = useState<number[]>([]);
   const [error, setError] = useState(NULL_ERROR);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -86,8 +86,7 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
     } else {
       setIsLoading(false);
       setError(ERROR_MSG);
-      setSelectedWordIndexes([]);
-      setWordsList(mnemonicRandomized);
+      notification.error({ message: ERROR_MSG, key: ERROR_MSG });
     }
   };
 
@@ -163,7 +162,6 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
                 </Button>
               ))}
             </div>
-            <div className="error">{error}</div>
           </Space>
           <Row>
             <Col span={8} offset={8}>

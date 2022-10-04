@@ -66,7 +66,7 @@ export const OnboardingPairing = (): JSX.Element => {
       if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true
         dispatch(setIsPackaged(true));
-        dispatch(setBaseUrl(window.location.host));
+        dispatch(setBaseUrl(`${window.location.protocol}//${window.location.host}/api`));
         const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
         // If connection to daemon fails, switch to regular pairing and show toast error message
         if (isReady.error) {

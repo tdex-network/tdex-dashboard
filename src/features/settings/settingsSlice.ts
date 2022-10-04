@@ -113,7 +113,7 @@ export const getTdexdConnectUrl = createAsyncThunk<string, string, { state: Root
   async (password, thunkAPI) => {
     try {
       if (!(window as any).IS_PACKAGED) throw new Error('App is not in packaged mode');
-      const res = await fetch(`${window.location.host}/tdexdconnect`, {
+      const res = await fetch(`${window.location.protocol}//${window.location.host}/api/tdexdconnect`, {
         method: 'GET',
         headers: new Headers({
           Authorization: `Basic ${Buffer.from(`tdex:${password}`).toString('base64')}`,

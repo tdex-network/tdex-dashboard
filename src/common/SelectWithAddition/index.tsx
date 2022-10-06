@@ -37,7 +37,7 @@ export const SelectWithAddition = ({
   return (
     <Select
       className={`w-100 ${className}`}
-      dropdownClassName={className}
+      popupClassName={className}
       value={selectedItem}
       onSelect={handleSelection}
       dropdownRender={(menu) => (

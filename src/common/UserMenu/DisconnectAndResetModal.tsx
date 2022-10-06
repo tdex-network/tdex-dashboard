@@ -34,7 +34,7 @@ export const DisconnectAndResetModal = ({
           <span>Disconnect</span>
         </>
       }
-      visible={isDisconnectAndResetModalVisible}
+      open={isDisconnectAndResetModalVisible}
       footer={
         <>
           <Button

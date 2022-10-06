@@ -23,7 +23,7 @@ export const AssetInfoModal = ({
   const quoteAsset = assets[network].find((asset) => asset.asset_id === market?.quoteAsset);
   return (
     <Modal
-      visible={isAssetInfoModalVisible}
+      open={isAssetInfoModalVisible}
       onCancel={handleAssetInfoModalCancel}
       closable={false}
       footer={<></>}

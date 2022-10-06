@@ -42,7 +42,7 @@ export const UnlockModalForm = ({
     <Modal
       style={{ textAlign: 'center' }}
       title="Unlock Wallet"
-      visible={isUnlockWalletModalVisible}
+      open={isUnlockWalletModalVisible}
       onOk={handleUnlockWalletModalOk}
       onCancel={() => {
         form.resetFields();

@@ -177,7 +177,7 @@ export const OnboardingPairing = (): JSX.Element => {
         <Modal
           style={{ textAlign: 'center' }}
           title="Enter Password"
-          visible={isEnterPasswordModalVisible}
+          open={isEnterPasswordModalVisible}
           onOk={handleEnterPasswordModalOk}
           onCancel={() => {
             passwordForm.resetFields();
@@ -255,7 +255,7 @@ export const OnboardingPairing = (): JSX.Element => {
       )}
       <Modal
         title="Download & install TLS Certificate"
-        visible={isDownloadCertModalVisible}
+        open={isDownloadCertModalVisible}
         onOk={() => downloadCertificate(form.getFieldValue('tdexdConnectUrl'))}
         onCancel={() => setIsDownloadCertModalVisible(false)}
       >

@@ -26,7 +26,7 @@ export const NetworkSelect = (): JSX.Element => {
         <Col span={24}>
           <Select
             className="ant-select-short"
-            dropdownClassName="ant-select-short"
+            popupClassName="ant-select-short"
             value={network}
             onChange={(network: NetworkString) => {
               dispatch(setNetwork(network));

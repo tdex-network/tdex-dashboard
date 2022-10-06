@@ -80,7 +80,7 @@ export const MarketSettings = ({
 
   return (
     <Modal
-      visible={isMarketSettingsModalVisible}
+      open={isMarketSettingsModalVisible}
       onCancel={handleMarketSettingsModalCancel}
       closable={false}
       footer={<></>}

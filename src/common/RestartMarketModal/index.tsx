@@ -32,7 +32,7 @@ export const RestartMarketModal = ({
           <span>Restart Market</span>
         </div>
       }
-      visible={isRestartMarketModalVisible}
+      open={isRestartMarketModalVisible}
       maskStyle={{ backdropFilter: 'blur(6px)' }}
       footer={
         <>

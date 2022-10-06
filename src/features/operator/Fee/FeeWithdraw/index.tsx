@@ -176,7 +176,7 @@ export const FeeWithdraw = (): JSX.Element => {
       </Row>
       <Modal
         title="Withdrawal Confirmation"
-        visible={isConfirmWithdrawModalVisible}
+        open={isConfirmWithdrawModalVisible}
         onOk={async () => {
           setIsConfirmWithdrawModalVisible(false);
           setIsPasswordModalVisible(true);
@@ -190,7 +190,7 @@ export const FeeWithdraw = (): JSX.Element => {
       </Modal>
       <Modal
         title="Withdrawal Password Confirmation"
-        visible={isPasswordModalVisible}
+        open={isPasswordModalVisible}
         onOk={async () => {
           await withdraw();
           setIsPasswordModalVisible(false);

@@ -1,5 +1,5 @@
-import Icon from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Typography } from 'antd';
+import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+import { Breadcrumb, Row, Col, Typography, Tooltip } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -68,11 +68,36 @@ export const Settings = (): JSX.Element => {
               </Row>
             </div>
             {/**/}
+            {(window as any).TRADER_HIDDEN_SERVICE ? (
+              <div className="mb-4 panel panel__grey">
+                <Row>
+                  <Col span={24}>
+                    <Title
+                      className="d-inline-flex dm-sans dm-sans__x dm-sans__bold dm-sans__grey mr-2"
+                      level={3}
+                    >
+                      Tor Hidden Service of Trader Interface
+                    </Title>
+                    <Tooltip title="Used by TDEX trader's applications to connect and make trades">
+                      <InfoCircleOutlined className="grey" />
+                    </Tooltip>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24}>
+                    <Text copyable className="break-all">
+                      {(window as any).TRADER_HIDDEN_SERVICE}
+                    </Text>
+                  </Col>
+                </Row>
+              </div>
+            ) : null}
+            {/**/}
             <div className="mb-4 panel panel__grey">
               <Row>
                 <Col span={24}>
                   <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                    Daemon fixed Assets
+                    Daemon Fixed Assets
                   </Title>
                 </Col>
               </Row>

@@ -72,8 +72,7 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           seedMnemonic: mnemonicSanitized,
         });
         for await (const message of data.responses as RpcOutputStream<InitWalletResponse>) {
-          console.debug('init wallet stream:', message);
-          // If not macaroon, log data in modal
+          // If not macaroon, display data in modal
           if (message.data.length < 150) {
             setNewWaitingModalLogStr(message.data);
           }

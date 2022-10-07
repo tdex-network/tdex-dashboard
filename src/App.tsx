@@ -63,13 +63,15 @@ export const App = (): JSX.Element => {
   // Exit after cleanup
   useEffect(() => {
     (async () => {
-      if (proxyPid && isExiting) {
+      if (isExiting) {
         dispatch(setProxyHealth('NOT_SERVING'));
         dispatch(setProxyPid(undefined));
         // Need to sleep the time to write in persistent storage
         await sleep(500);
-        const proxyChildProcess = new Child(proxyPid);
-        await proxyChildProcess.kill();
+        if (proxyPid) {
+          const proxyChildProcess = new Child(proxyPid);
+          await proxyChildProcess.kill();
+        }
         await exit();
       }
     })();

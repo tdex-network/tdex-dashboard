@@ -130,8 +130,11 @@ export const OnboardingPairing = (): JSX.Element => {
         ('__TAURI__' in window || ('USE_PROXY' in window && Boolean((window as any).USE_PROXY))) &&
         !!connectData?.cert;
       dispatch(setUseProxy(isProxyNeeded));
-      if (!isProxyNeeded) {
-        dispatch(setBaseUrl(`${connectData?.proto}://` + connectData?.host));
+      if (!isProxyNeeded && !isPackaged) {
+        dispatch(setBaseUrl(`${connectData?.proto}://${connectData?.host}`));
+      }
+      if (!isProxyNeeded && isPackaged) {
+        dispatch(setBaseUrl(`${connectData?.proto}://${window.location.host}`));
       }
       dispatch(setTdexdConnectUrl(tdexdConnectUrl));
       dispatch(setConnectUrlProto(connectData?.proto));

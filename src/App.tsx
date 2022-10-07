@@ -103,8 +103,8 @@ export const App = (): JSX.Element => {
 
   // Start proxy sidecar
   useEffect(() => {
-    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
-      startProxySidecar(dispatch, proxyPid);
+    if (useProxy && proxyHealth !== 'SERVING' && !isExiting && !proxyPid) {
+      startProxySidecar(dispatch);
     }
   }, [dispatch, isExiting, proxyHealth, proxyPid, useProxy]);
 

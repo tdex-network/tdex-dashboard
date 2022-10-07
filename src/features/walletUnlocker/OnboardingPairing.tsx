@@ -134,7 +134,7 @@ export const OnboardingPairing = (): JSX.Element => {
         dispatch(setBaseUrl(`${connectData?.proto}://${connectData?.host}`));
       }
       if (!isProxyNeeded && isPackaged) {
-        dispatch(setBaseUrl(window.location.host));
+        dispatch(setBaseUrl(`${window.location.protocol}//${window.location.host}/api`));
       }
       dispatch(setTdexdConnectUrl(tdexdConnectUrl));
       dispatch(setConnectUrlProto(connectData?.proto));

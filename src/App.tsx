@@ -77,7 +77,7 @@ export const App = (): JSX.Element => {
     })();
   }, [dispatch, isExiting, proxyHealth, proxyPid]);
 
-  // Update health proxy status every x seconds
+  // Update health proxy status every 8 seconds
   // Try to restart proxy if 'Load failed' error
   useExponentialInterval(() => {
     if (useProxy && proxyPid && !isExiting) {
@@ -91,7 +91,7 @@ export const App = (): JSX.Element => {
               // Reset proxyHealth manually because healthCheckProxy thunk is throwing before setting it
               dispatch(setProxyHealth(undefined));
               console.log('Restart proxy');
-              await startProxySidecar(dispatch, proxyPid);
+              await startProxySidecar(dispatch);
             } catch (err) {
               console.log('Restart failure', err);
             }
@@ -103,8 +103,8 @@ export const App = (): JSX.Element => {
 
   // Start proxy sidecar
   useEffect(() => {
-    if (useProxy && proxyHealth !== 'SERVING' && !isExiting) {
-      startProxySidecar(dispatch, proxyPid);
+    if (useProxy && proxyHealth !== 'SERVING' && !isExiting && !proxyPid) {
+      startProxySidecar(dispatch);
     }
   }, [dispatch, isExiting, proxyHealth, proxyPid, useProxy]);
 

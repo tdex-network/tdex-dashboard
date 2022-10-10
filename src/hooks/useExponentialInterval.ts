@@ -5,8 +5,8 @@ type Delay = number | null;
 type TimerHandler = (...args: any[]) => void;
 
 const reducer = (state: Delay, action: AnyAction) => {
-  // Start at 125ms, double 5 times = 4000
-  if (state === null || state >= 4_000) return state;
+  // Start at 125ms, double 6 times = 8000
+  if (state === null || state >= 8_000) return state;
   switch (action.type) {
     case 'DOUBLE':
       return state * 2;
@@ -16,7 +16,7 @@ const reducer = (state: Delay, action: AnyAction) => {
 };
 
 /**
- * Interval fast exponential until 4 secs, then linear
+ * Interval fast exponential until 8 secs, then linear
  *
  * @param callback - Function that will be called every `delay` ms.
  * @param initialDelay - Number representing the initial delay in ms. Set to `null` to "pause" the interval.

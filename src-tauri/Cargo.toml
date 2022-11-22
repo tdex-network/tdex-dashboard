@@ -3,7 +3,7 @@
 
   [build-dependencies.tauri-build]
     features = []
-    version = "1.1.1"
+    version = "1.2.0"
 
 [dependencies]
   serde_json = "1.0"
@@ -14,7 +14,7 @@
 
   [dependencies.tauri]
     features = ["fs-all", "path-all", "process-exit", "shell-all"]
-    version = "1.1.1"
+    version = "1.2.0"
 
 [features]
   custom-protocol = ["tauri/custom-protocol"]

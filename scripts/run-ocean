@@ -3,5 +3,5 @@
 set -e
 
 docker-compose up -d oceand-db
-sleep 10
+sleep 5
 docker exec oceand-regtest-db createdb --username=root --owner=root oceand-db

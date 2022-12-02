@@ -38,7 +38,7 @@ docker run -it -d --name tdexd \
   -e TDEX_CONNECT_PROTO=http \
   -e TDEX_DB_PORT=5433 \
   --network="nigiri" \
-  ghcr.io/tdex-network/tdexd:v0.9.0-rc.0
+  ghcr.io/tdex-network/tdexd:v0.9.0-rc.1
 
 echo ""
 echo "init wallet"

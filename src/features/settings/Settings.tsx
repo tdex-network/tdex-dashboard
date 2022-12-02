@@ -12,7 +12,6 @@ import { ActionButtons } from './ActionButtons';
 import { DaemonVersion } from './DaemonVersion';
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { FixedAssets } from './FixedAssets';
 import { NetworkSelect } from './NetworkSelect';
 
 const { Text, Title } = Typography;
@@ -101,7 +100,6 @@ export const Settings = (): JSX.Element => {
                   </Title>
                 </Col>
               </Row>
-              <FixedAssets />
             </div>
             {/**/}
             <DaemonVersion />

@@ -2,7 +2,7 @@ import './connectionIndicator.less';
 import { Tooltip } from 'antd';
 import classNames from 'classnames';
 
-import type { IsReadyResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { GetStatusResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 
@@ -10,7 +10,7 @@ export const ConnectionIndicators = (): JSX.Element => {
   const { useProxy, proxyHealth } = useTypedSelector(({ settings }) => settings);
   const daemonState = useTypedSelector(
     ({ tdexService }: RootState) =>
-      tdexService.queries['isReady(undefined)']?.data as IsReadyResponse | undefined
+      tdexService.queries['getStatus(undefined)']?.data as GetStatusResponse | undefined
   );
   const daemonError = useTypedSelector(
     ({ tdexService }: RootState) => tdexService.queries['isReady(undefined)']?.error

@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   dashboard:
     container_name: dashboard
     image: ghcr.io/tdex-network/dashboard:latest
@@ -11,25 +10,61 @@ services:
     ports:
       - 8080:8080
 
+  oceand:
+    container_name: oceand-regtest
+    image: ghcr.io/vulpemventures/oceand:latest
+    restart: unless-stopped
+    depends_on:
+      - oceand-db
+    environment:
+      - OCEAN_LOG_LEVEL=5
+      - OCEAN_NO_TLS=true
+      - OCEAN_STATS_INTERVAL=120
+      - OCEAN_NODE_RPC_ADDR=http://admin1:123@liquid:18884
+      - OCEAN_NETWORK=regtest
+      - OCEAN_ESPLORA_URL=http://chopsticks-liquid:3000
+      - OCEAN_UTXO_EXPIRY_DURATION_IN_SECONDS=120
+      - OCEAN_DB_HOST=oceand-regtest-db
+    ports:
+      - "18000:18000"
+      - "18001:18001"
+    volumes:
+      - ./oceand/data:/home/ocean/.ocean-wallet
+      - ./oceand/cli:/home/ocean/.ocean-cli
+
+  oceand-db:
+    container_name: oceand-regtest-db
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+
   tdexd:
     container_name: "tdexd"
-    image: ghcr.io/tdex-network/tdexd:latest
+    image: ghcr.io/tdex-network/tdexd:v0.9.0-rc.0
     restart: unless-stopped
+    depends_on:
+      - oceand
     tty: true
     volumes:
       - ./tdexd-data:/home/tdex/.tdex-daemon
     environment:
-      TDEX_NETWORK: regtest
-      TDEX_BASE_ASSET: 5ac9f65c0efcc4775e0baec4ec03abdde22473cd3cf33c0419ca290e0751b225
-      TDEX_LOG_LEVEL: 5
-      TDEX_EXPLORER_ENDPOINT: http://chopsticks-liquid:3000
-      TDEX_OPERATOR_LISTENING_PORT: 9090
-      TDEX_TRADE_LISTENING_PORT: 9090
-      TDEX_NO_OPERATOR_TLS: "true"
-      TDEX_CONNECT_ADDR: "localhost:9090"
-      TDEX_CONNECT_PROTO: http
+      - TDEX_NETWORK=regtest
+      - TDEX_WALLET_ADDR=oceand:18000
+      - TDEX_EXPLORER_ENDPOINT=http://chopsticks-liquid:3000
+      - TDEX_LOG_LEVEL=5
+      - TDEX_FEE_ACCOUNT_BALANCE_THRESHOLD=1000
+      - TDEX_DB_HOST=tdexd-regtest-db
+      - TDEX_NO_MACAROONS=true
+      - TDEX_NO_OPERATOR_TLS=true
+      - TDEX_CONNECT_PROTO=http
+      - TDEX_DB_PORT=5433
     ports:
-      - "9090:9090"
+      - "9000:9000"
+      - "9945:9945"
 
 networks:
   default:

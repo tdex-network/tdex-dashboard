@@ -2,8 +2,8 @@ import { Col, Row, Typography, Radio } from 'antd';
 import type { Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useState } from 'react';
 
-import type { MarketInfo, MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketInfo, MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { VolumeChart } from '../../../../common/VolumeChart';

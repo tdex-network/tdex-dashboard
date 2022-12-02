@@ -26,7 +26,14 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
       const values = await form.validateFields();
       const res = await withdrawMarketFragmenter({
         millisatsPerByte: 100,
-        address: values.address,
+        outputs: [
+          {
+            script: values.address,
+            asset: 'string',
+            amount: 0,
+            blindingKey: 'string',
+          },
+        ],
         password: values.password,
       });
       // @ts-ignore

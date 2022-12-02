@@ -1,6 +1,6 @@
 import { Col, Row, Typography } from 'antd';
 
-import { useGetInfoQuery } from '../operator/operator.api';
+import { useGetInfoQuery } from '../wallet/wallet.api';
 
 const { Title } = Typography;
 

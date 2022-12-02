@@ -2,9 +2,8 @@ import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb.client';
-import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb.client';
-import { WalletUnlockerServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb.client';
+import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb.client';
+import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb.client';
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
@@ -244,9 +243,7 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 }
 
 // gRPC Web Clients
-let operatorClient: OperatorServiceClient,
-  walletClient: WalletServiceClient,
-  walletUnlockerClient: WalletUnlockerServiceClient;
+let operatorClient: OperatorServiceClient, walletClient: WalletServiceClient;
 export function selectOperatorClient(baseUrl: string): OperatorServiceClient {
   if (!operatorClient) {
     operatorClient = new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl }));
@@ -259,13 +256,6 @@ export function selectWalletClient(baseUrl: string): WalletServiceClient {
     walletClient = new WalletServiceClient(new GrpcWebFetchTransport({ baseUrl }));
   }
   return walletClient;
-}
-
-export function selectWalletUnlockerClient(baseUrl: string): WalletUnlockerServiceClient {
-  if (!walletUnlockerClient) {
-    walletUnlockerClient = new WalletUnlockerServiceClient(new GrpcWebFetchTransport({ baseUrl }));
-  }
-  return walletUnlockerClient;
 }
 
 export const {

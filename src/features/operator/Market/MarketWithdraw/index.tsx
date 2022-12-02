@@ -21,7 +21,7 @@ import {
   isLbtcTicker,
 } from '../../../../utils';
 import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
-import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
+import { useGetMarketInfoQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
 interface IFormInputs {
   baseAmount: string;
@@ -50,7 +50,7 @@ export const MarketWithdraw = (): JSX.Element => {
   const [withdrawMarket, { error: withdrawMarketError, isLoading: withdrawMarketIsLoading }] =
     useWithdrawMarketMutation();
   const { data: listMarkets } = useListMarketsQuery();
-  const { data: marketBalance, refetch: refetchMarketBalance } = useGetMarketBalanceQuery({
+  const { data: marketInfo, refetch: refetchMarketInfo } = useGetMarketInfoQuery({
     baseAsset: selectedMarket.baseAsset?.asset_id || '',
     quoteAsset: selectedMarket.quoteAsset?.asset_id || '',
   });
@@ -95,15 +95,24 @@ export const MarketWithdraw = (): JSX.Element => {
           quoteAsset: selectedAssetMarket?.[1].asset_id,
         },
         // Expect lbtc amount to be in favorite user unit
-        balanceToWithdraw: {
-          baseAmount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
-            ? Number(formatLbtcUnitToSats(baseAmount, lbtcUnit))
-            : Number(formatFiatToSats(baseAmount)),
-          quoteAmount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
-            ? Number(formatLbtcUnitToSats(quoteAmount, lbtcUnit))
-            : Number(formatFiatToSats(quoteAmount)),
-        },
-        address: address,
+        outputs: [
+          {
+            asset: selectedAssetMarket?.[0].asset_id,
+            amount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
+              ? Number(formatLbtcUnitToSats(baseAmount, lbtcUnit))
+              : Number(formatFiatToSats(baseAmount)),
+            script: 'string',
+            blindingKey: 'string',
+          },
+          {
+            asset: selectedAssetMarket?.[1].asset_id,
+            amount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
+              ? Number(formatLbtcUnitToSats(quoteAmount, lbtcUnit))
+              : Number(formatFiatToSats(quoteAmount)),
+            script: 'string',
+            blindingKey: 'string',
+          },
+        ],
         millisatsPerByte: 100,
         password: password,
       });
@@ -114,9 +123,9 @@ export const MarketWithdraw = (): JSX.Element => {
       setQuoteAmount(0);
       setAddress('');
       // Refetch after some time, waiting available balance to equal total balance
-      setTimeout(() => refetchMarketBalance(), 1000);
-      setTimeout(() => refetchMarketBalance(), 5000);
-      setTimeout(() => refetchMarketBalance(), 10000);
+      setTimeout(() => refetchMarketInfo(), 1000);
+      setTimeout(() => refetchMarketInfo(), 5000);
+      setTimeout(() => refetchMarketInfo(), 10000);
       notification.success({ message: 'Market withdrawal successful' });
     } catch (err) {
       // @ts-ignore
@@ -143,37 +152,41 @@ export const MarketWithdraw = (): JSX.Element => {
   });
 
   const baseAvailableAmountFormatted =
-    marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
+    !selectedMarket.baseAsset?.asset_id ||
+    marketInfo?.balance[selectedMarket.baseAsset.asset_id].confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketBalance?.availableBalance?.baseAmount,
+          marketInfo?.balance[selectedMarket.baseAsset.asset_id].confirmedBalance,
           selectedMarket?.baseAsset?.precision,
           isLbtcTicker(selectedMarket?.baseAsset?.ticker),
           lbtcUnit
         );
   const baseTotalAmountFormatted =
-    marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.baseAsset?.asset_id
+    !selectedMarket.baseAsset?.asset_id ||
+    marketInfo?.balance[selectedMarket.baseAsset.asset_id].totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketBalance?.totalBalance?.baseAmount,
+          marketInfo?.balance[selectedMarket.baseAsset.asset_id].totalBalance,
           selectedMarket?.baseAsset?.precision,
           isLbtcTicker(selectedMarket?.baseAsset?.ticker),
           lbtcUnit
         );
   const quoteAvailableAmountFormatted =
-    marketBalance?.availableBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
+    !selectedMarket.quoteAsset?.asset_id ||
+    marketInfo?.balance[selectedMarket.quoteAsset.asset_id].confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketBalance?.availableBalance?.quoteAmount,
+          marketInfo?.balance[selectedMarket.quoteAsset.asset_id].confirmedBalance,
           selectedMarket?.quoteAsset?.precision,
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit
         );
   const quoteTotalAmountFormatted =
-    marketBalance?.totalBalance?.baseAmount === undefined || !selectedMarket.quoteAsset?.asset_id
+    !selectedMarket.quoteAsset?.asset_id ||
+    marketInfo?.balance[selectedMarket.quoteAsset.asset_id].totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketBalance?.totalBalance?.quoteAmount,
+          marketInfo?.balance[selectedMarket.quoteAsset.asset_id].totalBalance,
           selectedMarket?.quoteAsset?.precision,
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit

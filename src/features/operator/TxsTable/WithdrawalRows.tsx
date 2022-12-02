@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Withdrawal, MarketInfo } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketInfo, Transaction } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
@@ -13,14 +13,14 @@ import { TxRow } from './TxRow';
 
 interface WithdrawalRowsProps {
   marketInfo: MarketInfo;
-  withdrawals?: Withdrawal[];
+  withdrawals?: Transaction[];
   lbtcUnit: LbtcUnit;
   baseAsset?: Asset;
   quoteAsset?: Asset;
 }
 
 export const getWithdrawData = (
-  row: Withdrawal,
+  row: Transaction,
   lbtcUnit: LbtcUnit,
   marketInfo: MarketInfo,
   network: NetworkString,
@@ -28,24 +28,24 @@ export const getWithdrawData = (
   quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   const baseAmountFormatted =
-    row.balance?.baseAmount === undefined || !marketInfo.market?.baseAsset
+    row.totalAmountPerAsset[baseAsset?.asset_id ?? ''] === undefined || !marketInfo.market?.baseAsset
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          row.balance?.baseAmount,
+          row.totalAmountPerAsset[baseAsset?.asset_id ?? ''],
           baseAsset?.precision,
           isLbtcTicker(baseAsset?.ticker),
           lbtcUnit
         );
   const quoteAmountFormatted =
-    row.balance?.quoteAmount === undefined || !marketInfo.market?.quoteAsset
+    row.totalAmountPerAsset[quoteAsset?.asset_id ?? ''] === undefined || !marketInfo.market?.quoteAsset
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          row.balance?.quoteAmount,
+          row.totalAmountPerAsset[quoteAsset?.asset_id ?? ''],
           quoteAsset?.precision,
           isLbtcTicker(quoteAsset?.ticker),
           lbtcUnit
         );
-  const txId = row.txId;
+  const txId = row.txid;
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };
 

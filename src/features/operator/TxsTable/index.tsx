@@ -1,15 +1,13 @@
 import './txsTable.less';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Col, Radio, Row, Skeleton } from 'antd';
-import { groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import type {
-  Deposit,
   MarketInfo,
   TradeInfo,
-  Withdrawal,
-} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+  Transaction,
+} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
@@ -17,7 +15,6 @@ import { getAssetDataFromRegistry } from '../../../utils';
 import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } from '../operator.api';
 
 import { AllRows } from './AllRows';
-import type { DepositRow } from './DepositRows';
 import { DepositRows } from './DepositRows';
 import { TradeRows } from './TradeRows';
 import { WithdrawalRows } from './WithdrawalRows';
@@ -59,10 +56,10 @@ interface tableRowsProps {
   savedAssets: Asset[];
   marketInfo: MarketInfo;
   trades?: TradeInfo[];
-  deposits?: DepositRow[];
+  deposits?: Transaction[];
   numDepositsToShow: number;
   numAllItemsToShow: number;
-  withdrawals?: Withdrawal[];
+  withdrawals?: Transaction[];
   baseAsset?: Asset;
   quoteAsset?: Asset;
 }
@@ -146,12 +143,7 @@ const tableRows = ({
 export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
   const [mode, setMode] = useState<TableMode>('all');
-  const {
-    assets: savedAssets,
-    lbtcUnit,
-    explorerLiquidUI,
-    network,
-  } = useTypedSelector(({ settings }) => settings);
+  const { assets: savedAssets, lbtcUnit, network } = useTypedSelector(({ settings }) => settings);
   // Get asset data from registry, including formattedTicker
   const baseAsset = getAssetDataFromRegistry(
     marketInfo?.market?.baseAsset ?? '',
@@ -176,14 +168,14 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
-    page: { pageNumber: 0, pageSize: PAGE_SIZE_FRONTEND },
+    page: { number: 0, size: PAGE_SIZE_FRONTEND },
   });
   const { data: tradesNextPage } = useListTradesQuery({
     market: {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
-    page: { pageNumber: pageNumberTrades, pageSize: PAGE_SIZE_FRONTEND },
+    page: { number: pageNumberTrades, size: PAGE_SIZE_FRONTEND },
   });
   const [trades, setTrades] = useState<TradeInfo[] | undefined>([]);
   // Set first page trades when ready
@@ -194,14 +186,14 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   // Withdrawals
   const [pageNumberWithdrawals, setPageNumberWithdrawals] = useState<number>(PAGE_SIZE_FRONTEND);
   const { data: withdrawalsFirstPage } = useListWithdrawalsQuery({
-    accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 1, pageSize: PAGE_SIZE_FRONTEND },
+    accountName: marketInfo.accountName,
+    page: { number: 1, size: PAGE_SIZE_FRONTEND },
   });
   const { data: withdrawalsNextPage } = useListWithdrawalsQuery({
-    accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: pageNumberWithdrawals, pageSize: PAGE_SIZE_FRONTEND },
+    accountName: marketInfo.accountName,
+    page: { number: pageNumberWithdrawals, size: PAGE_SIZE_FRONTEND },
   });
-  const [withdrawals, setWithdrawals] = useState<Withdrawal[] | undefined>([]);
+  const [withdrawals, setWithdrawals] = useState<Transaction[] | undefined>([]);
   // Set first page withdrawals when ready
   useEffect(() => {
     setWithdrawals(withdrawalsFirstPage);
@@ -209,50 +201,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
 
   // Deposits
   const [numDepositsToShow, setNumDepositsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
-  // request all because ListDeposits returns fragments
-  const { data: depositFragments } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
-  // Recreate deposits from fragments
-  // A deposit tx can have 1 or 2 assets/values
-  const reduceValue = (deposits: Deposit[], txId: string) => {
-    if (!deposits) return {};
-    return deposits.reduce((result, currentValue, index) => {
-      // First utxo sets assetId
-      if (index === 0) {
-        return {
-          assetId: currentValue.utxo?.asset || '',
-          value: currentValue.utxo?.value || 0,
-          timestampUnix: currentValue.timestampUnix,
-          txId: txId,
-          txUrl: `${explorerLiquidUI}/tx/${txId}`,
-        };
-      }
-      // Then we check if utxo.asset === assetId or new
-      const isSecondAsset = currentValue.utxo?.asset !== result?.assetId;
-      if (isSecondAsset) {
-        return {
-          assetId: result.assetId,
-          assetIdSecond: currentValue.utxo?.asset || '',
-          value: result.value,
-          valueSecond: (result?.valueSecond ?? 0) + (currentValue.utxo?.value || 0),
-          timestampUnix: currentValue.timestampUnix,
-          txId: txId,
-          txUrl: `${explorerLiquidUI}/tx/${txId}`,
-        };
-      } else {
-        return {
-          assetId: currentValue.utxo?.asset || '',
-          assetIdSecond: result.assetIdSecond,
-          value: (result?.value ?? 0) + (currentValue.utxo?.value || 0),
-          valueSecond: result.valueSecond,
-          timestampUnix: currentValue.timestampUnix,
-          txId: txId,
-          txUrl: `${explorerLiquidUI}/tx/${txId}`,
-        };
-      }
-    }, {} as { assetId: string; assetIdSecond?: string; value: number; valueSecond?: number; timestampUnix: number; txId: string });
-  };
-  const depositsByTxId = groupBy(depositFragments || [], (deposit) => deposit.utxo?.outpoint?.hash);
-  const deposits = Object.entries(depositsByTxId).map(([txId, arr]) => reduceValue(arr, txId) as DepositRow);
+  const { data: deposits } = useListDepositsQuery({ accountName: marketInfo.accountName });
   useEffect(() => {
     if (trades !== undefined && deposits !== undefined && withdrawals !== undefined) {
       setIsAllDataLoaded(true);

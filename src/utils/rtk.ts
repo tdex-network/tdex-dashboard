@@ -1,4 +1,4 @@
-import type { RpcError } from '@protobuf-ts/runtime-rpc';
+import { RpcError } from '@protobuf-ts/runtime-rpc';
 
 import { sleep } from './sleep';
 
@@ -13,9 +13,13 @@ export const retryRtkRequest = async <T>(
       console.debug('retry RTK request');
       await sleep(500);
       return await requestCb();
-    } catch (error) {
-      console.error(error);
-      return { error: (error as RpcError).message };
+    } catch (err) {
+      if (err instanceof RpcError) {
+        console.error(`${err.methodName} failure -`, err);
+      } else {
+        console.error((err as any).message);
+      }
+      return { error: (err as any).message };
     }
   }
 };

@@ -55,10 +55,10 @@ export const MarketOverview = (): JSX.Element => {
   // We check differences between availableBalance and totalBalance and poll balances until it is resolved
   useEffect(() => {
     if (
-      marketInfo?.balance[state.baseAsset?.asset_id].totalBalance !==
-        marketInfo?.balance[state.baseAsset?.asset_id].confirmedBalance ||
-      marketInfo?.balance[state.quoteAsset?.asset_id].totalBalance !==
-        marketInfo?.balance[state.quoteAsset?.asset_id].confirmedBalance
+      marketInfo?.balance[state.baseAsset?.asset_id]?.totalBalance !==
+        marketInfo?.balance[state.baseAsset?.asset_id]?.confirmedBalance ||
+      marketInfo?.balance[state.quoteAsset?.asset_id]?.totalBalance !==
+        marketInfo?.balance[state.quoteAsset?.asset_id]?.confirmedBalance
     ) {
       setIsBalanceUpdating(true);
     } else {

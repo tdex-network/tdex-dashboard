@@ -167,8 +167,8 @@ export const MarketSettings = ({
         className="w-100"
         onClick={handleClickDropMarket}
         disabled={
-          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.baseAsset ?? ''].totalBalance > 0) ||
-          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.quoteAsset ?? ''].totalBalance > 0)
+          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.baseAsset ?? '']?.totalBalance > 0) ||
+          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.quoteAsset ?? '']?.totalBalance > 0)
         }
       >
         CLOSE MARKET

@@ -40,6 +40,10 @@ import type {
 import {
   AddWebhookRequest,
   CloseMarketRequest,
+  DeriveFeeAddressesRequest,
+  DeriveFeeFragmenterAddressesRequest,
+  DeriveMarketAddressesRequest,
+  DeriveMarketFragmenterAddressesRequest,
   DropMarketRequest,
   FeeFragmenterSplitFundsRequest,
   GetFeeBalanceRequest,
@@ -51,6 +55,7 @@ import {
   ListFeeAddressesRequest,
   ListFeeFragmenterAddressesRequest,
   ListMarketAddressesRequest,
+  ListMarketFragmenterAddressesRequest,
   ListMarketsRequest,
   ListTradesRequest,
   ListUtxosRequest,
@@ -69,21 +74,18 @@ import {
   WithdrawFeeRequest,
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
-  ListMarketFragmenterAddressesRequest,
-  DeriveMarketAddressesRequest,
-  DeriveFeeFragmenterAddressesRequest,
-  DeriveMarketFragmenterAddressesRequest,
-  DeriveFeeAddressesRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
 import type {
   ActionType,
-  MarketInfo,
-  MarketReport,
   StrategyType,
-  TimeFrame,
   WebhookInfo,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { CustomPeriod, Page, TimeRange } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import {
+  CustomPeriod,
+  Page,
+  PredefinedPeriod,
+  TimeRange,
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
@@ -261,10 +263,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     // Market
-    getMarketReport: build.query<
-      MarketReport | undefined,
-      { market: Market | undefined; timeRange: TimeRange; timeFrame: TimeFrame }
-    >({
+    getMarketReport: build.query<GetMarketReportResponse['report'], GetMarketReportRequest>({
       queryFn: async ({ market, timeRange, timeFrame }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -659,7 +658,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
           const call = await client.listTrades(
             ListTradesRequest.create({ market: newMarket, page: newPage }),
-            { meta: macaroon ? { macaroon } : undefined, interceptors }
+            { meta: { macaroon }, interceptors }
           );
           return {
             data: call.response.trades,
@@ -668,125 +667,65 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Trade'],
     }),
-    totalCollectedSwapFeesChange: build.query<string, { markets?: Market[]; prices?: CoinGeckoPriceResult }>({
-      queryFn: async ({ markets, prices }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        const network = state.settings.network;
-        const assets = state.settings.assets;
-        return retryRtkRequest(async () => {
-          if (!markets || !prices) return { data: '0' };
-          let totalCollectedSwapFeesUntil24hAgo = 0;
-          let totalCollectedSwapFeesUntilNow = 0;
-          const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
-            return Market.create({ baseAsset, quoteAsset });
-          });
-          // Calculate timeranges
-          const milliseconds24hrs = 24 * 60 * 60 * 1000;
-          const startDate = new Date(`${new Date().getFullYear()}-01-01T00:00:00`).toISOString();
-          const minus24hDate = new Date(Date.now() - milliseconds24hrs).toISOString();
-          const customPeriodUntil24hAgo = CustomPeriod.create({ startDate, endDate: minus24hDate });
-          const timeRangeUntil24hAgo = TimeRange.create({ customPeriod: customPeriodUntil24hAgo });
-          //
-          const currentDate = new Date(Date.now()).toISOString();
-          const customPeriodUntilNow = CustomPeriod.create({ startDate, endDate: currentDate });
-          const timeRangeUntilNow = TimeRange.create({ customPeriod: customPeriodUntilNow });
-          // We need to pass market because we don't have access to request parameters (protobuf-ts fixes this)
-          const getMarketReportPromises = (market: Market) => [
-            client
-              .getMarketReport(GetMarketReportRequest.create({ market, timeRange: timeRangeUntil24hAgo }), {
-                meta: macaroon ? { macaroon } : undefined,
-              })
-              .then((res) => ({
-                marketReportUntil24hAgoResponse: res.response.report?.totalCollectedFees,
-                market: { base: market.baseAsset, quote: market.quoteAsset },
-              })),
-            client
-              .getMarketReport(GetMarketReportRequest.create({ market, timeRange: timeRangeUntilNow }), {
-                meta: macaroon ? { macaroon } : undefined,
-              })
-              .then((res) => ({
-                marketReportUntilNowResponse: res.response.report?.totalCollectedFees,
-                market: { base: market.baseAsset, quote: market.quoteAsset },
-              })),
-          ];
-          const results = await Promise.all(marketsJSPB.flatMap(getMarketReportPromises));
-
-          const calculateTotalCollectedSwapFeesChange = (
-            type: 'base' | 'quote',
-            marketHash: string,
-            r: any
-          ) => {
-            let amountSats = 0;
-            if ('marketReportUntil24hAgoResponse' in r) {
-              if (type === 'base') {
-                amountSats = r.marketReportUntil24hAgoResponse?.baseAmount;
-              } else {
-                amountSats = r.marketReportUntil24hAgoResponse?.quoteAmount;
-              }
-            } else if ('marketReportUntilNowResponse' in r) {
-              if (type === 'base') {
-                amountSats = r.marketReportUntilNowResponse?.baseAmount;
-              } else {
-                amountSats = r.marketReportUntilNowResponse?.quoteAmount;
-              }
-            }
-            const currentAsset = getAssetDataFromRegistry(marketHash, assets[network], 'L-BTC');
-            if (!currentAsset) return;
-            // Convert non-Lsats amount to fractional
-            const amountSatsOrFractional = fromSatsToUnitOrFractional(
-              amountSats,
-              currentAsset.precision,
-              isLbtcTicker(currentAsset.ticker),
-              'L-sats'
-            );
-            // Convert non-Lbtc amount to Lbtc
-            const marketSwapFeesChangeSats = convertAmountToFavoriteCurrency({
-              asset: currentAsset,
-              amount: amountSatsOrFractional,
-              network: network,
-              preferredCurrency: BTC_CURRENCY,
-              preferredLbtcUnit: 'L-sats',
-              prices: prices,
-            });
-            // Add Lsats base and quote amounts together
-            if (marketSwapFeesChangeSats) {
-              if ('marketReportUntil24hAgoResponse' in r) {
-                totalCollectedSwapFeesUntil24hAgo += Number(marketSwapFeesChangeSats);
-              }
-              if ('marketReportUntilNowResponse' in r) {
-                totalCollectedSwapFeesUntilNow += Number(marketSwapFeesChangeSats);
-              }
-            }
-          };
-
-          // Run calculation
-          for (const r of results) {
-            Object.entries(r.market).forEach(([type, marketHash]) =>
-              calculateTotalCollectedSwapFeesChange(type as 'base' | 'quote', marketHash, r)
-            );
-          }
-
-          // Calculate variation percentage
-          const changePercentage =
-            ((totalCollectedSwapFeesUntilNow - totalCollectedSwapFeesUntil24hAgo) /
-              totalCollectedSwapFeesUntil24hAgo) *
-            100;
-          // If we calculate percentage variation with totalCollectedSwapFeesUntil24hAgo == zero, return 'N/A' instead of Infinity
-          const change = isFinite(changePercentage)
-            ? new Intl.NumberFormat('en-US', {
-                maximumFractionDigits: 2,
-                signDisplay: 'always',
-              }).format(changePercentage)
-            : 'N/A';
-          return { data: change };
-        });
+    // Calculate the % change of collected swap fees across 24h period
+    totalCollectedSwapFeesChange: build.query<
+      string,
+      {
+        markets?: Market[];
+        prices?: CoinGeckoPriceResult;
+      }
+    >({
+      queryFn: async ({ markets, prices }, { getState, dispatch }) => {
+        if (!markets || !prices) return { data: '0' };
+        //
+        const milliseconds24hrs = 24 * 60 * 60 * 1000;
+        const startDate = new Date(`${new Date().getFullYear()}-01-01T00:00:00`).toISOString();
+        const minus24hDate = new Date(Date.now() - milliseconds24hrs).toISOString();
+        const customPeriodUntil24hAgo = CustomPeriod.create({ startDate, endDate: minus24hDate });
+        const timeRangeUntil24hAgo = TimeRange.create({ customPeriod: customPeriodUntil24hAgo });
+        const collectedSwapFeesUntil24hAgo: number = await dispatch(
+          operatorApi.endpoints.totalCollectedSwapFees.initiate({
+            markets,
+            prices,
+            timeRange: timeRangeUntil24hAgo,
+          })
+        ).unwrap();
+        console.log('collectedSwapFeesUntil24hAgo', collectedSwapFeesUntil24hAgo);
+        //
+        const currentDate = new Date(Date.now()).toISOString();
+        const customPeriodUntilNow = CustomPeriod.create({ startDate, endDate: currentDate });
+        const timeRangeUntilNow = TimeRange.create({ customPeriod: customPeriodUntilNow });
+        const collectedSwapFeesUntilNow: number = await dispatch(
+          operatorApi.endpoints.totalCollectedSwapFees.initiate({
+            markets,
+            prices,
+            timeRange: timeRangeUntilNow,
+          })
+        ).unwrap();
+        console.log('collectedSwapFeesUntilNow', collectedSwapFeesUntilNow);
+        // Calculate variation percentage
+        const changePercentage =
+          ((collectedSwapFeesUntilNow - collectedSwapFeesUntil24hAgo) / collectedSwapFeesUntil24hAgo) * 100;
+        // If we calculate percentage variation with totalCollectedSwapFeesUntil24hAgo == zero, return 'N/A' instead of Infinity
+        const change = isFinite(changePercentage)
+          ? new Intl.NumberFormat('en-US', {
+              maximumFractionDigits: 2,
+              signDisplay: 'always',
+            }).format(changePercentage)
+          : 'N/A';
+        return { data: change };
       },
       providesTags: ['Trade'],
     }),
-    totalCollectedSwapFees: build.query<number, { markets?: Market[]; prices?: CoinGeckoPriceResult }>({
-      queryFn: async ({ markets, prices }, { getState }) => {
+    // Sum swap fees from all markets, converted to L-sats
+    totalCollectedSwapFees: build.query<
+      number,
+      { markets?: Market[]; prices?: CoinGeckoPriceResult; timeRange?: TimeRange }
+    >({
+      queryFn: async (
+        { markets, prices, timeRange = { predefinedPeriod: PredefinedPeriod.PREDEFINED_PERIOD_ALL } },
+        { getState }
+      ) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
@@ -795,70 +734,51 @@ export const operatorApi = tdexApi.injectEndpoints({
         return retryRtkRequest(async () => {
           if (!markets || !prices) return { data: 0 };
           let totalCollectedSwapFees = 0;
-
-          // turns bare markets array into a Google JS ProtoBuff Markets Object
-          const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
-            return Market.create({ baseAsset, quoteAsset });
-          });
-
-          const results = await Promise.all(
-            marketsJSPB.map((market) =>
+          await Promise.all(
+            markets.map((market) =>
               client
-                .getMarketReport(GetMarketReportRequest.create({ market }), {
-                  meta: macaroon ? { macaroon } : undefined,
-                  interceptors,
+                .getMarketReport(
+                  GetMarketReportRequest.create({
+                    market,
+                    timeRange,
+                  }),
+                  {
+                    meta: { macaroon },
+                    interceptors,
+                  }
+                )
+                .then((res) => {
+                  const totalCollectedFees = res.response.report?.totalCollectedFees;
+                  if (!totalCollectedFees) return;
+                  Object.entries(market).forEach(([assetType, assetId]) => {
+                    const currentAsset = getAssetDataFromRegistry(assetId, assets[network], 'L-BTC');
+                    if (!currentAsset) return;
+                    // Convert non-L-sats amount to fractional
+                    const amountSatsOrFractional = fromSatsToUnitOrFractional(
+                      assetType === 'baseAsset'
+                        ? totalCollectedFees.baseAmount
+                        : totalCollectedFees.quoteAmount,
+                      currentAsset.precision,
+                      isLbtcTicker(currentAsset.ticker),
+                      'L-sats'
+                    );
+                    // Convert non-Lbtc amount to L-sats
+                    const marketSwapFeesSats = convertAmountToFavoriteCurrency({
+                      asset: currentAsset,
+                      amount: amountSatsOrFractional,
+                      network: network,
+                      preferredCurrency: BTC_CURRENCY,
+                      preferredLbtcUnit: 'L-sats',
+                      prices: prices,
+                    });
+                    // Add L-sats base and quote amounts together
+                    if (marketSwapFeesSats) {
+                      totalCollectedSwapFees += Number(marketSwapFeesSats);
+                    }
+                  });
                 })
-                .then((res) => ({
-                  market: [market.baseAsset, market.quoteAsset],
-                  getMarketReportResponse: res.response,
-                }))
             )
           );
-
-          const calculateTotalCollectedSwapFees = (
-            marketId: string,
-            r: { market: string[]; getMarketReportResponse: GetMarketReportResponse }
-          ) => {
-            const marketIdCollectedSwapFees = undefined; //r.getMarketCollectedSwapFeesResponse.totalCollectedFeesPerAsset[marketId];
-
-            // Get Asset Data using the asset marketId
-            const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
-
-            if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
-              // No point in calculating asset conversion
-              // for unknown asset and
-              // for undefined marketIdCollectedSwapFees
-              return;
-            }
-
-            // Keeps marketIdCollectedSwapFees as sats if it's btc
-            // 100000000 lbtc/sats-representation = 100000000 L-sats
-            // Otherwise this makes sure to get the amount with fiat precision
-            // 100000000 usdt/sats-representation = 1 usdt
-            const currentAmount = fromSatsToUnitOrFractional(
-              Number(marketIdCollectedSwapFees),
-              currentAsset.precision,
-              isLbtcTicker(currentAsset.ticker),
-              'L-sats'
-            );
-
-            // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
-            const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
-              asset: currentAsset,
-              amount: currentAmount,
-              network: network,
-              preferredCurrency: BTC_CURRENCY,
-              preferredLbtcUnit: 'L-sats',
-              prices: prices,
-            });
-
-            if (marketIdCollectedSwapFeesInSats) {
-              totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);
-            }
-          };
-          for (const r of results) {
-            r.market.forEach((marketId) => calculateTotalCollectedSwapFees(marketId, r));
-          }
           return { data: totalCollectedSwapFees };
         });
       },

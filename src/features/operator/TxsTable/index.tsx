@@ -168,7 +168,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
-    page: { number: 0, size: PAGE_SIZE_FRONTEND },
+    page: { number: 1, size: PAGE_SIZE_FRONTEND },
   });
   const { data: tradesNextPage } = useListTradesQuery({
     market: {

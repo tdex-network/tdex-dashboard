@@ -159,7 +159,7 @@ export const MarketSettings = ({
       <Row className="text-center">
         <Col span={20} offset={2}>
           <img src={alertOctogon} alt="alert" className="mb-2" />
-          <p>Withdraw all asset to close Market</p>
+          <p>Before deleting the market, withdraw any assets from it</p>
         </Col>
       </Row>
       <Button

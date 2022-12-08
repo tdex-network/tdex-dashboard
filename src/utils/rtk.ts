@@ -23,3 +23,18 @@ export const retryRtkRequest = async <T>(
     }
   }
 };
+
+export const rtkRequest = async <T>(
+  requestCb: () => Promise<{ data: T }>
+): Promise<{ data: T } | { error: string }> => {
+  try {
+    return await requestCb();
+  } catch (err) {
+    if (err instanceof RpcError) {
+      console.error(`${err.methodName} failure -`, err);
+    } else {
+      console.error((err as any).message);
+    }
+    return { error: (err as any).message };
+  }
+};

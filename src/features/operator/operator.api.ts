@@ -99,6 +99,7 @@ import {
   getAssetDataFromRegistry,
   isLbtcTicker,
   retryRtkRequest,
+  rtkRequest,
 } from '../../utils';
 import type { CoinGeckoPriceResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
@@ -434,7 +435,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
+        return rtkRequest(async () => {
           const newMarket = Market.create({ baseAsset, quoteAsset });
           const call = await client.openMarket(OpenMarketRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
@@ -1090,7 +1091,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market', 'Fee'],
+      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
   }),
 });

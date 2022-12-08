@@ -171,7 +171,7 @@ export const MarketSettings = ({
           (marketInfo?.balance && marketInfo.balance.quoteAmount > 0)
         }
       >
-        CLOSE MARKET
+        DELETE MARKET
       </Button>
     </Modal>
   );

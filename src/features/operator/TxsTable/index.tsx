@@ -170,47 +170,42 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [numAllItemsToShow, setNumAllItemsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
 
   // Trades
-  const [pageNumberTrades, setPageNumberTrades] = useState<number>(PAGE_SIZE_FRONTEND);
-  const { data: tradesFirstPage } = useListTradesQuery({
-    market: {
-      baseAsset: marketInfo?.market?.baseAsset || '',
-      quoteAsset: marketInfo?.market?.quoteAsset || '',
-    },
-    page: { pageNumber: 0, pageSize: PAGE_SIZE_FRONTEND },
-  });
-  const { data: tradesNextPage } = useListTradesQuery({
+  const [pageNumberTrades, setPageNumberTrades] = useState<number>(1);
+  const { data: trades, isFetching: IsListTradesFetching } = useListTradesQuery({
     market: {
       baseAsset: marketInfo?.market?.baseAsset || '',
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
     page: { pageNumber: pageNumberTrades, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const [trades, setTrades] = useState<TradeInfo[] | undefined>([]);
-  // Set first page trades when ready
+  // Concatenated trades to display
+  const [allTrades, setAllTrades] = useState<TradeInfo[] | undefined>([]);
+  //
   useEffect(() => {
-    setTrades(tradesFirstPage);
-  }, [tradesFirstPage]);
+    setAllTrades(allTrades?.concat(trades || []));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trades]);
 
   // Withdrawals
-  const [pageNumberWithdrawals, setPageNumberWithdrawals] = useState<number>(PAGE_SIZE_FRONTEND);
-  const { data: withdrawalsFirstPage } = useListWithdrawalsQuery({
-    accountIndex: marketInfo.accountIndex,
-    page: { pageNumber: 1, pageSize: PAGE_SIZE_FRONTEND },
-  });
-  const { data: withdrawalsNextPage } = useListWithdrawalsQuery({
+  const [pageNumberWithdrawals, setPageNumberWithdrawals] = useState<number>(1);
+  const { data: withdrawals, isFetching: IsListWithdrawalsFetching } = useListWithdrawalsQuery({
     accountIndex: marketInfo.accountIndex,
     page: { pageNumber: pageNumberWithdrawals, pageSize: PAGE_SIZE_FRONTEND },
   });
-  const [withdrawals, setWithdrawals] = useState<Withdrawal[] | undefined>([]);
-  // Set first page withdrawals when ready
+  // Concatenated withdrawals to display
+  const [allWithdrawals, setAllWithdrawals] = useState<Withdrawal[] | undefined>([]);
+  //
   useEffect(() => {
-    setWithdrawals(withdrawalsFirstPage);
-  }, [withdrawalsFirstPage]);
+    setAllWithdrawals(allWithdrawals?.concat(withdrawals || []));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [withdrawals]);
 
   // Deposits
   const [numDepositsToShow, setNumDepositsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
   // request all because ListDeposits returns fragments
-  const { data: depositFragments } = useListDepositsQuery({ accountIndex: marketInfo.accountIndex });
+  const { data: depositFragments, isFetching: IsListDepositsFetching } = useListDepositsQuery({
+    accountIndex: marketInfo.accountIndex,
+  });
   // Recreate deposits from fragments
   // A deposit tx can have 1 or 2 assets/values
   const reduceValue = (deposits: Deposit[], txId: string) => {
@@ -253,6 +248,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   };
   const depositsByTxId = groupBy(depositFragments || [], (deposit) => deposit.utxo?.outpoint?.hash);
   const deposits = Object.entries(depositsByTxId).map(([txId, arr]) => reduceValue(arr, txId) as DepositRow);
+
   useEffect(() => {
     if (trades !== undefined && deposits !== undefined && withdrawals !== undefined) {
       setIsAllDataLoaded(true);
@@ -266,11 +262,11 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
         mode,
         savedAssets: savedAssets[network],
         marketInfo,
-        trades,
+        trades: allTrades,
         deposits,
         numDepositsToShow,
         numAllItemsToShow,
-        withdrawals,
+        withdrawals: allWithdrawals,
         baseAsset,
         quoteAsset,
       }),
@@ -285,8 +281,8 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       numDepositsToShow,
       quoteAsset,
       savedAssets,
-      trades,
-      withdrawals,
+      allTrades,
+      allWithdrawals,
     ]
   );
 
@@ -318,16 +314,18 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
         <Col className="dm-sans dm-sans__bold text-center" span={24}>
           <Button
             type="link"
+            loading={IsListTradesFetching || IsListDepositsFetching || IsListWithdrawalsFetching}
             onClick={() => {
               if (mode === 'deposit') {
                 setNumDepositsToShow(numDepositsToShow + PAGE_SIZE_FRONTEND);
-              } else if (mode === 'withdraw' && withdrawalsNextPage?.length) {
-                setWithdrawals(withdrawals?.concat(withdrawalsNextPage));
+              } else if (mode === 'withdraw' && withdrawals?.length) {
                 setPageNumberWithdrawals(pageNumberWithdrawals + 1);
-              } else if (mode === 'trade' && tradesNextPage?.length) {
-                setTrades(trades?.concat(tradesNextPage));
+              } else if (mode === 'trade' && trades?.length) {
                 setPageNumberTrades(pageNumberTrades + 1);
               } else if (mode === 'all') {
+                setNumDepositsToShow(numDepositsToShow + PAGE_SIZE_FRONTEND);
+                setPageNumberWithdrawals(pageNumberWithdrawals + 1);
+                setPageNumberTrades(pageNumberTrades + 1);
                 setNumAllItemsToShow(numAllItemsToShow + PAGE_SIZE_FRONTEND);
               }
             }}

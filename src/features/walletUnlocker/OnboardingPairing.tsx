@@ -2,7 +2,7 @@ import './onboardingPairing.less';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Col, Form, Input, Modal, notification, Row, Typography } from 'antd';
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
@@ -215,12 +215,12 @@ export const OnboardingPairing = (): JSX.Element => {
                 wrapperCol={{ span: 24 }}
                 validateTrigger="onBlur"
               >
-                <Form.Item name="tdexdConnectUrl" className="mb-16">
+                <Form.Item name="tdexdConnectUrl" className="mb-4">
                   <Input.TextArea
                     className={classNames('scrollbar', {
                       'invalid-connect-url': showRedBorder,
                     })}
-                    placeholder="Paste the TDEX connect URL"
+                    placeholder="Paste the tdexd connect URL"
                     onPaste={(ev) => {
                       const connectString = ev.clipboardData.getData('text');
                       const connectData = extractConnectUrlData(connectString);
@@ -246,6 +246,17 @@ export const OnboardingPairing = (): JSX.Element => {
                     }}
                   />
                 </Form.Item>
+                <Row justify="center" className="mb-12">
+                  <Col>
+                    <a
+                      href={'https://dev.tdex.network/docs/provider/tdexdconnect'}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      How do I find my tdexd connect URL?
+                    </a>
+                  </Col>
+                </Row>
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                   <Button htmlType="submit" className="w-100" disabled={!isValidConnectUrl}>
                     CONNECT

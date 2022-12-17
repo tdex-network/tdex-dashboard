@@ -6,6 +6,12 @@
     flex-direction: column;
     width: 100%;
     margin-top: 65px;
+    @media only screen and (max-width: @screen-xs-max) {
+      margin-top: 35px;
+    }
+    @media only screen and (min-width: @screen-xs-max) {
+      margin-top: 65px;
+    }
     margin-bottom: 22px;
     &.is-onboarding {
       align-items: center;

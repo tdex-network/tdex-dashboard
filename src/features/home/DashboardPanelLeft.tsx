@@ -1,6 +1,6 @@
 import './dashboardPanelLeft.less';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Row, Typography } from 'antd';
+import { Button, Col, Divider, Grid, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +21,7 @@ import type { PriceFeedQueryResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
 
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 interface DashboardPanelLeftProps {
   lbtcUnit: LbtcUnit;
@@ -52,6 +53,7 @@ export const DashboardPanelLeft = ({
   });
   const [totalCollectedSwapFeesAsFavoriteCurrency, setTotalCollectedSwapFeesAsFavoriteCurrency] =
     useState<string>();
+  const screens = useBreakpoint();
 
   useEffect(() => {
     if (network === daemonInfo?.network && !daemonInfoIsFetching) {
@@ -86,7 +88,7 @@ export const DashboardPanelLeft = ({
   ]);
 
   return (
-    <div id="dashboard-panel-left-container" className="panel w-100 h-100">
+    <div id="dashboard-panel-left-container" className={classNames('panel w-100', { 'h-100': screens.lg })}>
       <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
         Total Earned
       </Title>

@@ -8,6 +8,7 @@
 @import 'input.less';
 @import 'colors.less';
 @import 'breadcrumb.less';
+@import 'header.less';
 
 .error {
   font-size: 0.8rem;
@@ -25,7 +26,12 @@
 
 .panel {
   border-radius: 8px;
-  padding: 24px 20px;
+  @media only screen and (max-width: @screen-xs-max) {
+    padding: 14px clamp(0.625rem, 1vw + 0.4rem, 0.75rem);
+  }
+  @media only screen and (min-width: @screen-xs-max) {
+    padding: 24px 20px;
+  }
   background-color: #000000;
 
   &__grey {

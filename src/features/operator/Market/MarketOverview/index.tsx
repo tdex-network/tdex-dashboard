@@ -1,5 +1,6 @@
 import Icon, { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton } from 'antd';
+import { Breadcrumb, Button, Typography, Row, Col, Space, Skeleton, Grid } from 'antd';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -20,6 +21,7 @@ import { AssetInfoModal } from './AssetInfoModal';
 import { VolumePanel } from './VolumePanel';
 
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
@@ -45,6 +47,7 @@ export const MarketOverview = (): JSX.Element => {
       pollingInterval: isBalanceUpdating ? 2000 : 0,
     }
   );
+  const screens = useBreakpoint();
 
   // Market report
   const [marketReportPredefinedPeriod, setMarketReportPredefinedPeriod] = useState<PredefinedPeriod>(
@@ -105,7 +108,7 @@ export const MarketOverview = (): JSX.Element => {
       <div className="panel">
         {/**/}
         <Row className="mb-4">
-          <Col span={12} className="d-flex align-center">
+          <Col xs={24} md={12} className="d-flex align-center">
             <MarketIcons baseAsset={state?.baseAsset} quoteAsset={state?.quoteAsset} size="big" />
             <Space direction="vertical" size={0}>
               <span className="dm-sans dm-sans__xx">
@@ -123,32 +126,43 @@ export const MarketOverview = (): JSX.Element => {
               </span>
             </Space>
           </Col>
-          <Col span={12} style={{ textAlign: 'right' }}>
-            <Space size={16}>
-              <Button
-                className="rotate-icon"
-                icon={<Icon component={depositIcon} />}
-                onClick={() =>
-                  navigate(MARKET_WITHDRAW_ROUTE, {
-                    state: { baseAsset: state?.baseAsset, quoteAsset: state?.quoteAsset },
-                  })
-                }
-              >
-                WITHDRAW
-              </Button>
-              <Button
-                icon={<Icon component={depositIcon} />}
-                onClick={() => navigate(MARKET_DEPOSIT_ROUTE, { state: { marketInfo } })}
-              >
-                DEPOSIT
-              </Button>
-              <Button icon={<InfoCircleOutlined />} onClick={showAssetInfoModal} />
-              <Button icon={<SettingOutlined />} onClick={showMarketSettingsModal} />
+          <Col
+            xs={24}
+            md={12}
+            className={classNames({ 'text-end': screens.md, 'mt-4': screens.xs || screens.sm })}
+          >
+            <Space
+              size={screens.md ? 16 : undefined}
+              className={classNames({ 'w-100 justify-space-between': !screens.md })}
+            >
+              <Space size={10}>
+                <Button
+                  className="rotate-icon"
+                  icon={<Icon component={depositIcon} />}
+                  onClick={() =>
+                    navigate(MARKET_WITHDRAW_ROUTE, {
+                      state: { baseAsset: state?.baseAsset, quoteAsset: state?.quoteAsset },
+                    })
+                  }
+                >
+                  WITHDRAW
+                </Button>
+                <Button
+                  icon={<Icon component={depositIcon} />}
+                  onClick={() => navigate(MARKET_DEPOSIT_ROUTE, { state: { marketInfo } })}
+                >
+                  DEPOSIT
+                </Button>
+              </Space>
+              <Space size={10}>
+                <Button icon={<InfoCircleOutlined />} onClick={showAssetInfoModal} />
+                <Button icon={<SettingOutlined />} onClick={showMarketSettingsModal} />
+              </Space>
             </Space>
           </Col>
         </Row>
         <Row className="mb-8" gutter={{ xs: 4, sm: 8, md: 12 }}>
-          <Col span={8} className="h-100">
+          <Col xs={24} sm={24} md={24} lg={8} className="h-100">
             <div className="panel panel__grey mb-4">
               <Row>
                 <Col span={24}>
@@ -208,7 +222,15 @@ export const MarketOverview = (): JSX.Element => {
               </Row>
             )}
           </Col>
-          <Col span={16}>
+          <Col
+            xs={0}
+            sm={24}
+            md={24}
+            lg={16}
+            className={classNames({
+              'mt-4': !screens.lg,
+            })}
+          >
             <VolumePanel
               marketInfo={marketInfo}
               baseAsset={state?.baseAsset}
@@ -220,10 +242,12 @@ export const MarketOverview = (): JSX.Element => {
             />
           </Col>
         </Row>
-        <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>
-          Transactions
-        </Title>
-        {marketInfo && <TxsTable marketInfo={marketInfo} />}
+        <div className={classNames({ 'd-none': !screens.md })}>
+          <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>
+            Transactions
+          </Title>
+          {marketInfo && <TxsTable marketInfo={marketInfo} />}
+        </div>
         {/**/}
       </div>
       <MarketSettings

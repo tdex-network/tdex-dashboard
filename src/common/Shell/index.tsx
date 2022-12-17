@@ -33,14 +33,14 @@ export const Shell = ({ children }: Props): JSX.Element => {
               </Col>
             </Row>
             <Row className="w-100">
-              <Col span={14} offset={5}>
+              <Col xs={{ span: 22, offset: 1 }} md={{ span: 14, offset: 5 }}>
                 {children}
               </Col>
             </Row>
           </div>
         ) : (
           <Row>
-            <Col span={20} offset={2}>
+            <Col xs={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
               {children}
             </Col>
           </Row>

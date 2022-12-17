@@ -50,6 +50,7 @@ export const UserMenu = ({ isUserMenuVisible, isConnectionPage = false }: UserMe
       >
         {isConnectionPage ? (
           <Button
+            className="w-100"
             danger
             onClick={async () => {
               await clearCache();

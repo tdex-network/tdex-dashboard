@@ -237,7 +237,7 @@ export const FeeForm = ({
             </Col>
           </Row>
           <Row align="middle" className="fee-relative-btn-container">
-            <Col span={14}>
+            <Col span={24}>
               <Button
                 className="mr-2"
                 onClick={() => form.setFieldsValue({ feeRelativeInput: '0.25' })}

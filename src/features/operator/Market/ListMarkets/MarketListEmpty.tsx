@@ -23,7 +23,7 @@ export const MarketListEmpty = (): JSX.Element => {
         </Row>
         <Row>
           <Col span={6} offset={9}>
-            <Button icon={<PlusCircleOutlined />} onClick={handleClick} className="w-100">
+            <Button icon={<PlusCircleOutlined />} onClick={handleClick}>
               CREATE NEW MARKET
             </Button>
           </Col>

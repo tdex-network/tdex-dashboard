@@ -203,7 +203,7 @@ export const OnboardingPairing = (): JSX.Element => {
       ) : (
         <div className="panel">
           <Row id="pairing" className="w-100">
-            <Col span={18} offset={3}>
+            <Col xs={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
               <Title level={2} className="dm-sans dm-sans__xx dm-sans__bold text-center mb-8">
                 Welcome on TDEX Dashboard
               </Title>
@@ -257,7 +257,7 @@ export const OnboardingPairing = (): JSX.Element => {
                     </a>
                   </Col>
                 </Row>
-                <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+                <Form.Item wrapperCol={{ xs: { span: 24 }, md: { span: 12, offset: 6 } }}>
                   <Button htmlType="submit" className="w-100" disabled={!isValidConnectUrl}>
                     CONNECT
                   </Button>

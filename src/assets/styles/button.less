@@ -3,7 +3,7 @@ a.ant-btn {
   height: 38px;
   font-family: 'dm-sans', sans-serif;
   font-weight: bold;
-  font-size: 12px;
+  font-size: clamp(0.625rem, 1vw + 0.4rem, 0.75rem);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -63,7 +63,7 @@ a.ant-btn {
   &.ant-btn-ghost {
     font-family: dm-mono, sans-serif;
     font-weight: 500;
-    font-size: 12px;
+    font-size: clamp(0.625rem, 1vw + 0.4rem, 0.75rem);
     color: #7d7d7d;
 
     &:hover {

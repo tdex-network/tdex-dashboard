@@ -76,7 +76,7 @@ export const Home = (): JSX.Element => {
         Dashboard Overview
       </Title>
       <Row gutter={{ xs: 4, sm: 8, md: 12 }} className="mb-8">
-        <Col span={12}>
+        <Col xs={24} lg={12}>
           <DashboardPanelLeft
             lbtcUnit={lbtcUnit}
             priceFeed={priceFeed}
@@ -84,7 +84,7 @@ export const Home = (): JSX.Element => {
             daemonInfoIsFetching={daemonInfoIsFetching}
           />
         </Col>
-        <Col span={12}>
+        <Col xs={24} lg={12}>
           <DashboardPanelRight
             lbtcUnit={lbtcUnit}
             priceFeed={priceFeed}

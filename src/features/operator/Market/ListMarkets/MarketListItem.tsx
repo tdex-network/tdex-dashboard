@@ -22,7 +22,7 @@ export const MarketListItem = ({ isTradable, baseAsset, quoteAsset }: MarketList
   return (
     <div className="w-100 mb-2 market-list-item" onClick={handleClickMarketDetails}>
       <Row className="w-100">
-        <Col span={4}>
+        <Col xs={6} sm={4}>
           <div className="market-icons-translate">
             <CurrencyIcon assetId={baseAsset?.asset_id || ''} size={32} />
             <CurrencyIcon assetId={quoteAsset?.asset_id || ''} size={32} />
@@ -31,7 +31,7 @@ export const MarketListItem = ({ isTradable, baseAsset, quoteAsset }: MarketList
         <Col span={12}>
           <span className="tickers">{`${baseAsset?.ticker} / ${quoteAsset?.ticker} Markets`}</span>
         </Col>
-        <Col span={8}>
+        <Col xs={6} sm={8} className="justify-center">
           <span className="">
             {isTradable ? (
               <span className="status__open">

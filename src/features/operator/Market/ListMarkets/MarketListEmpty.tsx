@@ -21,8 +21,8 @@ export const MarketListEmpty = (): JSX.Element => {
             <p className="mb-4" />
           </Col>
         </Row>
-        <Row>
-          <Col span={6} offset={9}>
+        <Row justify="center">
+          <Col span={24}>
             <Button icon={<PlusCircleOutlined />} onClick={handleClick}>
               CREATE NEW MARKET
             </Button>

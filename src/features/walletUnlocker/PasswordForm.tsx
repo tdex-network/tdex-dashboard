@@ -43,7 +43,7 @@ export const PasswordForm = ({ mnemonic, seedHasBeenSaved }: PasswordFormProps):
       layout="vertical"
       form={form}
       name="set_password_form"
-      wrapperCol={{ span: 10, offset: 7 }}
+      wrapperCol={{ xs: 24, sm: { span: 16, offset: 4 }, lg: { span: 10, offset: 7 } }}
       validateTrigger="onBlur"
     >
       <Form.Item
@@ -87,7 +87,7 @@ export const PasswordForm = ({ mnemonic, seedHasBeenSaved }: PasswordFormProps):
         />
       </Form.Item>
       {hasMatchingError && <p className="error">{hasMatchingError}</p>}
-      <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
+      <Form.Item wrapperCol={{ xs: 24, sm: { span: 12, offset: 6 }, lg: { span: 8, offset: 8 } }}>
         <Button htmlType="submit" className="w-100" disabled={!seedHasBeenSaved}>
           Go To Mnemonic
         </Button>

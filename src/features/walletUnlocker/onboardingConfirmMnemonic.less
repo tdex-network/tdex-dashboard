@@ -20,9 +20,12 @@
 
   .words-container-initial {
     min-height: 11rem;
+    display: flex;
+    flex-wrap: wrap;
 
     button.word {
-      width: 100px;
+      flex-grow: 1;
+      width: 12vw;
       height: 38px;
       border: #00ff00 solid 1px;
       &__selected {

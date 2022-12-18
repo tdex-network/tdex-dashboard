@@ -1,6 +1,7 @@
 import './onboardingCreateOrRestore.less';
 import Icon from '@ant-design/icons';
-import { Col, Row, Typography, Button, Breadcrumb } from 'antd';
+import { Col, Row, Typography, Button, Breadcrumb, Grid } from 'antd';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -14,11 +15,14 @@ import {
 
 import { useIsReadyQuery } from './walletUnlocker.api';
 
+const { useBreakpoint } = Grid;
+
 export const OnboardingCreateOrRestore = (): JSX.Element => {
   const { Title } = Typography;
   const navigate = useNavigate();
   const [isPairingIssueModalVisible, setIsPairingIssueModalVisible] = useState<boolean>(false);
   const { error: isReadyError } = useIsReadyQuery();
+  const screens = useBreakpoint();
 
   useEffect(() => {
     if (isReadyError) {
@@ -44,7 +48,7 @@ export const OnboardingCreateOrRestore = (): JSX.Element => {
             </Col>
           </Row>
           <Row justify="center" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <div className="card text-center">
                 <h2 className="dm-mono dm-mono__xx dm-mono__bold text-center">Create Wallet</h2>
                 <p className="dm-mono">
@@ -59,7 +63,7 @@ export const OnboardingCreateOrRestore = (): JSX.Element => {
                 </Row>
               </div>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12} className={classNames({ 'mt-4': !screens.sm })}>
               <div className="card text-center">
                 <h2 className="dm-mono dm-mono__xx dm-mono__bold text-center">Restore Wallet</h2>
                 <p className="dm-mono">Restore the wallet of your TDEX provider and get back to business</p>

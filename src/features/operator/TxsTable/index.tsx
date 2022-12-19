@@ -1,6 +1,5 @@
 import './txsTable.less';
-import type { RadioChangeEvent } from 'antd';
-import { Button, Col, Radio, Row, Skeleton } from 'antd';
+import { Button, Col, Row, Skeleton } from 'antd';
 import { groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -19,39 +18,16 @@ import { useListDepositsQuery, useListTradesQuery, useListWithdrawalsQuery } fro
 import { AllRows } from './AllRows';
 import type { DepositRow } from './DepositRows';
 import { DepositRows } from './DepositRows';
+import type { ButtonsTableModeProps } from './TableModeSelector';
+import { TableModeSelector } from './TableModeSelector';
 import { TradeRows } from './TradeRows';
 import { WithdrawalRows } from './WithdrawalRows';
 
 export type TableMode = 'all' | 'trade' | 'deposit' | 'withdraw';
 
-interface ButtonsTableModeProps {
-  mode: TableMode;
-  setMode: (mode: ButtonsTableModeProps['mode']) => void;
-}
-
 interface TxsTableProps {
   marketInfo: MarketInfo;
 }
-
-const ButtonsTableMode = ({ mode, setMode }: ButtonsTableModeProps) => {
-  const handleTableModeChange = (ev: RadioChangeEvent) => setMode(ev.target.value);
-  return (
-    <Radio.Group onChange={handleTableModeChange} value={mode} className="ghost radio-group-txs-table">
-      <Radio.Button className="radio-btn-txs-table" value="all">
-        All
-      </Radio.Button>
-      <Radio.Button className="radio-btn-txs-table" value="trade">
-        Swap
-      </Radio.Button>
-      <Radio.Button className="radio-btn-txs-table" value="deposit">
-        Deposit
-      </Radio.Button>
-      <Radio.Button className="radio-btn-txs-table" value="withdraw">
-        Withdraw
-      </Radio.Button>
-    </Radio.Group>
-  );
-};
 
 interface tableRowsProps {
   lbtcUnit: LbtcUnit;
@@ -290,22 +266,24 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
     <>
       <div className="panel panel__grey dm-mono">
         {isAllDataLoaded ? (
-          <table id="txs-table">
-            <thead>
-              <tr>
-                <th>
-                  <ButtonsTableMode mode={mode} setMode={setMode} />
-                </th>
-                <th>Status</th>
-                <th>Total Value</th>
-                <th>Base Token Amount</th>
-                <th>Quote Token Amount</th>
-                <th className="time">Time</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>{TableRows}</tbody>
-          </table>
+          <div className="txs-table-wrapper scrollbar">
+            <table id="txs-table">
+              <thead>
+                <tr>
+                  <th>
+                    <TableModeSelector mode={mode} setMode={setMode} />
+                  </th>
+                  <th>Status</th>
+                  <th>Total Value</th>
+                  <th>Base Token Amount</th>
+                  <th>Quote Token Amount</th>
+                  <th className="time">Time</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>{TableRows}</tbody>
+            </table>
+          </div>
         ) : (
           <Skeleton active paragraph={{ rows: 5 }} />
         )}

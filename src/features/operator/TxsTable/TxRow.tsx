@@ -1,4 +1,5 @@
 import Icon, { RightOutlined } from '@ant-design/icons';
+import { Grid } from 'antd';
 import classNames from 'classnames';
 
 import type { TradeInfo, Withdrawal } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
@@ -12,6 +13,8 @@ import type { DepositRow } from './DepositRows';
 import type { TableMode } from './index';
 
 export type TxData = TradeInfo & DepositRow & Withdrawal;
+
+const { useBreakpoint } = Grid;
 
 interface TxRowProps {
   mode: TableMode;
@@ -48,6 +51,7 @@ export const TxRow = ({
   } else if (hasQuoteAmount) {
     tickerStr = quoteAsset?.ticker;
   }
+  const screens = useBreakpoint();
 
   return (
     <>
@@ -59,11 +63,17 @@ export const TxRow = ({
       >
         {mode === 'trade' && (
           <td>
-            <span className="market-icons-translate__small">
-              <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
-              <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
-            </span>
-            {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
+            {screens.md ? (
+              <>
+                <span className="market-icons-translate__small">
+                  <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
+                  <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
+                </span>
+                {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
+              </>
+            ) : (
+              'Swap'
+            )}
           </td>
         )}
         {mode === 'withdraw' && (

@@ -178,11 +178,11 @@ export const FeeForm = ({
             </Col>
           </Row>
           <Row align="middle">
-            <Col span={8} className="d-flex align-center">
+            <Col span={12} className="d-flex align-center">
               <CurrencyIcon assetId={baseAsset.asset_id} />
               <span className="dm-sans dm-sans__xx ml-2">{baseAssetUnitOrTicker}</span>
             </Col>
-            <Col span={16}>
+            <Col span={12}>
               <InputAmount
                 disabled={isFeeFormLocked}
                 assetPrecision={baseAsset.precision}
@@ -194,13 +194,13 @@ export const FeeForm = ({
           </Row>
           <Divider />
           <Row align="middle">
-            <Col span={8} className="d-flex align-center">
+            <Col span={12} className="d-flex align-center">
               <CurrencyIcon assetId={quoteAsset.asset_id} />
               <span className="dm-sans dm-sans__xx ml-2">
                 {isLbtcAssetId(quoteAsset.asset_id, network) ? lbtcUnit : quoteAsset.ticker}
               </span>
             </Col>
-            <Col span={16}>
+            <Col span={12}>
               <InputAmount
                 disabled={isFeeFormLocked}
                 assetPrecision={quoteAsset.precision}
@@ -219,13 +219,13 @@ export const FeeForm = ({
             </Col>
           </Row>
           <Row align="middle" className="fee-relative-container">
-            <Col span={14}>
-              <MarketIcons baseAsset={baseAsset} quoteAsset={quoteAsset} size="medium" />
+            <Col span={16}>
+              <MarketIcons baseAsset={baseAsset} quoteAsset={quoteAsset} size="medium" hasShadow={false} />
               <span className="dm-sans dm-sans__xx">
-                {baseAsset.ticker} / {quoteAsset.ticker}
+                {baseAsset.ticker}/{quoteAsset.ticker}
               </span>
             </Col>
-            <Col span={10}>
+            <Col span={8}>
               <InputAmount
                 disabled={isFeeFormLocked}
                 assetPrecision={2}

@@ -126,11 +126,7 @@ export const MarketOverview = (): JSX.Element => {
               </span>
             </Space>
           </Col>
-          <Col
-            xs={24}
-            md={12}
-            className={classNames({ 'text-end': screens.md, 'mt-4': screens.xs || screens.sm })}
-          >
+          <Col xs={24} md={12} className={classNames({ 'text-end': screens.md, 'mt-4': !screens.md })}>
             <Space
               size={screens.md ? 16 : undefined}
               className={classNames({ 'w-100 justify-space-between': !screens.md })}
@@ -242,7 +238,7 @@ export const MarketOverview = (): JSX.Element => {
             />
           </Col>
         </Row>
-        <div className={classNames({ 'd-none': !screens.md })}>
+        <div>
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>
             Transactions
           </Title>

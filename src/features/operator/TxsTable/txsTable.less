@@ -1,9 +1,26 @@
+.txs-table-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.table-dropdown button {
+  color: @grey-x-light !important;
+  &.active {
+    color: @primary-color !important;
+  }
+}
+
 table#txs-table {
   width: 100%;
   thead {
     text-align: left;
     th {
-      padding: 0;
+      padding: 0 10px 0 10px !important;
+      &:first-child {
+        position: sticky;
+        left: -1px;
+        background: @grey-x-dark;
+      }
     }
     tr {
       label {
@@ -16,7 +33,12 @@ table#txs-table {
   tbody {
     tr {
       td {
-        padding: 0 15px 0 0 !important;
+        padding: 0 10px 0 10px !important;
+        &:first-child {
+          position: sticky;
+          left: -1px;
+          background: @grey-x-dark;
+        }
       }
     }
     tr:not(.details) {

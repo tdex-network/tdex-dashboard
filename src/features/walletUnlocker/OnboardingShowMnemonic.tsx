@@ -1,6 +1,6 @@
 import './onboardingShowMnemonic.less';
 import Icon from '@ant-design/icons';
-import { Col, Row, Typography, Checkbox, Spin, Breadcrumb } from 'antd';
+import { Col, Row, Typography, Checkbox, Spin, Breadcrumb, Grid } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,8 @@ import { ONBOARDING_CREATE_OR_RESTORE_ROUTE, ONBOARDING_PAIRING_ROUTE } from '..
 
 import { PasswordForm } from './PasswordForm';
 import { useGenSeedQuery } from './walletUnlocker.api';
+
+const { useBreakpoint } = Grid;
 
 export const OnboardingShowMnemonic = (): JSX.Element => {
   const { data: seedMnemonicList, error: genSeedError } = useGenSeedQuery();
@@ -69,26 +71,45 @@ export const OnboardingShowMnemonic = (): JSX.Element => {
 };
 
 export const SeedMnemonicList = ({ seed }: { seed?: string[] }): JSX.Element => {
+  const screens = useBreakpoint();
+
   return (
     <Spin spinning={!seed} delay={500}>
       <ol className="words-list my-8">
-        <Row justify="center">
-          <Col span={4}>
-            {seed?.slice(0, 8).map((word: string, index: number) => (
-              <li key={index}>{word}</li>
-            ))}
-          </Col>
-          <Col span={4} offset={1}>
-            {seed?.slice(8, 16).map((word: string, index: number) => (
-              <li key={index}>{word}</li>
-            ))}
-          </Col>
-          <Col span={4} offset={1}>
-            {seed?.slice(16, 24).map((word: string, index: number) => (
-              <li key={index}>{word}</li>
-            ))}
-          </Col>
-        </Row>
+        <>
+          {screens.xs ? (
+            <Row justify="center">
+              <Col span={12}>
+                {seed?.slice(0, 12).map((word: string, index: number) => (
+                  <li key={index}>{word}</li>
+                ))}
+              </Col>
+              <Col span={12}>
+                {seed?.slice(12, 24).map((word: string, index: number) => (
+                  <li key={index}>{word}</li>
+                ))}
+              </Col>
+            </Row>
+          ) : (
+            <Row justify="center">
+              <Col span={4}>
+                {seed?.slice(0, 8).map((word: string, index: number) => (
+                  <li key={index}>{word}</li>
+                ))}
+              </Col>
+              <Col span={4} offset={1}>
+                {seed?.slice(8, 16).map((word: string, index: number) => (
+                  <li key={index}>{word}</li>
+                ))}
+              </Col>
+              <Col span={4} offset={1}>
+                {seed?.slice(16, 24).map((word: string, index: number) => (
+                  <li key={index}>{word}</li>
+                ))}
+              </Col>
+            </Row>
+          )}
+        </>
       </ol>
     </Spin>
   );

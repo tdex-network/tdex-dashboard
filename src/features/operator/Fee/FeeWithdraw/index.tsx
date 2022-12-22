@@ -96,8 +96,8 @@ export const FeeWithdraw = (): JSX.Element => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Fee Withdraw</Breadcrumb.Item>
       </Breadcrumb>
-      <Row className="panel">
-        <Col span={12} offset={12}>
+      <Row justify="center" className="panel">
+        <Col xs={24} md={{ span: 12, offset: 12 }}>
           <Form
             layout="vertical"
             form={form}
@@ -126,11 +126,11 @@ export const FeeWithdraw = (): JSX.Element => {
                 </Col>
               </Row>
               <Row className="residual-balance-container">
-                <Col span={12}>
-                  <span className="dm-mono dm-mono__bold">Available balance:</span>
+                <Col span={14}>
+                  <span className="dm-mono dm-mono__bold">{'Available balance: '}</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold pl-1"
+                    className="dm-mono dm-mono__bold pl-0 pt-0 h-auto"
                     onClick={() => {
                       if (feeAvailableBalanceFormatted !== 'N/A') {
                         form.setFieldsValue({
@@ -144,7 +144,7 @@ export const FeeWithdraw = (): JSX.Element => {
                   </Button>
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${feeTotalBalanceFormatted} ${lbtcUnit}`}</span>
                 </Col>
-                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={12}>
+                <Col className="dm-mono dm-mono__bold d-flex justify-end" span={10}>
                   <span>{!isLoadingPrices && !isErrorPrices && feeTickerAsFavoriteCurrency}</span>
                   <span className="ml-2">
                     {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
@@ -161,7 +161,10 @@ export const FeeWithdraw = (): JSX.Element => {
               />
             </Form.Item>
 
-            <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
+            <Form.Item
+              className="submit-btn-container"
+              wrapperCol={{ xs: { span: 24 }, md: { span: 12, offset: 6 } }}
+            >
               <Button
                 htmlType="submit"
                 loading={withdrawFeeIsLoading}

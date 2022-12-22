@@ -1,5 +1,6 @@
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Typography, Tooltip } from 'antd';
+import { Breadcrumb, Row, Col, Typography, Tooltip, Grid } from 'antd';
+import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,9 +17,11 @@ import { FixedAssets } from './FixedAssets';
 import { NetworkSelect } from './NetworkSelect';
 
 const { Text, Title } = Typography;
+const { useBreakpoint } = Grid;
 
 export const Settings = (): JSX.Element => {
   const { tdexdConnectUrl } = useTypedSelector(({ settings }: RootState) => settings);
+  const screens = useBreakpoint();
 
   return (
     <>
@@ -33,7 +36,7 @@ export const Settings = (): JSX.Element => {
 
           <div className="panel">
             <Row gutter={{ xs: 20, sm: 30, md: 50, lg: 60 }} className="mb-8">
-              <Col span={12}>
+              <Col xs={24} md={12}>
                 <ActionButtons />
                 {/*<Row className="my-4">
                   <Col span={24}>
@@ -44,7 +47,7 @@ export const Settings = (): JSX.Element => {
                   </Col>
                 </Row>*/}
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12} className={classNames({ 'mt-4': !screens.md })}>
                 <NetworkSelect />
                 <ExplorersLiquidApiForm />
                 <ExplorersLiquidUiForm />

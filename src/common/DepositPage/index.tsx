@@ -1,6 +1,6 @@
 import './depositPage.less';
 import Icon from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Row, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Grid, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
@@ -17,6 +17,7 @@ import { assetIdToTicker, getAssetDataFromRegistry, LBTC_ASSET } from '../../uti
 import { CurrencyIcon } from '../CurrencyIcon';
 
 const { Text, Title } = Typography;
+const { useBreakpoint } = Grid;
 
 interface DepositPageProps {
   type: 'Fee' | 'Market';
@@ -48,6 +49,7 @@ export const DepositPage = ({
   /*const handleOptInFragmentationChange = (ev: CheckboxChangeEvent) => {
     setUseFragmenter(ev.target.checked);
   };*/
+  const screens = useBreakpoint();
 
   return (
     <>
@@ -60,7 +62,7 @@ export const DepositPage = ({
           <Breadcrumb.Item>
             <Button
               type="link"
-              className="dm-sans dm-sans__x"
+              className="dm-sans"
               onClick={() => {
                 const baseAsset = getAssetDataFromRegistry(
                   market?.baseAsset || '',
@@ -87,7 +89,7 @@ export const DepositPage = ({
         <Breadcrumb.Item>{`${type} Deposit`}</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col span={12} className="pr-10">
+        <Col xs={24} lg={12} className={classNames({ 'pr-10': screens.lg })}>
           <div className="mb-4 d-flex panel panel__grey">
             {type === 'Fee' ? (
               <>
@@ -120,7 +122,7 @@ export const DepositPage = ({
               Previous addresses
             </Title>
             <div
-              className={classNames('panel panel__grey scrollbar', {
+              className={classNames('panel panel__grey scrollbar dm-sans__xs', {
                 'deposit-list': depositAddresses.length,
               })}
             >
@@ -130,12 +132,12 @@ export const DepositPage = ({
                     .reverse()
                     .map((addr, index) => {
                       return (
-                        <Row key={addr.address} className="mb-2" gutter={{ xs: 8, sm: 10, md: 12, lg: 14 }}>
-                          <Col span={2}>{`#${depositAddresses?.length - index - 1}`}</Col>
+                        <Row key={addr.address} className="mb-2" gutter={{ xs: 6, sm: 10, md: 12, lg: 14 }}>
+                          <Col span={2} className="pl-0">{`#${depositAddresses?.length - index - 1}`}</Col>
                           <Col span={17}>
                             <span className="break-all">{addr.address}</span>
                           </Col>
-                          <Col span={5} className="d-flex justify-end">
+                          <Col span={5} className="d-flex justify-end pr-0">
                             <Button
                               className="w-100"
                               onClick={() => setDepositAddress(addr.address)}
@@ -152,9 +154,9 @@ export const DepositPage = ({
           </div>
         </Col>
         {depositAddress ? (
-          <Col span={12}>
+          <Col xs={24} lg={12} className={classNames({ 'mt-8': !screens.lg })}>
             <Row className="panel panel__grey panel__top deposit-address-frame text-center">
-              <Col span={8}>
+              <Col xs={14} sm={12} md={8}>
                 <QRCodeSVG
                   className="qr-code"
                   level="H"
@@ -193,10 +195,10 @@ export const DepositPage = ({
             </Row>
           </Col>
         ) : (
-          <Col span={12}>
+          <Col xs={24} lg={12} className={classNames({ 'mt-8': !screens.lg })}>
             <Row className="panel panel__grey text-center">
               <Col span={20} offset={2}>
-                <p className="dm-sans dm-sans__x dm-sans__bold">Please generate or select an address</p>
+                <p className="dm-sans dm-sans__x dm-sans__bold mb-0">Please generate or select an address</p>
               </Col>
             </Row>
           </Col>

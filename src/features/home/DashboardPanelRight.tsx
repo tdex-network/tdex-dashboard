@@ -1,6 +1,7 @@
 import './dashboardPanelRight.less';
 import Icon from '@ant-design/icons';
-import { Button, Col, Row, Typography } from 'antd';
+import { Button, Col, Grid, Row, Typography } from 'antd';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ import { convertAmountToFavoriteCurrency } from '../rates.api';
 import type { PriceFeedQueryResult } from '../rates.api';
 
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 interface DashboardPanelRightProps {
   lbtcUnit: LbtcUnit;
@@ -31,6 +33,7 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
   const { data: daemonInfo, isFetching: daemonInfoIsFetching } = useGetInfoQuery();
   const [feeAccountBalanceAsFavoriteCurrency, setFeeAccountBalanceAsFavoriteCurrency] = useState<string>();
+  const screens = useBreakpoint();
 
   useEffect(() => {
     if (network === daemonInfo?.network && !daemonInfoIsFetching) {
@@ -51,7 +54,13 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
   }, [currency, daemonInfo?.network, daemonInfoIsFetching, feeBalance, lbtcUnit, network, prices]);
 
   return (
-    <div id="dashboard-panel-right-container" className="panel w-100 h-100">
+    <div
+      id="dashboard-panel-right-container"
+      className={classNames('panel w-100', {
+        'h-100': screens.lg,
+        'mt-4': !screens.lg,
+      })}
+    >
       <Row>
         <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
           Fee Account Balance

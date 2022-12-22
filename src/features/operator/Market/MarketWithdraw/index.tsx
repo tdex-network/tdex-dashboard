@@ -1,6 +1,6 @@
 import './marketWithdraw.less';
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
+import { Breadcrumb, Button, Col, Form, Grid, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -23,6 +23,8 @@ import {
 import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetMarketBalanceQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
+const { useBreakpoint } = Grid;
+
 interface IFormInputs {
   baseAmount: string;
   quoteAmount: string;
@@ -38,6 +40,7 @@ export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
   const [passwordForm] = Form.useForm<IPasswordFormInputs>();
+  const screens = useBreakpoint();
 
   const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
@@ -204,14 +207,14 @@ export const MarketWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Market Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col span={12} className="pr-10">
+        <Col xs={24} md={{ span: 12, offset: 12 }} className={classNames({ 'pr-10': screens.md })}>
           <SelectMarket
             selectedMarket={selectedMarket}
             setSelectedMarket={setSelectedMarket}
             marketList={marketList}
           />
         </Col>
-        <Col span={12}>
+        <Col xs={24} md={{ span: 12, offset: 12 }}>
           <Form
             layout="vertical"
             form={form}
@@ -241,12 +244,12 @@ export const MarketWithdraw = (): JSX.Element => {
                   />
                 </Col>
               </Row>
-              <Row align="middle" className="residual-balance-container">
+              <Row className="residual-balance-container">
                 <Col span={16}>
                   <span className="dm-mono dm-mono__bold mr-1">Available balance:</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold pl-0"
+                    className="dm-mono dm-mono__bold pl-0 pt-0 h-auto"
                     onClick={() => {
                       if (baseAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
@@ -287,12 +290,12 @@ export const MarketWithdraw = (): JSX.Element => {
                   />
                 </Col>
               </Row>
-              <Row align="middle" className="residual-balance-container">
+              <Row className="residual-balance-container">
                 <Col span={16}>
                   <span className="dm-mono dm-mono__bold mr-1">Available balance:</span>
                   <Button
                     type="ghost"
-                    className="dm-mono dm-mono__bold pl-1"
+                    className="dm-mono dm-mono__bold pl-0 pt-0 h-auto"
                     onClick={() => {
                       if (quoteAvailableAmountFormatted !== 'N/A') {
                         form.setFieldsValue({
@@ -305,7 +308,7 @@ export const MarketWithdraw = (): JSX.Element => {
                   <span className="dm-mono dm-mono__bold d-block">{`Total balance: ${quoteTotalAmountFormatted} ${selectedMarket?.quoteAsset?.formattedTicker}`}</span>
                 </Col>
                 <Col className="dm-mono dm-mono__bold d-flex justify-end" span={8}>
-                  <span>{!isLoadingPrices && !isErrorPrices && quoteToFavoriteCurrency}</span>
+                  <span>{(!isLoadingPrices && !isErrorPrices && quoteToFavoriteCurrency) || '0.00'}</span>
                   <span className="ml-2">
                     {currency.value === 'btc' ? lbtcUnit : currency.value.toUpperCase()}
                   </span>
@@ -321,7 +324,10 @@ export const MarketWithdraw = (): JSX.Element => {
               />
             </Form.Item>
 
-            <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
+            <Form.Item
+              className="submit-btn-container"
+              wrapperCol={{ xs: { span: 24 }, md: { span: 12, offset: 6 } }}
+            >
               <Button
                 htmlType="submit"
                 loading={withdrawMarketIsLoading}

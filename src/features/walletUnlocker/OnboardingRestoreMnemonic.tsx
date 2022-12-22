@@ -127,7 +127,7 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
                 layout="vertical"
                 form={form}
                 name="pairing_form"
-                wrapperCol={{ span: 16, offset: 4 }}
+                wrapperCol={{ xs: 24, sm: { span: 16, offset: 4 } }}
                 validateTrigger="onBlur"
               >
                 <Form.Item
@@ -195,7 +195,7 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
                   />
                 </Form.Item>
                 {hasMatchingError && <p className="error">{hasMatchingError}</p>}
-                <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+                <Form.Item wrapperCol={{ xs: 24, sm: { span: 12, offset: 6 } }}>
                   <Button htmlType="submit" className="w-100 mt-4" loading={isLoading}>
                     RESTORE
                   </Button>

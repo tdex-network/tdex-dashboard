@@ -1,5 +1,8 @@
+import './header.less';
+
 import Icon, { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Layout, Row, Space } from 'antd';
+import { Button, Col, Grid, Layout, Row, Space } from 'antd';
+import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,13 +11,14 @@ import { ReactComponent as threeDots } from '../../assets/images/three-dots.svg'
 import { CREATE_MARKET_ROUTE, HOME_ROUTE } from '../../routes/constants';
 import { UserMenu } from '../UserMenu';
 
-import './header.less';
+const { useBreakpoint } = Grid;
 
 export const Header = (): JSX.Element => {
   const { Header } = Layout;
   const navigate = useNavigate();
   const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
   const closeUserMenu = () => setIsUserMenuVisible(false);
+  const screens = useBreakpoint();
 
   const toggleUserMenu = useCallback(
     () => (isUserMenuVisible ? setIsUserMenuVisible(false) : setIsUserMenuVisible(true)),
@@ -50,10 +54,10 @@ export const Header = (): JSX.Element => {
             <img src={logo} alt="logo" style={{ height: '65px' }} />
           </Link>
         </Col>
-        <Col span={12} className="d-flex justify-end pr-4">
+        <Col span={12} className="d-flex justify-end">
           <Space align="center">
             <Button
-              className="d-flex"
+              className={classNames({ 'd-none': screens.xs, 'd-flex': !screens.xs })}
               icon={<PlusCircleOutlined />}
               onClick={() => navigate(CREATE_MARKET_ROUTE)}
             >

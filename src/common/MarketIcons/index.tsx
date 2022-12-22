@@ -9,9 +9,16 @@ interface MarketIconsProps {
   quoteAsset: Asset;
   size: 'big' | 'medium' | 'small';
   [x: string]: any;
+  hasShadow?: boolean;
 }
 
-export const MarketIcons = ({ baseAsset, quoteAsset, size, ...props }: MarketIconsProps): JSX.Element => {
+export const MarketIcons = ({
+  baseAsset,
+  quoteAsset,
+  size,
+  hasShadow = true,
+  ...props
+}: MarketIconsProps): JSX.Element => {
   let fontSize = 16;
   if (size === 'big') {
     fontSize = 45;
@@ -33,7 +40,7 @@ export const MarketIcons = ({ baseAsset, quoteAsset, size, ...props }: MarketIco
       <CurrencyIcon assetId={baseAsset.asset_id} size={fontSize} />
       <span className="quote-icon">
         <CurrencyIcon assetId={quoteAsset.asset_id} size={fontSize} />
-        <CurrencyIcon assetId={quoteAsset.asset_id} size={fontSize} />
+        {hasShadow ? <CurrencyIcon assetId={quoteAsset.asset_id} size={fontSize} /> : null}
       </span>
     </span>
   );

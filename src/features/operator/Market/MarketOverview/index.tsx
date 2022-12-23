@@ -12,12 +12,16 @@ import { MarketIcons } from '../../../../common/MarketIcons';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE, MARKET_DEPOSIT_ROUTE, MARKET_WITHDRAW_ROUTE } from '../../../../routes/constants';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../../utils';
+import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
 import { useGetMarketBalanceQuery, useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
+import { BalanceAndPrice } from './BalanceAndPrice';
+import { BalanceAndPriceMobile } from './BalanceAndPriceMobile';
+import { CollectedSwapFees } from './CollectedSwapFees';
 import { VolumePanel } from './VolumePanel';
 
 const { Title } = Typography;
@@ -26,7 +30,6 @@ const { useBreakpoint } = Grid;
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
   const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
-  const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
   const { data: marketBalance } = useGetMarketBalanceQuery(
@@ -47,6 +50,11 @@ export const MarketOverview = (): JSX.Element => {
       pollingInterval: isBalanceUpdating ? 2000 : 0,
     }
   );
+  const [baseAmount, setBaseAmount] = useState<string>();
+  const [quoteAmount, setQuoteAmount] = useState<string>();
+  const [volumeAsFavCurrencyFormatted, setVolumeAsFavCurrencyFormatted] = useState<JSX.Element | undefined>();
+  const { lbtcUnit, network, currency } = useTypedSelector(({ settings }) => settings);
+  const { data: prices } = useLatestPriceFeedFromCoinGeckoQuery();
   const screens = useBreakpoint();
 
   // Market report
@@ -96,6 +104,70 @@ export const MarketOverview = (): JSX.Element => {
   const handleAssetInfoModalCancel = () => {
     setIsAssetInfoModalVisible(false);
   };
+
+  useEffect(() => {
+    setBaseAmount(
+      marketInfo?.balance?.baseAmount === undefined
+        ? 'N/A'
+        : fromSatsToUnitOrFractional(
+            Number(marketInfo?.balance?.baseAmount),
+            state?.baseAsset.precision,
+            isLbtcTicker(state?.baseAsset.ticker),
+            lbtcUnit
+          )
+    );
+    setQuoteAmount(
+      marketInfo?.balance?.quoteAmount === undefined
+        ? 'N/A'
+        : fromSatsToUnitOrFractional(
+            Number(marketInfo?.balance?.quoteAmount),
+            state?.quoteAsset.precision,
+            isLbtcTicker(state?.quoteAsset.ticker),
+            lbtcUnit
+          )
+    );
+
+    const volumeAsUnitOrFractional = fromSatsToUnitOrFractional(
+      Number(marketReport?.totalVolume?.quoteVolume || 0),
+      state?.quoteAsset.precision,
+      isLbtcTicker(state?.quoteAsset.ticker),
+      lbtcUnit
+    );
+
+    const volumeAsFavCurrency = convertAmountToFavoriteCurrency({
+      asset: state?.quoteAsset,
+      amount: volumeAsUnitOrFractional,
+      network: network,
+      preferredCurrency: currency,
+      preferredLbtcUnit: lbtcUnit,
+      prices: prices,
+    });
+
+    setVolumeAsFavCurrencyFormatted(
+      currency.value === 'btc' ? (
+        <div className="d-inline">
+          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+          <span className="d-inline-block dm-mono dm-mono__x dm_mono__bold mx-2">{lbtcUnit}</span>
+        </div>
+      ) : (
+        <div className="d-inline">
+          <span className="d-inline-block dm-mono dm_mono__bold">{currency.symbol}</span>
+          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+        </div>
+      )
+    );
+  }, [
+    state?.baseAsset.precision,
+    state?.baseAsset.ticker,
+    currency,
+    lbtcUnit,
+    marketInfo?.balance?.baseAmount,
+    marketInfo?.balance?.quoteAmount,
+    marketReport?.totalVolume?.quoteVolume,
+    network,
+    prices,
+    state?.quoteAsset,
+  ]);
 
   return (
     <>
@@ -159,44 +231,7 @@ export const MarketOverview = (): JSX.Element => {
         </Row>
         <Row className="mb-8" gutter={{ xs: 4, sm: 8, md: 12 }}>
           <Col xs={24} sm={24} md={24} lg={8} className="h-100">
-            <div className="panel panel__grey mb-4">
-              <Row>
-                <Col span={24}>
-                  <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
-                    Collected Swap Fees
-                  </Title>
-                  <InfoCircleOutlined className="grey" />
-                </Col>
-              </Row>
-              <Row align="middle">
-                <Col>
-                  <div>
-                    <span className="dm-mono dm-mono__xx">
-                      {fromSatsToUnitOrFractional(
-                        marketReport?.totalCollectedFees?.baseAmount ?? 0,
-                        state?.baseAsset?.precision,
-                        isLbtcTicker(state?.baseAsset?.ticker),
-                        lbtcUnit
-                      )}
-                    </span>
-                    <span className="dm-sans dm-sans__x ml-2">{state?.baseAsset?.formattedTicker ?? ''}</span>
-                  </div>
-                  <div>
-                    <span className="dm-mono dm-mono__xx">
-                      {fromSatsToUnitOrFractional(
-                        marketReport?.totalCollectedFees?.quoteAmount ?? 0,
-                        state?.quoteAsset?.precision,
-                        isLbtcTicker(state?.quoteAsset?.ticker),
-                        lbtcUnit
-                      )}
-                    </span>
-                    <span className="dm-sans dm-sans__x ml-2">
-                      {state?.quoteAsset?.formattedTicker ?? ''}
-                    </span>
-                  </div>
-                </Col>
-              </Row>
-            </div>
+            <CollectedSwapFees marketReport={marketReport} state={state} />
 
             {/* Render FeeForm only when marketInfo is ready */}
             {/* To ensure AntD form initialValues are correct */}
@@ -227,16 +262,44 @@ export const MarketOverview = (): JSX.Element => {
               'mt-4': !screens.lg,
             })}
           >
-            <VolumePanel
-              marketInfo={marketInfo}
-              baseAsset={state?.baseAsset}
-              quoteAsset={state?.quoteAsset}
-              marketReport={marketReport}
-              setMarketReportPredefinedPeriod={setMarketReportPredefinedPeriod}
-              setMarketReportTimeFrame={setMarketReportTimeFrame}
-              marketReportPredefinedPeriod={marketReportPredefinedPeriod}
-            />
+            <div className="panel panel__grey h-100">
+              <BalanceAndPrice
+                baseAsset={state?.baseAsset}
+                quoteAsset={state?.quoteAsset}
+                lbtcUnit={lbtcUnit}
+                baseAmount={baseAmount}
+                quoteAmount={quoteAmount}
+                marketInfo={marketInfo}
+                network={network}
+              />
+              <>
+                {!screens.xs ? (
+                  <VolumePanel
+                    volumeAsFavCurrencyFormatted={volumeAsFavCurrencyFormatted}
+                    baseAsset={state?.baseAsset}
+                    marketReport={marketReport}
+                    setMarketReportPredefinedPeriod={setMarketReportPredefinedPeriod}
+                    setMarketReportTimeFrame={setMarketReportTimeFrame}
+                    marketReportPredefinedPeriod={marketReportPredefinedPeriod}
+                  />
+                ) : null}
+              </>
+            </div>
           </Col>
+          {/* To remove if multi panel layout is adopted on bigger screens */}
+          <>
+            {screens.xs ? (
+              <BalanceAndPriceMobile
+                baseAsset={state?.baseAsset}
+                quoteAsset={state?.quoteAsset}
+                lbtcUnit={lbtcUnit}
+                baseAmount={baseAmount}
+                quoteAmount={quoteAmount}
+                marketInfo={marketInfo}
+                network={network}
+              />
+            ) : null}
+          </>
         </Row>
         <div>
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>

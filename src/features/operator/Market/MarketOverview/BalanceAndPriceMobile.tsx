@@ -42,21 +42,21 @@ export const BalanceAndPriceMobile = ({
           </Col>
         </Row>
         <Row align="middle" className="mt-1">
-          <Col className="d-flex align-center">
-            <div className="d-flex align-center">
+          <Col span={24}>
+            <Col span={24} className="d-flex align-center">
               <CurrencyIcon assetId={baseAsset?.asset_id} />
               <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
                 {isLbtcAssetId(baseAsset?.asset_id, network) ? lbtcUnit : baseAsset?.ticker}
               </span>
               <span className="dm-mono dm-mono__xx mr-6">{baseAmount}</span>
-            </div>
-            <div className="d-flex align-center">
+            </Col>
+            <Col span={24} className="d-flex align-center mt-2">
               <CurrencyIcon assetId={quoteAsset?.asset_id} />
               <span className="dm-mono dm-mono__x dm_mono__bold mx-2">
                 {isLbtcAssetId(quoteAsset?.asset_id, network) ? lbtcUnit : quoteAsset?.ticker}
               </span>
               <span className="dm-mono dm-mono__xx">{quoteAmount}</span>
-            </div>
+            </Col>
           </Col>
         </Row>
       </div>

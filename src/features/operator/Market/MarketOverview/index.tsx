@@ -20,6 +20,7 @@ import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
 import { BalanceAndPrice } from './BalanceAndPrice';
+import { BalanceAndPriceMobile } from './BalanceAndPriceMobile';
 import { CollectedSwapFees } from './CollectedSwapFees';
 import { VolumePanel } from './VolumePanel';
 
@@ -253,7 +254,7 @@ export const MarketOverview = (): JSX.Element => {
             )}
           </Col>
           <Col
-            xs={24}
+            xs={0}
             sm={24}
             md={24}
             lg={16}
@@ -285,6 +286,20 @@ export const MarketOverview = (): JSX.Element => {
               </>
             </div>
           </Col>
+          {/* To remove if multi panel layout is adopted on bigger screens */}
+          <>
+            {screens.xs ? (
+              <BalanceAndPriceMobile
+                baseAsset={state?.baseAsset}
+                quoteAsset={state?.quoteAsset}
+                lbtcUnit={lbtcUnit}
+                baseAmount={baseAmount}
+                quoteAmount={quoteAmount}
+                marketInfo={marketInfo}
+                network={network}
+              />
+            ) : null}
+          </>
         </Row>
         <div>
           <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={2}>

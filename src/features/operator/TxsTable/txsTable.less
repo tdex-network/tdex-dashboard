@@ -20,6 +20,7 @@ table#txs-table {
         position: sticky;
         left: -1px;
         background: @grey-x-dark;
+        background-clip: padding-box;
       }
     }
     tr {
@@ -42,7 +43,7 @@ table#txs-table {
       }
     }
     tr:not(.details) {
-      border-top: 1px solid #CCCCCC;
+      border-top: 0.5px solid #CCCCCC;
       height: 50px;
       .anticon.anticon-right {
         rotate: 0deg;

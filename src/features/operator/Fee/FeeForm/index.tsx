@@ -1,6 +1,6 @@
 import './feeForm.less';
 import { InfoCircleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
-import { Row, Col, Typography, Divider, Form, Button, notification } from 'antd';
+import { Row, Col, Typography, Divider, Form, Button, notification, Popover } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -174,7 +174,12 @@ export const FeeForm = ({
               <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
                 Set Absolute Fee
               </Title>
-              <InfoCircleOutlined className="grey" />
+              <Popover
+                trigger="hover"
+                content="Absolute fees are fixed fees that are charged as a fixed amount in the asset on the way in. For example, if the swap is from USDT to BTC and the fixed fee is 0.01 BTC, the trader will be charged 0.01 BTC for the swap, regardless of the overall value of the swap."
+              >
+                <InfoCircleOutlined className="grey" />
+              </Popover>
             </Col>
           </Row>
           <Row align="middle">
@@ -215,7 +220,12 @@ export const FeeForm = ({
               <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey d-inline mr-4" level={3}>
                 Set Relative Fee
               </Title>
-              <InfoCircleOutlined className="grey" />
+              <Popover
+                trigger="hover"
+                content="Relative fees are fees that are charged as a percentage of the overall value of the swap. For example, if the swap is from USDT to BTC and the percentage fee is 0.1%, the trader will be charged 0.1% of the value of the swap in the asset on the way in. So if the swap is worth 100 USDT, the fee would be 0.1 USDT."
+              >
+                <InfoCircleOutlined className="grey" />
+              </Popover>
             </Col>
           </Row>
           <Row align="middle" className="fee-relative-container">

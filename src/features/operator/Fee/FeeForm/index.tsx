@@ -175,7 +175,7 @@ export const FeeForm = ({
                 Set Absolute Fee
               </Title>
               <Popover
-                trigger="hover"
+                trigger={['hover', 'click']}
                 content="Absolute fees are fixed fees that are charged as a fixed amount in the asset on the way in. For example, if the swap is from USDT to BTC and the fixed fee is 0.01 BTC, the trader will be charged 0.01 BTC for the swap, regardless of the overall value of the swap."
               >
                 <InfoCircleOutlined className="grey" />
@@ -221,7 +221,7 @@ export const FeeForm = ({
                 Set Relative Fee
               </Title>
               <Popover
-                trigger="hover"
+                trigger={['hover', 'click']}
                 content="Relative fees are fees that are charged as a percentage of the overall value of the swap. For example, if the swap is from USDT to BTC and the percentage fee is 0.1%, the trader will be charged 0.1% of the value of the swap in the asset on the way in. So if the swap is worth 100 USDT, the fee would be 0.1 USDT."
               >
                 <InfoCircleOutlined className="grey" />

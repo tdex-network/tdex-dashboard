@@ -25,7 +25,7 @@ export const CollectedSwapFees = ({ marketReport, state }: CollectedSwapFeesProp
             Collected Swap Fees
           </Title>
           <Popover
-            trigger="hover"
+            trigger={['hover', 'click']}
             content='Collected swap fees refer to the fees you have collected from traders. The fee is
           charged in the asset "on the way in", which means that if the swap is from USDT to BTC, the fee is
           charged in USDT. The fee can be configured as a percentage of the overall value of the swap, or as a

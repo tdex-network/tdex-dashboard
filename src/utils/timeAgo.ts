@@ -1,38 +1,33 @@
 export const timeAgo = (someDateInThePast?: number): string => {
   if (!someDateInThePast) return 'N/A';
   let result = '';
-  const difference = Date.now() - someDateInThePast * 1000;
-  const hasMinutes = (difference % 1000) * 3600 > 0;
-  const hasHours = (difference % 1000) * 3600 * 60 > 0;
-  const hasDays = (difference % 1000) * 3600 * 60 * 24 > 0;
+  // Dates in second timestamps
+  const difference = Math.round(Date.now() / 1000) - someDateInThePast;
+  //
+  const minutes = Math.floor((difference / 60) % 60);
+  const hours = Math.floor((difference / 60 / 60) % 24);
+  const days = Math.floor(difference / 60 / 60 / 24);
+  //
+  const hasMinutes = minutes > 0;
+  const hasHours = hours > 0;
+  const hasDays = days > 0;
 
-  if (difference < 5 * 1000) {
+  if (difference < 5) {
     return 'just now';
-  } else if (difference < 90 * 1000) {
+  } else if (difference < 90) {
     return 'moments ago';
   }
 
-  //it has minutes
-  // Do not display minutes if it has hours
-  if (!hasHours && hasMinutes) {
-    if (Math.floor((difference / 1000 / 60) % 60) > 0) {
-      const s = Math.floor((difference / 1000 / 60) % 60) === 1 ? '' : 's';
-      result = `${Math.floor((difference / 1000 / 60) % 60)}min${s} `;
-    }
+  if (hasMinutes) {
+    result = `${minutes}min`;
   }
 
-  //it has hours
   if (hasHours) {
-    if (Math.floor((difference / 1000 / 60 / 60) % 24) > 0) {
-      result = `${Math.floor((difference / 1000 / 60 / 60) % 24)}h${result === '' ? '' : ','} ` + result;
-    }
+    result = `${hours}h, ${minutes}min`;
   }
 
-  //it has days
   if (hasDays) {
-    if (Math.floor(difference / 1000 / 60 / 60 / 24) > 0) {
-      result = `${Math.floor(difference / 1000 / 60 / 60 / 24)}d${result === '' ? '' : ','} ` + result;
-    }
+    result = `${days}d, ${hours}h`;
   }
 
   return result + ' ago';

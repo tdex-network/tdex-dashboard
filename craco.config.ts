@@ -33,6 +33,8 @@ export default {
       Object.assign(fallback, {
         os: require.resolve('os-browserify/browser'),
         buffer: require.resolve('buffer'),
+        // Required for liquidjs-lib
+        stream: require.resolve('stream-browserify'),
       });
       webpackConfig.resolve.fallback = fallback;
       //

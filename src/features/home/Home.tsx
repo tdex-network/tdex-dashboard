@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 import { useTypedSelector } from '../../app/store';
 import { ListMarkets } from '../operator/Market/ListMarkets';
-import { useGetInfoQuery } from '../operator/operator.api';
 import { useLatestPriceFeedFromCoinGeckoQuery } from '../rates.api';
-import { UnlockModalForm } from '../walletUnlocker/UnlockModalForm';
-import { useIsReadyQuery } from '../walletUnlocker/walletUnlocker.api';
+import { UnlockModalForm } from '../wallet/UnlockModalForm';
+import { useGetInfoQuery, useGetStatusQuery } from '../wallet/wallet.api';
 
 import { DashboardPanelLeft } from './DashboardPanelLeft';
 import { DashboardPanelRight } from './DashboardPanelRight';
@@ -16,10 +15,10 @@ const { Title } = Typography;
 export const Home = (): JSX.Element => {
   const { lbtcUnit, proxyHealth, useProxy } = useTypedSelector(({ settings }) => settings);
   const {
-    data: isReady,
-    refetch: refetchIsReady,
-    error: errorIsReady,
-  } = useIsReadyQuery(undefined, {
+    data: status,
+    refetch: refetchStatus,
+    error: errorStatus,
+  } = useGetStatusQuery(undefined, {
     // Skip if proxy is used but not serving
     skip: useProxy && proxyHealth !== 'SERVING',
   });
@@ -33,13 +32,13 @@ export const Home = (): JSX.Element => {
   const [, setProxyIsServingAndReady] = useState(false);
 
   useEffect(() => {
-    if (errorIsReady) {
+    if (errorStatus) {
       notification.error({
         message: 'Service is not available or credentials are wrong',
         key: 'service unavailable',
       });
     }
-  }, [errorIsReady]);
+  }, [errorStatus]);
 
   // Workaround for https://github.com/tdex-network/tdex-dashboard/issues/379
   // basically runs two times this effect, the first time proxyIsServingAndReady is ALWAYS false, altough right after becomes true
@@ -56,19 +55,19 @@ export const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (proxyHealth === 'SERVING') {
-      if (isReady?.initialized) {
+      if (status?.initialized) {
         setProxyIsServingAndReady(true);
       } else {
-        refetchIsReady();
+        refetchStatus();
       }
     }
-  }, [isReady?.initialized, proxyHealth, refetchIsReady]);
+  }, [status?.initialized, proxyHealth, refetchStatus]);
 
   useEffect(() => {
-    if (isReady?.initialized && !isReady?.unlocked) {
+    if (status?.initialized && !status?.unlocked) {
       showUnlockWalletModal();
     }
-  }, [isReady]);
+  }, [status]);
 
   return (
     <>

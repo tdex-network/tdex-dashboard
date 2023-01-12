@@ -9,7 +9,7 @@ import { ReactComponent as chevronRight } from '../../assets/images/chevron-righ
 import { ONBOARDING_CREATE_OR_RESTORE_ROUTE, ONBOARDING_PAIRING_ROUTE } from '../../routes/constants';
 
 import { PasswordForm } from './PasswordForm';
-import { useGenSeedQuery } from './walletUnlocker.api';
+import { useGenSeedQuery } from './wallet.api';
 
 const { useBreakpoint } = Grid;
 

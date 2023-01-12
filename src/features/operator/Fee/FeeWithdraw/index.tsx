@@ -40,13 +40,13 @@ export const FeeWithdraw = (): JSX.Element => {
   } = useLatestPriceFeedFromCoinGeckoQuery();
 
   const feeAvailableBalanceFormatted =
-    feeBalance?.availableBalance === undefined
+    feeBalance?.balance?.confirmedBalance === undefined
       ? 'N/A'
-      : fromSatsToUnitOrFractional(feeBalance?.availableBalance, 8, true, lbtcUnit);
+      : fromSatsToUnitOrFractional(feeBalance?.balance?.confirmedBalance, 8, true, lbtcUnit);
   const feeTotalBalanceFormatted =
-    feeBalance?.totalBalance === undefined
+    feeBalance?.balance?.totalBalance === undefined
       ? 'N/A'
-      : fromSatsToUnitOrFractional(feeBalance?.totalBalance, 8, true, lbtcUnit);
+      : fromSatsToUnitOrFractional(feeBalance?.balance?.totalBalance, 8, true, lbtcUnit);
   const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
   const [unitAmount, setUnitAmount] = useState<number>(0);
   const [address, setAddress] = useState<string>();
@@ -66,10 +66,15 @@ export const FeeWithdraw = (): JSX.Element => {
       if (!unitAmount || !address) return;
       const { password } = await passwordForm.validateFields();
       const res = await withdrawFee({
-        amount: Number(formatLbtcUnitToSats(unitAmount, lbtcUnit)),
+        outputs: [
+          {
+            amount: Number(formatLbtcUnitToSats(unitAmount, lbtcUnit)),
+            script: '',
+            blindingKey: '',
+            asset: LBTC_ASSET[network].asset_id,
+          },
+        ],
         millisatsPerByte: 100,
-        address: address,
-        asset: LBTC_ASSET[network].asset_id,
         password: password,
       });
       // @ts-ignore

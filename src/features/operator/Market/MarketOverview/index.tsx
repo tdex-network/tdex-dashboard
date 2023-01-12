@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import { PredefinedPeriod, TimeFrame } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { ReactComponent as depositIcon } from '../../../../assets/images/deposit-green.svg';
@@ -15,7 +15,7 @@ import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../../utils';
 import { convertAmountToFavoriteCurrency, useLatestPriceFeedFromCoinGeckoQuery } from '../../../rates.api';
 import { FeeForm } from '../../Fee/FeeForm';
 import { TxsTable } from '../../TxsTable';
-import { useGetMarketBalanceQuery, useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
+import { useGetMarketInfoQuery, useGetMarketReportQuery } from '../../operator.api';
 import { MarketSettings } from '../MarketSettings';
 
 import { AssetInfoModal } from './AssetInfoModal';
@@ -32,15 +32,6 @@ export const MarketOverview = (): JSX.Element => {
   const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
-  const { data: marketBalance } = useGetMarketBalanceQuery(
-    {
-      baseAsset: state.baseAsset?.asset_id || '',
-      quoteAsset: state.quoteAsset?.asset_id || '',
-    },
-    {
-      pollingInterval: isBalanceUpdating ? 2000 : 0,
-    }
-  );
   const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery(
     {
       baseAsset: state.baseAsset?.asset_id,
@@ -75,19 +66,16 @@ export const MarketOverview = (): JSX.Element => {
   // We check differences between availableBalance and totalBalance and poll balances until it is resolved
   useEffect(() => {
     if (
-      marketBalance?.totalBalance?.baseAmount !== marketBalance?.availableBalance?.baseAmount ||
-      marketBalance?.totalBalance?.quoteAmount !== marketBalance?.availableBalance?.quoteAmount
+      marketInfo?.balance[state.baseAsset?.asset_id]?.totalBalance !==
+        marketInfo?.balance[state.baseAsset?.asset_id]?.confirmedBalance ||
+      marketInfo?.balance[state.quoteAsset?.asset_id]?.totalBalance !==
+        marketInfo?.balance[state.quoteAsset?.asset_id]?.confirmedBalance
     ) {
       setIsBalanceUpdating(true);
     } else {
       setIsBalanceUpdating(false);
     }
-  }, [
-    marketBalance?.availableBalance?.baseAmount,
-    marketBalance?.availableBalance?.quoteAmount,
-    marketBalance?.totalBalance?.baseAmount,
-    marketBalance?.totalBalance?.quoteAmount,
-  ]);
+  }, [marketInfo?.balance, state.baseAsset?.asset_id, state.quoteAsset?.asset_id]);
 
   const [isMarketSettingsModalVisible, setIsMarketSettingsModalVisible] = useState(false);
   const showMarketSettingsModal = () => {

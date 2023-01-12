@@ -43,12 +43,14 @@ export const CreateMarket = (): JSX.Element => {
   const incrementStep = () => setStep(step + 1);
 
   useEffect(() => {
-    if (
-      marketInfoError &&
-      marketInfoError !== 'missing argument' &&
-      marketInfoError !== 'market does not exist'
-    ) {
-      notification.error({ message: marketInfoError.toString() });
+    if (typeof marketInfoError === 'string') {
+      if (
+        marketInfoError !== 'missing argument' &&
+        marketInfoError !== 'market does not exist' &&
+        !(marketInfoError as string).includes('not found')
+      ) {
+        notification.error({ message: marketInfoError.toString() });
+      }
     }
   }, [marketInfoError]);
 

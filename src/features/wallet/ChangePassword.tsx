@@ -1,6 +1,6 @@
 import { Button, Form, Input, notification } from 'antd';
 
-import { useChangePasswordMutation } from './walletUnlocker.api';
+import { useChangePasswordMutation } from './wallet.api';
 
 interface IFormInputs {
   currentPassword: string;
@@ -15,8 +15,8 @@ export const ChangePasswordForm = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       changePassword({
-        currentPassword: new TextEncoder().encode(values.currentPassword),
-        newPassword: new TextEncoder().encode(values.newPassword),
+        currentPassword: new TextEncoder().encode(values.currentPassword).toString(),
+        newPassword: new TextEncoder().encode(values.newPassword).toString(),
       });
     } catch (err) {
       // @ts-ignore

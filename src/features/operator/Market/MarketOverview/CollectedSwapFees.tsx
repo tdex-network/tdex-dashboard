@@ -2,7 +2,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Popover, Row, Typography } from 'antd';
 import React from 'react';
 
-import type { MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketReport } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import type { Asset } from '../../../../domain/asset';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../../utils';

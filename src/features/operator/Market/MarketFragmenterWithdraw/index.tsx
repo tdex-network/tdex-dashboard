@@ -1,12 +1,13 @@
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, notification, Row } from 'antd';
 import classNames from 'classnames';
+import { address } from 'liquidjs-lib';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import { HOME_ROUTE, SETTINGS_ROUTE } from '../../../../routes/constants';
-import { useWithdrawMarketFragmenterMutation } from '../../operator.api';
+import { useGetFeeFragmenterBalanceQuery, useWithdrawMarketFragmenterMutation } from '../../operator.api';
 
 interface IFormInputs {
   millisatsPerByte: number;
@@ -20,19 +21,36 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
     withdrawMarketFragmenter,
     { error: withdrawMarketFragmenterError, isLoading: withdrawMarketFragmenterIsLoading },
   ] = useWithdrawMarketFragmenterMutation();
+  const { data: feeFragmenterBalance } = useGetFeeFragmenterBalanceQuery();
 
   const onFinish = async () => {
     try {
       const values = await form.validateFields();
-      const res = await withdrawMarketFragmenter({
-        millisatsPerByte: 100,
-        address: values.address,
-        password: values.password,
-      });
-      // @ts-ignore
-      if (res?.error) throw new Error(res?.error);
-      form.resetFields();
-      notification.success({ message: 'Market recovery withdrawal successful' });
+      const feeFragmenterBalanceArray = Object.entries(feeFragmenterBalance || []);
+      if (feeFragmenterBalanceArray.length && values.address) {
+        const res = await withdrawMarketFragmenter({
+          millisatsPerByte: 100,
+          outputs: feeFragmenterBalanceArray.map(([asset, balance]) => ({
+            script: address.fromConfidential(values.address).scriptPubKey?.toString('hex') ?? '',
+            asset: asset,
+            amount: balance.totalBalance,
+            blindingKey: address.fromConfidential(values.address).blindingKey.toString('hex'),
+          })),
+          password: values.password,
+        });
+        // @ts-ignore
+        if (res?.error) throw new Error(res?.error);
+        form.resetFields();
+        notification.success({
+          message: 'Market recovery withdrawal successful',
+          key: 'Market recovery withdrawal successful',
+        });
+      } else {
+        notification.error({
+          message: 'No funds to retrieve in fragmenter account',
+          key: 'No funds to retrieve in fragmenter account',
+        });
+      }
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });
@@ -64,17 +82,17 @@ export const MarketFragmenterWithdraw = (): JSX.Element => {
             <Form.Item name="address" className={classNames({ 'has-error': withdrawMarketFragmenterError })}>
               <Input placeholder="Paste address here or scan QR code" className="input__big" />
             </Form.Item>
-
+            <Form.Item name="password">
+              <Input.Password
+                placeholder="Password"
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                className="input__medium"
+              />
+            </Form.Item>
             <Form.Item className="submit-btn-container" wrapperCol={{ span: 12, offset: 6 }}>
               <Button htmlType="submit" loading={withdrawMarketFragmenterIsLoading} className="w-100">
                 RECOVERY MARKETS WITHDRAW
               </Button>
-            </Form.Item>
-            <Form.Item name="password">
-              <Input.Password
-                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                className="input__medium"
-              />
             </Form.Item>
           </Form>
         </Col>

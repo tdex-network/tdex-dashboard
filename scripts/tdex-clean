@@ -5,3 +5,9 @@ set -e
 docker stop tdexd
 docker rm tdexd
 rm -rf ./tdexd
+
+docker stop oceand-regtest
+docker rm oceand-regtest
+docker stop oceand-regtest-db
+docker rm oceand-regtest-db
+rm -rf ./oceand

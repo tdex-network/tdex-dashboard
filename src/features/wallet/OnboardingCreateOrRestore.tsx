@@ -13,7 +13,7 @@ import {
   ONBOARDING_SHOW_MNEMONIC_ROUTE,
 } from '../../routes/constants';
 
-import { useIsReadyQuery } from './walletUnlocker.api';
+import { useGetStatusQuery } from './wallet.api';
 
 const { useBreakpoint } = Grid;
 
@@ -21,7 +21,7 @@ export const OnboardingCreateOrRestore = (): JSX.Element => {
   const { Title } = Typography;
   const navigate = useNavigate();
   const [isPairingIssueModalVisible, setIsPairingIssueModalVisible] = useState<boolean>(false);
-  const { error: isReadyError } = useIsReadyQuery();
+  const { error: isReadyError } = useGetStatusQuery();
   const screens = useBreakpoint();
 
   useEffect(() => {

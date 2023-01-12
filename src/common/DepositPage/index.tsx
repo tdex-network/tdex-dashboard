@@ -6,7 +6,6 @@ import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { AddressWithBlindingKey } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
@@ -23,7 +22,7 @@ interface DepositPageProps {
   type: 'Fee' | 'Market';
   depositAddress: string;
   setDepositAddress: React.Dispatch<React.SetStateAction<string>>;
-  depositAddresses: AddressWithBlindingKey[];
+  depositAddresses: string[];
   isFragmenting: boolean;
   handleDeposit: () => void;
   setUseFragmenter: (checked: boolean) => void;
@@ -132,18 +131,18 @@ export const DepositPage = ({
                     .reverse()
                     .map((addr, index) => {
                       return (
-                        <Row key={addr.address} className="mb-2" gutter={{ xs: 6, sm: 10, md: 12, lg: 14 }}>
+                        <Row key={addr} className="mb-2" gutter={{ xs: 6, sm: 10, md: 12, lg: 14 }}>
                           <Col span={2} className="pl-0">{`#${depositAddresses?.length - index - 1}`}</Col>
                           <Col span={17}>
-                            <span className="break-all">{addr.address}</span>
+                            <span className="break-all">{addr}</span>
                           </Col>
                           <Col span={5} className="d-flex justify-end pr-0">
                             <Button
                               className="w-100"
-                              onClick={() => setDepositAddress(addr.address)}
+                              onClick={() => setDepositAddress(addr)}
                               disabled={isFragmenting}
                             >
-                              {depositAddress === addr.address ? 'SELECTED' : 'SELECT'}
+                              {depositAddress === addr ? 'SELECTED' : 'SELECT'}
                             </Button>
                           </Col>
                         </Row>

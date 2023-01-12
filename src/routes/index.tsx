@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes as ReactRouterDomRoutes, useNavigate } from 'react-router-dom';
 
-import type { IsReadyResponse } from '../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { GetStatusResponse } from '../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import { configRecord } from '../app/config';
 import type { RootState } from '../app/store';
 import { useTypedDispatch, useTypedSelector } from '../app/store';
@@ -15,7 +15,6 @@ import { MarketDeposit } from '../features/operator/Market/MarketDeposit';
 import { MarketFragmenterWithdraw } from '../features/operator/Market/MarketFragmenterWithdraw';
 import { MarketOverview } from '../features/operator/Market/MarketOverview';
 import { MarketWithdraw } from '../features/operator/Market/MarketWithdraw';
-import { useGetInfoQuery } from '../features/operator/operator.api';
 import { Settings } from '../features/settings/Settings';
 import {
   logout,
@@ -23,12 +22,12 @@ import {
   setExplorerLiquidUI,
   setNetwork,
 } from '../features/settings/settingsSlice';
-import { OnboardingConfirmMnemonic } from '../features/walletUnlocker/OnboardingConfirmMnemonic';
-import { OnboardingCreateOrRestore } from '../features/walletUnlocker/OnboardingCreateOrRestore';
-import { OnboardingPairing } from '../features/walletUnlocker/OnboardingPairing';
-import { OnboardingRestoreMnemonic } from '../features/walletUnlocker/OnboardingRestoreMnemonic';
-import { OnboardingShowMnemonic } from '../features/walletUnlocker/OnboardingShowMnemonic';
-import { useIsReadyQuery } from '../features/walletUnlocker/walletUnlocker.api';
+import { OnboardingConfirmMnemonic } from '../features/wallet/OnboardingConfirmMnemonic';
+import { OnboardingCreateOrRestore } from '../features/wallet/OnboardingCreateOrRestore';
+import { OnboardingPairing } from '../features/wallet/OnboardingPairing';
+import { OnboardingRestoreMnemonic } from '../features/wallet/OnboardingRestoreMnemonic';
+import { OnboardingShowMnemonic } from '../features/wallet/OnboardingShowMnemonic';
+import { useGetInfoQuery, useGetStatusQuery } from '../features/wallet/wallet.api';
 
 import {
   HOME_ROUTE,
@@ -51,7 +50,7 @@ const PrivateRoute = ({ children }: any) => {
   const tdexdConnectUrl = useTypedSelector(({ settings }: RootState) => settings.tdexdConnectUrl);
   const isDaemonInitialized = useTypedSelector(
     ({ tdexService }: RootState) =>
-      (tdexService.queries['isReady(undefined)']?.data as IsReadyResponse)?.initialized
+      (tdexService.queries['getStatus(undefined)']?.data as GetStatusResponse)?.initialized
   );
   if (isDaemonInitialized && tdexdConnectUrl) {
     return children;
@@ -69,7 +68,7 @@ export const Routes = (): JSX.Element => {
   const dispatch = useTypedDispatch();
   // If tdexdConnectUrl, call IsReady to set data in store
   const { tdexdConnectUrl, proxyHealth, useProxy } = useTypedSelector(({ settings }: RootState) => settings);
-  const { isSuccess: isReadySuccess, isError: isReadyError } = useIsReadyQuery(undefined, {
+  const { isSuccess: getStatusSuccess, isError: getStatusError } = useGetStatusQuery(undefined, {
     // Skip if no tdexdConnectUrl or if proxy is used but not serving
     skip: !tdexdConnectUrl || (useProxy && proxyHealth !== 'SERVING'),
   });
@@ -79,16 +78,16 @@ export const Routes = (): JSX.Element => {
   });
 
   useEffect(() => {
-    if (daemonInfo?.network && isReadySuccess) {
+    if (daemonInfo?.network && getStatusSuccess) {
       dispatch(setNetwork(daemonInfo.network as NetworkString));
       dispatch(setExplorerLiquidAPI(configRecord[daemonInfo.network as NetworkString].explorerLiquidAPI));
       dispatch(setExplorerLiquidUI(configRecord[daemonInfo.network as NetworkString].explorerLiquidUI));
     }
-  }, [daemonInfo?.network, dispatch, isReadySuccess]);
+  }, [daemonInfo?.network, dispatch, getStatusSuccess]);
 
   useEffect(() => {
     (async () => {
-      if (isReadyError) {
+      if (getStatusError) {
         navigate(ONBOARDING_PAIRING_ROUTE);
         notification.error({
           message: 'Service is not available or credentials are wrong',
@@ -97,7 +96,7 @@ export const Routes = (): JSX.Element => {
         dispatch(logout());
       }
     })();
-  }, [dispatch, isReadyError, navigate, useProxy]);
+  }, [dispatch, getStatusError, navigate, useProxy]);
 
   return (
     <ReactRouterDomRoutes>
@@ -107,7 +106,7 @@ export const Routes = (): JSX.Element => {
       <Route path={ONBOARDING_SHOW_MNEMONIC_ROUTE} element={<OnboardingShowMnemonic />} />
       <Route path={ONBOARDING_CONFIRM_MNEMONIC_ROUTE} element={<OnboardingConfirmMnemonic />} />
       <Route path={SETTINGS_ROUTE} element={<Settings />} />
-      {(isReadySuccess || !tdexdConnectUrl) && (
+      {(getStatusSuccess || !tdexdConnectUrl) && (
         <>
           <Route
             path={HOME_ROUTE}

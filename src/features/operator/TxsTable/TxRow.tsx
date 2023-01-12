@@ -2,18 +2,18 @@ import Icon, { RightOutlined } from '@ant-design/icons';
 import { Grid } from 'antd';
 import classNames from 'classnames';
 
-import type { TradeInfo, Withdrawal } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { TradeStatus } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { TradeInfo, Transaction } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { TradeStatus } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { useTypedSelector } from '../../../app/store';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';
 import { timeAgo } from '../../../utils';
 import { useGetTransactionByIdQuery } from '../../liquid.api';
 
-import type { DepositRow } from './DepositRows';
 import type { TableMode } from './index';
 
-export type TxData = TradeInfo & DepositRow & Withdrawal;
+export type TxData = TradeInfo & (Transaction & { isDeposit: boolean });
 
 const { useBreakpoint } = Grid;
 
@@ -40,7 +40,8 @@ export const TxRow = ({
   if (!tx?.status?.confirmed) {
     setTimeout(refetchTx, 1000 * 60);
   }
-  const time = row?.timestampUnix || row?.requestTimeUnix || tx?.status.block_time;
+  const time = row?.timestamp || row?.requestTimestamp || tx?.status.block_time;
+  const explorerLiquidUI = useTypedSelector(({ settings }) => settings.explorerLiquidUI);
 
   let tickerStr;
   const hasBaseAmount = baseAmountFormatted !== 'N/A' && Number(baseAmountFormatted) !== 0;
@@ -156,12 +157,12 @@ export const TxRow = ({
                 <>
                   <span className="dm-mono dm-mono__bold">Transaction Id</span>
                   {mode === 'trade' && (
-                    <a href={row.txUrl} target="_blank" rel="noreferrer">
+                    <a href={`${explorerLiquidUI}/tx/${row.txid}`} target="_blank" rel="noreferrer">
                       {txId}
                     </a>
                   )}
                   {(mode === 'deposit' || mode === 'withdraw') && (
-                    <a href={row.txUrl} target="_blank" rel="noreferrer">
+                    <a href={`${explorerLiquidUI}/tx/${row.txid}`} target="_blank" rel="noreferrer">
                       {txId}
                     </a>
                   )}

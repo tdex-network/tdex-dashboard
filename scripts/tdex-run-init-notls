@@ -22,24 +22,29 @@ echo ""
 
 mkdir -p tdexd
 
+docker-compose up -d oceand
+
 docker run -it -d --name tdexd \
   -p 9945:9945 -p 9000:9000 \
   -v "$(pwd)/tdexd:/home/user/.tdex-daemon" \
-  -e TDEX_NO_MACAROONS=false \
-  -e TDEX_CONNECT_PROTO=http \
-  -e TDEX_NO_OPERATOR_TLS=true \
-  -e TDEX_NETWORK="regtest" \
-  -e TDEX_BASE_ASSET="$TDEX_BASE_ASSET" \
+  -e TDEX_NETWORK=regtest \
+  -e TDEX_WALLET_ADDR=oceand:18000 \
+  -e TDEX_EXPLORER_ENDPOINT=http://chopsticks-liquid:3000 \
   -e TDEX_LOG_LEVEL=5 \
-  -e TDEX_EXPLORER_ENDPOINT="http://chopsticks-liquid:3000" \
+  -e TDEX_FEE_ACCOUNT_BALANCE_THRESHOLD=1000 \
+  -e TDEX_DB_HOST=tdexd-regtest-db \
+  -e TDEX_NO_MACAROONS=true \
+  -e TDEX_NO_OPERATOR_TLS=true \
+  -e TDEX_CONNECT_PROTO=http \
+  -e TDEX_DB_PORT=5433 \
   --network="nigiri" \
-  ghcr.io/tdex-network/tdexd:latest
+  ghcr.io/tdex-network/tdexd:v0.9.0-rc.1
 
 echo ""
 echo "init wallet"
 
 tdex='docker exec -it tdexd tdex'
-$tdex config init --network "regtest" --no_tls
+$tdex config init --no_macaroons --no_tls
 
 mnemonic=$($tdex genseed | grep "\S")
 $tdex init --seed "${mnemonic}" --password ciaociao
@@ -49,10 +54,10 @@ echo "unlocking wallet"
 
 $tdex unlock --password ciaociao
 
-addressesfee=$($tdex fee deposit --num_of_addresses 3)
-addressfee1=$(echo $addressesfee | jq -r '.address_with_blinding_key[0].address')
-addressfee2=$(echo $addressesfee | jq -r '.address_with_blinding_key[1].address')
-addressfee3=$(echo $addressesfee | jq -r '.address_with_blinding_key[2].address')
+addressesfee=$(docker exec -it tdexd tdex fee deposit --num_of_addresses 3)
+addressfee1=$(echo $addressesfee | jq -r '.addresses[0]')
+addressfee2=$(echo $addressesfee | jq -r '.addresses[1]')
+addressfee3=$(echo $addressesfee | jq -r '.addresses[2]')
 
 echo ""
 echo "fee address 1: ${addressfee1}"
@@ -74,8 +79,6 @@ echo "fee base outpoint 1: ${feetxid1} ${feevout1}"
 echo "fee base outpoint 2: ${feetxid2} ${feevout2}"
 echo "fee base outpoint 3: ${feetxid3} ${feevout3}"
 
-$tdex fee claim --outpoints '[{"hash":"'$feetxid1'", "index":'$feevout1'}, {"hash":"'$feetxid2'", "index":'$feevout2'}, {"hash":"'$feetxid3'", "index":'$feevout3'}]'
-
 echo ""
 echo "////////////////////////"
 echo "/// LBTC-USDt Market"
@@ -86,19 +89,19 @@ usdt=$(curl -s -X POST -H 'Content-Type: application/json' -d '{"address":"'$add
 "ticker":"USDt"}' "http://localhost:3001/mint" | jq -r '.asset')
 sleep 7
 
-$tdex market new --base_asset $TDEX_BASE_ASSET --quote_asset ${usdt} &>/dev/null
-$tdex config set base_asset $TDEX_BASE_ASSET &>/dev/null
-$tdex config set quote_asset $usdt &>/dev/null
+$tdex market new --base_asset $TDEX_BASE_ASSET --quote_asset ${usdt}
+$tdex config set base_asset $TDEX_BASE_ASSET
+$tdex config set quote_asset $usdt
 
 echo ""
 echo "market base asset: $TDEX_BASE_ASSET"
 echo "market quote asset: ${usdt}"
 
 addressesmarket=$($tdex market deposit --num_of_addresses 4)
-addressmarket0=$(echo $addressesmarket | jq -r '.address_with_blinding_key[0].address')
-addressmarket1=$(echo $addressesmarket | jq -r '.address_with_blinding_key[1].address')
-addressmarket2=$(echo $addressesmarket | jq -r '.address_with_blinding_key[2].address')
-addressmarket3=$(echo $addressesmarket | jq -r '.address_with_blinding_key[3].address')
+addressmarket0=$(echo $addressesmarket | jq -r '.addresses[0]')
+addressmarket1=$(echo $addressesmarket | jq -r '.addresses[1]')
+addressmarket2=$(echo $addressesmarket | jq -r '.addresses[2]')
+addressmarket3=$(echo $addressesmarket | jq -r '.addresses[3]')
 
 echo ""
 echo "market address 0: ${addressmarket0}"
@@ -123,9 +126,6 @@ echo "market quote outpoint 1: ${usdttxid1} ${usdtvout1}"
 echo "market quote outpoint 2: ${usdttxid2} ${usdtvout2}"
 echo "market quote outpoint 3: ${usdttxid3} ${usdtvout3}"
 
-$tdex market claim --outpoints '[{"hash":"'$btctxid'", "index":'$btcvout'}, {"hash":"'$usdttxid1'", "index":'$usdtvout1'},
-{"hash":"'$usdttxid2'", "index":'$usdtvout2'}, {"hash":"'$usdttxid3'", "index":'$usdtvout3'}]'
-
 echo ""
 echo "opening market"
 $tdex market open
@@ -147,10 +147,10 @@ echo "market base asset: $TDEX_BASE_ASSET"
 echo "market quote asset: ${lcad}"
 
 addressesmarket=$($tdex market deposit --num_of_addresses 4)
-addressmarket0=$(echo $addressesmarket | jq -r '.address_with_blinding_key[0].address')
-addressmarket1=$(echo $addressesmarket | jq -r '.address_with_blinding_key[1].address')
-addressmarket2=$(echo $addressesmarket | jq -r '.address_with_blinding_key[2].address')
-addressmarket3=$(echo $addressesmarket | jq -r '.address_with_blinding_key[3].address')
+addressmarket0=$(echo $addressesmarket | jq -r '.addresses[0]')
+addressmarket1=$(echo $addressesmarket | jq -r '.addresses[1]')
+addressmarket2=$(echo $addressesmarket | jq -r '.addresses[2]')
+addressmarket3=$(echo $addressesmarket | jq -r '.addresses[3]')
 
 echo ""
 echo "market address 0: ${addressmarket0}"
@@ -174,10 +174,6 @@ echo "market base outpoint: ${btctxid} ${btcvout}"
 echo "market quote outpoint 1: ${lcadtxid1} ${lcadvout1}"
 echo "market quote outpoint 2: ${lcadtxid2} ${lcadvout2}"
 echo "market quote outpoint 3: ${lcadtxid3} ${lcadvout3}"
-
-$tdex market claim --outpoints '[{"hash":"'$btctxid'", "index":'$btcvout'}, {"hash":"'$lcadtxid1'", "index":'$lcadvout1'},
-{"hash":"'$lcadtxid2'",
-"index":'$lcadvout2'}, {"hash":"'$lcadtxid3'", "index":'$lcadvout3'}]'
 
 echo ""
 echo "opening market"

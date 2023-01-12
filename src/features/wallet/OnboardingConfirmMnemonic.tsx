@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import type { InitWalletResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import {
@@ -19,7 +19,7 @@ import {
 import { sleep, encodeBase64UrlMacaroon } from '../../utils';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
-import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
+import { useInitWalletMutation, useUnlockWalletMutation } from './wallet.api';
 
 const { Title } = Typography;
 const NULL_ERROR = '';
@@ -52,20 +52,20 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
       // @ts-ignore
       const { data } = await initWallet({
         restore: false,
-        walletPassword: Buffer.from(state.password),
+        password: state.password,
         seedMnemonic: state.mnemonic,
       });
-      for await (const message of data.responses as RpcOutputStream<InitWalletResponse>) {
-        if (message.data.length > 150) {
-          dispatch(setMacaroonCredentials(message.data));
-          const base64UrlMacaroon = encodeBase64UrlMacaroon(message.data);
+      for await (const res of data.responses as RpcOutputStream<InitWalletResponse>) {
+        if (res.message.length > 150) {
+          dispatch(setMacaroonCredentials(res.message));
+          const base64UrlMacaroon = encodeBase64UrlMacaroon(res.message);
           dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
         }
       }
       const status = await data.status;
       if (status.code === 'OK') {
         await sleep(1000);
-        await unlockWallet({ walletPassword: Buffer.from(state.password) });
+        await unlockWallet({ password: state.password });
         await sleep(1000);
         setIsLoading(false);
         navigate(HOME_ROUTE);

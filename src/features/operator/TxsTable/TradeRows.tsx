@@ -1,4 +1,4 @@
-import type { TradeInfo } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { TradeInfo } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
@@ -60,8 +60,8 @@ export const getTradeData = (
         lbtcUnit
       )
     : 'N/A';
-  const txId = row.txUrl.substring(row.txUrl.lastIndexOf('/') + 1, row.txUrl.indexOf('#'));
-  return { baseAmountFormatted, quoteAmountFormatted, txId };
+  // TODO txId
+  return { baseAmountFormatted, quoteAmountFormatted, txId: '' };
 };
 
 export const TradeRows = ({

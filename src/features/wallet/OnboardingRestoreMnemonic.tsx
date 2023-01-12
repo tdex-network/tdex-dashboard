@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { InitWalletResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/walletunlocker_pb';
+import type { InitWalletResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import { useTypedDispatch, useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { AnimatedEllipsis } from '../../common/AnimatedEllipsis';
@@ -19,7 +19,7 @@ import {
 import { sleep, encodeBase64UrlMacaroon } from '../../utils';
 import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
-import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
+import { useInitWalletMutation, useUnlockWalletMutation } from './wallet.api';
 
 interface IFormInputs {
   mnemonic: string;
@@ -68,17 +68,17 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
         // @ts-ignore
         const { data } = await initWallet({
           restore: true,
-          walletPassword: Buffer.from(password),
+          password: password,
           seedMnemonic: mnemonicSanitized,
         });
-        for await (const message of data.responses as RpcOutputStream<InitWalletResponse>) {
+        for await (const res of data.responses as RpcOutputStream<InitWalletResponse>) {
           // If not macaroon, display data in modal
-          if (message.data.length < 150) {
-            setNewWaitingModalLogStr(message.data);
+          if (res.message.length < 150) {
+            setNewWaitingModalLogStr(res.message);
           }
-          if (message.status === 0 && message.data.length > 150) {
-            dispatch(setMacaroonCredentials(message.data));
-            const base64UrlMacaroon = encodeBase64UrlMacaroon(message.data);
+          if (data.status === 0 && res.message.length > 150) {
+            dispatch(setMacaroonCredentials(res.message));
+            const base64UrlMacaroon = encodeBase64UrlMacaroon(res.message);
             dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
             setIsWaitingModalVisible(false);
           }
@@ -86,7 +86,7 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
         const status = await data.status;
         if (status.code === 'OK') {
           await sleep(1000);
-          await unlockWallet({ walletPassword: Buffer.from(password) });
+          await unlockWallet({ password });
           await sleep(1000);
           setIsLoading(false);
           navigate(HOME_ROUTE);

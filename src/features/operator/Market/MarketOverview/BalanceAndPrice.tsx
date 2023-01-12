@@ -1,7 +1,7 @@
 import { Col, Grid, Row } from 'antd';
 import classNames from 'classnames';
 
-import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import type { Asset } from '../../../../domain/asset';
 import type { NetworkString } from '../../../../domain/misc';

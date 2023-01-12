@@ -5,17 +5,17 @@ export const initialState = {
   isPackaged: false,
 };
 
-export const walletUnlockerSlice = createSlice({
-  name: 'walletUnlocker',
+export const walletSlice = createSlice({
+  name: 'wallet',
   initialState,
   reducers: {
     setIsPackaged: (state, action: PayloadAction<boolean>) => {
       state.isPackaged = action.payload;
     },
-    resetWalletUnlocker: () => initialState,
+    resetWallet: () => initialState,
   },
 });
 
-export const { resetWalletUnlocker, setIsPackaged } = walletUnlockerSlice.actions;
+export const { resetWallet, setIsPackaged } = walletSlice.actions;
 
-export default walletUnlockerSlice.reducer;
+export default walletSlice.reducer;

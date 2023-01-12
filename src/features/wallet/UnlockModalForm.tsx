@@ -1,9 +1,8 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Form, Input, Modal, notification } from 'antd';
 import classNames from 'classnames';
-import React from 'react';
 
-import { useUnlockWalletMutation } from './walletUnlocker.api';
+import { useUnlockWalletMutation } from './wallet.api';
 
 interface IFormInputs {
   password: string;
@@ -26,7 +25,7 @@ export const UnlockModalForm = ({
   const handleUnlockWalletModalOk = async () => {
     try {
       const values = await form.validateFields();
-      const res = await unlockWallet({ walletPassword: Buffer.from(values.password) });
+      const res = await unlockWallet({ password: values.password });
       // @ts-ignore
       if (res?.error) throw new Error(res?.error);
       notification.success({ message: 'Wallet unlocked successfully' });

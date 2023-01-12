@@ -6,7 +6,8 @@ import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
 import { getAllAssetIdsFromMarkets, getAssetDataFromRegistry } from '../../../../utils';
 import { liquidApi } from '../../../liquid.api';
 import { setAsset } from '../../../settings/settingsSlice';
-import { useGetInfoQuery, useListMarketsQuery } from '../../operator.api';
+import { useGetInfoQuery } from '../../../wallet/wallet.api';
+import { useListMarketsQuery } from '../../operator.api';
 
 import { MarketListEmpty } from './MarketListEmpty';
 import { MarketListItem } from './MarketListItem';

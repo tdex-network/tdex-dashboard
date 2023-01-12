@@ -1,4 +1,4 @@
-import type { MarketInfo } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketInfo, Transaction } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../utils';
@@ -6,32 +6,31 @@ import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../../utils';
 import type { TxData } from './TxRow';
 import { TxRow } from './TxRow';
 
-export interface DepositRow {
-  assetId: string;
-  assetIdSecond?: string;
-  value: number;
-  valueSecond?: number;
-  timestampUnix: number;
-  txId: string;
-  txUrl: string;
-}
-
 export const getDepositData = (
-  row: DepositRow,
+  row: Transaction,
   lbtcUnit: LbtcUnit,
   marketInfo: MarketInfo,
   baseAsset?: Asset,
   quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   let baseAmount, quoteAmount;
-  if (row?.assetIdSecond && row?.valueSecond) {
+  const totalAmountPerAssetArray = Object.entries(row?.totalAmountPerAsset);
+  if (totalAmountPerAssetArray.length > 1) {
     // 2 assets has been deposited
-    baseAmount = row.assetId === marketInfo.market?.baseAsset ? row.value : row.valueSecond;
-    quoteAmount = row.assetId === marketInfo.market?.quoteAsset ? row.value : row.valueSecond;
+    baseAmount =
+      totalAmountPerAssetArray[0][0] === marketInfo.market?.baseAsset
+        ? totalAmountPerAssetArray[0][1]
+        : totalAmountPerAssetArray[1][1];
+    quoteAmount =
+      totalAmountPerAssetArray[0][0] === marketInfo.market?.quoteAsset
+        ? totalAmountPerAssetArray[0][1]
+        : totalAmountPerAssetArray[1][1];
   } else {
     // 1 asset has been deposited
-    baseAmount = row.assetId === marketInfo.market?.baseAsset ? row.value : 0;
-    quoteAmount = row.assetId === marketInfo.market?.quoteAsset ? row.value : 0;
+    baseAmount =
+      totalAmountPerAssetArray[0][0] === marketInfo.market?.baseAsset ? totalAmountPerAssetArray[0][1] : 0;
+    quoteAmount =
+      totalAmountPerAssetArray[0][0] === marketInfo.market?.quoteAsset ? totalAmountPerAssetArray[0][1] : 0;
   }
   const baseAmountFormatted =
     baseAmount === undefined || !marketInfo.market?.baseAsset
@@ -51,12 +50,12 @@ export const getDepositData = (
           isLbtcTicker(quoteAsset?.ticker),
           lbtcUnit
         );
-  const txId = row.txId;
+  const txId = row.txid;
   return { baseAmountFormatted, quoteAmountFormatted, txId };
 };
 
 interface DepositRowsProps {
-  deposits?: DepositRow[];
+  deposits?: Transaction[];
   lbtcUnit: LbtcUnit;
   marketInfo: MarketInfo;
   numItemsToShow: number;

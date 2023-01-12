@@ -26,8 +26,7 @@ import {
 } from '../settings/settingsSlice';
 import { walletApi } from '../wallet/wallet.api';
 
-import { walletUnlockerApi } from './walletUnlocker.api';
-import { setIsPackaged } from './walletUnlockerSlice';
+import { setIsPackaged } from './walletSlice';
 
 const { Title } = Typography;
 
@@ -48,7 +47,7 @@ export const OnboardingPairing = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const { useProxy, isTauri } = useTypedSelector(({ settings }) => settings);
-  const isPackaged = useTypedSelector(({ walletUnlocker }) => walletUnlocker.isPackaged);
+  const isPackaged = useTypedSelector(({ wallet }) => wallet.isPackaged);
   // UnlockWallet Modal
   const [isEnterPasswordModalVisible, setIsEnterPasswordModalVisible] = useState<boolean>(false);
   const handleEnterPasswordModalCancel = () => setIsEnterPasswordModalVisible(false);
@@ -60,23 +59,22 @@ export const OnboardingPairing = (): JSX.Element => {
       // Especially useful when redirected on this page after failed pairing attempt
       dispatch(liquidApi.util.resetApiState());
       dispatch(operatorApi.util.resetApiState());
-      dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
       // Auto connect if IS_PACKAGED (like in Umbrel)
       if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true
         dispatch(setIsPackaged(true));
         dispatch(setBaseUrl(`${window.location.protocol}//${window.location.host}/api`));
-        const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
+        const status = await dispatch(walletApi.endpoints.getStatus.initiate());
         // If connection to daemon fails, switch to regular pairing and show toast error message
-        if (isReady.error) {
+        if (status.error) {
           dispatch(setIsPackaged(false));
           notification.error({
             message: 'Automatic connection with TDEX connect url from environment variable has failed',
             key: 'auto_connect_failure',
           });
         } else {
-          if (isReady.data?.initialized) {
+          if (status.data?.initialized) {
             setIsEnterPasswordModalVisible(true);
           } else {
             navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);
@@ -142,8 +140,8 @@ export const OnboardingPairing = (): JSX.Element => {
         const decodedMacaroonHex = decodeBase64UrlMacaroon(connectData.macaroon);
         dispatch(setMacaroonCredentials(decodedMacaroonHex));
       }
-      const isReady = await dispatch(walletUnlockerApi.endpoints.isReady.initiate());
-      if (isReady.data?.initialized) {
+      const status = await dispatch(walletApi.endpoints.getStatus.initiate());
+      if (status.data?.initialized) {
         navigate(HOME_ROUTE);
       } else {
         navigate(ONBOARDING_CREATE_OR_RESTORE_ROUTE);

@@ -5,16 +5,17 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { GetInfoResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+import type { GetInfoResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { ReactComponent as depositIcon } from '../../assets/images/deposit-green.svg';
 import { FEE_DEPOSIT_ROUTE, FEE_WITHDRAW_ROUTE } from '../../routes/constants';
 import type { LbtcUnit } from '../../utils';
-import { LBTC_ASSET, fromUnitToUnit } from '../../utils';
-import { useGetFeeBalanceQuery, useGetInfoQuery } from '../operator/operator.api';
-import { convertAmountToFavoriteCurrency } from '../rates.api';
+import { fromUnitToUnit, LBTC_ASSET } from '../../utils';
+import { useGetFeeBalanceQuery } from '../operator/operator.api';
 import type { PriceFeedQueryResult } from '../rates.api';
+import { convertAmountToFavoriteCurrency } from '../rates.api';
+import { useGetInfoQuery } from '../wallet/wallet.api';
 
 const { Title } = Typography;
 const { useBreakpoint } = Grid;
@@ -37,7 +38,8 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
 
   useEffect(() => {
     if (network === daemonInfo?.network && !daemonInfoIsFetching) {
-      const feeBalanceInLbtcUnit = feeBalance && fromUnitToUnit(feeBalance.totalBalance, 'L-sats', lbtcUnit);
+      const feeBalanceInLbtcUnit =
+        feeBalance && fromUnitToUnit(feeBalance?.balance?.totalBalance ?? 0, 'L-sats', lbtcUnit);
       setFeeAccountBalanceAsFavoriteCurrency(
         convertAmountToFavoriteCurrency({
           asset: LBTC_ASSET[network],

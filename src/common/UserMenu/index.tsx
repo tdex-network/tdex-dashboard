@@ -11,7 +11,7 @@ import { DefaultCurrencyRadioButtons } from '../../features/settings/DefaultCurr
 import { FavoriteBitcoinUnitsRadioButtons } from '../../features/settings/FavoriteBitcoinUnitsRadioButtons';
 import { logout, resetSettings } from '../../features/settings/settingsSlice';
 import { tdexApi } from '../../features/tdex.api';
-import { resetWalletUnlocker } from '../../features/walletUnlocker/walletUnlockerSlice';
+import { resetWallet } from '../../features/wallet/walletSlice';
 import { ONBOARDING_PAIRING_ROUTE, SETTINGS_ROUTE } from '../../routes/constants';
 
 import { DisconnectAndResetModal } from './DisconnectAndResetModal';
@@ -36,7 +36,7 @@ export const UserMenu = ({ isUserMenuVisible, isConnectionPage = false }: UserMe
 
   const clearCache = async () => {
     dispatch(resetSettings());
-    dispatch(resetWalletUnlocker());
+    dispatch(resetWallet());
     // Reset the APIs state completely
     dispatch(liquidApi.util.resetApiState());
     dispatch(tdexApi.util.resetApiState());

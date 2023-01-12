@@ -5,7 +5,7 @@ import type { SwitchChangeEventHandler } from 'antd/es/switch';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { ListWebhooks } from '../../Webhook/ListWebhooks';
@@ -167,8 +167,8 @@ export const MarketSettings = ({
         className="w-100"
         onClick={handleClickDropMarket}
         disabled={
-          (marketInfo?.balance && marketInfo.balance.baseAmount > 0) ||
-          (marketInfo?.balance && marketInfo.balance.quoteAmount > 0)
+          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.baseAsset ?? '']?.totalBalance > 0) ||
+          (marketInfo?.balance && marketInfo.balance[marketInfo.market?.quoteAsset ?? '']?.totalBalance > 0)
         }
       >
         DELETE MARKET

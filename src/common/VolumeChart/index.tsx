@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import type { MarketReport } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { PredefinedPeriod } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { MarketReport } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { PredefinedPeriod } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import type { Asset } from '../../domain/asset';
 import type { LbtcUnit } from '../../utils';
 import { fromSatsToUnitOrFractional, isLbtcTicker } from '../../utils';
@@ -28,7 +28,7 @@ export const VolumeChart = ({
 }: VolumeChartProps): JSX.Element => {
   // Prepare data starting from last element
   const data = useMemo(() => {
-    return marketReport?.groupedVolume.reduceRight(
+    return marketReport?.volumesPerFrame.reduceRight(
       (acc, curr) =>
         acc.concat({
           time: curr.startDate,
@@ -43,7 +43,7 @@ export const VolumeChart = ({
         }),
       [] as { time: string; value: number }[]
     );
-  }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.groupedVolume]);
+  }, [baseAsset.precision, baseAsset.ticker, lbtcUnit, marketReport?.volumesPerFrame]);
 
   // Calculate yAxis width
   const yAxis = document.getElementsByClassName('recharts-cartesian-axis recharts-yAxis')[0];

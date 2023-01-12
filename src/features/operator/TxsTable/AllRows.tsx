@@ -3,14 +3,13 @@ import { useMemo } from 'react';
 import type {
   MarketInfo,
   TradeInfo,
-  Withdrawal,
-} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+  Transaction,
+} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import type { RootState } from '../../../app/store';
 import { useTypedSelector } from '../../../app/store';
 import type { Asset } from '../../../domain/asset';
 import type { LbtcUnit } from '../../../utils';
 
-import type { DepositRow } from './DepositRows';
 import { getDepositData } from './DepositRows';
 import { getTradeData } from './TradeRows';
 import type { TxData } from './TxRow';
@@ -19,8 +18,8 @@ import { getWithdrawData } from './WithdrawalRows';
 
 interface AllRowsProps {
   trades?: TradeInfo[];
-  deposits?: DepositRow[];
-  withdrawals?: Withdrawal[];
+  deposits?: Transaction[];
+  withdrawals?: Transaction[];
   assets: Asset[];
   marketInfo: MarketInfo;
   lbtcUnit: LbtcUnit;
@@ -42,13 +41,18 @@ export const AllRows = ({
 }: AllRowsProps): JSX.Element => {
   const { network } = useTypedSelector(({ settings }: RootState) => settings);
   const all = useMemo(
-    () => [...(trades ?? []), ...(deposits ?? []), ...(withdrawals ?? [])] as TxData[],
+    () =>
+      [
+        ...(trades?.map((t) => Object.assign({}, t, { isDeposit: false })) ?? []),
+        ...(deposits?.map((d) => Object.assign({}, d, { isDeposit: true })) ?? []),
+        ...(withdrawals?.map((w) => Object.assign({}, w, { isDeposit: false })) ?? []),
+      ] as TxData[],
     [deposits, trades, withdrawals]
   );
 
   all.sort((a, b) => {
-    const aTime = a?.timestampUnix ?? a?.requestTimeUnix;
-    const bTime = b?.timestampUnix ?? b?.requestTimeUnix;
+    const aTime = a?.timestamp ?? a?.requestTimestamp;
+    const bTime = b?.timestamp ?? b?.requestTimestamp;
     if (aTime < bTime) return 1;
     if (aTime > bTime) return -1;
     return 0;
@@ -57,7 +61,7 @@ export const AllRows = ({
   const TableComponent = useMemo(
     () =>
       all?.slice(0, numItemsToShow).map((row, index) => {
-        const mode = row?.tradeId ? 'trade' : row?.assetId ? 'deposit' : 'withdraw';
+        const mode = row?.tradeId ? 'trade' : row?.isDeposit ? 'deposit' : 'withdraw';
         let baseAmountFormatted = '',
           quoteAmountFormatted = '',
           txId = '';

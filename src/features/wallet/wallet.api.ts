@@ -1,14 +1,20 @@
-import { TxOutput } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
+
 import type {
-  SendToManyResponse,
-  WalletAddressResponse,
-  WalletBalanceResponse,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb';
+  GetInfoResponse,
+  ChangePasswordResponse,
+  InitWalletResponse,
+  UnlockWalletResponse,
+  GetStatusResponse,
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import {
-  SendToManyRequest,
-  WalletAddressRequest,
-  WalletBalanceRequest,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/wallet_pb';
+  ChangePasswordRequest,
+  GenSeedRequest,
+  GetInfoRequest,
+  InitWalletRequest,
+  UnlockWalletRequest,
+  GetStatusRequest,
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import { retryRtkRequest } from '../../utils';
@@ -17,55 +23,108 @@ import { tdexApi } from '../tdex.api';
 
 export const walletApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
-    walletAddress: build.query<WalletAddressResponse, void>({
+    getInfo: build.query<GetInfoResponse, void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectWalletClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => ({
-          data: (
-            await client.walletAddress(WalletAddressRequest.create(), {
-              meta: macaroon ? { macaroon } : undefined,
-              interceptors,
-            })
-          ).response,
-        }));
-      },
-    }),
-    walletBalance: build.query<WalletBalanceResponse, void>({
-      queryFn: async (arg, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectWalletClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => ({
-          data: (
-            await client.walletBalance(WalletBalanceRequest.create(), {
-              meta: macaroon ? { macaroon } : undefined,
-              interceptors,
-            })
-          ).response,
-        }));
-      },
-    }),
-    sendToMany: build.mutation<SendToManyResponse, SendToManyRequest>({
-      queryFn: async ({ millisatPerByte, outputs }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectWalletClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        const outList = outputs.map((o) => {
-          return TxOutput.create({ address: o.address, asset: o.asset, value: o.value });
+        return retryRtkRequest(async () => {
+          const call = await client.getInfo(GetInfoRequest.create(), {
+            meta: macaroon ? { macaroon } : undefined,
+            interceptors,
+          });
+          return { data: call.response };
         });
-        return retryRtkRequest(async () => ({
-          data: (
-            await client.sendToMany(SendToManyRequest.create({ millisatPerByte, outputs: outList }), {
-              meta: macaroon ? { macaroon } : undefined,
-              interceptors,
-            })
-          ).response,
-        }));
       },
+      providesTags: ['Market', 'Fee', 'Trade'],
+    }),
+    getStatus: build.query<GetStatusResponse, void>({
+      queryFn: async (arg, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const macaroon = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const call = await client.getStatus(GetStatusRequest.create(), {
+            meta: macaroon ? { macaroon } : undefined,
+            interceptors,
+          });
+          return { data: call.response };
+        });
+      },
+      providesTags: ['status'],
+    }),
+    genSeed: build.query<string[], void>({
+      queryFn: async (arg, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const macaroon = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const call = await client.genSeed(GenSeedRequest.create(), {
+            meta: macaroon ? { macaroon } : undefined,
+            interceptors,
+          });
+          return { data: call.response.seedMnemonic };
+        });
+      },
+    }),
+    initWallet: build.mutation<
+      { responses: RpcOutputStream<InitWalletResponse>; status: Promise<RpcStatus> },
+      InitWalletRequest
+    >({
+      queryFn: ({ restore, password, seedMnemonic }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const call = client.initWallet(
+          InitWalletRequest.create({
+            restore,
+            password,
+            seedMnemonic,
+          })
+        );
+        return {
+          data: { responses: call.responses, status: call.status },
+        };
+      },
+      invalidatesTags: ['status'],
+    }),
+    unlockWallet: build.mutation<UnlockWalletResponse, UnlockWalletRequest>({
+      queryFn: async ({ password }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const macaroon = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const call = await client.unlockWallet(UnlockWalletRequest.create({ password }), {
+            meta: macaroon ? { macaroon } : undefined,
+            interceptors,
+          });
+          return { data: call.response };
+        });
+      },
+      invalidatesTags: ['status', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
+    }),
+    changePassword: build.mutation<ChangePasswordResponse, ChangePasswordRequest>({
+      queryFn: async ({ currentPassword, newPassword }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const macaroon = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const call = await client.changePassword(
+            ChangePasswordRequest.create({ currentPassword, newPassword }),
+            { meta: macaroon ? { macaroon } : undefined, interceptors }
+          );
+          return { data: call.response };
+        });
+      },
+      invalidatesTags: ['status'],
     }),
   }),
 });
 
-export const { useWalletAddressQuery, useWalletBalanceQuery, useSendToManyMutation } = walletApi;
+export const {
+  useGetInfoQuery,
+  useGetStatusQuery,
+  useChangePasswordMutation,
+  useInitWalletMutation,
+  useGenSeedQuery,
+  useUnlockWalletMutation,
+} = walletApi;

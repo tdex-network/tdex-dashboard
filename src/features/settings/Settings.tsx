@@ -13,7 +13,6 @@ import { ActionButtons } from './ActionButtons';
 import { DaemonVersion } from './DaemonVersion';
 import { ExplorersLiquidApiForm } from './ExplorersLiquidApiForm';
 import { ExplorersLiquidUiForm } from './ExplorersLiquidUiForm';
-import { FixedAssets } from './FixedAssets';
 import { NetworkSelect } from './NetworkSelect';
 
 const { Text, Title } = Typography;
@@ -95,17 +94,6 @@ export const Settings = (): JSX.Element => {
                 </Row>
               </div>
             ) : null}
-            {/**/}
-            <div className="mb-4 panel panel__grey">
-              <Row>
-                <Col span={24}>
-                  <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
-                    Daemon Fixed Assets
-                  </Title>
-                </Col>
-              </Row>
-              <FixedAssets />
-            </div>
             {/**/}
             <DaemonVersion />
           </div>

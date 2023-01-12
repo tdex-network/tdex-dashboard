@@ -2,23 +2,20 @@ import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
 import { notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import type { FeeFragmenterSplitFundsResponse } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
-import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
+import type { FeeFragmenterSplitFundsResponse } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
+import { useTypedDispatch } from '../../../../app/store';
 import { AnimatedEllipsis } from '../../../../common/AnimatedEllipsis';
 import { DepositPage } from '../../../../common/DepositPage';
 import { WaitingModal } from '../../../../common/WaitingModal';
 import {
   operatorApi,
-  useClaimFeeDepositsMutation,
   useFeeFragmenterSplitFundsMutation,
-  useListDepositsQuery,
   useListFeeAddressesQuery,
   useListFeeFragmenterAddressesQuery,
 } from '../../operator.api';
 
 export const FeeDeposit = (): JSX.Element => {
   const dispatch = useTypedDispatch();
-  const { explorerLiquidAPI } = useTypedSelector(({ settings }) => settings);
   const [skipGetFeeFragmenterAddress, setSkipGetFeeFragmenterAddress] = useState(true);
   const { data: listFeeAddresses, refetch: refetchListFeeAddresses } = useListFeeAddressesQuery();
   const { data: listFeeFragmenterAddresses, refetch: refetchListFeeFragmenterAddresses } =
@@ -26,8 +23,6 @@ export const FeeDeposit = (): JSX.Element => {
       skip: skipGetFeeFragmenterAddress,
     });
   const [feeFragmenterSplitFunds] = useFeeFragmenterSplitFundsMutation();
-  const [claimFeeDeposits] = useClaimFeeDepositsMutation();
-  const { data: deposits } = useListDepositsQuery({ accountIndex: 0 });
   const [isFragmenting, setIsFragmenting] = useState(false);
   const [useFragmenter, setUseFragmenter] = useState(false);
   const [feeAddress, setFeeAddress] = useState<string>('');
@@ -68,13 +63,13 @@ export const FeeDeposit = (): JSX.Element => {
     if (useFragmenter) {
       try {
         const feeFragmenterAddress = await dispatch(
-          operatorApi.endpoints.getFeeFragmenterAddress.initiate(
+          operatorApi.endpoints.deriveFeeFragmenterAddresses.initiate(
             { numOfAddresses: 1 },
             { forceRefetch: true }
           )
         ).unwrap();
-        setDepositAddress(feeFragmenterAddress?.[0].address);
-        setFeeFragmenterAddress(feeFragmenterAddress?.[0].address);
+        setDepositAddress(feeFragmenterAddress?.[0]);
+        setFeeFragmenterAddress(feeFragmenterAddress?.[0]);
       } catch (err) {
         console.error(err);
       }
@@ -82,10 +77,10 @@ export const FeeDeposit = (): JSX.Element => {
     } else {
       try {
         const feeAddress = await dispatch(
-          operatorApi.endpoints.getFeeAddress.initiate(undefined, { forceRefetch: true })
+          operatorApi.endpoints.deriveFeeAddresses.initiate(undefined, { forceRefetch: true })
         ).unwrap();
-        setDepositAddress(feeAddress?.[0].address);
-        setFeeAddress(feeAddress?.[0].address);
+        setDepositAddress(feeAddress?.[0]);
+        setFeeAddress(feeAddress?.[0]);
       } catch (err) {
         console.error(err);
       }
@@ -108,36 +103,13 @@ export const FeeDeposit = (): JSX.Element => {
     }
   };
 
-  const handleClaimFeeDeposits = async () => {
-    const response = await fetch(`${explorerLiquidAPI}/address/${depositAddress}/utxo`);
-    const utxoList = await response.json();
-    if (!utxoList.length) throw new Error('No deposit transaction found');
-    // Check confirmation
-    utxoList.forEach((utxo: any) => {
-      if (!utxo.status.confirmed) {
-        throw new Error('Deposit transaction not confirmed');
-      }
-    });
-    // Check if deposit already processed by daemon
-    const foundArr = utxoList.map((utxo: any) => deposits?.find((d) => d.utxo?.outpoint?.hash === utxo.txid));
-    if (foundArr.every(Boolean)) {
-      throw new Error('Deposit already processed');
-    }
-    // @ts-ignore
-    const { error } = await claimFeeDeposits({
-      outpoints: utxoList.map((u: any) => ({ hash: u.txid, index: u.vout })),
-    });
-    if (error) throw new Error(error);
-    notification.success({ message: 'Deposit successful', key: 'Deposit successful' });
-  };
-
   const handleDeposit = async () => {
     try {
       setIsFragmenting(true);
       if (useFragmenter) {
         await handleFragmentFeeDeposits();
       } else {
-        await handleClaimFeeDeposits();
+        notification.success({ message: 'Deposit successful', key: 'Deposit successful' });
       }
     } catch (err) {
       // @ts-ignore

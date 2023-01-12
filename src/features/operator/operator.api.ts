@@ -2,22 +2,30 @@ import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
 import type {
   AddWebhookResponse,
-  ClaimFeeDepositsResponse,
-  ClaimMarketDepositsResponse,
   CloseMarketResponse,
+  DeriveFeeAddressesResponse,
+  DeriveFeeFragmenterAddressesResponse,
+  DeriveMarketAddressesResponse,
+  DeriveMarketFragmenterAddressesResponse,
   DropMarketResponse,
   FeeFragmenterSplitFundsResponse,
   GetFeeBalanceResponse,
-  GetInfoResponse,
-  GetMarketBalanceResponse,
-  GetMarketCollectedSwapFeesResponse,
+  GetFeeFragmenterBalanceResponse,
   GetMarketFragmenterBalanceResponse,
+  GetMarketInfoResponse,
+  GetMarketReportResponse,
+  ListDepositsResponse,
+  ListFeeAddressesResponse,
+  ListFeeFragmenterAddressesResponse,
+  ListMarketAddressesResponse,
+  ListMarketFragmenterAddressesResponse,
   ListMarketsResponse,
+  ListTradesResponse,
   ListUtxosResponse,
+  ListWithdrawalsResponse,
   MarketFragmenterSplitFundsResponse,
   NewMarketResponse,
   OpenMarketResponse,
-  ReloadUtxosResponse,
   RemoveWebhookResponse,
   UpdateMarketFixedFeeResponse,
   UpdateMarketPercentageFeeResponse,
@@ -27,23 +35,18 @@ import type {
   WithdrawFeeResponse,
   WithdrawMarketFragmenterResponse,
   WithdrawMarketResponse,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
 import {
   AddWebhookRequest,
-  ClaimFeeDepositsRequest,
-  ClaimMarketDepositsRequest,
   CloseMarketRequest,
+  DeriveFeeAddressesRequest,
+  DeriveFeeFragmenterAddressesRequest,
+  DeriveMarketAddressesRequest,
+  DeriveMarketFragmenterAddressesRequest,
   DropMarketRequest,
   FeeFragmenterSplitFundsRequest,
-  GetFeeAddressRequest,
   GetFeeBalanceRequest,
-  GetFeeFragmenterAddressRequest,
   GetFeeFragmenterBalanceRequest,
-  GetInfoRequest,
-  GetMarketAddressRequest,
-  GetMarketBalanceRequest,
-  GetMarketCollectedSwapFeesRequest,
-  GetMarketFragmenterAddressRequest,
   GetMarketFragmenterBalanceRequest,
   GetMarketInfoRequest,
   GetMarketReportRequest,
@@ -60,7 +63,6 @@ import {
   MarketFragmenterSplitFundsRequest,
   NewMarketRequest,
   OpenMarketRequest,
-  ReloadUtxosRequest,
   RemoveWebhookRequest,
   UpdateMarketFixedFeeRequest,
   UpdateMarketPercentageFeeRequest,
@@ -70,27 +72,19 @@ import {
   WithdrawFeeRequest,
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/operator_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
 import type {
   ActionType,
-  AddressWithBlindingKey,
-  BalanceInfo,
-  Deposit,
-  MarketInfo,
-  MarketReport,
   StrategyType,
-  TimeFrame,
-  TradeInfo,
   WebhookInfo,
-  Withdrawal,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import {
   CustomPeriod,
-  Outpoint,
   Page,
+  PredefinedPeriod,
   TimeRange,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import {
@@ -99,7 +93,6 @@ import {
   getAssetDataFromRegistry,
   isLbtcTicker,
   retryRtkRequest,
-  rtkRequest,
 } from '../../utils';
 import type { CoinGeckoPriceResult } from '../rates.api';
 import { convertAmountToFavoriteCurrency } from '../rates.api';
@@ -109,23 +102,23 @@ import { tdexApi } from '../tdex.api';
 export const operatorApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({
     // Fee
-    getFeeAddress: build.query<AddressWithBlindingKey[], void>({
+    deriveFeeAddresses: build.query<DeriveFeeAddressesResponse['addresses'], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const call = await client.getFeeAddress(GetFeeAddressRequest.create(), {
+          const call = await client.deriveFeeAddresses(DeriveFeeAddressesRequest.create(), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
           });
           return {
-            data: call.response.addressWithBlindingKey,
+            data: call.response.addresses,
           };
         });
       },
     }),
-    listFeeAddresses: build.query<AddressWithBlindingKey[], void>({
+    listFeeAddresses: build.query<ListFeeAddressesResponse['addresses'], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -136,7 +129,7 @@ export const operatorApi = tdexApi.injectEndpoints({
             interceptors,
           });
           return {
-            data: call.response.addressWithBlindingKey,
+            data: call.response.addresses,
           };
         });
       },
@@ -158,34 +151,14 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['FeeUTXOs'],
     }),
-    claimFeeDeposits: build.mutation<ClaimFeeDepositsResponse, ClaimFeeDepositsRequest>({
-      queryFn: async ({ outpoints }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const arr = outpoints.map(({ hash, index }) => {
-            return Outpoint.create({ hash, index });
-          });
-          const call = await client.claimFeeDeposits(ClaimFeeDepositsRequest.create({ outpoints: arr }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: call.response,
-          };
-        });
-      },
-      invalidatesTags: ['FeeUTXOs'],
-    }),
     withdrawFee: build.mutation<WithdrawFeeResponse, WithdrawFeeRequest>({
-      queryFn: async ({ amount, millisatsPerByte, address, asset, password }, { getState }) => {
+      queryFn: async ({ outputs, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const call = await client.withdrawFee(
-            WithdrawFeeRequest.create({ address, amount, asset, millisatsPerByte, password }),
+            WithdrawFeeRequest.create({ outputs, millisatsPerByte, password }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return {
@@ -195,7 +168,10 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['FeeUTXOs'],
     }),
-    getFeeFragmenterAddress: build.query<AddressWithBlindingKey[], { numOfAddresses: number }>({
+    deriveFeeFragmenterAddresses: build.query<
+      DeriveFeeFragmenterAddressesResponse['addresses'],
+      DeriveFeeFragmenterAddressesRequest
+    >({
       queryFn: async ({ numOfAddresses }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -203,16 +179,16 @@ export const operatorApi = tdexApi.injectEndpoints({
         return retryRtkRequest(async () => {
           return {
             data: (
-              await client.getFeeFragmenterAddress(
-                GetFeeFragmenterAddressRequest.create({ numOfAddresses }),
+              await client.deriveFeeFragmenterAddresses(
+                DeriveFeeFragmenterAddressesRequest.create({ numOfAddresses }),
                 { meta: macaroon ? { macaroon } : undefined, interceptors }
               )
-            ).response.addressWithBlindingKey,
+            ).response.addresses,
           };
         });
       },
     }),
-    listFeeFragmenterAddresses: build.query<AddressWithBlindingKey[], void>({
+    listFeeFragmenterAddresses: build.query<ListFeeFragmenterAddressesResponse['addresses'], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -224,12 +200,12 @@ export const operatorApi = tdexApi.injectEndpoints({
                 meta: macaroon ? { macaroon } : undefined,
                 interceptors,
               })
-            ).response.addressWithBlindingKey,
+            ).response.addresses,
           };
         });
       },
     }),
-    getFeeFragmenterBalance: build.query<Record<string, BalanceInfo>, void>({
+    getFeeFragmenterBalance: build.query<GetFeeFragmenterBalanceResponse['balance'], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -268,7 +244,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['FeeUTXOs'],
     }),
     withdrawFeeFragmenter: build.mutation<WithdrawFeeFragmenterResponse, WithdrawFeeFragmenterRequest>({
-      queryFn: async ({ address, millisatsPerByte, password }, { getState }) => {
+      queryFn: async ({ outputs, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
@@ -276,7 +252,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           return {
             data: (
               await client.withdrawFeeFragmenter(
-                WithdrawFeeFragmenterRequest.create({ address, millisatsPerByte, password }),
+                WithdrawFeeFragmenterRequest.create({ outputs, millisatsPerByte, password }),
                 { meta: macaroon ? { macaroon } : undefined, interceptors }
               )
             ).response,
@@ -285,10 +261,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
     }),
     // Market
-    getMarketReport: build.query<
-      MarketReport | undefined,
-      { market: Market | undefined; timeRange: TimeRange; timeFrame: TimeFrame }
-    >({
+    getMarketReport: build.query<GetMarketReportResponse['report'], GetMarketReportRequest>({
       queryFn: async ({ market, timeRange, timeFrame }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -314,14 +287,14 @@ export const operatorApi = tdexApi.injectEndpoints({
         });
       },
     }),
-    getMarketInfo: build.query<MarketInfo | undefined, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+    getMarketInfo: build.query<GetMarketInfoResponse['info'], GetMarketInfoRequest['market']>({
+      queryFn: async (market, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          if (!baseAsset || !quoteAsset) throw new Error('missing argument');
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          if (!market) throw new Error('missing argument');
+          const newMarket = Market.create({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
           const call = await client.getMarketInfo(GetMarketInfoRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
@@ -333,84 +306,44 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Market', 'MarketUTXOs'],
     }),
-    getMarketAddress: build.query<AddressWithBlindingKey[], Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+    deriveMarketAddresses: build.query<
+      DeriveMarketAddressesResponse['addresses'],
+      DeriveMarketAddressesRequest['market']
+    >({
+      queryFn: async (market, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          if (!baseAsset || !quoteAsset) throw new Error('missing argument');
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const call = await client.getMarketAddress(GetMarketAddressRequest.create({ market: newMarket }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: call.response.addressWithBlindingKey,
-          };
-        });
-      },
-    }),
-    listMarketAddresses: build.query<AddressWithBlindingKey[], Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const call = await client.listMarketAddresses(
-            ListMarketAddressesRequest.create({ market: newMarket }),
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const call = await client.deriveMarketAddresses(
+            DeriveMarketAddressesRequest.create({ market: newMarket }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return {
-            data: call.response.addressWithBlindingKey,
+            data: call.response.addresses,
           };
         });
       },
       providesTags: ['Market'],
     }),
-    getMarketBalance: build.query<GetMarketBalanceResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+    listMarketAddresses: build.query<ListMarketAddressesResponse['addresses'], ListMarketAddressesRequest>({
+      queryFn: async ({ market }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const call = await client.getMarketBalance(GetMarketBalanceRequest.create({ market: newMarket }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: call.response,
-          };
-        });
-      },
-      providesTags: ['MarketUTXOs'],
-    }),
-    claimMarketDeposits: build.mutation<
-      ClaimMarketDepositsResponse,
-      { market: Market; outpointsList: Outpoint[] }
-    >({
-      queryFn: async ({ outpointsList, market }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const arr = outpointsList.map(({ hash, index }) => {
-            return Outpoint.create({ hash, index });
-          });
-          const call = await client.claimMarketDeposits(
-            ClaimMarketDepositsRequest.create({ outpoints: arr, market: newMarket }),
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const call = await client.listMarketAddresses(
+            ListMarketAddressesRequest.create({ market: newMarket }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return {
-            data: call.response,
+            data: call.response.addresses,
           };
         });
       },
-      invalidatesTags: ['MarketUTXOs'],
+      providesTags: ['Market'],
     }),
     newMarket: build.mutation<NewMarketResponse, Market>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
@@ -435,7 +368,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
-        return rtkRequest(async () => {
+        return retryRtkRequest(async () => {
           const newMarket = Market.create({ baseAsset, quoteAsset });
           const call = await client.openMarket(OpenMarketRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
@@ -485,21 +418,16 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['Market'],
     }),
     withdrawMarket: build.mutation<WithdrawMarketResponse, WithdrawMarketRequest>({
-      queryFn: async ({ market, balanceToWithdraw, address, millisatsPerByte, password }, { getState }) => {
+      queryFn: async ({ market, outputs, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
-          const newBalance = Balance.create({
-            baseAmount: balanceToWithdraw?.baseAmount,
-            quoteAmount: balanceToWithdraw?.quoteAmount,
-          });
           const call = await client.withdrawMarket(
             WithdrawMarketRequest.create({
               market: newMarket,
-              balanceToWithdraw: newBalance,
-              address,
+              outputs,
               millisatsPerByte,
               password,
             }),
@@ -623,7 +551,10 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Market'],
     }),
-    getMarketFragmenterAddress: build.query<AddressWithBlindingKey[], { numOfAddresses: number }>({
+    deriveMarketFragmenterAddresses: build.query<
+      DeriveMarketFragmenterAddressesResponse['addresses'],
+      DeriveMarketFragmenterAddressesRequest
+    >({
       queryFn: async ({ numOfAddresses }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -631,17 +562,17 @@ export const operatorApi = tdexApi.injectEndpoints({
         return retryRtkRequest(async () => {
           return {
             data: (
-              await client.getMarketFragmenterAddress(
-                GetMarketFragmenterAddressRequest.create({ numOfAddresses }),
+              await client.deriveMarketFragmenterAddresses(
+                DeriveMarketFragmenterAddressesRequest.create({ numOfAddresses }),
                 { meta: macaroon ? { macaroon } : undefined, interceptors }
               )
-            ).response.addressWithBlindingKey,
+            ).response.addresses,
           };
         });
       },
     }),
-    listMarketFragmenterAddresses: build.query<AddressWithBlindingKey[], void>({
-      queryFn: async (arg, { getState }) => {
+    listMarketFragmenterAddresses: build.query<ListMarketFragmenterAddressesResponse['addresses'], void>({
+      queryFn: async (_, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
@@ -652,7 +583,7 @@ export const operatorApi = tdexApi.injectEndpoints({
                 meta: macaroon ? { macaroon } : undefined,
                 interceptors,
               })
-            ).response.addressWithBlindingKey,
+            ).response.addresses,
           };
         });
       },
@@ -697,7 +628,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       WithdrawMarketFragmenterResponse,
       WithdrawMarketFragmenterRequest
     >({
-      queryFn: async ({ address, millisatsPerByte, password }, { getState }) => {
+      queryFn: async ({ outputs, millisatsPerByte, password }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
@@ -705,7 +636,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           return {
             data: (
               await client.withdrawMarketFragmenter(
-                WithdrawMarketFragmenterRequest.create({ address, millisatsPerByte, password }),
+                WithdrawMarketFragmenterRequest.create({ outputs, millisatsPerByte, password }),
                 { meta: macaroon ? { macaroon } : undefined, interceptors }
               )
             ).response,
@@ -715,19 +646,17 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['MarketUTXOs'],
     }),
     // Trades
-    listTrades: build.query<TradeInfo[], { market: Market; page: Page }>({
+    listTrades: build.query<ListTradesResponse['trades'], ListTradesRequest>({
       queryFn: async ({ market, page }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { pageNumber, pageSize } = page;
-          const newPage = Page.create({ pageNumber, pageSize });
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newPage = Page.create({ number: page?.number, size: page?.size });
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
           const call = await client.listTrades(
             ListTradesRequest.create({ market: newMarket, page: newPage }),
-            { meta: macaroon ? { macaroon } : undefined, interceptors }
+            { meta: { macaroon }, interceptors }
           );
           return {
             data: call.response.trades,
@@ -736,144 +665,65 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['Trade'],
     }),
-    getMarketCollectedSwapFees: build.query<GetMarketCollectedSwapFeesResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        console.log('macaroon!!', macaroon);
-        return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const call = await client.getMarketCollectedSwapFees(
-            GetMarketCollectedSwapFeesRequest.create({ market: newMarket }),
-            { meta: macaroon ? { macaroon } : undefined, interceptors }
-          );
-          return {
-            data: call.response,
-          };
-        });
+    // Calculate the % change of collected swap fees across 24h period
+    totalCollectedSwapFeesChange: build.query<
+      string,
+      {
+        markets?: Market[];
+        prices?: CoinGeckoPriceResult;
+      }
+    >({
+      queryFn: async ({ markets, prices }, { getState, dispatch }) => {
+        if (!markets || !prices) return { data: '0' };
+        //
+        const milliseconds24hrs = 24 * 60 * 60 * 1000;
+        const startDate = new Date(`${new Date().getFullYear()}-01-01T00:00:00`).toISOString();
+        const minus24hDate = new Date(Date.now() - milliseconds24hrs).toISOString();
+        const customPeriodUntil24hAgo = CustomPeriod.create({ startDate, endDate: minus24hDate });
+        const timeRangeUntil24hAgo = TimeRange.create({ customPeriod: customPeriodUntil24hAgo });
+        const collectedSwapFeesUntil24hAgo: number = await dispatch(
+          operatorApi.endpoints.totalCollectedSwapFees.initiate({
+            markets,
+            prices,
+            timeRange: timeRangeUntil24hAgo,
+          })
+        ).unwrap();
+        console.log('collectedSwapFeesUntil24hAgo', collectedSwapFeesUntil24hAgo);
+        //
+        const currentDate = new Date(Date.now()).toISOString();
+        const customPeriodUntilNow = CustomPeriod.create({ startDate, endDate: currentDate });
+        const timeRangeUntilNow = TimeRange.create({ customPeriod: customPeriodUntilNow });
+        const collectedSwapFeesUntilNow: number = await dispatch(
+          operatorApi.endpoints.totalCollectedSwapFees.initiate({
+            markets,
+            prices,
+            timeRange: timeRangeUntilNow,
+          })
+        ).unwrap();
+        console.log('collectedSwapFeesUntilNow', collectedSwapFeesUntilNow);
+        // Calculate variation percentage
+        const changePercentage =
+          ((collectedSwapFeesUntilNow - collectedSwapFeesUntil24hAgo) / collectedSwapFeesUntil24hAgo) * 100;
+        // If we calculate percentage variation with totalCollectedSwapFeesUntil24hAgo == zero, return 'N/A' instead of Infinity
+        const change = isFinite(changePercentage)
+          ? new Intl.NumberFormat('en-US', {
+              maximumFractionDigits: 2,
+              signDisplay: 'always',
+            }).format(changePercentage)
+          : 'N/A';
+        return { data: change };
       },
       providesTags: ['Trade'],
     }),
-    totalCollectedSwapFeesChange: build.query<string, { markets?: Market[]; prices?: CoinGeckoPriceResult }>({
-      queryFn: async ({ markets, prices }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        const network = state.settings.network;
-        const assets = state.settings.assets;
-        return retryRtkRequest(async () => {
-          if (!markets || !prices) return { data: '0' };
-          let totalCollectedSwapFeesUntil24hAgo = 0;
-          let totalCollectedSwapFeesUntilNow = 0;
-          const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
-            return Market.create({ baseAsset, quoteAsset });
-          });
-          // Calculate timeranges
-          const milliseconds24hrs = 24 * 60 * 60 * 1000;
-          const startDate = new Date(`${new Date().getFullYear()}-01-01T00:00:00`).toISOString();
-          const minus24hDate = new Date(Date.now() - milliseconds24hrs).toISOString();
-          const customPeriodUntil24hAgo = CustomPeriod.create({ startDate, endDate: minus24hDate });
-          const timeRangeUntil24hAgo = TimeRange.create({ customPeriod: customPeriodUntil24hAgo });
-          //
-          const currentDate = new Date(Date.now()).toISOString();
-          const customPeriodUntilNow = CustomPeriod.create({ startDate, endDate: currentDate });
-          const timeRangeUntilNow = TimeRange.create({ customPeriod: customPeriodUntilNow });
-          // We need to pass market because we don't have access to request parameters (protobuf-ts fixes this)
-          const getMarketReportPromises = (market: Market) => [
-            client
-              .getMarketReport(GetMarketReportRequest.create({ market, timeRange: timeRangeUntil24hAgo }), {
-                meta: macaroon ? { macaroon } : undefined,
-              })
-              .then((res) => ({
-                marketReportUntil24hAgoResponse: res.response.report?.totalCollectedFees,
-                market: { base: market.baseAsset, quote: market.quoteAsset },
-              })),
-            client
-              .getMarketReport(GetMarketReportRequest.create({ market, timeRange: timeRangeUntilNow }), {
-                meta: macaroon ? { macaroon } : undefined,
-              })
-              .then((res) => ({
-                marketReportUntilNowResponse: res.response.report?.totalCollectedFees,
-                market: { base: market.baseAsset, quote: market.quoteAsset },
-              })),
-          ];
-          const results = await Promise.all(marketsJSPB.flatMap(getMarketReportPromises));
-
-          const calculateTotalCollectedSwapFeesChange = (
-            type: 'base' | 'quote',
-            marketHash: string,
-            r: any
-          ) => {
-            let amountSats = 0;
-            if ('marketReportUntil24hAgoResponse' in r) {
-              if (type === 'base') {
-                amountSats = r.marketReportUntil24hAgoResponse?.baseAmount;
-              } else {
-                amountSats = r.marketReportUntil24hAgoResponse?.quoteAmount;
-              }
-            } else if ('marketReportUntilNowResponse' in r) {
-              if (type === 'base') {
-                amountSats = r.marketReportUntilNowResponse?.baseAmount;
-              } else {
-                amountSats = r.marketReportUntilNowResponse?.quoteAmount;
-              }
-            }
-            const currentAsset = getAssetDataFromRegistry(marketHash, assets[network], 'L-BTC');
-            if (!currentAsset) return;
-            // Convert non-Lsats amount to fractional
-            const amountSatsOrFractional = fromSatsToUnitOrFractional(
-              amountSats,
-              currentAsset.precision,
-              isLbtcTicker(currentAsset.ticker),
-              'L-sats'
-            );
-            // Convert non-Lbtc amount to Lbtc
-            const marketSwapFeesChangeSats = convertAmountToFavoriteCurrency({
-              asset: currentAsset,
-              amount: amountSatsOrFractional,
-              network: network,
-              preferredCurrency: BTC_CURRENCY,
-              preferredLbtcUnit: 'L-sats',
-              prices: prices,
-            });
-            // Add Lsats base and quote amounts together
-            if (marketSwapFeesChangeSats) {
-              if ('marketReportUntil24hAgoResponse' in r) {
-                totalCollectedSwapFeesUntil24hAgo += Number(marketSwapFeesChangeSats);
-              }
-              if ('marketReportUntilNowResponse' in r) {
-                totalCollectedSwapFeesUntilNow += Number(marketSwapFeesChangeSats);
-              }
-            }
-          };
-
-          // Run calculation
-          for (const r of results) {
-            Object.entries(r.market).forEach(([type, marketHash]) =>
-              calculateTotalCollectedSwapFeesChange(type as 'base' | 'quote', marketHash, r)
-            );
-          }
-
-          // Calculate variation percentage
-          const changePercentage =
-            ((totalCollectedSwapFeesUntilNow - totalCollectedSwapFeesUntil24hAgo) /
-              totalCollectedSwapFeesUntil24hAgo) *
-            100;
-          // If we calculate percentage variation with totalCollectedSwapFeesUntil24hAgo == zero, return 'N/A' instead of Infinity
-          const change = isFinite(changePercentage)
-            ? new Intl.NumberFormat('en-US', {
-                maximumFractionDigits: 2,
-                signDisplay: 'always',
-              }).format(changePercentage)
-            : 'N/A';
-          return { data: change };
-        });
-      },
-      providesTags: ['Trade'],
-    }),
-    totalCollectedSwapFees: build.query<number, { markets?: Market[]; prices?: CoinGeckoPriceResult }>({
-      queryFn: async ({ markets, prices }, { getState }) => {
+    // Sum swap fees from all markets, converted to L-sats
+    totalCollectedSwapFees: build.query<
+      number,
+      { markets?: Market[]; prices?: CoinGeckoPriceResult; timeRange?: TimeRange }
+    >({
+      queryFn: async (
+        { markets, prices, timeRange = { predefinedPeriod: PredefinedPeriod.PREDEFINED_PERIOD_ALL } },
+        { getState }
+      ) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
@@ -882,100 +732,64 @@ export const operatorApi = tdexApi.injectEndpoints({
         return retryRtkRequest(async () => {
           if (!markets || !prices) return { data: 0 };
           let totalCollectedSwapFees = 0;
-
-          // turns bare markets array into a Google JS ProtoBuff Markets Object
-          const marketsJSPB = markets.map(({ baseAsset, quoteAsset }) => {
-            return Market.create({ baseAsset, quoteAsset });
-          });
-
-          const results = await Promise.all(
-            marketsJSPB.map((market) =>
+          await Promise.all(
+            markets.map((market) =>
               client
-                .getMarketCollectedSwapFees(GetMarketCollectedSwapFeesRequest.create({ market }), {
-                  meta: macaroon ? { macaroon } : undefined,
-                  interceptors,
+                .getMarketReport(
+                  GetMarketReportRequest.create({
+                    market,
+                    timeRange,
+                  }),
+                  {
+                    meta: { macaroon },
+                    interceptors,
+                  }
+                )
+                .then((res) => {
+                  const totalCollectedFees = res.response.report?.totalCollectedFees;
+                  if (!totalCollectedFees) return;
+                  Object.entries(market).forEach(([assetType, assetId]) => {
+                    const currentAsset = getAssetDataFromRegistry(assetId, assets[network], 'L-BTC');
+                    if (!currentAsset) return;
+                    // Convert non-L-sats amount to fractional
+                    const amountSatsOrFractional = fromSatsToUnitOrFractional(
+                      assetType === 'baseAsset'
+                        ? totalCollectedFees.baseAmount
+                        : totalCollectedFees.quoteAmount,
+                      currentAsset.precision,
+                      isLbtcTicker(currentAsset.ticker),
+                      'L-sats'
+                    );
+                    // Convert non-Lbtc amount to L-sats
+                    const marketSwapFeesSats = convertAmountToFavoriteCurrency({
+                      asset: currentAsset,
+                      amount: amountSatsOrFractional,
+                      network: network,
+                      preferredCurrency: BTC_CURRENCY,
+                      preferredLbtcUnit: 'L-sats',
+                      prices: prices,
+                    });
+                    // Add L-sats base and quote amounts together
+                    if (marketSwapFeesSats) {
+                      totalCollectedSwapFees += Number(marketSwapFeesSats);
+                    }
+                  });
                 })
-                .then((res) => ({
-                  market: [market.baseAsset, market.quoteAsset],
-                  getMarketCollectedSwapFeesResponse: res.response,
-                }))
             )
           );
-
-          const calculateTotalCollectedSwapFees = (
-            marketId: string,
-            r: { market: string[]; getMarketCollectedSwapFeesResponse: GetMarketCollectedSwapFeesResponse }
-          ) => {
-            const marketIdCollectedSwapFees =
-              r.getMarketCollectedSwapFeesResponse.totalCollectedFeesPerAsset[marketId];
-
-            // Get Asset Data using the asset marketId
-            const currentAsset = getAssetDataFromRegistry(marketId, assets[network], 'L-BTC');
-
-            if (currentAsset === undefined || marketIdCollectedSwapFees === undefined) {
-              // No point in calculating asset conversion
-              // for unknown asset and
-              // for undefined marketIdCollectedSwapFees
-              return;
-            }
-
-            // Keeps marketIdCollectedSwapFees as sats if it's btc
-            // 100000000 lbtc/sats-representation = 100000000 L-sats
-            // Otherwise this makes sure to get the amount with fiat precision
-            // 100000000 usdt/sats-representation = 1 usdt
-            const currentAmount = fromSatsToUnitOrFractional(
-              Number(marketIdCollectedSwapFees),
-              currentAsset.precision,
-              isLbtcTicker(currentAsset.ticker),
-              'L-sats'
-            );
-
-            // Converts (LBTC/USDT/LCAD) to L-sats terms using the latest prices
-            const marketIdCollectedSwapFeesInSats = convertAmountToFavoriteCurrency({
-              asset: currentAsset,
-              amount: currentAmount,
-              network: network,
-              preferredCurrency: BTC_CURRENCY,
-              preferredLbtcUnit: 'L-sats',
-              prices: prices,
-            });
-
-            if (marketIdCollectedSwapFeesInSats) {
-              totalCollectedSwapFees += Number(marketIdCollectedSwapFeesInSats);
-            }
-          };
-          for (const r of results) {
-            r.market.forEach((marketId) => calculateTotalCollectedSwapFees(marketId, r));
-          }
           return { data: totalCollectedSwapFees };
         });
       },
       providesTags: ['Trade'],
     }),
     // Utxos
-    reloadUtxos: build.mutation<ReloadUtxosResponse, void>({
-      queryFn: async (arg, { getState }) => {
+    listUtxos: build.query<ListUtxosResponse, ListUtxosRequest>({
+      queryFn: async ({ page, accountName }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          return {
-            data: await client.reloadUtxos(ReloadUtxosRequest.create(), {
-              meta: macaroon ? { macaroon } : undefined,
-              interceptors,
-            }),
-          };
-        });
-      },
-      invalidatesTags: ['MarketUTXOs', 'FeeUTXOs'],
-    }),
-    listUtxos: build.query<ListUtxosResponse, { accountIndex: number; page?: Page }>({
-      queryFn: async ({ page, accountIndex }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const call = await client.listUtxos(ListUtxosRequest.create({ accountIndex, page }), {
+          const call = await client.listUtxos(ListUtxosRequest.create({ accountName, page }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
           });
@@ -1039,28 +853,13 @@ export const operatorApi = tdexApi.injectEndpoints({
       providesTags: ['Webhook'],
     }),
     //
-    getInfo: build.query<GetInfoResponse, void>({
-      queryFn: async (arg, { getState }) => {
+    listDeposits: build.query<ListDepositsResponse['deposits'], ListDepositsRequest>({
+      queryFn: async ({ accountName }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const call = await client.getInfo(GetInfoRequest.create(), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return { data: call.response };
-        });
-      },
-      providesTags: ['Market', 'Fee', 'Trade'],
-    }),
-    listDeposits: build.query<Deposit[], { accountIndex: number }>({
-      queryFn: async ({ accountIndex }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const call = await client.listDeposits(ListDepositsRequest.create({ accountIndex }), {
+          const call = await client.listDeposits(ListDepositsRequest.create({ accountName }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
           });
@@ -1071,16 +870,15 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['MarketUTXOs', 'FeeUTXOs'],
     }),
-    listWithdrawals: build.query<Withdrawal[], { accountIndex: number; page: Page }>({
-      queryFn: async ({ accountIndex, page }, { getState }) => {
+    listWithdrawals: build.query<ListWithdrawalsResponse['withdrawals'], ListWithdrawalsRequest>({
+      queryFn: async ({ accountName, page }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { pageNumber, pageSize } = page;
-          const newPage = Page.create({ pageNumber, pageSize });
+          const newPage = Page.create({ number: page?.number, size: page?.size });
           const call = await client.listWithdrawals(
-            ListWithdrawalsRequest.create({ page: newPage, accountIndex }),
+            ListWithdrawalsRequest.create({ page: newPage, accountName }),
             {
               meta: macaroon ? { macaroon } : undefined,
               interceptors,
@@ -1091,19 +889,18 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
+      providesTags: ['Market', 'Fee'],
     }),
   }),
 });
 
 export const {
   // Fee
-  useGetFeeAddressQuery,
+  useDeriveFeeAddressesQuery,
   useListFeeAddressesQuery,
   useGetFeeBalanceQuery,
-  useClaimFeeDepositsMutation,
   useWithdrawFeeMutation,
-  useGetFeeFragmenterAddressQuery,
+  useDeriveFeeFragmenterAddressesQuery,
   useListFeeFragmenterAddressesQuery,
   useGetFeeFragmenterBalanceQuery,
   useFeeFragmenterSplitFundsMutation,
@@ -1117,33 +914,28 @@ export const {
   useUpdateMarketPriceMutation,
   useUpdateMarketStrategyMutation,
   useListMarketsQuery,
-  useClaimMarketDepositsMutation,
   useCloseMarketMutation,
-  useGetMarketAddressQuery,
+  useDeriveMarketAddressesQuery,
   useListMarketAddressesQuery,
-  useGetMarketBalanceQuery,
   useNewMarketMutation,
   useOpenMarketMutation,
   useDropMarketMutation,
-  useGetMarketFragmenterAddressQuery,
+  useDeriveMarketFragmenterAddressesQuery,
   useListMarketFragmenterAddressesQuery,
   useGetMarketFragmenterBalanceQuery,
   useMarketFragmenterSplitFundsMutation,
   useWithdrawMarketFragmenterMutation,
   // Trades
-  useGetMarketCollectedSwapFeesQuery,
   useTotalCollectedSwapFeesQuery,
   useTotalCollectedSwapFeesChangeQuery,
   useListTradesQuery,
   // Utxos
-  useReloadUtxosMutation,
   useListUtxosQuery,
   // Webhook
   useAddWebhookMutation,
   useRemoveWebhookMutation,
   useListWebhooksQuery,
   //
-  useGetInfoQuery,
   useListDepositsQuery,
   useListWithdrawalsQuery,
 } = operatorApi;

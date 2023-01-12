@@ -17,7 +17,7 @@ import { CURRENCIES, featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils'
 const PROXY_URL = (window as any).PROXY_URL || 'http://localhost:3030';
 
 const proxyHealthStatus = ['SERVING', 'SERVING_NOT_CONNECTED', 'NOT_SERVING'] as const;
-export type ProxyHealthStatus = (typeof proxyHealthStatus)[number];
+export type ProxyHealthStatus = typeof proxyHealthStatus[number];
 export const isProxyHealthStatus = (x: any): x is ProxyHealthStatus => proxyHealthStatus.includes(x);
 
 export interface SettingsState {

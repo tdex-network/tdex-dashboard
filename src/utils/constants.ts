@@ -94,7 +94,7 @@ export const featuredAssets: Record<NetworkString, Asset[]> = {
 };
 
 export const LBTC_UNITS = ['L-BTC', 'L-mBTC', 'L-bits', 'L-sats'] as const;
-export type LbtcUnit = (typeof LBTC_UNITS)[number];
+export type LbtcUnit = typeof LBTC_UNITS[number];
 
 export const BTC_CURRENCY: Currency = {
   name: 'Bitcoin',

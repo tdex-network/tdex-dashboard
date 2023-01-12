@@ -534,7 +534,7 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['Market'],
     }),
-    listMarkets: build.query<ListMarketsResponse, void>({
+    listMarkets: build.query<ListMarketsResponse['markets'], void>({
       queryFn: async (arg, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
@@ -545,7 +545,7 @@ export const operatorApi = tdexApi.injectEndpoints({
             interceptors,
           });
           return {
-            data: call.response,
+            data: call.response.markets,
           };
         });
       },

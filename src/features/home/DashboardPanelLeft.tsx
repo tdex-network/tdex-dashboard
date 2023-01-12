@@ -38,11 +38,11 @@ export const DashboardPanelLeft = ({
 }: DashboardPanelLeftProps): JSX.Element => {
   const navigate = useNavigate();
   const { currency, network } = useTypedSelector(({ settings }: RootState) => settings);
-  const { data: listMarkets } = useListMarketsQuery();
+  const { data: marketList } = useListMarketsQuery();
   const { data: prices, isLoading: isLoadingPrices, isError: isErrorPrices } = priceFeed;
-  const activeMarkets = listMarkets?.markets.filter((m) => m.tradable).length || 0;
-  const pausedMarkets = (listMarkets?.markets.length ?? 0) - activeMarkets;
-  const markets = listMarkets?.markets.map((m) => m.market as Market);
+  const activeMarkets = marketList?.filter((m) => m.tradable).length || 0;
+  const pausedMarkets = (marketList?.length ?? 0) - activeMarkets;
+  const markets = marketList?.map((m) => m.market as Market);
   const { data: totalCollectedSwapFeesSats } = useTotalCollectedSwapFeesQuery({
     markets: markets,
     prices: prices,

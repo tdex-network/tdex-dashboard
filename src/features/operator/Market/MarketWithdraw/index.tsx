@@ -23,8 +23,6 @@ import {
 import { useLatestPriceFeedFromCoinGeckoQuery, convertAmountToFavoriteCurrency } from '../../../rates.api';
 import { useGetMarketInfoQuery, useListMarketsQuery, useWithdrawMarketMutation } from '../../operator.api';
 
-const { useBreakpoint } = Grid;
-
 interface IFormInputs {
   baseAmount: string;
   quoteAmount: string;
@@ -40,7 +38,6 @@ export const MarketWithdraw = (): JSX.Element => {
   const navigate = useNavigate();
   const [form] = Form.useForm<IFormInputs>();
   const [passwordForm] = Form.useForm<IPasswordFormInputs>();
-  const screens = useBreakpoint();
 
   const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
     ({ settings }: RootState) => settings
@@ -70,13 +67,17 @@ export const MarketWithdraw = (): JSX.Element => {
   const [address, setAddress] = useState<string>();
 
   useEffect(() => {
-    if (listMarkets) {
-      for (const { market } of listMarkets.markets) {
+    if (listMarkets?.length) {
+      for (const { market } of listMarkets) {
         const newMarket: [Asset?, Asset?] = [
           getAssetDataFromRegistry(market?.baseAsset ?? '', assets[network], lbtcUnit),
           getAssetDataFromRegistry(market?.quoteAsset ?? '', assets[network], lbtcUnit),
         ];
-        setMarketList([...marketList, newMarket]);
+        marketList.forEach(([asset1, asset2]) => {
+          if (asset1?.asset_id !== newMarket[0]?.asset_id || asset2?.asset_id !== newMarket[1]?.asset_id) {
+            setMarketList([...marketList, newMarket]);
+          }
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,44 +157,46 @@ export const MarketWithdraw = (): JSX.Element => {
 
   const baseAvailableAmountFormatted =
     !selectedMarket.baseAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.baseAsset.asset_id].confirmedBalance === undefined
+    marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.baseAsset.asset_id].confirmedBalance,
+          marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.confirmedBalance,
           selectedMarket?.baseAsset?.precision,
           isLbtcTicker(selectedMarket?.baseAsset?.ticker),
           lbtcUnit
         );
   const baseTotalAmountFormatted =
     !selectedMarket.baseAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.baseAsset.asset_id].totalBalance === undefined
+    marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.baseAsset.asset_id].totalBalance,
+          marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.totalBalance,
           selectedMarket?.baseAsset?.precision,
           isLbtcTicker(selectedMarket?.baseAsset?.ticker),
           lbtcUnit
         );
   const quoteAvailableAmountFormatted =
     !selectedMarket.quoteAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.quoteAsset.asset_id].confirmedBalance === undefined
+    marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.quoteAsset.asset_id].confirmedBalance,
+          marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.confirmedBalance,
           selectedMarket?.quoteAsset?.precision,
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit
         );
   const quoteTotalAmountFormatted =
     !selectedMarket.quoteAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.quoteAsset.asset_id].totalBalance === undefined
+    marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.totalBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.quoteAsset.asset_id].totalBalance,
+          marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.totalBalance,
           selectedMarket?.quoteAsset?.precision,
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit
         );
+
+  console.log('marketList', marketList);
 
   return (
     <>
@@ -220,7 +223,7 @@ export const MarketWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Market Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col xs={24} md={{ span: 12, offset: 12 }} className={classNames({ 'pr-10': screens.md })}>
+        <Col xs={24} md={{ span: 12, offset: 12 }}>
           <SelectMarket
             selectedMarket={selectedMarket}
             setSelectedMarket={setSelectedMarket}

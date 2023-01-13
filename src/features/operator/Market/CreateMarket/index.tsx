@@ -9,7 +9,7 @@ import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { getAssetDataFromRegistry, LBTC_ASSET, USDT_ASSET, USDT_TICKER } from '../../../../utils';
+import { getAssetDataFromRegistry, LBTC_ASSET, USDT_ASSET } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
 import { useGetInfoQuery, useGetMarketInfoQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';

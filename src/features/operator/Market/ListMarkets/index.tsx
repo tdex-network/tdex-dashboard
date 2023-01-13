@@ -31,12 +31,40 @@ export const ListMarkets = (): JSX.Element => {
               dispatch(setAsset(assetData));
             }
           }
+          // Add fixed assets to registry
+          if (
+            daemonInfo?.fixedBaseAsset &&
+            !assetRegistry[network].map((a) => a.asset_id).includes(daemonInfo?.fixedBaseAsset)
+          ) {
+            const assetData = await dispatch(
+              liquidApi.endpoints.getAssetData.initiate(daemonInfo?.fixedBaseAsset)
+            ).unwrap();
+            dispatch(setAsset(assetData));
+          }
+          if (
+            daemonInfo?.fixedQuoteAsset &&
+            !assetRegistry[network].map((a) => a.asset_id).includes(daemonInfo?.fixedQuoteAsset)
+          ) {
+            const assetData = await dispatch(
+              liquidApi.endpoints.getAssetData.initiate(daemonInfo?.fixedQuoteAsset)
+            ).unwrap();
+            dispatch(setAsset(assetData));
+          }
         } catch (err) {
           console.error('Error when adding to store assets in markets', err);
         }
       }
     })();
-  }, [assetRegistry, daemonInfo?.network, daemonInfoIsFetching, dispatch, listMarkets?.markets, network]);
+  }, [
+    assetRegistry,
+    daemonInfo?.fixedBaseAsset,
+    daemonInfo?.fixedQuoteAsset,
+    daemonInfo?.network,
+    daemonInfoIsFetching,
+    dispatch,
+    listMarkets?.markets,
+    network,
+  ]);
 
   return (
     <div id="list-markets">

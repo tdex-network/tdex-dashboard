@@ -42,12 +42,12 @@ tdex='docker exec -it tdexd tdex'
 $tdex config init --network "regtest" --no_tls
 
 mnemonic=$($tdex genseed | grep "\S")
-$tdex init --seed "${mnemonic}" --password secret &>/dev/null
+$tdex init --seed "${mnemonic}" --password ciaociao
 
 echo ""
 echo "unlocking wallet"
 
-$tdex unlock --password secret &>/dev/null
+$tdex unlock --password ciaociao
 
 addressesfee=$($tdex fee deposit --num_of_addresses 3)
 addressfee1=$(echo $addressesfee | jq -r '.address_with_blinding_key[0].address')

@@ -41,9 +41,9 @@ tdex='docker exec -it tdexd tdex'
 $tdex config init --network "regtest" --no_tls
 
 mnemonic=$($tdex genseed | grep "\S")
-$tdex init --seed "${mnemonic}" --password secret &>/dev/null
+$tdex init --seed "${mnemonic}" --password ciaociao
 
 echo ""
 echo "unlocking wallet"
 
-$tdex unlock --password secret &>/dev/null
+$tdex unlock --password ciaociao

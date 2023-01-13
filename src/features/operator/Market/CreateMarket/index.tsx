@@ -9,9 +9,9 @@ import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { LBTC_ASSET, USDT_TICKER } from '../../../../utils';
+import { getAssetDataFromRegistry, LBTC_ASSET, USDT_ASSET, USDT_TICKER } from '../../../../utils';
 import { FeeForm } from '../../Fee/FeeForm';
-import { useGetMarketInfoQuery } from '../../operator.api';
+import { useGetInfoQuery, useGetMarketInfoQuery } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 
 import { MarketLabelForm } from './MarketLabelForm';
@@ -21,10 +21,18 @@ const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const navigate = useNavigate();
-  const { assets, network } = useTypedSelector(({ settings }) => settings);
-  const [baseAsset, setBaseAsset] = useState<Asset>(LBTC_ASSET[network]);
+  const { data: daemonInfo } = useGetInfoQuery();
+  const { assets, network, lbtcUnit } = useTypedSelector(({ settings }) => settings);
+  const [baseAsset, setBaseAsset] = useState<Asset>(
+    daemonInfo?.fixedBaseAsset
+      ? (getAssetDataFromRegistry(daemonInfo?.fixedBaseAsset, assets[network], lbtcUnit) as Asset)
+      : LBTC_ASSET[network]
+  );
   const [quoteAsset, setQuoteAsset] = useState<Asset>(
-    assets[network].find((a) => a.ticker === USDT_TICKER) || assets[network][0]
+    daemonInfo?.fixedQuoteAsset
+      ? (getAssetDataFromRegistry(daemonInfo?.fixedQuoteAsset, assets[network], lbtcUnit) as Asset)
+      : getAssetDataFromRegistry(USDT_ASSET[network].asset_id, assets[network], lbtcUnit) ??
+          assets[network][0]
   );
   const { data: marketInfo, error: marketInfoError } = useGetMarketInfoQuery({
     baseAsset: baseAsset?.asset_id,

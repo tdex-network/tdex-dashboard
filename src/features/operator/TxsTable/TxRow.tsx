@@ -3,6 +3,7 @@ import { Grid } from 'antd';
 import classNames from 'classnames';
 
 import type { TradeInfo, Withdrawal } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
+import { TradeStatus } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
 import { ReactComponent as depositIcon } from '../../../assets/images/deposit.svg';
 import { CurrencyIcon } from '../../../common/CurrencyIcon';
 import type { Asset } from '../../../domain/asset';
@@ -53,6 +54,17 @@ export const TxRow = ({
   }
   const screens = useBreakpoint();
 
+  const isTradeFailed = row.status?.failed;
+  const isTradePending =
+    !!row.status &&
+    !row.status.failed &&
+    (TradeStatus[row.status.status] === 'TRADE_STATUS_REQUEST' ||
+      TradeStatus[row.status.status] === 'TRADE_STATUS_ACCEPT' ||
+      TradeStatus[row.status.status] === 'TRADE_STATUS_COMPLETE');
+  const isTradeSuccess =
+    !!row.status && !row.status.failed && TradeStatus[row.status.status] === 'TRADE_STATUS_SETTLED';
+  const isTradeExpired = !!row.status && TradeStatus[row.status.status] === 'TRADE_STATUS_EXPIRED';
+
   return (
     <>
       <tr
@@ -102,11 +114,21 @@ export const TxRow = ({
           {mode === 'trade' && (
             <span
               className={classNames('status', {
-                status__failed: row.status?.failed,
-                status__success: !row.status?.failed,
+                status__failed: isTradeFailed,
+                status__pending: isTradePending,
+                status__success: isTradeSuccess,
+                status__expired: isTradeExpired,
               })}
             >
-              {row.status?.failed ? 'Failed' : 'Success'}
+              {isTradeFailed
+                ? 'Failed'
+                : isTradePending
+                ? 'Pending'
+                : isTradeSuccess
+                ? 'Success'
+                : isTradeExpired
+                ? 'Expired'
+                : 'N/A'}
             </span>
           )}
         </td>
@@ -130,7 +152,7 @@ export const TxRow = ({
         <td colSpan={6}>
           <div className="d-flex details-content-container">
             <div className="d-flex details-content">
-              {!row.status?.failed ? (
+              {!row.status?.failed && txId ? (
                 <>
                   <span className="dm-mono dm-mono__bold">Transaction Id</span>
                   {mode === 'trade' && (

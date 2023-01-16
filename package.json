@@ -57,7 +57,6 @@
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.0",
-    "internal-ip": "^7.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.2",
     "webpack-bundle-analyzer": "^4.5.0",

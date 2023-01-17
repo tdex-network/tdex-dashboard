@@ -262,7 +262,7 @@
 				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = "$(inherited) $(PROJECT_DIR)/Externals/aarch64-apple-ios-sim/$(CONFIGURATION)";
 				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/aarch64-apple-ios/$(CONFIGURATION)";
 				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64-apple-ios/$(CONFIGURATION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tdex-dashboard";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.sevenlabs.tdex-dashboard";
 				PRODUCT_NAME = "tdex-dashboard";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -350,7 +350,7 @@
 				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = "$(inherited) $(PROJECT_DIR)/Externals/aarch64-apple-ios-sim/$(CONFIGURATION)";
 				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/aarch64-apple-ios/$(CONFIGURATION)";
 				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64-apple-ios/$(CONFIGURATION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tdex-dashboard";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.sevenlabs.tdex-dashboard";
 				PRODUCT_NAME = "tdex-dashboard";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

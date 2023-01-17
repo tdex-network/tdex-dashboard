@@ -1,6 +1,6 @@
 name: tdex-dashboard
 options:
-  bundleIdPrefix: com
+  bundleIdPrefix: io.sevenlabs
   deploymentTarget:
     iOS: 9.0
 fileGroups: [../../src]
@@ -11,7 +11,7 @@ settingGroups:
   app:
     base:
       PRODUCT_NAME: tdex-dashboard
-      PRODUCT_BUNDLE_IDENTIFIER: com.tdex-dashboard
+      PRODUCT_BUNDLE_IDENTIFIER: io.sevenlabs.tdex-dashboard
       DEVELOPMENT_TEAM: 5G3423SYA4
 targetTemplates:
   app:

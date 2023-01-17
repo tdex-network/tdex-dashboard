@@ -8,7 +8,7 @@ android {
     compileSdk = 33
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
-        applicationId = "com.tdex_dashboard"
+        applicationId = "io.sevenlabs.tdex_dashboard"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -81,7 +81,7 @@ android {
     }
 
     assetPacks += mutableSetOf()
-    namespace = "com.tdex_dashboard"
+    namespace = "io.sevenlabs.tdex_dashboard"
 }
 
 rust {

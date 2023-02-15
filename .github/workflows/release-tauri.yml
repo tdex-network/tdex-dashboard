@@ -85,6 +85,7 @@ jobs:
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
           releaseBody: "See the assets to download this version and install."
           includeDebug: true
+          args: --verbose
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push

@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "tdex-dashboard",
-    "version": "0.1.46"
+    "version": "0.1.48"
   },
   "tauri": {
     "allowlist": {
@@ -81,9 +81,9 @@
       {
         "fullscreen": false,
         "height": 800,
-        "width": 1220,
         "resizable": true,
-        "title": "TDEX Dashboard"
+        "title": "TDEX Dashboard",
+        "width": 1220
       }
     ]
   }

@@ -60,7 +60,8 @@
         "exceptionDomain": "",
         "frameworks": [],
         "minimumSystemVersion": "11.0",
-        "signingIdentity": null
+        "signingIdentity": null,
+        "providerShortName": "5G3423SYA4"
       },
       "resources": [],
       "shortDescription": "",

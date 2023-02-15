@@ -71,7 +71,7 @@ jobs:
           dasel put string -f src-tauri/tauri.conf.json ".package.version" "${{ steps.next_version.outputs.version }}"
           dasel put string -f src-tauri/Cargo.toml ".package.version" "${{ steps.next_version.outputs.version }}"
 
-      - uses: tauri-apps/tauri-action@v0
+      - uses: tauri-apps/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ENABLE_CODE_SIGNING: ${{ secrets.APPLE_CERTIFICATE }}
@@ -80,6 +80,7 @@ jobs:
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
         with:
           tagName: ${{ steps.next_tag.outputs.tag }}
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
@@ -87,17 +88,17 @@ jobs:
           includeDebug: true
           # args: --verbose
 
-      - uses: actions/upload-artifact@v3
-        if: matrix.platform == 'ubuntu-20.04'
-        with:
-          name: linux-updater-artifacts
-          path: ./target/release/bundle/appimage/tdex-dashboard_*.AppImage.*
+      #- uses: actions/upload-artifact@v3
+      #  if: matrix.platform == 'ubuntu-20.04'
+      #  with:
+      #    name: linux-updater-artifacts
+      #    path: ./target/release/bundle/appimage/tdex-dashboard_*.AppImage.*
 
-      - uses: actions/upload-artifact@v3
-        if: matrix.platform == 'macos-latest'
-        with:
-          name: macos-updater-artifacts
-          path: ./target/release/bundle/macos/tdex-dashboard_*.app.tar.*
+      #- uses: actions/upload-artifact@v3
+      #  if: matrix.platform == 'macos-latest'
+      #  with:
+      #    name: macos-updater-artifacts
+      #    path: ./target/release/bundle/macos/tdex-dashboard_*.app.tar.*
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push

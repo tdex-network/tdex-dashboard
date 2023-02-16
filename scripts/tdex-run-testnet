@@ -28,7 +28,7 @@ docker run -it -d --name tdexd \
   -e TDEX_NETWORK=testnet \
   -e TDEX_EXPLORER_REQUEST_TIMEOUT=40000 \
   --network="nigiri" \
-  ghcr.io/tdex-network/tdexd:v0.9.0-rc.1
+  ghcr.io/tdex-network/tdexd:latest
 
 echo ""
 echo "init wallet"

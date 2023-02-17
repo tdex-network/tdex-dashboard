@@ -81,7 +81,7 @@
         "https://raw.githubusercontent.com/tdex-network/tdex-dashboard/master/src-tauri/updater.json"
       ],
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI1NzE4QUIzOUJCN0JCRjYKUldUMnU3ZWJzNHB4SlQwSUtYSGNnQ0dlNUI2bHI2TzNhcGYyWFhka0RjYUdjSGxQb05LVlV2Z24K"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENFRjQ4NkJBRkM0NEMyNDkKUldSSndrVDh1b2IwenBmdXBVZEozNEVlbGRmU2RFVStnSUJuQnZSZm96cVZTK1JCcEJ0aElKR2EK"
     },
     "windows": [
       {

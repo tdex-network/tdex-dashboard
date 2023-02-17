@@ -79,7 +79,7 @@
       "active": true,
       "dialog": true,
       "endpoints": [
-        "https://raw.githubusercontent.com/tdex-network/tdex-dashboard/master/src-tauri/updater.json"
+        "https://raw.githubusercontent.com/tdex-network/tdex-dashboard/master/latest.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENFRjQ4NkJBRkM0NEMyNDkKUldSSndrVDh1b2IwenBmdXBVZEozNEVlbGRmU2RFVStnSUJuQnZSZm96cVZTK1JCcEJ0aElKR2EK"
     },

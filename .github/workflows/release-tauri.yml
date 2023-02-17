@@ -88,18 +88,6 @@ jobs:
           includeDebug: true
           args: --verbose
 
-      #- uses: actions/upload-artifact@v3
-      #  if: matrix.platform == 'ubuntu-20.04'
-      #  with:
-      #    name: linux-updater-artifacts
-      #    path: ./target/release/bundle/appimage/tdex-dashboard_*.AppImage.*
-
-      #- uses: actions/upload-artifact@v3
-      #  if: matrix.platform == 'macos-latest'
-      #  with:
-      #    name: macos-updater-artifacts
-      #    path: ./target/release/bundle/macos/tdex-dashboard_*.app.tar.*
-
       # Commit package.json, tauri.conf.json and Cargo.toml to master
       - name: Commit & Push
         if: matrix.platform == 'ubuntu-20.04'

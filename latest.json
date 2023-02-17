@@ -1,0 +1,11 @@
+{
+  "version": "0.1.50",
+  "notes": "See the assets to download this version and install.",
+  "pub_date": "2023-02-17T13:49:44.093Z",
+  "platforms": {
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSSndrVDh1b2IwenVoaVROaXVjbzh3V3JEckZOaDFvNS80S2hBTVpWeWxYWVQ2MEM5ekcxT3NvZGJNNnc1a3JSMkY4aUxnVEJwWTBiNVo1eFlOOUEzeGlObGk3WW1LRUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjc2NjQxMzQyCWZpbGU6dGRleC1kYXNoYm9hcmRfMC4xLjUwX2FtZDY0LkFwcEltYWdlLnRhci5negpiOXpGOVFmVmtJVFNLQTZrdnMvczVES3ZIRTZvVVl3aDVjQTVTSUpLMDBTSktpZGJGNVRaRVFtbmcwL3hTVnQ0STNLdElvRXQ5QmViUDRZcVVkOXJBUT09Cg==",
+      "url": "https://github.com/tdex-network/tdex-dashboard/releases/download/v0.1.50/tdex-dashboard_0.1.50_amd64-debug.AppImage.tar.gz"
+    }
+  }
+}

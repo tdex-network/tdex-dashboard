@@ -76,7 +76,12 @@
       "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
     },
     "updater": {
-      "active": false
+      "active": true,
+      "dialog": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/tdex-network/tdex-dashboard/master/src-tauri/updater.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENFRjQ4NkJBRkM0NEMyNDkKUldSSndrVDh1b2IwenBmdXBVZEozNEVlbGRmU2RFVStnSUJuQnZSZm96cVZTK1JCcEJ0aElKR2EK"
     },
     "windows": [
       {

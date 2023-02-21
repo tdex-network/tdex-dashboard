@@ -26,4 +26,6 @@ pushd $PARENT_PATH
 mkdir -p src-tauri/bin
 GO111MODULE=on go build -ldflags="-s -w" -tags netgo -a -o src-tauri/bin/grpcproxy-x86_64-$VENDOR-$OS rpc_proxy.go
 GO111MODULE=on go build -ldflags="-s -w" -tags netgo -a -o src-tauri/bin/grpcproxy-aarch64-$VENDOR-$OS rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -tags netgo -a -o src-tauri/bin/grpcproxy-aarch64-linux-android rpc_proxy.go
+GO111MODULE=on go build -ldflags="-s -w" -tags netgo -a -o src-tauri/bin/grpcproxy-aarch64-apple-ios-sim rpc_proxy.go
 popd

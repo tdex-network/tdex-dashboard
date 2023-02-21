@@ -18,6 +18,9 @@ export default {
     },
   ],
   webpack: {
+    devServer: {
+      host: 'local-ipv4',
+    },
     configure: (webpackConfig: any, { env, paths }: any): any => {
       webpackConfig.module.rules = webpackConfig.module.rules.map((rule: any) => {
         if (rule.oneOf instanceof Array) {

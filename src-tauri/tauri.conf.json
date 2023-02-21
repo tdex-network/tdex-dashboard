@@ -86,10 +86,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 300,
+        "height": 800,
         "resizable": true,
         "title": "TDEX Dashboard",
-        "width": 300
+        "width": 1220
       }
     ]
   }

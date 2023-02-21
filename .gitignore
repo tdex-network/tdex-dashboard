@@ -30,3 +30,5 @@ yarn-error.log*
 src-tauri/bin
 tdexd
 tdexd-data
+
+latest.json

@@ -7,22 +7,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
       - run: yarn install --frozen-lockfile
 
       - name: Patch the window.USE_PROXY variable in index.html
         run: sed -i 's#__USE_PROXY__#false#g' ./public/index.html
-      
+
       - run: yarn build
         env:
           PUBLIC_URL: https://tdex-network.github.io/tdex-dashboard
-          
+
       - name: Deploy to GitHub Pages
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: gh-pages
           build_dir: build

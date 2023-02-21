@@ -99,6 +99,18 @@ export interface MarketInfo {
      * @generated from protobuf field: tdex.v1.Balance balance = 7;
      */
     balance?: Balance;
+    /**
+     * The precision of the base asset.
+     *
+     * @generated from protobuf field: uint32 base_asset_precision = 8;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The precision of the quote asset.
+     *
+     * @generated from protobuf field: uint32 quote_asset_precision = 9;
+     */
+    quoteAssetPrecision: number;
 }
 /**
  * @generated from protobuf message tdex_daemon.v1.UtxoInfo
@@ -853,11 +865,13 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
             { no: 4, name: "strategy_type", kind: "enum", T: () => ["tdex_daemon.v1.StrategyType", StrategyType] },
             { no: 5, name: "account_index", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
             { no: 6, name: "price", kind: "message", T: () => Price },
-            { no: 7, name: "balance", kind: "message", T: () => Balance }
+            { no: 7, name: "balance", kind: "message", T: () => Balance },
+            { no: 8, name: "base_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 9, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
         ]);
     }
     create(value?: PartialMessage<MarketInfo>): MarketInfo {
-        const message = { tradable: false, strategyType: 0, accountIndex: 0 };
+        const message = { tradable: false, strategyType: 0, accountIndex: 0, baseAssetPrecision: 0, quoteAssetPrecision: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<MarketInfo>(this, message, value);
@@ -888,6 +902,12 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
                     break;
                 case /* tdex.v1.Balance balance */ 7:
                     message.balance = Balance.internalBinaryRead(reader, reader.uint32(), options, message.balance);
+                    break;
+                case /* uint32 base_asset_precision */ 8:
+                    message.baseAssetPrecision = reader.uint32();
+                    break;
+                case /* uint32 quote_asset_precision */ 9:
+                    message.quoteAssetPrecision = reader.uint32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -922,6 +942,12 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
         /* tdex.v1.Balance balance = 7; */
         if (message.balance)
             Balance.internalBinaryWrite(message.balance, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+        /* uint32 base_asset_precision = 8; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(8, WireType.Varint).uint32(message.baseAssetPrecision);
+        /* uint32 quote_asset_precision = 9; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(9, WireType.Varint).uint32(message.quoteAssetPrecision);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

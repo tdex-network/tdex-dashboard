@@ -247,6 +247,18 @@ export interface NewMarketRequest {
      * @generated from protobuf field: tdex.v1.Market market = 1;
      */
     market?: Market;
+    /**
+     * The precision of the base asset.
+     *
+     * @generated from protobuf field: uint32 base_asset_precision = 2;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The precision of the quote asset.
+     *
+     * @generated from protobuf field: uint32 quote_asset_precision = 3;
+     */
+    quoteAssetPrecision: number;
 }
 /**
  * @generated from protobuf message tdex_daemon.v1.NewMarketResponse
@@ -572,6 +584,34 @@ export interface UpdateMarketFixedFeeResponse {
      * @generated from protobuf field: tdex.v1.MarketWithFee market_with_fee = 1;
      */
     marketWithFee?: MarketWithFee;
+}
+/**
+ * @generated from protobuf message tdex_daemon.v1.UpdateMarketAssetsPrecisionRequest
+ */
+export interface UpdateMarketAssetsPrecisionRequest {
+    /**
+     * The market for which updating the fixed fee.
+     *
+     * @generated from protobuf field: tdex.v1.Market market = 1;
+     */
+    market?: Market;
+    /**
+     * The new base asset precision. A negative value is used to skip updating this field.
+     *
+     * @generated from protobuf field: int32 base_asset_precision = 2;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The new quote asset precision. A negative value is used to skip updating this field.
+     *
+     * @generated from protobuf field: int32 quote_asset_precision = 3;
+     */
+    quoteAssetPrecision: number;
+}
+/**
+ * @generated from protobuf message tdex_daemon.v1.UpdateMarketAssetsPrecisionResponse
+ */
+export interface UpdateMarketAssetsPrecisionResponse {
 }
 /**
  * @generated from protobuf message tdex_daemon.v1.UpdateMarketPriceRequest
@@ -1719,11 +1759,13 @@ export const WithdrawFeeResponse = new WithdrawFeeResponse$Type();
 class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
     constructor() {
         super("tdex_daemon.v1.NewMarketRequest", [
-            { no: 1, name: "market", kind: "message", T: () => Market }
+            { no: 1, name: "market", kind: "message", T: () => Market },
+            { no: 2, name: "base_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
         ]);
     }
     create(value?: PartialMessage<NewMarketRequest>): NewMarketRequest {
-        const message = {};
+        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<NewMarketRequest>(this, message, value);
@@ -1736,6 +1778,12 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
             switch (fieldNo) {
                 case /* tdex.v1.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
+                    break;
+                case /* uint32 base_asset_precision */ 2:
+                    message.baseAssetPrecision = reader.uint32();
+                    break;
+                case /* uint32 quote_asset_precision */ 3:
+                    message.quoteAssetPrecision = reader.uint32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1752,6 +1800,12 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
         /* tdex.v1.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* uint32 base_asset_precision = 2; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(2, WireType.Varint).uint32(message.baseAssetPrecision);
+        /* uint32 quote_asset_precision = 3; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(3, WireType.Varint).uint32(message.quoteAssetPrecision);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2998,6 +3052,93 @@ class UpdateMarketFixedFeeResponse$Type extends MessageType<UpdateMarketFixedFee
  * @generated MessageType for protobuf message tdex_daemon.v1.UpdateMarketFixedFeeResponse
  */
 export const UpdateMarketFixedFeeResponse = new UpdateMarketFixedFeeResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateMarketAssetsPrecisionRequest$Type extends MessageType<UpdateMarketAssetsPrecisionRequest> {
+    constructor() {
+        super("tdex_daemon.v1.UpdateMarketAssetsPrecisionRequest", [
+            { no: 1, name: "market", kind: "message", T: () => Market },
+            { no: 2, name: "base_asset_precision", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 3, name: "quote_asset_precision", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateMarketAssetsPrecisionRequest>): UpdateMarketAssetsPrecisionRequest {
+        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateMarketAssetsPrecisionRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateMarketAssetsPrecisionRequest): UpdateMarketAssetsPrecisionRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* tdex.v1.Market market */ 1:
+                    message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
+                    break;
+                case /* int32 base_asset_precision */ 2:
+                    message.baseAssetPrecision = reader.int32();
+                    break;
+                case /* int32 quote_asset_precision */ 3:
+                    message.quoteAssetPrecision = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateMarketAssetsPrecisionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* tdex.v1.Market market = 1; */
+        if (message.market)
+            Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* int32 base_asset_precision = 2; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(2, WireType.Varint).int32(message.baseAssetPrecision);
+        /* int32 quote_asset_precision = 3; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(3, WireType.Varint).int32(message.quoteAssetPrecision);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message tdex_daemon.v1.UpdateMarketAssetsPrecisionRequest
+ */
+export const UpdateMarketAssetsPrecisionRequest = new UpdateMarketAssetsPrecisionRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateMarketAssetsPrecisionResponse$Type extends MessageType<UpdateMarketAssetsPrecisionResponse> {
+    constructor() {
+        super("tdex_daemon.v1.UpdateMarketAssetsPrecisionResponse", []);
+    }
+    create(value?: PartialMessage<UpdateMarketAssetsPrecisionResponse>): UpdateMarketAssetsPrecisionResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateMarketAssetsPrecisionResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateMarketAssetsPrecisionResponse): UpdateMarketAssetsPrecisionResponse {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: UpdateMarketAssetsPrecisionResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message tdex_daemon.v1.UpdateMarketAssetsPrecisionResponse
+ */
+export const UpdateMarketAssetsPrecisionResponse = new UpdateMarketAssetsPrecisionResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateMarketPriceRequest$Type extends MessageType<UpdateMarketPriceRequest> {
     constructor() {
@@ -4993,6 +5134,7 @@ export const OperatorService = new ServiceType("tdex_daemon.v1.OperatorService",
     { name: "WithdrawMarket", options: {}, I: WithdrawMarketRequest, O: WithdrawMarketResponse },
     { name: "UpdateMarketPercentageFee", options: {}, I: UpdateMarketPercentageFeeRequest, O: UpdateMarketPercentageFeeResponse },
     { name: "UpdateMarketFixedFee", options: {}, I: UpdateMarketFixedFeeRequest, O: UpdateMarketFixedFeeResponse },
+    { name: "UpdateMarketAssetsPrecision", options: {}, I: UpdateMarketAssetsPrecisionRequest, O: UpdateMarketAssetsPrecisionResponse },
     { name: "UpdateMarketPrice", options: {}, I: UpdateMarketPriceRequest, O: UpdateMarketPriceResponse },
     { name: "UpdateMarketStrategy", options: {}, I: UpdateMarketStrategyRequest, O: UpdateMarketStrategyResponse },
     { name: "GetFeeFragmenterAddress", options: {}, I: GetFeeFragmenterAddressRequest, O: GetFeeFragmenterAddressResponse },

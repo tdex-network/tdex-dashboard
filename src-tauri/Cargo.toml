@@ -14,7 +14,7 @@
 
   [dependencies.tauri]
     features = ["updater", "fs-all", "path-all", "process-exit", "shell-all"]
-    version = "1.2.3"
+    version = "1.2.4"
 
 [features]
   custom-protocol = ["tauri/custom-protocol"]

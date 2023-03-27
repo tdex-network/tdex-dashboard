@@ -13,10 +13,11 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MESSAGE_TYPE } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { MarketWithFee } from "../../tdex/v1/types_pb";
-import { Price } from "../../tdex/v1/types_pb";
-import { Fee } from "../../tdex/v1/types_pb";
-import { Market } from "../../tdex/v1/types_pb";
+import { TradeType } from "../../tdex/v2/types_pb";
+import { MarketWithFee } from "../../tdex/v2/types_pb";
+import { Price } from "../../tdex/v2/types_pb";
+import { Fee } from "../../tdex/v2/types_pb";
+import { Market } from "../../tdex/v2/types_pb";
 /**
  * @generated from protobuf message tdex_daemon.v2.AccountInfo
  */
@@ -47,13 +48,13 @@ export interface MarketInfo {
     /**
      * The asset pair of the market
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
      * The percentage and fixed fees
      *
-     * @generated from protobuf field: tdex.v1.Fee fee = 2;
+     * @generated from protobuf field: tdex.v2.Fee fee = 2;
      */
     fee?: Fee;
     /**
@@ -69,25 +70,37 @@ export interface MarketInfo {
      */
     strategyType: StrategyType;
     /**
-     * The name of the wallet account.
+     * The optional name given to the market.
      *
-     * @generated from protobuf field: string account_name = 5;
+     * @generated from protobuf field: string name = 5;
      */
-    accountName: string;
+    name: string;
     /**
      * The current price in case the strategy is PLUGGABLE.
      *
-     * @generated from protobuf field: tdex.v1.Price price = 6;
+     * @generated from protobuf field: tdex.v2.Price price = 6;
      */
     price?: Price;
     /**
-     * The current unlocked balance.
+     * The current market balance by asset.
      *
      * @generated from protobuf field: map<string, tdex_daemon.v2.Balance> balance = 7;
      */
     balance: {
         [key: string]: Balance;
     };
+    /**
+     * The precision of the base asset.
+     *
+     * @generated from protobuf field: uint32 base_asset_precision = 8;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The precision of the quote asset.
+     *
+     * @generated from protobuf field: uint32 quote_asset_precision = 9;
+     */
+    quoteAssetPrecision: number;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.UtxoInfo
@@ -157,6 +170,18 @@ export interface SwapInfo {
      * @generated from protobuf field: string asset_r = 4;
      */
     assetR: string;
+    /**
+     * The fee amount charged for trade.
+     *
+     * @generated from protobuf field: uint64 fee_amount = 5;
+     */
+    feeAmount: number;
+    /**
+     * The asset of the swap fees.
+     *
+     * @generated from protobuf field: string fee_asset = 6;
+     */
+    feeAsset: string;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.SwapFailInfo
@@ -206,13 +231,13 @@ export interface TradeInfo {
     /**
      * The collected fee on the current swap.
      *
-     * @generated from protobuf field: tdex.v1.MarketWithFee market_with_fee = 5;
+     * @generated from protobuf field: tdex.v2.MarketWithFee market_with_fee = 5;
      */
     marketWithFee?: MarketWithFee;
     /**
      * The prices of the trade at request time.
      *
-     * @generated from protobuf field: tdex.v1.Price price = 6;
+     * @generated from protobuf field: tdex.v2.Price price = 6;
      */
     price?: Price;
     /**
@@ -275,6 +300,12 @@ export interface TradeInfo {
      * @generated from protobuf field: string expiry_date = 16;
      */
     expiryDate: string;
+    /**
+     * The trade type either BUY or SELL.
+     *
+     * @generated from protobuf field: tdex.v2.TradeType trade_type = 17;
+     */
+    tradeType: TradeType;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.FeeInfo
@@ -797,13 +828,15 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
             { no: 2, name: "fee", kind: "message", T: () => Fee },
             { no: 3, name: "tradable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "strategy_type", kind: "enum", T: () => ["tdex_daemon.v2.StrategyType", StrategyType] },
-            { no: 5, name: "account_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "price", kind: "message", T: () => Price },
-            { no: 7, name: "balance", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => Balance } }
+            { no: 7, name: "balance", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => Balance } },
+            { no: 8, name: "base_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 9, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
         ]);
     }
     create(value?: PartialMessage<MarketInfo>): MarketInfo {
-        const message = { tradable: false, strategyType: 0, accountName: "", balance: {} };
+        const message = { tradable: false, strategyType: 0, name: "", balance: {}, baseAssetPrecision: 0, quoteAssetPrecision: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<MarketInfo>(this, message, value);
@@ -814,10 +847,10 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
-                case /* tdex.v1.Fee fee */ 2:
+                case /* tdex.v2.Fee fee */ 2:
                     message.fee = Fee.internalBinaryRead(reader, reader.uint32(), options, message.fee);
                     break;
                 case /* bool tradable */ 3:
@@ -826,14 +859,20 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
                 case /* tdex_daemon.v2.StrategyType strategy_type */ 4:
                     message.strategyType = reader.int32();
                     break;
-                case /* string account_name */ 5:
-                    message.accountName = reader.string();
+                case /* string name */ 5:
+                    message.name = reader.string();
                     break;
-                case /* tdex.v1.Price price */ 6:
+                case /* tdex.v2.Price price */ 6:
                     message.price = Price.internalBinaryRead(reader, reader.uint32(), options, message.price);
                     break;
                 case /* map<string, tdex_daemon.v2.Balance> balance */ 7:
                     this.binaryReadMap7(message.balance, reader, options);
+                    break;
+                case /* uint32 base_asset_precision */ 8:
+                    message.baseAssetPrecision = reader.uint32();
+                    break;
+                case /* uint32 quote_asset_precision */ 9:
+                    message.quoteAssetPrecision = reader.uint32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -863,10 +902,10 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
         map[key ?? ""] = val ?? Balance.create();
     }
     internalBinaryWrite(message: MarketInfo, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* tdex.v1.Fee fee = 2; */
+        /* tdex.v2.Fee fee = 2; */
         if (message.fee)
             Fee.internalBinaryWrite(message.fee, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         /* bool tradable = 3; */
@@ -875,10 +914,10 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
         /* tdex_daemon.v2.StrategyType strategy_type = 4; */
         if (message.strategyType !== 0)
             writer.tag(4, WireType.Varint).int32(message.strategyType);
-        /* string account_name = 5; */
-        if (message.accountName !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.accountName);
-        /* tdex.v1.Price price = 6; */
+        /* string name = 5; */
+        if (message.name !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
+        /* tdex.v2.Price price = 6; */
         if (message.price)
             Price.internalBinaryWrite(message.price, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
         /* map<string, tdex_daemon.v2.Balance> balance = 7; */
@@ -888,6 +927,12 @@ class MarketInfo$Type extends MessageType<MarketInfo> {
             Balance.internalBinaryWrite(message.balance[k], writer, options);
             writer.join().join();
         }
+        /* uint32 base_asset_precision = 8; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(8, WireType.Varint).uint32(message.baseAssetPrecision);
+        /* uint32 quote_asset_precision = 9; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(9, WireType.Varint).uint32(message.quoteAssetPrecision);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1020,11 +1065,13 @@ class SwapInfo$Type extends MessageType<SwapInfo> {
             { no: 1, name: "amount_p", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
             { no: 2, name: "asset_p", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "amount_r", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 4, name: "asset_r", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "asset_r", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 6, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<SwapInfo>): SwapInfo {
-        const message = { amountP: 0, assetP: "", amountR: 0, assetR: "" };
+        const message = { amountP: 0, assetP: "", amountR: 0, assetR: "", feeAmount: 0, feeAsset: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<SwapInfo>(this, message, value);
@@ -1046,6 +1093,12 @@ class SwapInfo$Type extends MessageType<SwapInfo> {
                     break;
                 case /* string asset_r */ 4:
                     message.assetR = reader.string();
+                    break;
+                case /* uint64 fee_amount */ 5:
+                    message.feeAmount = reader.uint64().toNumber();
+                    break;
+                case /* string fee_asset */ 6:
+                    message.feeAsset = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1071,6 +1124,12 @@ class SwapInfo$Type extends MessageType<SwapInfo> {
         /* string asset_r = 4; */
         if (message.assetR !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.assetR);
+        /* uint64 fee_amount = 5; */
+        if (message.feeAmount !== 0)
+            writer.tag(5, WireType.Varint).uint64(message.feeAmount);
+        /* string fee_asset = 6; */
+        if (message.feeAsset !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.feeAsset);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1154,11 +1213,12 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
             { no: 13, name: "accept_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 14, name: "complete_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 15, name: "settle_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 16, name: "expiry_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 16, name: "expiry_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 17, name: "trade_type", kind: "enum", T: () => ["tdex.v2.TradeType", TradeType] }
         ]);
     }
     create(value?: PartialMessage<TradeInfo>): TradeInfo {
-        const message = { tradeId: "", requestTimestamp: 0, acceptTimestamp: 0, completeTimestamp: 0, settleTimestamp: 0, expiryTimestamp: 0, requestDate: "", acceptDate: "", completeDate: "", settleDate: "", expiryDate: "" };
+        const message = { tradeId: "", requestTimestamp: 0, acceptTimestamp: 0, completeTimestamp: 0, settleTimestamp: 0, expiryTimestamp: 0, requestDate: "", acceptDate: "", completeDate: "", settleDate: "", expiryDate: "", tradeType: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<TradeInfo>(this, message, value);
@@ -1181,10 +1241,10 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
                 case /* tdex_daemon.v2.SwapFailInfo fail_info */ 4:
                     message.failInfo = SwapFailInfo.internalBinaryRead(reader, reader.uint32(), options, message.failInfo);
                     break;
-                case /* tdex.v1.MarketWithFee market_with_fee */ 5:
+                case /* tdex.v2.MarketWithFee market_with_fee */ 5:
                     message.marketWithFee = MarketWithFee.internalBinaryRead(reader, reader.uint32(), options, message.marketWithFee);
                     break;
-                case /* tdex.v1.Price price */ 6:
+                case /* tdex.v2.Price price */ 6:
                     message.price = Price.internalBinaryRead(reader, reader.uint32(), options, message.price);
                     break;
                 case /* int64 request_timestamp */ 7:
@@ -1217,6 +1277,9 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
                 case /* string expiry_date */ 16:
                     message.expiryDate = reader.string();
                     break;
+                case /* tdex.v2.TradeType trade_type */ 17:
+                    message.tradeType = reader.int32();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1241,10 +1304,10 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
         /* tdex_daemon.v2.SwapFailInfo fail_info = 4; */
         if (message.failInfo)
             SwapFailInfo.internalBinaryWrite(message.failInfo, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
-        /* tdex.v1.MarketWithFee market_with_fee = 5; */
+        /* tdex.v2.MarketWithFee market_with_fee = 5; */
         if (message.marketWithFee)
             MarketWithFee.internalBinaryWrite(message.marketWithFee, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
-        /* tdex.v1.Price price = 6; */
+        /* tdex.v2.Price price = 6; */
         if (message.price)
             Price.internalBinaryWrite(message.price, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
         /* int64 request_timestamp = 7; */
@@ -1277,6 +1340,9 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
         /* string expiry_date = 16; */
         if (message.expiryDate !== "")
             writer.tag(16, WireType.LengthDelimited).string(message.expiryDate);
+        /* tdex.v2.TradeType trade_type = 17; */
+        if (message.tradeType !== 0)
+            writer.tag(17, WireType.Varint).int32(message.tradeType);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

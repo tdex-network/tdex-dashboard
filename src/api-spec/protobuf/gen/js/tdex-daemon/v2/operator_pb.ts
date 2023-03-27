@@ -21,14 +21,14 @@ import { UtxoInfo } from "./types_pb";
 import { TradeInfo } from "./types_pb";
 import { Page } from "./types_pb";
 import { StrategyType } from "./types_pb";
-import { Price } from "../../tdex/v1/types_pb";
-import { Fixed } from "../../tdex/v1/types_pb";
-import { MarketWithFee } from "../../tdex/v1/types_pb";
+import { Price } from "../../tdex/v2/types_pb";
+import { MarketWithFee } from "../../tdex/v2/types_pb";
 import { MarketReport } from "./types_pb";
 import { TimeFrame } from "./types_pb";
 import { TimeRange } from "./types_pb";
 import { MarketInfo } from "./types_pb";
-import { Market } from "../../tdex/v1/types_pb";
+import { MarketFee } from "../../tdex/v2/types_pb";
+import { Market } from "../../tdex/v2/types_pb";
 import { TxOutput } from "./types_pb";
 import { Balance } from "./types_pb";
 /**
@@ -124,9 +124,33 @@ export interface NewMarketRequest {
     /**
      * The asset pair for which creating a new account in the daemon's wallet.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
+    /**
+     * The precision of the base asset.
+     *
+     * @generated from protobuf field: uint32 base_asset_precision = 2;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The precision of the quote asset.
+     *
+     * @generated from protobuf field: uint32 quote_asset_precision = 3;
+     */
+    quoteAssetPrecision: number;
+    /**
+     * The percentage fee for the market.
+     *
+     * @generated from protobuf field: tdex.v2.MarketFee percentage_fee = 4;
+     */
+    percentageFee?: MarketFee;
+    /**
+     * Optional human-readable name for the market.
+     *
+     * @generated from protobuf field: string name = 5;
+     */
+    name: string;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.NewMarketResponse
@@ -138,7 +162,7 @@ export interface NewMarketResponse {
  */
 export interface GetMarketInfoRequest {
     /**
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
 }
@@ -158,7 +182,7 @@ export interface DeriveMarketAddressesRequest {
     /**
      * The market for which deriving new addresses.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -186,7 +210,7 @@ export interface ListMarketAddressesRequest {
     /**
      * The Market for which listing all derived addresses.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
 }
@@ -208,7 +232,7 @@ export interface OpenMarketRequest {
     /**
      * The market to be made tradable.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
 }
@@ -224,7 +248,7 @@ export interface CloseMarketRequest {
     /**
      * The market to be made not tradable.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
 }
@@ -238,7 +262,7 @@ export interface CloseMarketResponse {
  */
 export interface DropMarketRequest {
     /**
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
 }
@@ -254,7 +278,7 @@ export interface WithdrawMarketRequest {
     /**
      * The market from which funds should be withdrawn.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -294,7 +318,7 @@ export interface GetMarketReportRequest {
     /**
      * The market for which returning the report of collected fees.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -328,15 +352,15 @@ export interface UpdateMarketPercentageFeeRequest {
     /**
      * The market for which updating the percentage fee.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
-     * The new percentage fee expresses in basis point.
+     * The new percentage fee for base and quote assets expressed in basis point.
      *
-     * @generated from protobuf field: uint32 basis_point = 2 [jstype = JS_NUMBER];
+     * @generated from protobuf field: tdex.v2.MarketFee fee = 2;
      */
-    basisPoint: number;
+    fee?: MarketFee;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.UpdateMarketPercentageFeeResponse
@@ -345,7 +369,7 @@ export interface UpdateMarketPercentageFeeResponse {
     /**
      * The market with updated fees.
      *
-     * @generated from protobuf field: tdex.v1.MarketWithFee market_with_fee = 1;
+     * @generated from protobuf field: tdex.v2.MarketWithFee market_with_fee = 1;
      */
     marketWithFee?: MarketWithFee;
 }
@@ -356,15 +380,15 @@ export interface UpdateMarketFixedFeeRequest {
     /**
      * The market for which updating the fixed fee.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
-     * The new fixed fee for base and quote asset.
+     * The new fixed fee for base and quote asset expressed in satoshi.
      *
-     * @generated from protobuf field: tdex.v1.Fixed fixed = 2;
+     * @generated from protobuf field: tdex.v2.MarketFee fee = 2;
      */
-    fixed?: Fixed;
+    fee?: MarketFee;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.UpdateMarketFixedFeeResponse
@@ -373,9 +397,37 @@ export interface UpdateMarketFixedFeeResponse {
     /**
      * The market with updated fees.
      *
-     * @generated from protobuf field: tdex.v1.MarketWithFee market_with_fee = 1;
+     * @generated from protobuf field: tdex.v2.MarketWithFee market_with_fee = 1;
      */
     marketWithFee?: MarketWithFee;
+}
+/**
+ * @generated from protobuf message tdex_daemon.v2.UpdateMarketAssetsPrecisionRequest
+ */
+export interface UpdateMarketAssetsPrecisionRequest {
+    /**
+     * The market for which updating the fixed fee.
+     *
+     * @generated from protobuf field: tdex.v2.Market market = 1;
+     */
+    market?: Market;
+    /**
+     * The new base asset precision. A negative value is used to skip updating this field.
+     *
+     * @generated from protobuf field: int32 base_asset_precision = 2;
+     */
+    baseAssetPrecision: number;
+    /**
+     * The new quote asset precision. A negative value is used to skip updating this field.
+     *
+     * @generated from protobuf field: int32 quote_asset_precision = 3;
+     */
+    quoteAssetPrecision: number;
+}
+/**
+ * @generated from protobuf message tdex_daemon.v2.UpdateMarketAssetsPrecisionResponse
+ */
+export interface UpdateMarketAssetsPrecisionResponse {
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.UpdateMarketPriceRequest
@@ -384,13 +436,13 @@ export interface UpdateMarketPriceRequest {
     /**
      * The arket for which updating the price.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
      * The new price for base and quote asset.
      *
-     * @generated from protobuf field: tdex.v1.Price price = 2;
+     * @generated from protobuf field: tdex.v2.Price price = 2;
      */
     price?: Price;
 }
@@ -406,7 +458,7 @@ export interface UpdateMarketStrategyRequest {
     /**
      * The market for which changing the strategy.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -594,7 +646,7 @@ export interface MarketFragmenterSplitFundsRequest {
      * The market to which to deposit the fragmented funds owned by the market
      * fragmenter.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -668,7 +720,7 @@ export interface ListTradesRequest {
     /**
      * Market for which listing trades.
      *
-     * @generated from protobuf field: tdex.v1.Market market = 1;
+     * @generated from protobuf field: tdex.v2.Market market = 1;
      */
     market?: Market;
     /**
@@ -1217,11 +1269,15 @@ export const WithdrawFeeResponse = new WithdrawFeeResponse$Type();
 class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
     constructor() {
         super("tdex_daemon.v2.NewMarketRequest", [
-            { no: 1, name: "market", kind: "message", T: () => Market }
+            { no: 1, name: "market", kind: "message", T: () => Market },
+            { no: 2, name: "base_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 4, name: "percentage_fee", kind: "message", T: () => MarketFee },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NewMarketRequest>): NewMarketRequest {
-        const message = {};
+        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0, name: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<NewMarketRequest>(this, message, value);
@@ -1232,8 +1288,20 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
+                    break;
+                case /* uint32 base_asset_precision */ 2:
+                    message.baseAssetPrecision = reader.uint32();
+                    break;
+                case /* uint32 quote_asset_precision */ 3:
+                    message.quoteAssetPrecision = reader.uint32();
+                    break;
+                case /* tdex.v2.MarketFee percentage_fee */ 4:
+                    message.percentageFee = MarketFee.internalBinaryRead(reader, reader.uint32(), options, message.percentageFee);
+                    break;
+                case /* string name */ 5:
+                    message.name = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1247,9 +1315,21 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
         return message;
     }
     internalBinaryWrite(message: NewMarketRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* uint32 base_asset_precision = 2; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(2, WireType.Varint).uint32(message.baseAssetPrecision);
+        /* uint32 quote_asset_precision = 3; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(3, WireType.Varint).uint32(message.quoteAssetPrecision);
+        /* tdex.v2.MarketFee percentage_fee = 4; */
+        if (message.percentageFee)
+            MarketFee.internalBinaryWrite(message.percentageFee, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* string name = 5; */
+        if (message.name !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1305,7 +1385,7 @@ class GetMarketInfoRequest$Type extends MessageType<GetMarketInfoRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 default:
@@ -1320,7 +1400,7 @@ class GetMarketInfoRequest$Type extends MessageType<GetMarketInfoRequest> {
         return message;
     }
     internalBinaryWrite(message: GetMarketInfoRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -1400,7 +1480,7 @@ class DeriveMarketAddressesRequest$Type extends MessageType<DeriveMarketAddresse
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* int64 num_of_addresses = 2 [jstype = JS_NUMBER];*/ 2:
@@ -1418,7 +1498,7 @@ class DeriveMarketAddressesRequest$Type extends MessageType<DeriveMarketAddresse
         return message;
     }
     internalBinaryWrite(message: DeriveMarketAddressesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* int64 num_of_addresses = 2 [jstype = JS_NUMBER]; */
@@ -1500,7 +1580,7 @@ class ListMarketAddressesRequest$Type extends MessageType<ListMarketAddressesReq
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 default:
@@ -1515,7 +1595,7 @@ class ListMarketAddressesRequest$Type extends MessageType<ListMarketAddressesReq
         return message;
     }
     internalBinaryWrite(message: ListMarketAddressesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -1594,7 +1674,7 @@ class OpenMarketRequest$Type extends MessageType<OpenMarketRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 default:
@@ -1609,7 +1689,7 @@ class OpenMarketRequest$Type extends MessageType<OpenMarketRequest> {
         return message;
     }
     internalBinaryWrite(message: OpenMarketRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -1667,7 +1747,7 @@ class CloseMarketRequest$Type extends MessageType<CloseMarketRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 default:
@@ -1682,7 +1762,7 @@ class CloseMarketRequest$Type extends MessageType<CloseMarketRequest> {
         return message;
     }
     internalBinaryWrite(message: CloseMarketRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -1740,7 +1820,7 @@ class DropMarketRequest$Type extends MessageType<DropMarketRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 default:
@@ -1755,7 +1835,7 @@ class DropMarketRequest$Type extends MessageType<DropMarketRequest> {
         return message;
     }
     internalBinaryWrite(message: DropMarketRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -1816,7 +1896,7 @@ class WithdrawMarketRequest$Type extends MessageType<WithdrawMarketRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* repeated tdex_daemon.v2.TxOutput outputs */ 2:
@@ -1840,7 +1920,7 @@ class WithdrawMarketRequest$Type extends MessageType<WithdrawMarketRequest> {
         return message;
     }
     internalBinaryWrite(message: WithdrawMarketRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* repeated tdex_daemon.v2.TxOutput outputs = 2; */
@@ -1930,7 +2010,7 @@ class GetMarketReportRequest$Type extends MessageType<GetMarketReportRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* tdex_daemon.v2.TimeRange time_range */ 2:
@@ -1951,7 +2031,7 @@ class GetMarketReportRequest$Type extends MessageType<GetMarketReportRequest> {
         return message;
     }
     internalBinaryWrite(message: GetMarketReportRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* tdex_daemon.v2.TimeRange time_range = 2; */
@@ -2022,11 +2102,11 @@ class UpdateMarketPercentageFeeRequest$Type extends MessageType<UpdateMarketPerc
     constructor() {
         super("tdex_daemon.v2.UpdateMarketPercentageFeeRequest", [
             { no: 1, name: "market", kind: "message", T: () => Market },
-            { no: 2, name: "basis_point", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+            { no: 2, name: "fee", kind: "message", T: () => MarketFee }
         ]);
     }
     create(value?: PartialMessage<UpdateMarketPercentageFeeRequest>): UpdateMarketPercentageFeeRequest {
-        const message = { basisPoint: 0 };
+        const message = {};
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UpdateMarketPercentageFeeRequest>(this, message, value);
@@ -2037,11 +2117,11 @@ class UpdateMarketPercentageFeeRequest$Type extends MessageType<UpdateMarketPerc
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
-                case /* uint32 basis_point = 2 [jstype = JS_NUMBER];*/ 2:
-                    message.basisPoint = reader.uint32();
+                case /* tdex.v2.MarketFee fee */ 2:
+                    message.fee = MarketFee.internalBinaryRead(reader, reader.uint32(), options, message.fee);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -2055,12 +2135,12 @@ class UpdateMarketPercentageFeeRequest$Type extends MessageType<UpdateMarketPerc
         return message;
     }
     internalBinaryWrite(message: UpdateMarketPercentageFeeRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* uint32 basis_point = 2 [jstype = JS_NUMBER]; */
-        if (message.basisPoint !== 0)
-            writer.tag(2, WireType.Varint).uint32(message.basisPoint);
+        /* tdex.v2.MarketFee fee = 2; */
+        if (message.fee)
+            MarketFee.internalBinaryWrite(message.fee, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2090,7 +2170,7 @@ class UpdateMarketPercentageFeeResponse$Type extends MessageType<UpdateMarketPer
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.MarketWithFee market_with_fee */ 1:
+                case /* tdex.v2.MarketWithFee market_with_fee */ 1:
                     message.marketWithFee = MarketWithFee.internalBinaryRead(reader, reader.uint32(), options, message.marketWithFee);
                     break;
                 default:
@@ -2105,7 +2185,7 @@ class UpdateMarketPercentageFeeResponse$Type extends MessageType<UpdateMarketPer
         return message;
     }
     internalBinaryWrite(message: UpdateMarketPercentageFeeResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.MarketWithFee market_with_fee = 1; */
+        /* tdex.v2.MarketWithFee market_with_fee = 1; */
         if (message.marketWithFee)
             MarketWithFee.internalBinaryWrite(message.marketWithFee, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -2123,7 +2203,7 @@ class UpdateMarketFixedFeeRequest$Type extends MessageType<UpdateMarketFixedFeeR
     constructor() {
         super("tdex_daemon.v2.UpdateMarketFixedFeeRequest", [
             { no: 1, name: "market", kind: "message", T: () => Market },
-            { no: 2, name: "fixed", kind: "message", T: () => Fixed }
+            { no: 2, name: "fee", kind: "message", T: () => MarketFee }
         ]);
     }
     create(value?: PartialMessage<UpdateMarketFixedFeeRequest>): UpdateMarketFixedFeeRequest {
@@ -2138,11 +2218,11 @@ class UpdateMarketFixedFeeRequest$Type extends MessageType<UpdateMarketFixedFeeR
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
-                case /* tdex.v1.Fixed fixed */ 2:
-                    message.fixed = Fixed.internalBinaryRead(reader, reader.uint32(), options, message.fixed);
+                case /* tdex.v2.MarketFee fee */ 2:
+                    message.fee = MarketFee.internalBinaryRead(reader, reader.uint32(), options, message.fee);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -2156,12 +2236,12 @@ class UpdateMarketFixedFeeRequest$Type extends MessageType<UpdateMarketFixedFeeR
         return message;
     }
     internalBinaryWrite(message: UpdateMarketFixedFeeRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* tdex.v1.Fixed fixed = 2; */
-        if (message.fixed)
-            Fixed.internalBinaryWrite(message.fixed, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* tdex.v2.MarketFee fee = 2; */
+        if (message.fee)
+            MarketFee.internalBinaryWrite(message.fee, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2191,7 +2271,7 @@ class UpdateMarketFixedFeeResponse$Type extends MessageType<UpdateMarketFixedFee
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.MarketWithFee market_with_fee */ 1:
+                case /* tdex.v2.MarketWithFee market_with_fee */ 1:
                     message.marketWithFee = MarketWithFee.internalBinaryRead(reader, reader.uint32(), options, message.marketWithFee);
                     break;
                 default:
@@ -2206,7 +2286,7 @@ class UpdateMarketFixedFeeResponse$Type extends MessageType<UpdateMarketFixedFee
         return message;
     }
     internalBinaryWrite(message: UpdateMarketFixedFeeResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.MarketWithFee market_with_fee = 1; */
+        /* tdex.v2.MarketWithFee market_with_fee = 1; */
         if (message.marketWithFee)
             MarketWithFee.internalBinaryWrite(message.marketWithFee, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -2219,6 +2299,93 @@ class UpdateMarketFixedFeeResponse$Type extends MessageType<UpdateMarketFixedFee
  * @generated MessageType for protobuf message tdex_daemon.v2.UpdateMarketFixedFeeResponse
  */
 export const UpdateMarketFixedFeeResponse = new UpdateMarketFixedFeeResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateMarketAssetsPrecisionRequest$Type extends MessageType<UpdateMarketAssetsPrecisionRequest> {
+    constructor() {
+        super("tdex_daemon.v2.UpdateMarketAssetsPrecisionRequest", [
+            { no: 1, name: "market", kind: "message", T: () => Market },
+            { no: 2, name: "base_asset_precision", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 3, name: "quote_asset_precision", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateMarketAssetsPrecisionRequest>): UpdateMarketAssetsPrecisionRequest {
+        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateMarketAssetsPrecisionRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateMarketAssetsPrecisionRequest): UpdateMarketAssetsPrecisionRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* tdex.v2.Market market */ 1:
+                    message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
+                    break;
+                case /* int32 base_asset_precision */ 2:
+                    message.baseAssetPrecision = reader.int32();
+                    break;
+                case /* int32 quote_asset_precision */ 3:
+                    message.quoteAssetPrecision = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateMarketAssetsPrecisionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* tdex.v2.Market market = 1; */
+        if (message.market)
+            Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* int32 base_asset_precision = 2; */
+        if (message.baseAssetPrecision !== 0)
+            writer.tag(2, WireType.Varint).int32(message.baseAssetPrecision);
+        /* int32 quote_asset_precision = 3; */
+        if (message.quoteAssetPrecision !== 0)
+            writer.tag(3, WireType.Varint).int32(message.quoteAssetPrecision);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message tdex_daemon.v2.UpdateMarketAssetsPrecisionRequest
+ */
+export const UpdateMarketAssetsPrecisionRequest = new UpdateMarketAssetsPrecisionRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateMarketAssetsPrecisionResponse$Type extends MessageType<UpdateMarketAssetsPrecisionResponse> {
+    constructor() {
+        super("tdex_daemon.v2.UpdateMarketAssetsPrecisionResponse", []);
+    }
+    create(value?: PartialMessage<UpdateMarketAssetsPrecisionResponse>): UpdateMarketAssetsPrecisionResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateMarketAssetsPrecisionResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateMarketAssetsPrecisionResponse): UpdateMarketAssetsPrecisionResponse {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: UpdateMarketAssetsPrecisionResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message tdex_daemon.v2.UpdateMarketAssetsPrecisionResponse
+ */
+export const UpdateMarketAssetsPrecisionResponse = new UpdateMarketAssetsPrecisionResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateMarketPriceRequest$Type extends MessageType<UpdateMarketPriceRequest> {
     constructor() {
@@ -2239,10 +2406,10 @@ class UpdateMarketPriceRequest$Type extends MessageType<UpdateMarketPriceRequest
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
-                case /* tdex.v1.Price price */ 2:
+                case /* tdex.v2.Price price */ 2:
                     message.price = Price.internalBinaryRead(reader, reader.uint32(), options, message.price);
                     break;
                 default:
@@ -2257,10 +2424,10 @@ class UpdateMarketPriceRequest$Type extends MessageType<UpdateMarketPriceRequest
         return message;
     }
     internalBinaryWrite(message: UpdateMarketPriceRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* tdex.v1.Price price = 2; */
+        /* tdex.v2.Price price = 2; */
         if (message.price)
             Price.internalBinaryWrite(message.price, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
@@ -2320,7 +2487,7 @@ class UpdateMarketStrategyRequest$Type extends MessageType<UpdateMarketStrategyR
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* tdex_daemon.v2.StrategyType strategy_type */ 2:
@@ -2341,7 +2508,7 @@ class UpdateMarketStrategyRequest$Type extends MessageType<UpdateMarketStrategyR
         return message;
     }
     internalBinaryWrite(message: UpdateMarketStrategyRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* tdex_daemon.v2.StrategyType strategy_type = 2; */
@@ -3135,7 +3302,7 @@ class MarketFragmenterSplitFundsRequest$Type extends MessageType<MarketFragmente
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* uint64 millisats_per_byte */ 2:
@@ -3153,7 +3320,7 @@ class MarketFragmenterSplitFundsRequest$Type extends MessageType<MarketFragmente
         return message;
     }
     internalBinaryWrite(message: MarketFragmenterSplitFundsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* uint64 millisats_per_byte = 2; */
@@ -3417,7 +3584,7 @@ class ListTradesRequest$Type extends MessageType<ListTradesRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* tdex.v1.Market market */ 1:
+                case /* tdex.v2.Market market */ 1:
                     message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
                     break;
                 case /* tdex_daemon.v2.Page page */ 2:
@@ -3435,7 +3602,7 @@ class ListTradesRequest$Type extends MessageType<ListTradesRequest> {
         return message;
     }
     internalBinaryWrite(message: ListTradesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex.v1.Market market = 1; */
+        /* tdex.v2.Market market = 1; */
         if (message.market)
             Market.internalBinaryWrite(message.market, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* tdex_daemon.v2.Page page = 2; */
@@ -4116,6 +4283,7 @@ export const OperatorService = new ServiceType("tdex_daemon.v2.OperatorService",
     { name: "GetMarketReport", options: {}, I: GetMarketReportRequest, O: GetMarketReportResponse },
     { name: "UpdateMarketPercentageFee", options: {}, I: UpdateMarketPercentageFeeRequest, O: UpdateMarketPercentageFeeResponse },
     { name: "UpdateMarketFixedFee", options: {}, I: UpdateMarketFixedFeeRequest, O: UpdateMarketFixedFeeResponse },
+    { name: "UpdateMarketAssetsPrecision", options: {}, I: UpdateMarketAssetsPrecisionRequest, O: UpdateMarketAssetsPrecisionResponse },
     { name: "UpdateMarketPrice", options: {}, I: UpdateMarketPriceRequest, O: UpdateMarketPriceResponse },
     { name: "UpdateMarketStrategy", options: {}, I: UpdateMarketStrategyRequest, O: UpdateMarketStrategyResponse },
     { name: "DeriveFeeFragmenterAddresses", options: {}, I: DeriveFeeFragmenterAddressesRequest, O: DeriveFeeFragmenterAddressesResponse },

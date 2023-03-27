@@ -8,7 +8,6 @@ import type { RootState } from '../../../../app/store';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import { InputAmount } from '../../../../common/InputAmount';
-import { MarketIcons } from '../../../../common/MarketIcons';
 import { RestartMarketModal } from '../../../../common/RestartMarketModal';
 import type { Asset } from '../../../../domain/asset';
 import {
@@ -32,7 +31,8 @@ const { Title } = Typography;
 interface IFormInputs {
   feeAbsoluteBaseInput: string;
   feeAbsoluteQuoteInput: string;
-  feeRelativeInput: string;
+  feeRelativeBaseInput: string;
+  feeRelativeQuoteInput: string;
 }
 
 interface FeeFormProps {
@@ -40,7 +40,8 @@ interface FeeFormProps {
   quoteAsset: Asset;
   feeAbsoluteBase?: string;
   feeAbsoluteQuote?: string;
-  feeRelative?: string;
+  feeRelativeBase?: string;
+  feeRelativeQuote?: string;
   className?: string;
   incrementStep?: () => void;
   marketInfoRefetch?: () => void;
@@ -57,7 +58,8 @@ export const FeeForm = ({
   incrementStep,
   feeAbsoluteBase = FEE_ABSOLUTE_BASE_DEFAULT,
   feeAbsoluteQuote = FEE_ABSOLUTE_QUOTE_DEFAULT,
-  feeRelative = FEE_RELATIVE_DEFAULT,
+  feeRelativeBase = FEE_RELATIVE_DEFAULT,
+  feeRelativeQuote = FEE_RELATIVE_DEFAULT,
   marketInfoRefetch,
 }: FeeFormProps): JSX.Element => {
   const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
@@ -85,20 +87,22 @@ export const FeeForm = ({
       if ('error' in resClose) throw new Error((resClose as any).error);
       //
       const values = await form.validateFields();
+      const base = Number(values.feeRelativeBaseInput) * 100;
+      const quote = Number(values.feeRelativeQuoteInput) * 100;
       const updateMarketPercentageFeeRes = await updateMarketPercentageFee({
-        basisPoint: Number(values.feeRelativeInput) * 100,
+        fee: { baseAsset: base.toString(), quoteAsset: quote.toString() },
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
       });
       // @ts-ignore
       if (updateMarketPercentageFeeRes?.error) throw new Error(updateMarketPercentageFeeRes?.error);
       const updateMarketFixedFeeRes = await updateMarketFixedFee({
-        fixedFee: {
-          baseFee: isLbtcAssetId(baseAsset.asset_id, network)
-            ? Number(formatLbtcUnitToSats(Number(values.feeAbsoluteBaseInput), lbtcUnit))
-            : Number(formatFiatToSats(Number(values.feeAbsoluteBaseInput))),
-          quoteFee: isLbtcAssetId(quoteAsset.asset_id, network)
-            ? Number(formatLbtcUnitToSats(Number(values.feeAbsoluteQuoteInput), lbtcUnit))
-            : Number(formatFiatToSats(Number(values.feeAbsoluteQuoteInput))),
+        fee: {
+          baseAsset: isLbtcAssetId(baseAsset.asset_id, network)
+            ? formatLbtcUnitToSats(Number(values.feeAbsoluteBaseInput), lbtcUnit)
+            : formatFiatToSats(Number(values.feeAbsoluteBaseInput)),
+          quoteAsset: isLbtcAssetId(quoteAsset.asset_id, network)
+            ? formatLbtcUnitToSats(Number(values.feeAbsoluteQuoteInput), lbtcUnit)
+            : formatFiatToSats(Number(values.feeAbsoluteQuoteInput)),
         },
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
       });
@@ -124,21 +128,22 @@ export const FeeForm = ({
   };
 
   const resetAll = async () => {
-    if (!marketInfo?.fee?.fixed) return;
+    if (!marketInfo?.fee?.fixedFee) return;
     form.setFieldsValue({
       feeAbsoluteBaseInput: fromSatsToUnitOrFractional(
-        marketInfo.fee.fixed.baseFee,
+        Number(marketInfo.fee.fixedFee.baseAsset),
         baseAsset.precision,
         isLbtcTicker(baseAsset.ticker),
         lbtcUnit
       ),
       feeAbsoluteQuoteInput: fromSatsToUnitOrFractional(
-        marketInfo.fee.fixed.quoteFee,
+        Number(marketInfo.fee.fixedFee.quoteAsset),
         quoteAsset.precision,
         isLbtcTicker(quoteAsset.ticker),
         lbtcUnit
       ),
-      feeRelativeInput: String(marketInfo.fee.basisPoint / 100),
+      feeRelativeBaseInput: String(Number(marketInfo.fee.percentageFee?.baseAsset ?? 0) / 100),
+      feeRelativeQuoteInput: String(Number(marketInfo.fee.percentageFee?.quoteAsset ?? 0) / 100),
     });
     setIsFeeFormLocked(true);
   };
@@ -162,7 +167,8 @@ export const FeeForm = ({
             isLbtcTicker(quoteAsset.ticker),
             lbtcUnit
           ),
-          feeRelativeInput: Number(feeRelative) / 100,
+          feeRelativeBaseInput: Number(feeRelativeBase || 0) / 100,
+          feeRelativeQuoteInput: Number(feeRelativeQuote || 0) / 100,
         }}
         className={className}
       >
@@ -230,18 +236,16 @@ export const FeeForm = ({
           </Row>
           <Row align="middle" className="fee-relative-container">
             <Col span={16}>
-              <MarketIcons baseAsset={baseAsset} quoteAsset={quoteAsset} size="medium" hasShadow={false} />
-              <span className="dm-sans dm-sans__xx">
-                {baseAsset.ticker}/{quoteAsset.ticker}
-              </span>
+              <CurrencyIcon assetId={baseAsset.asset_id} />
+              <span className="dm-sans dm-sans__xx ml-2">{baseAsset.ticker}</span>
             </Col>
             <Col span={8}>
               <InputAmount
                 disabled={isFeeFormLocked}
                 assetPrecision={2}
-                formItemName="feeRelativeInput"
+                formItemName="feeRelativeBaseInput"
                 lbtcUnitOrTicker=""
-                setInputValue={(value) => form.setFieldsValue({ feeRelativeInput: value })}
+                setInputValue={(value) => form.setFieldsValue({ feeRelativeBaseInput: value })}
                 suffix="%"
               />
             </Col>
@@ -250,20 +254,60 @@ export const FeeForm = ({
             <Col span={24}>
               <Button
                 className="mr-2"
-                onClick={() => form.setFieldsValue({ feeRelativeInput: '0.25' })}
+                onClick={() => form.setFieldsValue({ feeRelativeBaseInput: '0.25' })}
                 disabled={isFeeFormLocked}
               >
                 0.25%
               </Button>
               <Button
                 className="mr-2"
-                onClick={() => form.setFieldsValue({ feeRelativeInput: '3' })}
+                onClick={() => form.setFieldsValue({ feeRelativeBaseInput: '3' })}
                 disabled={isFeeFormLocked}
               >
                 3%
               </Button>
               <Button
-                onClick={() => form.setFieldsValue({ feeRelativeInput: '10' })}
+                onClick={() => form.setFieldsValue({ feeRelativeBaseInput: '10' })}
+                disabled={isFeeFormLocked}
+              >
+                10%
+              </Button>
+            </Col>
+          </Row>
+          <Row align="middle" className="fee-relative-container">
+            <Col span={16}>
+              <CurrencyIcon assetId={quoteAsset.asset_id} />
+              <span className="dm-sans dm-sans__xx ml-2">{quoteAsset.ticker}</span>
+            </Col>
+            <Col span={8}>
+              <InputAmount
+                disabled={isFeeFormLocked}
+                assetPrecision={2}
+                formItemName="feeRelativeQuoteInput"
+                lbtcUnitOrTicker=""
+                setInputValue={(value) => form.setFieldsValue({ feeRelativeQuoteInput: value })}
+                suffix="%"
+              />
+            </Col>
+          </Row>
+          <Row align="middle" className="fee-relative-btn-container">
+            <Col span={24}>
+              <Button
+                className="mr-2"
+                onClick={() => form.setFieldsValue({ feeRelativeQuoteInput: '0.25' })}
+                disabled={isFeeFormLocked}
+              >
+                0.25%
+              </Button>
+              <Button
+                className="mr-2"
+                onClick={() => form.setFieldsValue({ feeRelativeQuoteInput: '3' })}
+                disabled={isFeeFormLocked}
+              >
+                3%
+              </Button>
+              <Button
+                onClick={() => form.setFieldsValue({ feeRelativeQuoteInput: '10' })}
                 disabled={isFeeFormLocked}
               >
                 10%
@@ -302,12 +346,14 @@ export const FeeForm = ({
                           isLbtcTicker(baseAsset.ticker),
                           lbtcUnit
                         );
-                        const feeRelativeBeforeChange = Number(feeRelative) / 100;
+                        const feeRelativeBaseBeforeChange = Number(feeRelativeBase) / 100;
+                        const feeRelativeQuoteBeforeChange = Number(feeRelativeQuote) / 100;
                         const newValues = form.getFieldsValue();
                         if (
                           newValues.feeAbsoluteBaseInput !== feeAbsoluteBaseBeforeChange ||
                           newValues.feeAbsoluteQuoteInput !== feeAbsoluteQuoteBeforeChange ||
-                          newValues.feeRelativeInput.toString() !== feeRelativeBeforeChange.toString()
+                          newValues.feeRelativeBaseInput !== feeRelativeBaseBeforeChange.toString() ||
+                          newValues.feeRelativeQuoteInput !== feeRelativeQuoteBeforeChange.toString()
                         ) {
                           setIsRestartMarketModalVisible(true);
                         } else {

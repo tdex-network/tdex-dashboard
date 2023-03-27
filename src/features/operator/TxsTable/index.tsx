@@ -157,7 +157,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   // Withdrawals
   const [pageNumberWithdrawals, setPageNumberWithdrawals] = useState<number>(1);
   const { data: withdrawals, isFetching: IsListWithdrawalsFetching } = useListWithdrawalsQuery({
-    accountName: marketInfo.accountName,
+    accountName: marketInfo.name,
     page: { number: pageNumberWithdrawals, size: PAGE_SIZE_FRONTEND },
   });
   // Concatenated withdrawals to display
@@ -172,7 +172,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
   const [numDepositsToShow, setNumDepositsToShow] = useState<number>(PAGE_SIZE_FRONTEND);
   // request all because ListDeposits returns fragments
   const { data: deposits, isFetching: IsListDepositsFetching } = useListDepositsQuery({
-    accountName: marketInfo.accountName,
+    accountName: marketInfo.name,
   });
 
   useEffect(() => {

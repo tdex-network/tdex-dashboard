@@ -95,20 +95,20 @@ export const MarketOverview = (): JSX.Element => {
 
   useEffect(() => {
     setBaseAmount(
-      marketInfo?.balance?.baseAmount === undefined
+      marketInfo?.balance[state?.baseAsset.asset_id ?? ''] === undefined
         ? 'N/A'
         : fromSatsToUnitOrFractional(
-            Number(marketInfo?.balance?.baseAmount),
+            Number(marketInfo?.balance[state?.baseAsset.asset_id ?? ''].totalBalance),
             state?.baseAsset.precision,
             isLbtcTicker(state?.baseAsset.ticker),
             lbtcUnit
           )
     );
     setQuoteAmount(
-      marketInfo?.balance?.quoteAmount === undefined
+      marketInfo?.balance[state?.quoteAsset.asset_id ?? ''] === undefined
         ? 'N/A'
         : fromSatsToUnitOrFractional(
-            Number(marketInfo?.balance?.quoteAmount),
+            Number(marketInfo?.balance[state?.quoteAsset.asset_id ?? ''].totalBalance),
             state?.quoteAsset.precision,
             isLbtcTicker(state?.quoteAsset.ticker),
             lbtcUnit
@@ -134,27 +134,27 @@ export const MarketOverview = (): JSX.Element => {
     setVolumeAsFavCurrencyFormatted(
       currency.value === 'btc' ? (
         <div className="d-inline">
-          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+          <span>{Number(volumeAsFavCurrency ?? '0').toLocaleString('en-US')}</span>
           <span className="d-inline-block dm-mono dm-mono__x dm_mono__bold mx-2">{lbtcUnit}</span>
         </div>
       ) : (
         <div className="d-inline">
           <span className="d-inline-block dm-mono dm_mono__bold">{currency.symbol}</span>
-          <span>{Number(volumeAsFavCurrency).toLocaleString('en-US')}</span>
+          <span>{Number(volumeAsFavCurrency ?? '0').toLocaleString('en-US')}</span>
         </div>
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state?.baseAsset.precision,
     state?.baseAsset.ticker,
     currency,
     lbtcUnit,
-    marketInfo?.balance?.baseAmount,
-    marketInfo?.balance?.quoteAmount,
     marketReport?.totalVolume?.quoteVolume,
     network,
     prices,
     state?.quoteAsset,
+    marketInfo?.name,
   ]);
 
   return (
@@ -227,9 +227,10 @@ export const MarketOverview = (): JSX.Element => {
               <FeeForm
                 baseAsset={state?.baseAsset}
                 quoteAsset={state?.quoteAsset}
-                feeAbsoluteBase={marketInfo?.fee?.fixed?.baseFee?.toString()}
-                feeAbsoluteQuote={marketInfo?.fee?.fixed?.quoteFee?.toString()}
-                feeRelative={marketInfo?.fee?.basisPoint?.toString()}
+                feeAbsoluteBase={marketInfo?.fee?.fixedFee?.baseAsset}
+                feeAbsoluteQuote={marketInfo?.fee?.fixedFee?.quoteAsset}
+                feeRelativeBase={marketInfo?.fee?.percentageFee?.baseAsset}
+                feeRelativeQuote={marketInfo?.fee?.percentageFee?.quoteAsset}
                 className="h-100"
                 marketInfoRefetch={marketInfoRefetch}
               />

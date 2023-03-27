@@ -32,9 +32,9 @@ export interface UnblindedInput {
     /**
      * Unblinded amount.
      *
-     * @generated from protobuf field: uint64 amount = 3;
+     * @generated from protobuf field: uint64 amount = 3 [jstype = JS_STRING];
      */
-    amount: number;
+    amount: string;
     /**
      * Asset blinider when blinding the prevout.
      *
@@ -70,26 +70,26 @@ export interface Fee {
  */
 export interface MarketFee {
     /**
-     * @generated from protobuf field: int64 base_asset = 1;
+     * @generated from protobuf field: int64 base_asset = 1 [jstype = JS_STRING];
      */
-    baseAsset: number;
+    baseAsset: string;
     /**
-     * @generated from protobuf field: int64 quote_asset = 2;
+     * @generated from protobuf field: int64 quote_asset = 2 [jstype = JS_STRING];
      */
-    quoteAsset: number;
+    quoteAsset: string;
 }
 /**
  * @generated from protobuf message tdex.v2.Balance
  */
 export interface Balance {
     /**
-     * @generated from protobuf field: uint64 base_amount = 1;
+     * @generated from protobuf field: uint64 base_amount = 1 [jstype = JS_STRING];
      */
-    baseAmount: number;
+    baseAmount: string;
     /**
-     * @generated from protobuf field: uint64 quote_amount = 2;
+     * @generated from protobuf field: uint64 quote_amount = 2 [jstype = JS_STRING];
      */
-    quoteAmount: number;
+    quoteAmount: string;
 }
 /**
  * @generated from protobuf message tdex.v2.Market
@@ -149,9 +149,9 @@ export interface Preview {
     /**
      * The previewd amount (fees excluded).
      *
-     * @generated from protobuf field: uint64 amount = 3;
+     * @generated from protobuf field: uint64 amount = 3 [jstype = JS_STRING];
      */
-    amount: number;
+    amount: string;
     /**
      * The asset of the previewed amount (fees excluded).
      *
@@ -161,9 +161,9 @@ export interface Preview {
     /**
      * The previewed fee amount,
      *
-     * @generated from protobuf field: uint64 fee_amount = 5;
+     * @generated from protobuf field: uint64 fee_amount = 5 [jstype = JS_STRING];
      */
-    feeAmount: number;
+    feeAmount: string;
     /**
      * The asset of the previewed fee amount,
      *
@@ -211,13 +211,13 @@ class UnblindedInput$Type extends MessageType<UnblindedInput> {
         super("tdex.v2.UnblindedInput", [
             { no: 1, name: "index", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 2, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 4, name: "asset_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "amount_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UnblindedInput>): UnblindedInput {
-        const message = { index: 0, asset: "", amount: 0, assetBlinder: "", amountBlinder: "" };
+        const message = { index: 0, asset: "", amount: "0", assetBlinder: "", amountBlinder: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UnblindedInput>(this, message, value);
@@ -234,8 +234,8 @@ class UnblindedInput$Type extends MessageType<UnblindedInput> {
                 case /* string asset */ 2:
                     message.asset = reader.string();
                     break;
-                case /* uint64 amount */ 3:
-                    message.amount = reader.uint64().toNumber();
+                case /* uint64 amount = 3 [jstype = JS_STRING];*/ 3:
+                    message.amount = reader.uint64().toString();
                     break;
                 case /* string asset_blinder */ 4:
                     message.assetBlinder = reader.string();
@@ -261,8 +261,8 @@ class UnblindedInput$Type extends MessageType<UnblindedInput> {
         /* string asset = 2; */
         if (message.asset !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.asset);
-        /* uint64 amount = 3; */
-        if (message.amount !== 0)
+        /* uint64 amount = 3 [jstype = JS_STRING]; */
+        if (message.amount !== "0")
             writer.tag(3, WireType.Varint).uint64(message.amount);
         /* string asset_blinder = 4; */
         if (message.assetBlinder !== "")
@@ -338,12 +338,12 @@ export const Fee = new Fee$Type();
 class MarketFee$Type extends MessageType<MarketFee> {
     constructor() {
         super("tdex.v2.MarketFee", [
-            { no: 1, name: "base_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 2, name: "quote_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 1, name: "base_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
+            { no: 2, name: "quote_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/ }
         ]);
     }
     create(value?: PartialMessage<MarketFee>): MarketFee {
-        const message = { baseAsset: 0, quoteAsset: 0 };
+        const message = { baseAsset: "0", quoteAsset: "0" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<MarketFee>(this, message, value);
@@ -354,11 +354,11 @@ class MarketFee$Type extends MessageType<MarketFee> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* int64 base_asset */ 1:
-                    message.baseAsset = reader.int64().toNumber();
+                case /* int64 base_asset = 1 [jstype = JS_STRING];*/ 1:
+                    message.baseAsset = reader.int64().toString();
                     break;
-                case /* int64 quote_asset */ 2:
-                    message.quoteAsset = reader.int64().toNumber();
+                case /* int64 quote_asset = 2 [jstype = JS_STRING];*/ 2:
+                    message.quoteAsset = reader.int64().toString();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -372,11 +372,11 @@ class MarketFee$Type extends MessageType<MarketFee> {
         return message;
     }
     internalBinaryWrite(message: MarketFee, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int64 base_asset = 1; */
-        if (message.baseAsset !== 0)
+        /* int64 base_asset = 1 [jstype = JS_STRING]; */
+        if (message.baseAsset !== "0")
             writer.tag(1, WireType.Varint).int64(message.baseAsset);
-        /* int64 quote_asset = 2; */
-        if (message.quoteAsset !== 0)
+        /* int64 quote_asset = 2 [jstype = JS_STRING]; */
+        if (message.quoteAsset !== "0")
             writer.tag(2, WireType.Varint).int64(message.quoteAsset);
         let u = options.writeUnknownFields;
         if (u !== false)
@@ -392,12 +392,12 @@ export const MarketFee = new MarketFee$Type();
 class Balance$Type extends MessageType<Balance> {
     constructor() {
         super("tdex.v2.Balance", [
-            { no: 1, name: "base_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 2, name: "quote_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 1, name: "base_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
+            { no: 2, name: "quote_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ }
         ]);
     }
     create(value?: PartialMessage<Balance>): Balance {
-        const message = { baseAmount: 0, quoteAmount: 0 };
+        const message = { baseAmount: "0", quoteAmount: "0" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Balance>(this, message, value);
@@ -408,11 +408,11 @@ class Balance$Type extends MessageType<Balance> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 base_amount */ 1:
-                    message.baseAmount = reader.uint64().toNumber();
+                case /* uint64 base_amount = 1 [jstype = JS_STRING];*/ 1:
+                    message.baseAmount = reader.uint64().toString();
                     break;
-                case /* uint64 quote_amount */ 2:
-                    message.quoteAmount = reader.uint64().toNumber();
+                case /* uint64 quote_amount = 2 [jstype = JS_STRING];*/ 2:
+                    message.quoteAmount = reader.uint64().toString();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -426,11 +426,11 @@ class Balance$Type extends MessageType<Balance> {
         return message;
     }
     internalBinaryWrite(message: Balance, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 base_amount = 1; */
-        if (message.baseAmount !== 0)
+        /* uint64 base_amount = 1 [jstype = JS_STRING]; */
+        if (message.baseAmount !== "0")
             writer.tag(1, WireType.Varint).uint64(message.baseAmount);
-        /* uint64 quote_amount = 2; */
-        if (message.quoteAmount !== 0)
+        /* uint64 quote_amount = 2 [jstype = JS_STRING]; */
+        if (message.quoteAmount !== "0")
             writer.tag(2, WireType.Varint).uint64(message.quoteAmount);
         let u = options.writeUnknownFields;
         if (u !== false)
@@ -610,14 +610,14 @@ class Preview$Type extends MessageType<Preview> {
         super("tdex.v2.Preview", [
             { no: 1, name: "price", kind: "message", T: () => Price },
             { no: 2, name: "fee", kind: "message", T: () => Fee },
-            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 4, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 5, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 6, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Preview>): Preview {
-        const message = { amount: 0, asset: "", feeAmount: 0, feeAsset: "" };
+        const message = { amount: "0", asset: "", feeAmount: "0", feeAsset: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Preview>(this, message, value);
@@ -634,14 +634,14 @@ class Preview$Type extends MessageType<Preview> {
                 case /* tdex.v2.Fee fee */ 2:
                     message.fee = Fee.internalBinaryRead(reader, reader.uint32(), options, message.fee);
                     break;
-                case /* uint64 amount */ 3:
-                    message.amount = reader.uint64().toNumber();
+                case /* uint64 amount = 3 [jstype = JS_STRING];*/ 3:
+                    message.amount = reader.uint64().toString();
                     break;
                 case /* string asset */ 4:
                     message.asset = reader.string();
                     break;
-                case /* uint64 fee_amount */ 5:
-                    message.feeAmount = reader.uint64().toNumber();
+                case /* uint64 fee_amount = 5 [jstype = JS_STRING];*/ 5:
+                    message.feeAmount = reader.uint64().toString();
                     break;
                 case /* string fee_asset */ 6:
                     message.feeAsset = reader.string();
@@ -664,14 +664,14 @@ class Preview$Type extends MessageType<Preview> {
         /* tdex.v2.Fee fee = 2; */
         if (message.fee)
             Fee.internalBinaryWrite(message.fee, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
-        /* uint64 amount = 3; */
-        if (message.amount !== 0)
+        /* uint64 amount = 3 [jstype = JS_STRING]; */
+        if (message.amount !== "0")
             writer.tag(3, WireType.Varint).uint64(message.amount);
         /* string asset = 4; */
         if (message.asset !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.asset);
-        /* uint64 fee_amount = 5; */
-        if (message.feeAmount !== 0)
+        /* uint64 fee_amount = 5 [jstype = JS_STRING]; */
+        if (message.feeAmount !== "0")
             writer.tag(5, WireType.Varint).uint64(message.feeAmount);
         /* string fee_asset = 6; */
         if (message.feeAsset !== "")

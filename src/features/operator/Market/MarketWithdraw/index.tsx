@@ -196,8 +196,6 @@ export const MarketWithdraw = (): JSX.Element => {
           lbtcUnit
         );
 
-  console.log('marketList', marketList);
-
   return (
     <>
       <Breadcrumb separator={<Icon component={chevronRight} />}>

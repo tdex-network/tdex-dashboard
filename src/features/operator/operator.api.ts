@@ -84,7 +84,8 @@ import {
   PredefinedPeriod,
   TimeRange,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import { Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import { MarketFee } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import {
@@ -442,17 +443,17 @@ export const operatorApi = tdexApi.injectEndpoints({
     }),
     updateMarketPercentageFee: build.mutation<
       UpdateMarketPercentageFeeResponse,
-      { market: Market; basisPoint: number }
+      UpdateMarketPercentageFeeRequest
     >({
-      queryFn: async ({ market, basisPoint }, { getState }) => {
+      queryFn: async ({ market, fee }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newFee = MarketFee.create({ baseAsset: fee?.baseAsset, quoteAsset: fee?.quoteAsset });
           const call = await client.updateMarketPercentageFee(
-            UpdateMarketPercentageFeeRequest.create({ market: newMarket, basisPoint }),
+            UpdateMarketPercentageFeeRequest.create({ market: newMarket, fee: newFee }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return {
@@ -462,18 +463,16 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['Market'],
     }),
-    updateMarketFixedFee: build.mutation<UpdateMarketFixedFeeResponse, { market: Market; fixedFee: Fixed }>({
-      queryFn: async ({ market, fixedFee }, { getState }) => {
+    updateMarketFixedFee: build.mutation<UpdateMarketFixedFeeResponse, UpdateMarketFixedFeeRequest>({
+      queryFn: async ({ market, fee }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const { baseFee, quoteFee } = fixedFee;
-          const newFixed = Fixed.create({ baseFee, quoteFee });
+          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newFee = MarketFee.create({ baseAsset: fee?.baseAsset, quoteAsset: fee?.quoteAsset });
           const call = await client.updateMarketFixedFee(
-            UpdateMarketFixedFeeRequest.create({ market: newMarket, fixed: newFixed }),
+            UpdateMarketFixedFeeRequest.create({ market: newMarket, fee: newFee }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
           );
           return {

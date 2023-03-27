@@ -27,9 +27,9 @@ export interface SwapRequest {
     /**
      * The proposer's quantity
      *
-     * @generated from protobuf field: uint64 amount_p = 2;
+     * @generated from protobuf field: uint64 amount_p = 2 [jstype = JS_STRING];
      */
-    amountP: number;
+    amountP: string;
     /**
      * The proposer's asset hash
      *
@@ -39,9 +39,9 @@ export interface SwapRequest {
     /**
      * The responder's quantity
      *
-     * @generated from protobuf field: uint64 amount_r = 4;
+     * @generated from protobuf field: uint64 amount_r = 4 [jstype = JS_STRING];
      */
-    amountR: number;
+    amountR: string;
     /**
      * The responder's asset hash
      *
@@ -55,22 +55,10 @@ export interface SwapRequest {
      */
     transaction: string;
     /**
-     * The fee amount charged to the proposer by the provider.
-     *
-     * @generated from protobuf field: uint64 fee_amount = 7;
-     */
-    feeAmount: number;
-    /**
-     * The asset hash of the fee charged to the proposer.
-     *
-     * @generated from protobuf field: string fee_asset = 8;
-     */
-    feeAsset: string;
-    /**
      * The list of trader's unblinded inputs data, even in case they are
      * unconfidential.
      *
-     * @generated from protobuf field: repeated tdex.v2.UnblindedInput unblinded_inputs = 9;
+     * @generated from protobuf field: repeated tdex.v2.UnblindedInput unblinded_inputs = 7;
      */
     unblindedInputs: UnblindedInput[];
 }
@@ -163,18 +151,16 @@ class SwapRequest$Type extends MessageType<SwapRequest> {
     constructor() {
         super("tdex.v2.SwapRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "amount_p", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 2, name: "amount_p", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 3, name: "asset_p", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "amount_r", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 4, name: "amount_r", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 5, name: "asset_r", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "transaction", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 8, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "unblinded_inputs", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UnblindedInput }
+            { no: 7, name: "unblinded_inputs", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UnblindedInput }
         ]);
     }
     create(value?: PartialMessage<SwapRequest>): SwapRequest {
-        const message = { id: "", amountP: 0, assetP: "", amountR: 0, assetR: "", transaction: "", feeAmount: 0, feeAsset: "", unblindedInputs: [] };
+        const message = { id: "", amountP: "0", assetP: "", amountR: "0", assetR: "", transaction: "", unblindedInputs: [] };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<SwapRequest>(this, message, value);
@@ -188,14 +174,14 @@ class SwapRequest$Type extends MessageType<SwapRequest> {
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
-                case /* uint64 amount_p */ 2:
-                    message.amountP = reader.uint64().toNumber();
+                case /* uint64 amount_p = 2 [jstype = JS_STRING];*/ 2:
+                    message.amountP = reader.uint64().toString();
                     break;
                 case /* string asset_p */ 3:
                     message.assetP = reader.string();
                     break;
-                case /* uint64 amount_r */ 4:
-                    message.amountR = reader.uint64().toNumber();
+                case /* uint64 amount_r = 4 [jstype = JS_STRING];*/ 4:
+                    message.amountR = reader.uint64().toString();
                     break;
                 case /* string asset_r */ 5:
                     message.assetR = reader.string();
@@ -203,13 +189,7 @@ class SwapRequest$Type extends MessageType<SwapRequest> {
                 case /* string transaction */ 6:
                     message.transaction = reader.string();
                     break;
-                case /* uint64 fee_amount */ 7:
-                    message.feeAmount = reader.uint64().toNumber();
-                    break;
-                case /* string fee_asset */ 8:
-                    message.feeAsset = reader.string();
-                    break;
-                case /* repeated tdex.v2.UnblindedInput unblinded_inputs */ 9:
+                case /* repeated tdex.v2.UnblindedInput unblinded_inputs */ 7:
                     message.unblindedInputs.push(UnblindedInput.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
@@ -227,14 +207,14 @@ class SwapRequest$Type extends MessageType<SwapRequest> {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* uint64 amount_p = 2; */
-        if (message.amountP !== 0)
+        /* uint64 amount_p = 2 [jstype = JS_STRING]; */
+        if (message.amountP !== "0")
             writer.tag(2, WireType.Varint).uint64(message.amountP);
         /* string asset_p = 3; */
         if (message.assetP !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.assetP);
-        /* uint64 amount_r = 4; */
-        if (message.amountR !== 0)
+        /* uint64 amount_r = 4 [jstype = JS_STRING]; */
+        if (message.amountR !== "0")
             writer.tag(4, WireType.Varint).uint64(message.amountR);
         /* string asset_r = 5; */
         if (message.assetR !== "")
@@ -242,15 +222,9 @@ class SwapRequest$Type extends MessageType<SwapRequest> {
         /* string transaction = 6; */
         if (message.transaction !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.transaction);
-        /* uint64 fee_amount = 7; */
-        if (message.feeAmount !== 0)
-            writer.tag(7, WireType.Varint).uint64(message.feeAmount);
-        /* string fee_asset = 8; */
-        if (message.feeAsset !== "")
-            writer.tag(8, WireType.LengthDelimited).string(message.feeAsset);
-        /* repeated tdex.v2.UnblindedInput unblinded_inputs = 9; */
+        /* repeated tdex.v2.UnblindedInput unblinded_inputs = 7; */
         for (let i = 0; i < message.unblindedInputs.length; i++)
-            UnblindedInput.internalBinaryWrite(message.unblindedInputs[i], writer.tag(9, WireType.LengthDelimited).fork(), options).join();
+            UnblindedInput.internalBinaryWrite(message.unblindedInputs[i], writer.tag(7, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

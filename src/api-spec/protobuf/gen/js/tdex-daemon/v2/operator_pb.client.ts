@@ -47,6 +47,8 @@ import type { UpdateMarketStrategyResponse } from "./operator_pb";
 import type { UpdateMarketStrategyRequest } from "./operator_pb";
 import type { UpdateMarketPriceResponse } from "./operator_pb";
 import type { UpdateMarketPriceRequest } from "./operator_pb";
+import type { UpdateMarketAssetsPrecisionResponse } from "./operator_pb";
+import type { UpdateMarketAssetsPrecisionRequest } from "./operator_pb";
 import type { UpdateMarketFixedFeeResponse } from "./operator_pb";
 import type { UpdateMarketFixedFeeRequest } from "./operator_pb";
 import type { UpdateMarketPercentageFeeResponse } from "./operator_pb";
@@ -179,6 +181,12 @@ export interface IOperatorServiceClient {
      * @generated from protobuf rpc: UpdateMarketFixedFee(tdex_daemon.v2.UpdateMarketFixedFeeRequest) returns (tdex_daemon.v2.UpdateMarketFixedFeeResponse);
      */
     updateMarketFixedFee(input: UpdateMarketFixedFeeRequest, options?: RpcOptions): UnaryCall<UpdateMarketFixedFeeRequest, UpdateMarketFixedFeeResponse>;
+    /**
+     * Changes the Liquidity provider asset(s) precision for the given market.
+     *
+     * @generated from protobuf rpc: UpdateMarketAssetsPrecision(tdex_daemon.v2.UpdateMarketAssetsPrecisionRequest) returns (tdex_daemon.v2.UpdateMarketAssetsPrecisionResponse);
+     */
+    updateMarketAssetsPrecision(input: UpdateMarketAssetsPrecisionRequest, options?: RpcOptions): UnaryCall<UpdateMarketAssetsPrecisionRequest, UpdateMarketAssetsPrecisionResponse>;
     /**
      * Updates the price for the given market.
      *
@@ -454,12 +462,21 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
         return stackIntercept<UpdateMarketFixedFeeRequest, UpdateMarketFixedFeeResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * Changes the Liquidity provider asset(s) precision for the given market.
+     *
+     * @generated from protobuf rpc: UpdateMarketAssetsPrecision(tdex_daemon.v2.UpdateMarketAssetsPrecisionRequest) returns (tdex_daemon.v2.UpdateMarketAssetsPrecisionResponse);
+     */
+    updateMarketAssetsPrecision(input: UpdateMarketAssetsPrecisionRequest, options?: RpcOptions): UnaryCall<UpdateMarketAssetsPrecisionRequest, UpdateMarketAssetsPrecisionResponse> {
+        const method = this.methods[15], opt = this._transport.mergeOptions(options);
+        return stackIntercept<UpdateMarketAssetsPrecisionRequest, UpdateMarketAssetsPrecisionResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * Updates the price for the given market.
      *
      * @generated from protobuf rpc: UpdateMarketPrice(tdex_daemon.v2.UpdateMarketPriceRequest) returns (tdex_daemon.v2.UpdateMarketPriceResponse);
      */
     updateMarketPrice(input: UpdateMarketPriceRequest, options?: RpcOptions): UnaryCall<UpdateMarketPriceRequest, UpdateMarketPriceResponse> {
-        const method = this.methods[15], opt = this._transport.mergeOptions(options);
+        const method = this.methods[16], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateMarketPriceRequest, UpdateMarketPriceResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -469,7 +486,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: UpdateMarketStrategy(tdex_daemon.v2.UpdateMarketStrategyRequest) returns (tdex_daemon.v2.UpdateMarketStrategyResponse);
      */
     updateMarketStrategy(input: UpdateMarketStrategyRequest, options?: RpcOptions): UnaryCall<UpdateMarketStrategyRequest, UpdateMarketStrategyResponse> {
-        const method = this.methods[16], opt = this._transport.mergeOptions(options);
+        const method = this.methods[17], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateMarketStrategyRequest, UpdateMarketStrategyResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -478,7 +495,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: DeriveFeeFragmenterAddresses(tdex_daemon.v2.DeriveFeeFragmenterAddressesRequest) returns (tdex_daemon.v2.DeriveFeeFragmenterAddressesResponse);
      */
     deriveFeeFragmenterAddresses(input: DeriveFeeFragmenterAddressesRequest, options?: RpcOptions): UnaryCall<DeriveFeeFragmenterAddressesRequest, DeriveFeeFragmenterAddressesResponse> {
-        const method = this.methods[17], opt = this._transport.mergeOptions(options);
+        const method = this.methods[18], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeriveFeeFragmenterAddressesRequest, DeriveFeeFragmenterAddressesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -487,7 +504,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListFeeFragmenterAddresses(tdex_daemon.v2.ListFeeFragmenterAddressesRequest) returns (tdex_daemon.v2.ListFeeFragmenterAddressesResponse);
      */
     listFeeFragmenterAddresses(input: ListFeeFragmenterAddressesRequest, options?: RpcOptions): UnaryCall<ListFeeFragmenterAddressesRequest, ListFeeFragmenterAddressesResponse> {
-        const method = this.methods[18], opt = this._transport.mergeOptions(options);
+        const method = this.methods[19], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListFeeFragmenterAddressesRequest, ListFeeFragmenterAddressesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -496,7 +513,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: GetFeeFragmenterBalance(tdex_daemon.v2.GetFeeFragmenterBalanceRequest) returns (tdex_daemon.v2.GetFeeFragmenterBalanceResponse);
      */
     getFeeFragmenterBalance(input: GetFeeFragmenterBalanceRequest, options?: RpcOptions): UnaryCall<GetFeeFragmenterBalanceRequest, GetFeeFragmenterBalanceResponse> {
-        const method = this.methods[19], opt = this._transport.mergeOptions(options);
+        const method = this.methods[20], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetFeeFragmenterBalanceRequest, GetFeeFragmenterBalanceResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -506,7 +523,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: FeeFragmenterSplitFunds(tdex_daemon.v2.FeeFragmenterSplitFundsRequest) returns (stream tdex_daemon.v2.FeeFragmenterSplitFundsResponse);
      */
     feeFragmenterSplitFunds(input: FeeFragmenterSplitFundsRequest, options?: RpcOptions): ServerStreamingCall<FeeFragmenterSplitFundsRequest, FeeFragmenterSplitFundsResponse> {
-        const method = this.methods[20], opt = this._transport.mergeOptions(options);
+        const method = this.methods[21], opt = this._transport.mergeOptions(options);
         return stackIntercept<FeeFragmenterSplitFundsRequest, FeeFragmenterSplitFundsResponse>("serverStreaming", this._transport, method, opt, input);
     }
     /**
@@ -515,7 +532,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: WithdrawFeeFragmenter(tdex_daemon.v2.WithdrawFeeFragmenterRequest) returns (tdex_daemon.v2.WithdrawFeeFragmenterResponse);
      */
     withdrawFeeFragmenter(input: WithdrawFeeFragmenterRequest, options?: RpcOptions): UnaryCall<WithdrawFeeFragmenterRequest, WithdrawFeeFragmenterResponse> {
-        const method = this.methods[21], opt = this._transport.mergeOptions(options);
+        const method = this.methods[22], opt = this._transport.mergeOptions(options);
         return stackIntercept<WithdrawFeeFragmenterRequest, WithdrawFeeFragmenterResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -524,7 +541,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: DeriveMarketFragmenterAddresses(tdex_daemon.v2.DeriveMarketFragmenterAddressesRequest) returns (tdex_daemon.v2.DeriveMarketFragmenterAddressesResponse);
      */
     deriveMarketFragmenterAddresses(input: DeriveMarketFragmenterAddressesRequest, options?: RpcOptions): UnaryCall<DeriveMarketFragmenterAddressesRequest, DeriveMarketFragmenterAddressesResponse> {
-        const method = this.methods[22], opt = this._transport.mergeOptions(options);
+        const method = this.methods[23], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeriveMarketFragmenterAddressesRequest, DeriveMarketFragmenterAddressesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -533,7 +550,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListMarketFragmenterAddresses(tdex_daemon.v2.ListMarketFragmenterAddressesRequest) returns (tdex_daemon.v2.ListMarketFragmenterAddressesResponse);
      */
     listMarketFragmenterAddresses(input: ListMarketFragmenterAddressesRequest, options?: RpcOptions): UnaryCall<ListMarketFragmenterAddressesRequest, ListMarketFragmenterAddressesResponse> {
-        const method = this.methods[23], opt = this._transport.mergeOptions(options);
+        const method = this.methods[24], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListMarketFragmenterAddressesRequest, ListMarketFragmenterAddressesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -542,7 +559,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: GetMarketFragmenterBalance(tdex_daemon.v2.GetMarketFragmenterBalanceRequest) returns (tdex_daemon.v2.GetMarketFragmenterBalanceResponse);
      */
     getMarketFragmenterBalance(input: GetMarketFragmenterBalanceRequest, options?: RpcOptions): UnaryCall<GetMarketFragmenterBalanceRequest, GetMarketFragmenterBalanceResponse> {
-        const method = this.methods[24], opt = this._transport.mergeOptions(options);
+        const method = this.methods[25], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMarketFragmenterBalanceRequest, GetMarketFragmenterBalanceResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -552,7 +569,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: MarketFragmenterSplitFunds(tdex_daemon.v2.MarketFragmenterSplitFundsRequest) returns (stream tdex_daemon.v2.MarketFragmenterSplitFundsResponse);
      */
     marketFragmenterSplitFunds(input: MarketFragmenterSplitFundsRequest, options?: RpcOptions): ServerStreamingCall<MarketFragmenterSplitFundsRequest, MarketFragmenterSplitFundsResponse> {
-        const method = this.methods[25], opt = this._transport.mergeOptions(options);
+        const method = this.methods[26], opt = this._transport.mergeOptions(options);
         return stackIntercept<MarketFragmenterSplitFundsRequest, MarketFragmenterSplitFundsResponse>("serverStreaming", this._transport, method, opt, input);
     }
     /**
@@ -561,7 +578,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: WithdrawMarketFragmenter(tdex_daemon.v2.WithdrawMarketFragmenterRequest) returns (tdex_daemon.v2.WithdrawMarketFragmenterResponse);
      */
     withdrawMarketFragmenter(input: WithdrawMarketFragmenterRequest, options?: RpcOptions): UnaryCall<WithdrawMarketFragmenterRequest, WithdrawMarketFragmenterResponse> {
-        const method = this.methods[26], opt = this._transport.mergeOptions(options);
+        const method = this.methods[27], opt = this._transport.mergeOptions(options);
         return stackIntercept<WithdrawMarketFragmenterRequest, WithdrawMarketFragmenterResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -570,7 +587,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListMarkets(tdex_daemon.v2.ListMarketsRequest) returns (tdex_daemon.v2.ListMarketsResponse);
      */
     listMarkets(input: ListMarketsRequest, options?: RpcOptions): UnaryCall<ListMarketsRequest, ListMarketsResponse> {
-        const method = this.methods[27], opt = this._transport.mergeOptions(options);
+        const method = this.methods[28], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListMarketsRequest, ListMarketsResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -580,7 +597,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListTrades(tdex_daemon.v2.ListTradesRequest) returns (tdex_daemon.v2.ListTradesResponse);
      */
     listTrades(input: ListTradesRequest, options?: RpcOptions): UnaryCall<ListTradesRequest, ListTradesResponse> {
-        const method = this.methods[28], opt = this._transport.mergeOptions(options);
+        const method = this.methods[29], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListTradesRequest, ListTradesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -589,7 +606,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListUtxos(tdex_daemon.v2.ListUtxosRequest) returns (tdex_daemon.v2.ListUtxosResponse);
      */
     listUtxos(input: ListUtxosRequest, options?: RpcOptions): UnaryCall<ListUtxosRequest, ListUtxosResponse> {
-        const method = this.methods[29], opt = this._transport.mergeOptions(options);
+        const method = this.methods[30], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListUtxosRequest, ListUtxosResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -598,7 +615,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: AddWebhook(tdex_daemon.v2.AddWebhookRequest) returns (tdex_daemon.v2.AddWebhookResponse);
      */
     addWebhook(input: AddWebhookRequest, options?: RpcOptions): UnaryCall<AddWebhookRequest, AddWebhookResponse> {
-        const method = this.methods[30], opt = this._transport.mergeOptions(options);
+        const method = this.methods[31], opt = this._transport.mergeOptions(options);
         return stackIntercept<AddWebhookRequest, AddWebhookResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -607,7 +624,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: RemoveWebhook(tdex_daemon.v2.RemoveWebhookRequest) returns (tdex_daemon.v2.RemoveWebhookResponse);
      */
     removeWebhook(input: RemoveWebhookRequest, options?: RpcOptions): UnaryCall<RemoveWebhookRequest, RemoveWebhookResponse> {
-        const method = this.methods[31], opt = this._transport.mergeOptions(options);
+        const method = this.methods[32], opt = this._transport.mergeOptions(options);
         return stackIntercept<RemoveWebhookRequest, RemoveWebhookResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -616,7 +633,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListWebhooks(tdex_daemon.v2.ListWebhooksRequest) returns (tdex_daemon.v2.ListWebhooksResponse);
      */
     listWebhooks(input: ListWebhooksRequest, options?: RpcOptions): UnaryCall<ListWebhooksRequest, ListWebhooksResponse> {
-        const method = this.methods[32], opt = this._transport.mergeOptions(options);
+        const method = this.methods[33], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListWebhooksRequest, ListWebhooksResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -625,7 +642,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListDeposits(tdex_daemon.v2.ListDepositsRequest) returns (tdex_daemon.v2.ListDepositsResponse);
      */
     listDeposits(input: ListDepositsRequest, options?: RpcOptions): UnaryCall<ListDepositsRequest, ListDepositsResponse> {
-        const method = this.methods[33], opt = this._transport.mergeOptions(options);
+        const method = this.methods[34], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListDepositsRequest, ListDepositsResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -634,7 +651,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListWithdrawals(tdex_daemon.v2.ListWithdrawalsRequest) returns (tdex_daemon.v2.ListWithdrawalsResponse);
      */
     listWithdrawals(input: ListWithdrawalsRequest, options?: RpcOptions): UnaryCall<ListWithdrawalsRequest, ListWithdrawalsResponse> {
-        const method = this.methods[34], opt = this._transport.mergeOptions(options);
+        const method = this.methods[35], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListWithdrawalsRequest, ListWithdrawalsResponse>("unary", this._transport, method, opt, input);
     }
 }

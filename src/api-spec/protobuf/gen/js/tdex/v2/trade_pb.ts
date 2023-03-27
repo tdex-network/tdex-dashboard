@@ -80,9 +80,9 @@ export interface GetMarketPriceResponse {
      */
     spotPrice: number;
     /**
-     * @generated from protobuf field: uint64 min_tradable_amount = 2;
+     * @generated from protobuf field: uint64 min_tradable_amount = 2 [jstype = JS_STRING];
      */
-    minTradableAmount: number;
+    minTradableAmount: string;
 }
 /**
  * @generated from protobuf message tdex.v2.PreviewTradeRequest
@@ -97,9 +97,9 @@ export interface PreviewTradeRequest {
      */
     type: TradeType;
     /**
-     * @generated from protobuf field: uint64 amount = 3;
+     * @generated from protobuf field: uint64 amount = 3 [jstype = JS_STRING];
      */
-    amount: number;
+    amount: string;
     /**
      * @generated from protobuf field: string asset = 4;
      */
@@ -134,6 +134,14 @@ export interface ProposeTradeRequest {
      * @generated from protobuf field: tdex.v2.SwapRequest swap_request = 3;
      */
     swapRequest?: SwapRequest;
+    /**
+     * @generated from protobuf field: uint64 fee_amount = 4 [jstype = JS_STRING];
+     */
+    feeAmount: string;
+    /**
+     * @generated from protobuf field: string fee_asset = 5;
+     */
+    feeAsset: string;
 }
 /**
  * @generated from protobuf message tdex.v2.ProposeTradeResponse
@@ -404,11 +412,11 @@ class GetMarketPriceResponse$Type extends MessageType<GetMarketPriceResponse> {
     constructor() {
         super("tdex.v2.GetMarketPriceResponse", [
             { no: 1, name: "spot_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 2, name: "min_tradable_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 2, name: "min_tradable_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ }
         ]);
     }
     create(value?: PartialMessage<GetMarketPriceResponse>): GetMarketPriceResponse {
-        const message = { spotPrice: 0, minTradableAmount: 0 };
+        const message = { spotPrice: 0, minTradableAmount: "0" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<GetMarketPriceResponse>(this, message, value);
@@ -422,8 +430,8 @@ class GetMarketPriceResponse$Type extends MessageType<GetMarketPriceResponse> {
                 case /* double spot_price */ 1:
                     message.spotPrice = reader.double();
                     break;
-                case /* uint64 min_tradable_amount */ 2:
-                    message.minTradableAmount = reader.uint64().toNumber();
+                case /* uint64 min_tradable_amount = 2 [jstype = JS_STRING];*/ 2:
+                    message.minTradableAmount = reader.uint64().toString();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -440,8 +448,8 @@ class GetMarketPriceResponse$Type extends MessageType<GetMarketPriceResponse> {
         /* double spot_price = 1; */
         if (message.spotPrice !== 0)
             writer.tag(1, WireType.Bit64).double(message.spotPrice);
-        /* uint64 min_tradable_amount = 2; */
-        if (message.minTradableAmount !== 0)
+        /* uint64 min_tradable_amount = 2 [jstype = JS_STRING]; */
+        if (message.minTradableAmount !== "0")
             writer.tag(2, WireType.Varint).uint64(message.minTradableAmount);
         let u = options.writeUnknownFields;
         if (u !== false)
@@ -459,13 +467,13 @@ class PreviewTradeRequest$Type extends MessageType<PreviewTradeRequest> {
         super("tdex.v2.PreviewTradeRequest", [
             { no: 1, name: "market", kind: "message", T: () => Market },
             { no: 2, name: "type", kind: "enum", T: () => ["tdex.v2.TradeType", TradeType] },
-            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
             { no: 4, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<PreviewTradeRequest>): PreviewTradeRequest {
-        const message = { type: 0, amount: 0, asset: "", feeAsset: "" };
+        const message = { type: 0, amount: "0", asset: "", feeAsset: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<PreviewTradeRequest>(this, message, value);
@@ -482,8 +490,8 @@ class PreviewTradeRequest$Type extends MessageType<PreviewTradeRequest> {
                 case /* tdex.v2.TradeType type */ 2:
                     message.type = reader.int32();
                     break;
-                case /* uint64 amount */ 3:
-                    message.amount = reader.uint64().toNumber();
+                case /* uint64 amount = 3 [jstype = JS_STRING];*/ 3:
+                    message.amount = reader.uint64().toString();
                     break;
                 case /* string asset */ 4:
                     message.asset = reader.string();
@@ -509,8 +517,8 @@ class PreviewTradeRequest$Type extends MessageType<PreviewTradeRequest> {
         /* tdex.v2.TradeType type = 2; */
         if (message.type !== 0)
             writer.tag(2, WireType.Varint).int32(message.type);
-        /* uint64 amount = 3; */
-        if (message.amount !== 0)
+        /* uint64 amount = 3 [jstype = JS_STRING]; */
+        if (message.amount !== "0")
             writer.tag(3, WireType.Varint).uint64(message.amount);
         /* string asset = 4; */
         if (message.asset !== "")
@@ -581,11 +589,13 @@ class ProposeTradeRequest$Type extends MessageType<ProposeTradeRequest> {
         super("tdex.v2.ProposeTradeRequest", [
             { no: 1, name: "market", kind: "message", T: () => Market },
             { no: 2, name: "type", kind: "enum", T: () => ["tdex.v2.TradeType", TradeType] },
-            { no: 3, name: "swap_request", kind: "message", T: () => SwapRequest }
+            { no: 3, name: "swap_request", kind: "message", T: () => SwapRequest },
+            { no: 4, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
+            { no: 5, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ProposeTradeRequest>): ProposeTradeRequest {
-        const message = { type: 0 };
+        const message = { type: 0, feeAmount: "0", feeAsset: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<ProposeTradeRequest>(this, message, value);
@@ -604,6 +614,12 @@ class ProposeTradeRequest$Type extends MessageType<ProposeTradeRequest> {
                     break;
                 case /* tdex.v2.SwapRequest swap_request */ 3:
                     message.swapRequest = SwapRequest.internalBinaryRead(reader, reader.uint32(), options, message.swapRequest);
+                    break;
+                case /* uint64 fee_amount = 4 [jstype = JS_STRING];*/ 4:
+                    message.feeAmount = reader.uint64().toString();
+                    break;
+                case /* string fee_asset */ 5:
+                    message.feeAsset = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -626,6 +642,12 @@ class ProposeTradeRequest$Type extends MessageType<ProposeTradeRequest> {
         /* tdex.v2.SwapRequest swap_request = 3; */
         if (message.swapRequest)
             SwapRequest.internalBinaryWrite(message.swapRequest, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* uint64 fee_amount = 4 [jstype = JS_STRING]; */
+        if (message.feeAmount !== "0")
+            writer.tag(4, WireType.Varint).uint64(message.feeAmount);
+        /* string fee_asset = 5; */
+        if (message.feeAsset !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.feeAsset);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

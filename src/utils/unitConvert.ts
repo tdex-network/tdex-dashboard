@@ -15,12 +15,12 @@ const removeInsignificant = (str: string) => {
   if (ary.length > 1) {
     ary[1] = ary[1].replace(rxEndingZeros, '');
     if (ary[1].length === 0) {
-      return ary[0];
+      return ary[0] || '0';
     } else {
-      return ary[0] + '.' + ary[1];
+      return (ary[0] || '0') + '.' + ary[1];
     }
   }
-  return str;
+  return str || '0';
 };
 
 /**

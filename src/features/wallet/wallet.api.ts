@@ -36,7 +36,7 @@ export const walletApi = tdexApi.injectEndpoints({
           return { data: call.response };
         });
       },
-      providesTags: ['Market', 'Fee', 'Trade'],
+      providesTags: ['market', 'trade'],
     }),
     getStatus: build.query<GetStatusResponse, void>({
       queryFn: async (arg, { getState }) => {
@@ -100,7 +100,7 @@ export const walletApi = tdexApi.injectEndpoints({
           return { data: call.response };
         });
       },
-      invalidatesTags: ['status', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
+      invalidatesTags: ['status', 'market', 'market_utxos', 'fee_account_utxos', 'trade', 'webhook'],
     }),
     changePassword: build.mutation<ChangePasswordResponse, ChangePasswordRequest>({
       queryFn: async ({ currentPassword, newPassword }, { getState }) => {

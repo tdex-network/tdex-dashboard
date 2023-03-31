@@ -150,7 +150,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['FeeUTXOs'],
+      providesTags: ['fee_account_utxos'],
     }),
     withdrawFee: build.mutation<WithdrawFeeResponse, WithdrawFeeRequest>({
       queryFn: async ({ outputs, millisatsPerByte, password }, { getState }) => {
@@ -167,7 +167,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['FeeUTXOs'],
+      invalidatesTags: ['fee_account_utxos'],
     }),
     deriveFeeFragmenterAddresses: build.query<
       DeriveFeeFragmenterAddressesResponse['addresses'],
@@ -242,7 +242,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           data: { responses: call.responses, status: call.status },
         };
       },
-      invalidatesTags: ['FeeUTXOs'],
+      invalidatesTags: ['fee_account_utxos'],
     }),
     withdrawFeeFragmenter: build.mutation<WithdrawFeeFragmenterResponse, WithdrawFeeFragmenterRequest>({
       queryFn: async ({ outputs, millisatsPerByte, password }, { getState }) => {
@@ -305,7 +305,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market', 'MarketUTXOs'],
+      providesTags: ['market', 'market_utxos'],
     }),
     deriveMarketAddresses: build.query<
       DeriveMarketAddressesResponse['addresses'],
@@ -326,7 +326,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market'],
+      providesTags: ['market'],
     }),
     listMarketAddresses: build.query<ListMarketAddressesResponse['addresses'], ListMarketAddressesRequest>({
       queryFn: async ({ market }, { getState }) => {
@@ -344,7 +344,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market'],
+      providesTags: ['market'],
     }),
     newMarket: build.mutation<NewMarketResponse, Market>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
@@ -362,7 +362,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     openMarket: build.mutation<OpenMarketResponse, Market>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
@@ -380,7 +380,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     closeMarket: build.mutation<CloseMarketResponse, Market>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
@@ -398,7 +398,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     dropMarket: build.mutation<DropMarketResponse, Market>({
       queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
@@ -416,7 +416,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     withdrawMarket: build.mutation<WithdrawMarketResponse, WithdrawMarketRequest>({
       queryFn: async ({ market, outputs, millisatsPerByte, password }, { getState }) => {
@@ -439,7 +439,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['MarketUTXOs'],
+      invalidatesTags: ['market_utxos'],
     }),
     updateMarketPercentageFee: build.mutation<
       UpdateMarketPercentageFeeResponse,
@@ -461,7 +461,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     updateMarketFixedFee: build.mutation<UpdateMarketFixedFeeResponse, UpdateMarketFixedFeeRequest>({
       queryFn: async ({ market, fee }, { getState }) => {
@@ -480,7 +480,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     updateMarketPrice: build.mutation<
       UpdateMarketPriceResponse,
@@ -509,7 +509,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     updateMarketStrategy: build.mutation<
       UpdateMarketStrategyResponse,
@@ -531,7 +531,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Market'],
+      invalidatesTags: ['market'],
     }),
     listMarkets: build.query<ListMarketsResponse['markets'], void>({
       queryFn: async (arg, { getState }) => {
@@ -548,7 +548,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market'],
+      providesTags: ['market'],
     }),
     deriveMarketFragmenterAddresses: build.query<
       DeriveMarketFragmenterAddressesResponse['addresses'],
@@ -621,7 +621,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           data: { responses: call.responses, status: call.status },
         };
       },
-      invalidatesTags: ['MarketUTXOs'],
+      invalidatesTags: ['market_utxos'],
     }),
     withdrawMarketFragmenter: build.mutation<
       WithdrawMarketFragmenterResponse,
@@ -642,7 +642,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['MarketUTXOs'],
+      invalidatesTags: ['market_utxos'],
     }),
     // Trades
     listTrades: build.query<ListTradesResponse['trades'], ListTradesRequest>({
@@ -662,7 +662,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Trade'],
+      providesTags: ['trade'],
     }),
     // Calculate the % change of collected swap fees across 24h period
     totalCollectedSwapFeesChange: build.query<
@@ -712,7 +712,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           : 'N/A';
         return { data: change };
       },
-      providesTags: ['Trade'],
+      providesTags: ['trade'],
     }),
     // Sum swap fees from all markets, converted to L-sats
     totalCollectedSwapFees: build.query<
@@ -779,7 +779,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           return { data: totalCollectedSwapFees };
         });
       },
-      providesTags: ['Trade'],
+      providesTags: ['trade'],
     }),
     // Utxos
     listUtxos: build.query<ListUtxosResponse, ListUtxosRequest>({
@@ -797,7 +797,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
+      providesTags: ['market_utxos', 'fee_account_utxos'],
     }),
     // Webhook
     addWebhook: build.mutation<AddWebhookResponse, { action: ActionType; endpoint: string; secret: string }>({
@@ -815,7 +815,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Webhook'],
+      invalidatesTags: ['webhook'],
     }),
     removeWebhook: build.mutation<RemoveWebhookResponse, { id: string }>({
       queryFn: async ({ id }, { getState }) => {
@@ -832,7 +832,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      invalidatesTags: ['Webhook'],
+      invalidatesTags: ['webhook'],
     }),
     listWebhooks: build.query<WebhookInfo[], void>({
       queryFn: async (arg, { getState }) => {
@@ -849,7 +849,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Webhook'],
+      providesTags: ['webhook'],
     }),
     //
     listDeposits: build.query<ListDepositsResponse['deposits'], ListDepositsRequest>({
@@ -867,7 +867,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['MarketUTXOs', 'FeeUTXOs'],
+      providesTags: ['market_utxos', 'fee_account_utxos'],
     }),
     listWithdrawals: build.query<ListWithdrawalsResponse['withdrawals'], ListWithdrawalsRequest>({
       queryFn: async ({ accountName, page }, { getState }) => {
@@ -888,7 +888,7 @@ export const operatorApi = tdexApi.injectEndpoints({
           };
         });
       },
-      providesTags: ['Market', 'Fee'],
+      providesTags: ['market_utxos', 'fee_account_utxos'],
     }),
   }),
 });

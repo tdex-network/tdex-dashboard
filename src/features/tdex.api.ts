@@ -5,6 +5,6 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 export const tdexApi = createApi({
   reducerPath: 'tdexService',
   baseQuery: fakeBaseQuery<string>(),
-  tagTypes: ['status', 'Market', 'MarketUTXOs', 'Fee', 'FeeUTXOs', 'Trade', 'Webhook'],
+  tagTypes: ['status', 'market', 'market_utxos', 'fee_account_utxos', 'trade', 'webhook'],
   endpoints: () => ({}),
 });

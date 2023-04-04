@@ -209,11 +209,11 @@ export enum ContentType {
 class UnblindedInput$Type extends MessageType<UnblindedInput> {
     constructor() {
         super("tdex.v2.UnblindedInput", [
-            { no: 1, name: "index", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
-            { no: 2, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
-            { no: 4, name: "asset_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "amount_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "index", kind: "scalar", T: 13 /*ScalarType.UINT32*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 4, name: "asset_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 5, name: "amount_blinder", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<UnblindedInput>): UnblindedInput {
@@ -284,8 +284,8 @@ export const UnblindedInput = new UnblindedInput$Type();
 class Fee$Type extends MessageType<Fee> {
     constructor() {
         super("tdex.v2.Fee", [
-            { no: 1, name: "percentage_fee", kind: "message", T: () => MarketFee },
-            { no: 2, name: "fixed_fee", kind: "message", T: () => MarketFee }
+            { no: 1, name: "percentage_fee", kind: "message", T: () => MarketFee, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "fixed_fee", kind: "message", T: () => MarketFee, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<Fee>): Fee {
@@ -338,8 +338,8 @@ export const Fee = new Fee$Type();
 class MarketFee$Type extends MessageType<MarketFee> {
     constructor() {
         super("tdex.v2.MarketFee", [
-            { no: 1, name: "base_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
-            { no: 2, name: "quote_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/ }
+            { no: 1, name: "base_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "quote_asset", kind: "scalar", T: 3 /*ScalarType.INT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<MarketFee>): MarketFee {
@@ -392,8 +392,8 @@ export const MarketFee = new MarketFee$Type();
 class Balance$Type extends MessageType<Balance> {
     constructor() {
         super("tdex.v2.Balance", [
-            { no: 1, name: "base_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
-            { no: 2, name: "quote_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ }
+            { no: 1, name: "base_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "quote_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<Balance>): Balance {
@@ -446,8 +446,8 @@ export const Balance = new Balance$Type();
 class Market$Type extends MessageType<Market> {
     constructor() {
         super("tdex.v2.Market", [
-            { no: 1, name: "base_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "quote_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "base_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "quote_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<Market>): Market {
@@ -500,8 +500,8 @@ export const Market = new Market$Type();
 class MarketWithFee$Type extends MessageType<MarketWithFee> {
     constructor() {
         super("tdex.v2.MarketWithFee", [
-            { no: 1, name: "market", kind: "message", T: () => Market },
-            { no: 2, name: "fee", kind: "message", T: () => Fee }
+            { no: 1, name: "market", kind: "message", T: () => Market, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "fee", kind: "message", T: () => Fee, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<MarketWithFee>): MarketWithFee {
@@ -554,8 +554,8 @@ export const MarketWithFee = new MarketWithFee$Type();
 class Price$Type extends MessageType<Price> {
     constructor() {
         super("tdex.v2.Price", [
-            { no: 1, name: "base_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 2, name: "quote_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
+            { no: 1, name: "base_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "quote_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<Price>): Price {
@@ -608,12 +608,12 @@ export const Price = new Price$Type();
 class Preview$Type extends MessageType<Preview> {
     constructor() {
         super("tdex.v2.Preview", [
-            { no: 1, name: "price", kind: "message", T: () => Price },
-            { no: 2, name: "fee", kind: "message", T: () => Fee },
-            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
-            { no: 4, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/ },
-            { no: 6, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "price", kind: "message", T: () => Price, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 2, name: "fee", kind: "message", T: () => Fee, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 3, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 4, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 5, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, options: { "google.api.field_behavior": ["REQUIRED"] } },
+            { no: 6, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "google.api.field_behavior": ["REQUIRED"] } }
         ]);
     }
     create(value?: PartialMessage<Preview>): Preview {

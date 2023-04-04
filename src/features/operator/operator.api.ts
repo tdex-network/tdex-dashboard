@@ -342,17 +342,27 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['market'],
     }),
-    newMarket: build.mutation<NewMarketResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+    newMarket: build.mutation<NewMarketResponse, NewMarketRequest>({
+      queryFn: async ({ market, baseAssetPrecision, quoteAssetPrecision }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
-          const call = await client.newMarket(NewMarketRequest.create({ market: newMarket }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
+          const newMarket = Market.create({
+            baseAsset: market?.baseAsset,
+            quoteAsset: market?.quoteAsset,
           });
+          const call = await client.newMarket(
+            NewMarketRequest.create({
+              market: newMarket,
+              baseAssetPrecision,
+              quoteAssetPrecision,
+            }),
+            {
+              meta: macaroon ? { macaroon } : undefined,
+              interceptors,
+            }
+          );
           return {
             data: call.response,
           };

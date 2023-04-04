@@ -28,14 +28,7 @@ export const WebhookForm = (): JSX.Element => {
   };
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      name="webhook_form"
-      initialValues={{ notificationType: 3 }}
-      onFinish={onFinish}
-      wrapperCol={{ span: 24 }}
-    >
+    <Form layout="vertical" form={form} name="webhook_form" onFinish={onFinish} wrapperCol={{ span: 24 }}>
       <Form.Item name="notificationType">
         <Radio.Group className="ghost">
           <Radio.Button value={ActionType.ACTION_TYPE_ALL_ACTIONS}>Any</Radio.Button>

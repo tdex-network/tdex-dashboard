@@ -6,7 +6,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import alertOctogon from '../../assets/images/alert-octagon.svg';

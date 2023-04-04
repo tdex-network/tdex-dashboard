@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { GetInfoResponse } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
-import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
+import type { Market } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { CREATE_MARKET_ROUTE } from '../../routes/constants';

@@ -22,6 +22,7 @@ import type {
   ListMarketsResponse,
   ListTradesResponse,
   ListUtxosResponse,
+  ListWebhooksResponse,
   ListWithdrawalsResponse,
   MarketFragmenterSplitFundsResponse,
   NewMarketResponse,
@@ -73,19 +74,14 @@ import {
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
-import type {
-  ActionType,
-  StrategyType,
-  WebhookInfo,
-} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import type { StrategyType, ActionType } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import {
   CustomPeriod,
   Page,
   PredefinedPeriod,
   TimeRange,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
-import { MarketFee } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
+import { Market, Price, MarketFee } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import {
@@ -687,7 +683,6 @@ export const operatorApi = tdexApi.injectEndpoints({
             timeRange: timeRangeUntil24hAgo,
           })
         ).unwrap();
-        console.log('collectedSwapFeesUntil24hAgo', collectedSwapFeesUntil24hAgo);
         //
         const currentDate = new Date(Date.now()).toISOString();
         const customPeriodUntilNow = CustomPeriod.create({ startDate, endDate: currentDate });
@@ -699,7 +694,6 @@ export const operatorApi = tdexApi.injectEndpoints({
             timeRange: timeRangeUntilNow,
           })
         ).unwrap();
-        console.log('collectedSwapFeesUntilNow', collectedSwapFeesUntilNow);
         // Calculate variation percentage
         const changePercentage =
           ((collectedSwapFeesUntilNow - collectedSwapFeesUntil24hAgo) / collectedSwapFeesUntil24hAgo) * 100;
@@ -834,13 +828,13 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['webhook'],
     }),
-    listWebhooks: build.query<WebhookInfo[], void>({
-      queryFn: async (arg, { getState }) => {
+    listWebhooks: build.query<ListWebhooksResponse['webhookInfo'], ListWebhooksRequest>({
+      queryFn: async ({ action }, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const call = await client.listWebhooks(ListWebhooksRequest.create(), {
+          const call = await client.listWebhooks(ListWebhooksRequest.create({ action }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
           });

@@ -4,10 +4,13 @@ import { Button } from 'antd';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 
+import { ActionType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useListWebhooksQuery, useRemoveWebhookMutation } from '../../operator.api';
 
 export const ListWebhooks = (): JSX.Element => {
-  const { data: listWebhooks, error: listWebhooksError } = useListWebhooksQuery();
+  const { data: listWebhooks, error: listWebhooksError } = useListWebhooksQuery({
+    action: ActionType.ACTION_TYPE_ALL_ACTIONS,
+  });
   const [removeWebhook] = useRemoveWebhookMutation();
 
   useEffect(() => {

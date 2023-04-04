@@ -1,11 +1,12 @@
 import './marketSettings.less';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Modal, Row, Col, Typography, Switch, notification, Divider, Button } from 'antd';
+import { Button, Col, Divider, Modal, notification, Row, Switch, Typography } from 'antd';
 import type { SwitchChangeEventHandler } from 'antd/es/switch';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { ListWebhooks } from '../../Webhook/ListWebhooks';
@@ -112,7 +113,7 @@ export const MarketSettings = ({
 
       <Divider className="my-4" />
 
-      {marketInfo?.strategyType === 0 ? (
+      {marketInfo?.strategyType === StrategyType.STRATEGY_TYPE_PLUGGABLE ? (
         <>
           <Row className="mb-2">
             <Col span={12}>

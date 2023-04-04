@@ -1,10 +1,8 @@
 import { Button, Form, Input, notification } from 'antd';
 import React from 'react';
 
-import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
-import type { RootState } from '../../../../app/store';
-import { useTypedDispatch, useTypedSelector } from '../../../../app/store';
-import { isLbtcAssetId, unitToExponent } from '../../../../utils';
+import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
+import { useTypedDispatch } from '../../../../app/store';
 import { operatorApi } from '../../operator.api';
 
 interface IFormInputs {
@@ -27,7 +25,6 @@ export const UpdateMarketPriceForm = ({
 }: UpdateMarketPriceFormProps): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const dispatch = useTypedDispatch();
-  const { lbtcUnit, network } = useTypedSelector(({ settings }: RootState) => settings);
 
   const onUpdateMarketFinish = async () => {
     if (market) {
@@ -40,12 +37,8 @@ export const UpdateMarketPriceForm = ({
           operatorApi.endpoints.updateMarketPrice.initiate({
             market,
             price: {
-              basePrice: isLbtcAssetId(market?.baseAsset, network)
-                ? Math.pow(10, -unitToExponent(lbtcUnit)) / values.quotePrice
-                : 1 / values.quotePrice,
-              quotePrice: isLbtcAssetId(market?.quoteAsset, network)
-                ? Math.pow(10, -unitToExponent(lbtcUnit)) / values.quotePrice
-                : values.quotePrice * Math.pow(10, unitToExponent(lbtcUnit)),
+              basePrice: 1 / values.quotePrice,
+              quotePrice: values.quotePrice,
             },
           })
         ).unwrap();
@@ -71,12 +64,7 @@ export const UpdateMarketPriceForm = ({
       onFinish={onUpdateMarketFinish}
     >
       <Form.Item label="Quote asset price" name="quotePrice">
-        <Input
-          type="number"
-          suffix={`${isLbtcAssetId(market?.quoteAsset || '', network) ? lbtcUnit : quoteAssetTicker} for 1 ${
-            isLbtcAssetId(market?.baseAsset || '', network) ? lbtcUnit : baseAssetTicker
-          }`}
-        />
+        <Input type="number" suffix={`${quoteAssetTicker} for 1 ${baseAssetTicker}`} />
       </Form.Item>
       <Form.Item wrapperCol={{ span: 24 }}>
         <Button type="primary" htmlType="submit" className="w-100">

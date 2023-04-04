@@ -37,7 +37,7 @@ export const TxRow = ({
   quoteAsset,
 }: TxRowProps): JSX.Element => {
   const { data: tx, refetch: refetchTx } = useGetTransactionByIdQuery(txId, { skip: !txId });
-  if (!tx?.status?.confirmed) {
+  if (tx && !tx.status.confirmed) {
     setTimeout(refetchTx, 1000 * 60);
   }
   const time = row?.timestamp || row?.requestTimestamp || tx?.status.block_time;

@@ -117,7 +117,7 @@ export const convertAmountToFavoriteCurrency = ({
       calculateLCAD(prices as CoinGeckoPriceResult)[preferredCurrency.value as Currency['value']] || 1;
     currencyAmount = Big(currencyAmount).times(rateMultiplier);
   } else {
-    return '';
+    return undefined;
   }
 
   if (preferredCurrency.value === 'btc') {

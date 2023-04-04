@@ -131,16 +131,19 @@ export const MarketOverview = (): JSX.Element => {
       prices: prices,
     });
 
+    // If conversion in favorite currency not possible, display in quote asset
     setVolumeAsFavCurrencyFormatted(
       currency.value === 'btc' ? (
         <div className="d-inline">
-          <span>{Number(volumeAsFavCurrency ?? '0').toLocaleString('en-US')}</span>
+          <span>{Number(volumeAsFavCurrency ?? volumeAsUnitOrFractional).toLocaleString('en-US')}</span>
           <span className="d-inline-block dm-mono dm-mono__x dm_mono__bold mx-2">{lbtcUnit}</span>
         </div>
       ) : (
         <div className="d-inline">
-          <span className="d-inline-block dm-mono dm_mono__bold">{currency.symbol}</span>
-          <span>{Number(volumeAsFavCurrency ?? '0').toLocaleString('en-US')}</span>
+          <span className="d-inline-block dm-mono dm_mono__bold mr-1">
+            {volumeAsFavCurrency ? currency.symbol : state?.quoteAsset.ticker}
+          </span>
+          <span>{Number(volumeAsFavCurrency ?? volumeAsUnitOrFractional).toLocaleString('en-US')}</span>
         </div>
       )
     );

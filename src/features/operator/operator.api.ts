@@ -1,5 +1,6 @@
 import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
+import { Market, MarketFee, Price } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type {
   AddWebhookResponse,
   CloseMarketResponse,
@@ -74,14 +75,13 @@ import {
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
-import type { StrategyType, ActionType } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import type { ActionType, StrategyType } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import {
   CustomPeriod,
   Page,
   PredefinedPeriod,
   TimeRange,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { Market, Price, MarketFee } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import {

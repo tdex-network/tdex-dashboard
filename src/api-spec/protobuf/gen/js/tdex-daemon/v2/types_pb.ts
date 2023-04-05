@@ -318,29 +318,29 @@ export interface FeeInfo {
      */
     tradeId: string;
     /**
-     * The percentage fee applied to the trade.
+     * The percentage fee in basis point.
      *
-     * @generated from protobuf field: int64 basis_point = 2;
+     * @generated from protobuf field: uint64 percentage_fee = 2;
      */
-    basisPoint: number;
+    percentageFee: number;
+    /**
+     * The trading fixed fee amount.
+     *
+     * @generated from protobuf field: uint64 fixed_fee = 3;
+     */
+    fixedFee: number;
     /**
      * The asset in which fees are collected.
      *
-     * @generated from protobuf field: string asset = 3;
+     * @generated from protobuf field: string asset = 4;
      */
     asset: string;
     /**
-     * The amount in satoshi of the percentage fee.
+     * The total trading fee amount.
      *
-     * @generated from protobuf field: uint64 percentage_fee_amount = 4;
+     * @generated from protobuf field: uint64 amount = 5;
      */
-    percentageFeeAmount: number;
-    /**
-     * The amount in satoshi of the fixed fee.
-     *
-     * @generated from protobuf field: uint64 fixed_fee_amount = 5;
-     */
-    fixedFeeAmount: number;
+    amount: number;
     /**
      * The market price when the trade propoal was accepted.
      *
@@ -1358,16 +1358,16 @@ class FeeInfo$Type extends MessageType<FeeInfo> {
     constructor() {
         super("tdex_daemon.v2.FeeInfo", [
             { no: 1, name: "trade_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "basis_point", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 3, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "percentage_fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 5, name: "fixed_fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 2, name: "percentage_fee", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 3, name: "fixed_fee", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 4, name: "asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
             { no: 6, name: "market_price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 7, name: "request_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<FeeInfo>): FeeInfo {
-        const message = { tradeId: "", basisPoint: 0, asset: "", percentageFeeAmount: 0, fixedFeeAmount: 0, marketPrice: 0, requestDate: "" };
+        const message = { tradeId: "", percentageFee: 0, fixedFee: 0, asset: "", amount: 0, marketPrice: 0, requestDate: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<FeeInfo>(this, message, value);
@@ -1381,17 +1381,17 @@ class FeeInfo$Type extends MessageType<FeeInfo> {
                 case /* string trade_id */ 1:
                     message.tradeId = reader.string();
                     break;
-                case /* int64 basis_point */ 2:
-                    message.basisPoint = reader.int64().toNumber();
+                case /* uint64 percentage_fee */ 2:
+                    message.percentageFee = reader.uint64().toNumber();
                     break;
-                case /* string asset */ 3:
+                case /* uint64 fixed_fee */ 3:
+                    message.fixedFee = reader.uint64().toNumber();
+                    break;
+                case /* string asset */ 4:
                     message.asset = reader.string();
                     break;
-                case /* uint64 percentage_fee_amount */ 4:
-                    message.percentageFeeAmount = reader.uint64().toNumber();
-                    break;
-                case /* uint64 fixed_fee_amount */ 5:
-                    message.fixedFeeAmount = reader.uint64().toNumber();
+                case /* uint64 amount */ 5:
+                    message.amount = reader.uint64().toNumber();
                     break;
                 case /* double market_price */ 6:
                     message.marketPrice = reader.double();
@@ -1414,18 +1414,18 @@ class FeeInfo$Type extends MessageType<FeeInfo> {
         /* string trade_id = 1; */
         if (message.tradeId !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.tradeId);
-        /* int64 basis_point = 2; */
-        if (message.basisPoint !== 0)
-            writer.tag(2, WireType.Varint).int64(message.basisPoint);
-        /* string asset = 3; */
+        /* uint64 percentage_fee = 2; */
+        if (message.percentageFee !== 0)
+            writer.tag(2, WireType.Varint).uint64(message.percentageFee);
+        /* uint64 fixed_fee = 3; */
+        if (message.fixedFee !== 0)
+            writer.tag(3, WireType.Varint).uint64(message.fixedFee);
+        /* string asset = 4; */
         if (message.asset !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.asset);
-        /* uint64 percentage_fee_amount = 4; */
-        if (message.percentageFeeAmount !== 0)
-            writer.tag(4, WireType.Varint).uint64(message.percentageFeeAmount);
-        /* uint64 fixed_fee_amount = 5; */
-        if (message.fixedFeeAmount !== 0)
-            writer.tag(5, WireType.Varint).uint64(message.fixedFeeAmount);
+            writer.tag(4, WireType.LengthDelimited).string(message.asset);
+        /* uint64 amount = 5; */
+        if (message.amount !== 0)
+            writer.tag(5, WireType.Varint).uint64(message.amount);
         /* double market_price = 6; */
         if (message.marketPrice !== 0)
             writer.tag(6, WireType.Bit64).double(message.marketPrice);

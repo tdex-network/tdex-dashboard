@@ -224,7 +224,6 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
                     <TableModeSelector mode={mode} setMode={setMode} />
                   </th>
                   <th>Status</th>
-                  <th>Total Value</th>
                   <th>Base Token Amount</th>
                   <th>Quote Token Amount</th>
                   <th className="time">Time</th>

@@ -133,7 +133,6 @@ export const TxRow = ({
             </span>
           )}
         </td>
-        <td>{baseAmountFormatted}</td>
         <td>{`${baseAmountFormatted} ${baseAsset?.formattedTicker}`}</td>
         <td>{`${quoteAmountFormatted} ${quoteAsset?.formattedTicker}`}</td>
         <td data-time={time}>{timeAgo(time)}</td>

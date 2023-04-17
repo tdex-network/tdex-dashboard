@@ -2,6 +2,7 @@ import './marketWithdraw.less';
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
+import { address as addressLiquidJS } from 'liquidjs-lib';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -93,30 +94,26 @@ export const MarketWithdraw = (): JSX.Element => {
       );
       if (!selectedAssetMarket?.[0] || !selectedAssetMarket?.[1]) throw new Error('Market selection error');
       const { password } = await passwordForm.validateFields();
+      const script = addressLiquidJS.fromConfidential(address).scriptPubKey?.toString('hex');
+      if (!script) throw new Error('Invalid address');
+      const outputs = selectedAssetMarket
+        ?.map((asset, index) => {
+          return {
+            asset: asset?.asset_id ?? '',
+            amount: isLbtcTicker(asset?.ticker)
+              ? Number(formatLbtcUnitToSats(index === 0 ? baseAmount : quoteAmount, lbtcUnit))
+              : Number(formatFiatToSats(index === 0 ? baseAmount : quoteAmount)),
+            script,
+            blindingKey: addressLiquidJS.fromConfidential(address).blindingKey.toString('hex'),
+          };
+        })
+        .filter((output) => output.amount > 0);
       const res = await withdrawMarket({
         market: {
           baseAsset: selectedAssetMarket?.[0].asset_id,
           quoteAsset: selectedAssetMarket?.[1].asset_id,
         },
-        // Expect lbtc amount to be in favorite user unit
-        outputs: [
-          {
-            asset: selectedAssetMarket?.[0].asset_id,
-            amount: isLbtcTicker(selectedAssetMarket?.[0].ticker)
-              ? Number(formatLbtcUnitToSats(baseAmount, lbtcUnit))
-              : Number(formatFiatToSats(baseAmount)),
-            script: 'string',
-            blindingKey: 'string',
-          },
-          {
-            asset: selectedAssetMarket?.[1].asset_id,
-            amount: isLbtcTicker(selectedAssetMarket?.[1].ticker)
-              ? Number(formatLbtcUnitToSats(quoteAmount, lbtcUnit))
-              : Number(formatFiatToSats(quoteAmount)),
-            script: 'string',
-            blindingKey: 'string',
-          },
-        ],
+        outputs,
         millisatsPerByte: 100,
         password: password,
       });
@@ -385,11 +382,13 @@ export const MarketWithdraw = (): JSX.Element => {
         </p>
       </Modal>
       <Modal
+        destroyOnClose={true}
         title="Withdrawal Password Confirmation"
         open={isPasswordModalVisible}
         onOk={async () => {
           await withdraw();
           setIsPasswordModalVisible(false);
+          passwordForm.resetFields();
         }}
         onCancel={() => {
           setIsPasswordModalVisible(false);

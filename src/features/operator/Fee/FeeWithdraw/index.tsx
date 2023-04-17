@@ -2,6 +2,7 @@ import './feeWithdraw.less';
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Breadcrumb, Button, Col, Form, Input, Modal, notification, Row } from 'antd';
 import classNames from 'classnames';
+import { address as addressLiquidJS } from 'liquidjs-lib';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -65,12 +66,14 @@ export const FeeWithdraw = (): JSX.Element => {
     try {
       if (!unitAmount || !address) return;
       const { password } = await passwordForm.validateFields();
+      const script = addressLiquidJS.fromConfidential(address).scriptPubKey?.toString('hex');
+      if (!script) throw new Error('Invalid address');
       const res = await withdrawFee({
         outputs: [
           {
             amount: Number(formatLbtcUnitToSats(unitAmount, lbtcUnit)),
-            script: '',
-            blindingKey: '',
+            script,
+            blindingKey: addressLiquidJS.fromConfidential(address).blindingKey.toString('hex'),
             asset: LBTC_ASSET[network].asset_id,
           },
         ],
@@ -197,11 +200,13 @@ export const FeeWithdraw = (): JSX.Element => {
         </p>
       </Modal>
       <Modal
+        destroyOnClose={true}
         title="Withdrawal Password Confirmation"
         open={isPasswordModalVisible}
         onOk={async () => {
           await withdraw();
           setIsPasswordModalVisible(false);
+          passwordForm.resetFields();
         }}
         onCancel={() => {
           setIsPasswordModalVisible(false);

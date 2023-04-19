@@ -16,8 +16,13 @@ import {
   ONBOARDING_CREATE_OR_RESTORE_ROUTE,
   ONBOARDING_PAIRING_ROUTE,
 } from '../../routes/constants';
-import { sleep, encodeBase64UrlMacaroon } from '../../utils';
-import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import {
+  sleep,
+  encodeBase64UrlMacaroon,
+  extractConnectUrlData,
+  checkConnectUrlDataValidity,
+} from '../../utils';
+import { getTdexdConnectUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './walletUnlocker.api';
 
@@ -79,15 +84,23 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           if (message.status === 0 && message.data.length > 150) {
             dispatch(setMacaroonCredentials(message.data));
             const base64UrlMacaroon = encodeBase64UrlMacaroon(message.data);
-            dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
-            setIsWaitingModalVisible(false);
+            if ((window as any).IS_PACKAGED) {
+              const connectUrl = await dispatch(getTdexdConnectUrl(password)).unwrap();
+              const connectUrlData = extractConnectUrlData(connectUrl);
+              if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
+                dispatch(setTdexdConnectUrl(connectUrl + '&macaroon=' + base64UrlMacaroon));
+              }
+            } else {
+              dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+            }
           }
         }
         const status = await data.status;
         if (status.code === 'OK') {
           await sleep(1000);
           await unlockWallet({ walletPassword: Buffer.from(password) });
-          await sleep(1000);
+          // Wait for daemon to unlock before navigating to home and calling other endpoints
+          await sleep(2000);
           setIsLoading(false);
           navigate(HOME_ROUTE);
         } else {
@@ -101,6 +114,8 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
       console.error(err);
       // @ts-ignore
       notification.error({ message: err.message });
+    } finally {
+      setIsWaitingModalVisible(false);
     }
   };
 

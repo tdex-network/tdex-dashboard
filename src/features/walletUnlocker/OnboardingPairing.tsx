@@ -18,6 +18,7 @@ import { liquidApi } from '../liquid.api';
 import { operatorApi } from '../operator/operator.api';
 import {
   getTdexdConnectUrl,
+  logout,
   setBaseUrl,
   setConnectUrlProto,
   setMacaroonCredentials,
@@ -62,6 +63,7 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(operatorApi.util.resetApiState());
       dispatch(walletUnlockerApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
+      dispatch(logout());
       // Auto connect if IS_PACKAGED (like in Umbrel)
       if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true

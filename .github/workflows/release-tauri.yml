@@ -25,6 +25,10 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install missing Rust target for universal Mac build
+        if: matrix.platform == 'macos-latest'
+        run: rustup target add aarch64-apple-darwin
+
       - name: Set up Go
         uses: actions/setup-go@v3
         with:

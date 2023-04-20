@@ -23,23 +23,29 @@ import { Market } from "../../tdex/v2/types_pb";
  */
 export interface AccountInfo {
     /**
-     * The name of the wallet account.
+     * The optional friendly name assigned to the account.
      *
-     * @generated from protobuf field: string account_name = 2;
+     * @generated from protobuf field: string name = 1;
      */
-    accountName: string;
+    name: string;
     /**
      * The full derivation path.
      *
-     * @generated from protobuf field: string derivation_path = 3;
+     * @generated from protobuf field: string derivation_path = 2;
      */
     derivationPath: string;
     /**
-     * The master public key.
+     * The master public keys.
      *
-     * @generated from protobuf field: repeated string xpubs = 4;
+     * @generated from protobuf field: repeated string xpubs = 3;
      */
     xpubs: string[];
+    /**
+     * The master blinding key.
+     *
+     * @generated from protobuf field: string master_blinding_key = 4;
+     */
+    masterBlindingKey: string;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.MarketInfo
@@ -615,6 +621,41 @@ export interface CustomPeriod {
     endDate: string;
 }
 /**
+ * @generated from protobuf message tdex_daemon.v2.PriceFeed
+ */
+export interface PriceFeed {
+    /**
+     * id is the id of the price feed.
+     *
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * market is the market for which the price feed is created.
+     *
+     * @generated from protobuf field: tdex.v2.Market market = 2;
+     */
+    market?: Market;
+    /**
+     * source is the name of the price source to use.
+     *
+     * @generated from protobuf field: string source = 3;
+     */
+    source: string;
+    /**
+     * ticker is the ticker of the asset to use as price source.
+     *
+     * @generated from protobuf field: string ticker = 4;
+     */
+    ticker: string;
+    /**
+     * started is the flag to indicate if the price feed is started or stopped.
+     *
+     * @generated from protobuf field: bool started = 5;
+     */
+    started: boolean;
+}
+/**
  * @generated from protobuf enum tdex_daemon.v2.StrategyType
  */
 export enum StrategyType {
@@ -763,13 +804,14 @@ export enum TimeFrame {
 class AccountInfo$Type extends MessageType<AccountInfo> {
     constructor() {
         super("tdex_daemon.v2.AccountInfo", [
-            { no: 2, name: "account_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "derivation_path", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "xpubs", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "derivation_path", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "xpubs", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "master_blinding_key", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<AccountInfo>): AccountInfo {
-        const message = { accountName: "", derivationPath: "", xpubs: [] };
+        const message = { name: "", derivationPath: "", xpubs: [], masterBlindingKey: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<AccountInfo>(this, message, value);
@@ -780,14 +822,17 @@ class AccountInfo$Type extends MessageType<AccountInfo> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string account_name */ 2:
-                    message.accountName = reader.string();
+                case /* string name */ 1:
+                    message.name = reader.string();
                     break;
-                case /* string derivation_path */ 3:
+                case /* string derivation_path */ 2:
                     message.derivationPath = reader.string();
                     break;
-                case /* repeated string xpubs */ 4:
+                case /* repeated string xpubs */ 3:
                     message.xpubs.push(reader.string());
+                    break;
+                case /* string master_blinding_key */ 4:
+                    message.masterBlindingKey = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -801,15 +846,18 @@ class AccountInfo$Type extends MessageType<AccountInfo> {
         return message;
     }
     internalBinaryWrite(message: AccountInfo, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string account_name = 2; */
-        if (message.accountName !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.accountName);
-        /* string derivation_path = 3; */
+        /* string name = 1; */
+        if (message.name !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.name);
+        /* string derivation_path = 2; */
         if (message.derivationPath !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.derivationPath);
-        /* repeated string xpubs = 4; */
+            writer.tag(2, WireType.LengthDelimited).string(message.derivationPath);
+        /* repeated string xpubs = 3; */
         for (let i = 0; i < message.xpubs.length; i++)
-            writer.tag(4, WireType.LengthDelimited).string(message.xpubs[i]);
+            writer.tag(3, WireType.LengthDelimited).string(message.xpubs[i]);
+        /* string master_blinding_key = 4; */
+        if (message.masterBlindingKey !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.masterBlindingKey);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2150,3 +2198,78 @@ class CustomPeriod$Type extends MessageType<CustomPeriod> {
  * @generated MessageType for protobuf message tdex_daemon.v2.CustomPeriod
  */
 export const CustomPeriod = new CustomPeriod$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class PriceFeed$Type extends MessageType<PriceFeed> {
+    constructor() {
+        super("tdex_daemon.v2.PriceFeed", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "market", kind: "message", T: () => Market },
+            { no: 3, name: "source", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "ticker", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "started", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+    create(value?: PartialMessage<PriceFeed>): PriceFeed {
+        const message = { id: "", source: "", ticker: "", started: false };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<PriceFeed>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: PriceFeed): PriceFeed {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* tdex.v2.Market market */ 2:
+                    message.market = Market.internalBinaryRead(reader, reader.uint32(), options, message.market);
+                    break;
+                case /* string source */ 3:
+                    message.source = reader.string();
+                    break;
+                case /* string ticker */ 4:
+                    message.ticker = reader.string();
+                    break;
+                case /* bool started */ 5:
+                    message.started = reader.bool();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: PriceFeed, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* tdex.v2.Market market = 2; */
+        if (message.market)
+            Market.internalBinaryWrite(message.market, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* string source = 3; */
+        if (message.source !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.source);
+        /* string ticker = 4; */
+        if (message.ticker !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.ticker);
+        /* bool started = 5; */
+        if (message.started !== false)
+            writer.tag(5, WireType.Varint).bool(message.started);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message tdex_daemon.v2.PriceFeed
+ */
+export const PriceFeed = new PriceFeed$Type();

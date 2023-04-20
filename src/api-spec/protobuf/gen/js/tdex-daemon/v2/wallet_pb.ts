@@ -162,27 +162,21 @@ export interface GetInfoResponse {
      */
     rootPath: string;
     /**
-     * The SLIP-77 master blinding key from which every keypair is derived.
-     *
-     * @generated from protobuf field: string master_blinding_key = 2;
-     */
-    masterBlindingKey: string;
-    /**
      * The list of info related to every account.
      *
-     * @generated from protobuf field: repeated tdex_daemon.v2.AccountInfo account_info = 3;
+     * @generated from protobuf field: repeated tdex_daemon.v2.AccountInfo account_info = 2;
      */
     accountInfo: AccountInfo[];
     /**
      * Network daemon running on
      *
-     * @generated from protobuf field: string network = 4;
+     * @generated from protobuf field: string network = 3;
      */
     network: string;
     /**
      * Daemon build information
      *
-     * @generated from protobuf field: tdex_daemon.v2.BuildInfo build_data = 5;
+     * @generated from protobuf field: tdex_daemon.v2.BuildInfo build_data = 4;
      */
     buildData?: BuildInfo;
 }
@@ -734,14 +728,13 @@ class GetInfoResponse$Type extends MessageType<GetInfoResponse> {
     constructor() {
         super("tdex_daemon.v2.GetInfoResponse", [
             { no: 1, name: "root_path", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "master_blinding_key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "account_info", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AccountInfo },
-            { no: 4, name: "network", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "build_data", kind: "message", T: () => BuildInfo }
+            { no: 2, name: "account_info", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AccountInfo },
+            { no: 3, name: "network", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "build_data", kind: "message", T: () => BuildInfo }
         ]);
     }
     create(value?: PartialMessage<GetInfoResponse>): GetInfoResponse {
-        const message = { rootPath: "", masterBlindingKey: "", accountInfo: [], network: "" };
+        const message = { rootPath: "", accountInfo: [], network: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<GetInfoResponse>(this, message, value);
@@ -755,16 +748,13 @@ class GetInfoResponse$Type extends MessageType<GetInfoResponse> {
                 case /* string root_path */ 1:
                     message.rootPath = reader.string();
                     break;
-                case /* string master_blinding_key */ 2:
-                    message.masterBlindingKey = reader.string();
-                    break;
-                case /* repeated tdex_daemon.v2.AccountInfo account_info */ 3:
+                case /* repeated tdex_daemon.v2.AccountInfo account_info */ 2:
                     message.accountInfo.push(AccountInfo.internalBinaryRead(reader, reader.uint32(), options));
                     break;
-                case /* string network */ 4:
+                case /* string network */ 3:
                     message.network = reader.string();
                     break;
-                case /* tdex_daemon.v2.BuildInfo build_data */ 5:
+                case /* tdex_daemon.v2.BuildInfo build_data */ 4:
                     message.buildData = BuildInfo.internalBinaryRead(reader, reader.uint32(), options, message.buildData);
                     break;
                 default:
@@ -782,18 +772,15 @@ class GetInfoResponse$Type extends MessageType<GetInfoResponse> {
         /* string root_path = 1; */
         if (message.rootPath !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.rootPath);
-        /* string master_blinding_key = 2; */
-        if (message.masterBlindingKey !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.masterBlindingKey);
-        /* repeated tdex_daemon.v2.AccountInfo account_info = 3; */
+        /* repeated tdex_daemon.v2.AccountInfo account_info = 2; */
         for (let i = 0; i < message.accountInfo.length; i++)
-            AccountInfo.internalBinaryWrite(message.accountInfo[i], writer.tag(3, WireType.LengthDelimited).fork(), options).join();
-        /* string network = 4; */
+            AccountInfo.internalBinaryWrite(message.accountInfo[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* string network = 3; */
         if (message.network !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.network);
-        /* tdex_daemon.v2.BuildInfo build_data = 5; */
+            writer.tag(3, WireType.LengthDelimited).string(message.network);
+        /* tdex_daemon.v2.BuildInfo build_data = 4; */
         if (message.buildData)
-            BuildInfo.internalBinaryWrite(message.buildData, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+            BuildInfo.internalBinaryWrite(message.buildData, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

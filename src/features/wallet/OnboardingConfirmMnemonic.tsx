@@ -16,8 +16,13 @@ import {
   ONBOARDING_PAIRING_ROUTE,
   ONBOARDING_SHOW_MNEMONIC_ROUTE,
 } from '../../routes/constants';
-import { sleep, encodeBase64UrlMacaroon } from '../../utils';
-import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import {
+  sleep,
+  encodeBase64UrlMacaroon,
+  checkConnectUrlDataValidity,
+  extractConnectUrlData,
+} from '../../utils';
+import { getTdexdConnectUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './wallet.api';
 
@@ -59,14 +64,22 @@ export const OnboardingConfirmMnemonic = (): JSX.Element => {
         if (res.message.length > 150) {
           dispatch(setMacaroonCredentials(res.message));
           const base64UrlMacaroon = encodeBase64UrlMacaroon(res.message);
-          dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+          if ((window as any).IS_PACKAGED) {
+            const connectUrl = await dispatch(getTdexdConnectUrl(state.password)).unwrap();
+            const connectUrlData = extractConnectUrlData(connectUrl);
+            if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
+              dispatch(setTdexdConnectUrl(connectUrl + '&macaroon=' + base64UrlMacaroon));
+            }
+          } else {
+            dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+          }
         }
       }
       const status = await data.status;
       if (status.code === 'OK') {
         await sleep(1000);
         await unlockWallet({ password: state.password });
-        await sleep(1000);
+        await sleep(2000);
         setIsLoading(false);
         navigate(HOME_ROUTE);
       } else {

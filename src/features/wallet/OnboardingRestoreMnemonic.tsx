@@ -1,7 +1,7 @@
 import './onboardingRestoreMnemonic.less';
 import Icon, { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import type { RpcOutputStream } from '@protobuf-ts/runtime-rpc';
-import { Button, Col, Form, Row, Typography, Input, notification, Breadcrumb } from 'antd';
+import { Breadcrumb, Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,8 +16,13 @@ import {
   ONBOARDING_CREATE_OR_RESTORE_ROUTE,
   ONBOARDING_PAIRING_ROUTE,
 } from '../../routes/constants';
-import { sleep, encodeBase64UrlMacaroon } from '../../utils';
-import { setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
+import {
+  checkConnectUrlDataValidity,
+  encodeBase64UrlMacaroon,
+  extractConnectUrlData,
+  sleep,
+} from '../../utils';
+import { getTdexdConnectUrl, setMacaroonCredentials, setTdexdConnectUrl } from '../settings/settingsSlice';
 
 import { useInitWalletMutation, useUnlockWalletMutation } from './wallet.api';
 
@@ -79,15 +84,22 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
           if (data.status === 0 && res.message.length > 150) {
             dispatch(setMacaroonCredentials(res.message));
             const base64UrlMacaroon = encodeBase64UrlMacaroon(res.message);
-            dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
-            setIsWaitingModalVisible(false);
+            if ((window as any).IS_PACKAGED) {
+              const connectUrl = await dispatch(getTdexdConnectUrl(password)).unwrap();
+              const connectUrlData = extractConnectUrlData(connectUrl);
+              if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
+                dispatch(setTdexdConnectUrl(connectUrl + '&macaroon=' + base64UrlMacaroon));
+              }
+            } else {
+              dispatch(setTdexdConnectUrl(tdexdConnectUrl + '&macaroon=' + base64UrlMacaroon));
+            }
           }
         }
         const status = await data.status;
         if (status.code === 'OK') {
           await sleep(1000);
           await unlockWallet({ password });
-          await sleep(1000);
+          await sleep(2000);
           setIsLoading(false);
           navigate(HOME_ROUTE);
         } else {
@@ -101,6 +113,8 @@ export const OnboardingRestoreMnemonic = (): JSX.Element => {
       console.error(err);
       // @ts-ignore
       notification.error({ message: err.message });
+    } finally {
+      setIsWaitingModalVisible(false);
     }
   };
 

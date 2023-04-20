@@ -18,14 +18,15 @@ import { liquidApi } from '../liquid.api';
 import { operatorApi } from '../operator/operator.api';
 import {
   getTdexdConnectUrl,
+  logout,
   setBaseUrl,
   setConnectUrlProto,
   setMacaroonCredentials,
   setTdexdConnectUrl,
   setUseProxy,
 } from '../settings/settingsSlice';
-import { walletApi } from '../wallet/wallet.api';
 
+import { walletApi } from './wallet.api';
 import { setIsPackaged } from './walletSlice';
 
 const { Title } = Typography;
@@ -60,6 +61,7 @@ export const OnboardingPairing = (): JSX.Element => {
       dispatch(liquidApi.util.resetApiState());
       dispatch(operatorApi.util.resetApiState());
       dispatch(walletApi.util.resetApiState());
+      dispatch(logout());
       // Auto connect if IS_PACKAGED (like in Umbrel)
       if ((window as any).IS_PACKAGED) {
         // isPackaged is false on first load, set it to true

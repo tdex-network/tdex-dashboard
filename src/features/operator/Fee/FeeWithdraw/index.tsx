@@ -45,9 +45,15 @@ export const FeeWithdraw = (): JSX.Element => {
       ? 'N/A'
       : fromSatsToUnitOrFractional(feeBalance?.balance?.confirmedBalance, 8, true, lbtcUnit);
   const feeTotalBalanceFormatted =
-    feeBalance?.balance?.totalBalance === undefined
+    feeBalance?.balance?.confirmedBalance === undefined
       ? 'N/A'
-      : fromSatsToUnitOrFractional(feeBalance?.balance?.totalBalance, 8, true, lbtcUnit);
+      : fromSatsToUnitOrFractional(
+          // TODO: use totalBalance once fixed
+          feeBalance?.balance?.confirmedBalance + feeBalance?.balance?.unconfirmedBalance,
+          8,
+          true,
+          lbtcUnit
+        );
   const [isConfirmWithdrawModalVisible, setIsConfirmWithdrawModalVisible] = useState<boolean>();
   const [unitAmount, setUnitAmount] = useState<number>(0);
   const [address, setAddress] = useState<string>();

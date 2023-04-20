@@ -164,10 +164,12 @@ export const MarketWithdraw = (): JSX.Element => {
         );
   const baseTotalAmountFormatted =
     !selectedMarket.baseAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.totalBalance === undefined
+    marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.totalBalance,
+          // TODO: use totalBalance once fixed
+          marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.confirmedBalance +
+            marketInfo?.balance[selectedMarket.baseAsset.asset_id]?.unconfirmedBalance,
           selectedMarket?.baseAsset?.precision,
           isLbtcTicker(selectedMarket?.baseAsset?.ticker),
           lbtcUnit
@@ -184,10 +186,12 @@ export const MarketWithdraw = (): JSX.Element => {
         );
   const quoteTotalAmountFormatted =
     !selectedMarket.quoteAsset?.asset_id ||
-    marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.totalBalance === undefined
+    marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.confirmedBalance === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
-          marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.totalBalance,
+          // TODO: use totalBalance once fixed
+          marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.confirmedBalance +
+            marketInfo?.balance[selectedMarket.quoteAsset.asset_id]?.unconfirmedBalance,
           selectedMarket?.quoteAsset?.precision,
           isLbtcTicker(selectedMarket?.quoteAsset?.ticker),
           lbtcUnit

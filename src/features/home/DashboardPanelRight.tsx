@@ -39,7 +39,13 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
   useEffect(() => {
     if (network === daemonInfo?.network && !daemonInfoIsFetching) {
       const feeBalanceInLbtcUnit =
-        feeBalance && fromUnitToUnit(feeBalance?.balance?.totalBalance ?? 0, 'L-sats', lbtcUnit);
+        feeBalance &&
+        fromUnitToUnit(
+          // TODO: use totalBalance once fixed
+          (feeBalance?.balance?.confirmedBalance ?? 0) + (feeBalance?.balance?.unconfirmedBalance ?? 0),
+          'L-sats',
+          lbtcUnit
+        );
       setFeeAccountBalanceAsFavoriteCurrency(
         convertAmountToFavoriteCurrency({
           asset: LBTC_ASSET[network],

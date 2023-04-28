@@ -74,7 +74,7 @@ export const AllRows = ({
         }
 
         if (mode === 'withdraw') {
-          const data = getWithdrawData(row, lbtcUnit, marketInfo, network);
+          const data = getWithdrawData(row, lbtcUnit, marketInfo, network, baseAsset, quoteAsset);
           baseAmountFormatted = data.baseAmountFormatted;
           quoteAmountFormatted = data.quoteAmountFormatted;
           txId = data.txId;

@@ -28,7 +28,7 @@ export const getWithdrawData = (
   quoteAsset?: Asset
 ): { baseAmountFormatted: string; quoteAmountFormatted: string; txId: string } => {
   const baseAmountFormatted =
-    row.totalAmountPerAsset[baseAsset?.asset_id ?? ''] === undefined || !marketInfo.market?.baseAsset
+    row.totalAmountPerAsset[baseAsset?.asset_id ?? ''] === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
           row.totalAmountPerAsset[baseAsset?.asset_id ?? ''],
@@ -37,7 +37,7 @@ export const getWithdrawData = (
           lbtcUnit
         );
   const quoteAmountFormatted =
-    row.totalAmountPerAsset[quoteAsset?.asset_id ?? ''] === undefined || !marketInfo.market?.quoteAsset
+    row.totalAmountPerAsset[quoteAsset?.asset_id ?? ''] === undefined
       ? 'N/A'
       : fromSatsToUnitOrFractional(
           row.totalAmountPerAsset[quoteAsset?.asset_id ?? ''],
@@ -60,7 +60,7 @@ export const WithdrawalRows = ({
   return (
     <>
       {withdrawals?.map((row) => {
-        const data = getWithdrawData(row, lbtcUnit, marketInfo, network);
+        const data = getWithdrawData(row, lbtcUnit, marketInfo, network, baseAsset, quoteAsset);
         return (
           <TxRow
             key={data.txId}

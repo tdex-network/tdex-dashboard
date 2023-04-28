@@ -1,37 +1,25 @@
 import { Button, Form, Input, notification } from 'antd';
-import React from 'react';
-
-import { useTypedDispatch } from '../../../../app/store';
-import type { Asset } from '../../../../domain/asset';
-import { setMarketLabelled } from '../../../settings/settingsSlice';
 
 interface IFormInputs {
   label: string;
 }
 
 interface MarketLabelFormProps {
-  baseAsset: Asset;
-  quoteAsset: Asset;
   className: string;
   incrementStep: () => void;
+  setLabel: (label: string) => void;
 }
 
 export const MarketLabelForm = ({
-  baseAsset,
-  quoteAsset,
   className,
   incrementStep,
+  setLabel,
 }: MarketLabelFormProps): JSX.Element => {
-  const dispatch = useTypedDispatch();
   const [form] = Form.useForm<IFormInputs>();
 
   const onFinish = async () => {
-    const values = await form.validateFields();
-    const marketStr = JSON.stringify({
-      baseAssetTicker: baseAsset?.ticker,
-      quoteAssetTicker: quoteAsset?.ticker,
-    });
-    dispatch(setMarketLabelled({ marketStr, label: values.label }));
+    const { label } = await form.validateFields();
+    setLabel(label);
     incrementStep();
     notification.success({ message: 'Label attached successfully' });
   };

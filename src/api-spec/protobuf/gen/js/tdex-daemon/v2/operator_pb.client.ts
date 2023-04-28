@@ -83,7 +83,7 @@ import type { DeriveFeeAddressesRequest } from "./operator_pb";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
- *
+ * *
  * Service for operators to configure and manage a TDEX daemon
  *
  * @generated from protobuf service tdex_daemon.v2.OperatorService
@@ -313,7 +313,7 @@ export interface IOperatorServiceClient {
     listWithdrawals(input: ListWithdrawalsRequest, options?: RpcOptions): UnaryCall<ListWithdrawalsRequest, ListWithdrawalsResponse>;
 }
 /**
- *
+ * *
  * Service for operators to configure and manage a TDEX daemon
  *
  * @generated from protobuf service tdex_daemon.v2.OperatorService

@@ -146,9 +146,15 @@ export interface NewMarketRequest {
      */
     percentageFee?: MarketFee;
     /**
+     * The fixed fee for the market.
+     *
+     * @generated from protobuf field: tdex.v2.MarketFee fixed_fee = 5;
+     */
+    fixedFee?: MarketFee;
+    /**
      * Optional human-readable name for the market.
      *
-     * @generated from protobuf field: string name = 5;
+     * @generated from protobuf field: string name = 6;
      */
     name: string;
 }
@@ -1273,7 +1279,8 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
             { no: 2, name: "base_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 3, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 4, name: "percentage_fee", kind: "message", T: () => MarketFee },
-            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "fixed_fee", kind: "message", T: () => MarketFee },
+            { no: 6, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NewMarketRequest>): NewMarketRequest {
@@ -1300,7 +1307,10 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
                 case /* tdex.v2.MarketFee percentage_fee */ 4:
                     message.percentageFee = MarketFee.internalBinaryRead(reader, reader.uint32(), options, message.percentageFee);
                     break;
-                case /* string name */ 5:
+                case /* tdex.v2.MarketFee fixed_fee */ 5:
+                    message.fixedFee = MarketFee.internalBinaryRead(reader, reader.uint32(), options, message.fixedFee);
+                    break;
+                case /* string name */ 6:
                     message.name = reader.string();
                     break;
                 default:
@@ -1327,9 +1337,12 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
         /* tdex.v2.MarketFee percentage_fee = 4; */
         if (message.percentageFee)
             MarketFee.internalBinaryWrite(message.percentageFee, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
-        /* string name = 5; */
+        /* tdex.v2.MarketFee fixed_fee = 5; */
+        if (message.fixedFee)
+            MarketFee.internalBinaryWrite(message.fixedFee, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* string name = 6; */
         if (message.name !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.name);
+            writer.tag(6, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

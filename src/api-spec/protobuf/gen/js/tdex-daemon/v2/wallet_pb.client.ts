@@ -25,7 +25,7 @@ import type { GenSeedRequest } from "./wallet_pb";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
- *
+ * *
  * Service for operators to manage the internal wallet of the daemon
  *
  * @generated from protobuf service tdex_daemon.v2.WalletService
@@ -97,7 +97,7 @@ export interface IWalletServiceClient {
     getInfo(input: GetInfoRequest, options?: RpcOptions): UnaryCall<GetInfoRequest, GetInfoResponse>;
 }
 /**
- *
+ * *
  * Service for operators to manage the internal wallet of the daemon
  *
  * @generated from protobuf service tdex_daemon.v2.WalletService

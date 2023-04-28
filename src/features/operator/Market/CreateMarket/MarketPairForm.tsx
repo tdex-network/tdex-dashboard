@@ -2,12 +2,12 @@ import { Button, Col, Row, notification, Select } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
+import type { Market } from '../../../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { CurrencyIcon } from '../../../../common/CurrencyIcon';
 import type { Asset } from '../../../../domain/asset';
 import type { NetworkString } from '../../../../domain/misc';
 import { LBTC_ASSET } from '../../../../utils';
-import { useNewMarketMutation } from '../../operator.api';
 
 import { AddCustomToken } from './AddCustomToken';
 
@@ -19,6 +19,7 @@ interface MarketPairFormProps {
   baseAsset: Asset;
   quoteAsset: Asset;
   incrementStep: () => void;
+  setMarket: (market: { market: Market; baseAssetPrecision: number; quoteAssetPrecision: number }) => void;
 }
 
 export const MarketPairForm = ({
@@ -27,8 +28,8 @@ export const MarketPairForm = ({
   baseAsset,
   quoteAsset,
   incrementStep,
+  setMarket,
 }: MarketPairFormProps): JSX.Element => {
-  const [newMarket] = useNewMarketMutation();
   const [showGenericAssetForm, setShowGenericAssetForm] = useState<boolean>(false);
   const [activeSelectComponent, setActiveSelectComponent] = useState<'base' | 'quote'>('base');
   const { assets, network } = useTypedSelector(({ settings }) => settings);
@@ -68,16 +69,12 @@ export const MarketPairForm = ({
         notification.error({ message: 'Cannot create a market with both same assets' });
         return;
       }
-      const res = await newMarket({
+      setMarket({
         market: { baseAsset: baseAsset.asset_id, quoteAsset: quoteAsset.asset_id },
         baseAssetPrecision: baseAsset.precision,
         quoteAssetPrecision: quoteAsset.precision,
-        name: '',
       });
-      // @ts-ignore
-      if (res?.error) throw new Error(res?.error);
       incrementStep();
-      notification.success({ message: 'New market created successfully' });
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });

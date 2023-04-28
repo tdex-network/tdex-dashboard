@@ -1,23 +1,21 @@
 import './createMarket.less';
-import Icon, { InfoCircleOutlined } from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Typography, notification, Button } from 'antd';
+import Icon from '@ant-design/icons';
+import { Breadcrumb, Row, Col, Button, notification } from 'antd';
 import clx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import type { NewMarketRequest } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
 import { useTypedSelector } from '../../../../app/store';
 import { ReactComponent as chevronRight } from '../../../../assets/images/chevron-right.svg';
 import type { Asset } from '../../../../domain/asset';
 import { HOME_ROUTE } from '../../../../routes/constants';
 import { LBTC_ASSET, USDT_TICKER } from '../../../../utils';
-import { FeeForm } from '../../Fee/FeeForm';
-import { useGetMarketInfoQuery } from '../../operator.api';
-import { MarketStrategy } from '../MarketStrategy';
+import { useNewMarketMutation } from '../../operator.api';
 
+import { FeeForm } from './FeeForm';
 import { MarketLabelForm } from './MarketLabelForm';
 import { MarketPairForm } from './MarketPairForm';
-
-const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const navigate = useNavigate();
@@ -26,31 +24,44 @@ export const CreateMarket = (): JSX.Element => {
   const [quoteAsset, setQuoteAsset] = useState<Asset>(
     assets[network].find((a) => a.ticker === USDT_TICKER) || assets[network][0]
   );
-  const { data: marketInfo, error: marketInfoError } = useGetMarketInfoQuery({
-    baseAsset: baseAsset?.asset_id,
-    quoteAsset: quoteAsset?.asset_id,
-  });
   const [step, setStep] = useState<number>(0);
+  const [newMarket, setNewMarket] = useState<Partial<NewMarketRequest>>();
+  //const [strategyType, setStrategyType] = useState<StrategyType>();
+  //
+  const [newMarketRequest] = useNewMarketMutation();
+  //const [updateMarketStrategy] = useUpdateMarketStrategyMutation();
+  //const [openMarket] = useOpenMarketMutation();
+  //const [closeMarket] = useCloseMarketMutation();
 
   const incrementStep = () => setStep(step + 1);
-
-  useEffect(() => {
-    if (typeof marketInfoError === 'string') {
-      if (
-        marketInfoError !== 'missing argument' &&
-        marketInfoError !== 'market does not exist' &&
-        !(marketInfoError as string).includes('not found')
-      ) {
-        notification.error({ message: marketInfoError.toString() });
-      }
-    }
-  }, [marketInfoError]);
 
   // After confirming a pair, changing the pair should reset all the form
   useEffect(() => {
     if (step > 0) setStep(0);
     // eslint-disable-next-line
   }, [baseAsset, quoteAsset]);
+
+  const createNewMarket = async () => {
+    if (!newMarket) return;
+    const resNewMarketRequest = await newMarketRequest(newMarket as NewMarketRequest);
+    if ('error' in resNewMarketRequest) throw new Error((resNewMarketRequest as any).error);
+
+    /*
+    // Update market strategy
+    // Pause Market
+    const resClose = await closeMarket(newMarket.market as Market);
+    if ('error' in resClose) throw new Error((resClose as any).error);
+    const resUpdateMarketStrategy = await updateMarketStrategy({
+      market: newMarket.market as Market,
+      strategyType: strategyType as StrategyType,
+    });
+    if ('error' in resUpdateMarketStrategy) throw new Error((resUpdateMarketStrategy as any).error);
+    // Re-open market
+    const resOpen = await openMarket(newMarket.market as Market);
+    if ('error' in resOpen) throw new Error((resOpen as any).error);
+    */
+    notification.success({ message: 'New market created successfully' });
+  };
 
   return (
     <Row>
@@ -74,19 +85,21 @@ export const CreateMarket = (): JSX.Element => {
               baseAsset={baseAsset}
               quoteAsset={quoteAsset}
               incrementStep={incrementStep}
+              setMarket={(market) => setNewMarket(market)}
             />
             <MarketLabelForm
-              baseAsset={baseAsset}
-              quoteAsset={quoteAsset}
               className={clx({ disabled: step < 1 })}
               incrementStep={incrementStep}
+              setLabel={(label) => setNewMarket({ ...newMarket, name: label })}
             />
             <FeeForm
               baseAsset={baseAsset}
               quoteAsset={quoteAsset}
               className={clx({ disabled: step < 2 }, 'mb-4')}
               incrementStep={incrementStep}
+              setFees={(fees) => setNewMarket({ ...newMarket, ...fees })}
             />
+            {/*
             <div className={clx('panel panel__grey mb-4', { disabled: step < 3 })}>
               <Row className="mb-4">
                 <Col span={24}>
@@ -96,9 +109,23 @@ export const CreateMarket = (): JSX.Element => {
                   <InfoCircleOutlined className="grey" />
                 </Col>
               </Row>
-              <MarketStrategy marketInfo={marketInfo} />
+              <MarketStrategy setStrategyType={setStrategyType} />
             </div>
-            <Button className={clx('w-100', { disabled: step < 1 })} onClick={() => navigate(HOME_ROUTE)}>
+            */}
+            <Button
+              className={clx('w-100', { disabled: step < 1 })}
+              onClick={async () => {
+                try {
+                  await createNewMarket();
+                  navigate(HOME_ROUTE);
+                } catch (err) {
+                  if (err instanceof Error) {
+                    notification.error({ message: err.message, key: err.message });
+                    console.error(err);
+                  }
+                }
+              }}
+            >
               DONE
             </Button>
           </Col>

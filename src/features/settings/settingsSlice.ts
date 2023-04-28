@@ -2,6 +2,7 @@ import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { FeederServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/feeder_pb.client';
 import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb.client';
 import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb.client';
 import { config } from '../../app/config';
@@ -190,9 +191,6 @@ export const settingsSlice = createSlice({
         state.assets[state.network] = state.assets[state.network].concat(action.payload);
       }
     },
-    setMarketLabelled: (state, action: PayloadAction<MarketLabelled>) => {
-      state.marketsLabelled = [...(state.marketsLabelled || []), action.payload];
-    },
     setProxyPid: (state, action: PayloadAction<number | undefined>) => {
       state.proxyPid = action.payload;
     },
@@ -243,7 +241,9 @@ export function selectMarketLabelled(state: RootState): MarketLabelled[] | undef
 }
 
 // gRPC Web Clients
-let operatorClient: OperatorServiceClient, walletClient: WalletServiceClient;
+let operatorClient: OperatorServiceClient,
+  walletClient: WalletServiceClient,
+  feederClient: FeederServiceClient;
 export function selectOperatorClient(baseUrl: string): OperatorServiceClient {
   if (!operatorClient) {
     operatorClient = new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl }));
@@ -256,6 +256,13 @@ export function selectWalletClient(baseUrl: string): WalletServiceClient {
     walletClient = new WalletServiceClient(new GrpcWebFetchTransport({ baseUrl }));
   }
   return walletClient;
+}
+
+export function selectFeederClient(baseUrl: string): FeederServiceClient {
+  if (!feederClient) {
+    feederClient = new FeederServiceClient(new GrpcWebFetchTransport({ baseUrl }));
+  }
+  return feederClient;
 }
 
 export const {
@@ -276,7 +283,6 @@ export const {
   logout,
   setAsset,
   setUseProxy,
-  setMarketLabelled,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

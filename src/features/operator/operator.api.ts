@@ -273,7 +273,7 @@ export const operatorApi = tdexApi.injectEndpoints({
             });
             t = TimeRange.create({ customPeriod: c });
           }
-          const newMarket = Market.create({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.getMarketReport(
             GetMarketReportRequest.create({ market: newMarket, timeRange: t, timeFrame }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
@@ -291,7 +291,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           if (!market) throw new Error('missing argument');
-          const newMarket = Market.create({ baseAsset: market.baseAsset, quoteAsset: market.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.getMarketInfo(GetMarketInfoRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
@@ -312,7 +312,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.deriveMarketAddresses(
             DeriveMarketAddressesRequest.create({ market: newMarket }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
@@ -330,7 +330,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.listMarketAddresses(
             ListMarketAddressesRequest.create({ market: newMarket }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
@@ -343,20 +343,25 @@ export const operatorApi = tdexApi.injectEndpoints({
       providesTags: ['market'],
     }),
     newMarket: build.mutation<NewMarketResponse, NewMarketRequest>({
-      queryFn: async ({ market, baseAssetPrecision, quoteAssetPrecision }, { getState }) => {
+      queryFn: async (
+        { market, baseAssetPrecision, quoteAssetPrecision, fixedFee, percentageFee, name },
+        { getState }
+      ) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({
-            baseAsset: market?.baseAsset,
-            quoteAsset: market?.quoteAsset,
-          });
+          const newMarket = Market.create(market);
+          const newFixedFee = MarketFee.create(fixedFee);
+          const newPercentageFee = MarketFee.create(percentageFee);
           const call = await client.newMarket(
             NewMarketRequest.create({
               market: newMarket,
               baseAssetPrecision,
               quoteAssetPrecision,
+              fixedFee: newFixedFee,
+              percentageFee: newPercentageFee,
+              name,
             }),
             {
               meta: macaroon ? { macaroon } : undefined,
@@ -371,12 +376,12 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['market'],
     }),
     openMarket: build.mutation<OpenMarketResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+      queryFn: async (market, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.openMarket(OpenMarketRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
@@ -389,12 +394,12 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['market'],
     }),
     closeMarket: build.mutation<CloseMarketResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+      queryFn: async (market, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.closeMarket(CloseMarketRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
@@ -407,12 +412,12 @@ export const operatorApi = tdexApi.injectEndpoints({
       invalidatesTags: ['market'],
     }),
     dropMarket: build.mutation<DropMarketResponse, Market>({
-      queryFn: async ({ baseAsset, quoteAsset }, { getState }) => {
+      queryFn: async (market, { getState }) => {
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.dropMarket(DropMarketRequest.create({ market: newMarket }), {
             meta: macaroon ? { macaroon } : undefined,
             interceptors,
@@ -430,7 +435,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.withdrawMarket(
             WithdrawMarketRequest.create({
               market: newMarket,
@@ -456,7 +461,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const newFee = MarketFee.create({ baseAsset: fee?.baseAsset, quoteAsset: fee?.quoteAsset });
           const call = await client.updateMarketPercentageFee(
             UpdateMarketPercentageFeeRequest.create({ market: newMarket, fee: newFee }),
@@ -475,7 +480,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const newFee = MarketFee.create({ baseAsset: fee?.baseAsset, quoteAsset: fee?.quoteAsset });
           const call = await client.updateMarketFixedFee(
             UpdateMarketFixedFeeRequest.create({ market: newMarket, fee: newFee }),
@@ -500,8 +505,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create(market);
           //
           const { basePrice, quotePrice } = price;
           const newPrice = Price.create({ basePrice, quotePrice });
@@ -526,8 +530,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
-          const { baseAsset, quoteAsset } = market;
-          const newMarket = Market.create({ baseAsset, quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.updateMarketStrategy(
             UpdateMarketStrategyRequest.create({ market: newMarket, strategyType, metadata: meta || '' }),
             { meta: macaroon ? { macaroon } : undefined, interceptors }
@@ -618,7 +621,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const state = getState() as RootState;
         const client = selectOperatorClient(state.settings.baseUrl);
         const macaroon = selectMacaroonCreds(state);
-        const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+        const newMarket = Market.create(market);
         const call = client.marketFragmenterSplitFunds(
           MarketFragmenterSplitFundsRequest.create({ market: newMarket, millisatsPerByte }),
           { meta: macaroon ? { macaroon } : undefined, interceptors }
@@ -658,7 +661,7 @@ export const operatorApi = tdexApi.injectEndpoints({
         const macaroon = selectMacaroonCreds(state);
         return retryRtkRequest(async () => {
           const newPage = Page.create({ number: page?.number, size: page?.size });
-          const newMarket = Market.create({ baseAsset: market?.baseAsset, quoteAsset: market?.quoteAsset });
+          const newMarket = Market.create(market);
           const call = await client.listTrades(
             ListTradesRequest.create({ market: newMarket, page: newPage }),
             { meta: { macaroon }, interceptors }

@@ -29,7 +29,6 @@ const { useBreakpoint } = Grid;
 
 export const MarketOverview = (): JSX.Element => {
   const navigate = useNavigate();
-  const marketsLabelled = useTypedSelector(({ settings }) => settings.marketsLabelled);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [isBalanceUpdating, setIsBalanceUpdating] = useState<boolean>(false);
   const { data: marketInfo, refetch: marketInfoRefetch } = useGetMarketInfoQuery(
@@ -177,16 +176,7 @@ export const MarketOverview = (): JSX.Element => {
               <span className="dm-sans dm-sans__xx">
                 {state?.baseAsset?.ticker} / {state?.quoteAsset?.ticker}
               </span>
-              <span>
-                {marketsLabelled?.find(
-                  ({ marketStr }) =>
-                    marketStr ===
-                    JSON.stringify({
-                      baseAssetTicker: state?.baseAsset?.ticker,
-                      quoteAssetTicker: state?.quoteAsset?.ticker,
-                    })
-                )?.label || 'Custom name'}
-              </span>
+              {marketInfo?.name ? <span>{marketInfo.name}</span> : null}
             </Space>
           </Col>
           <Col xs={24} md={12} className={classNames({ 'text-end': screens.md, 'mt-4': !screens.md })}>

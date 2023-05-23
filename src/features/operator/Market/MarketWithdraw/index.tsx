@@ -40,9 +40,7 @@ export const MarketWithdraw = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [passwordForm] = Form.useForm<IPasswordFormInputs>();
 
-  const { explorerLiquidAPI, network, lbtcUnit, assets, currency } = useTypedSelector(
-    ({ settings }: RootState) => settings
-  );
+  const { network, lbtcUnit, assets, currency } = useTypedSelector(({ settings }: RootState) => settings);
   const { state } = useLocation() as { state: { baseAsset: Asset; quoteAsset: Asset } };
   const [selectedMarket, setSelectedMarket] = useState<{ baseAsset?: Asset; quoteAsset?: Asset }>({
     baseAsset: state?.baseAsset,
@@ -69,20 +67,25 @@ export const MarketWithdraw = (): JSX.Element => {
 
   useEffect(() => {
     if (listMarkets?.length) {
+      const marketListArr = marketList;
       for (const { market } of listMarkets) {
         const newMarket: [Asset?, Asset?] = [
           getAssetDataFromRegistry(market?.baseAsset ?? '', assets[network], lbtcUnit),
           getAssetDataFromRegistry(market?.quoteAsset ?? '', assets[network], lbtcUnit),
         ];
-        marketList.forEach(([asset1, asset2]) => {
-          if (asset1?.asset_id !== newMarket[0]?.asset_id || asset2?.asset_id !== newMarket[1]?.asset_id) {
-            setMarketList([...marketList, newMarket]);
-          }
-        });
+        if (
+          !marketListArr.find(
+            ([baseAsset, quoteAsset]) =>
+              baseAsset?.ticker === newMarket[0]?.ticker && quoteAsset?.ticker === newMarket[1]?.ticker
+          )
+        ) {
+          marketListArr.push(newMarket);
+        }
       }
+      setMarketList(marketListArr.slice());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assets, explorerLiquidAPI, lbtcUnit, listMarkets, network]);
+  }, [listMarkets?.length]);
 
   const withdraw = async () => {
     try {

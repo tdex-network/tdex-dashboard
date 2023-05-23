@@ -61,7 +61,6 @@ export const SelectMarket = ({
               <span>
                 {market?.baseAssetTicker} / {market?.quoteAssetTicker}
               </span>
-              <span>Custom name</span>
             </span>
           </Option>
         );

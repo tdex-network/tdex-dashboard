@@ -9,7 +9,6 @@ import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
 import type { Currency } from '../../domain/currency';
-import type { MarketLabelled } from '../../domain/market';
 import type { NetworkString } from '../../domain/misc';
 import type { LbtcUnit } from '../../utils';
 import { CURRENCIES, featuredAssets, LBTC_ASSET, LBTC_UNITS } from '../../utils';
@@ -30,7 +29,6 @@ export interface SettingsState {
   baseUrl: string;
   useProxy?: boolean;
   isTauri: boolean;
-  marketsLabelled?: MarketLabelled[];
   macaroonCredentials?: string;
   connectUrlProto?: string;
   tdexdConnectUrl?: string;
@@ -234,10 +232,6 @@ export function selectMacaroonCreds(state: RootState): string {
     return state.settings.macaroonCredentials;
   }
   return '';
-}
-
-export function selectMarketLabelled(state: RootState): MarketLabelled[] | undefined {
-  return state.settings.marketsLabelled;
 }
 
 // gRPC Web Clients

@@ -20,13 +20,13 @@ import { ActionType } from "./types_pb";
 import { UtxoInfo } from "./types_pb";
 import { TradeInfo } from "./types_pb";
 import { Page } from "./types_pb";
-import { StrategyType } from "./types_pb";
 import { Price } from "../../tdex/v2/types_pb";
 import { MarketWithFee } from "../../tdex/v2/types_pb";
 import { MarketReport } from "./types_pb";
 import { TimeFrame } from "./types_pb";
 import { TimeRange } from "./types_pb";
 import { MarketInfo } from "./types_pb";
+import { StrategyType } from "./types_pb";
 import { MarketFee } from "../../tdex/v2/types_pb";
 import { Market } from "../../tdex/v2/types_pb";
 import { TxOutput } from "./types_pb";
@@ -157,6 +157,12 @@ export interface NewMarketRequest {
      * @generated from protobuf field: string name = 6;
      */
     name: string;
+    /**
+     * The market-making strategy to use.
+     *
+     * @generated from protobuf field: tdex_daemon.v2.StrategyType strategy_type = 7;
+     */
+    strategyType: StrategyType;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.NewMarketResponse
@@ -1280,11 +1286,12 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
             { no: 3, name: "quote_asset_precision", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 4, name: "percentage_fee", kind: "message", T: () => MarketFee },
             { no: 5, name: "fixed_fee", kind: "message", T: () => MarketFee },
-            { no: 6, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "strategy_type", kind: "enum", T: () => ["tdex_daemon.v2.StrategyType", StrategyType] }
         ]);
     }
     create(value?: PartialMessage<NewMarketRequest>): NewMarketRequest {
-        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0, name: "" };
+        const message = { baseAssetPrecision: 0, quoteAssetPrecision: 0, name: "", strategyType: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<NewMarketRequest>(this, message, value);
@@ -1312,6 +1319,9 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
                     break;
                 case /* string name */ 6:
                     message.name = reader.string();
+                    break;
+                case /* tdex_daemon.v2.StrategyType strategy_type */ 7:
+                    message.strategyType = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1343,6 +1353,9 @@ class NewMarketRequest$Type extends MessageType<NewMarketRequest> {
         /* string name = 6; */
         if (message.name !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.name);
+        /* tdex_daemon.v2.StrategyType strategy_type = 7; */
+        if (message.strategyType !== 0)
+            writer.tag(7, WireType.Varint).int32(message.strategyType);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

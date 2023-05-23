@@ -20,9 +20,7 @@ export const MarketStrategy = ({ setStrategyType }: MarketStrategyProps): JSX.El
           <Radio.Button disabled value={StrategyType.STRATEGY_TYPE_UNBALANCED}>
             UNBALANCED
           </Radio.Button>
-          <Radio.Button disabled value={StrategyType.STRATEGY_TYPE_PLUGGABLE}>
-            PLUGGABLE
-          </Radio.Button>
+          <Radio.Button value={StrategyType.STRATEGY_TYPE_PLUGGABLE}>PLUGGABLE</Radio.Button>
         </Radio.Group>
       </Col>
     </Row>

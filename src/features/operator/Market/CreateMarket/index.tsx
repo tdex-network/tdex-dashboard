@@ -1,6 +1,6 @@
 import './createMarket.less';
-import Icon from '@ant-design/icons';
-import { Breadcrumb, Row, Col, Button, notification } from 'antd';
+import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+import { Breadcrumb, Row, Col, Button, notification, Typography } from 'antd';
 import clx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,6 +16,9 @@ import { useNewMarketMutation } from '../../operator.api';
 import { FeeForm } from './FeeForm';
 import { MarketLabelForm } from './MarketLabelForm';
 import { MarketPairForm } from './MarketPairForm';
+import { MarketStrategy } from './MarketStrategy';
+
+const { Title } = Typography;
 
 export const CreateMarket = (): JSX.Element => {
   const navigate = useNavigate();
@@ -26,12 +29,7 @@ export const CreateMarket = (): JSX.Element => {
   );
   const [step, setStep] = useState<number>(0);
   const [newMarket, setNewMarket] = useState<Partial<NewMarketRequest>>();
-  //const [strategyType, setStrategyType] = useState<StrategyType>();
-  //
   const [newMarketRequest] = useNewMarketMutation();
-  //const [updateMarketStrategy] = useUpdateMarketStrategyMutation();
-  //const [openMarket] = useOpenMarketMutation();
-  //const [closeMarket] = useCloseMarketMutation();
 
   const incrementStep = () => setStep(step + 1);
 
@@ -45,21 +43,6 @@ export const CreateMarket = (): JSX.Element => {
     if (!newMarket) return;
     const resNewMarketRequest = await newMarketRequest(newMarket as NewMarketRequest);
     if ('error' in resNewMarketRequest) throw new Error((resNewMarketRequest as any).error);
-
-    /*
-    // Update market strategy
-    // Pause Market
-    const resClose = await closeMarket(newMarket.market as Market);
-    if ('error' in resClose) throw new Error((resClose as any).error);
-    const resUpdateMarketStrategy = await updateMarketStrategy({
-      market: newMarket.market as Market,
-      strategyType: strategyType as StrategyType,
-    });
-    if ('error' in resUpdateMarketStrategy) throw new Error((resUpdateMarketStrategy as any).error);
-    // Re-open market
-    const resOpen = await openMarket(newMarket.market as Market);
-    if ('error' in resOpen) throw new Error((resOpen as any).error);
-    */
     notification.success({ message: 'New market created successfully' });
   };
 
@@ -99,7 +82,6 @@ export const CreateMarket = (): JSX.Element => {
               incrementStep={incrementStep}
               setFees={(fees) => setNewMarket({ ...newMarket, ...fees })}
             />
-            {/*
             <div className={clx('panel panel__grey mb-4', { disabled: step < 3 })}>
               <Row className="mb-4">
                 <Col span={24}>
@@ -109,9 +91,10 @@ export const CreateMarket = (): JSX.Element => {
                   <InfoCircleOutlined className="grey" />
                 </Col>
               </Row>
-              <MarketStrategy setStrategyType={setStrategyType} />
+              <MarketStrategy
+                setStrategyType={(strategyType) => setNewMarket({ ...newMarket, strategyType })}
+              />
             </div>
-            */}
             <Button
               className={clx('w-100', { disabled: step < 1 })}
               onClick={async () => {

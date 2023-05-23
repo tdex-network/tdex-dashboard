@@ -344,7 +344,7 @@ export const operatorApi = tdexApi.injectEndpoints({
     }),
     newMarket: build.mutation<NewMarketResponse, NewMarketRequest>({
       queryFn: async (
-        { market, baseAssetPrecision, quoteAssetPrecision, fixedFee, percentageFee, name },
+        { market, baseAssetPrecision, quoteAssetPrecision, fixedFee, percentageFee, name, strategyType },
         { getState }
       ) => {
         const state = getState() as RootState;
@@ -362,6 +362,7 @@ export const operatorApi = tdexApi.injectEndpoints({
               fixedFee: newFixedFee,
               percentageFee: newPercentageFee,
               name,
+              strategyType,
             }),
             {
               meta: macaroon ? { macaroon } : undefined,

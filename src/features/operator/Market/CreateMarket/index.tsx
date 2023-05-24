@@ -95,8 +95,12 @@ export const CreateMarket = (): JSX.Element => {
                 setStrategyType={(strategyType) => setNewMarket({ ...newMarket, strategyType })}
               />
             </div>
+            <Button className="w-100 mb-2" danger onClick={() => navigate(HOME_ROUTE)}>
+              CANCEL
+            </Button>
             <Button
               className={clx('w-100', { disabled: step < 1 })}
+              disabled={step < 1}
               onClick={async () => {
                 try {
                   await createNewMarket();

@@ -10,12 +10,6 @@ import type { ListWithdrawalsResponse } from "./operator_pb";
 import type { ListWithdrawalsRequest } from "./operator_pb";
 import type { ListDepositsResponse } from "./operator_pb";
 import type { ListDepositsRequest } from "./operator_pb";
-import type { ListWebhooksResponse } from "./operator_pb";
-import type { ListWebhooksRequest } from "./operator_pb";
-import type { RemoveWebhookResponse } from "./operator_pb";
-import type { RemoveWebhookRequest } from "./operator_pb";
-import type { AddWebhookResponse } from "./operator_pb";
-import type { AddWebhookRequest } from "./operator_pb";
 import type { ListUtxosResponse } from "./operator_pb";
 import type { ListUtxosRequest } from "./operator_pb";
 import type { ListTradesResponse } from "./operator_pb";
@@ -281,24 +275,6 @@ export interface IOperatorServiceClient {
      * @generated from protobuf rpc: ListUtxos(tdex_daemon.v2.ListUtxosRequest) returns (tdex_daemon.v2.ListUtxosResponse);
      */
     listUtxos(input: ListUtxosRequest, options?: RpcOptions): UnaryCall<ListUtxosRequest, ListUtxosResponse>;
-    /**
-     * Adds a webhook registered for some kind of event.
-     *
-     * @generated from protobuf rpc: AddWebhook(tdex_daemon.v2.AddWebhookRequest) returns (tdex_daemon.v2.AddWebhookResponse);
-     */
-    addWebhook(input: AddWebhookRequest, options?: RpcOptions): UnaryCall<AddWebhookRequest, AddWebhookResponse>;
-    /**
-     * Removes some previously added webhook.
-     *
-     * @generated from protobuf rpc: RemoveWebhook(tdex_daemon.v2.RemoveWebhookRequest) returns (tdex_daemon.v2.RemoveWebhookResponse);
-     */
-    removeWebhook(input: RemoveWebhookRequest, options?: RpcOptions): UnaryCall<RemoveWebhookRequest, RemoveWebhookResponse>;
-    /**
-     * Returns registered webhooks
-     *
-     * @generated from protobuf rpc: ListWebhooks(tdex_daemon.v2.ListWebhooksRequest) returns (tdex_daemon.v2.ListWebhooksResponse);
-     */
-    listWebhooks(input: ListWebhooksRequest, options?: RpcOptions): UnaryCall<ListWebhooksRequest, ListWebhooksResponse>;
     /**
      * Returns the list of all claimed deposits for the given account.
      *
@@ -610,39 +586,12 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
         return stackIntercept<ListUtxosRequest, ListUtxosResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * Adds a webhook registered for some kind of event.
-     *
-     * @generated from protobuf rpc: AddWebhook(tdex_daemon.v2.AddWebhookRequest) returns (tdex_daemon.v2.AddWebhookResponse);
-     */
-    addWebhook(input: AddWebhookRequest, options?: RpcOptions): UnaryCall<AddWebhookRequest, AddWebhookResponse> {
-        const method = this.methods[31], opt = this._transport.mergeOptions(options);
-        return stackIntercept<AddWebhookRequest, AddWebhookResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * Removes some previously added webhook.
-     *
-     * @generated from protobuf rpc: RemoveWebhook(tdex_daemon.v2.RemoveWebhookRequest) returns (tdex_daemon.v2.RemoveWebhookResponse);
-     */
-    removeWebhook(input: RemoveWebhookRequest, options?: RpcOptions): UnaryCall<RemoveWebhookRequest, RemoveWebhookResponse> {
-        const method = this.methods[32], opt = this._transport.mergeOptions(options);
-        return stackIntercept<RemoveWebhookRequest, RemoveWebhookResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * Returns registered webhooks
-     *
-     * @generated from protobuf rpc: ListWebhooks(tdex_daemon.v2.ListWebhooksRequest) returns (tdex_daemon.v2.ListWebhooksResponse);
-     */
-    listWebhooks(input: ListWebhooksRequest, options?: RpcOptions): UnaryCall<ListWebhooksRequest, ListWebhooksResponse> {
-        const method = this.methods[33], opt = this._transport.mergeOptions(options);
-        return stackIntercept<ListWebhooksRequest, ListWebhooksResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * Returns the list of all claimed deposits for the given account.
      *
      * @generated from protobuf rpc: ListDeposits(tdex_daemon.v2.ListDepositsRequest) returns (tdex_daemon.v2.ListDepositsResponse);
      */
     listDeposits(input: ListDepositsRequest, options?: RpcOptions): UnaryCall<ListDepositsRequest, ListDepositsResponse> {
-        const method = this.methods[34], opt = this._transport.mergeOptions(options);
+        const method = this.methods[31], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListDepositsRequest, ListDepositsResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -651,7 +600,7 @@ export class OperatorServiceClient implements IOperatorServiceClient, ServiceInf
      * @generated from protobuf rpc: ListWithdrawals(tdex_daemon.v2.ListWithdrawalsRequest) returns (tdex_daemon.v2.ListWithdrawalsResponse);
      */
     listWithdrawals(input: ListWithdrawalsRequest, options?: RpcOptions): UnaryCall<ListWithdrawalsRequest, ListWithdrawalsResponse> {
-        const method = this.methods[35], opt = this._transport.mergeOptions(options);
+        const method = this.methods[32], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListWithdrawalsRequest, ListWithdrawalsResponse>("unary", this._transport, method, opt, input);
     }
 }

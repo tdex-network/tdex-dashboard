@@ -1,10 +1,10 @@
 import { Button, Form, Input, Radio } from 'antd';
 
-import { ActionType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { useAddWebhookMutation } from '../../operator.api';
+import { WebhookEvent } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { useAddWebhookMutation } from '../../Webhook/webhook.api';
 
 interface IFormInputs {
-  notificationType: ActionType;
+  notificationType: WebhookEvent;
   notificationUrlInput: string;
   notificationSecretInput: string;
 }
@@ -17,7 +17,7 @@ export const WebhookForm = (): JSX.Element => {
     try {
       const values = await form.validateFields();
       await addWebhook({
-        action: values.notificationType,
+        event: values.notificationType,
         endpoint: values.notificationUrlInput,
         secret: values.notificationSecretInput,
       });
@@ -31,10 +31,11 @@ export const WebhookForm = (): JSX.Element => {
     <Form layout="vertical" form={form} name="webhook_form" onFinish={onFinish} wrapperCol={{ span: 24 }}>
       <Form.Item name="notificationType">
         <Radio.Group className="ghost">
-          <Radio.Button value={ActionType.ACTION_TYPE_ALL_ACTIONS}>Any</Radio.Button>
-          <Radio.Button value={ActionType.ACTION_TYPE_TRADE_SETTLED}>Trade</Radio.Button>
-          <Radio.Button value={ActionType.ACTION_TYPE_ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
-          <Radio.Button value={ActionType.ACTION_TYPE_ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ANY}>Any</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_TRADE_SETTLED}>Trade</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_DEPOSIT}>Deposit</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>
         </Radio.Group>
       </Form.Item>
       <Form.Item name="notificationUrlInput" className="mb-2">

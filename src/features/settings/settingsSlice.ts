@@ -5,6 +5,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { FeederServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/feeder_pb.client';
 import { OperatorServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb.client';
 import { WalletServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb.client';
+import { WebhookServiceClient } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/webhook_pb.client';
 import { config } from '../../app/config';
 import type { RootState } from '../../app/store';
 import type { Asset } from '../../domain/asset';
@@ -237,12 +238,21 @@ export function selectMacaroonCreds(state: RootState): string {
 // gRPC Web Clients
 let operatorClient: OperatorServiceClient,
   walletClient: WalletServiceClient,
-  feederClient: FeederServiceClient;
+  feederClient: FeederServiceClient,
+  webhookClient: WebhookServiceClient;
+
 export function selectOperatorClient(baseUrl: string): OperatorServiceClient {
   if (!operatorClient) {
     operatorClient = new OperatorServiceClient(new GrpcWebFetchTransport({ baseUrl }));
   }
   return operatorClient;
+}
+
+export function selectWebhookClient(baseUrl: string): WebhookServiceClient {
+  if (!webhookClient) {
+    webhookClient = new WebhookServiceClient(new GrpcWebFetchTransport({ baseUrl }));
+  }
+  return webhookClient;
 }
 
 export function selectWalletClient(baseUrl: string): WalletServiceClient {

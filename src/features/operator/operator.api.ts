@@ -2,7 +2,6 @@ import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
 import { Market, MarketFee, Price } from '../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type {
-  AddWebhookResponse,
   CloseMarketResponse,
   DeriveFeeAddressesResponse,
   DeriveFeeFragmenterAddressesResponse,
@@ -23,12 +22,10 @@ import type {
   ListMarketsResponse,
   ListTradesResponse,
   ListUtxosResponse,
-  ListWebhooksResponse,
   ListWithdrawalsResponse,
   MarketFragmenterSplitFundsResponse,
   NewMarketResponse,
   OpenMarketResponse,
-  RemoveWebhookResponse,
   UpdateMarketFixedFeeResponse,
   UpdateMarketPercentageFeeResponse,
   UpdateMarketPriceResponse,
@@ -39,7 +36,6 @@ import type {
   WithdrawMarketResponse,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
 import {
-  AddWebhookRequest,
   CloseMarketRequest,
   DeriveFeeAddressesRequest,
   DeriveFeeFragmenterAddressesRequest,
@@ -60,12 +56,10 @@ import {
   ListMarketsRequest,
   ListTradesRequest,
   ListUtxosRequest,
-  ListWebhooksRequest,
   ListWithdrawalsRequest,
   MarketFragmenterSplitFundsRequest,
   NewMarketRequest,
   OpenMarketRequest,
-  RemoveWebhookRequest,
   UpdateMarketFixedFeeRequest,
   UpdateMarketPercentageFeeRequest,
   UpdateMarketPriceRequest,
@@ -75,7 +69,7 @@ import {
   WithdrawMarketFragmenterRequest,
   WithdrawMarketRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/operator_pb';
-import type { ActionType, StrategyType } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import type { StrategyType } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import {
   CustomPeriod,
   Page,
@@ -807,58 +801,6 @@ export const operatorApi = tdexApi.injectEndpoints({
       },
       providesTags: ['market_utxos', 'fee_account_utxos'],
     }),
-    // Webhook
-    addWebhook: build.mutation<AddWebhookResponse, { action: ActionType; endpoint: string; secret: string }>({
-      queryFn: async ({ action, endpoint, secret }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const call = await client.addWebhook(AddWebhookRequest.create({ action, endpoint, secret }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: call.response,
-          };
-        });
-      },
-      invalidatesTags: ['webhook'],
-    }),
-    removeWebhook: build.mutation<RemoveWebhookResponse, { id: string }>({
-      queryFn: async ({ id }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const removeWebhookResponse = await client.removeWebhook(RemoveWebhookRequest.create({ id }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: removeWebhookResponse,
-          };
-        });
-      },
-      invalidatesTags: ['webhook'],
-    }),
-    listWebhooks: build.query<ListWebhooksResponse['webhookInfo'], ListWebhooksRequest>({
-      queryFn: async ({ action }, { getState }) => {
-        const state = getState() as RootState;
-        const client = selectOperatorClient(state.settings.baseUrl);
-        const macaroon = selectMacaroonCreds(state);
-        return retryRtkRequest(async () => {
-          const call = await client.listWebhooks(ListWebhooksRequest.create({ action }), {
-            meta: macaroon ? { macaroon } : undefined,
-            interceptors,
-          });
-          return {
-            data: call.response.webhookInfo,
-          };
-        });
-      },
-      providesTags: ['webhook'],
-    }),
     //
     listDeposits: build.query<ListDepositsResponse['deposits'], ListDepositsRequest>({
       queryFn: async ({ accountName }, { getState }) => {
@@ -938,10 +880,6 @@ export const {
   useListTradesQuery,
   // Utxos
   useListUtxosQuery,
-  // Webhook
-  useAddWebhookMutation,
-  useRemoveWebhookMutation,
-  useListWebhooksQuery,
   //
   useListDepositsQuery,
   useListWithdrawalsQuery,

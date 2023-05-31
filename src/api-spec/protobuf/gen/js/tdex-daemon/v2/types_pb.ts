@@ -312,6 +312,30 @@ export interface TradeInfo {
      * @generated from protobuf field: tdex.v2.TradeType trade_type = 17;
      */
     tradeType: TradeType;
+    /**
+     * The id of the transaction in blockchain.
+     *
+     * @generated from protobuf field: string txid = 18;
+     */
+    txid: string;
+    /**
+     * The hex of the transaction if requested.
+     *
+     * @generated from protobuf field: string tx_hex = 19;
+     */
+    txHex: string;
+    /**
+     * The asset in which trading fees have been paid.
+     *
+     * @generated from protobuf field: string fee_asset = 20;
+     */
+    feeAsset: string;
+    /**
+     * The total trading fee amount charged to the counter-party.
+     *
+     * @generated from protobuf field: uint64 fee_amount = 21;
+     */
+    feeAmount: number;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.FeeInfo
@@ -458,11 +482,11 @@ export interface WebhookInfo {
      */
     isSecured: boolean;
     /**
-     * The type of the action.
+     * The target event for which the webhook endpoint is called.
      *
-     * @generated from protobuf field: tdex_daemon.v2.ActionType action_type = 4;
+     * @generated from protobuf field: tdex_daemon.v2.WebhookEvent event = 4;
      */
-    actionType: ActionType;
+    event: WebhookEvent;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.Transaction
@@ -706,29 +730,33 @@ export enum TradeStatus {
     TRADE_STATUS_EXPIRED = 5
 }
 /**
- * @generated from protobuf enum tdex_daemon.v2.ActionType
+ * @generated from protobuf enum tdex_daemon.v2.WebhookEvent
  */
-export enum ActionType {
+export enum WebhookEvent {
     /**
-     * @generated from protobuf enum value: ACTION_TYPE_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: WEBHOOK_EVENT_UNSPECIFIED = 0;
      */
-    ACTION_TYPE_UNSPECIFIED = 0,
+    WEBHOOK_EVENT_UNSPECIFIED = 0,
     /**
-     * @generated from protobuf enum value: ACTION_TYPE_TRADE_SETTLED = 1;
+     * @generated from protobuf enum value: WEBHOOK_EVENT_TRADE_SETTLED = 1;
      */
-    ACTION_TYPE_TRADE_SETTLED = 1,
+    WEBHOOK_EVENT_TRADE_SETTLED = 1,
     /**
-     * @generated from protobuf enum value: ACTION_TYPE_ACCOUNT_LOW_BALANCE = 2;
+     * @generated from protobuf enum value: WEBHOOK_EVENT_ACCOUNT_LOW_BALANCE = 2;
      */
-    ACTION_TYPE_ACCOUNT_LOW_BALANCE = 2,
+    WEBHOOK_EVENT_ACCOUNT_LOW_BALANCE = 2,
     /**
-     * @generated from protobuf enum value: ACTION_TYPE_ACCOUNT_WITHDRAW = 3;
+     * @generated from protobuf enum value: WEBHOOK_EVENT_ACCOUNT_WITHDRAW = 3;
      */
-    ACTION_TYPE_ACCOUNT_WITHDRAW = 3,
+    WEBHOOK_EVENT_ACCOUNT_WITHDRAW = 3,
     /**
-     * @generated from protobuf enum value: ACTION_TYPE_ALL_ACTIONS = 4;
+     * @generated from protobuf enum value: WEBHOOK_EVENT_ACCOUNT_DEPOSIT = 4;
      */
-    ACTION_TYPE_ALL_ACTIONS = 4
+    WEBHOOK_EVENT_ACCOUNT_DEPOSIT = 4,
+    /**
+     * @generated from protobuf enum value: WEBHOOK_EVENT_ANY = 5;
+     */
+    WEBHOOK_EVENT_ANY = 5
 }
 /**
  * @generated from protobuf enum tdex_daemon.v2.PredefinedPeriod
@@ -1262,11 +1290,15 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
             { no: 14, name: "complete_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 15, name: "settle_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 16, name: "expiry_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 17, name: "trade_type", kind: "enum", T: () => ["tdex.v2.TradeType", TradeType] }
+            { no: 17, name: "trade_type", kind: "enum", T: () => ["tdex.v2.TradeType", TradeType] },
+            { no: 18, name: "txid", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 19, name: "tx_hex", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 20, name: "fee_asset", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 21, name: "fee_amount", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
         ]);
     }
     create(value?: PartialMessage<TradeInfo>): TradeInfo {
-        const message = { tradeId: "", requestTimestamp: 0, acceptTimestamp: 0, completeTimestamp: 0, settleTimestamp: 0, expiryTimestamp: 0, requestDate: "", acceptDate: "", completeDate: "", settleDate: "", expiryDate: "", tradeType: 0 };
+        const message = { tradeId: "", requestTimestamp: 0, acceptTimestamp: 0, completeTimestamp: 0, settleTimestamp: 0, expiryTimestamp: 0, requestDate: "", acceptDate: "", completeDate: "", settleDate: "", expiryDate: "", tradeType: 0, txid: "", txHex: "", feeAsset: "", feeAmount: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<TradeInfo>(this, message, value);
@@ -1327,6 +1359,18 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
                     break;
                 case /* tdex.v2.TradeType trade_type */ 17:
                     message.tradeType = reader.int32();
+                    break;
+                case /* string txid */ 18:
+                    message.txid = reader.string();
+                    break;
+                case /* string tx_hex */ 19:
+                    message.txHex = reader.string();
+                    break;
+                case /* string fee_asset */ 20:
+                    message.feeAsset = reader.string();
+                    break;
+                case /* uint64 fee_amount */ 21:
+                    message.feeAmount = reader.uint64().toNumber();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1391,6 +1435,18 @@ class TradeInfo$Type extends MessageType<TradeInfo> {
         /* tdex.v2.TradeType trade_type = 17; */
         if (message.tradeType !== 0)
             writer.tag(17, WireType.Varint).int32(message.tradeType);
+        /* string txid = 18; */
+        if (message.txid !== "")
+            writer.tag(18, WireType.LengthDelimited).string(message.txid);
+        /* string tx_hex = 19; */
+        if (message.txHex !== "")
+            writer.tag(19, WireType.LengthDelimited).string(message.txHex);
+        /* string fee_asset = 20; */
+        if (message.feeAsset !== "")
+            writer.tag(20, WireType.LengthDelimited).string(message.feeAsset);
+        /* uint64 fee_amount = 21; */
+        if (message.feeAmount !== 0)
+            writer.tag(21, WireType.Varint).uint64(message.feeAmount);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1687,11 +1743,11 @@ class WebhookInfo$Type extends MessageType<WebhookInfo> {
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "endpoint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "is_secured", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "action_type", kind: "enum", T: () => ["tdex_daemon.v2.ActionType", ActionType] }
+            { no: 4, name: "event", kind: "enum", T: () => ["tdex_daemon.v2.WebhookEvent", WebhookEvent] }
         ]);
     }
     create(value?: PartialMessage<WebhookInfo>): WebhookInfo {
-        const message = { id: "", endpoint: "", isSecured: false, actionType: 0 };
+        const message = { id: "", endpoint: "", isSecured: false, event: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<WebhookInfo>(this, message, value);
@@ -1711,8 +1767,8 @@ class WebhookInfo$Type extends MessageType<WebhookInfo> {
                 case /* bool is_secured */ 3:
                     message.isSecured = reader.bool();
                     break;
-                case /* tdex_daemon.v2.ActionType action_type */ 4:
-                    message.actionType = reader.int32();
+                case /* tdex_daemon.v2.WebhookEvent event */ 4:
+                    message.event = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1735,9 +1791,9 @@ class WebhookInfo$Type extends MessageType<WebhookInfo> {
         /* bool is_secured = 3; */
         if (message.isSecured !== false)
             writer.tag(3, WireType.Varint).bool(message.isSecured);
-        /* tdex_daemon.v2.ActionType action_type = 4; */
-        if (message.actionType !== 0)
-            writer.tag(4, WireType.Varint).int32(message.actionType);
+        /* tdex_daemon.v2.WebhookEvent event = 4; */
+        if (message.event !== 0)
+            writer.tag(4, WireType.Varint).int32(message.event);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

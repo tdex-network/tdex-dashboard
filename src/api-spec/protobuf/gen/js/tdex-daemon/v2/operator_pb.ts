@@ -15,8 +15,6 @@ import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MESSAGE_TYPE } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Transaction } from "./types_pb";
-import { WebhookInfo } from "./types_pb";
-import { ActionType } from "./types_pb";
 import { UtxoInfo } from "./types_pb";
 import { TradeInfo } from "./types_pb";
 import { Page } from "./types_pb";
@@ -741,6 +739,12 @@ export interface ListTradesRequest {
      * @generated from protobuf field: tdex_daemon.v2.Page page = 2;
      */
     page?: Page;
+    /**
+     * Optional, return also the raw transaction in hex format for each trade.
+     *
+     * @generated from protobuf field: bool with_hex = 3;
+     */
+    withHex: boolean;
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.ListTradesResponse
@@ -787,79 +791,6 @@ export interface ListUtxosResponse {
      * @generated from protobuf field: repeated tdex_daemon.v2.UtxoInfo locked_utxos = 2;
      */
     lockedUtxos: UtxoInfo[];
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.AddWebhookRequest
- */
-export interface AddWebhookRequest {
-    /**
-     * The endpoint of the external service to reach.
-     *
-     * @generated from protobuf field: string endpoint = 1;
-     */
-    endpoint: string;
-    /**
-     * The type of action for which the webhook should be registered.
-     *
-     * @generated from protobuf field: tdex_daemon.v2.ActionType action = 2;
-     */
-    action: ActionType;
-    /**
-     * The secret to use for signign a JWT token for an authenticated request
-     * to the external service.
-     *
-     * @generated from protobuf field: string secret = 3;
-     */
-    secret: string;
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.AddWebhookResponse
- */
-export interface AddWebhookResponse {
-    /**
-     * The id of the new webhook.
-     *
-     * @generated from protobuf field: string id = 1;
-     */
-    id: string;
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.RemoveWebhookRequest
- */
-export interface RemoveWebhookRequest {
-    /**
-     * The id of the webhook to remove.
-     *
-     * @generated from protobuf field: string id = 1;
-     */
-    id: string;
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.RemoveWebhookResponse
- */
-export interface RemoveWebhookResponse {
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.ListWebhooksRequest
- */
-export interface ListWebhooksRequest {
-    /**
-     * The action for which filtering the list of webhooks.
-     *
-     * @generated from protobuf field: tdex_daemon.v2.ActionType action = 1;
-     */
-    action: ActionType;
-}
-/**
- * @generated from protobuf message tdex_daemon.v2.ListWebhooksResponse
- */
-export interface ListWebhooksResponse {
-    /**
-     * The list of info about the webhooks regitered for an action.
-     *
-     * @generated from protobuf field: repeated tdex_daemon.v2.WebhookInfo webhook_info = 1;
-     */
-    webhookInfo: WebhookInfo[];
 }
 /**
  * @generated from protobuf message tdex_daemon.v2.ListDepositsRequest
@@ -3595,11 +3526,12 @@ class ListTradesRequest$Type extends MessageType<ListTradesRequest> {
     constructor() {
         super("tdex_daemon.v2.ListTradesRequest", [
             { no: 1, name: "market", kind: "message", T: () => Market },
-            { no: 2, name: "page", kind: "message", T: () => Page }
+            { no: 2, name: "page", kind: "message", T: () => Page },
+            { no: 3, name: "with_hex", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<ListTradesRequest>): ListTradesRequest {
-        const message = {};
+        const message = { withHex: false };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<ListTradesRequest>(this, message, value);
@@ -3615,6 +3547,9 @@ class ListTradesRequest$Type extends MessageType<ListTradesRequest> {
                     break;
                 case /* tdex_daemon.v2.Page page */ 2:
                     message.page = Page.internalBinaryRead(reader, reader.uint32(), options, message.page);
+                    break;
+                case /* bool with_hex */ 3:
+                    message.withHex = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -3634,6 +3569,9 @@ class ListTradesRequest$Type extends MessageType<ListTradesRequest> {
         /* tdex_daemon.v2.Page page = 2; */
         if (message.page)
             Page.internalBinaryWrite(message.page, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* bool with_hex = 3; */
+        if (message.withHex !== false)
+            writer.tag(3, WireType.Varint).bool(message.withHex);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -3799,281 +3737,6 @@ class ListUtxosResponse$Type extends MessageType<ListUtxosResponse> {
  * @generated MessageType for protobuf message tdex_daemon.v2.ListUtxosResponse
  */
 export const ListUtxosResponse = new ListUtxosResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddWebhookRequest$Type extends MessageType<AddWebhookRequest> {
-    constructor() {
-        super("tdex_daemon.v2.AddWebhookRequest", [
-            { no: 1, name: "endpoint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "action", kind: "enum", T: () => ["tdex_daemon.v2.ActionType", ActionType] },
-            { no: 3, name: "secret", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<AddWebhookRequest>): AddWebhookRequest {
-        const message = { endpoint: "", action: 0, secret: "" };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<AddWebhookRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AddWebhookRequest): AddWebhookRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string endpoint */ 1:
-                    message.endpoint = reader.string();
-                    break;
-                case /* tdex_daemon.v2.ActionType action */ 2:
-                    message.action = reader.int32();
-                    break;
-                case /* string secret */ 3:
-                    message.secret = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: AddWebhookRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string endpoint = 1; */
-        if (message.endpoint !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.endpoint);
-        /* tdex_daemon.v2.ActionType action = 2; */
-        if (message.action !== 0)
-            writer.tag(2, WireType.Varint).int32(message.action);
-        /* string secret = 3; */
-        if (message.secret !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.secret);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.AddWebhookRequest
- */
-export const AddWebhookRequest = new AddWebhookRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddWebhookResponse$Type extends MessageType<AddWebhookResponse> {
-    constructor() {
-        super("tdex_daemon.v2.AddWebhookResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<AddWebhookResponse>): AddWebhookResponse {
-        const message = { id: "" };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<AddWebhookResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AddWebhookResponse): AddWebhookResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: AddWebhookResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.AddWebhookResponse
- */
-export const AddWebhookResponse = new AddWebhookResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class RemoveWebhookRequest$Type extends MessageType<RemoveWebhookRequest> {
-    constructor() {
-        super("tdex_daemon.v2.RemoveWebhookRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<RemoveWebhookRequest>): RemoveWebhookRequest {
-        const message = { id: "" };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<RemoveWebhookRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: RemoveWebhookRequest): RemoveWebhookRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: RemoveWebhookRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.RemoveWebhookRequest
- */
-export const RemoveWebhookRequest = new RemoveWebhookRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class RemoveWebhookResponse$Type extends MessageType<RemoveWebhookResponse> {
-    constructor() {
-        super("tdex_daemon.v2.RemoveWebhookResponse", []);
-    }
-    create(value?: PartialMessage<RemoveWebhookResponse>): RemoveWebhookResponse {
-        const message = {};
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<RemoveWebhookResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: RemoveWebhookResponse): RemoveWebhookResponse {
-        return target ?? this.create();
-    }
-    internalBinaryWrite(message: RemoveWebhookResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.RemoveWebhookResponse
- */
-export const RemoveWebhookResponse = new RemoveWebhookResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ListWebhooksRequest$Type extends MessageType<ListWebhooksRequest> {
-    constructor() {
-        super("tdex_daemon.v2.ListWebhooksRequest", [
-            { no: 1, name: "action", kind: "enum", T: () => ["tdex_daemon.v2.ActionType", ActionType] }
-        ]);
-    }
-    create(value?: PartialMessage<ListWebhooksRequest>): ListWebhooksRequest {
-        const message = { action: 0 };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<ListWebhooksRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListWebhooksRequest): ListWebhooksRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* tdex_daemon.v2.ActionType action */ 1:
-                    message.action = reader.int32();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: ListWebhooksRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* tdex_daemon.v2.ActionType action = 1; */
-        if (message.action !== 0)
-            writer.tag(1, WireType.Varint).int32(message.action);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.ListWebhooksRequest
- */
-export const ListWebhooksRequest = new ListWebhooksRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ListWebhooksResponse$Type extends MessageType<ListWebhooksResponse> {
-    constructor() {
-        super("tdex_daemon.v2.ListWebhooksResponse", [
-            { no: 1, name: "webhook_info", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => WebhookInfo }
-        ]);
-    }
-    create(value?: PartialMessage<ListWebhooksResponse>): ListWebhooksResponse {
-        const message = { webhookInfo: [] };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<ListWebhooksResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListWebhooksResponse): ListWebhooksResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* repeated tdex_daemon.v2.WebhookInfo webhook_info */ 1:
-                    message.webhookInfo.push(WebhookInfo.internalBinaryRead(reader, reader.uint32(), options));
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: ListWebhooksResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* repeated tdex_daemon.v2.WebhookInfo webhook_info = 1; */
-        for (let i = 0; i < message.webhookInfo.length; i++)
-            WebhookInfo.internalBinaryWrite(message.webhookInfo[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message tdex_daemon.v2.ListWebhooksResponse
- */
-export const ListWebhooksResponse = new ListWebhooksResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListDepositsRequest$Type extends MessageType<ListDepositsRequest> {
     constructor() {
@@ -4325,9 +3988,6 @@ export const OperatorService = new ServiceType("tdex_daemon.v2.OperatorService",
     { name: "ListMarkets", options: {}, I: ListMarketsRequest, O: ListMarketsResponse },
     { name: "ListTrades", options: {}, I: ListTradesRequest, O: ListTradesResponse },
     { name: "ListUtxos", options: {}, I: ListUtxosRequest, O: ListUtxosResponse },
-    { name: "AddWebhook", options: {}, I: AddWebhookRequest, O: AddWebhookResponse },
-    { name: "RemoveWebhook", options: {}, I: RemoveWebhookRequest, O: RemoveWebhookResponse },
-    { name: "ListWebhooks", options: {}, I: ListWebhooksRequest, O: ListWebhooksResponse },
     { name: "ListDeposits", options: {}, I: ListDepositsRequest, O: ListDepositsResponse },
     { name: "ListWithdrawals", options: {}, I: ListWithdrawalsRequest, O: ListWithdrawalsResponse }
 ]);

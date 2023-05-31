@@ -145,6 +145,7 @@ export const TxsTable = ({ marketInfo }: TxsTableProps): JSX.Element => {
       quoteAsset: marketInfo?.market?.quoteAsset || '',
     },
     page: { number: pageNumberTrades, size: PAGE_SIZE_FRONTEND },
+    withHex: false,
   });
   // Concatenated trades to display
   const [allTrades, setAllTrades] = useState<TradeInfo[] | undefined>([]);

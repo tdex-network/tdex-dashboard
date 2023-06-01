@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 
-import { WebhookEvent } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
+import { WebhookEvent } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useListWebhooksQuery, useRemoveWebhookMutation } from '../webhook.api';
 
 export const ListWebhooks = (): JSX.Element => {

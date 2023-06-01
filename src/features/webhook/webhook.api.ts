@@ -2,17 +2,17 @@ import {
   AddWebhookRequest,
   ListWebhooksRequest,
   RemoveWebhookRequest,
-} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/webhook_pb';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/webhook_pb';
 import type {
   AddWebhookResponse,
   ListWebhooksResponse,
   RemoveWebhookResponse,
-} from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/webhook_pb';
-import type { RootState } from '../../../app/store';
-import { interceptors } from '../../../grpcDevTool';
-import { retryRtkRequest } from '../../../utils';
-import { selectMacaroonCreds, selectWebhookClient } from '../../settings/settingsSlice';
-import { tdexApi } from '../../tdex.api';
+} from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/webhook_pb';
+import type { RootState } from '../../app/store';
+import { interceptors } from '../../grpcDevTool';
+import { retryRtkRequest } from '../../utils';
+import { selectMacaroonCreds, selectWebhookClient } from '../settings/settingsSlice';
+import { tdexApi } from '../tdex.api';
 
 export const webhookApi = tdexApi.injectEndpoints({
   endpoints: (build) => ({

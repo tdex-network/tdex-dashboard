@@ -9,7 +9,7 @@ import type { MarketInfo } from '../../../../api-spec/protobuf/gen/js/tdex-daemo
 import { StrategyType } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import alertOctogon from '../../../../assets/images/alert-octagon.svg';
 import { HOME_ROUTE } from '../../../../routes/constants';
-import { ListWebhooks } from '../../Webhook/ListWebhooks';
+import { ListWebhooks } from '../../../webhook/ListWebhooks';
 import { useCloseMarketMutation, useDropMarketMutation, useOpenMarketMutation } from '../../operator.api';
 import { MarketStrategy } from '../MarketStrategy';
 

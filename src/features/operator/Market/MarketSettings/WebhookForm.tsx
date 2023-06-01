@@ -1,7 +1,7 @@
 import { Button, Form, Input, Radio } from 'antd';
 
 import { WebhookEvent } from '../../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
-import { useAddWebhookMutation } from '../../Webhook/webhook.api';
+import { useAddWebhookMutation } from '../../../webhook/webhook.api';
 
 interface IFormInputs {
   notificationType: WebhookEvent;

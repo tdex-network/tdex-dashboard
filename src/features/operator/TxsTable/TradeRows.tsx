@@ -60,8 +60,7 @@ export const getTradeData = (
         lbtcUnit
       )
     : 'N/A';
-  // TODO txId
-  return { baseAmountFormatted, quoteAmountFormatted, txId: '' };
+  return { baseAmountFormatted, quoteAmountFormatted, txId: row.txid };
 };
 
 export const TradeRows = ({

@@ -28,14 +28,21 @@ export const WebhookForm = (): JSX.Element => {
   };
 
   return (
-    <Form layout="vertical" form={form} name="webhook_form" onFinish={onFinish} wrapperCol={{ span: 24 }}>
+    <Form
+      layout="vertical"
+      form={form}
+      name="webhook_form"
+      initialValues={{ notificationType: 1 }}
+      onFinish={onFinish}
+      wrapperCol={{ span: 24 }}
+    >
       <Form.Item name="notificationType">
         <Radio.Group className="ghost">
-          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ANY}>Any</Radio.Button>
           <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_TRADE_SETTLED}>Trade</Radio.Button>
-          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_DEPOSIT}>Deposit</Radio.Button>
-          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
           <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_LOW_BALANCE}>Low Balance</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_WITHDRAW}>Withdraw</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ACCOUNT_DEPOSIT}>Deposit</Radio.Button>
+          <Radio.Button value={WebhookEvent.WEBHOOK_EVENT_ANY}>Any</Radio.Button>
         </Radio.Group>
       </Form.Item>
       <Form.Item name="notificationUrlInput" className="mb-2">

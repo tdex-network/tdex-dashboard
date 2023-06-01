@@ -152,17 +152,17 @@ export const TxRow = ({
         <td colSpan={6}>
           <div className="d-flex details-content-container">
             <div className="d-flex details-content">
-              {!row.status?.failed && txId ? (
+              {!row.status?.failed ? (
                 <>
                   <span className="dm-mono dm-mono__bold">Transaction Id</span>
                   {mode === 'trade' && (
                     <a href={`${explorerLiquidUI}/tx/${row.txid}`} target="_blank" rel="noreferrer">
-                      {txId}
+                      {txId || 'N/A'}
                     </a>
                   )}
                   {(mode === 'deposit' || mode === 'withdraw') && (
                     <a href={`${explorerLiquidUI}/tx/${row.txid}`} target="_blank" rel="noreferrer">
-                      {txId}
+                      {txId || 'N/A'}
                     </a>
                   )}
                 </>

@@ -89,6 +89,7 @@ jobs:
           tagName: ${{ steps.next_tag.outputs.tag }}
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
           releaseBody: "See the assets to download this version and install."
+          updaterJsonKeepUniversal: true
           includeDebug: true
           args: ${{matrix.platform == 'ubuntu-20.04' && '--target x86_64-unknown-linux-gnu' || '--target universal-apple-darwin'}}
           # args: --verbose

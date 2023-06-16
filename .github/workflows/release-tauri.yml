@@ -25,6 +25,10 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install missing Rust target for universal Mac build
+        if: matrix.platform == 'macos-latest'
+        run: rustup target add aarch64-apple-darwin
+
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
@@ -84,8 +88,9 @@ jobs:
         with:
           tagName: ${{ steps.next_tag.outputs.tag }}
           releaseName: "TDEX Dashboard ${{ steps.next_tag.outputs.tag }}"
-          releaseBody: "See the assets to download this version and install."
+          updaterJsonKeepUniversal: true
           includeDebug: true
+          args: ${{matrix.platform == 'ubuntu-20.04' && '--target x86_64-unknown-linux-gnu' || '--target universal-apple-darwin'}}
           # args: --verbose
 
       # Commit package.json, tauri.conf.json and Cargo.toml to master

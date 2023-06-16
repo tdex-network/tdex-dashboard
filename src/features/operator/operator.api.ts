@@ -1,5 +1,6 @@
 import type { RpcOutputStream, RpcStatus } from '@protobuf-ts/runtime-rpc';
 
+import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type {
   AddWebhookResponse,
   ClaimFeeDepositsResponse,
@@ -90,7 +91,6 @@ import {
   Page,
   TimeRange,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v1/types_pb';
-import { Balance, Fixed, Market, Price } from '../../api-spec/protobuf/gen/js/tdex/v1/types_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
 import {

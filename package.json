@@ -15,7 +15,7 @@
     "@protobuf-ts/grpcweb-transport": "^2.8.2",
     "@protobuf-ts/runtime-rpc": "^2.8.2",
     "@reduxjs/toolkit": "^1.9.1",
-    "@tauri-apps/api": "1.2.0",
+    "@tauri-apps/api": "1.4.0",
     "antd": "^4.24.7",
     "antd-css-utilities": "^1.0.3",
     "base64url": "^3.0.1",

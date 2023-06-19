@@ -81,7 +81,7 @@
       "endpoints": [
         "https://github.com/tdex-network/tdex-dashboard/releases/latest/download/latest.json"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENFRjQ4NkJBRkM0NEMyNDkKUldSSndrVDh1b2IwenBmdXBVZEozNEVlbGRmU2RFVStnSUJuQnZSZm96cVZTK1JCcEJ0aElKR2EK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEUwMTVENEEyREVBODE2NjMKUldSakZxamVvdFFWNEJqTXIrbHA2SVM3KzJMSlZsNU5RUUg5Mi80bDdFSzJaU2hGeUlNK0l0elAK"
     },
     "windows": [
       {

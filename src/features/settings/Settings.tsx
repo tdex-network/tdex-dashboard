@@ -8,6 +8,7 @@ import type { RootState } from '../../app/store';
 import { useTypedSelector } from '../../app/store';
 import { ReactComponent as chevronRight } from '../../assets/images/chevron-right.svg';
 import { HOME_ROUTE } from '../../routes/constants';
+import { ChangePasswordForm } from '../wallet/ChangePassword';
 
 import { ActionButtons } from './ActionButtons';
 import { DaemonVersion } from './DaemonVersion';
@@ -37,14 +38,14 @@ export const Settings = (): JSX.Element => {
             <Row gutter={{ xs: 20, sm: 30, md: 50, lg: 60 }} className="mb-8">
               <Col xs={24} md={12}>
                 <ActionButtons />
-                {/*<Row className="my-4">
+                <Row className="my-4">
                   <Col span={24}>
                     <Title className="dm-sans dm-sans__x dm-sans__bold dm-sans__grey" level={3}>
                       Change Password
                     </Title>
                     <ChangePasswordForm />
                   </Col>
-                </Row>*/}
+                </Row>
               </Col>
               <Col xs={24} md={12} className={classNames({ 'mt-4': !screens.md })}>
                 <NetworkSelect />

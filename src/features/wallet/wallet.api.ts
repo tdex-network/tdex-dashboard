@@ -6,6 +6,7 @@ import type {
   InitWalletResponse,
   UnlockWalletResponse,
   GetStatusResponse,
+  LockWalletResponse,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import {
   ChangePasswordRequest,
@@ -14,6 +15,7 @@ import {
   InitWalletRequest,
   UnlockWalletRequest,
   GetStatusRequest,
+  LockWalletRequest,
 } from '../../api-spec/protobuf/gen/js/tdex-daemon/v2/wallet_pb';
 import type { RootState } from '../../app/store';
 import { interceptors } from '../../grpcDevTool';
@@ -87,6 +89,20 @@ export const walletApi = tdexApi.injectEndpoints({
       },
       invalidatesTags: ['status'],
     }),
+    lockWallet: build.mutation<LockWalletResponse, LockWalletRequest>({
+      queryFn: async ({ password }, { getState }) => {
+        const state = getState() as RootState;
+        const client = selectWalletClient(state.settings.baseUrl);
+        const macaroon = selectMacaroonCreds(state);
+        return retryRtkRequest(async () => {
+          const call = await client.lockWallet(LockWalletRequest.create({ password }), {
+            meta: macaroon ? { macaroon } : undefined,
+            interceptors,
+          });
+          return { data: call.response };
+        });
+      },
+    }),
     unlockWallet: build.mutation<UnlockWalletResponse, UnlockWalletRequest>({
       queryFn: async ({ password }, { getState }) => {
         const state = getState() as RootState;
@@ -127,4 +143,5 @@ export const {
   useInitWalletMutation,
   useGenSeedQuery,
   useUnlockWalletMutation,
+  useLockWalletMutation,
 } = walletApi;

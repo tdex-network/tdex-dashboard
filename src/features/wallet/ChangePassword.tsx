@@ -1,6 +1,8 @@
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
+import { useState } from 'react';
 
-import { useChangePasswordMutation } from './wallet.api';
+import { useChangePasswordMutation, useLockWalletMutation, useUnlockWalletMutation } from './wallet.api';
 
 interface IFormInputs {
   currentPassword: string;
@@ -10,17 +12,26 @@ interface IFormInputs {
 export const ChangePasswordForm = (): JSX.Element => {
   const [form] = Form.useForm<IFormInputs>();
   const [changePassword] = useChangePasswordMutation();
+  const [lockWallet] = useLockWalletMutation();
+  const [unlockWallet] = useUnlockWalletMutation();
+  const [isUnlockWalletLoading, setIsUnlockWalletLoading] = useState<boolean>(false);
 
   const onFinish = async () => {
     try {
+      setIsUnlockWalletLoading(true);
       const values = await form.validateFields();
-      changePassword({
-        currentPassword: new TextEncoder().encode(values.currentPassword).toString(),
-        newPassword: new TextEncoder().encode(values.newPassword).toString(),
+      await lockWallet({ password: values.currentPassword });
+      await changePassword({
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
       });
+      await unlockWallet({ password: values.newPassword });
     } catch (err) {
       // @ts-ignore
       notification.error({ message: err.message });
+    } finally {
+      form.resetFields();
+      setIsUnlockWalletLoading(false);
     }
   };
 
@@ -39,7 +50,11 @@ export const ChangePasswordForm = (): JSX.Element => {
           },
         ]}
       >
-        <Input type="password" placeholder="current password" className="input__small" />
+        <Input.Password
+          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+          className="input__small"
+          placeholder="current password"
+        />
       </Form.Item>
       <Form.Item
         name="newPassword"
@@ -54,10 +69,16 @@ export const ChangePasswordForm = (): JSX.Element => {
           },
         ]}
       >
-        <Input type="password" placeholder="new password" className="input__small" />
+        <Input.Password
+          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+          className="input__small"
+          placeholder="new password"
+        />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit">Set Password</Button>
+        <Button htmlType="submit" loading={isUnlockWalletLoading}>
+          Change Password
+        </Button>
       </Form.Item>
     </Form>
   );

@@ -13,6 +13,7 @@ import {
   downloadCert,
   extractConnectUrlData,
   checkConnectUrlDataValidity,
+  getProtoVersion,
 } from '../../utils';
 import { liquidApi } from '../liquid.api';
 import { operatorApi } from '../operator/operator.api';
@@ -87,6 +88,20 @@ export const OnboardingPairing = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Check compatibility between dashboard version and provider version
+  const checkAppDaemonCompatibility = async (host: string) => {
+    const protoVersion = await getProtoVersion(host);
+    if (protoVersion !== 'v2') {
+      notification.error({
+        message: 'You are using a daemon that is not compatible with your dashboard app, please upgrade',
+        key: 'invalid_version',
+        duration: 0,
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleEnterPasswordModalOk = async () => {
     try {
       setIsTdexdConnectUrlLoading(true);
@@ -94,6 +109,8 @@ export const OnboardingPairing = (): JSX.Element => {
       const connectUrl = await dispatch(getTdexdConnectUrl(values.password)).unwrap();
       const connectUrlData = extractConnectUrlData(connectUrl);
       if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
+        const isCompatible = await checkAppDaemonCompatibility(connectUrlData.host!);
+        if (!isCompatible) return;
         await onFinish(connectUrl);
       }
       passwordForm.resetFields();
@@ -221,19 +238,23 @@ export const OnboardingPairing = (): JSX.Element => {
                       'invalid-connect-url': showRedBorder,
                     })}
                     placeholder="Paste the tdexd connect URL"
-                    onPaste={(ev) => {
+                    onPaste={async (ev) => {
                       const connectString = ev.clipboardData.getData('text');
                       const connectData = extractConnectUrlData(connectString);
                       if (connectData && checkConnectUrlDataValidity(connectData)) {
+                        const isCompatible = await checkAppDaemonCompatibility(connectData.host!);
+                        if (!isCompatible) return;
                         if (connectData?.cert && !isTauri && !useProxy) {
                           showDownloadCertModal();
                         }
                       }
                     }}
-                    onChange={(ev) => {
+                    onChange={async (ev) => {
                       const connectData = extractConnectUrlData(ev.target.value);
                       if (form.getFieldValue('tdexdConnectUrl')?.length > 0) {
                         if (connectData && checkConnectUrlDataValidity(connectData)) {
+                          const isCompatible = await checkAppDaemonCompatibility(connectData.host!);
+                          if (!isCompatible) return;
                           setIsValidConnectUrl(true);
                           setShowRedBorder(false);
                         } else {

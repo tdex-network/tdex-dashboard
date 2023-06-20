@@ -137,3 +137,23 @@ export const encodeBase64UrlMacaroon = (macaroonHex: string): string => {
   const macaroonBase64 = Buffer.from(macaroonHex, 'hex').toString('base64');
   return base64url.fromBase64(macaroonBase64);
 };
+
+export const getProtoVersion = async (providerEndpoint: string): Promise<string> => {
+  try {
+    const res = await fetch(`https://${providerEndpoint}/v1/info`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ list_services: '' }),
+    });
+    const data = await res.json();
+    const isVersion2 = data.result.listServicesResponse.service
+      .map((s: any) => s.name)
+      .includes('tdex.v2.TransportService');
+    return isVersion2 ? 'v2' : 'v1';
+  } catch (err) {
+    return 'v1';
+  }
+};

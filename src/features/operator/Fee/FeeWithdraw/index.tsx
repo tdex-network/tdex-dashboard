@@ -111,7 +111,7 @@ export const FeeWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Fee Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row justify="center" className="panel">
-        <Col xs={24} md={{ span: 12, offset: 12 }}>
+        <Col span={24}>
           <Form
             layout="vertical"
             form={form}

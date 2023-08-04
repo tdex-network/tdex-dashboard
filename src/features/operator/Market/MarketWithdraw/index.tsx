@@ -225,14 +225,14 @@ export const MarketWithdraw = (): JSX.Element => {
         <Breadcrumb.Item>Market Withdraw</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="panel">
-        <Col xs={24} md={{ span: 12, offset: 12 }}>
+        <Col span={24}>
           <SelectMarket
             selectedMarket={selectedMarket}
             setSelectedMarket={setSelectedMarket}
             marketList={marketList}
           />
         </Col>
-        <Col xs={24} md={{ span: 12, offset: 12 }}>
+        <Col span={24}>
           <Form
             layout="vertical"
             form={form}

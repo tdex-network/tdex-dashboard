@@ -142,7 +142,7 @@ export const getProtoVersion = async (providerEndpoint: string): Promise<string>
   try {
     let infoRequestUrl: string;
     if ((window as any).IS_PACKAGED) {
-      infoRequestUrl = `${window.location.protocol}//${window.location.host}/v1/info`;
+      infoRequestUrl = `${window.location.protocol}//${window.location.host}/api/v1/info`;
     } else {
       infoRequestUrl = `https://${providerEndpoint}/v1/info`;
     }

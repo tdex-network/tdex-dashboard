@@ -79,11 +79,12 @@ export const Routes = (): JSX.Element => {
 
   useEffect(() => {
     if (daemonInfo?.network && getStatusSuccess) {
-      dispatch(setNetwork(daemonInfo.network as NetworkString));
-      dispatch(setExplorerLiquidAPI(configRecord[daemonInfo.network as NetworkString].explorerLiquidAPI));
-      dispatch(setExplorerLiquidUI(configRecord[daemonInfo.network as NetworkString].explorerLiquidUI));
+      const net = daemonInfo.network === 'mainnet' ? 'liquid' : daemonInfo.network;
+      dispatch(setNetwork(net as NetworkString));
+      dispatch(setExplorerLiquidAPI(configRecord?.[net as NetworkString]?.explorerLiquidAPI));
+      dispatch(setExplorerLiquidUI(configRecord?.[net as NetworkString]?.explorerLiquidUI));
     }
-  }, [daemonInfo?.network, dispatch, getStatusSuccess]);
+  }, [daemonInfo, dispatch, getStatusSuccess]);
 
   useEffect(() => {
     (async () => {

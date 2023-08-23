@@ -140,7 +140,13 @@ export const encodeBase64UrlMacaroon = (macaroonHex: string): string => {
 
 export const getProtoVersion = async (providerEndpoint: string): Promise<string> => {
   try {
-    const res = await fetch(`https://${providerEndpoint}/v1/info`, {
+    let infoRequestUrl: string;
+    if ((window as any).IS_PACKAGED) {
+      infoRequestUrl = `${window.location.protocol}//${window.location.host}/api/v1/info`;
+    } else {
+      infoRequestUrl = `https://${providerEndpoint}/v1/info`;
+    }
+    const res = await fetch(infoRequestUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

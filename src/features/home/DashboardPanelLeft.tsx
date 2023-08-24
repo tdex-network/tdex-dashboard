@@ -54,9 +54,10 @@ export const DashboardPanelLeft = ({
   const [totalCollectedSwapFeesAsFavoriteCurrency, setTotalCollectedSwapFeesAsFavoriteCurrency] =
     useState<string>();
   const screens = useBreakpoint();
+  const daemonInfoNetwork = daemonInfo?.network === 'mainnet' ? 'liquid' : daemonInfo?.network;
 
   useEffect(() => {
-    if (network === daemonInfo?.network && !daemonInfoIsFetching) {
+    if (network === daemonInfoNetwork && !daemonInfoIsFetching) {
       if (totalCollectedSwapFeesSats !== undefined) {
         const totalCollectedSwapFeesInLbtcUnit = fromUnitToUnit(
           totalCollectedSwapFeesSats,
@@ -79,8 +80,8 @@ export const DashboardPanelLeft = ({
     }
   }, [
     currency,
-    daemonInfo?.network,
     daemonInfoIsFetching,
+    daemonInfoNetwork,
     lbtcUnit,
     network,
     prices,

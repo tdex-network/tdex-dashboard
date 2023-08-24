@@ -20,10 +20,12 @@ export const ListMarkets = (): JSX.Element => {
   const lbtcUnit = useTypedSelector(({ settings }) => settings.lbtcUnit);
   const network = useTypedSelector(({ settings }) => settings.network);
 
+  const daemonInfoNetwork = daemonInfo?.network === 'mainnet' ? 'liquid' : daemonInfo?.network;
+
   // Add to store assets in markets
   useEffect(() => {
     (async () => {
-      if (network === daemonInfo?.network && !daemonInfoIsFetching) {
+      if (network === daemonInfoNetwork && !daemonInfoIsFetching) {
         try {
           const assets = getAllAssetIdsFromMarkets(marketList || []);
           for (const asset of assets) {
@@ -37,11 +39,11 @@ export const ListMarkets = (): JSX.Element => {
         }
       }
     })();
-  }, [assetRegistry, daemonInfo?.network, daemonInfoIsFetching, dispatch, marketList, network]);
+  }, [assetRegistry, daemonInfoIsFetching, daemonInfoNetwork, dispatch, marketList, network]);
 
   return (
     <div id="list-markets">
-      {marketList?.length && network === daemonInfo?.network ? (
+      {marketList?.length && network === daemonInfoNetwork ? (
         marketList?.map((marketInfo, index) => {
           const baseAsset = getAssetDataFromRegistry(
             marketInfo.market?.baseAsset || '',

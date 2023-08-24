@@ -35,9 +35,10 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
   const { data: daemonInfo, isFetching: daemonInfoIsFetching } = useGetInfoQuery();
   const [feeAccountBalanceAsFavoriteCurrency, setFeeAccountBalanceAsFavoriteCurrency] = useState<string>();
   const screens = useBreakpoint();
+  const daemonInfoNetwork = daemonInfo?.network === 'mainnet' ? 'liquid' : daemonInfo?.network;
 
   useEffect(() => {
-    if (network === daemonInfo?.network && !daemonInfoIsFetching) {
+    if (network === daemonInfoNetwork && !daemonInfoIsFetching) {
       const feeBalanceInLbtcUnit =
         feeBalance &&
         fromUnitToUnit(
@@ -59,7 +60,7 @@ export const DashboardPanelRight = ({ lbtcUnit, priceFeed }: DashboardPanelRight
     } else {
       setFeeAccountBalanceAsFavoriteCurrency(undefined);
     }
-  }, [currency, daemonInfo?.network, daemonInfoIsFetching, feeBalance, lbtcUnit, network, prices]);
+  }, [currency, daemonInfoIsFetching, daemonInfoNetwork, feeBalance, lbtcUnit, network, prices]);
 
   return (
     <div

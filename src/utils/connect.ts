@@ -138,13 +138,13 @@ export const encodeBase64UrlMacaroon = (macaroonHex: string): string => {
   return base64url.fromBase64(macaroonBase64);
 };
 
-export const getProtoVersion = async (providerEndpoint: string): Promise<string> => {
+export const getProtoVersion = async (providerEndpoint: string, proto: string): Promise<string> => {
   try {
     let infoRequestUrl: string;
     if ((window as any).IS_PACKAGED) {
       infoRequestUrl = `${window.location.protocol}//${window.location.host}/api/v1/info`;
     } else {
-      infoRequestUrl = `https://${providerEndpoint}/v1/info`;
+      infoRequestUrl = `${proto}://${providerEndpoint}/v1/info`;
     }
     const res = await fetch(infoRequestUrl, {
       method: 'POST',

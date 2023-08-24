@@ -91,8 +91,8 @@ export const OnboardingPairing = (): JSX.Element => {
   }, []);
 
   // Check compatibility between dashboard version and provider version
-  const checkAppDaemonCompatibility = async (host: string) => {
-    const protoVersion = await getProtoVersion(host);
+  const checkAppDaemonCompatibility = async (host: string, proto: string) => {
+    const protoVersion = await getProtoVersion(host, proto);
     if (protoVersion !== 'v1') {
       notification.error({
         message: 'You are using a dashboard app that is not compatible with your daemon, please upgrade',
@@ -111,7 +111,7 @@ export const OnboardingPairing = (): JSX.Element => {
       const connectUrl = await dispatch(getTdexdConnectUrl(values.password)).unwrap();
       const connectUrlData = extractConnectUrlData(connectUrl);
       if (connectUrlData && checkConnectUrlDataValidity(connectUrlData)) {
-        const isCompatible = await checkAppDaemonCompatibility(connectUrlData.host!);
+        const isCompatible = await checkAppDaemonCompatibility(connectUrlData.host!, connectUrlData.proto!);
         if (!isCompatible) return;
         await onFinish(connectUrl);
       }
@@ -244,7 +244,10 @@ export const OnboardingPairing = (): JSX.Element => {
                       const connectString = ev.clipboardData.getData('text');
                       const connectData = extractConnectUrlData(connectString);
                       if (connectData && checkConnectUrlDataValidity(connectData)) {
-                        const isCompatible = await checkAppDaemonCompatibility(connectData.host!);
+                        const isCompatible = await checkAppDaemonCompatibility(
+                          connectData.host!,
+                          connectData.proto!
+                        );
                         if (!isCompatible) return;
                         if (connectData?.cert && !isTauri && !useProxy) {
                           showDownloadCertModal();
@@ -255,7 +258,10 @@ export const OnboardingPairing = (): JSX.Element => {
                       const connectData = extractConnectUrlData(ev.target.value);
                       if (form.getFieldValue('tdexdConnectUrl')?.length > 0) {
                         if (connectData && checkConnectUrlDataValidity(connectData)) {
-                          const isCompatible = await checkAppDaemonCompatibility(connectData.host!);
+                          const isCompatible = await checkAppDaemonCompatibility(
+                            connectData.host!,
+                            connectData.proto!
+                          );
                           if (!isCompatible) return;
                           setIsValidConnectUrl(true);
                           setShowRedBorder(false);

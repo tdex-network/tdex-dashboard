@@ -2899,7 +2899,7 @@ dependencies = [
 
 [[package]]
 name = "tdex-dashboard"
-version = "0.1.54"
+version = "1.0.0"
 dependencies = [
  "serde",
  "serde_json",

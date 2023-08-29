@@ -2,6 +2,7 @@ import Icon, { RightOutlined } from '@ant-design/icons';
 import { Grid } from 'antd';
 import classNames from 'classnames';
 
+import { TradeType } from '../../../api-spec/protobuf/gen/js/tdex/v2/types_pb';
 import type { TradeInfo, Transaction } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { TradeStatus } from '../../../api-spec/protobuf/gen/js/tdex-daemon/v2/types_pb';
 import { useTypedSelector } from '../../../app/store';
@@ -78,11 +79,23 @@ export const TxRow = ({
           <td>
             {screens.md ? (
               <>
-                <span className="market-icons-translate__small">
-                  <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
-                  <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
-                </span>
-                {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
+                {row.tradeType === TradeType.TRADE_TYPE_SELL ? (
+                  <>
+                    <span className="market-icons-translate__small">
+                      <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
+                      <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
+                    </span>
+                    {`Swap ${baseAsset?.ticker} for ${quoteAsset?.ticker}`}
+                  </>
+                ) : (
+                  <>
+                    <span className="market-icons-translate__small">
+                      <CurrencyIcon assetId={quoteAsset?.asset_id ?? ''} size={16} />
+                      <CurrencyIcon assetId={baseAsset?.asset_id ?? ''} size={16} />
+                    </span>
+                    {`Swap ${quoteAsset?.ticker} for ${baseAsset?.ticker}`}
+                  </>
+                )}
               </>
             ) : (
               'Swap'

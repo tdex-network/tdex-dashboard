@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "https://tdex-network.github.io/tdex-dashboard/static/css/main.d730071b.css",
+    "main.js": "https://tdex-network.github.io/tdex-dashboard/static/js/main.c1770ff9.js",
+    "static/media/DMMono-Medium.woff": "https://tdex-network.github.io/tdex-dashboard/static/media/DMMono-Medium.137e572d1957df82236d.woff",
+    "static/media/DMMono-Regular.woff": "https://tdex-network.github.io/tdex-dashboard/static/media/DMMono-Regular.6a2de7b346fd6a8b7291.woff",
+    "static/media/DMSans-Bold.woff": "https://tdex-network.github.io/tdex-dashboard/static/media/DMSans-Bold.d5d2cff5228e83ca0dff.woff",
+    "static/media/DMSans-Regular.woff": "https://tdex-network.github.io/tdex-dashboard/static/media/DMSans-Regular.3b454dabbbc54e81472b.woff",
+    "static/media/DMMono-Medium.woff2": "https://tdex-network.github.io/tdex-dashboard/static/media/DMMono-Medium.120841d8e8090e43fb90.woff2",
+    "static/media/DMMono-Regular.woff2": "https://tdex-network.github.io/tdex-dashboard/static/media/DMMono-Regular.95e0252d42b9722f1716.woff2",
+    "static/media/DMSans-Bold.woff2": "https://tdex-network.github.io/tdex-dashboard/static/media/DMSans-Bold.659104546f390e057efe.woff2",
+    "static/media/DMSans-Regular.woff2": "https://tdex-network.github.io/tdex-dashboard/static/media/DMSans-Regular.9566aaac2083dccdc16e.woff2",
+    "static/media/tdex-logo.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/tdex-logo.3fec174dd10fa52c2564876340f16056.svg",
+    "static/media/alert-octagon-red.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/alert-octagon-red.c8e25f865c602099e45d1842ee2a4f10.svg",
+    "static/media/alert-octagon.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/alert-octagon.a5cc99fea3d22f4f77932cca65633ed6.svg",
+    "static/media/chevron-right.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/chevron-right.3f1ad016c209f76d1e7896dc7afa2891.svg",
+    "static/media/checkmark.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/checkmark.e163835b6dfe0f7680bab133e03d5930.svg",
+    "index.html": "https://tdex-network.github.io/tdex-dashboard/index.html",
+    "static/media/generic.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/generic.81f4847a7892574dd11cc1470a651ed4.svg",
+    "static/media/deposit-green.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/deposit-green.3597774d726a87da7dca50136910db7f.svg",
+    "static/media/three-dots.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/three-dots.df32f13fb2cbf26311d0b701e035ffc8.svg",
+    "static/media/deposit.svg": "https://tdex-network.github.io/tdex-dashboard/static/media/deposit.dc9873f0c75836f000960c40b9698f92.svg",
+    "main.d730071b.css.map": "https://tdex-network.github.io/tdex-dashboard/static/css/main.d730071b.css.map",
+    "main.c1770ff9.js.map": "https://tdex-network.github.io/tdex-dashboard/static/js/main.c1770ff9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d730071b.css",
+    "static/js/main.c1770ff9.js"
+  ]
+}

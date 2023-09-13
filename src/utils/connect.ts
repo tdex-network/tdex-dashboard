@@ -157,7 +157,7 @@ export const getProtoVersion = async (providerEndpoint: string, proto: string): 
     const data = await res.json();
     const isVersion2 = data.result.listServicesResponse.service
       .map((s: any) => s.name)
-      .includes('tdex.v2.WalletService');
+      .includes('tdex_daemon.v2.WalletService');
     return isVersion2 ? 'v2' : 'v1';
   } catch (err) {
     return 'v1';
